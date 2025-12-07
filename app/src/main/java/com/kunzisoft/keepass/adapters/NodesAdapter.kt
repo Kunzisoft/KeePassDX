@@ -22,7 +22,6 @@ package com.kunzisoft.keepass.adapters
 import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Color
-import android.util.Log
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
@@ -34,7 +33,6 @@ import androidx.core.view.ViewCompat
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SortedList
 import androidx.recyclerview.widget.SortedListAdapterCallback
-import com.google.android.material.progressindicator.CircularProgressIndicator
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.element.Entry
@@ -43,12 +41,8 @@ import com.kunzisoft.keepass.database.element.SortNodeEnum
 import com.kunzisoft.keepass.database.element.node.Node
 import com.kunzisoft.keepass.database.element.node.NodeVersionedInterface
 import com.kunzisoft.keepass.database.element.node.Type
-import com.kunzisoft.keepass.database.element.template.TemplateField
-import com.kunzisoft.keepass.database.helper.getLocalizedName
-import com.kunzisoft.keepass.otp.OtpElement
-import com.kunzisoft.keepass.otp.OtpType
 import com.kunzisoft.keepass.settings.PreferencesUtil
-import com.kunzisoft.keepass.timeout.ClipboardHelper
+import com.kunzisoft.keepass.view.OtpDisplayView
 import com.kunzisoft.keepass.view.setTextSize
 import com.kunzisoft.keepass.view.strikeOut
 import java.util.LinkedList
@@ -74,14 +68,12 @@ class NodesAdapter (
     private var mTextDefaultDimension: Float = 0F
     private var mSubTextDefaultDimension: Float = 0F
     private var mMetaTextDefaultDimension: Float = 0F
-    private var mOtpTokenTextDefaultDimension: Float = 0F
     private var mNumberChildrenTextDefaultDimension: Float = 0F
     private var mIconDefaultDimension: Float = 0F
 
     private var mShowEntryColors: Boolean = true
     private var mShowUserNames: Boolean = true
     private var mShowNumberEntries: Boolean = true
-    private var mShowOTP: Boolean = false
     private var mShowUUID: Boolean = false
     private var mNodeFilters: NodeFilter? = null
     private var mOldVirtualGroup = false
@@ -89,7 +81,6 @@ class NodesAdapter (
 
     private var mActionNodesList = LinkedList<Node>()
     private var mNodeClickCallback: NodeClickCallback? = null
-    private var mClipboardHelper = ClipboardHelper(context)
 
     @ColorInt
     private val mColorSurfaceContainer: Int
@@ -159,7 +150,6 @@ class NodesAdapter (
         this.mShowEntryColors = PreferencesUtil.showEntryColors(context)
         this.mShowUserNames = PreferencesUtil.showUsernamesListEntries(context)
         this.mShowNumberEntries = PreferencesUtil.showNumberEntries(context)
-        this.mShowOTP = PreferencesUtil.showOTPToken(context)
         this.mShowUUID = PreferencesUtil.showUUID(context)
 
         this.mNodeFilters = NodeFilter(context, database)
@@ -348,7 +338,6 @@ class NodesAdapter (
         mTextDefaultDimension = nodeViewHolder.text.textSize
         mSubTextDefaultDimension = nodeViewHolder.subText?.textSize ?: mSubTextDefaultDimension
         mMetaTextDefaultDimension = nodeViewHolder.meta.textSize
-        mOtpTokenTextDefaultDimension = nodeViewHolder.otpToken?.textSize ?: mOtpTokenTextDefaultDimension
         nodeViewHolder.numberChildren?.let {
             mNumberChildrenTextDefaultDimension = it.textSize
         }
@@ -418,25 +407,9 @@ class NodesAdapter (
             }
 
             // OTP
-            val otpElement = entry.getOtpElement()
-            holder.otpContainer?.removeCallbacks(holder.otpRunnable)
-            if (otpElement != null
-                && mShowOTP
-                && otpElement.token.isNotEmpty()) {
+            holder.otpDisplay?.setOtpElement(entry.getOtpElement())
 
-                // Execute runnable to show progress
-                holder.otpRunnable.action = {
-                    populateOtpView(holder, otpElement)
-                }
-                if (otpElement.type == OtpType.TOTP) {
-                    holder.otpRunnable.postDelayed()
-                }
-                populateOtpView(holder, otpElement)
-
-                holder.otpContainer?.visibility = View.VISIBLE
-            } else {
-                holder.otpContainer?.visibility = View.GONE
-            }
+            // Attachment
             holder.attachmentIcon?.visibility =
                 if (entry.containsAttachment()) View.VISIBLE else View.GONE
 
@@ -446,14 +419,14 @@ class NodesAdapter (
 
             // Assign colors
             assignBackgroundColor(holder.container, entry)
-            assignBackgroundColor(holder.otpContainer, entry)
+            assignBackgroundColor(holder.otpDisplay, entry)
             val foregroundColor = if (mShowEntryColors) entry.foregroundColor else null
             if (!holder.container.isSelected) {
                 if (foregroundColor != null) {
                     holder.text.setTextColor(foregroundColor)
                     holder.subText?.setTextColor(foregroundColor)
-                    holder.otpToken?.setTextColor(foregroundColor)
-                    holder.otpProgress?.setIndicatorColor(foregroundColor)
+                    holder.otpDisplay?.setTokenTextColor(foregroundColor)
+                    holder.otpDisplay?.setProgressIndicatorColor(foregroundColor)
                     holder.attachmentIcon?.setColorFilter(foregroundColor)
                     holder.passkeyIcon?.setColorFilter(foregroundColor)
                     holder.meta.setTextColor(foregroundColor)
@@ -461,8 +434,8 @@ class NodesAdapter (
                 } else {
                     holder.text.setTextColor(mTextColor)
                     holder.subText?.setTextColor(mTextColorSecondary)
-                    holder.otpToken?.setTextColor(mTextColorSecondary)
-                    holder.otpProgress?.setIndicatorColor(mTextColorSecondary)
+                    holder.otpDisplay?.setTokenTextColor(mTextColorSecondary)
+                    holder.otpDisplay?.setProgressIndicatorColor(mTextColorSecondary)
                     holder.attachmentIcon?.setColorFilter(mTextColorSecondary)
                     holder.passkeyIcon?.setColorFilter(mTextColorSecondary)
                     holder.meta.setTextColor(mTextColor)
@@ -470,8 +443,8 @@ class NodesAdapter (
             } else {
                 holder.text.setTextColor(mColorOnSecondary)
                 holder.subText?.setTextColor(mColorOnSecondary)
-                holder.otpToken?.setTextColor(mColorOnSecondary)
-                holder.otpProgress?.setIndicatorColor(mColorOnSecondary)
+                holder.otpDisplay?.setTokenTextColor(mColorOnSecondary)
+                holder.otpDisplay?.setProgressIndicatorColor(mColorOnSecondary)
                 holder.attachmentIcon?.setColorFilter(mColorOnSecondary)
                 holder.passkeyIcon?.setColorFilter(mColorOnSecondary)
                 holder.meta.setTextColor(mColorOnSecondary)
@@ -518,43 +491,6 @@ class NodesAdapter (
         }
     }
 
-    private fun populateOtpView(holder: NodeViewHolder?, otpElement: OtpElement?) {
-        when (otpElement?.type) {
-            OtpType.HOTP -> {
-                holder?.otpProgress?.apply {
-                    max = 100
-                    setProgressCompat(100, true)
-                }
-            }
-            OtpType.TOTP -> {
-                holder?.otpProgress?.apply {
-                    max = otpElement.period
-                    setProgressCompat(otpElement.secondsRemaining, true)
-                }
-            }
-            null -> {}
-        }
-        holder?.otpToken?.apply {
-            text = otpElement?.tokenString
-            setTextSize(mTextSizeUnit, mOtpTokenTextDefaultDimension, mPrefSizeMultiplier)
-            textDirection = View.TEXT_DIRECTION_LTR
-            
-        }
-        holder?.otpContainer?.setOnClickListener {
-            otpElement?.token?.let { token ->
-                try {
-                    mClipboardHelper.copyToClipboard(
-                        TemplateField.getLocalizedName(context, TemplateField.LABEL_TOKEN),
-                        token,
-                        true
-                    )
-                } catch (e: Exception) {
-                    Log.e(TAG, "Unable to copy the OTP token", e)
-                }
-            }
-        }
-    }
-
     private fun assignBackgroundColor(view: View?, entry: Entry) {
         view?.let {
             ViewCompat.setBackgroundTintList(
@@ -568,20 +504,6 @@ class NodesAdapter (
                     }
                 )
             )
-        }
-    }
-
-    class OtpRunnable(val view: View?): Runnable {
-
-        var action: (() -> Unit)? = null
-
-        override fun run() {
-            action?.invoke()
-            postDelayed()
-        }
-
-        fun postDelayed() {
-            view?.postDelayed(this, 1000)
         }
     }
 
@@ -612,10 +534,7 @@ class NodesAdapter (
         var subText: TextView? = itemView.findViewById(R.id.node_subtext)
         var meta: TextView = itemView.findViewById(R.id.node_meta)
         var path: TextView? = itemView.findViewById(R.id.node_path)
-        var otpContainer: ViewGroup? = itemView.findViewById(R.id.node_otp_container)
-        var otpProgress: CircularProgressIndicator? = itemView.findViewById(R.id.node_otp_progress)
-        var otpToken: TextView? = itemView.findViewById(R.id.node_otp_token)
-        var otpRunnable: OtpRunnable = OtpRunnable(otpContainer)
+        var otpDisplay: OtpDisplayView? = itemView.findViewById(R.id.node_otp_display)
         var numberChildren: TextView? = itemView.findViewById(R.id.node_child_numbers)
         var attachmentIcon: ImageView? = itemView.findViewById(R.id.node_attachment_icon)
         var passkeyIcon: ImageView? = itemView.findViewById(R.id.node_passkey_icon)

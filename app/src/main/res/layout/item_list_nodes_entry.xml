@@ -116,40 +116,15 @@
             app:layout_constraintBottom_toTopOf="@+id/node_path"
             app:layout_constraintEnd_toEndOf="parent">
 
-            <LinearLayout
-                android:id="@+id/node_otp_container"
+            <com.kunzisoft.keepass.view.OtpDisplayView
+                android:id="@+id/node_otp_display"
+                style="@style/KeepassDXStyle.Selectable.Item"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                style="@style/KeepassDXStyle.Selectable.Item"
-                android:orientation="horizontal"
                 android:paddingStart="8dp"
                 android:paddingLeft="8dp"
                 android:paddingEnd="4dp"
-                android:paddingRight="4dp">
-
-                <TextView
-                    android:id="@+id/node_otp_token"
-                    style="@style/KeepassDXStyle.Info.Entry"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    tools:text="513 651" />
-
-                <FrameLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center">
-
-                    <com.google.android.material.progressindicator.CircularProgressIndicator
-                        android:id="@+id/node_otp_progress"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        app:indicatorSize="16dp"
-                        app:trackThickness="2dp"
-                        app:indicatorDirectionCircular="counterclockwise"
-                        android:layout_gravity="center" />
-                </FrameLayout>
-            </LinearLayout>
+                android:paddingRight="4dp" />
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/node_attachment_icon"
