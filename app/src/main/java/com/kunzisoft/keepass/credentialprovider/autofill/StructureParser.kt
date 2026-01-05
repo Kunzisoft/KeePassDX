@@ -36,7 +36,6 @@ import java.util.Locale
 @RequiresApi(api = Build.VERSION_CODES.O)
 class StructureParser(
     private val structure: AssistStructure,
-    private val webViewDenied: Boolean = true
 ) {
     private var result: Result? = null
     private var usernameIdCandidate: AutofillId? = null
@@ -83,7 +82,7 @@ class StructureParser(
         // WebView filter
         if (node.className?.contains("webview", ignoreCase = true) == true) {
             result?.isWebView = true
-            if (webViewDenied) {
+            if (result?.isAllowedWebView() == false) {
                 Log.w(TAG, "Blocking webview Autofill for ${node.className}")
                 return false
             } else {
@@ -547,8 +546,15 @@ class StructureParser(
         var cardVerificationValueId: AutofillId? = null
         var otpTokenId: AutofillId? = null
 
+        fun isAllowedWebView(): Boolean {
+            return listOf(
+                "org.lineageos.jelly",
+                "org.lineageos.jelly.dev",
+            ).contains(applicationId)
+        }
+
         fun isValid(): Boolean {
-            if (isWebView)
+            if (isWebView && !isAllowedWebView())
                 return false
             return passwordId != null || creditCardNumberId != null || otpTokenId != null
         }
