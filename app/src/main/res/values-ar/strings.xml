@@ -622,7 +622,7 @@
     <string name="warning_database_notification_permission">يسمح لك إذن الإشعار بعرض حالة قاعدة البيانات وقفلها باستخدام زر يسهل الوصول إليه.
 \n
 \nإذا لم تنشط هذا الإذن، فلن تكون قاعدة البيانات المفتوحة في الخلفية مرئية إذا كان هناك تطبيق آخر في المقدمة.</string>
-    <string name="warning_permission">مطلوب إذن الإشعار لاستخدام ميزة إشعار الحافظة.</string>
+    <string name="warning_permission">الإذن مطلوب لعرض الإشعار</string>
     <string name="merge_success">اكتمل الدمج بنجاح</string>
     <string name="device_unlock_prompt_store_credential_message">تحذير: لا يزال يتعين عليك تذكر بيانات الاعتماد الرئيسية للخزنة</string>
     <string name="device_unlock_prompt_extract_credential_title">فتح الجهاز</string>
