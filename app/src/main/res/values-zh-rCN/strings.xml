@@ -670,7 +670,7 @@
     <string name="warning_database_notification_permission">通知权限允许展示数据库状态并通过可以轻松访问的按钮锁定它。
 \n
 \n如未授予此权限，那么在前台存在另一个程序情况下，后台打开的数据库将不可见。</string>
-    <string name="warning_permission">必须授予通知权限才能使用剪贴板通知功能。</string>
+    <string name="warning_permission">需要权限才能显示通知</string>
     <string name="ask">询问</string>
     <string name="education_validate_entry_summary">记得验证你的条目并保存你的数据库。
 \n
