@@ -628,7 +628,7 @@
     <string name="warning_database_revoked">Hyrja te kartela e shfuqizuar nga përgjegjësi i kartelave, mbylleni bazën e të dhënave dhe rihapeni që prej vendndodhjes së saj.</string>
     <string name="warning_keyfile_integrity">Hashi, ose kartela s’janë të garantuara, ngaqë Android-i mund të ndryshojë të dhënat e saj fluturimthi. Për integritet të saktë, ndryshojeni zgjatimin e kartelës në .bin.</string>
     <string name="warning_database_notification_permission">Leja për njoftime ju lejon të shfaqni gjendjen e bazës së të dhënave dhe ta kyçni me një buton që përdoret kollaj.\n\nNëse s’e aktivizoni këtë leje, baza e të dhënave e hapur në prapaskenë s’do të jetë e dukshme, nëse në paraskenë ka një tjetër aplikacion.</string>
-    <string name="warning_permission">Leja për njoftime është e nevojshme për të përdorur veçorinë e njoftimeve mbi të papastrën.</string>
+    <string name="warning_permission">Leja është e nevojshme për të shfaqur njoftimin</string>
     <string name="device_unlock_prompt_store_credential_message">KUJDES: Duhet prapë të mbani mend kredencialet kryesore për kasafortën tuaj</string>
     <string name="device_unlock_prompt_extract_credential_message">Hap bazë të dhënash me kredenciale pajisjeje</string>
     <string name="device_unlock_keystore_warning">Kjo veçori do të depozitojë të dhëna të fshehtëzuara kredencialesh te KeyStore e siguruar e pajisjes tuaj.\n\nNë varësi të sendërtimit të API-t nga sistemi operativ, mund të mos jetë plotësisht funksionale.\n\nKontrolloni përputhjen dhe sigurinë e KeyStore-it me prodhuesin e pajisjes tuaj dhe krijuesin e ROM-it që po përdorni.</string>
