@@ -173,7 +173,7 @@
     <string name="error_otp_counter">Лічыльнік павінен быць паміж %1$d і %2$d.</string>
     <string name="error_otp_period">Перыяд павінен быць ад %1$d да %2$d секунд.</string>
     <string name="error_otp_digits">Токен павінен утрымоўваць ад %1$d да %2$d лічбаў.</string>
-    <string name="error_otp_type">Існуючы тып OTP не распазнаецца гэтай формай, яго праверка можа больш не генераваць токен правільна.</string>
+    <string name="error_otp_type">Існуючы тып OTP не распазнаецца гэтай формай, i яго праверка можа больш не генераваць токен правільна.</string>
     <string name="error_string_type">Гэты тэкст не супадае з запытаным элементам.</string>
     <string name="error_registration_read_only">Захаванне новага элемента недапушчальна ў базе дадзеных, адкрытай толькі для чытання.</string>
     <string name="error_field_name_already_exists">Назва поля ўжо існуе.</string>
@@ -195,7 +195,7 @@
     <string name="error_empty_key">Ключ не можа быць пустым.</string>
     <string name="field_name">Назва поля</string>
     <string name="field_value">Значэнне поля</string>
-    <string name="file_not_found_content">Не ўдалося знайсці файл. Паспрабуйце зноў адкрыць яго з файлавага мэнэджара.</string>
+    <string name="file_not_found_content">Не атрымалася знайсці файл</string>
     <string name="corrupted_file">Пашкоджаны файл.</string>
     <string name="file_browser">Файлавы мэнэджар</string>
     <string name="generate_password">Стварыць пароль</string>
@@ -653,4 +653,12 @@
     <string name="hide_expired_entries_summary">Запісы з мінулым тэрмінам дзеяння не паказваюцца</string>
     <string name="hide_templates_title">Схаваць шаблоны</string>
     <string name="hide_templates_summary">Шаблоны не паказваюцца</string>
+    <string name="clipboard_otp_notifications_title">Апавяшчэнне OTP</string>
+    <string name="entry_application_id">ID праграмы</string>
+    <string name="clipboard_otp_notifications_summary">Адкрыйце апавяшчэнне, каб скапіраваць OTP з запісаў, якія запоўненыя з дапамогай аўтазапаўнення ці Magikeyboard</string>
+    <string name="warning_overwrite_data_title">Перазапісаць даныя, якія існуюць?</string>
+    <string name="warning_overwrite_data_description">Гэта дзеянне заменіць у запісе даныя, якія існуюць. Вы можаце атрымаць старыя даныя, калі гісторыя ўключаная.</string>
+    <string name="credential_provider">Пастаўшчык даных для ўваходу</string>
+    <string name="set_credential_provider_service_title">Сэрвіс пастаўшчыка даных для ўваходу</string>
+    <string name="passkeys">Ключы доступу</string>
 </resources>
