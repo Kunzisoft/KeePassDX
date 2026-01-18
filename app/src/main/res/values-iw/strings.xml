@@ -590,7 +590,7 @@
     <string name="later">אח\"כ</string>
     <string name="ask">שאל</string>
     <string name="warning_database_notification_permission">הרשאת ההתראה מאפשרת לך להציג את מצב מסד הנתונים ולנעול אותו עם כפתור נגיש.\n\nאם לא תפעיל את ההרשאה הזו, מסד הנתונים הנפתח ברקע לא יהיה גלוי אם יישום אחר נמצא בקדמה.</string>
-    <string name="warning_permission">על מנת להשתמש בתכונת התראת לוח העתקה דרושה הרשאת התראה.</string>
+    <string name="warning_permission">ההרשאה נדרשת בשביל להציג התראה</string>
     <string name="configure">הגדר</string>
     <string name="merge_success">מיזוג הושלם בהצלחה</string>
     <string name="unlock_and_link_biometric">קישור ביטול נעילת מכשיר</string>
@@ -740,4 +740,8 @@
     <string name="credential_provider_service_name">ספק אישורים KeePassDX</string>
     <string name="error_passkey_credential_id">לא נמצא מפתח גישה עבור גורם %1$s ופרטי אימות %2$s</string>
     <string name="user_verification_required_description_precise">%1$s דורש לוודא שזה אכן אתה.</string>
+    <string name="user_verification">אימות משתמש</string>
+    <string name="user_verification_mode_title">מצב אימות משתמש</string>
+    <string name="menu_user_verification_enabled">אימות משתמש מופעל</string>
+    <string name="menu_user_verification_disabled">אימות משתמש מכובה</string>
 </resources>
