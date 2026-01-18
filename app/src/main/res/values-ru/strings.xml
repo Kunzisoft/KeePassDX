@@ -422,7 +422,7 @@
     <string name="error_label_exists">Такая метка уже существует.</string>
     <string name="warning_database_link_revoked">Доступ к файлу отменён файловым менеджером</string>
     <string name="autofill_preference_title">Настройки автозаполнения</string>
-    <string name="subdomain_search_title">Поиск поддоменов</string>
+    <string name="subdomain_search_title">Искать поддомены</string>
     <string name="subdomain_search_summary">Выполнять поиск доменов с некоторыми поддоменами</string>
     <string name="autofill_block_restart">Перезапустите приложение, содержащее форму, чтобы активировать отключение.</string>
     <string name="autofill_block">Отключить автозаполнение</string>
