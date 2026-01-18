@@ -192,9 +192,9 @@
     <string name="lock_database_screen_off_summary">Блокировать базу через несколько секунд после отключения экрана</string>
     <string name="device_unlock">Разблокировка устройства</string>
     <string name="biometric_unlock_enable_title">Биометрическая разблокировка</string>
-    <string name="biometric_unlock_enable_summary">Включить разблокировку базы при помощи биометрического ключа</string>
-    <string name="biometric_delete_all_key_title">Удалить ключи шифрования</string>
-    <string name="biometric_delete_all_key_summary">Удалить все ключи шифрования, связанные с распознаванием разблокировки устройства</string>
+    <string name="biometric_unlock_enable_summary">Использовать биометрические данные для открытия базы</string>
+    <string name="biometric_delete_all_key_title">Удалить ключи разблокировки</string>
+    <string name="biometric_delete_all_key_summary">Удалить все ключи, связанные с распознаванием разблокировки устройства</string>
     <string name="unavailable_feature_text">Невозможно использовать эту функцию.</string>
     <string name="unavailable_feature_version">Ваша версия Android %1$s, требуется %2$s.</string>
     <string name="unavailable_feature_hardware">Соответствующее оборудование не найдено.</string>
@@ -475,7 +475,7 @@
     <string name="search_mode">Режим поиска</string>
     <string name="error_registration_read_only">Сохранение новых записей невозможно, т.к. база открыта только для чтения.</string>
     <string name="error_field_name_already_exists">Поле с таким названием уже существует.</string>
-    <string name="device_credential_unlock_enable_summary">Позволяет использовать учётные данные вашего устройства для открытия базы</string>
+    <string name="device_credential_unlock_enable_summary">Использовать учётные данные вашего устройства для открытия базы</string>
     <string name="device_credential_unlock_enable_title">Разблокировка учётными данными устройства</string>
     <string name="device_credential">Учётные данные устройства</string>
     <string name="credential_before_click_device_unlock_button">Введите пароль и нажмите эту кнопку.</string>
@@ -485,9 +485,9 @@
     <string name="device_unlock_prompt_extract_credential_message">Открыть базу с использованием учётных данных устройства</string>
     <string name="device_unlock_prompt_extract_credential_title">Разблокировка устройства</string>
     <string name="device_unlock_prompt_store_credential_message">ВНИМАНИЕ: вам всё равно необходимо помнить основные учётные данные</string>
-    <string name="device_unlock_delete_all_key_warning">Удалить все ключи шифрования, связанные с распознаванием разблокировки устройства\?</string>
+    <string name="device_unlock_delete_all_key_warning">Удалить все ключи, связанные с распознаванием разблокировки устройства?</string>
     <string name="device_unlock_prompt_store_credential_title">Настройка разблокировки устройства</string>
-    <string name="menu_keystore_remove_key">Удалить ключ разблокировки устройства</string>
+    <string name="menu_keystore_remove_key">Удалить ключ разблокировки</string>
     <string name="enter">Ввод</string>
     <string name="back_to_previous_keyboard">Возврат к предыдущей клавиатуре</string>
     <string name="custom_fields">Пользовательские поля</string>
@@ -498,7 +498,7 @@
     <string name="education_device_unlock_summary">Свяжите пароль с отсканированными биометрическими данными или учётными данными устройства, чтобы быстро разблокировать базу.</string>
     <string name="temp_device_unlock_timeout_summary">Продолжительность использования содержимого разблокировки устройства до его удаления</string>
     <string name="temp_device_unlock_timeout_title">Время действия</string>
-    <string name="temp_device_unlock_enable_title">Временная разблокировка устройства</string>
+    <string name="temp_device_unlock_enable_title">Временная разблокировка</string>
     <string name="temp_device_unlock_enable_summary">Не сохранять зашифрованное содержимое для использования разблокировки устройства</string>
     <string name="device_unlock_tap_delete">Нажмите, чтобы удалить ключи разблокировки устройства</string>
     <string name="content">Содержимое</string>
@@ -646,7 +646,7 @@
     <string name="error_location_unknown">Расположение базы неизвестно, действие с базой не может быть выполнено.</string>
     <string name="remember_hardware_key_title">Помнить аппаратные ключи</string>
     <string name="remember_hardware_key_summary">Запоминать используемые аппаратные ключи</string>
-    <string name="screenshot_mode_banner_text">Режим снимка экрана</string>
+    <string name="screenshot_mode_banner_text">Разрешены снимки экрана</string>
     <string name="enable_screenshot_mode_title">Разрешать снимки экрана</string>
     <string name="hardware_key">Аппаратный ключ</string>
     <string name="enable_screenshot_mode_summary">Разрешать сторонним приложениям делать снимки или запись экрана приложения</string>
@@ -719,7 +719,7 @@
     <string name="passkeys_backup_eligibility_title">Возможность резервирования</string>
     <string name="passkeys_backup_eligibility_summary">Настройка разрешения резервного копирования источника учётных данных открытого ключа при создании</string>
     <string name="passkeys_backup_state_title">Статус резервирования</string>
-    <string name="passkeys_backup_state_summary">Указывает, резервируются ли учётные данные и защищены ли они от потери одного устройства</string>
+    <string name="passkeys_backup_state_summary">Указывает, резервируются ли учётные данные и защищены ли они от потери единственного устройства</string>
     <string name="credential_provider_service_subtitle">Ключи доступа, поставщик учётных данных для автозаполнения</string>
     <string name="passkey">Ключ доступа</string>
     <string name="credential_provider_service_name">Поставщик учётных данных KeePassDX</string>
@@ -739,8 +739,8 @@
     <string name="error_passkey_result">Невозможно вернуть ключ доступа</string>
     <string name="clipboard_otp_notifications_title">Уведомление OTP</string>
     <string name="clipboard_otp_notifications_summary">Возможность скопировать OTP из уведомления для записей, заполненных автозаполнением или через Magikeyboard</string>
-    <string name="user_verification_device_credential_summary">Использовать учётные данные устройства для проверки пользователя, если они доступны</string>
-    <string name="user_verification_device_credential_title">Учётные данные для проверки пользователя</string>
+    <string name="user_verification_device_credential_summary">Использовать учётные данные устройства для проверки пользователя, если возможно</string>
+    <string name="user_verification_device_credential_title">Проверять учётными данными</string>
     <string name="user_verification_preferred_title">Предпочтительная проверка пользователя</string>
     <string name="user_verification_preferred_summary">Выполнять проверку пользователя, когда проверяющая сторона запрашивает \"предпочтительно\"</string>
     <string name="keyboard_auto_switch_title">Автопереключение Magikeyboard</string>
@@ -754,11 +754,11 @@
     <string name="content_description_user_verification_information">Информация о проверке пользователя</string>
     <string name="user_verification_required_title">Проверка пользователя</string>
     <string name="user_verification_required_description">Для доступа к этим данным требуется подтверждение вашей личности</string>
-    <string name="user_verification_database_credential">Введите первые четыре символа пароля базы</string>
+    <string name="user_verification_database_credential">Введите первые 4 символа пароля базы</string>
     <string name="first_chars">Первые символы</string>
     <string name="check">Проверка</string>
     <string name="user_verification_required_description_precise">%1$s требует подтверждения вашей личности</string>
-    <string name="user_verification_mode_summary">Включает режим проверки пользователя по умолчанию при открытии базы</string>
+    <string name="user_verification_mode_summary">Использовать режим проверки пользователя по умолчанию при открытии базы</string>
     <string name="user_verification_mode_title">Режим проверки пользователя</string>
     <string name="user_verification">Проверка пользователя</string>
     <string name="menu_user_verification_enabled">Проверка пользователя включена</string>
