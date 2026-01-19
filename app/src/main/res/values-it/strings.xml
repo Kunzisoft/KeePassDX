@@ -665,7 +665,7 @@
     <string name="menu_database_settings_summary">Metadati, cestino, modelli, cronologia</string>
     <string name="menu_security_settings_summary">Crittografia, funzione di derivazione della chiave</string>
     <string name="master_key_settings_summary">Cambio, rinnovo</string>
-    <string name="warning_permission">L\'autorizzazione per le notifiche è necessaria per usare la funzione di notifica degli appunti.</string>
+    <string name="warning_permission">Il permesso è necessario per mostrare la notifica</string>
     <string name="later">Dopo</string>
     <string name="ask">Chiedi</string>
     <string name="configure">Configura</string>
@@ -766,4 +766,6 @@
     <string name="menu_user_verification_enabled">Verifica utente attivata</string>
     <string name="menu_user_verification_disabled">Verifica utente disattivata</string>
     <string name="user_verification_required_description_precise">%1$s richiede di verificare che sei effettivamente tu.</string>
+    <string name="education_user_verification_title">Verifica delle azioni sensibili</string>
+    <string name="education_user_verification_summary">Modifica la modalità di verifica dell\'utente per la sessione.\n\n\"User Verification Enabled\" verifica l\'azione su campi protetti e impostazioni del database.\n\"User Verification disabilitato\" consente di modificare i dati nel database senza verifica.</string>
 </resources>
