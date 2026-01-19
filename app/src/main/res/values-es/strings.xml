@@ -723,4 +723,6 @@
     <string name="passkey_backup_eligibility">Requisitos para la copia de seguridad de la clave de acceso</string>
     <string name="passkey_backup_state">Estado de copia de seguridad de la clave de acceso</string>
     <string name="error_passkey_result">No se puede retornar la clave de acceso</string>
+    <string name="clipboard_otp_notifications_title">Notificacion Password un solo uso</string>
+    <string name="clipboard_otp_notifications_summary">Notificar cuando se copia la Password de un solo uso para Autocompletar</string>
 </resources>
