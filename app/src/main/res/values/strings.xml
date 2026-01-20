@@ -455,6 +455,8 @@
     <string name="menu_user_verification_disabled">User Verification disabled</string>
     <string name="user_verification_preferred_title">Preferred User Verification</string>
     <string name="user_verification_preferred_summary">Perform a user verification when the relying party requests \"preferred\"</string>
+    <string name="user_verification_spoofing_title">Spoof User Verification</string>
+    <string name="user_verification_spoofing_summary">Always inform the relying party that user verification has been performed, regardless of settings</string>
     <string name="password_size_title">Generated password size</string>
     <string name="password_size_summary">Sets default size of the generated passwords</string>
     <string name="list_password_generator_options_title">Password characters</string>

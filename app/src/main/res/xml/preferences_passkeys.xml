@@ -43,6 +43,11 @@
             android:summary="@string/user_verification_preferred_summary"
             android:defaultValue="@bool/user_verification_preferred_default"/>
         <SwitchPreferenceCompat
+            android:key="@string/user_verification_spoofing_key"
+            android:title="@string/user_verification_spoofing_title"
+            android:summary="@string/user_verification_spoofing_summary"
+            android:defaultValue="@bool/user_verification_spoofing_default"/>
+        <SwitchPreferenceCompat
             android:key="@string/passkeys_backup_eligibility_key"
             android:title="@string/passkeys_backup_eligibility_title"
             android:summary="@string/passkeys_backup_eligibility_summary"

@@ -708,6 +708,12 @@ object PreferencesUtil {
             context.resources.getBoolean(R.bool.user_verification_preferred_default))
     }
 
+    fun isUserVerificationSpoofed(context: Context): Boolean {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        return prefs.getBoolean(context.getString(R.string.user_verification_spoofing_key),
+            context.resources.getBoolean(R.bool.user_verification_spoofing_default))
+    }
+
     fun isPasskeyBackupEligibilityEnable(context: Context): Boolean {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
         return prefs.getBoolean(context.getString(R.string.passkeys_backup_eligibility_key),

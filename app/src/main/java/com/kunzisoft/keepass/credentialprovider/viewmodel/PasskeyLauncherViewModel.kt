@@ -73,7 +73,7 @@ class PasskeyLauncherViewModel(application: Application): CredentialLauncherView
 
     fun initialize(userVerified: Boolean) {
         mLockDatabaseAfterSelection = PreferencesUtil.isPasskeyCloseDatabaseEnable(getApplication())
-        mUserVerified = userVerified
+        mUserVerified = userVerified || PreferencesUtil.isUserVerificationSpoofed(getApplication())
         mBackupEligibility = PreferencesUtil.isPasskeyBackupEligibilityEnable(getApplication())
         mBackupState = PreferencesUtil.isPasskeyBackupStateEnable(getApplication())
     }

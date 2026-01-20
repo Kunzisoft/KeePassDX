@@ -146,6 +146,8 @@
     <bool name="passkeys_backup_state_default" translatable="false">true</bool>
     <string name="user_verification_preferred_key" translatable="false">user_verification_preferred_key</string>
     <bool name="user_verification_preferred_default" translatable="false">true</bool>
+    <string name="user_verification_spoofing_key" translatable="false">user_verification_spoofing_key</string>
+    <bool name="user_verification_spoofing_default" translatable="false">false</bool>
     <string name="subdomain_search_key" translatable="false">subdomain_search_key</string>
     <bool name="subdomain_search_default" translatable="false">false</bool>
     <string name="keyboard_notification_entry_key" translatable="false">keyboard_notification_entry_key</string>

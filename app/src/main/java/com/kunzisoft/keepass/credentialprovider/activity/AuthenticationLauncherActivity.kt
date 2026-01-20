@@ -18,6 +18,7 @@ import com.kunzisoft.keepass.credentialprovider.UserVerificationHelper.Companion
 import com.kunzisoft.keepass.credentialprovider.passkey.data.UserVerificationRequirement
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.settings.PreferencesUtil.isUserVerificationForcedWhenPreferred
+import com.kunzisoft.keepass.settings.PreferencesUtil.isUserVerificationSpoofed
 import com.kunzisoft.keepass.view.toastError
 import com.kunzisoft.keepass.viewmodels.UserVerificationViewModel
 import kotlinx.coroutines.launch
@@ -87,6 +88,13 @@ abstract class AuthenticationLauncherActivity: DatabaseLockActivity() {
                     checkUserVerification(
                         userVerificationViewModel = userVerificationViewModel,
                         dataToVerify = dataToVerify
+                    )
+                } else if (isUserVerificationSpoofed(this)) {
+                    // Allow launching if user verification is spoofed
+                    launchActionIfNeeded(
+                        intent = intent,
+                        specialMode = mSpecialMode,
+                        database = database
                     )
                 } else {
                     userVerificationViewModel.onUserVerificationFailed(
