@@ -69,7 +69,7 @@ abstract class AuthenticationLauncherActivity: DatabaseLockActivity() {
     override fun onUnknownDatabaseRetrieved(database: ContextualDatabase?) {
         super.onUnknownDatabaseRetrieved(database)
         // To manage https://github.com/Kunzisoft/KeePassDX/issues/2283
-        val userVerificationForcedWhenPreferred = isUserVerificationForcedWhenPreferred(this)
+        val userVerificationForcedWhenPreferred = !isUserVerificationSpoofed(this) || isUserVerificationForcedWhenPreferred(this)
         val userVerificationRequirement = intent.retrieveUserVerificationRequirement()
         val userVerificationNeeded = (userVerificationRequirement == UserVerificationRequirement.REQUIRED
                 || (userVerificationForcedWhenPreferred
