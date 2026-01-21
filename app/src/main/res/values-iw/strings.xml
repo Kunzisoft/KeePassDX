@@ -744,4 +744,5 @@
     <string name="user_verification_mode_title">מצב אימות משתמש</string>
     <string name="menu_user_verification_enabled">אימות משתמש מופעל</string>
     <string name="menu_user_verification_disabled">אימות משתמש מכובה</string>
+    <string name="education_user_verification_title">אימות עבור פעולות רגישות</string>
 </resources>
