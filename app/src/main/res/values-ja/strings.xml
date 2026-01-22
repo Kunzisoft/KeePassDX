@@ -673,7 +673,7 @@
     <string name="info">情報</string>
     <string name="menu_app_settings_summary">検索、ロック、履歴、プロパティ</string>
     <string name="menu_form_filling_settings_summary">キーボード、自動入力、クリップボード</string>
-    <string name="warning_permission">クリップボード通知機能を使用するには、通知許可が必要です。</string>
+    <string name="warning_permission">通知の表示には権限付与が必要です</string>
     <string name="unlock_and_link_biometric">デバイスのロック解除リンク</string>
     <string name="education_validate_entry_summary">入力内容を検証し、データベースを保存することを忘れないでください。
 \n
