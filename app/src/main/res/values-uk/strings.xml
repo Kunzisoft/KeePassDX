@@ -661,7 +661,7 @@
     <string name="menu_database_settings_summary">Метадані, кошик, шаблони, історія</string>
     <string name="menu_security_settings_summary">Шифрування, функція генерування ключів</string>
     <string name="master_key_settings_summary">Зміни, оновлення</string>
-    <string name="warning_permission">Щоб використовувати функцію сповіщень буфера обміну, потрібен дозвіл на сповіщення.</string>
+    <string name="warning_permission">Дозвіл необхідний для відображення повідомлення</string>
     <string name="later">Пізніше</string>
     <string name="ask">Запитувати</string>
     <string name="configure">Сконфігурувати</string>
@@ -758,4 +758,11 @@
     <string name="user_verification_required_description_precise">%1$s вимагає підтвердження, що це дійсно ви.</string>
     <string name="user_verification_database_credential">Введіть перші чотири символи пароля до бази даних</string>
     <string name="first_chars">Перші символи</string>
+    <string name="user_verification">Перевірка користувача</string>
+    <string name="user_verification_mode_title">Режим перевірки користувача</string>
+    <string name="user_verification_mode_summary">Використовувати режим перевірки користувача за замовчуванням під час відкриття бази даних</string>
+    <string name="menu_user_verification_enabled">Перевірка користувача увімкнена</string>
+    <string name="menu_user_verification_disabled">Перевірка користувача вимкнена</string>
+    <string name="education_user_verification_title">Перевірка для чутливих дій</string>
+    <string name="education_user_verification_summary">Змінити режим перевірки користувача для сеансу. \n\n«Перевірка користувача увімкнена» перевіряє дії в захищених полях і налаштуваннях бази даних. \n«Перевірка користувача вимкнена» дозволяє змінювати будь-які дані в базі даних без перевірки.</string>
 </resources>
