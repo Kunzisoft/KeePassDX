@@ -19,13 +19,13 @@
 --><resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="contact">Liên hệ</string>
     <string name="info">Về KeePassDX</string>
-    <string name="contribution">Khuyên góp</string>
+    <string name="contribution">Đóng góp</string>
     <string name="feedback">Phản hồi</string>
     <string name="homepage">Trang chủ</string>
     <string name="about_description">Phiên bản Android của trình quản lý mật khẩu KeePass.</string>
     <string name="accept">Chấp nhận</string>
-    <string name="add_entry">Thêm mục</string>
-    <string name="edit_entry">Chỉnh sửa mục</string>
+    <string name="add_entry">Thêm đề mục</string>
+    <string name="edit_entry">Chỉnh sửa đề mục</string>
     <string name="add_group">Thêm nhóm</string>
     <string name="master_key">Khóa bảo mật</string>
     <string name="security">Bảo mật</string>
@@ -33,23 +33,23 @@
     <string name="encryption_algorithm">Thuật toán mã hóa</string>
     <string name="key_derivation_function">Hàm dẫn xuất khóa</string>
     <string name="app_timeout">Hết thời gian</string>
-    <string name="app_timeout_summary">Thời gian nghỉ trước khi khóa dữ liệu</string>
+    <string name="app_timeout_summary">Thời gian tạm dừng trước khi khóa dữ liệu</string>
     <string name="application">Ứng dụng</string>
     <string name="brackets">Dấu ngoặc</string>
     <string name="extended_ASCII">Tranh ASCII mở rộng</string>
-    <string name="file_manager_install_description">Cần có trình quản lý tệp có thể chấp nhận hành động có ý định ACTION_CREATE_DOCUMENT và ACTION_OPEN_DOCUMENT để tạo, mở và lưu tệp cơ sở dữ liệu.</string>
+    <string name="file_manager_install_description">Cần có trình quản lý tệp có thể chấp nhận hành động ACTION_CREATE_DOCUMENT và ACTION_OPEN_DOCUMENT để tạo, mở và lưu tệp dữ liệu.</string>
     <string name="allow">Cho phép</string>
     <string name="clipboard_cleared">Đã xóa bảng nhớ tạm</string>
     <string name="clipboard_error_title">Lỗi bảng nhớ tạm</string>
     <string name="clipboard_error">Một số thiết bị sẽ không cho phép ứng dụng sử dụng bảng nhớ tạm.</string>
     <string name="clipboard_error_clear">Không thể xóa bảng nhớ tạm</string>
-    <string name="clipboard_timeout">Hết thời gian lưu trong bảng nhớ tạm</string>
-    <string name="clipboard_timeout_summary">Thời gian lưu trước khi xóa trong bảng nhớ tạm (nếu được thiết bị của bạn hỗ trợ)</string>
+    <string name="clipboard_timeout">Thời gian lưu giữ trong bảng nhớ tạm</string>
+    <string name="clipboard_timeout_summary">Thời gian lưu giữ trước khi xóa trong bảng nhớ tạm (nếu được thiết bị của bạn hỗ trợ)</string>
     <string name="content_description_background">Nền</string>
     <string name="content_description_open_file">Mở tệp</string>
-    <string name="content_description_node_children">Nút con</string>
-    <string name="content_description_add_node">Thêm nút</string>
-    <string name="content_description_add_entry">Thêm mục</string>
+    <string name="content_description_node_children">Điểm phụ</string>
+    <string name="content_description_add_node">Thêm điểm</string>
+    <string name="content_description_add_entry">Thêm đề mục</string>
     <string name="content_description_add_group">Thêm nhóm</string>
     <string name="content_description_add_item">Thêm mục</string>
     <string name="content_description_file_information">Thông tin tệp</string>
@@ -720,4 +720,6 @@
     <string name="entry_application_id">ID ứng dụng</string>
     <string name="error_otp_secret_length">Mã bí mật tối thiểu phải có %1$d ký tự.</string>
     <string name="generate_keyfile">Tạo ra tệp khóa</string>
+    <string name="clipboard_otp_notifications_title">Thông báo nhận mã OTP</string>
+    <string name="clipboard_otp_notifications_summary">Mở một thông báo để sao chép mã OTP từ các mục với tính năng tự động điền và bàn phím khóa</string>
 </resources>
