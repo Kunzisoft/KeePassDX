@@ -33,7 +33,7 @@
     <string name="encryption_algorithm">Thuật toán mã hóa</string>
     <string name="key_derivation_function">Hàm dẫn xuất khóa</string>
     <string name="app_timeout">Hết thời gian</string>
-    <string name="app_timeout_summary">Thời gian tạm dừng trước khi khóa dữ liệu</string>
+    <string name="app_timeout_summary">Thời gian tạm dừng trước khi khóa kho dữ liệu</string>
     <string name="application">Ứng dụng</string>
     <string name="brackets">Dấu ngoặc</string>
     <string name="extended_ASCII">Tranh ASCII mở rộng</string>
@@ -60,7 +60,7 @@
     <string name="content_description_hardware_key_checkbox">Hộp kiểm khóa phần cứng</string>
     <string name="content_description_repeat_toggle_password_visibility">Công tắc lặp cho việc hiển thị mật khẩu</string>
     <string name="content_description_entry_icon">Biểu tượng đề mục</string>
-    <string name="content_description_database_color">Màu</string>
+    <string name="content_description_database_color">Màu cơ sở dữ liệu</string>
     <string name="content_description_entry_foreground_color">Màu nền trước đề mục</string>
     <string name="content_description_entry_background_color">Màu nền sau đề mục</string>
     <string name="content_description_nav_header">Tiêu đề đầu trang</string>
@@ -106,8 +106,8 @@
     <string name="searchable">Có thể tìm kiếm được</string>
     <string name="inherited">Kế thừa</string>
     <string name="auto_type">Tự động gõ</string>
-    <string name="auto_type_sequence">Liên tiếp tự động gõ</string>
-    <string name="entry_not_found">Không thể tìm thấy dữ liệu mục.</string>
+    <string name="auto_type_sequence">Tự động gõ liên tiếp</string>
+    <string name="entry_not_found">Không thể tìm thấy dữ liệu đề mục.</string>
     <string name="entry_password">Mật khẩu</string>
     <string name="tags">Thẻ</string>
     <string name="custom_data">Dữ liệu tùy chỉnh</string>
@@ -153,8 +153,8 @@
     <string name="standard">Tiêu chuẩn</string>
     <string name="template">Mẫu</string>
     <string name="version">Phiên bản</string>
-    <string name="entry_otp">OTP</string>
-    <string name="entry_url">URL</string>
+    <string name="entry_otp">Mã OTP</string>
+    <string name="entry_url">Đường dẫn (URL)</string>
     <string name="entry_user_name">Tên người dùng</string>
     <string name="error_arc4">Arcfour stream cipher không được hỗ trợ.</string>
     <string name="error_can_not_handle_uri">Không thể xử lý URI này trong KeePassDX.</string>
@@ -401,7 +401,7 @@
     <string name="database_history">Lịch sử</string>
     <string name="properties">Thuộc tính</string>
     <string name="menu_appearance_settings">Ngoại hình</string>
-    <string name="menu_appearance_settings_summary">Chủ đề, màu sắc, thuộc tính</string>
+    <string name="menu_appearance_settings_summary">Chủ đề, màu sắc, biểu tượng, bố cục</string>
     <string name="biometric">Sinh trắc học</string>
     <string name="device_credential">Thông tin xác thực thiết bị</string>
     <string name="general">Tổng quan</string>
@@ -723,4 +723,6 @@
     <string name="clipboard_otp_notifications_title">Thông báo nhận mã OTP</string>
     <string name="clipboard_otp_notifications_summary">Mở một thông báo để sao chép mã OTP từ các mục với tính năng tự động điền và bàn phím khóa</string>
     <string name="education_user_verification_summary">Thay đổi chế độ xác thực người dùng cho phiên này. \n \n\"Đã bật tính năng xác thực người dùng\" xác thực các vùng được bảo vệ và thiết lập dữ liệu.\n\"Đã tắt tính năng xác thực người dùng\" cho phép bạn thay đổi bất cứ dữ liệu nào trong kho dữ liệu mà không cần xác thực.</string>
+    <string name="passkeys_preference_title">Thiết lập khóa bảo mật</string>
+    <string name="passkeys_missing_signature_app_ask_explanation">CẢNH BÁO: Khóa bảo mật đã được tạo từ ứng dụng khác hoặc có thể là chữ ký đã bị xóa. Hãy đảm bảo rằng ứng dụng bạn muốn xác minh được cung cấp bởi cùng một dịch vụ hoặc đảm bảo là như thế để tránh các rủi ro bảo mật.\nNếu như ứng là một trình duyệt, đừng thêm chữ ký của nó vào đề mục, mà vào danh sách các ứng dụng được đặc cách trong phần cài đặt.</string>
 </resources>
