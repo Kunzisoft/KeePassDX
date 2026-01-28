@@ -668,7 +668,7 @@
 \nЕсли сработает автоматическая блокировка, а вы забудете, что вносили изменения, то рискуете потерять данные.</string>
     <string name="info">Информация</string>
     <string name="master_key_settings_summary">Изменение, обновление</string>
-    <string name="warning_permission">Разрешение необходимо для отображения уведомления.</string>
+    <string name="warning_permission">Разрешение необходимо для отображения уведомлений.</string>
     <string name="menu_appearance_settings_summary">Темы, цвета, значки, шрифты, атрибуты</string>
     <string name="configure">Настройка</string>
     <string name="education_validate_entry_title">Проверка записи</string>
