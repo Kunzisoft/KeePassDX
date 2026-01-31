@@ -509,7 +509,7 @@
     <string name="error_upload_file">En feil inntraff under opplasting av fildataen.</string>
     <string name="error_remove_file">En feil inntraff under fjerning av fildataen.</string>
     <string name="properties">Egenskaper</string>
-    <string name="device_unlock_prompt_extract_credential_title">Gjenkjenning av enhetslås</string>
+    <string name="device_unlock_prompt_extract_credential_title">Enhetsopplåsing</string>
     <string name="device_unlock_prompt_extract_credential_message">Pakk ut database-identitetsdetalj med enhetens opplåsningsdata</string>
     <string name="device_unlock_invalid_key">Kan ikke lese enhetens opplåsningsnøkkel. Slett den og gjenta gjenkjenning av opplåsningsprosedyre.</string>
     <string name="device_unlock_prompt_not_initialized">Kan ikke igangsette forespørsel om opplåsing av enheten.</string>
@@ -648,7 +648,7 @@
     <string name="warning_database_notification_permission">Varslingstillatelsen lar deg vise statusen til databasen og låse den med en lett tilgjengelig knapp.
 \n
 \nHvis du ikke aktiverer denne tillatelsen, vil databasen som er åpen i bakgrunnen ikke være synlig hvis en annen applikasjon er i forgrunnen.</string>
-    <string name="warning_permission">Varslingstillatelsen er nødvendig for å bruke utklippstavlens varslingsfunksjon.</string>
+    <string name="warning_permission">Rettigheten trengs for å vise varslingen</string>
     <string name="later">Senere</string>
     <string name="ask">Spør</string>
     <string name="merge_success">Sammenslåingen er fullført</string>
@@ -728,4 +728,27 @@
     <string name="passkey_backup_eligibility">Mulighet for sikkerhetskopiering av passnøkkelen</string>
     <string name="passkey_backup_state">Tilstand til sikkerhetskopien til passnøkkelen</string>
     <string name="clipboard_otp_notifications_title">Varsel med engangskode</string>
+    <string name="clipboard_otp_notifications_summary">Åpne et varsel for å kopiere engangskoden fra oppføringer som har autofill eller magikeyboard</string>
+    <string name="user_verification">Brukerverifisering</string>
+    <string name="user_verification_device_credential_title">Brukerverifiseringsdata</string>
+    <string name="user_verification_mode_title">Brukerverifiseringsmodus</string>
+    <string name="menu_user_verification_enabled">Brukerverifisering aktivert</string>
+    <string name="menu_user_verification_disabled">Brukerverifisering deaktivert</string>
+    <string name="user_verification_mode_summary">Bruker brukerverifiseringsmodusen som standard når en database åpnes</string>
+    <string name="user_verification_preferred_title">Foretrukket brukerverifisering</string>
+    <string name="keyboard_auto_switch_title">Automatisk bytting til magikeyboard</string>
+    <string name="keyboard_auto_switch_summary">Prøv å bytte automatisk til magikeyboard når oppføringene fylles ut</string>
+    <string name="autofill_share_magikeyboard_title">Del med magikeyboard</string>
+    <string name="autofill_share_magikeyboard_summary">Del oppføringer hentet fra autofyll til magikeyboard</string>
+    <string name="education_user_verification_title">Verifisering for sensitive handlinger</string>
+    <string name="password_creation_description">Lagre passord i en ny oppføring</string>
+    <string name="password_selection_description">Velg et eksisterende passord</string>
+    <string name="error_password_result">Kunne ikke returnere passordet</string>
+    <string name="content_description_user_verification_information">Brukerverifiseringsinfo</string>
+    <string name="user_verification_required_title">Brukerverifisering</string>
+    <string name="user_verification_required_description">Tilgang til disse dataene trenger først verifisering at det faktisk er deg.</string>
+    <string name="user_verification_required_description_precise">%1$s vil bekrefte at det faktisk er deg.</string>
+    <string name="user_verification_database_credential">Skriv inn de første fire tegnene til databasepassordet ditt</string>
+    <string name="first_chars">Første tegn</string>
+    <string name="check">Sjekk</string>
 </resources>
