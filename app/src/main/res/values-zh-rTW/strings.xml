@@ -638,7 +638,7 @@
     <string name="menu_database_settings_summary">元數據、回收筒、範本、紀綠</string>
     <string name="master_key_settings_summary">更改、延續</string>
     <string name="menu_security_settings_summary">加密、密鑰衍生函數</string>
-    <string name="warning_permission">剪貼簿通知功能必須取能通知權限才能使用。</string>
+    <string name="warning_permission">需要權限才能顯示通知</string>
     <string name="later">稍後再說</string>
     <string name="ask">詢問</string>
     <string name="merge_success">合併成功</string>

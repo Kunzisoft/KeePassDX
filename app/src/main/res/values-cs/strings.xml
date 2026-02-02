@@ -666,7 +666,7 @@
     <string name="warning_database_notification_permission">Oprávnění k oznámením umožňuje zobrazit stav databáze a uzamknout ji snadno přístupným tlačítkem.
 \n
 \nPokud toto oprávnění neaktivujete, nebude databáze otevřená na pozadí viditelná, pokud je v popředí jiná aplikace.</string>
-    <string name="warning_permission">Oprávnění k oznámením je potřeba pro použití funkce oznámení o schránce.</string>
+    <string name="warning_permission">Oprávnění je potřeba pro zobrazení oznámení</string>
     <string name="later">Později</string>
     <string name="ask">Zeptat se</string>
     <string name="configure">Nastavit</string>
