@@ -1,3 +1,6 @@
+KeePassDX(4.4.0)
+ * Fix 16 KB ELF alignment #2074
+
 KeePassDX(4.3.2)
  * Fix dialog for entry available on magikeyboard #2367
  * Fix automatic URL and ApplicationId links #2373

@@ -474,12 +474,12 @@ JNIEXPORT jbyteArray JNICALL Java_com_kunzisoft_encrypt_aes_NativeAESKeyTransfor
   (*env)->GetByteArrayRegion(env, key, 0, MASTER_KEY_SIZE, (jbyte *)mk.key1);
 
   // step 2: encrypt the hash "rounds"
-  iret = pthread_create( &t1, NULL, (void*)generate_key_material, (void*)&mk );
+  iret = pthread_create( &t1, NULL, (void*)(uintptr_t)generate_key_material, (void*)&mk );
   if( iret != 0 ) {
     (*env)->ThrowNew(env, bad_arg, "TransformMasterKey: failed to launch thread 1"); // FIXME: get a better exception class for this...
     return NULL;
   }
-  iret = pthread_create( &t2, NULL, (void*)generate_key_material, (void*)&mk );
+  iret = pthread_create( &t2, NULL, (void*)(uintptr_t)generate_key_material, (void*)&mk );
   if( iret != 0 ) {
     (*env)->ThrowNew(env, bad_arg, "TransformMasterKey: failed to launch thread 2"); // FIXME: get a better exception class for this...
     return NULL;
@@ -498,7 +498,7 @@ JNIEXPORT jbyteArray JNICALL Java_com_kunzisoft_encrypt_aes_NativeAESKeyTransfor
     (*env)->ThrowNew(env, bad_arg, "TransformMasterKey: invalid flip value(s) from completed thread(s)"); // FIXME: get a better exception class for this...
     return NULL;
   } else {
-    flip = (uint32_t)vret1;
+    flip = (uint32_t)(uintptr_t)vret1;
   }
 
   // step 3: final SHA256 hash
