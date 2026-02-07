@@ -282,7 +282,7 @@
     <string name="education_sort_summary">选择条目和分组的排序方式。</string>
     <string name="education_donation_title">参与开发</string>
     <string name="education_donation_summary">帮助增加稳定性，安全性并添加更多的功能。</string>
-    <string name="html_text_ad_free">不同于大多数的密码管理应用，无论您是使用免费版本还是付费版本的 KeePassDX，这都是一款&lt;strong&gt;没有广告&lt;/strong&gt;，&lt;strong&gt;基于 copylefted 版权协议的自由软件&lt;/strong&gt;。同时，本软件的任何版本都不会收集您的任何个人信息。</string>
+    <string name="html_text_ad_free">不同于许多密码管理应用，免费和付费版本的 KeePassDX 均<strong>没有广告</strong>，<strong>基于 copylefted 版权协议</strong>，不在服务器上收集个人信息。</string>
     <string name="html_text_buy_pro">通过购买高级版本，您将解锁全部&lt;strong&gt;主题样式&lt;/strong&gt;，重要的是，您会为&lt;strong&gt;社区项目的进行&lt;/strong&gt;提供帮助</string>
     <string name="html_text_feature_generosity">此&lt;strong&gt;主题样式&lt;/strong&gt;已可用，感谢您的慷慨相助。</string>
     <string name="html_text_donation">通过多方面向本项目&lt;strong&gt;作贡献&lt;/strong&gt;，可以是&lt;i&gt;（金钱、代码、翻译等）&lt;/i&gt;，你将帮助本项目继续走下去并茁壮成长，并获得&lt;strong&gt;主题&lt;/strong&gt;解锁步骤资格。</string>
@@ -336,7 +336,7 @@
     <string name="entry_history">历史</string>
     <string name="entry_setup_otp">设置 OTP</string>
     <string name="otp_type">OTP 类型</string>
-    <string name="otp_secret">OTP 密钥</string>
+    <string name="otp_secret">Secret</string>
     <string name="otp_period">时长（秒）</string>
     <string name="otp_counter">计数器</string>
     <string name="otp_digits">数字位数</string>
