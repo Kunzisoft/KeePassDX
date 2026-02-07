@@ -336,7 +336,7 @@
     <string name="entry_history">历史</string>
     <string name="entry_setup_otp">设置 OTP</string>
     <string name="otp_type">OTP 类型</string>
-    <string name="otp_secret">Secret</string>
+    <string name="otp_secret">密钥</string>
     <string name="otp_period">时长（秒）</string>
     <string name="otp_counter">计数器</string>
     <string name="otp_digits">数字位数</string>
