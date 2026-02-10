@@ -319,7 +319,7 @@
     <string name="biometric_auto_open_prompt_summary">Solicita auto-desbloqueo del dispositivo si la base de datos está configurada para utilizarlo</string>
     <string name="enable">Activar</string>
     <string name="disable">Desactivar</string>
-    <string name="education_read_only_summary">Cambiar el modo de inicio de la sesión. \n \n\"Protegido contra escritura\" evita cambios involuntarios en la base de datos. \n\"Modificable\" le permite añadir, eliminar o modificar todos los elementos que desee.</string>
+    <string name="education_read_only_summary">Cambiar el modo de inicio de la sesión. \n \n\"Protegido contra escritura\" evita cambios involuntarios en la base de datos. \n\"Modificable\" permite añadir, eliminar o modificar todos los elementos a tu gusto.</string>
     <string name="lock_database_back_root_title">Presione ‘Atrás’ para bloquear</string>
     <string name="content_description_repeat_toggle_password_visibility">Repetir conmutación de visibilidad de contraseña</string>
     <string name="master_key">Clave maestra</string>
