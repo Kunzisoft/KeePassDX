@@ -132,7 +132,7 @@
     <string name="error_autofill_enable_service">El servicio de autocompletado no se ha podido habilitar.</string>
     <string name="field_name">Nombre del campo</string>
     <string name="field_value">Valor del campo</string>
-    <string name="file_not_found_content">No se ha podido encontrar el archivo.</string>
+    <string name="file_not_found_content">No se ha podido encontrar el archivo</string>
     <string name="invalid_algorithm">Algoritmo incorrecto.</string>
     <string name="keyfile_is_empty">El archivo de clave está vacío.</string>
     <string name="copy_field">Copia de %1$s</string>
@@ -213,14 +213,14 @@
     <string name="education_select_database_summary">Abra su archivo de base de datos anterior desde el explorador de archivos para seguir utilizándolo.</string>
     <string name="education_new_node_title">Añada elementos a su base de datos</string>
     <string name="education_new_node_summary">Los apuntes ayudan a gestionar tus identidades digitales.\n\nLos grupos (~carpetas) organizan las entradas en tu base de datos.</string>
-    <string name="education_search_title">Buscar por apuntes</string>
+    <string name="education_search_title">Buscar entradas</string>
     <string name="education_search_summary">Introduzca título, usuario o contenido de otros campos para recuperar sus contraseñas.</string>
-    <string name="education_entry_edit_title">Editar el apunte</string>
-    <string name="education_entry_edit_summary">Edita el apunte con campos personalizados. Los datos pueden estar referenciados entre diferentes campos del apunte.</string>
+    <string name="education_entry_edit_title">Editar entrada</string>
+    <string name="education_entry_edit_summary">Edita tu entrada con campos personalizados. Se pueden añadir referencias entre campos de distintos elementos.</string>
     <string name="education_generate_password_title">Crear una contraseña segura</string>
-    <string name="education_generate_password_summary">Genera una contraseña fuerte para asociarla con su apunte, defínalo fácilmente de acuerdo con el criterio del formulario y no olvide una contraseña segura.</string>
+    <string name="education_generate_password_summary">Genera una contraseña segura para asociarla a tu entrada. Defínela fácilmente según los criterios del formulario y no olvides proteger la contraseña.</string>
     <string name="education_entry_new_field_title">Añadir campos personalizados</string>
-    <string name="education_entry_new_field_summary">Registra un campo adicional, añada un valor y, opcionalmente, protégelo.</string>
+    <string name="education_entry_new_field_summary">Registra un campo adicional, añade un valor y, opcionalmente, protégelo.</string>
     <string name="education_unlock_title">Desbloquee su base de datos</string>
     <string name="education_field_copy_title">Copia un campo</string>
     <string name="education_field_copy_summary">Los campos copiados pueden pegarse en cualquier sitio.\n\nUtilice el método de relleno de formularios que prefiera.</string>
@@ -231,7 +231,7 @@
     <string name="education_donation_title">Participar</string>
     <string name="education_donation_summary">Ayuda a mejorar la estabilidad, la seguridad y a añadir más funciones.</string>
     <string name="html_text_ad_free">A diferencia de muchas aplicaciones de administración de contraseñas, esta es &lt;strong&gt;sin anuncios&lt;/strong&gt;, &lt;strong&gt;software libre de copylefted&lt;/strong&gt; y no recopila datos personales en sus servidores, sin importar la versión que use.</string>
-    <string name="html_text_buy_pro">Al comprar la versión Pro, tendrá acceso a este &lt;strong&gt;estilo visual&lt;/strong&gt; y ayudará especialmente &lt;strong&gt;la realización de proyectos comunitarios.&lt;/strong&gt;</string>
+    <string name="html_text_buy_pro">Al comprar la versión Pro, tendrás acceso a este <strong>estilo visual </strong> y ayudarás especialmente a <strong>la realización de proyectos comunitarios.</strong></string>
     <string name="html_text_feature_generosity">Este &lt;strong&gt;estilo visual&lt;/strong&gt; está disponible gracias a su generosidad.</string>
     <string name="html_text_donation">Al &lt;strong&gt;colaborar&lt;/strong&gt; en el proyecto &lt;i&gt;(monetariamente, código, traducción)&lt;/i&gt;, ayudará a que siga existiendo y prosperando, y también será la elección para el procedimiento de desbloqueo del &lt;strong&gt;tema&lt;/strong&gt;.</string>
     <string name="html_text_dev_feature">Esta función está &lt;strong&gt;en desarrollo&lt;/strong&gt; y requiere de tu &lt;strong&gt;contribución&lt;/strong&gt; para estar disponible dentro de poco.</string>
@@ -245,8 +245,8 @@
     <string name="contribute">Contribuir</string>
     <string name="style_choose_title">Tema de la aplicación</string>
     <string name="style_choose_summary">Tema usado en la aplicación</string>
-    <string name="icon_pack_choose_title">Seleccionar un paquete de iconos</string>
-    <string name="icon_pack_choose_summary">Paquete de iconos usado en la aplicación</string>
+    <string name="icon_pack_choose_title">Paquete de iconos</string>
+    <string name="icon_pack_choose_summary">Paquete de iconos utilizado en la aplicación</string>
     <string name="edit_entry">Editar apunte</string>
     <string name="error_load_database">No se ha podido cargar la base de datos.</string>
     <string name="error_load_database_KDF_memory">No se ha podido cargar la clave. Intente reducir el \"Uso de memoria\" del KDF.</string>
@@ -266,8 +266,8 @@
     <string name="enable_education_screens_title">Consejos educativos</string>
     <string name="enable_education_screens_summary">Destaca los elementos para aprender cómo funciona la aplicación</string>
     <string name="education_read_only_title">Proteja la base de datos contra escritura</string>
-    <string name="keyboard_name">Magikeyboard</string>
-    <string name="keyboard_label">Magikeyboard (KeePassDX)</string>
+    <string name="keyboard_name" translatable="false">Teclado Seguro</string>
+    <string name="keyboard_label">Teclado Seguro (KeePassDX)</string>
     <string name="keyboard_setting_label">Configuración de Magikeyboard</string>
     <string name="keyboard_entry_category">Apunte</string>
     <string name="keyboard_entry_timeout_title">Tiempo límite</string>
@@ -437,7 +437,7 @@
     <string name="device_unlock_invalid_key">No se puede leer la clave de desbloqueo del dispositivo. Por favor, bórrala y repite el procedimiento de reconocimiento del desbloqueo.</string>
     <string name="device_unlock_prompt_extract_credential_message">Abrir la base de datos con la credencial del dispositivo</string>
     <string name="device_unlock_prompt_extract_credential_title">Desbloqueo del dispositivo</string>
-    <string name="device_unlock_prompt_store_credential_message">ADVERTENCIA: Aún debes recordar la credencial principal de tu caja fuerte.</string>
+    <string name="device_unlock_prompt_store_credential_message">ADVERTENCIA: Aún debes recordar la credencial principal de tu caja fuerte</string>
     <string name="device_unlock_prompt_store_credential_title">Enlace para el desbloqueo del dispositivo</string>
     <string name="keystore_not_accessible">El almacén de claves no está debidamente inicializado.</string>
     <string name="biometric_security_update_required">Se requiere actualización de seguridad biométrica.</string>
@@ -460,7 +460,7 @@
     <string name="notification">Notificación</string>
     <string name="hide_expired_entries_title">Ocultar entradas caducadas</string>
     <string name="upload_attachment">Subir %1$s</string>
-    <string name="education_setup_OTP_summary">Configura la gestión de contraseñas de un solo uso (HOTP / TOTP) para generar un testigo solicitado para la autenticación de dos factores (2FA).</string>
+    <string name="education_setup_OTP_summary">Configura la gestión de contraseñas de un solo uso (HOTP / TOTP) para generar un token solicitado para la autenticación de dos factores (2FA).</string>
     <string name="education_setup_OTP_title">Establecer contraseña de un solo uso</string>
     <string name="education_device_unlock_summary">Vincule su contraseña con su credencial biométrica o del dispositivo escaneada para desbloquear rápidamente su base de datos.</string>
     <string name="education_device_unlock_title">Desbloqueo de la base de datos de los dispositivos</string>
@@ -506,7 +506,7 @@
     <string name="warning_database_info_changed">La información contenida en su archivo de base de datos ha sido modificada fuera de la aplicación.</string>
     <string name="menu_reload_database">Recargar datos</string>
     <string name="error_otp_type">El tipo de OTP existente no es reconocido por este formulario, y es posible que su validación ya no genere correctamente el token.</string>
-    <string name="download_canceled">¡Cancelado!</string>
+    <string name="download_canceled">¡Cancelada!</string>
     <string name="error_duplicate_file">Los datos del archivo ya existen.</string>
     <string name="error_upload_file">Se ha producido un error al cargar los datos del archivo.</string>
     <string name="description_app_properties">Propiedades de KeePassDX para gestionar la configuración de la aplicación</string>
@@ -590,7 +590,7 @@
     <string name="regex">Expresión regular</string>
     <string name="content_description_nav_header">Cabecera de navegación</string>
     <string name="navigation_drawer_open">Cajón de navegación abierto</string>
-    <string name="case_sensitive">Sensible a MAYÚS/minús</string>
+    <string name="case_sensitive">Discrimina mayús/minús</string>
     <string name="auto_type_sequence">Secuencia auto-tecleada</string>
     <string name="custom_data">Datos personalizados</string>
     <string name="current_group">Grupo actual</string>
@@ -682,7 +682,7 @@
     <string name="recursive_number_entries_title">Número recursivo de apuntes</string>
     <string name="hide_templates_summary">Las plantillas no se muestran</string>
     <string name="error_otp_secret_length">La clave secreta debe tener al menos %1$d caracteres.</string>
-    <string name="entry_application_id">ID aplicación</string>
+    <string name="entry_application_id">ID de la aplicación</string>
     <string name="warning_overwrite_data_title">¿Desea sobrescribir los datos existentes?</string>
     <string name="warning_overwrite_data_description">Esta acción sustituirá los datos existentes en el apuntes. Si el historial está habilitado, podrá recuperar los datos antiguos.</string>
     <string name="credential_provider">Proveedor de credenciales</string>
