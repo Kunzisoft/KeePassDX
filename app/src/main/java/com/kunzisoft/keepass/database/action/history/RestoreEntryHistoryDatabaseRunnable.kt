@@ -23,7 +23,7 @@ import android.content.Context
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.action.node.UpdateEntryRunnable
 import com.kunzisoft.keepass.database.element.Entry
-import com.kunzisoft.keepass.hardware.HardwareKey
+import com.kunzisoft.keepass.hardware.ChallengeRequest
 import com.kunzisoft.keepass.tasks.ActionRunnable
 
 class RestoreEntryHistoryDatabaseRunnable (
@@ -32,7 +32,7 @@ class RestoreEntryHistoryDatabaseRunnable (
     private val mainEntry: Entry,
     private val entryHistoryPosition: Int,
     private val saveDatabase: Boolean,
-    private val challengeResponseRetriever: (HardwareKey, ByteArray?) -> ByteArray
+    private val challengeResponseRetriever: (ChallengeRequest) -> ByteArray
 ) : ActionRunnable() {
 
     private var updateEntryRunnable: UpdateEntryRunnable? = null

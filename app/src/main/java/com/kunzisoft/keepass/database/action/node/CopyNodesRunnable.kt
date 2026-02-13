@@ -28,16 +28,16 @@ import com.kunzisoft.keepass.database.element.node.Node
 import com.kunzisoft.keepass.database.element.node.Type
 import com.kunzisoft.keepass.database.exception.CopyEntryDatabaseException
 import com.kunzisoft.keepass.database.exception.CopyGroupDatabaseException
-import com.kunzisoft.keepass.hardware.HardwareKey
+import com.kunzisoft.keepass.hardware.ChallengeRequest
 
-class CopyNodesRunnable constructor(
+class CopyNodesRunnable(
     context: Context,
     database: ContextualDatabase,
     private val mNodesToCopy: List<Node>,
     private val mNewParent: Group,
     save: Boolean,
     afterActionNodesFinish: AfterActionNodesFinish?,
-    challengeResponseRetriever: (HardwareKey, ByteArray?) -> ByteArray
+    challengeResponseRetriever: (ChallengeRequest) -> ByteArray
 ) : ActionNodeDatabaseRunnable(context, database, afterActionNodesFinish, save, challengeResponseRetriever) {
 
     private var mEntriesCopied = ArrayList<Entry>()

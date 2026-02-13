@@ -23,7 +23,7 @@ import android.content.Context
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.action.SaveDatabaseRunnable
 import com.kunzisoft.keepass.database.element.Entry
-import com.kunzisoft.keepass.hardware.HardwareKey
+import com.kunzisoft.keepass.hardware.ChallengeRequest
 
 class DeleteEntryHistoryDatabaseRunnable (
     context: Context,
@@ -31,7 +31,7 @@ class DeleteEntryHistoryDatabaseRunnable (
     private val mainEntry: Entry,
     private val entryHistoryPosition: Int,
     saveDatabase: Boolean,
-    challengeResponseRetriever: (HardwareKey, ByteArray?) -> ByteArray
+    challengeResponseRetriever: (ChallengeRequest) -> ByteArray
 ) : SaveDatabaseRunnable(context, database, saveDatabase, null, challengeResponseRetriever) {
 
     override fun onStartRun() {

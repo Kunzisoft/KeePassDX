@@ -23,7 +23,7 @@ import android.content.Context
 import android.net.Uri
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.MainCredential
-import com.kunzisoft.keepass.hardware.HardwareKey
+import com.kunzisoft.keepass.hardware.ChallengeRequest
 import com.kunzisoft.keepass.utils.getBinaryDir
 
 class CreateDatabaseRunnable(
@@ -34,7 +34,7 @@ class CreateDatabaseRunnable(
     private val rootName: String,
     private val templateGroupName: String?,
     val mainCredential: MainCredential,
-    challengeResponseRetriever: (HardwareKey, ByteArray?) -> ByteArray
+    challengeResponseRetriever: (ChallengeRequest) -> ByteArray
 ) : SaveDatabaseRunnable(
     context,
     mDatabase,

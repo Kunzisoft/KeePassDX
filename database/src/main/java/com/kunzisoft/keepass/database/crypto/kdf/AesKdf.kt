@@ -20,12 +20,12 @@
 package com.kunzisoft.keepass.database.crypto.kdf
 
 import com.kunzisoft.encrypt.HashManager
-import com.kunzisoft.keepass.utils.UnsignedLong
 import com.kunzisoft.encrypt.aes.AESTransformer
+import com.kunzisoft.keepass.utils.UnsignedLong
 import com.kunzisoft.keepass.utils.bytes16ToUuid
 import java.io.IOException
 import java.security.SecureRandom
-import java.util.*
+import java.util.UUID
 
 class AesKdf : KdfEngine() {
 
@@ -36,7 +36,6 @@ class AesKdf : KdfEngine() {
     override val defaultParameters: KdfParameters
         get() {
             return KdfParameters(uuid!!).apply {
-                setParamUUID()
                 setUInt64(PARAM_ROUNDS, UnsignedLong(defaultKeyRounds))
             }
         }

@@ -23,16 +23,16 @@ import android.content.Context
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.element.Group
 import com.kunzisoft.keepass.database.element.node.Node
-import com.kunzisoft.keepass.hardware.HardwareKey
+import com.kunzisoft.keepass.hardware.ChallengeRequest
 
-class UpdateGroupRunnable constructor(
+class UpdateGroupRunnable(
     context: Context,
     database: ContextualDatabase,
     private val mOldGroup: Group,
     private val mNewGroup: Group,
     save: Boolean,
     afterActionNodesFinish: AfterActionNodesFinish?,
-    challengeResponseRetriever: (HardwareKey, ByteArray?) -> ByteArray
+    challengeResponseRetriever: (ChallengeRequest) -> ByteArray
 ) : ActionNodeDatabaseRunnable(context, database, afterActionNodesFinish, save, challengeResponseRetriever) {
 
     override fun nodeAction() {

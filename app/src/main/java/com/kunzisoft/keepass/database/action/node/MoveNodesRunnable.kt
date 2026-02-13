@@ -28,16 +28,16 @@ import com.kunzisoft.keepass.database.element.node.Node
 import com.kunzisoft.keepass.database.element.node.Type
 import com.kunzisoft.keepass.database.exception.MoveEntryDatabaseException
 import com.kunzisoft.keepass.database.exception.MoveGroupDatabaseException
-import com.kunzisoft.keepass.hardware.HardwareKey
+import com.kunzisoft.keepass.hardware.ChallengeRequest
 
-class MoveNodesRunnable constructor(
+class MoveNodesRunnable(
     context: Context,
     database: ContextualDatabase,
     private val mNodesToMove: List<Node>,
     private val mNewParent: Group,
     save: Boolean,
     afterActionNodesFinish: AfterActionNodesFinish?,
-    challengeResponseRetriever: (HardwareKey, ByteArray?) -> ByteArray
+    challengeResponseRetriever: (ChallengeRequest) -> ByteArray
 ) : ActionNodeDatabaseRunnable(context, database, afterActionNodesFinish, save, challengeResponseRetriever) {
 
     private var mOldParent: Group? = null

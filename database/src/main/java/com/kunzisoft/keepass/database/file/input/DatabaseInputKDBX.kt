@@ -25,9 +25,13 @@ import com.kunzisoft.encrypt.StreamCipher
 import com.kunzisoft.keepass.database.crypto.CipherEngine
 import com.kunzisoft.keepass.database.crypto.CrsAlgorithm
 import com.kunzisoft.keepass.database.crypto.HmacBlock
-import com.kunzisoft.keepass.database.element.*
+import com.kunzisoft.keepass.database.element.Attachment
+import com.kunzisoft.keepass.database.element.CustomDataItem
+import com.kunzisoft.keepass.database.element.DateInstant
 import com.kunzisoft.keepass.database.element.DateInstant.Companion.fromDotNetSeconds
 import com.kunzisoft.keepass.database.element.DateInstant.Companion.fromISO8601Format
+import com.kunzisoft.keepass.database.element.DeletedObject
+import com.kunzisoft.keepass.database.element.Tags
 import com.kunzisoft.keepass.database.element.binary.BinaryData
 import com.kunzisoft.keepass.database.element.binary.BinaryData.Companion.BASE64_FLAG
 import com.kunzisoft.keepass.database.element.database.CompressionAlgorithm
@@ -40,14 +44,26 @@ import com.kunzisoft.keepass.database.element.node.NodeIdUUID
 import com.kunzisoft.keepass.database.element.node.NodeKDBXInterface
 import com.kunzisoft.keepass.database.element.security.MemoryProtectionConfig
 import com.kunzisoft.keepass.database.element.security.ProtectedString
-import com.kunzisoft.keepass.database.exception.*
+import com.kunzisoft.keepass.database.exception.CorruptedDatabaseException
+import com.kunzisoft.keepass.database.exception.DatabaseInputException
+import com.kunzisoft.keepass.database.exception.InvalidAlgorithmDatabaseException
+import com.kunzisoft.keepass.database.exception.InvalidCredentialsDatabaseException
+import com.kunzisoft.keepass.database.exception.KDFMemoryDatabaseException
+import com.kunzisoft.keepass.database.exception.NoMemoryDatabaseException
+import com.kunzisoft.keepass.database.exception.XMLMalformedDatabaseException
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX.Companion.FILE_VERSION_40
 import com.kunzisoft.keepass.database.file.DatabaseKDBXXML
 import com.kunzisoft.keepass.stream.HashedBlockInputStream
 import com.kunzisoft.keepass.stream.HmacBlockInputStream
 import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
-import com.kunzisoft.keepass.utils.*
+import com.kunzisoft.keepass.utils.UnsignedInt
+import com.kunzisoft.keepass.utils.UnsignedLong
+import com.kunzisoft.keepass.utils.bytes16ToUuid
+import com.kunzisoft.keepass.utils.bytes64ToLong
+import com.kunzisoft.keepass.utils.readBytes
+import com.kunzisoft.keepass.utils.readBytes4ToUInt
+import com.kunzisoft.keepass.utils.readBytesLength
 import org.xmlpull.v1.XmlPullParser
 import org.xmlpull.v1.XmlPullParserException
 import org.xmlpull.v1.XmlPullParserFactory
@@ -56,7 +72,9 @@ import java.io.InputStream
 import java.io.UnsupportedEncodingException
 import java.nio.charset.Charset
 import java.text.ParseException
-import java.util.*
+import java.util.Arrays
+import java.util.Stack
+import java.util.UUID
 import java.util.zip.GZIPInputStream
 import javax.crypto.Cipher
 import javax.crypto.CipherInputStream
@@ -116,8 +134,7 @@ class DatabaseInputKDBX(database: DatabaseKDBX)
             hashOfHeader = headerAndHash.hash
             val pbHeader = headerAndHash.header
 
-            val transformSeed = header.transformSeed
-            mDatabase.transformSeed = transformSeed
+            mDatabase.transformSeed = header.transformSeed
             assignMasterKey.invoke()
             mDatabase.makeFinalKey(header.masterSeed)
 

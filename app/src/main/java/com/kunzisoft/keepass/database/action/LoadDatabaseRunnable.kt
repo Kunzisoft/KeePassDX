@@ -26,7 +26,7 @@ import com.kunzisoft.keepass.database.MainCredential
 import com.kunzisoft.keepass.database.element.binary.BinaryData
 import com.kunzisoft.keepass.database.exception.DatabaseInputException
 import com.kunzisoft.keepass.database.exception.UnknownDatabaseLocationException
-import com.kunzisoft.keepass.hardware.HardwareKey
+import com.kunzisoft.keepass.hardware.ChallengeRequest
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
 import com.kunzisoft.keepass.utils.getBinaryDir
@@ -37,7 +37,7 @@ class LoadDatabaseRunnable(
     private val mDatabase: ContextualDatabase,
     private val mDatabaseUri: Uri,
     private val mMainCredential: MainCredential,
-    private val mChallengeResponseRetriever: (hardwareKey: HardwareKey, seed: ByteArray?) -> ByteArray,
+    private val mChallengeResponseRetriever: (challengeRequest: ChallengeRequest) -> ByteArray,
     private val mReadonly: Boolean,
     private val mAllowUserVerification: Boolean,
     private val mFixDuplicateUUID: Boolean,

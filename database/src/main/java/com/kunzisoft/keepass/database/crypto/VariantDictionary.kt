@@ -19,10 +19,25 @@
  */
 package com.kunzisoft.keepass.database.crypto
 
-import com.kunzisoft.keepass.utils.*
-import java.io.*
+import com.kunzisoft.keepass.utils.UnsignedInt
+import com.kunzisoft.keepass.utils.UnsignedLong
+import com.kunzisoft.keepass.utils.bytes4ToUInt
+import com.kunzisoft.keepass.utils.bytes64ToLong
+import com.kunzisoft.keepass.utils.bytes64ToULong
+import com.kunzisoft.keepass.utils.readBytes2ToUShort
+import com.kunzisoft.keepass.utils.readBytes4ToUInt
+import com.kunzisoft.keepass.utils.readBytesLength
+import com.kunzisoft.keepass.utils.write2BytesUShort
+import com.kunzisoft.keepass.utils.write4BytesUInt
+import com.kunzisoft.keepass.utils.write8BytesLong
+import com.kunzisoft.keepass.utils.writeBooleanByte
+import com.kunzisoft.keepass.utils.writeByte
+import java.io.ByteArrayInputStream
+import java.io.ByteArrayOutputStream
+import java.io.IOException
+import java.io.InputStream
+import java.io.OutputStream
 import java.nio.charset.Charset
-import java.util.*
 
 open class VariantDictionary {
 
@@ -37,7 +52,7 @@ open class VariantDictionary {
     private val dict: MutableMap<String, VdType> = HashMap()
 
     private fun getValue(name: String): Any? {
-        return dict[name]?.value ?: return null
+        return dict[name]?.value
     }
 
     private fun putType(type: Byte, name: String, value: Any) {

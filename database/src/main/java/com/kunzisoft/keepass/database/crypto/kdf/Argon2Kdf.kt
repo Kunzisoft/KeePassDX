@@ -19,14 +19,14 @@
  */
 package com.kunzisoft.keepass.database.crypto.kdf
 
-import com.kunzisoft.keepass.utils.UnsignedInt
-import com.kunzisoft.keepass.utils.UnsignedLong
 import com.kunzisoft.encrypt.argon2.Argon2Transformer
 import com.kunzisoft.encrypt.argon2.Argon2Type
+import com.kunzisoft.keepass.utils.UnsignedInt
+import com.kunzisoft.keepass.utils.UnsignedLong
 import com.kunzisoft.keepass.utils.bytes16ToUuid
 import java.io.IOException
 import java.security.SecureRandom
-import java.util.*
+import java.util.UUID
 
 class Argon2Kdf(private val type: Type) : KdfEngine() {
 
@@ -36,15 +36,12 @@ class Argon2Kdf(private val type: Type) : KdfEngine() {
 
     override val defaultParameters: KdfParameters
         get() {
-            val p = KdfParameters(uuid!!)
-
-            p.setParamUUID()
-            p.setUInt32(PARAM_PARALLELISM, DEFAULT_PARALLELISM)
-            p.setUInt64(PARAM_MEMORY, DEFAULT_MEMORY)
-            p.setUInt64(PARAM_ITERATIONS, DEFAULT_ITERATIONS)
-            p.setUInt32(PARAM_VERSION, MAX_VERSION)
-
-            return p
+            return KdfParameters(uuid!!).apply {
+                setUInt32(PARAM_PARALLELISM, DEFAULT_PARALLELISM)
+                setUInt64(PARAM_MEMORY, DEFAULT_MEMORY)
+                setUInt64(PARAM_ITERATIONS, DEFAULT_ITERATIONS)
+                setUInt32(PARAM_VERSION, MAX_VERSION)
+            }
         }
 
     override val defaultKeyRounds: Long

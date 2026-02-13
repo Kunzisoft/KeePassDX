@@ -31,7 +31,6 @@ import com.kunzisoft.keepass.database.element.icon.IconsManager
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.node.Type
 import com.kunzisoft.keepass.database.exception.DuplicateUuidDatabaseException
-import java.io.InputStream
 import java.io.UnsupportedEncodingException
 import java.nio.charset.Charset
 import java.util.UUID
@@ -57,6 +56,7 @@ abstract class DatabaseVersioned<
     var finalKey: ByteArray? = null
         protected set
     var transformSeed: ByteArray? = null
+    open var fidoCredentialId: ByteArray? = null
 
     var checkKey = ByteArray(32)
 
@@ -119,6 +119,7 @@ abstract class DatabaseVersioned<
     fun copyMasterKeyFrom(databaseVersioned: DatabaseVersioned<GroupId, EntryId, Group, Entry>) {
         this.masterKey = databaseVersioned.masterKey
         this.transformSeed = databaseVersioned.transformSeed
+        this.fidoCredentialId = databaseVersioned.fidoCredentialId
         this.checkKey = databaseVersioned.checkKey
     }
 

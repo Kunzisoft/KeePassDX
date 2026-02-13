@@ -24,16 +24,16 @@ import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.element.Attachment
 import com.kunzisoft.keepass.database.element.Entry
 import com.kunzisoft.keepass.database.element.node.Node
-import com.kunzisoft.keepass.hardware.HardwareKey
+import com.kunzisoft.keepass.hardware.ChallengeRequest
 
-class UpdateEntryRunnable constructor(
+class UpdateEntryRunnable(
     context: Context,
     database: ContextualDatabase,
     private val mOldEntry: Entry,
     private val mNewEntry: Entry,
     save: Boolean,
     afterActionNodesFinish: AfterActionNodesFinish?,
-    challengeResponseRetriever: (HardwareKey, ByteArray?) -> ByteArray
+    challengeResponseRetriever: (ChallengeRequest) -> ByteArray
 ) : ActionNodeDatabaseRunnable(context, database, afterActionNodesFinish, save, challengeResponseRetriever) {
 
     override fun nodeAction() {

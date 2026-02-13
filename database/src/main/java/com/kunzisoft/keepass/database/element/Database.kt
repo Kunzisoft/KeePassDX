@@ -54,7 +54,7 @@ import com.kunzisoft.keepass.database.file.output.DatabaseOutputKDBX
 import com.kunzisoft.keepass.database.merge.DatabaseKDBXMerger
 import com.kunzisoft.keepass.database.search.SearchHelper
 import com.kunzisoft.keepass.database.search.SearchParameters
-import com.kunzisoft.keepass.hardware.HardwareKey
+import com.kunzisoft.keepass.hardware.ChallengeRequest
 import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
 import com.kunzisoft.keepass.utils.SingletonHolder
 import com.kunzisoft.keepass.utils.StringUtil.toFormattedColorInt
@@ -566,7 +566,7 @@ open class Database {
     fun loadData(
         databaseStream: InputStream,
         masterCredential: MasterCredential,
-        challengeResponseRetriever: (HardwareKey, ByteArray?) -> ByteArray,
+        challengeResponseRetriever: (ChallengeRequest) -> ByteArray,
         readOnly: Boolean,
         allowUserVerification: Boolean,
         cacheDirectory: File,
@@ -606,8 +606,9 @@ open class Database {
                             openDatabase(databaseInputStream,
                                 progressTaskUpdater) {
                                 databaseKDBX.deriveMasterKey(
-                                    masterCredential,
-                                    challengeResponseRetriever
+                                    masterCredential = masterCredential,
+                                    saveOperation = false,
+                                    challengeResponseRetriever = challengeResponseRetriever
                                 )
                             }
                         }
@@ -640,7 +641,7 @@ open class Database {
     fun mergeData(
         databaseToMergeStream: InputStream,
         databaseToMergeMasterCredential: MasterCredential?,
-        databaseToMergeChallengeResponseRetriever: (HardwareKey, ByteArray?) -> ByteArray,
+        databaseToMergeChallengeResponseRetriever: (ChallengeRequest) -> ByteArray,
         isRAMSufficient: (memoryWanted: Long) -> Boolean,
         progressTaskUpdater: ProgressTaskUpdater?
     ) {
@@ -676,8 +677,9 @@ open class Database {
                         openDatabase(databaseInputStream, progressTaskUpdater) {
                             if (databaseToMergeMasterCredential != null) {
                                 databaseToMergeKDBX.deriveMasterKey(
-                                    databaseToMergeMasterCredential,
-                                    databaseToMergeChallengeResponseRetriever
+                                    masterCredential = databaseToMergeMasterCredential,
+                                    saveOperation = false,
+                                    challengeResponseRetriever = databaseToMergeChallengeResponseRetriever
                                 )
                             } else {
                                 this@Database.mDatabaseKDBX?.let { thisDatabaseKDBX ->
@@ -807,7 +809,7 @@ open class Database {
         databaseOutputStream: () -> OutputStream?,
         isNewLocation: Boolean,
         masterCredential: MasterCredential?,
-        challengeResponseRetriever: (HardwareKey, ByteArray?) -> ByteArray
+        challengeResponseRetriever: (ChallengeRequest) -> ByteArray
     ) {
         try {
             // Save in a temp memory to avoid exception
@@ -831,13 +833,15 @@ open class Database {
                             if (masterCredential != null) {
                                 // Build new master key from MainCredential
                                 databaseKDBX.deriveMasterKey(
-                                    masterCredential,
-                                    challengeResponseRetriever
+                                    masterCredential = masterCredential,
+                                    saveOperation = true,
+                                    challengeResponseRetriever = challengeResponseRetriever
                                 )
                             } else {
                                 // Reuse composite key parts
                                 databaseKDBX.deriveCompositeKey(
-                                    challengeResponseRetriever
+                                    saveOperation = true,
+                                    challengeResponseRetriever = challengeResponseRetriever
                                 )
                             }
                         }

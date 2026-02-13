@@ -24,7 +24,7 @@ import android.net.Uri
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.MainCredential
 import com.kunzisoft.keepass.database.exception.DatabaseException
-import com.kunzisoft.keepass.hardware.HardwareKey
+import com.kunzisoft.keepass.hardware.ChallengeRequest
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.utils.getUriOutputStream
 import java.io.File
@@ -34,7 +34,7 @@ open class SaveDatabaseRunnable(
     protected var database: ContextualDatabase,
     private var saveDatabase: Boolean,
     private var mainCredential: MainCredential?, // If null, uses composite Key
-    private var challengeResponseRetriever: (HardwareKey, ByteArray?) -> ByteArray,
+    private var challengeResponseRetriever: (ChallengeRequest) -> ByteArray,
     private var databaseCopyUri: Uri? = null
 ) : ActionRunnable() {
 
@@ -56,8 +56,9 @@ open class SaveDatabaseRunnable(
                             .getUriOutputStream(databaseCopyUri ?: database.fileUri)
                     },
                     isNewLocation = databaseCopyUri == null,
-                    mainCredential?.toMasterCredential(contentResolver),
-                    challengeResponseRetriever)
+                    masterCredential = mainCredential?.toMasterCredential(contentResolver),
+                    challengeResponseRetriever = challengeResponseRetriever
+                )
             } catch (e: DatabaseException) {
                 setError(e)
             }

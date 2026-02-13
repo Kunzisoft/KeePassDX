@@ -22,7 +22,6 @@ package com.kunzisoft.keepass.database.element.database
 import android.util.Log
 import com.kunzisoft.encrypt.HashManager
 import com.kunzisoft.keepass.database.crypto.EncryptionAlgorithm
-import com.kunzisoft.keepass.database.crypto.VariantDictionary
 import com.kunzisoft.keepass.database.crypto.kdf.AesKdf
 import com.kunzisoft.keepass.database.crypto.kdf.KdfEngine
 import com.kunzisoft.keepass.database.crypto.kdf.KdfFactory
@@ -52,7 +51,7 @@ import com.kunzisoft.keepass.database.exception.DatabaseOutputException
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX.Companion.FILE_VERSION_31
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX.Companion.FILE_VERSION_40
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX.Companion.FILE_VERSION_41
-import com.kunzisoft.keepass.hardware.HardwareKey
+import com.kunzisoft.keepass.hardware.ChallengeRequest
 import com.kunzisoft.keepass.utils.UnsignedInt
 import com.kunzisoft.keepass.utils.longTo8Bytes
 import java.io.IOException
@@ -159,9 +158,11 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
     var lastTopVisibleGroupUUID = UUID_ZERO
     var memoryProtection = MemoryProtectionConfig()
     val deletedObjects = HashSet<DeletedObject>()
-    var publicCustomData = VariantDictionary()
+    var publicCustomData = PublicCustomData()
+    override var fidoCredentialId: ByteArray?
+        get() = publicCustomData.fidoCredentialId
+        set(value) { publicCustomData.fidoCredentialId = value }
     val customData = CustomData()
-
     val tagPool = Tags()
 
     var localizedAppName = "KeePassDX"
@@ -235,7 +236,8 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
 
     fun deriveMasterKey(
         masterCredential: MasterCredential,
-        challengeResponseRetriever: (HardwareKey, ByteArray?) -> ByteArray,
+        saveOperation: Boolean,
+        challengeResponseRetriever: (ChallengeRequest) -> ByteArray,
     ) {
         // Retrieve each plain credential
         val password = masterCredential.password
@@ -250,7 +252,14 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
             true
         ) else null
         val hardwareKeyBytes = if (hardwareKey != null) MasterCredential.retrieveHardwareKey(
-            challengeResponseRetriever.invoke(hardwareKey, transformSeed)
+            challengeResponseRetriever.invoke(
+                ChallengeRequest(
+                    hardwareKey = hardwareKey,
+                    saveOperation = saveOperation,
+                    credentialId = fidoCredentialId,
+                    seed = transformSeed
+                )
+            )
         ) else null
 
         // Save to rebuild master password with new seed later
@@ -269,7 +278,8 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
 
     @Throws(DatabaseOutputException::class)
     fun deriveCompositeKey(
-        challengeResponseRetriever: (HardwareKey, ByteArray?) -> ByteArray,
+        saveOperation: Boolean,
+        challengeResponseRetriever: (ChallengeRequest) -> ByteArray,
     ) {
         val passwordBytes = mCompositeKey.passwordData
         val keyFileBytes = mCompositeKey.keyFileData
@@ -282,7 +292,14 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
             )
         } else {
             val hardwareKeyBytes = MasterCredential.retrieveHardwareKey(
-                challengeResponseRetriever.invoke(hardwareKey, transformSeed)
+                challengeResponseRetriever.invoke(
+                    ChallengeRequest(
+                        hardwareKey = hardwareKey,
+                        saveOperation = saveOperation,
+                        credentialId = fidoCredentialId,
+                        seed = transformSeed
+                    )
+                )
             )
             this.masterKey = composedKeyToMasterKey(
                 passwordBytes,

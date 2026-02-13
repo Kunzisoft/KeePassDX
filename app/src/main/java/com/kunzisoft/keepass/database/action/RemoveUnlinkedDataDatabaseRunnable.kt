@@ -21,13 +21,13 @@ package com.kunzisoft.keepass.database.action
 
 import android.content.Context
 import com.kunzisoft.keepass.database.ContextualDatabase
-import com.kunzisoft.keepass.hardware.HardwareKey
+import com.kunzisoft.keepass.hardware.ChallengeRequest
 
 class RemoveUnlinkedDataDatabaseRunnable (
     context: Context,
     database: ContextualDatabase,
     saveDatabase: Boolean,
-    challengeResponseRetriever: (HardwareKey, ByteArray?) -> ByteArray
+    challengeResponseRetriever: (ChallengeRequest) -> ByteArray
 ) : SaveDatabaseRunnable(
     context,
     database,

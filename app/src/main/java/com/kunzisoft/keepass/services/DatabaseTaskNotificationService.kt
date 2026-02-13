@@ -61,7 +61,7 @@ import com.kunzisoft.keepass.database.element.database.CompressionAlgorithm
 import com.kunzisoft.keepass.database.element.node.Node
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.node.Type
-import com.kunzisoft.keepass.hardware.HardwareKey
+import com.kunzisoft.keepass.hardware.ChallengeRequest
 import com.kunzisoft.keepass.model.CipherEncryptDatabase
 import com.kunzisoft.keepass.model.SnapFileDatabaseInfo
 import com.kunzisoft.keepass.settings.PreferencesUtil
@@ -693,8 +693,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
     }
 
     private fun retrieveResponseFromChallenge(
-        hardwareKey: HardwareKey,
-        seed: ByteArray?,
+        challengeRequest: ChallengeRequest
     ): ByteArray {
         // Request a challenge - response
         var response: ByteArray
@@ -713,8 +712,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
             HardwareKeyActivity
                 .launchHardwareKeyActivity(
                     context = this@DatabaseTaskNotificationService,
-                    hardwareKey = hardwareKey,
-                    seed = seed
+                    challengeRequest = challengeRequest
                 )
             // Wait the response
             mProgressMessage.apply {
@@ -745,14 +743,14 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                 intent.getParcelableExtraCompat(MAIN_CREDENTIAL_KEY) ?: MainCredential()
             if (databaseUri == null) return null
             return CreateDatabaseRunnable(this,
-                database,
-                databaseUri,
-                getString(R.string.database_default_name),
-                getString(R.string.database),
-                getString(R.string.template_group_name),
-                mainCredential
-            ) { hardwareKey, seed ->
-                retrieveResponseFromChallenge(hardwareKey, seed)
+                mDatabase = database,
+                databaseUri = databaseUri,
+                databaseName = getString(R.string.database_default_name),
+                rootName = getString(R.string.database),
+                templateGroupName = getString(R.string.template_group_name),
+                mainCredential = mainCredential
+            ) { challengeRequest ->
+                retrieveResponseFromChallenge(challengeRequest)
             }.apply {
                 afterSaveDatabase = { result ->
                     eraseCredentials(databaseUri)
@@ -812,8 +810,8 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                 mDatabase = database,
                 mDatabaseUri = databaseUri,
                 mMainCredential = mainCredential,
-                mChallengeResponseRetriever = { hardwareKey, seed ->
-                    retrieveResponseFromChallenge(hardwareKey, seed)
+                mChallengeResponseRetriever = { challengeRequest ->
+                    retrieveResponseFromChallenge(challengeRequest)
                 },
                 mReadonly = readOnly,
                 mAllowUserVerification = allowUserVerification,
@@ -872,18 +870,18 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         }
         val saveDatabase = intent.getBooleanExtra(SAVE_DATABASE_KEY, false)
         return MergeDatabaseRunnable(
-            this,
-            databaseToMergeUri,
-            databaseToMergeMainCredential,
-            { hardwareKey, seed ->
-                retrieveResponseFromChallenge(hardwareKey, seed)
+            context = this,
+            mDatabaseToMergeUri = databaseToMergeUri,
+            mDatabaseToMergeMainCredential = databaseToMergeMainCredential,
+            mDatabaseToMergeChallengeResponseRetriever = { challengeRequest ->
+                retrieveResponseFromChallenge(challengeRequest)
             },
-            database,
-            !database.isReadOnly && saveDatabase,
-            { hardwareKey, seed ->
-                retrieveResponseFromChallenge(hardwareKey, seed)
+            database = database,
+            saveDatabase = !database.isReadOnly && saveDatabase,
+            challengeResponseRetriever = { challengeRequest ->
+                retrieveResponseFromChallenge(challengeRequest)
             },
-            this
+            progressTaskUpdater = this
         ).apply {
             afterSaveDatabase = { result ->
                 if (result.isSuccess) {
@@ -899,9 +897,9 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         database: ContextualDatabase
     ): ActionRunnable {
         return ReloadDatabaseRunnable(
-            this,
-            database,
-            this
+            context = this,
+            database = database,
+            progressTaskUpdater = this
         ).apply {
             afterReloadDatabase = { result ->
                 if (result.isSuccess) {
@@ -922,14 +920,14 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         ) {
             val databaseUri: Uri = intent.getParcelableExtraCompat(DATABASE_URI_KEY) ?: return null
             SaveDatabaseRunnable(
-                this,
-                database,
+                context = this,
+                database = database,
                 saveDatabase = true,
-                intent.getParcelableExtraCompat(MAIN_CREDENTIAL_KEY) ?: MainCredential(),
-                { hardwareKey, seed ->
-                    retrieveResponseFromChallenge(hardwareKey, seed)
+                mainCredential = intent.getParcelableExtraCompat(MAIN_CREDENTIAL_KEY) ?: MainCredential(),
+                challengeResponseRetriever = { challengeRequest ->
+                    retrieveResponseFromChallenge(challengeRequest)
                 },
-                null
+                databaseCopyUri = null
             ).apply {
                 afterSaveDatabase = {
                     eraseCredentials(databaseUri)
@@ -975,13 +973,13 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
             val saveDatabase = intent.getBooleanExtra(SAVE_DATABASE_KEY, false)
             database.getGroupById(parentId)?.let { parent ->
                 AddGroupRunnable(this,
-                    database,
-                    newGroup,
-                    parent,
-                    !database.isReadOnly && saveDatabase,
-                    AfterActionNodesRunnable()
-                ) { hardwareKey, seed ->
-                    retrieveResponseFromChallenge(hardwareKey, seed)
+                    database = database,
+                    mNewGroup = newGroup,
+                    mParent = parent,
+                    save = !database.isReadOnly && saveDatabase,
+                    afterActionNodesFinish = AfterActionNodesRunnable()
+                ) { challengeRequest ->
+                    retrieveResponseFromChallenge(challengeRequest)
                 }
             }
         } else {
@@ -1003,13 +1001,13 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
             val saveDatabase = intent.getBooleanExtra(SAVE_DATABASE_KEY, false)
             database.getGroupById(groupId)?.let { oldGroup ->
                 UpdateGroupRunnable(this,
-                    database,
-                    oldGroup,
-                    newGroup,
-                    !database.isReadOnly && saveDatabase,
-                    AfterActionNodesRunnable()
-                ) { hardwareKey, seed ->
-                    retrieveResponseFromChallenge(hardwareKey, seed)
+                    database = database,
+                    mOldGroup = oldGroup,
+                    mNewGroup = newGroup,
+                    save = !database.isReadOnly && saveDatabase,
+                    afterActionNodesFinish = AfterActionNodesRunnable()
+                ) { challengeRequest ->
+                    retrieveResponseFromChallenge(challengeRequest)
                 }
             }
         } else {
@@ -1031,13 +1029,13 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
             val saveDatabase = intent.getBooleanExtra(SAVE_DATABASE_KEY, false)
             database.getGroupById(parentId)?.let { parent ->
                 AddEntryRunnable(this,
-                    database,
-                    newEntry,
-                    parent,
-                    !database.isReadOnly && saveDatabase,
-                    AfterActionNodesRunnable()
-                ) { hardwareKey, seed ->
-                    retrieveResponseFromChallenge(hardwareKey, seed)
+                    database = database,
+                    mNewEntry = newEntry,
+                    mParent = parent,
+                    save = !database.isReadOnly && saveDatabase,
+                    afterActionNodesFinish = AfterActionNodesRunnable()
+                ) { challengeRequest ->
+                    retrieveResponseFromChallenge(challengeRequest)
                 }
             }
         } else {
@@ -1059,13 +1057,13 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
             val saveDatabase = intent.getBooleanExtra(SAVE_DATABASE_KEY, false)
             database.getEntryById(entryId)?.let { oldEntry ->
                 UpdateEntryRunnable(this,
-                    database,
-                    oldEntry,
-                    newEntry,
-                    !database.isReadOnly && saveDatabase,
-                    AfterActionNodesRunnable()
-                ) { hardwareKey, seed ->
-                    retrieveResponseFromChallenge(hardwareKey, seed)
+                    database = database,
+                    mOldEntry = oldEntry,
+                    mNewEntry = newEntry,
+                    save = !database.isReadOnly && saveDatabase,
+                    afterActionNodesFinish = AfterActionNodesRunnable()
+                ) { challengeRequest ->
+                    retrieveResponseFromChallenge(challengeRequest)
                 }
             }
         } else {
@@ -1086,13 +1084,13 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
             val saveDatabase = intent.getBooleanExtra(SAVE_DATABASE_KEY, false)
             database.getGroupById(parentId)?.let { newParent ->
                 CopyNodesRunnable(this,
-                    database,
-                    getListNodesFromBundle(database, intent.extras!!),
-                    newParent,
-                    !database.isReadOnly && saveDatabase,
-                    AfterActionNodesRunnable()
-                ) { hardwareKey, seed ->
-                    retrieveResponseFromChallenge(hardwareKey, seed)
+                    database = database,
+                    mNodesToCopy = getListNodesFromBundle(database, intent.extras!!),
+                    mNewParent = newParent,
+                    save = !database.isReadOnly && saveDatabase,
+                    afterActionNodesFinish = AfterActionNodesRunnable()
+                ) { challengeRequest ->
+                    retrieveResponseFromChallenge(challengeRequest)
                 }
             }
         } else {
@@ -1113,13 +1111,13 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
             val saveDatabase = intent.getBooleanExtra(SAVE_DATABASE_KEY, false)
             database.getGroupById(parentId)?.let { newParent ->
                 MoveNodesRunnable(this,
-                    database,
-                    getListNodesFromBundle(database, intent.extras!!),
-                    newParent,
-                    !database.isReadOnly && saveDatabase,
-                    AfterActionNodesRunnable()
-                ) { hardwareKey, seed ->
-                    retrieveResponseFromChallenge(hardwareKey, seed)
+                    database = database,
+                    mNodesToMove = getListNodesFromBundle(database, intent.extras!!),
+                    mNewParent = newParent,
+                    save = !database.isReadOnly && saveDatabase,
+                    afterActionNodesFinish = AfterActionNodesRunnable()
+                ) { challengeRequest ->
+                    retrieveResponseFromChallenge(challengeRequest)
                 }
             }
         } else {
@@ -1137,13 +1135,13 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         ) {
             val saveDatabase = intent.getBooleanExtra(SAVE_DATABASE_KEY, false)
             DeleteNodesRunnable(this,
-                database,
-                getListNodesFromBundle(database, intent.extras!!),
-                resources.getString(R.string.recycle_bin),
-                !database.isReadOnly && saveDatabase,
-                AfterActionNodesRunnable()
-            ) { hardwareKey, seed ->
-                retrieveResponseFromChallenge(hardwareKey, seed)
+                database = database,
+                mNodesToDelete = getListNodesFromBundle(database, intent.extras!!),
+                recyclerBinTitle = resources.getString(R.string.recycle_bin),
+                save = !database.isReadOnly && saveDatabase,
+                afterActionNodesFinish = AfterActionNodesRunnable()
+            ) { challengeRequest ->
+                retrieveResponseFromChallenge(challengeRequest)
             }
         } else {
             null
@@ -1162,12 +1160,12 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
             val saveDatabase = intent.getBooleanExtra(SAVE_DATABASE_KEY, false)
             database.getEntryById(entryId)?.let { mainEntry ->
                 RestoreEntryHistoryDatabaseRunnable(this,
-                    database,
-                    mainEntry,
-                    intent.getIntExtra(ENTRY_HISTORY_POSITION_KEY, -1),
-                    !database.isReadOnly && saveDatabase
-                ) { hardwareKey, seed ->
-                    retrieveResponseFromChallenge(hardwareKey, seed)
+                    database = database,
+                    mainEntry = mainEntry,
+                    entryHistoryPosition = intent.getIntExtra(ENTRY_HISTORY_POSITION_KEY, -1),
+                    saveDatabase = !database.isReadOnly && saveDatabase
+                ) { challengeRequest ->
+                    retrieveResponseFromChallenge(challengeRequest)
                 }
             }
         } else {
@@ -1187,12 +1185,12 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
             val saveDatabase = intent.getBooleanExtra(SAVE_DATABASE_KEY, false)
             database.getEntryById(entryId)?.let { mainEntry ->
                 DeleteEntryHistoryDatabaseRunnable(this,
-                    database,
-                    mainEntry,
-                    intent.getIntExtra(ENTRY_HISTORY_POSITION_KEY, -1),
-                    !database.isReadOnly && saveDatabase
-                ) { hardwareKey, seed ->
-                    retrieveResponseFromChallenge(hardwareKey, seed)
+                    database = database,
+                    mainEntry = mainEntry,
+                    entryHistoryPosition = intent.getIntExtra(ENTRY_HISTORY_POSITION_KEY, -1),
+                    saveDatabase = !database.isReadOnly && saveDatabase
+                ) { challengeRequest ->
+                    retrieveResponseFromChallenge(challengeRequest)
                 }
             }
         } else {
@@ -1213,12 +1211,12 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
             if (oldElement == null || newElement == null) return null
             val saveDatabase = intent.getBooleanExtra(SAVE_DATABASE_KEY, false)
             return UpdateCompressionBinariesDatabaseRunnable(this,
-                database,
-                oldElement,
-                newElement,
-                !database.isReadOnly && saveDatabase
-            ) { hardwareKey, seed ->
-                retrieveResponseFromChallenge(hardwareKey, seed)
+                database = database,
+                oldCompressionAlgorithm = oldElement,
+                newCompressionAlgorithm = newElement,
+                saveDatabase = !database.isReadOnly && saveDatabase
+            ) { challengeRequest ->
+                retrieveResponseFromChallenge(challengeRequest)
             }.apply {
                 afterSaveDatabase = { result ->
                     result.data = intent.extras
@@ -1236,10 +1234,10 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         return if (intent.hasExtra(SAVE_DATABASE_KEY)) {
             val saveDatabase = intent.getBooleanExtra(SAVE_DATABASE_KEY, false)
             return RemoveUnlinkedDataDatabaseRunnable(this,
-                database,
-                !database.isReadOnly && saveDatabase
-            ) { hardwareKey, seed ->
-                retrieveResponseFromChallenge(hardwareKey, seed)
+                database = database,
+                saveDatabase = !database.isReadOnly && saveDatabase
+            ) { challengeRequest ->
+                retrieveResponseFromChallenge(challengeRequest)
             }.apply {
                 afterSaveDatabase = { result ->
                     result.data = intent.extras
@@ -1257,11 +1255,11 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         return if (intent.hasExtra(SAVE_DATABASE_KEY)) {
             val saveDatabase = intent.getBooleanExtra(SAVE_DATABASE_KEY, false)
             return SaveDatabaseRunnable(this,
-                database,
-                !database.isReadOnly && saveDatabase,
-                null,
-                { hardwareKey, seed ->
-                    retrieveResponseFromChallenge(hardwareKey, seed)
+                database = database,
+                saveDatabase = !database.isReadOnly && saveDatabase,
+                mainCredential = null,
+                challengeResponseRetriever = { challengeRequest ->
+                    retrieveResponseFromChallenge(challengeRequest)
                 }
             ).apply {
                 afterSaveDatabase = { result ->
@@ -1287,11 +1285,11 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                 databaseCopyUri = intent.getParcelableExtraCompat(DATABASE_URI_KEY)
             }
             SaveDatabaseRunnable(this,
-                database,
-                !database.isReadOnly && saveDatabase,
-                null,
-                { hardwareKey, seed ->
-                    retrieveResponseFromChallenge(hardwareKey, seed)
+                database = database,
+                saveDatabase = !database.isReadOnly && saveDatabase,
+                mainCredential = null,
+                challengeResponseRetriever = { challengeRequest ->
+                    retrieveResponseFromChallenge(challengeRequest)
                 },
                 databaseCopyUri)
         } else {

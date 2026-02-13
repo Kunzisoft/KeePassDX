@@ -21,15 +21,20 @@ package com.kunzisoft.keepass.database.file
 
 import com.kunzisoft.encrypt.HashManager
 import com.kunzisoft.keepass.database.crypto.CrsAlgorithm
-import com.kunzisoft.keepass.database.crypto.VariantDictionary
 import com.kunzisoft.keepass.database.crypto.kdf.AesKdf
 import com.kunzisoft.keepass.database.crypto.kdf.KdfFactory
 import com.kunzisoft.keepass.database.crypto.kdf.KdfParameters
 import com.kunzisoft.keepass.database.element.database.CompressionAlgorithm
 import com.kunzisoft.keepass.database.element.database.DatabaseKDBX
+import com.kunzisoft.keepass.database.element.database.PublicCustomData
 import com.kunzisoft.keepass.database.exception.VersionDatabaseException
 import com.kunzisoft.keepass.stream.CopyInputStream
-import com.kunzisoft.keepass.utils.*
+import com.kunzisoft.keepass.utils.UnsignedInt
+import com.kunzisoft.keepass.utils.bytes16ToUuid
+import com.kunzisoft.keepass.utils.bytes4ToUInt
+import com.kunzisoft.keepass.utils.bytes64ToULong
+import com.kunzisoft.keepass.utils.readBytes2ToUShort
+import com.kunzisoft.keepass.utils.readBytes4ToUInt
 import java.io.ByteArrayOutputStream
 import java.io.IOException
 import java.io.InputStream
@@ -170,7 +175,7 @@ class DatabaseHeaderKDBX(private val databaseV4: DatabaseKDBX) : DatabaseHeader(
 
                 PwDbHeaderV4Fields.KdfParameters -> databaseV4.kdfParameters = KdfParameters.deserialize(fieldData)
 
-                PwDbHeaderV4Fields.PublicCustomData -> databaseV4.publicCustomData = VariantDictionary.deserialize(fieldData)
+                PwDbHeaderV4Fields.PublicCustomData -> databaseV4.publicCustomData = PublicCustomData.deserialize(fieldData)
 
                 else -> throw IOException("Invalid header type: $fieldID")
             }

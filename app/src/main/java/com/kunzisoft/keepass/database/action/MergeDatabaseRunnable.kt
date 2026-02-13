@@ -26,7 +26,7 @@ import com.kunzisoft.keepass.database.MainCredential
 import com.kunzisoft.keepass.database.element.binary.BinaryData
 import com.kunzisoft.keepass.database.exception.DatabaseException
 import com.kunzisoft.keepass.database.exception.UnknownDatabaseLocationException
-import com.kunzisoft.keepass.hardware.HardwareKey
+import com.kunzisoft.keepass.hardware.ChallengeRequest
 import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
 import com.kunzisoft.keepass.utils.getUriInputStream
 
@@ -34,10 +34,10 @@ class MergeDatabaseRunnable(
     context: Context,
     private val mDatabaseToMergeUri: Uri?,
     private val mDatabaseToMergeMainCredential: MainCredential?,
-    private val mDatabaseToMergeChallengeResponseRetriever: (HardwareKey, ByteArray?) -> ByteArray,
+    private val mDatabaseToMergeChallengeResponseRetriever: (ChallengeRequest) -> ByteArray,
     database: ContextualDatabase,
     saveDatabase: Boolean,
-    challengeResponseRetriever: (HardwareKey, ByteArray?) -> ByteArray,
+    challengeResponseRetriever: (ChallengeRequest) -> ByteArray,
     private val progressTaskUpdater: ProgressTaskUpdater?,
 ) : SaveDatabaseRunnable(
     context,
