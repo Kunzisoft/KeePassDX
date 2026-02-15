@@ -759,4 +759,10 @@
     <string name="error_password_result">Não foi possível retornar a senha</string>
     <string name="content_description_user_verification_information">Informação de verificação de usuário</string>
     <string name="user_verification_required_title">Verificação de Usuário</string>
+    <string name="education_user_verification_summary">Alterar o modo de verificação do usuário para a sessão.\n\n\"Verificação do Usuário Ativada\" verifica ações em campos protegidos e nas configurações do banco de dados.\n\"Verificação do Usuário Desativada\" permite alterar qualquer dado no seu banco de dados sem verificação.</string>
+    <string name="user_verification_required_description">O acesso a esses dados requer a verificação de que é realmente você.</string>
+    <string name="user_verification_required_description_precise">%1$s requer verificação de que é realmente você.</string>
+    <string name="user_verification_database_credential">Digite os quatro primeiros caracteres da senha do seu banco de dados</string>
+    <string name="first_chars">Primeiros caracteres</string>
+    <string name="check">Verificar</string>
 </resources>
