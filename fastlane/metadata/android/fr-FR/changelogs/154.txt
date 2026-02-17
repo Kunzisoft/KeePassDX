@@ -1,1 +1,2 @@
  * Correction de l'alignement ELF 16 KB #2074
+ * Correction de la barre de visualisation d'image #2431
