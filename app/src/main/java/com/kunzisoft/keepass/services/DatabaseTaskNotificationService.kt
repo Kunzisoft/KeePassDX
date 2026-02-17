@@ -898,7 +898,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
     ): ActionRunnable {
         return ReloadDatabaseRunnable(
             context = this,
-            database = database,
+            mDatabase = database,
             progressTaskUpdater = this
         ).apply {
             afterReloadDatabase = { result ->
