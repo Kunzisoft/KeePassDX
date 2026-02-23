@@ -25,6 +25,7 @@ import com.kunzisoft.keepass.database.element.database.DatabaseVersioned
 import com.kunzisoft.keepass.database.element.group.GroupKDB
 import com.kunzisoft.keepass.database.element.group.GroupKDBX
 import com.kunzisoft.keepass.database.element.group.GroupVersionedInterface
+import com.kunzisoft.keepass.database.keeshare.KeeShareReference
 import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.database.element.node.Node
 import com.kunzisoft.keepass.database.element.node.NodeId
@@ -499,5 +500,10 @@ class Group : Node, GroupVersionedInterface<Group, Entry> {
         return groupKDB?.toString() ?: groupKDBX?.toString() ?: "Undefined"
     }
 
-
+    /**
+     * Check if this group has KeeShare per-device sync configuration.
+     */
+    fun hasKeeShareConfig(): Boolean {
+        return groupKDBX?.customData?.get(KeeShareReference.PER_DEVICE_KEY) != null
+    }
 }

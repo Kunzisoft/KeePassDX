@@ -75,6 +75,10 @@ open class Database {
     private var mDatabaseKDB: DatabaseKDB? = null
     private var mDatabaseKDBX: DatabaseKDBX? = null
 
+    /** Public read-only access to the KDBX database, or null if this is a KDB database */
+    val databaseKDBX: DatabaseKDBX?
+        get() = mDatabaseKDBX
+
     private var mSearchHelper: SearchHelper = SearchHelper()
 
     var isReadOnly = false
