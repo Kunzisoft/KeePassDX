@@ -840,6 +840,37 @@ object PreferencesUtil {
         }.apply()
     }
 
+    // KeeShare preferences
+
+    fun getKeeShareDeviceId(context: Context): String? {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        return prefs.getString(context.getString(R.string.keeshare_device_id_key), null)
+    }
+
+    fun setKeeShareDeviceId(context: Context, deviceId: String) {
+        PreferenceManager.getDefaultSharedPreferences(context).edit().apply {
+            putString(context.getString(R.string.keeshare_device_id_key), deviceId)
+            apply()
+        }
+    }
+
+    fun getKeeShareLastSyncTime(context: Context): Long {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        return prefs.getLong(context.getString(R.string.keeshare_last_sync_time_key), 0L)
+    }
+
+    fun setKeeShareLastSyncTime(context: Context, timestamp: Long) {
+        PreferenceManager.getDefaultSharedPreferences(context).edit().apply {
+            putLong(context.getString(R.string.keeshare_last_sync_time_key), timestamp)
+            apply()
+        }
+    }
+
+    fun getKeeShareStaleDays(context: Context): Int {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        return prefs.getInt(context.getString(R.string.keeshare_stale_days_key), 90)
+    }
+
     fun setAppProperties(context: Context, properties: Properties) {
         putPropertiesInPreferences(properties,
             PreferenceManager.getDefaultSharedPreferences(context)) { editor, name, value ->

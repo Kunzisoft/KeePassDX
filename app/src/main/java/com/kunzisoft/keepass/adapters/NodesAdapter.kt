@@ -496,6 +496,11 @@ class NodesAdapter (
             } else {
                 holder.numberChildren?.visibility = View.GONE
             }
+
+            // KeeShare indicator
+            holder.keeshareIcon?.visibility =
+                if ((subNode as Group).hasKeeShareConfig()) View.VISIBLE else View.GONE
+            holder.keeshareIcon?.setColorFilter(iconColor)
         }
 
         // Assign image
@@ -619,6 +624,7 @@ class NodesAdapter (
         var numberChildren: TextView? = itemView.findViewById(R.id.node_child_numbers)
         var attachmentIcon: ImageView? = itemView.findViewById(R.id.node_attachment_icon)
         var passkeyIcon: ImageView? = itemView.findViewById(R.id.node_passkey_icon)
+        var keeshareIcon: ImageView? = itemView.findViewById(R.id.node_keeshare_icon)
     }
 
     companion object {

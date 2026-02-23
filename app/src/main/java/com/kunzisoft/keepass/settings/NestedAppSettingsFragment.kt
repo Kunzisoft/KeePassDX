@@ -69,6 +69,9 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
             Screen.APPEARANCE -> {
                 onCreateAppearancePreferences(rootKey)
             }
+            Screen.KEESHARE -> {
+                onCreateKeeSharePreferences(rootKey)
+            }
             else -> {}
         }
     }
@@ -362,6 +365,10 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
             ) { _, _ ->}
             .create()
         warningAlertDialog?.show()
+    }
+
+    private fun onCreateKeeSharePreferences(rootKey: String?) {
+        setPreferencesFromResource(R.xml.preferences_keeshare, rootKey)
     }
 
     private fun onCreateAppearancePreferences(rootKey: String?) {

@@ -798,4 +798,18 @@
     <string name="user_verification_database_credential">Enter the first four characters of your database password</string>
     <string name="first_chars">First chars</string>
     <string name="check">Check</string>
+
+    <!-- KeeShare -->
+    <string name="menu_keeshare_sync">Sync KeeShare</string>
+    <string name="keeshare_syncing">Syncing KeeShare…</string>
+    <string name="keeshare_sync_result">KeeShare: imported %1$d entries from %2$d devices, exported %3$d entries</string>
+    <string name="keeshare_sync_error">KeeShare sync failed: %1$s</string>
+    <string name="keeshare_settings_title">KeeShare</string>
+    <string name="settings_keeshare_key" translatable="false">settings_keeshare_key</string>
+    <string name="keeshare_settings_summary">Device ID and sync settings</string>
+    <string name="keeshare_device_id_key" translatable="false">keeshare_device_id</string>
+    <string name="keeshare_device_id_title">Device ID</string>
+    <string name="keeshare_device_id_summary">Short identifier for this device (auto-generated, or set manually)</string>
+    <string name="keeshare_last_sync_time_key" translatable="false">keeshare_last_sync_time</string>
+    <string name="keeshare_stale_days_key" translatable="false">keeshare_stale_days</string>
 </resources>

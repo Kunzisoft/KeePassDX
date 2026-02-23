@@ -1302,7 +1302,13 @@ class GroupActivity : DatabaseLockActivity(),
         if (mSpecialMode != SpecialMode.DEFAULT) {
             menu.findItem(R.id.menu_merge_database)?.isVisible = false
             menu.findItem(R.id.menu_reload_database)?.isVisible = false
+            menu.findItem(R.id.menu_keeshare_sync)?.isVisible = false
         }
+        // Hide KeeShare sync for read-only, non-KDBX, or non-default mode
+        menu.findItem(R.id.menu_keeshare_sync)?.isVisible =
+            !mDatabaseReadOnly
+            && mSpecialMode == SpecialMode.DEFAULT
+            && mDatabase?.databaseKDBX != null
         // Menu for recycle bin
         if (mRecyclingBinEnabled && mRecyclingBinIsCurrentGroup) {
             inflater.inflate(R.menu.recycle_bin, menu)
@@ -1427,6 +1433,10 @@ class GroupActivity : DatabaseLockActivity(),
             }
             R.id.menu_save_database -> {
                 saveDatabase()
+                return true
+            }
+            R.id.menu_keeshare_sync -> {
+                syncKeeShare()
                 return true
             }
             R.id.menu_merge_database -> {

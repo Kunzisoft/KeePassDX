@@ -159,6 +159,31 @@ abstract class DatabaseLockActivity : DatabaseModeActivity(),
                     finish()
                 }
             }
+            DatabaseTaskNotificationService.ACTION_DATABASE_KEESHARE_SYNC_TASK -> {
+                if (result.isSuccess) {
+                    val data = result.data
+                    if (data != null) {
+                        val imported = data.getInt(
+                            com.kunzisoft.keepass.database.action.KeeShareSyncRunnable.RESULT_IMPORTED_ENTRIES, 0)
+                        val devices = data.getInt(
+                            com.kunzisoft.keepass.database.action.KeeShareSyncRunnable.RESULT_IMPORTED_DEVICES, 0)
+                        val exported = data.getInt(
+                            com.kunzisoft.keepass.database.action.KeeShareSyncRunnable.RESULT_EXPORTED_ENTRIES, 0)
+                        Toast.makeText(
+                            this,
+                            getString(R.string.keeshare_sync_result, imported, devices, exported),
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
+                    reloadActivity()
+                } else {
+                    Toast.makeText(
+                        this,
+                        getString(R.string.keeshare_sync_error, result.message ?: "Unknown error"),
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+            }
         }
     }
 
@@ -197,6 +222,10 @@ abstract class DatabaseLockActivity : DatabaseModeActivity(),
 
     fun mergeDatabaseFrom(uri: Uri, mainCredential: MainCredential) {
         mDatabaseViewModel.mergeDatabase(mAutoSaveEnable, uri, mainCredential)
+    }
+
+    fun syncKeeShare() {
+        mDatabaseViewModel.syncKeeShare(save = mAutoSaveEnable)
     }
 
     fun reloadDatabase() {

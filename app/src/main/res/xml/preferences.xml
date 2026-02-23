@@ -45,6 +45,12 @@
 			android:icon="@drawable/prefs_color_lens_24dp"
 			android:summary="@string/menu_appearance_settings_summary"
 			android:persistent="false" />
+		<Preference
+			android:key="@string/settings_keeshare_key"
+			android:title="@string/keeshare_settings_title"
+			android:icon="@drawable/ic_keeshare_sync_white_24dp"
+			android:summary="@string/keeshare_settings_summary"
+			android:persistent="false" />
 	</PreferenceCategory>
 
 	<PreferenceCategory
