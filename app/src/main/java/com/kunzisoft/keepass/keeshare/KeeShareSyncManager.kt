@@ -21,7 +21,10 @@ package com.kunzisoft.keepass.keeshare
 
 import android.content.Context
 import android.content.Intent
+import android.database.ContentObserver
 import android.net.Uri
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import androidx.documentfile.provider.DocumentFile
 import com.kunzisoft.keepass.database.ContextualDatabase
@@ -55,6 +58,8 @@ class KeeShareSyncManager(
 ) {
 
     private var periodicJob: Job? = null
+    private var contentObservers: List<ContentObserver> = emptyList()
+    private var debounceJob: Job? = null
 
     fun startAutoSync(database: ContextualDatabase) {
         stopAutoSync()
@@ -79,15 +84,54 @@ class KeeShareSyncManager(
         kdbx.rootGroup?.doForEachChild(null, groupHandler)
         kdbx.rootGroup?.let { groupHandler.operate(it) }
 
+        // Also check preferences sync folder (may not yet be provisioned into groups)
+        val prefSyncFolder = PreferencesUtil.getKeeShareSyncFolderUri(context)
+        if (!prefSyncFolder.isNullOrEmpty()) {
+            syncDirUris.add(prefSyncFolder)
+        }
+
         if (syncDirUris.isEmpty()) return
 
-        // Start periodic sync timer
+        // Register ContentObservers on SAF tree URIs for near-real-time detection
+        val observers = mutableListOf<ContentObserver>()
+        val handler = Handler(Looper.getMainLooper())
+        for (syncDirUri in syncDirUris) {
+            val treeUri = try {
+                Uri.parse(syncDirUri)
+            } catch (e: Exception) {
+                continue
+            }
+            val observer = object : ContentObserver(handler) {
+                override fun onChange(selfChange: Boolean) {
+                    onChange(selfChange, null)
+                }
+                override fun onChange(selfChange: Boolean, uri: Uri?) {
+                    if (selfChange) return // Ignore self-triggered changes
+                    Log.d(TAG, "ContentObserver: change detected in $syncDirUri (uri=$uri)")
+                    onSyncDirChanged(syncDirUris)
+                }
+            }
+            try {
+                context.contentResolver.registerContentObserver(treeUri, true, observer)
+                observers.add(observer)
+                Log.d(TAG, "Registered ContentObserver on: $syncDirUri")
+            } catch (e: Exception) {
+                Log.w(TAG, "Failed to register ContentObserver on $syncDirUri", e)
+            }
+        }
+        contentObservers = observers
+
+        // Start periodic sync timer as fallback (ContentObserver may not catch
+        // all changes, e.g. files synced by external tools writing to filesystem)
         periodicJob = CoroutineScope(Dispatchers.IO).launch {
             while (isActive) {
                 delay(PERIODIC_SYNC_INTERVAL_MS)
                 if (!isActive) break
                 val lastSyncTime = PreferencesUtil.getKeeShareLastSyncTime(context)
-                if (hasNewerContainerFiles(context, syncDirUris, lastSyncTime)) {
+                val elapsed = System.currentTimeMillis() - lastSyncTime
+                if (elapsed >= MIN_SYNC_INTERVAL_MS
+                    && hasNewerContainerFiles(context, syncDirUris, lastSyncTime)) {
+                    Log.d(TAG, "Periodic poll: newer container files detected")
                     withContext(Dispatchers.Main) {
                         if (!isActionRunning()) {
                             startSyncService()
@@ -106,12 +150,47 @@ class KeeShareSyncManager(
             }
         }
 
-        Log.i(TAG, "KeeShare auto-sync started for ${syncDirUris.size} directories")
+        Log.i(TAG, "KeeShare auto-sync started: ${syncDirUris.size} directories, ${observers.size} observers, polling every ${PERIODIC_SYNC_INTERVAL_MS / 1000}s")
+    }
+
+    /**
+     * Called by ContentObserver when a change is detected in a sync directory.
+     * Debounces rapid changes (e.g. Syncthing writing in chunks) with a 2-second delay.
+     */
+    private fun onSyncDirChanged(syncDirUris: Set<String>) {
+        debounceJob?.cancel()
+        debounceJob = mainScope.launch {
+            delay(DEBOUNCE_MS)
+            val lastSyncTime = PreferencesUtil.getKeeShareLastSyncTime(context)
+            // Prevent rapid-fire re-triggers (e.g. our own export writing back)
+            val elapsed = System.currentTimeMillis() - lastSyncTime
+            if (elapsed < MIN_SYNC_INTERVAL_MS) {
+                Log.d(TAG, "ContentObserver: skipping sync, only ${elapsed}ms since last sync")
+                return@launch
+            }
+            val hasNewer = withContext(Dispatchers.IO) {
+                hasNewerContainerFiles(context, syncDirUris, lastSyncTime)
+            }
+            if (hasNewer && !isActionRunning()) {
+                Log.i(TAG, "ContentObserver triggered sync: newer files detected")
+                startSyncService()
+            }
+        }
     }
 
     fun stopAutoSync() {
         periodicJob?.cancel()
         periodicJob = null
+        debounceJob?.cancel()
+        debounceJob = null
+        for (observer in contentObservers) {
+            try {
+                context.contentResolver.unregisterContentObserver(observer)
+            } catch (e: Exception) {
+                Log.w(TAG, "Failed to unregister ContentObserver", e)
+            }
+        }
+        contentObservers = emptyList()
     }
 
     /**
@@ -155,7 +234,9 @@ class KeeShareSyncManager(
     companion object {
         private val TAG = KeeShareSyncManager::class.java.simpleName
 
-        private const val PERIODIC_SYNC_INTERVAL_MS = 15 * 60 * 1000L // 15 minutes
+        private const val PERIODIC_SYNC_INTERVAL_MS = 2 * 60 * 1000L // 2 minutes (fallback)
+        private const val DEBOUNCE_MS = 3000L // 3-second debounce for ContentObserver (Syncthing writes in chunks)
+        private const val MIN_SYNC_INTERVAL_MS = 5000L // minimum 5s between syncs to prevent rapid re-triggers
 
         /**
          * Check if any container files in the sync directories have been

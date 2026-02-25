@@ -525,6 +525,11 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         // Assign elements for updates
         val intentAction = intent?.action
 
+        // Skip notification update for silent background KeeShare syncs
+        val isSilentSync = intentAction == ACTION_DATABASE_KEESHARE_SYNC_TASK
+            && intent?.getBooleanExtra(KEESHARE_SILENT_SYNC_KEY, false) == true
+        if (isSilentSync) return
+
         // Get icon depending action state
         val iconId = if (intentAction == null)
             R.drawable.notification_ic_database_open
@@ -702,6 +707,8 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
             val syncIntent = Intent(applicationContext, DatabaseTaskNotificationService::class.java).apply {
                 action = ACTION_DATABASE_KEESHARE_SYNC_TASK
                 putExtra(SAVE_DATABASE_KEY, true)
+                putExtra(KEESHARE_SILENT_SYNC_KEY, true)
+                putExtra(KEESHARE_IMPORT_ONLY_KEY, true)
             }
             startService(syncIntent)
         } catch (e: Exception) {
@@ -942,6 +949,8 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         database: ContextualDatabase
     ): ActionRunnable {
         val saveDatabase = intent.getBooleanExtra(SAVE_DATABASE_KEY, false)
+        val silentSync = intent.getBooleanExtra(KEESHARE_SILENT_SYNC_KEY, false)
+        val importOnly = intent.getBooleanExtra(KEESHARE_IMPORT_ONLY_KEY, false)
         return KeeShareSyncRunnable(
             this,
             database,
@@ -949,7 +958,9 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
             { hardwareKey, seed ->
                 retrieveResponseFromChallenge(hardwareKey, seed)
             },
-            this
+            this,
+            silentSync,
+            importOnly
         ).apply {
             afterSaveDatabase = { result ->
                 if (result.isSuccess) {
@@ -1439,6 +1450,8 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         const val PARENT_ID_KEY = "PARENT_ID_KEY"
         const val ENTRY_HISTORY_POSITION_KEY = "ENTRY_HISTORY_POSITION_KEY"
         const val SAVE_DATABASE_KEY = "SAVE_DATABASE_KEY"
+        const val KEESHARE_SILENT_SYNC_KEY = "KEESHARE_SILENT_SYNC_KEY"
+        const val KEESHARE_IMPORT_ONLY_KEY = "KEESHARE_IMPORT_ONLY_KEY"
         const val OLD_NODES_KEY = "OLD_NODES_KEY"
         const val NEW_NODES_KEY = "NEW_NODES_KEY"
         const val OLD_ELEMENT_KEY = "OLD_ELEMENT_KEY" // Warning type of this thing change every time
