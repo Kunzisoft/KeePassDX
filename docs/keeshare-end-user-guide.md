@@ -42,17 +42,22 @@ Example: `~/Sync/KeeShare/`
 ### 2. Configure a shared group
 
 1. Open your database in KeePassXC
-2. Right-click a group (or the root group to share everything)
-3. Select **Sharing settings**
-4. Set:
+2. Right-click a group and select **Sharing settings**
+3. Set:
    - **Type**: Synchronize (bidirectional)
    - **Path**: Point to a subfolder inside your sync folder, e.g.
      `~/Sync/KeeShare/Passwords/`
    - **Password**: Strong password for the container (both devices need this)
-5. Click OK, then save the database (Ctrl+S)
+4. Click OK, then save the database (Ctrl+S)
 
 KeePassXC immediately exports the group's entries to a container file in the
 sync folder, named after its device ID (e.g., `LAPTOP7.kdbx`).
+
+> **Root group sharing**: You *can* configure sharing on the root group to sync
+> the entire database, but this is not recommended. Container files include all
+> entries in the shared group and its subgroups — sharing root means every entry
+> goes into the container. For most users, sharing one or two specific groups
+> keeps containers small and gives more control over what syncs where.
 
 ### 3. What KeePassXC does on each save
 
@@ -78,31 +83,62 @@ phone. If using Syncthing, it syncs to a local folder on the device.
 KeePassDX accesses sync folders through Android's Storage Access Framework
 (SAF) using `content://` URIs — it does not use filesystem paths directly.
 
-### 3. Configure device ID (optional)
+### 3. First-time configuration
+
+Before your first sync, you need to tell KeePassDX where the sync folder is
+and (optionally) set a device ID.
 
 1. Open KeePassDX
 2. Go to **Settings > KeeShare**
-3. **Device ID**: Leave blank to auto-generate, or enter a custom short ID
+3. Tap **Sync folder** — a system folder picker appears
+4. Navigate to the folder your sync tool delivers container files to (e.g.
+   the Syncthing folder on your device) and tap **Use this folder**
+5. Android will ask to grant KeePassDX access — tap **Allow**
+6. **Device ID** (optional): Leave blank to auto-generate, or enter a short
+   custom ID like `pixel7` or `tablet`
 
-The auto-generated ID is a random 7-character hex string, persisted in
-preferences.
+The sync folder URI and device ID are saved in preferences and persist across
+app restarts. You only need to do this once.
 
-### 4. Sync
+> **Tip:** If you skip the sync folder setting and jump straight to syncing,
+> KeePassDX will prompt you with the folder picker automatically on your first
+> manual sync.
+
+### 4. First sync (manual)
 
 1. Open your database in KeePassDX
 2. Tap the **overflow menu** (three dots) in any group view
 3. Select **"Sync KeeShare"**
 
-KeePassDX will:
+On the first manual sync, KeePassDX will:
 - Import entries from all other devices' container files in the sync directory
 - Export your entries to your own container file (`{DEVICE_ID}.kdbx`)
 - Save the database
 - Show a toast: *"KeeShare: imported N entries, exported N entries"*
 
-### 5. Auto-sync
+This first manual sync establishes your device's container file in the sync
+folder so other devices can see your entries.
 
-While the database is open, KeePassDX checks for new container files every
-15 minutes and syncs automatically. It also exports after every database save.
+### 5. Auto-sync (ongoing)
+
+Once a manual sync has succeeded, auto-sync takes over. While the database is
+open, KeePassDX monitors the sync folder for changes in two ways:
+
+- **ContentObserver**: Near-real-time detection of new files (fires within
+  seconds of your sync tool writing a new container)
+- **Periodic poll**: Fallback check every 2 minutes in case the
+  ContentObserver misses a change
+
+When a new container file is detected:
+- KeePassDX **imports only** — it does not export during auto-sync
+- This prevents feedback loops between devices
+
+When you save the database (edit an entry, etc.):
+- KeePassDX **exports only** — it writes your container file to the sync
+  folder without importing
+
+This split (import-on-detect, export-on-save) matches KeePassXC's behavior
+and prevents sync storms.
 
 No manual intervention needed for ongoing sync — just keep the database open
 and let the sync tool deliver container files.
@@ -165,10 +201,14 @@ in the group list. This indicates the group participates in sync.
 | Problem | Solution |
 |---------|----------|
 | "Sync KeeShare" menu missing | Database must be KDBX, non-read-only, in group view |
-| Imported 0 entries | Check: container files present in sync folder? Password match? Sync tool finished? |
+| Folder picker never appears | Go to Settings > KeeShare > Sync folder and set it manually |
+| "Sync folder not accessible" error | SAF permission may have been revoked. Go to Settings > KeeShare > Sync folder and re-select it |
+| Imported 0 entries | Check: container files present in sync folder? Password match? Sync tool finished writing? |
+| Exported 0 entries after auto-sync | Normal — auto-sync only imports. Export happens when you save the database |
 | Device ID changed | Set a manual ID in Settings > KeeShare. Old container auto-cleaned after 90 days |
 | Entries not appearing on desktop | Verify sync tool delivered `PHONE01.kdbx` to desktop. Re-save in KeePassXC to trigger import |
 | Entries not appearing on phone | Verify sync tool delivered desktop's container. Use manual "Sync KeeShare" for immediate check |
+| Sync keeps triggering repeatedly | Update to latest build — the sync storm fix separates import and export triggers |
 
 ---
 
