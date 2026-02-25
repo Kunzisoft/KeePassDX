@@ -32,14 +32,32 @@ Key points:
 
 ---
 
-## Setup: KeePassXC (Desktop)
+## Setup Order
 
-### 1. Create a sync folder
+KeeShare configuration is stored inside the database file as CustomData.
+**KeePassXC must be configured first** — it writes the sharing settings into
+the database. You then copy that configured database to your phone and set up
+KeePassDX to use it.
+
+```
+1. KeePassXC: configure shared group(s) + save database
+2. Copy the .kdbx database file to your phone
+3. KeePassDX: open database, configure sync folder, run first sync
+```
+
+Do not try to configure KeePassDX first — without the KeeShare CustomData
+written by KeePassXC, there is nothing to sync.
+
+---
+
+## Step 1: KeePassXC (Desktop)
+
+### Create a sync folder
 
 Pick a folder that your sync tool will keep in sync between devices.
 Example: `~/Sync/KeeShare/`
 
-### 2. Configure a shared group
+### Configure a shared group
 
 1. Open your database in KeePassXC
 2. Right-click a group and select **Sharing settings**
@@ -59,7 +77,7 @@ sync folder, named after its device ID (e.g., `LAPTOP7.kdbx`).
 > goes into the container. For most users, sharing one or two specific groups
 > keeps containers small and gives more control over what syncs where.
 
-### 3. What KeePassXC does on each save
+### What KeePassXC does on each save
 
 - Exports the shared group to `{DEVICE_ID}.kdbx` in the sync folder
 - Imports from all other `.kdbx` files in the sync folder (other devices'
@@ -68,22 +86,28 @@ sync folder, named after its device ID (e.g., `LAPTOP7.kdbx`).
 
 ---
 
-## Setup: KeePassDX (Android)
+## Step 2: Copy the Database to Your Phone
 
-### 1. Get the database onto your phone
+Copy or sync your `.kdbx` database file to your phone. KeePassDX needs to open
+the **same database** that has the KeeShare configuration set up in KeePassXC.
 
-Sync or copy your `.kdbx` database file to your phone. KeePassDX needs to open
-the same database that has the KeeShare configuration set up in KeePassXC.
+You can transfer it via:
+- Your folder-sync tool (Syncthing, Nextcloud, etc.)
+- USB file transfer
+- Cloud storage (Google Drive, Dropbox, etc.)
 
-### 2. Make sure the sync folder is accessible
+Make sure the sync folder (containing the container `.kdbx` files) is also
+accessible on your phone. If using Syncthing, it syncs to a local folder on
+the device automatically.
 
-The sync folder (containing the container files) must be accessible on your
-phone. If using Syncthing, it syncs to a local folder on the device.
+> KeePassDX accesses sync folders through Android's Storage Access Framework
+> (SAF) using `content://` URIs — it does not use filesystem paths directly.
 
-KeePassDX accesses sync folders through Android's Storage Access Framework
-(SAF) using `content://` URIs — it does not use filesystem paths directly.
+---
 
-### 3. First-time configuration
+## Step 3: KeePassDX (Android)
+
+### 1. First-time configuration
 
 Before your first sync, you need to tell KeePassDX where the sync folder is
 and (optionally) set a device ID.
@@ -104,7 +128,7 @@ app restarts. You only need to do this once.
 > KeePassDX will prompt you with the folder picker automatically on your first
 > manual sync.
 
-### 4. First sync (manual)
+### 2. First sync (manual)
 
 1. Open your database in KeePassDX
 2. Tap the **overflow menu** (three dots) in any group view
@@ -119,7 +143,7 @@ On the first manual sync, KeePassDX will:
 This first manual sync establishes your device's container file in the sync
 folder so other devices can see your entries.
 
-### 5. Auto-sync (ongoing)
+### 3. Auto-sync (ongoing)
 
 Once a manual sync has succeeded, auto-sync takes over. While the database is
 open, KeePassDX monitors the sync folder for changes in two ways:
