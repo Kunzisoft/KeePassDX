@@ -151,6 +151,18 @@ class KeeShareSyncManager(
         }
 
         Log.i(TAG, "KeeShare auto-sync started: ${syncDirUris.size} directories, ${observers.size} observers, polling every ${PERIODIC_SYNC_INTERVAL_MS / 1000}s")
+
+        // Immediate catch-up on database open
+        mainScope.launch {
+            val lastSyncTime = PreferencesUtil.getKeeShareLastSyncTime(context)
+            val hasNewer = withContext(Dispatchers.IO) {
+                hasNewerContainerFiles(context, syncDirUris, lastSyncTime)
+            }
+            if (hasNewer && !isActionRunning()) {
+                Log.i(TAG, "Sync-on-open: newer files detected, triggering immediate import")
+                startSyncService()
+            }
+        }
     }
 
     /**
