@@ -46,10 +46,11 @@ data class KeeShareReference(
         SYNCHRONIZE;
 
         companion object {
-            fun fromInt(value: Int): Type = when (value) {
-                1 -> IMPORT
-                2 -> EXPORT
-                3 -> SYNCHRONIZE
+            // Bitmask values matching KeePassXC: ImportFrom=1, ExportTo=2
+            fun fromInt(value: Int): Type = when {
+                value and 1 != 0 && value and 2 != 0 -> SYNCHRONIZE // both flags
+                value and 1 != 0 -> IMPORT
+                value and 2 != 0 -> EXPORT
                 else -> INACTIVE
             }
 
@@ -98,32 +99,77 @@ data class KeeShareReference(
             val parser = factory.newPullParser()
             parser.setInput(StringReader(xml))
 
-            var type = Type.INACTIVE
+            var typeFlags = 0 // bitmask: 1=Import, 2=Export
             var uuid: UUID? = null
             var path = ""
             var password = ""
+            var keepGroups = false
 
+            var insideType = false
             var currentTag = ""
             var eventType = parser.eventType
             while (eventType != XmlPullParser.END_DOCUMENT) {
                 when (eventType) {
-                    XmlPullParser.START_TAG -> currentTag = parser.name
-                    XmlPullParser.TEXT -> {
-                        val text = parser.text?.trim() ?: ""
-                        when (currentTag) {
-                            "Type" -> type = Type.fromInt(text.toIntOrNull() ?: 0)
-                            "Group" -> uuid = parseUuidFromBase64(text)
-                            "Path" -> path = text
-                            "Password" -> password = text
+                    XmlPullParser.START_TAG -> {
+                        val name = parser.name
+                        if (name == "Type") {
+                            insideType = true
+                        } else if (insideType) {
+                            // KeePassXC uses empty elements <Import/> and <Export/> as flags
+                            when (name) {
+                                "Import" -> typeFlags = typeFlags or 1
+                                "Export" -> typeFlags = typeFlags or 2
+                            }
+                        } else {
+                            currentTag = name
                         }
                     }
-                    XmlPullParser.END_TAG -> currentTag = ""
+                    XmlPullParser.TEXT -> {
+                        val text = parser.text?.trim() ?: ""
+                        if (text.isNotEmpty()) {
+                            when (currentTag) {
+                                "Type" -> {
+                                    // Legacy integer format (older KeePassXC versions)
+                                    val intVal = text.toIntOrNull()
+                                    if (intVal != null) typeFlags = intVal
+                                }
+                                "Group" -> uuid = parseUuidFromBase64(text)
+                                "Path" -> path = tryBase64Decode(text)
+                                "Password" -> password = tryBase64Decode(text)
+                                "KeepGroups" -> keepGroups = text.equals("True", ignoreCase = true)
+                            }
+                        }
+                    }
+                    XmlPullParser.END_TAG -> {
+                        if (parser.name == "Type") insideType = false
+                        currentTag = ""
+                    }
                 }
                 eventType = parser.next()
             }
 
+            val type = Type.fromInt(typeFlags)
             if (type == Type.INACTIVE && path.isEmpty()) return null
-            return KeeShareReference(type, uuid, path, password)
+            return KeeShareReference(type, uuid, path, password, keepGroups)
+        }
+
+        /**
+         * Try to base64-decode a string. KeePassXC base64-encodes Path and Password
+         * inside the KeeShare XML. If decoding fails, return the original string.
+         */
+        private fun tryBase64Decode(text: String): String {
+            return try {
+                val decoded = String(Base64.decode(text, Base64.DEFAULT), Charsets.UTF_8)
+                // Sanity check: if the decoded string contains control chars (except newline/tab),
+                // it probably wasn't actually base64-encoded text
+                if (decoded.any { it.code < 0x20 && it != '\n' && it != '\r' && it != '\t' }) {
+                    text
+                } else {
+                    decoded
+                }
+            } catch (e: Exception) {
+                text
+            }
         }
 
         private fun parseUuidFromBase64(base64: String): UUID? {
@@ -157,13 +203,20 @@ data class KeeShareReference(
          */
         fun toClassicCustomData(ref: KeeShareReference): String {
             val writer = StringWriter()
+            writer.write("<?xml version=\"1.0\"?>")
             writer.write("<KeeShare>")
-            writer.write("<Type>${Type.toInt(ref.type)}</Type>")
+            writer.write("<Type>")
+            val flags = Type.toInt(ref.type)
+            if (flags and 1 != 0) writer.write("<Import/>")
+            if (flags and 2 != 0) writer.write("<Export/>")
+            writer.write("</Type>")
             if (ref.uuid != null) {
                 writer.write("<Group>${uuidToBase64(ref.uuid)}</Group>")
             }
-            writer.write("<Path>${escapeXml(ref.path)}</Path>")
-            writer.write("<Password>${escapeXml(ref.password)}</Password>")
+            // Path and Password are base64-encoded inside the XML (matching KeePassXC)
+            writer.write("<Path>${Base64.encodeToString(ref.path.toByteArray(Charsets.UTF_8), Base64.NO_WRAP)}</Path>")
+            writer.write("<Password>${Base64.encodeToString(ref.password.toByteArray(Charsets.UTF_8), Base64.NO_WRAP)}</Password>")
+            writer.write("<KeepGroups>${if (ref.keepGroups) "True" else "False"}</KeepGroups>")
             writer.write("</KeeShare>")
             return Base64.encodeToString(
                 writer.toString().toByteArray(Charsets.UTF_8),
@@ -194,5 +247,15 @@ data class KeeShareReference(
                 .replace("\"", "&quot;")
                 .replace("'", "&apos;")
         }
+    }
+
+    /**
+     * Returns true if this reference uses per-device mode (path is a directory,
+     * not a single container file). Mirrors KeePassXC's Reference::isPerDeviceMode().
+     */
+    fun isPerDeviceMode(): Boolean {
+        return path.isNotEmpty()
+            && !path.endsWith(".kdbx", ignoreCase = true)
+            && !path.endsWith(".kdbx.share", ignoreCase = true)
     }
 }
