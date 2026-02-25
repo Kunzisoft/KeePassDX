@@ -105,12 +105,21 @@ class KeeShareSyncRunnable(
                 ownDeviceId = deviceId,
                 cacheDirectory = cacheDir,
                 fileProvider = { syncDirUri, ownId ->
-                    listOtherDeviceStreams(context, syncDirUri, ownId)
+                    listOtherDeviceStreams(context, syncDirUri, ownId) { fileName ->
+                        PreferencesUtil.getKeeShareFileMtime(context, fileName)
+                    }
                 },
                 isRAMSufficient = { memoryWanted ->
                     BinaryData.canMemoryBeAllocatedInRAM(context, memoryWanted)
                 }
             )
+
+            // Store per-file mtimes for successful imports
+            for (r in importResults) {
+                if (r.success && r.fileMtime > 0) {
+                    PreferencesUtil.setKeeShareFileMtime(context, r.containerName, r.fileMtime)
+                }
+            }
 
             importedEntries = importResults.filter { it.success }.sumOf { it.entriesImported }
             importedDevices = importResults.filter { it.success }
@@ -254,12 +263,14 @@ class KeeShareSyncRunnable(
 
         /**
          * List other devices' container files via SAF and return open InputStreams.
+         * Skips files whose mtime hasn't changed since the last successful import.
          */
         fun listOtherDeviceStreams(
             context: Context,
             syncDirUri: String,
-            ownDeviceId: String
-        ): List<Pair<String, InputStream>> {
+            ownDeviceId: String,
+            fileMtimeProvider: (String) -> Long = { 0L }
+        ): List<Triple<String, InputStream, Long>> {
             Log.d(TAG, "listOtherDeviceStreams: syncDirUri=$syncDirUri, ownDeviceId=$ownDeviceId")
             val treeUri = try {
                 Uri.parse(syncDirUri)
@@ -288,8 +299,15 @@ class KeeShareSyncRunnable(
                 }
                 .sortedBy { it.name }
                 .mapNotNull { doc ->
+                    val name = doc.name ?: "unknown"
+                    val mtime = doc.lastModified()
+                    val storedMtime = fileMtimeProvider(name)
+                    if (mtime > 0 && mtime <= storedMtime) {
+                        Log.i(TAG, "Skipping unchanged file: $name (mtime=$mtime)")
+                        return@mapNotNull null
+                    }
                     val stream = context.contentResolver.openInputStream(doc.uri)
-                    if (stream != null) (doc.name ?: "unknown") to stream else null
+                    if (stream != null) Triple(name, stream, mtime) else null
                 }
         }
 

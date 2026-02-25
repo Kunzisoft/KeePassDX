@@ -883,6 +883,20 @@ object PreferencesUtil {
         return prefs.getInt(context.getString(R.string.keeshare_stale_days_key), 90)
     }
 
+    private const val KEESHARE_FILE_MTIME_PREFIX = "keeshare_file_mtime_"
+
+    fun getKeeShareFileMtime(context: Context, fileName: String): Long {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        return prefs.getLong(KEESHARE_FILE_MTIME_PREFIX + fileName, 0L)
+    }
+
+    fun setKeeShareFileMtime(context: Context, fileName: String, mtime: Long) {
+        PreferenceManager.getDefaultSharedPreferences(context).edit().apply {
+            putLong(KEESHARE_FILE_MTIME_PREFIX + fileName, mtime)
+            apply()
+        }
+    }
+
     fun setAppProperties(context: Context, properties: Properties) {
         putPropertiesInPreferences(properties,
             PreferenceManager.getDefaultSharedPreferences(context)) { editor, name, value ->

@@ -42,7 +42,8 @@ object KeeShareImport {
         val containerName: String,
         val entriesImported: Int,
         val success: Boolean,
-        val errorMessage: String? = null
+        val errorMessage: String? = null,
+        val fileMtime: Long = 0L
     )
 
     /**
@@ -55,7 +56,7 @@ object KeeShareImport {
      * @param database The target database to merge content into
      * @param ownDeviceId This device's short ID (to skip own container file)
      * @param cacheDirectory Directory for temporary binary storage
-     * @param fileProvider Resolves a sync directory path to a list of (filename, InputStream) pairs
+     * @param fileProvider Resolves a sync directory path to a list of (filename, InputStream, mtime) triples
      * @param singleFileProvider Resolves a single file path to an InputStream (for classic KeeShare)
      * @param isRAMSufficient Callback to check RAM availability
      * @return List of import results for each container processed
@@ -64,7 +65,7 @@ object KeeShareImport {
         database: DatabaseKDBX,
         ownDeviceId: String,
         cacheDirectory: File,
-        fileProvider: (syncDir: String, ownDeviceId: String) -> List<Pair<String, InputStream>>,
+        fileProvider: (syncDir: String, ownDeviceId: String) -> List<Triple<String, InputStream, Long>>,
         singleFileProvider: ((path: String) -> InputStream?)? = null,
         isRAMSufficient: (Long) -> Boolean = { true }
     ): List<ImportResult> {
@@ -112,7 +113,7 @@ object KeeShareImport {
         group: GroupKDBX,
         ownDeviceId: String,
         cacheDirectory: File,
-        fileProvider: (syncDir: String, ownDeviceId: String) -> List<Pair<String, InputStream>>,
+        fileProvider: (syncDir: String, ownDeviceId: String) -> List<Triple<String, InputStream, Long>>,
         singleFileProvider: ((path: String) -> InputStream?)?,
         isRAMSufficient: (Long) -> Boolean
     ): List<ImportResult> {
@@ -128,11 +129,10 @@ object KeeShareImport {
             if (config != null) {
                 val containers = fileProvider(config.syncDir, ownDeviceId)
                 Log.d(TAG, "  fileProvider returned ${containers.size} container(s)")
-                for ((fileName, inputStream) in containers) {
-                    results.add(
-                        importContainer(database, group, groupName, fileName,
-                            inputStream, config.password, cacheDirectory, isRAMSufficient)
-                    )
+                for ((fileName, inputStream, mtime) in containers) {
+                    val result = importContainer(database, group, groupName, fileName,
+                        inputStream, config.password, cacheDirectory, isRAMSufficient)
+                    results.add(result.copy(fileMtime = mtime))
                 }
                 return results
             }
