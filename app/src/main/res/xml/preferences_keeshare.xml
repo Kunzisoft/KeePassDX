@@ -23,5 +23,9 @@
             android:key="@string/keeshare_device_id_key"
             android:title="@string/keeshare_device_id_title"
             android:summary="@string/keeshare_device_id_summary" />
+        <Preference
+            android:key="@string/keeshare_sync_folder_key"
+            android:title="@string/keeshare_sync_folder_title"
+            android:summary="@string/keeshare_sync_folder_not_set" />
     </PreferenceCategory>
 </PreferenceScreen>

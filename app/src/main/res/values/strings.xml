@@ -810,6 +810,10 @@
     <string name="keeshare_device_id_key" translatable="false">keeshare_device_id</string>
     <string name="keeshare_device_id_title">Device ID</string>
     <string name="keeshare_device_id_summary">Short identifier for this device (auto-generated, or set manually)</string>
+    <string name="keeshare_sync_folder_key" translatable="false">keeshare_sync_folder</string>
+    <string name="keeshare_sync_folder_title">Sync folder</string>
+    <string name="keeshare_sync_folder_summary">Select the shared folder where KeeShare containers are stored</string>
+    <string name="keeshare_sync_folder_not_set">Not configured</string>
     <string name="keeshare_last_sync_time_key" translatable="false">keeshare_last_sync_time</string>
     <string name="keeshare_stale_days_key" translatable="false">keeshare_stale_days</string>
 </resources>

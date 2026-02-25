@@ -866,6 +866,18 @@ object PreferencesUtil {
         }
     }
 
+    fun getKeeShareSyncFolderUri(context: Context): String? {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        return prefs.getString(context.getString(R.string.keeshare_sync_folder_key), null)
+    }
+
+    fun setKeeShareSyncFolderUri(context: Context, uri: String?) {
+        PreferenceManager.getDefaultSharedPreferences(context).edit().apply {
+            putString(context.getString(R.string.keeshare_sync_folder_key), uri)
+            apply()
+        }
+    }
+
     fun getKeeShareStaleDays(context: Context): Int {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
         return prefs.getInt(context.getString(R.string.keeshare_stale_days_key), 90)
