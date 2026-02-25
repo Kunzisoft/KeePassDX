@@ -72,12 +72,14 @@ object KeeShareImport {
         val groupsToProcess = mutableListOf<GroupKDBX>()
 
         // Collect all groups with KeeShare config
+        Log.d(TAG, "Scanning groups for KeeShare config...")
         database.rootGroup?.doForEachChild(
             null,
             object : NodeHandler<GroupKDBX>() {
                 override fun operate(node: GroupKDBX): Boolean {
                     val hasPerDevice = node.customData.get(KeeShareReference.PER_DEVICE_KEY) != null
                     val hasClassic = node.customData.get(KeeShareReference.CLASSIC_KEY) != null
+                    Log.d(TAG, "  Group '${node.title}': perDevice=$hasPerDevice, classic=$hasClassic")
                     if (hasPerDevice || hasClassic) {
                         groupsToProcess.add(node)
                     }
@@ -90,11 +92,13 @@ object KeeShareImport {
         database.rootGroup?.let { root ->
             val hasPerDevice = root.customData.get(KeeShareReference.PER_DEVICE_KEY) != null
             val hasClassic = root.customData.get(KeeShareReference.CLASSIC_KEY) != null
+            Log.d(TAG, "  Root '${root.title}': perDevice=$hasPerDevice, classic=$hasClassic")
             if (hasPerDevice || hasClassic) {
                 groupsToProcess.add(0, root)
             }
         }
 
+        Log.d(TAG, "Found ${groupsToProcess.size} groups with KeeShare config")
         for (group in groupsToProcess) {
             results.addAll(importGroup(database, group, ownDeviceId, cacheDirectory,
                 fileProvider, singleFileProvider, isRAMSufficient))
@@ -117,10 +121,13 @@ object KeeShareImport {
 
         // Priority 1: Per-device sync config
         val perDeviceData = group.customData.get(KeeShareReference.PER_DEVICE_KEY)
+        Log.d(TAG, "importGroup('$groupName'): perDeviceData=${if (perDeviceData != null) "present (${perDeviceData.value.length} chars)" else "null"}")
         if (perDeviceData != null) {
             val config = PerDeviceSyncConfig.fromCustomData(perDeviceData.value)
+            Log.d(TAG, "  PerDeviceSyncConfig: ${if (config != null) "syncDir=${config.syncDir}, password=${if (config.password.isNotEmpty()) "(set)" else "(empty)"}" else "parse failed"}")
             if (config != null) {
                 val containers = fileProvider(config.syncDir, ownDeviceId)
+                Log.d(TAG, "  fileProvider returned ${containers.size} container(s)")
                 for ((fileName, inputStream) in containers) {
                     results.add(
                         importContainer(database, group, groupName, fileName,
@@ -133,8 +140,10 @@ object KeeShareImport {
 
         // Priority 2: Classic KeeShare/Reference (fallback for KeePassXC-created databases)
         val classicData = group.customData.get(KeeShareReference.CLASSIC_KEY)
+        Log.d(TAG, "importGroup('$groupName'): classicData=${if (classicData != null) "present (${classicData.value.length} chars)" else "null"}, singleFileProvider=${singleFileProvider != null}")
         if (classicData != null && singleFileProvider != null) {
             val ref = KeeShareReference.fromClassicCustomData(classicData.value)
+            Log.d(TAG, "  Classic ref: ${if (ref != null) "type=${ref.type}, path='${ref.path}', perDevice=${ref.isPerDeviceMode()}" else "parse failed"}")
             if (ref != null && ref.path.isNotEmpty()
                 && (ref.type == KeeShareReference.Type.IMPORT
                     || ref.type == KeeShareReference.Type.SYNCHRONIZE)
@@ -168,15 +177,18 @@ object KeeShareImport {
                     stream, password, cacheDirectory, isRAMSufficient
                 )
 
-                val entryCount = countEntries(containerDb)
+                val containerEntryCount = countEntries(containerDb)
+                val beforeCount = countEntriesInDb(database)
 
                 val merger = DatabaseKDBXMerger(database).apply {
                     this.isRAMSufficient = isRAMSufficient
                 }
                 merger.mergeIntoGroup(containerDb, targetGroup)
 
-                Log.i(TAG, "Imported $entryCount entries from $containerName into $groupName")
-                ImportResult(groupName, containerName, entryCount, success = true)
+                val afterCount = countEntriesInDb(database)
+                val newEntries = afterCount - beforeCount
+                Log.i(TAG, "Merged $containerName into $groupName: $containerEntryCount in container, $newEntries new entries added (total $beforeCount -> $afterCount)")
+                ImportResult(groupName, containerName, containerEntryCount, success = true)
             }
         } catch (e: Exception) {
             Log.e(TAG, "Failed to import $containerName into $groupName", e)
@@ -197,5 +209,9 @@ object KeeShareImport {
             null
         )
         return count
+    }
+
+    private fun countEntriesInDb(database: DatabaseKDBX): Int {
+        return countEntries(database)
     }
 }
