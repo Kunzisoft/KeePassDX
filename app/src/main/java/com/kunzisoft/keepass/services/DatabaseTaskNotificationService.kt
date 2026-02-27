@@ -1294,7 +1294,8 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                 challengeResponseRetriever = { challengeRequest ->
                     retrieveResponseFromChallenge(challengeRequest)
                 },
-                databaseCopyUri)
+                databaseCopyUri
+            )
         } else {
             null
         }

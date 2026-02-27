@@ -68,7 +68,7 @@ class HardwareKeyLauncherViewModel(application: Application): CredentialLauncher
                                 val attestation = data.getByteArrayExtra(RESPONSE_ATTESTATION_KEY)
                                 val clientData = data.getByteArrayExtra(RESPONSE_CLIENT_DATA_KEY)
                                 data.getByteArrayExtra(RESPONSE_CREDENTIAL_ID_KEY)?.let { credentialId ->
-                                    // TODO Save credentialId to database
+                                    database.addFidoCredentials(fidoCredentials = listOf(credentialId))
                                     val nextRequest = challengeRequest.copy(
                                         operation = ChallengeRequest.ChallengeOperation.GET,
                                         credentials = listOf(credentialId)
@@ -83,7 +83,6 @@ class HardwareKeyLauncherViewModel(application: Application): CredentialLauncher
                                 val usedClientData = data.getByteArrayExtra(RESPONSE_CLIENT_DATA_KEY)
                                 // TODO Add clientData to verify signature
                                 if (verifySignature(usedClientData, usedClientData, signature)) {
-                                    // To get data from "response_x"
                                     val challengeResponseList = mutableListOf<ByteArray>()
                                     data.getByteArrayExtra(RESPONSE_RESULT_KEY)?.let {
                                         challengeResponseList.add(it)

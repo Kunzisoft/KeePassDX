@@ -30,9 +30,10 @@ class PublicCustomData: VariantDictionary {
     var fidoCredentials: List<ByteArray>
         get() {
             val value = ArrayList<ByteArray>()
-            (0..10)
+            value.addAll((0..10)
                 .mapNotNull { i -> getByteArray(FIDO_CREDENTIAL_X_KEY + i)
-            }
+                }
+            )
             getByteArray(FIDO_CREDENTIAL_KEY)?.let {
                 value.add(it)
             }
@@ -44,7 +45,6 @@ class PublicCustomData: VariantDictionary {
             }
         }
 
-    // TODO manage one credential
     var fidoCredentialId: ByteArray?
         get() = getByteArray(FIDO_CREDENTIAL_KEY)
             ?: getByteArray(FIDO_CREDENTIAL_X_KEY + 0)

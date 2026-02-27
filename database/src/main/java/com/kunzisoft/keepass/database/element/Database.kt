@@ -156,6 +156,14 @@ open class Database {
         iconsManager.getIcon(customIcon.uuid)?.updateWith(customIcon)
     }
 
+    fun getFidoCredentials(): List<ByteArray> {
+        return mDatabaseKDBX?.fidoCredentials ?: ArrayList()
+    }
+
+    fun addFidoCredentials(fidoCredentials: List<ByteArray>) {
+        mDatabaseKDBX?.fidoCredentials = fidoCredentials
+    }
+
     fun getTemplates(templateCreation: Boolean): List<Template> {
         return mDatabaseKDBX?.getTemplates(templateCreation) ?: listOf()
     }
