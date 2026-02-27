@@ -607,7 +607,7 @@ open class Database {
                                 progressTaskUpdater) {
                                 databaseKDBX.deriveMasterKey(
                                     masterCredential = masterCredential,
-                                    saveOperation = false,
+                                    challengeOperation = ChallengeRequest.ChallengeOperation.GET,
                                     challengeResponseRetriever = challengeResponseRetriever
                                 )
                             }
@@ -678,7 +678,7 @@ open class Database {
                             if (databaseToMergeMasterCredential != null) {
                                 databaseToMergeKDBX.deriveMasterKey(
                                     masterCredential = databaseToMergeMasterCredential,
-                                    saveOperation = false,
+                                    challengeOperation = ChallengeRequest.ChallengeOperation.UPDATE,
                                     challengeResponseRetriever = databaseToMergeChallengeResponseRetriever
                                 )
                             } else {
@@ -809,6 +809,7 @@ open class Database {
         databaseOutputStream: () -> OutputStream?,
         isNewLocation: Boolean,
         masterCredential: MasterCredential?,
+        challengeOperation: ChallengeRequest.ChallengeOperation,
         challengeResponseRetriever: (ChallengeRequest) -> ByteArray
     ) {
         try {
@@ -834,13 +835,13 @@ open class Database {
                                 // Build new master key from MainCredential
                                 databaseKDBX.deriveMasterKey(
                                     masterCredential = masterCredential,
-                                    saveOperation = true,
+                                    challengeOperation = challengeOperation,
                                     challengeResponseRetriever = challengeResponseRetriever
                                 )
                             } else {
                                 // Reuse composite key parts
                                 databaseKDBX.deriveCompositeKey(
-                                    saveOperation = true,
+                                    challengeOperation = challengeOperation,
                                     challengeResponseRetriever = challengeResponseRetriever
                                 )
                             }

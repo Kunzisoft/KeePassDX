@@ -27,11 +27,30 @@ import java.io.IOException
  */
 class PublicCustomData: VariantDictionary {
 
+    var fidoCredentials: List<ByteArray>
+        get() {
+            val value = ArrayList<ByteArray>()
+            (0..10)
+                .mapNotNull { i -> getByteArray(FIDO_CREDENTIAL_X_KEY + i)
+            }
+            getByteArray(FIDO_CREDENTIAL_KEY)?.let {
+                value.add(it)
+            }
+            return value
+        }
+        set(value) {
+            value.forEachIndexed { i, bytes ->
+                setByteArray(FIDO_CREDENTIAL_X_KEY + (i), bytes)
+            }
+        }
+
+    // TODO manage one credential
     var fidoCredentialId: ByteArray?
-        get() = getByteArray(FIDO_CREDENTIAL_ID_KEY)
+        get() = getByteArray(FIDO_CREDENTIAL_KEY)
+            ?: getByteArray(FIDO_CREDENTIAL_X_KEY + 0)
         set(value) {
             value?.let {
-                setByteArray(FIDO_CREDENTIAL_ID_KEY, value)
+                setByteArray(FIDO_CREDENTIAL_X_KEY + 0, value)
             }
         }
 
@@ -40,7 +59,8 @@ class PublicCustomData: VariantDictionary {
     private constructor(d: VariantDictionary): super(d)
 
     companion object {
-        private const val FIDO_CREDENTIAL_ID_KEY = "fidoCredentialId"
+        private const val FIDO_CREDENTIAL_KEY = "fido_credential"
+        private const val FIDO_CREDENTIAL_X_KEY = FIDO_CREDENTIAL_KEY + "_"
 
         @Throws(IOException::class)
         fun deserialize(data: ByteArray): PublicCustomData {

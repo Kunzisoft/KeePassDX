@@ -6,13 +6,18 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class ChallengeRequest(
     val hardwareKey: HardwareKey,
-    val saveOperation: Boolean = false,
-    // TODO Dynamic RP based on package name
-    val relyingPartyId: String = "com.kunzisoft.keepass",
-    // TODO multiple credentials
-    val credentialId: ByteArray?,
-    val seed: ByteArray?
-): Parcelable{
+    val operation: ChallengeOperation = ChallengeOperation.GET,
+    val relyingPartyId: String,
+    val credentials: List<ByteArray>,
+    val seed: ByteArray?,
+    val seedOptional: ByteArray? = null,
+    val clientData: ByteArray? = null
+): Parcelable {
+
+    enum class ChallengeOperation {
+        CREATE, UPDATE, GET
+    }
+
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
@@ -20,16 +25,24 @@ data class ChallengeRequest(
         other as ChallengeRequest
 
         if (hardwareKey != other.hardwareKey) return false
-        if (!credentialId.contentEquals(other.credentialId)) return false
+        if (operation != other.operation) return false
+        if (relyingPartyId != other.relyingPartyId) return false
+        if (credentials != other.credentials) return false
         if (!seed.contentEquals(other.seed)) return false
+        if (!seedOptional.contentEquals(other.seedOptional)) return false
+        if (!clientData.contentEquals(other.clientData)) return false
 
         return true
     }
 
     override fun hashCode(): Int {
         var result = hardwareKey.hashCode()
-        result = 31 * result + (credentialId?.contentHashCode() ?: 0)
+        result = 31 * result + operation.hashCode()
+        result = 31 * result + relyingPartyId.hashCode()
+        result = 31 * result + credentials.hashCode()
         result = 31 * result + (seed?.contentHashCode() ?: 0)
+        result = 31 * result + (seedOptional?.contentHashCode() ?: 0)
+        result = 31 * result + (clientData?.contentHashCode() ?: 0)
         return result
     }
 }

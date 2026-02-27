@@ -32,11 +32,12 @@ class UpdateCompressionBinariesDatabaseRunnable (
     saveDatabase: Boolean,
     challengeResponseRetriever: (ChallengeRequest) -> ByteArray
 ) : SaveDatabaseRunnable(
-    context,
-    database,
-    saveDatabase,
-    null,
-    challengeResponseRetriever
+    context = context,
+    database = database,
+    saveDatabase = saveDatabase,
+    mainCredential = null,
+    challengeOperation = ChallengeRequest.ChallengeOperation.UPDATE,
+    challengeResponseRetriever = challengeResponseRetriever
 ) {
 
     override fun onStartRun() {

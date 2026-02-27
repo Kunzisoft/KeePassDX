@@ -30,7 +30,14 @@ abstract class ActionNodeDatabaseRunnable(
     private val afterActionNodesFinish: AfterActionNodesFinish?,
     save: Boolean,
     challengeResponseRetriever: (ChallengeRequest) -> ByteArray
-) : SaveDatabaseRunnable(context, database, save, null, challengeResponseRetriever) {
+) : SaveDatabaseRunnable(
+    context = context,
+    database = database,
+    saveDatabase = save,
+    mainCredential = null,
+    challengeOperation = ChallengeRequest.ChallengeOperation.UPDATE,
+    challengeResponseRetriever = challengeResponseRetriever
+) {
 
     /**
      * Function do to a node action

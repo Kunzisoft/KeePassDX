@@ -924,6 +924,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                 database = database,
                 saveDatabase = true,
                 mainCredential = intent.getParcelableExtraCompat(MAIN_CREDENTIAL_KEY) ?: MainCredential(),
+                challengeOperation = ChallengeRequest.ChallengeOperation.CREATE,
                 challengeResponseRetriever = { challengeRequest ->
                     retrieveResponseFromChallenge(challengeRequest)
                 },
@@ -1258,6 +1259,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                 database = database,
                 saveDatabase = !database.isReadOnly && saveDatabase,
                 mainCredential = null,
+                challengeOperation = ChallengeRequest.ChallengeOperation.UPDATE,
                 challengeResponseRetriever = { challengeRequest ->
                     retrieveResponseFromChallenge(challengeRequest)
                 }
@@ -1288,6 +1290,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                 database = database,
                 saveDatabase = !database.isReadOnly && saveDatabase,
                 mainCredential = null,
+                challengeOperation = ChallengeRequest.ChallengeOperation.UPDATE,
                 challengeResponseRetriever = { challengeRequest ->
                     retrieveResponseFromChallenge(challengeRequest)
                 },

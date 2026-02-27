@@ -159,13 +159,14 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
     var memoryProtection = MemoryProtectionConfig()
     val deletedObjects = HashSet<DeletedObject>()
     var publicCustomData = PublicCustomData()
-    override var fidoCredentialId: ByteArray?
-        get() = publicCustomData.fidoCredentialId
-        set(value) { publicCustomData.fidoCredentialId = value }
+    override var fidoCredentials: List<ByteArray>
+        get() = publicCustomData.fidoCredentials
+        set(value) { publicCustomData.fidoCredentials = value }
     val customData = CustomData()
     val tagPool = Tags()
 
     var localizedAppName = "KeePassDX"
+    var relyingPartyId = "com.kunzisoft.keepass"
 
     constructor()
 
@@ -236,7 +237,7 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
 
     fun deriveMasterKey(
         masterCredential: MasterCredential,
-        saveOperation: Boolean,
+        challengeOperation: ChallengeRequest.ChallengeOperation,
         challengeResponseRetriever: (ChallengeRequest) -> ByteArray,
     ) {
         // Retrieve each plain credential
@@ -255,8 +256,9 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
             challengeResponseRetriever.invoke(
                 ChallengeRequest(
                     hardwareKey = hardwareKey,
-                    saveOperation = saveOperation,
-                    credentialId = fidoCredentialId,
+                    operation = challengeOperation,
+                    relyingPartyId = relyingPartyId,
+                    credentials = fidoCredentials,
                     seed = transformSeed
                 )
             )
@@ -278,7 +280,7 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
 
     @Throws(DatabaseOutputException::class)
     fun deriveCompositeKey(
-        saveOperation: Boolean,
+        challengeOperation: ChallengeRequest.ChallengeOperation,
         challengeResponseRetriever: (ChallengeRequest) -> ByteArray,
     ) {
         val passwordBytes = mCompositeKey.passwordData
@@ -295,8 +297,9 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
                 challengeResponseRetriever.invoke(
                     ChallengeRequest(
                         hardwareKey = hardwareKey,
-                        saveOperation = saveOperation,
-                        credentialId = fidoCredentialId,
+                        operation = challengeOperation,
+                        relyingPartyId = relyingPartyId,
+                        credentials = fidoCredentials,
                         seed = transformSeed
                     )
                 )

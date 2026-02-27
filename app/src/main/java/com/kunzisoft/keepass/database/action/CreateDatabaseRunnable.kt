@@ -36,11 +36,12 @@ class CreateDatabaseRunnable(
     val mainCredential: MainCredential,
     challengeResponseRetriever: (ChallengeRequest) -> ByteArray
 ) : SaveDatabaseRunnable(
-    context,
-    mDatabase,
-    true,
-    mainCredential,
-    challengeResponseRetriever
+    context = context,
+    database = mDatabase,
+    saveDatabase = true,
+    mainCredential = mainCredential,
+    challengeOperation = ChallengeRequest.ChallengeOperation.CREATE,
+    challengeResponseRetriever = challengeResponseRetriever
 ) {
     override fun onStartRun() {
         try {

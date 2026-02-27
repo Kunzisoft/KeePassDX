@@ -56,7 +56,7 @@ abstract class DatabaseVersioned<
     var finalKey: ByteArray? = null
         protected set
     var transformSeed: ByteArray? = null
-    open var fidoCredentialId: ByteArray? = null
+    open var fidoCredentials: List<ByteArray> = listOf()
 
     var checkKey = ByteArray(32)
 
@@ -119,7 +119,7 @@ abstract class DatabaseVersioned<
     fun copyMasterKeyFrom(databaseVersioned: DatabaseVersioned<GroupId, EntryId, Group, Entry>) {
         this.masterKey = databaseVersioned.masterKey
         this.transformSeed = databaseVersioned.transformSeed
-        this.fidoCredentialId = databaseVersioned.fidoCredentialId
+        this.fidoCredentials = databaseVersioned.fidoCredentials
         this.checkKey = databaseVersioned.checkKey
     }
 

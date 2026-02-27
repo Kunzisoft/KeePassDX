@@ -34,6 +34,7 @@ open class SaveDatabaseRunnable(
     protected var database: ContextualDatabase,
     private var saveDatabase: Boolean,
     private var mainCredential: MainCredential?, // If null, uses composite Key
+    private var challengeOperation: ChallengeRequest.ChallengeOperation,
     private var challengeResponseRetriever: (ChallengeRequest) -> ByteArray,
     private var databaseCopyUri: Uri? = null
 ) : ActionRunnable() {
@@ -57,6 +58,7 @@ open class SaveDatabaseRunnable(
                     },
                     isNewLocation = databaseCopyUri == null,
                     masterCredential = mainCredential?.toMasterCredential(contentResolver),
+                    challengeOperation = challengeOperation,
                     challengeResponseRetriever = challengeResponseRetriever
                 )
             } catch (e: DatabaseException) {

@@ -60,33 +60,59 @@ class HardwareKeyLauncherViewModel(application: Application): CredentialLauncher
                 return
             } else {
                 Log.d(TAG, "Response form challenge")
-                activityResult.data?.getByteArrayExtra(RESPONSE_KEY)?.let { challengeResponse ->
-                    val challengeResponseList = mutableListOf(challengeResponse)
-                    when (challengeRequest.hardwareKey) {
-                        HardwareKey.FIDO2_HMAC_SECRET -> {
-                            val usedClientData = data.getByteArrayExtra(RESPONSE_CLIENT_DATA_KEY)
-                            val signature = data.getByteArrayExtra(RESPONSE_SIGNATURE_KEY)
-                            val credentialId = data.getByteArrayExtra(RESPONSE_CREDENTIAL_ID_KEY)
-                            // TODO Add clientData to verify signature
-                            if (verifySignature(usedClientData, usedClientData, signature)) {
-                                // To get data from "response_x"
-                                (2..4)
-                                    .mapNotNull { i -> data.getByteArrayExtra(RESPONSE_X_KEY + i)
-                                    }.let { challengeResponseList.addAll(it) }
-                                mUiState.value = UIState.OnChallengeResponded(challengeResponseList)
-                            } else {
-                                // Response didn't correspond to the request
-                                Log.e(TAG, "Response from challenge is not correctly signed")
-                                mUiState.value = UIState.OnChallengeResponded(null)
+                when (challengeRequest.hardwareKey) {
+                    HardwareKey.FIDO2_HMAC_SECRET -> {
+                        when (challengeRequest.operation) {
+                            ChallengeRequest.ChallengeOperation.CREATE -> {
+                                // TODO Attestation
+                                val attestation = data.getByteArrayExtra(RESPONSE_ATTESTATION_KEY)
+                                val clientData = data.getByteArrayExtra(RESPONSE_CLIENT_DATA_KEY)
+                                data.getByteArrayExtra(RESPONSE_CREDENTIAL_ID_KEY)?.let { credentialId ->
+                                    // TODO Save credentialId to database
+                                    val nextRequest = challengeRequest.copy(
+                                        operation = ChallengeRequest.ChallengeOperation.GET,
+                                        credentials = listOf(credentialId)
+                                    )
+                                    launchChallengeForResponse(nextRequest)
+                                }
+                            }
+                            ChallengeRequest.ChallengeOperation.UPDATE,
+                            ChallengeRequest.ChallengeOperation.GET -> {
+                                val credentialId = data.getByteArrayExtra(RESPONSE_CREDENTIAL_ID_KEY)
+                                val signature = data.getByteArrayExtra(RESPONSE_SIGNATURE_KEY)
+                                val usedClientData = data.getByteArrayExtra(RESPONSE_CLIENT_DATA_KEY)
+                                // TODO Add clientData to verify signature
+                                if (verifySignature(usedClientData, usedClientData, signature)) {
+                                    // To get data from "response_x"
+                                    val challengeResponseList = mutableListOf<ByteArray>()
+                                    data.getByteArrayExtra(RESPONSE_RESULT_KEY)?.let {
+                                        challengeResponseList.add(it)
+                                    }
+                                    data.getByteArrayExtra(RESPONSE_RESULT_OPTIONAL_KEY)?.let {
+                                        challengeResponseList.add(it)
+                                    }
+                                    if (challengeResponseList.isNotEmpty())
+                                        mUiState.value = UIState.OnChallengeResponded(challengeResponseList)
+                                    else {
+                                        Log.e(TAG, "Responses from challenge cannot be an empty list")
+                                        mUiState.value = UIState.OnChallengeResponded(null)
+                                    }
+                                } else {
+                                    // Response didn't correspond to the request
+                                    Log.e(TAG, "Response from challenge is not correctly signed")
+                                    mUiState.value = UIState.OnChallengeResponded(null)
+                                }
                             }
                         }
-                        HardwareKey.YUBIKEY_HMAC_SHA1 -> {
-                            mUiState.value = UIState.OnChallengeResponded(challengeResponseList)
+                    }
+                    HardwareKey.YUBIKEY_HMAC_SHA1 -> {
+                        data.getByteArrayExtra(YUBIKEY_RESPONSE_KEY)?.let { response ->
+                            mUiState.value = UIState.OnChallengeResponded(listOf(response))
+                        } ?: run {
+                            Log.e(TAG, "Response from challenge cannot be null")
+                            mUiState.value = UIState.OnChallengeResponded(null)
                         }
                     }
-                } ?: run {
-                    Log.e(TAG, "Response from challenge cannot be null")
-                    mUiState.value = UIState.OnChallengeResponded(null)
                 }
             }
         } else {
@@ -125,21 +151,24 @@ class HardwareKeyLauncherViewModel(application: Application): CredentialLauncher
         // Yubikey Driver call
         private const val YUBIKEY_CHALLENGE_RESPONSE_INTENT = "android.yubikey.intent.action.CHALLENGE_RESPONSE"
         private const val YUBIKEY_CHALLENGE_KEY = "challenge"
+        private const val YUBIKEY_RESPONSE_KEY = "response"
 
         // FIDO2 Hmac-secret driver call
         private const val HMAC_SECRET_CREATE_INTENT = "android.fido.intent.action.HMAC_SECRET_CREATE"
         private const val HMAC_SECRET_CHALLENGE_RESPONSE_INTENT = "android.fido.intent.action.HMAC_SECRET_CHALLENGE_RESPONSE"
         private const val HMAC_SECREY_RELYING_PARTY_ID_KEY = "rpId"
         private const val HMAC_SECREY_NUM_CREDENTIALS_KEY = "numCredentials"
-        private const val HMAC_SECREY_CREDENTIAL_ID_KEY = "credential_0"
+        private const val HMAC_SECREY_CREDENTIAL_X_KEY = "credential_"
         private const val HMAC_SECREY_SALT_KEY = "salt"
+        private const val HMAC_SECREY_SALT_OPT_KEY = "saltOpt"
 
         // Response
-        private const val RESPONSE_CLIENT_DATA_KEY = "clientDataId"
-        private const val RESPONSE_SIGNATURE_KEY = "signature"
         private const val RESPONSE_CREDENTIAL_ID_KEY = "credentialId"
-        private const val RESPONSE_KEY = "response"
-        private const val RESPONSE_X_KEY = "response_"
+        private const val RESPONSE_SIGNATURE_KEY = "signature"
+        private const val RESPONSE_ATTESTATION_KEY = "attestation"
+        private const val RESPONSE_CLIENT_DATA_KEY = "clientData"
+        private const val RESPONSE_RESULT_KEY = "result"
+        private const val RESPONSE_RESULT_OPTIONAL_KEY = "resultOpt"
 
         fun isHardwareDriverAvailable(
             context: Context,
@@ -165,16 +194,23 @@ class HardwareKeyLauncherViewModel(application: Application): CredentialLauncher
         ): Intent {
             return when (challengeRequest.hardwareKey) {
                 HardwareKey.FIDO2_HMAC_SECRET -> {
-                    if (challengeRequest.saveOperation) {
-                        Intent(HMAC_SECRET_CREATE_INTENT).apply {
-                            putExtra(HMAC_SECREY_RELYING_PARTY_ID_KEY, challengeRequest.relyingPartyId)
+                    when (challengeRequest.operation) {
+                        ChallengeRequest.ChallengeOperation.CREATE -> {
+                            Intent(HMAC_SECRET_CREATE_INTENT).apply {
+                                putExtra(HMAC_SECREY_RELYING_PARTY_ID_KEY, challengeRequest.relyingPartyId)
+                            }
                         }
-                    } else {
-                        Intent(HMAC_SECRET_CHALLENGE_RESPONSE_INTENT).apply {
-                            putExtra(HMAC_SECREY_RELYING_PARTY_ID_KEY, challengeRequest.relyingPartyId)
-                            putExtra(HMAC_SECREY_NUM_CREDENTIALS_KEY, 1)
-                            putExtra(HMAC_SECREY_CREDENTIAL_ID_KEY, challengeRequest.credentialId)
-                            putExtra(HMAC_SECREY_SALT_KEY, challengeRequest.seed)
+                        ChallengeRequest.ChallengeOperation.UPDATE,
+                        ChallengeRequest.ChallengeOperation.GET -> {
+                            Intent(HMAC_SECRET_CHALLENGE_RESPONSE_INTENT).apply {
+                                putExtra(HMAC_SECREY_RELYING_PARTY_ID_KEY, challengeRequest.relyingPartyId)
+                                putExtra(HMAC_SECREY_NUM_CREDENTIALS_KEY, challengeRequest.credentials.size)
+                                challengeRequest.credentials.forEachIndexed { i, bytes ->
+                                    putExtra(HMAC_SECREY_CREDENTIAL_X_KEY + i, bytes)
+                                }
+                                putExtra(HMAC_SECREY_SALT_KEY, challengeRequest.seed)
+                                putExtra(HMAC_SECREY_SALT_OPT_KEY, challengeRequest.seedOptional)
+                            }
                         }
                     }
                 }

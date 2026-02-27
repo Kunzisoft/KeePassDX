@@ -32,7 +32,14 @@ class DeleteEntryHistoryDatabaseRunnable (
     private val entryHistoryPosition: Int,
     saveDatabase: Boolean,
     challengeResponseRetriever: (ChallengeRequest) -> ByteArray
-) : SaveDatabaseRunnable(context, database, saveDatabase, null, challengeResponseRetriever) {
+) : SaveDatabaseRunnable(
+    context = context,
+    database = database,
+    saveDatabase = saveDatabase,
+    mainCredential = null,
+    challengeOperation = ChallengeRequest.ChallengeOperation.UPDATE,
+    challengeResponseRetriever = challengeResponseRetriever
+) {
 
     override fun onStartRun() {
         try {
