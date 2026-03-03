@@ -21,13 +21,13 @@ package com.kunzisoft.keepass.database.keeshare
 
 import android.util.Log
 import com.kunzisoft.keepass.database.element.Attachment
+import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.DeletedObject
 import com.kunzisoft.keepass.database.element.database.DatabaseKDBX
 import com.kunzisoft.keepass.database.element.entry.EntryKDBX
 import com.kunzisoft.keepass.database.element.group.GroupKDBX
 import com.kunzisoft.keepass.database.element.node.NodeHandler
 import com.kunzisoft.keepass.utils.readAllBytes
-import java.io.File
 import java.io.OutputStream
 
 /**
@@ -57,15 +57,22 @@ object KeeShareExport {
      *
      * @param database The source database containing shared groups
      * @param deviceId This device's short ID (for naming per-device container files)
-     * @param cacheDirectory Directory for temporary binary storage
      * @param targetStreamProvider Resolves (syncDirUri, deviceId) to an OutputStream
      *        for writing the container. Returns null if the target cannot be opened.
      * @return List of export results for each group processed
      */
     fun exportAll(
+        database: Database,
+        deviceId: String,
+        targetStreamProvider: (syncDirUri: String, deviceId: String) -> OutputStream?
+    ): List<ExportResult> {
+        val kdbx = database.databaseKDBX ?: return emptyList()
+        return exportAllKdbx(kdbx, deviceId, targetStreamProvider)
+    }
+
+    private fun exportAllKdbx(
         database: DatabaseKDBX,
         deviceId: String,
-        cacheDirectory: File,
         targetStreamProvider: (syncDirUri: String, deviceId: String) -> OutputStream?
     ): List<ExportResult> {
         val results = mutableListOf<ExportResult>()
@@ -85,7 +92,7 @@ object KeeShareExport {
         database.rootGroup?.let { groupHandler.operate(it) }
 
         for (group in perDeviceGroups) {
-            results.add(exportPerDeviceGroup(database, group, deviceId, cacheDirectory, targetStreamProvider))
+            results.add(exportPerDeviceGroup(database, group, deviceId, targetStreamProvider))
         }
 
         return results
@@ -95,7 +102,6 @@ object KeeShareExport {
         database: DatabaseKDBX,
         group: GroupKDBX,
         deviceId: String,
-        cacheDirectory: File,
         targetStreamProvider: (syncDirUri: String, deviceId: String) -> OutputStream?
     ): ExportResult {
         val groupName = group.title
@@ -111,7 +117,7 @@ object KeeShareExport {
             val outputStream = targetStreamProvider(config.syncDir, deviceId)
                 ?: return ExportResult(groupName, containerPath, 0, false, "Could not open target stream")
 
-            val containerDb = buildContainerDatabase(database, group, config.password, config.keepGroups, cacheDirectory)
+            val containerDb = buildContainerDatabase(database, group, config.password, config.keepGroups)
             val entryCount = countEntries(containerDb)
 
             outputStream.use { stream ->
@@ -136,14 +142,13 @@ object KeeShareExport {
         sourceDatabase: DatabaseKDBX,
         sourceGroup: GroupKDBX,
         password: String,
-        keepGroups: Boolean,
-        cacheDirectory: File
+        keepGroups: Boolean
     ): DatabaseKDBX {
         val containerDb = DatabaseKDBX(
             databaseName = sourceGroup.title,
             rootName = sourceGroup.title
         ).apply {
-            binaryCache.cacheDirectory = cacheDirectory
+            binaryCache.cacheDirectory = sourceDatabase.binaryCache.cacheDirectory
         }
 
         val containerRoot = containerDb.rootGroup!!

@@ -25,16 +25,21 @@ import android.os.Bundle
 import android.util.Log
 import androidx.documentfile.provider.DocumentFile
 import com.kunzisoft.keepass.database.ContextualDatabase
+import com.kunzisoft.keepass.database.element.CustomDataItem
+import com.kunzisoft.keepass.database.element.Database
+import com.kunzisoft.keepass.database.element.DateInstant
+import com.kunzisoft.keepass.database.element.Group
 import com.kunzisoft.keepass.database.element.binary.BinaryData
 import com.kunzisoft.keepass.database.keeshare.DeviceIdentity
 import com.kunzisoft.keepass.database.keeshare.KeeShareExport
 import com.kunzisoft.keepass.database.keeshare.KeeShareImport
+import com.kunzisoft.keepass.database.keeshare.KeeShareReference
 import com.kunzisoft.keepass.database.keeshare.PerDeviceSyncConfig
 import com.kunzisoft.keepass.hardware.HardwareKey
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
-import java.io.File
 import java.io.InputStream
+import java.io.OutputStream
 
 class KeeShareSyncRunnable(
     context: Context,
@@ -57,7 +62,6 @@ class KeeShareSyncRunnable(
     var exportedEntries: Int = 0
 
     override fun onStartRun() {
-        // For silent background syncs, only reload UI later if entries actually changed
         if (!silentSync) {
             database.wasReloaded = true
         }
@@ -67,43 +71,23 @@ class KeeShareSyncRunnable(
     override fun onActionRun() {
         Log.d(TAG, "=== KeeShare sync onActionRun() START ===")
         try {
-            val kdbx = database.databaseKDBX
-            if (kdbx == null) {
-                Log.e(TAG, "databaseKDBX is null — not a KDBX database")
-                setError("KeeShare sync requires a KDBX database")
-                return
-            }
-            Log.d(TAG, "Database is KDBX, rootGroup=${kdbx.rootGroup?.title}")
-
             val deviceId = resolveDeviceId(context)
             Log.d(TAG, "Device ID: $deviceId")
-            val cacheDir = File(context.cacheDir, "keeshare")
-            cacheDir.mkdirs()
 
             // Auto-provision PerDeviceSync from preferences sync folder + classic reference
             val prefSyncFolder = PreferencesUtil.getKeeShareSyncFolderUri(context)
             Log.d(TAG, "Preferences sync folder URI: ${prefSyncFolder ?: "(not set)"}")
             if (!prefSyncFolder.isNullOrEmpty()) {
-                provisionPerDeviceConfig(kdbx, prefSyncFolder)
+                provisionPerDeviceConfig(database, prefSyncFolder)
             } else {
                 Log.w(TAG, "No sync folder configured in preferences — auto-provisioning skipped")
-            }
-
-            // Log KeeShare config presence per group
-            kdbx.rootGroup?.let { root ->
-                val hasClassic = root.customData.get(com.kunzisoft.keepass.database.keeshare.KeeShareReference.CLASSIC_KEY) != null
-                val hasPerDev = root.customData.get(com.kunzisoft.keepass.database.keeshare.KeeShareReference.PER_DEVICE_KEY) != null
-                if (hasClassic || hasPerDev) {
-                    Log.d(TAG, "Root '${root.title}': classic=$hasClassic, perDevice=$hasPerDev")
-                }
             }
 
             // 1. Import from all other device containers via SAF
             Log.d(TAG, "--- Starting import phase ---")
             val importResults = KeeShareImport.importAll(
-                database = kdbx,
+                database = database,
                 ownDeviceId = deviceId,
-                cacheDirectory = cacheDir,
                 fileProvider = { syncDirUri, ownId ->
                     listOtherDeviceStreams(context, syncDirUri, ownId) { fileName ->
                         PreferencesUtil.getKeeShareFileMtime(context, fileName)
@@ -129,7 +113,6 @@ class KeeShareSyncRunnable(
                 Log.d(TAG, "  Import: group='${r.groupName}' container='${r.containerName}' entries=${r.entriesImported} success=${r.success} error=${r.errorMessage}")
             }
 
-            // For silent syncs, only trigger UI reload if something was actually imported
             if (silentSync && importedEntries > 0) {
                 database.wasReloaded = true
             }
@@ -140,9 +123,8 @@ class KeeShareSyncRunnable(
             if (!importOnly) {
                 Log.d(TAG, "--- Starting export phase ---")
                 val exportResults = KeeShareExport.exportAll(
-                    database = kdbx,
+                    database = database,
                     deviceId = deviceId,
-                    cacheDirectory = cacheDir,
                     targetStreamProvider = { syncDirUri, devId ->
                         openTargetOutputStream(context, syncDirUri, devId)
                     }
@@ -198,22 +180,23 @@ class KeeShareSyncRunnable(
          * the PerDeviceSync config using the sync folder URI from preferences.
          */
         private fun provisionPerDeviceConfig(
-            database: com.kunzisoft.keepass.database.element.database.DatabaseKDBX,
+            database: Database,
             syncFolderUri: String
         ) {
-            fun checkGroup(group: com.kunzisoft.keepass.database.element.group.GroupKDBX) {
+            val allGroups = mutableListOf<Group>()
+            database.rootGroup?.let { allGroups.add(it) }
+            allGroups.addAll(database.getAllGroupsWithoutRoot())
+
+            for (group in allGroups) {
                 // Skip if already has PerDeviceSync
-                if (group.customData.get(com.kunzisoft.keepass.database.keeshare.KeeShareReference.PER_DEVICE_KEY) != null) return
+                if (group.customData.get(KeeShareReference.PER_DEVICE_KEY) != null) continue
 
-                val classicData = group.customData.get(
-                    com.kunzisoft.keepass.database.keeshare.KeeShareReference.CLASSIC_KEY
-                ) ?: return
-                val ref = com.kunzisoft.keepass.database.keeshare.KeeShareReference
-                    .fromClassicCustomData(classicData.value) ?: return
+                val classicData = group.customData.get(KeeShareReference.CLASSIC_KEY) ?: continue
+                val ref = KeeShareReference.fromClassicCustomData(classicData.value) ?: continue
 
-                if (!ref.isPerDeviceMode()) return
-                if (ref.type != com.kunzisoft.keepass.database.keeshare.KeeShareReference.Type.SYNCHRONIZE
-                    && ref.type != com.kunzisoft.keepass.database.keeshare.KeeShareReference.Type.IMPORT) return
+                if (!ref.isPerDeviceMode()) continue
+                if (ref.type != KeeShareReference.Type.SYNCHRONIZE
+                    && ref.type != KeeShareReference.Type.IMPORT) continue
 
                 val config = PerDeviceSyncConfig(
                     syncDir = syncFolderUri,
@@ -222,25 +205,14 @@ class KeeShareSyncRunnable(
                 )
                 val encoded = PerDeviceSyncConfig.toCustomData(config)
                 group.customData.put(
-                    com.kunzisoft.keepass.database.element.CustomDataItem(
-                        com.kunzisoft.keepass.database.keeshare.KeeShareReference.PER_DEVICE_KEY,
+                    CustomDataItem(
+                        KeeShareReference.PER_DEVICE_KEY,
                         encoded,
-                        com.kunzisoft.keepass.database.element.DateInstant()
+                        DateInstant()
                     )
                 )
                 Log.i(TAG, "Auto-provisioned PerDeviceSync for group '${group.title}' with folder: $syncFolderUri")
             }
-
-            database.rootGroup?.let { checkGroup(it) }
-            database.rootGroup?.doForEachChild(
-                null,
-                object : com.kunzisoft.keepass.database.element.node.NodeHandler<com.kunzisoft.keepass.database.element.group.GroupKDBX>() {
-                    override fun operate(node: com.kunzisoft.keepass.database.element.group.GroupKDBX): Boolean {
-                        checkGroup(node)
-                        return true
-                    }
-                }
-            )
         }
 
         /**
@@ -318,7 +290,7 @@ class KeeShareSyncRunnable(
             context: Context,
             syncDirUri: String,
             deviceId: String
-        ): java.io.OutputStream? {
+        ): OutputStream? {
             val treeUri = try {
                 Uri.parse(syncDirUri)
             } catch (e: Exception) {

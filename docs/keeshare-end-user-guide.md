@@ -146,12 +146,9 @@ folder so other devices can see your entries.
 ### 3. Auto-sync (ongoing)
 
 Once a manual sync has succeeded, auto-sync takes over. While the database is
-open, KeePassDX monitors the sync folder for changes in two ways:
-
-- **ContentObserver**: Near-real-time detection of new files (fires within
-  seconds of your sync tool writing a new container)
-- **Periodic poll**: Fallback check every 2 minutes in case the
-  ContentObserver misses a change
+open, KeePassDX monitors the sync folder for changes using Android's
+**ContentObserver**, which fires within seconds of your sync tool writing
+a new container file.
 
 When a new container file is detected:
 - KeePassDX **imports only** — it does not export during auto-sync
@@ -176,7 +173,7 @@ and let the sync tool deliver container files.
 1. Add or edit an entry in a shared group in KeePassXC
 2. Save (Ctrl+S) — KeePassXC exports to its container
 3. Sync tool delivers the container to your phone
-4. KeePassDX picks it up on the next periodic check (or manual sync)
+4. KeePassDX picks it up via ContentObserver (or manual sync)
 5. Entry appears in the same group on your phone
 
 ### Adding a password on phone
@@ -229,7 +226,7 @@ in the group list. This indicates the group participates in sync.
 | "Sync folder not accessible" error | SAF permission may have been revoked. Go to Settings > KeeShare > Sync folder and re-select it |
 | Imported 0 entries | Check: container files present in sync folder? Password match? Sync tool finished writing? |
 | Exported 0 entries after auto-sync | Normal — auto-sync only imports. Export happens when you save the database |
-| Device ID changed | Set a manual ID in Settings > KeeShare. Old container auto-cleaned after 90 days |
+| Device ID changed | Set a manual ID in Settings > KeeShare. Manually delete old container files from sync folder |
 | Entries not appearing on desktop | Verify sync tool delivered `PHONE01.kdbx` to desktop. Re-save in KeePassXC to trigger import |
 | Entries not appearing on phone | Verify sync tool delivered desktop's container. Use manual "Sync KeeShare" for immediate check |
 | Sync keeps triggering repeatedly | Update to latest build — the sync storm fix separates import and export triggers |
@@ -252,7 +249,8 @@ Yes. Configure KeeShare on individual groups in KeePassXC. Only those groups'
 entries are synced.
 
 **What happens to old device containers from retired devices?**
-Automatically deleted after 90 days of no modification. Configurable threshold.
+They remain in the sync folder until manually deleted. You can safely remove
+container files for devices that are no longer syncing.
 
 **Does KeeShare work with KDB databases?**
 No. KDBX v4 required (uses CustomData for configuration).

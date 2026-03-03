@@ -75,8 +75,8 @@ open class Database {
     private var mDatabaseKDB: DatabaseKDB? = null
     private var mDatabaseKDBX: DatabaseKDBX? = null
 
-    /** Public read-only access to the KDBX database, or null if this is a KDB database */
-    val databaseKDBX: DatabaseKDBX?
+    /** Internal access to the KDBX database for use within the database module only */
+    internal val databaseKDBX: DatabaseKDBX?
         get() = mDatabaseKDBX
 
     private var mSearchHelper: SearchHelper = SearchHelper()
@@ -428,6 +428,22 @@ open class Database {
             }
             return true
         }
+
+    /**
+     * Iterate all groups (including root) that have the given custom data key,
+     * invoking [action] with the custom data value string.
+     */
+    fun forEachGroupWithCustomData(key: String, action: (String) -> Unit) {
+        val allGroups = mutableListOf<Group>()
+        rootGroup?.let { allGroups.add(it) }
+        allGroups.addAll(getAllGroupsWithoutRoot())
+        for (group in allGroups) {
+            val item = group.customData.get(key)
+            if (item != null) {
+                action(item.value)
+            }
+        }
+    }
 
     /**
      * Do not modify groups here, used for read only
