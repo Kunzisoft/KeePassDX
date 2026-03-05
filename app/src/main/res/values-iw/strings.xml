@@ -745,4 +745,6 @@
     <string name="menu_user_verification_enabled">אימות משתמש מופעל</string>
     <string name="menu_user_verification_disabled">אימות משתמש מכובה</string>
     <string name="education_user_verification_title">אימות עבור פעולות רגישות</string>
+    <string name="user_verification_mode_summary">הגדרה זו מאפשרת מצב אימות משתמש כברירת מחדל כאשר פותחים מסד נתונים</string>
+    <string name="education_user_verification_summary">שינוי מצב אימות משתמש עבור ההפעלה.\n\n\"אימות משתמש מופעל\" מאמת פעולה על שדות מוגנים והגדרות מסד נתונים.\n\"אימות משתמש מושבת\" מאפשר לך לשנות את כל הנתונים במסד הנתונים שלך ללא אימות.</string>
 </resources>
