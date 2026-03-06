@@ -510,7 +510,7 @@
     <string name="error_remove_file">En feil inntraff under fjerning av fildataen.</string>
     <string name="properties">Egenskaper</string>
     <string name="device_unlock_prompt_extract_credential_title">Enhetsopplåsing</string>
-    <string name="device_unlock_prompt_extract_credential_message">Pakk ut database-identitetsdetalj med enhetens opplåsningsdata</string>
+    <string name="device_unlock_prompt_extract_credential_message">Åpne database med enhetslegitimasjon</string>
     <string name="device_unlock_invalid_key">Kan ikke lese enhetens opplåsningsnøkkel. Slett den og gjenta gjenkjenning av opplåsningsprosedyre.</string>
     <string name="device_unlock_prompt_not_initialized">Kan ikke igangsette forespørsel om opplåsing av enheten.</string>
     <string name="permission">Tilgang</string>
@@ -751,4 +751,5 @@
     <string name="user_verification_database_credential">Skriv inn de første fire tegnene til databasepassordet ditt</string>
     <string name="first_chars">Første tegn</string>
     <string name="check">Sjekk</string>
+    <string name="user_verification_device_credential_summary">Bruk enhetslegitimasjon som brukerverifisering hvis tilgjengelig</string>
 </resources>
