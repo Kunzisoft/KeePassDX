@@ -231,7 +231,7 @@
     <string name="education_donation_title">Participar</string>
     <string name="education_donation_summary">Ayuda a mejorar la estabilidad, la seguridad y a añadir más funciones.</string>
     <string name="html_text_ad_free">A diferencia de muchas aplicaciones de administración de contraseñas, esta es &lt;strong&gt;sin anuncios&lt;/strong&gt;, &lt;strong&gt;software libre de copylefted&lt;/strong&gt; y no recopila datos personales en sus servidores, sin importar la versión que use.</string>
-    <string name="html_text_buy_pro">Al comprar la versión Pro, tendrás acceso a este <strong>estilo visual </strong> y ayudarás especialmente a <strong>la realización de proyectos comunitarios.</strong></string>
+    <string name="html_text_buy_pro">Al comprar la versión Pro, tendrás acceso a este <strong>estilo visual</strong> y, especialmente, ayudarás a <strong>la realización de proyectos comunitarios.</strong></string>
     <string name="html_text_feature_generosity">Este &lt;strong&gt;estilo visual&lt;/strong&gt; está disponible gracias a su generosidad.</string>
     <string name="html_text_donation">Al &lt;strong&gt;colaborar&lt;/strong&gt; en el proyecto &lt;i&gt;(monetariamente, código, traducción)&lt;/i&gt;, ayudará a que siga existiendo y prosperando, y también será la elección para el procedimiento de desbloqueo del &lt;strong&gt;tema&lt;/strong&gt;.</string>
     <string name="html_text_dev_feature">Esta función está &lt;strong&gt;en desarrollo&lt;/strong&gt; y requiere de tu &lt;strong&gt;contribución&lt;/strong&gt; para estar disponible dentro de poco.</string>
@@ -340,7 +340,7 @@
     <string name="error_save_database">No se puede guardar la base de datos.</string>
     <string name="error_string_type">Este texto no coincide con el elemento requerido.</string>
     <string name="error_create_database">No se puede crear el archivo de la base de datos.</string>
-    <string name="html_about_contribution">Con el fin de &lt;strong&gt;mantener nuestra libertad&lt;/strong&gt;, &lt;strong&gt;corregir errores&lt;/strong&gt;, &lt;strong&gt;añadir características&lt;/strong&gt; y &lt;strong&gt; para estar siempre activo&lt;/strong&gt;, contamos con su &lt;strong&gt;contribución&lt;/strong&gt;.</string>
+    <string name="html_about_contribution">Con el fin de <strong>mantener nuestra libertad</strong>, <strong>corregir errores</strong>, <strong>añadir características</strong> y <strong>estar siempre activos</strong>, contamos con su <strong>contribución</strong>.</string>
     <string name="content_description_add_item">Añadir elemento</string>
     <string name="download_complete">¡Completado!</string>
     <string name="download_finalization">Finalizando…</string>
