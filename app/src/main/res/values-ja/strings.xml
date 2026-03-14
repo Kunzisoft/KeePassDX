@@ -74,7 +74,7 @@
     <string name="decrypting_db">データベースの内容を復号しています…</string>
     <string name="default_checkbox">デフォルトのデータベースとして使用</string>
     <string name="digits">数字</string>
-    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft は&lt;strong&gt;オープンソース&lt;/strong&gt;であり、&lt;strong&gt;広告はありません&lt;/strong&gt;。\n本ソフトウェアは&lt;strong&gt;GPLv3&lt;/strong&gt;ライセンスの下で提供されており、いかなる保証もありません。</string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft は<strong>オープンソース</strong>で<strong>広告はありません</strong>。\n本ソフトウェアは<strong>GPLv3</strong>ライセンスの下で提供されており、いかなる保証もありません。</string>
     <string name="html_about_contribution">&lt;strong&gt;自由を維持し&lt;/strong&gt;、&lt;strong&gt;バグを修正し&lt;/strong&gt;、&lt;strong&gt;機能を追加し&lt;/strong&gt;、そして&lt;strong&gt;活発に開発し続ける&lt;/strong&gt;ために、私たちはあなたの&lt;strong&gt;貢献&lt;/strong&gt;に期待しています。</string>
     <string name="entry_accessed">最終アクセス</string>
     <string name="entry_cancel">キャンセル</string>
