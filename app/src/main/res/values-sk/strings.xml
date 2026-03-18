@@ -19,7 +19,7 @@
 --><resources>
     <string name="feedback">Spätná väzba</string>
     <string name="homepage">Domovská stránka</string>
-    <string name="about_description">Správca hesiel KeePass pre Android</string>
+    <string name="about_description">Implementácia aplikácie KeePass pre Android</string>
     <string name="accept">Prijať</string>
     <string name="add_entry">Pridať Záznam</string>
     <string name="add_group">Pridať Skupinu</string>
@@ -687,4 +687,37 @@
     <string name="style_name_sun">Slnko</string>
     <string name="style_name_dark">Tmavý</string>
     <string name="nodes">Uzly</string>
+    <string name="clipboard_otp_notifications_title">Oznámenie OTP</string>
+    <string name="clipboard_otp_notifications_summary">Otvorte oznámenie a skopírujte jednorazový kód (OTP) zo záznamov vyplnených pomocou funkcie automatického vypĺňania alebo funkciou magikeyboard</string>
+    <string name="entry_application_id">Id aplikácie</string>
+    <string name="error_otp_secret_length">Tajný kľúč musí obsahovať aspoň %1$d znakov.</string>
+    <string name="warning_overwrite_data_title">Prepísať existujúce údaje?</string>
+    <string name="warning_overwrite_data_description">Táto akcia nahradí existujúce údaje v zázname; staré údaje si môžete obnoviť, ak je povolená história.</string>
+    <string name="credential_provider">Poskytovateľ poverení</string>
+    <string name="passkeys">Prístupové kľúče</string>
+    <string name="passkeys_explanation_summary">Nastavte si prístupové kľúče pre rýchle a bezpečné prihlásenie bez hesla</string>
+    <string name="passkeys_preference_title">Nastavenia prísupových kľúčov</string>
+    <string name="passkeys_close_database_title">Zatvoriť databázu</string>
+    <string name="passkeys_close_database_summary">Zatvoriť databázu po zvolení prístupového kľúča</string>
+    <string name="passkeys_privileged_apps_title">Privilegované aplikácie</string>
+    <string name="passkeys_privileged_apps_summary">Spravovať prehliadače vo vlastnom zozname privilegovaných aplikácií</string>
+    <string name="passkeys_privileged_apps_explanation">UPOZORNENIE: Privilegovaná aplikácia slúži ako brána na zistenie pôvodu overenia. Overte si jej dôveryhodnosť, aby ste predišli bezpečnostným rizikám.</string>
+    <string name="passkeys_privileged_apps_ask_title">Aplikácia nerozpoznaná</string>
+    <string name="passkeys_privileged_apps_ask_message">%1$s sa pokúša vykonať činosť prísupového kľúča.\n\nChcete ju pridať do zoznamu privilegovaných aplikácií?</string>
+    <string name="passkeys_missing_signature_app_ask_title">Chýbajúci podpis</string>
+    <string name="passkeys_missing_signature_app_ask_explanation">UPOZORNENIE: Prístupový kľúč bol vytvorený z iného klienta alebo bol podpis odstránený. Aby ste predišli bezpečnostným problémom, uistite sa, že aplikácia, ktorú chcete overiť, patrí do tej istej služby a je legitímna.\nAk ide o prehliadač, nepridávajte jeho podpis do záznamu, ale do zoznamu privilegovaných aplikácií v nastaveniach.</string>
+    <string name="passkeys_missing_signature_app_ask_message">%1$s nie je rozpoznaný a pokúša sa o overenie pomocou existujúceho prístupového kľúča.</string>
+    <string name="passkeys_missing_signature_app_ask_question">Pridať podpis aplikácie k záznamu prístupového kľúča?</string>
+    <string name="passkeys_auto_select_title">Automatický výber</string>
+    <string name="passkeys_auto_select_summary">Automaticky vybrať, ak je k dispozícii len jeden záznam a databáza je otvorená, a to len v prípade, že žiadajúca aplikácia je kompatibilná</string>
+    <string name="passkeys_backup_eligibility_title">Oprávnenosť zálohovania</string>
+    <string name="passkeys_backup_eligibility_summary">Pri vytváraní určite, či je povolené zálohovať zdroj poverenia verejného kľúča</string>
+    <string name="passkeys_backup_state_title">Stav zálohy</string>
+    <string name="passkey_update_description">Aktualizovať prístupový kľúč v %1$s</string>
+    <string name="passkey_selection_username">Nenašiel sa žiadny prístupový kľúč</string>
+    <string name="passkey_selection_description">Vyberte existujúci prístupový kľúč</string>
+    <string name="passkey_username">Používateľské meno prístupového kľúča</string>
+    <string name="passkey_private_key">Súkromý kľúč prístupového kľúča</string>
+    <string name="passkey_credential_id">Id prístupového kľúča</string>
+    <string name="passkey_user_handle"></string>
 </resources>
