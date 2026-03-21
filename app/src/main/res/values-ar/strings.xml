@@ -556,7 +556,7 @@
     <string name="content_description_entry_foreground_color">لون مقدمة المدخل</string>
     <string name="keyboard_previous_fill_in_summary">العودة تلقائيًا إلى لوحة المفاتيح السابقة بعد تنفيذ \"إجراء المفتاح التلقائي\"</string>
     <string name="download_attachment">ثبِّت %1$s</string>
-    <string name="html_about_privacy">&lt;strong&gt; لا يتم استرداد أي بيانات مستخدم&lt;/strong&gt;، هذا التطبيق لا يتصل بأي خادم، ويعمل محليًا فقط ويحترم خصوصية المستخدمين تمامًا.</string>
+    <string name="html_about_privacy"><strong>لا يتم استرداد أي بيانات مستخدم</strong>، هذا التطبيق لا يتصل بأي خادم، ويعمل محليًا فقط ويحترم خصوصية المستخدمين تمامًا.</string>
     <string name="error_cancel_by_user">أُلغِيَ بواسطة المستخدم.</string>
     <string name="show_otp_token_title">أظهر رمز OTP</string>
     <string name="show_otp_token_summary">يعرض رموز OTP في قائمة المدخلات</string>
