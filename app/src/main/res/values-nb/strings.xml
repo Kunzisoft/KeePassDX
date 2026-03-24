@@ -751,4 +751,7 @@
     <string name="first_chars">Første tegn</string>
     <string name="check">Sjekk</string>
     <string name="user_verification_device_credential_summary">Bruk enhetslegitimasjon som brukerverifisering hvis tilgjengelig</string>
+    <string name="user_verification_preferred_summary">Utfør en brukerverifisering når tillitsparten forespør «foretrekket»</string>
+    <string name="education_user_verification_summary">Endre brukerverifiseringsmodus for denne sesjonen. \n \n«Brukerverifisering aktivert» verifiserer handling på beskyttede felt og databaseinnstillinger. \n«Brukerverifisering deaktivert» lar deg endre data i databasen din uten verifisering.</string>
+    <string name="error_passkey_credential_id">Ingen passnøkkel funnet med tillitsparten %1$s og påloggingsinformasjon %2$s</string>
 </resources>
