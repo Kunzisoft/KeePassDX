@@ -1,3 +1,4 @@
  * Correction de l'alignement ELF 16 KB #2074
  * Correction de la barre de visualisation d'image #2431
  * Correction de l'affichage OTP dans la notification #2457
+ * Correction des paramètres du temps d'expiration #2427
