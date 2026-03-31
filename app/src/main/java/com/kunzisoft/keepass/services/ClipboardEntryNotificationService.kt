@@ -34,7 +34,7 @@ import com.kunzisoft.keepass.utils.getParcelableExtraCompat
 import com.kunzisoft.keepass.utils.getParcelableList
 import com.kunzisoft.keepass.utils.putParcelableList
 
-class ClipboardEntryNotificationService : LockNotificationService() {
+class ClipboardEntryNotificationService : LockNotificationServiceParam<OtpElement>() {
 
     override val notificationId = 485
     private var clipboardHelper: ClipboardHelper? = null
@@ -64,7 +64,7 @@ class ClipboardEntryNotificationService : LockNotificationService() {
         when (intent?.action) {
             null -> Log.w(TAG, "null intent")
             ACTION_NEW_NOTIFICATION -> {
-                if (otpModels != null && otpModels.isNotEmpty()) {
+                if (!otpModels.isNullOrEmpty()) {
                     newNotification(otpModels)
                 }
             }
@@ -80,6 +80,10 @@ class ClipboardEntryNotificationService : LockNotificationService() {
             else -> {}
         }
         return START_NOT_STICKY
+    }
+
+    override fun timerContentText(data: OtpElement?): String? {
+        return data?.token
     }
 
     private fun newNotification(otpModels: List<OtpModel>) {
@@ -111,7 +115,8 @@ class ClipboardEntryNotificationService : LockNotificationService() {
             defineTimerJob(
                 builder,
                 type = NotificationServiceType.CLIPBOARD,
-                timeoutMilliseconds = otpElement.period * 1000L
+                timeoutMilliseconds = otpElement.period * 1000L,
+                timerData = otpElement
             ) {
                 stopService()
             }
