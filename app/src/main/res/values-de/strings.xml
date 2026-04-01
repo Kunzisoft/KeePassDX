@@ -761,4 +761,6 @@
     <string name="education_user_verification_title">Überprüfung für sensible Aktionen</string>
     <string name="education_user_verification_summary">Den Benutzerüberprüfungsmodus für die Sitzung ändern.\n \n„Benutzerüberprüfung aktiviert“ überprüft Aktionen in geschützten Feldern und Datenbankeinstellungen.\n„Benutzerüberprüfung deaktiviert“ ermöglicht ohne Überprüfung beliebige Datenänderungen in der Datenbank.</string>
     <string name="user_verification_device_credential_title">Benutzerüberprüfungsdaten</string>
+    <string name="content_description_user_verification_information">Benutzer-Verifikationsinfo</string>
+    <string name="error_passkey_credential_id">Kein Passkey für Vertrauensstelle %1$s und Anmeldeinformationen %2$s gefunden</string>
 </resources>

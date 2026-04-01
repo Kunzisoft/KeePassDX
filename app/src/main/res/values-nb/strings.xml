@@ -46,8 +46,7 @@
     <string name="decrypting_db">Dekrypterer databaseinnhold…</string>
     <string name="default_checkbox">Bruk dette som forvalgt database</string>
     <string name="digits">Siffer</string>
-    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft er &lt;strong&gt;fri programvare&lt;/strong&gt;, og &lt;strong&gt;reklamefritt&lt;/strong&gt;.
-\nDet tilbys som det er, i hendhold til &lt;strong&gt;GPL versjon 3 eller senere&lt;/strong&gt;, uten noen garantier.</string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft er <strong>fri programvare</strong>, og <strong>reklamefritt</strong>. \nDet tilbys som det er, i henhold til <strong>GPL versjon 3 eller senere</strong>, uten noen garantier.</string>
     <string name="entry_accessed">Brukt</string>
     <string name="entry_cancel">Avbryt</string>
     <string name="entry_notes">Kommentarer</string>
@@ -218,9 +217,9 @@
     <string name="reset_education_screens_summary">Vis alle de lærerike tipsene igjen</string>
     <string name="reset_education_screens_text">Tilbakestill de lærerike tipsene</string>
     <string name="education_create_database_title">Opprett din databasefil</string>
-    <string name="education_create_database_summary">Du kjenner ikke KeePassDX enda, opprett din første passordsaministrasjonsfil.</string>
+    <string name="education_create_database_summary">Opprett din første passordsaministrasjonsfil.</string>
     <string name="education_select_database_title">Åpne en eksisterende database</string>
-    <string name="education_select_database_summary">Du har allerede brukt en KeePass-behandler. Bare åpne KDBX-filen fra din filbehandler.</string>
+    <string name="education_select_database_summary">Åpne den tidligere databasefilen din fra filbehandleren for å fortsette å bruke den.</string>
     <string name="education_new_node_title">Legg til nye elementer i databasen din</string>
     <string name="education_new_node_summary">Oppføringer hjelper deg med å administrere dine digitale identiteter.
 \n
@@ -248,7 +247,7 @@
     <string name="education_donation_title">Delta</string>
     <string name="education_donation_summary">Delta for å øke stabiliteten, sikkerheten, og med å legge til flere funksjoner.</string>
     <string name="html_text_ad_free">I motsetning til mange passordadministrasjons-apper er denne &lt;strong&gt;annonsefri&lt;/strong&gt;, &lt;strong&gt;copylefted libre-programvare&lt;/strong&gt; og samler ikke inn personlige data på serverne, uansett hvilken versjon du bruker.</string>
-    <string name="html_text_buy_pro">Ved kjøp av pro-versjonen, vil du få tilgang til denne &lt;strong&gt;visuelle funksjonen&lt;/strong&gt; og du vil bidra med støtte til &lt;strong&gt; realisering av fellesskaps prosjekter.&lt;/strong&gt;</string>
+    <string name="html_text_buy_pro">Ved å kjøpe pro-versjonen, vil du få tilgang til denne <strong>visuelle funksjonen</strong> og du vil bidra med støtte til <strong>realisering av fellesskaps prosjekter.</strong></string>
     <string name="html_text_feature_generosity">Denne &lt;strong&gt;visuelle stilen&lt;/strong&gt; er tilgjengelig takket være din generøsitet.</string>
     <string name="html_text_donation">Ved å &lt;strong&gt;bidra&lt;/strong&gt; til prosjektet &lt;i&gt;(med penger, kode eller oversettelser)&lt;/i&gt;, bidrar du til å holde prosjektet gående og trivende, og du vil også kunne få mulighet til å låse opp &lt;strong&gt;drakter&lt;/strong&gt;.</string>
     <string name="html_text_dev_feature">Denne funksjonen er &lt;strong&gt;under utvikling&lt;/strong&gt; og krever &lt;strong&gt;bidrag&lt;/strong&gt; for å bli tilgjengelig snart.</string>
@@ -424,7 +423,7 @@
     <string name="education_setup_OTP_title">Sett opp OTP</string>
     <string name="download_canceled">Avbrutt!</string>
     <string name="error_string_type">Denne teksten samsvarer ikke med det valgte elementet.</string>
-    <string name="html_about_contribution">For å &lt;strong&gt; beholde vår frihet &lt;/strong&gt;, &lt;strong&gt; fikse feil &lt;/strong&gt;, &lt;strong&gt; legge til funksjoner &lt;/strong&gt; og &lt;strong&gt; være alltid aktiv &lt;/strong&gt;, stoler vi på ditt &lt;strong&gt; bidrag &lt;/strong&gt;.</string>
+    <string name="html_about_contribution">For å <strong> beholde vår frihet </strong>, <strong> fikse feil </strong>, <strong> legge til funksjoner</strong> og <strong> være alltid aktiv </strong>, stoler vi på ditt <strong> bidrag </strong>.</string>
     <string name="content_description_repeat_toggle_password_visibility">Gjenta for å skifte passordsynlighet</string>
     <string name="icon_section_custom">Egendefinert</string>
     <string name="icon_section_standard">Forvalg</string>
@@ -510,7 +509,7 @@
     <string name="error_remove_file">En feil inntraff under fjerning av fildataen.</string>
     <string name="properties">Egenskaper</string>
     <string name="device_unlock_prompt_extract_credential_title">Enhetsopplåsing</string>
-    <string name="device_unlock_prompt_extract_credential_message">Pakk ut database-identitetsdetalj med enhetens opplåsningsdata</string>
+    <string name="device_unlock_prompt_extract_credential_message">Åpne database med enhetslegitimasjon</string>
     <string name="device_unlock_invalid_key">Kan ikke lese enhetens opplåsningsnøkkel. Slett den og gjenta gjenkjenning av opplåsningsprosedyre.</string>
     <string name="device_unlock_prompt_not_initialized">Kan ikke igangsette forespørsel om opplåsing av enheten.</string>
     <string name="permission">Tilgang</string>
@@ -751,4 +750,8 @@
     <string name="user_verification_database_credential">Skriv inn de første fire tegnene til databasepassordet ditt</string>
     <string name="first_chars">Første tegn</string>
     <string name="check">Sjekk</string>
+    <string name="user_verification_device_credential_summary">Bruk enhetslegitimasjon som brukerverifisering hvis tilgjengelig</string>
+    <string name="user_verification_preferred_summary">Utfør en brukerverifisering når tillitsparten forespør «foretrekket»</string>
+    <string name="education_user_verification_summary">Endre brukerverifiseringsmodus for denne sesjonen. \n \n«Brukerverifisering aktivert» verifiserer handling på beskyttede felt og databaseinnstillinger. \n«Brukerverifisering deaktivert» lar deg endre data i databasen din uten verifisering.</string>
+    <string name="error_passkey_credential_id">Ingen passnøkkel funnet med tillitsparten %1$s og påloggingsinformasjon %2$s</string>
 </resources>

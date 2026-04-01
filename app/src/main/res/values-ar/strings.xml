@@ -337,9 +337,7 @@
     <string name="education_entry_edit_title">عدِّل المدخل</string>
     <string name="education_device_unlock_summary">اربط كلمة سر بمقاييسك الحيوية الممسوحة ضوئيًا أو بيانات اعتماد جهازك لفتح قفل قاعدة بياناتك بسرعة.</string>
     <string name="education_search_summary">لإيجاد كلمة السر، أدخل العنوان أو اسم المستخدم أو محتوى أحد الحقول.</string>
-    <string name="education_new_node_summary">المدخلات لإدارة معرفاتك الرقمية.
-\n
-\nالمجموعات (المجلدات) لتنظيم المدخلات في قاعدة البيانات.</string>
+    <string name="education_new_node_summary">المدخلات لإدارة معرّفاتك الرقمية. \n \nالمجموعات (~المجلدات) لتنظيم المدخلات في قاعدة البيانات.</string>
     <string name="education_select_database_summary">افتح ملف قاعدة البيانات السابق من متصفح ملفاتك لمتابعة استخدامه.</string>
     <string name="enable_auto_save_database_summary">حفظ قاعدة البيانات بعد كل إجراء (في وضع \"التعديل\")</string>
     <string name="enable_auto_save_database_title">الحفظ التلقائي لقاعدة البيانات</string>
@@ -558,7 +556,7 @@
     <string name="content_description_entry_foreground_color">لون مقدمة المدخل</string>
     <string name="keyboard_previous_fill_in_summary">العودة تلقائيًا إلى لوحة المفاتيح السابقة بعد تنفيذ \"إجراء المفتاح التلقائي\"</string>
     <string name="download_attachment">ثبِّت %1$s</string>
-    <string name="html_about_privacy">&lt;strong&gt; لا يتم استرداد أي بيانات مستخدم&lt;/strong&gt;، هذا التطبيق لا يتصل بأي خادم، ويعمل محليًا فقط ويحترم خصوصية المستخدمين تمامًا.</string>
+    <string name="html_about_privacy"><strong>لا يتم استرداد أي بيانات مستخدم</strong>، هذا التطبيق لا يتصل بأي خادم، ويعمل محليًا فقط ويحترم خصوصية المستخدمين تمامًا.</string>
     <string name="error_cancel_by_user">أُلغِيَ بواسطة المستخدم.</string>
     <string name="show_otp_token_title">أظهر رمز OTP</string>
     <string name="show_otp_token_summary">يعرض رموز OTP في قائمة المدخلات</string>
@@ -614,7 +612,7 @@
     <string name="master_key_settings_summary">التغيير والتجديد</string>
     <string name="error_empty_key">لا يمكن أن يكون المفتاح فارغًا.</string>
     <string name="corrupted_file">ملف تالف.</string>
-    <string name="warning_keyfile_integrity">لا يتم ضمان تجزئة الملف لأن Android يمكنه تغيير بياناته بسرعة. قم بتغيير امتداد الملف إلى bin. من أجل التكامل الصحيح.</string>
+    <string name="warning_keyfile_integrity">لا يتم ضمان تجزئة الملف لأن Android يمكنه تغيير بياناته بسرعة. غيِّر امتداد الملف إلى bin. من أجل التكامل الصحيح.</string>
     <string name="invalid_db_same_uuid">%1$s بنفس UUID %2$s موجود بالفعل.</string>
     <string name="remember_hardware_key_title">تذكر مفاتيح العتاد</string>
     <string name="warning_exact_alarm">لم تسمح للتطبيق باستخدام منبه دقيق. نتيجة لذلك، لن يتم تنفيذ الميزات التي تتطلب مؤقتًا في وقت محدد.</string>
