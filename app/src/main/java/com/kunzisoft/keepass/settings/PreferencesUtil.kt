@@ -35,9 +35,11 @@ import com.kunzisoft.keepass.database.search.SearchParameters
 import com.kunzisoft.keepass.education.Education
 import com.kunzisoft.keepass.password.PassphraseGenerator
 import com.kunzisoft.keepass.timeout.TimeoutHelper
+import com.kunzisoft.keepass.timeout.TimeoutHelper.NEVER
 import com.kunzisoft.keepass.utils.AppUtil.isContributingUser
 import com.kunzisoft.keepass.utils.KeyboardUtil.isKeyboardActivatedInSettings
 import java.util.Properties
+import androidx.core.content.edit
 
 object PreferencesUtil {
 
@@ -186,10 +188,9 @@ object PreferencesUtil {
         }
         // Store light style to show selection in array list
         tempThemeString = Stylish.retrieveEquivalentLightStyle(context, tempThemeString)
-        PreferenceManager.getDefaultSharedPreferences(context)
-            .edit()
-            .putString(context.getString(R.string.setting_style_key), tempThemeString)
-            .apply()
+        PreferenceManager.getDefaultSharedPreferences(context).edit {
+            putString(context.getString(R.string.setting_style_key), tempThemeString)
+        }
         Stylish.load(context)
     }
 
@@ -414,7 +415,7 @@ object PreferencesUtil {
     }
 
     /**
-     * Save current time, can be retrieve with `getTimeSaved()`
+     * Save current time, can be retrieved with `getTimeSaved()`
      */
     fun saveCurrentTime(context: Context) {
         PreferenceManager.getDefaultSharedPreferences(context).edit().apply {
@@ -428,8 +429,7 @@ object PreferencesUtil {
      */
     fun getTimeSaved(context: Context): Long {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
-        return prefs.getLong(context.getString(R.string.timeout_backup_key),
-            TimeoutHelper.NEVER)
+        return prefs.getLong(context.getString(R.string.timeout_backup_key), NEVER)
     }
 
     /**
@@ -437,9 +437,11 @@ object PreferencesUtil {
      */
     fun getAppTimeout(context: Context): Long {
         return try {
-            val prefs = PreferenceManager.getDefaultSharedPreferences(context)
-            (prefs.getString(context.getString(R.string.app_timeout_key),
-                context.getString(R.string.timeout_default)) ?: "300000").toLong()
+            val timeout = PreferenceManager.getDefaultSharedPreferences(context)
+                .getString(context.getString(R.string.app_timeout_key),
+                context.getString(R.string.timeout_default)
+                )?.toLong() ?: TimeoutHelper.DEFAULT_TIMEOUT
+            if (timeout <= NEVER) NEVER else timeout
         } catch (_: NumberFormatException) {
             TimeoutHelper.DEFAULT_TIMEOUT
         }
@@ -590,11 +592,10 @@ object PreferencesUtil {
     }
 
     fun setAllowCopyPasswordAndProtectedFields(context: Context, allowCopy: Boolean) {
-        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
-        prefs.edit()
-            .putBoolean(context.getString(R.string.allow_copy_password_first_time_key), false)
-            .putBoolean(context.getString(R.string.allow_copy_password_key), allowCopy)
-            .apply()
+        PreferenceManager.getDefaultSharedPreferences(context).edit {
+            putBoolean(context.getString(R.string.allow_copy_password_first_time_key), false)
+                .putBoolean(context.getString(R.string.allow_copy_password_key), allowCopy)
+        }
     }
 
     fun getIconPackSelectedId(context: Context): String? {
@@ -792,18 +793,21 @@ object PreferencesUtil {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
         val setItems: MutableSet<String> = applicationIdBlocklist(context).toMutableSet()
         setItems.add(applicationId)
-        prefs.edit()
-            .putStringSet(context.getString(R.string.autofill_application_id_blocklist_key), setItems)
-            .apply()
+        prefs.edit {
+            putStringSet(
+                context.getString(R.string.autofill_application_id_blocklist_key),
+                setItems
+            )
+        }
     }
 
     fun addWebDomainToBlocklist(context: Context, webDomain: String) {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
         val setItems: MutableSet<String> = webDomainBlocklist(context).toMutableSet()
         setItems.add(webDomain)
-        prefs.edit()
-            .putStringSet(context.getString(R.string.autofill_web_domain_blocklist_key), setItems)
-            .apply()
+        prefs.edit {
+            putStringSet(context.getString(R.string.autofill_web_domain_blocklist_key), setItems)
+        }
     }
 
     fun getAppProperties(context: Context): Properties {
@@ -829,15 +833,19 @@ object PreferencesUtil {
                                            putProperty: (editor: SharedPreferences.Editor,
                                                          name: String,
                                                          value: String) -> Unit) {
-        preferences.edit().apply {
+        preferences.edit {
             for ((name, value) in properties) {
                 try {
                     putProperty(this, name as String, value as String)
-                } catch (e:Exception) {
-                    Log.e("PreferencesUtil", "Error when trying to parse app property $name=$value", e)
+                } catch (e: Exception) {
+                    Log.e(
+                        "PreferencesUtil",
+                        "Error when trying to parse app property $name=$value",
+                        e
+                    )
                 }
             }
-        }.apply()
+        }
     }
 
     fun setAppProperties(context: Context, properties: Properties) {

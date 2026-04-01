@@ -51,12 +51,12 @@
     <string name="entry_modified">修改时间</string>
     <string name="entry_password">密码</string>
     <string name="save">保存</string>
-    <string name="entry_title">名称</string>
+    <string name="entry_title">标题</string>
     <string name="entry_url">网址</string>
     <string name="entry_user_name">用户名</string>
     <string name="error_arc4">不支持 Arcfour 流式加密。</string>
     <string name="error_can_not_handle_uri">无法在 KeePassDX 中处理此 URI 。</string>
-    <string name="error_file_not_create">无法新建文件。</string>
+    <string name="error_file_not_create">无法创建文件。</string>
     <string name="error_invalid_db">无法读取数据库。</string>
     <string name="error_invalid_path">请确保路径正确。</string>
     <string name="error_no_name">输入名称。</string>
@@ -97,7 +97,7 @@
     <string name="never">从不</string>
     <string name="no_results">没有搜索结果</string>
     <string name="no_url_handler">需要安装网络浏览器才能打开这个网址。</string>
-    <string name="progress_create">正在新建数据库…</string>
+    <string name="progress_create">正在创建新数据库…</string>
     <string name="progress_title">正在处理…</string>
     <string name="content_description_remove_from_list">删除</string>
     <string name="root">Root</string>
@@ -125,7 +125,7 @@
     <string name="clipboard_error_title">剪贴板错误</string>
     <string name="clipboard_error">部分设备不允许应用使用剪贴板。</string>
     <string name="clipboard_error_clear">无法清空剪贴板</string>
-    <string name="style_choose_title">主题</string>
+    <string name="style_choose_title">应用主题</string>
     <string name="icon_pack_choose_title">图标包</string>
     <string name="icon_pack_choose_summary">应用中使用的图标包</string>
     <string name="edit_entry">编辑条目</string>
@@ -161,7 +161,7 @@
     <string name="sort_menu">排序</string>
     <string name="sort_title">标题</string>
     <string name="sort_username">用户名</string>
-    <string name="sort_creation_time">新建时间</string>
+    <string name="sort_creation_time">创建时间</string>
     <string name="sort_last_modify_time">修改时间</string>
     <string name="sort_last_access_time">访问时间</string>
     <string name="warning">警告</string>
@@ -176,11 +176,11 @@
     <string name="device_unlock">设备解锁</string>
     <string name="file_name">文件名</string>
     <string name="path">路径</string>
-    <string name="create_keepass_file">新建密码库</string>
+    <string name="create_keepass_file">创建新密码库</string>
     <string name="database_name_title">数据库名称</string>
     <string name="database_description_title">数据库描述</string>
     <string name="database_version_title">数据库版本</string>
-    <string name="text_appearance">文字样式</string>
+    <string name="text_appearance">文本</string>
     <string name="application_appearance">界面</string>
     <string name="other">其他</string>
     <string name="keyboard">键盘</string>
@@ -250,9 +250,9 @@
     <string name="reset_education_screens_title">重置新手引导</string>
     <string name="reset_education_screens_summary">再次显示全部新手引导信息</string>
     <string name="reset_education_screens_text">新手引导重置</string>
-    <string name="education_create_database_title">新建数据库</string>
-    <string name="education_create_database_summary">新建第一个密码管理数据库。</string>
-    <string name="education_select_database_title">打开已有数据库</string>
+    <string name="education_create_database_title">创建您的数据库文件</string>
+    <string name="education_create_database_summary">创建您的第一个密码管理文件。</string>
+    <string name="education_select_database_title">打开现有数据库</string>
     <string name="education_select_database_summary">打开已有数据库并使用其中的密码。</string>
     <string name="education_new_node_title">向数据库添加项目</string>
     <string name="education_new_node_summary">这些条目帮助管理数字化身份。
@@ -262,7 +262,7 @@
     <string name="education_search_summary">输入标题、用户名或其他字段的内容来搜索密码。</string>
     <string name="education_entry_edit_title">编辑此条目</string>
     <string name="education_entry_edit_summary">使用自定义字段编辑条。自定义字段可以在不同的条目间引用。</string>
-    <string name="education_generate_password_title">新建一个强密码</string>
+    <string name="education_generate_password_title">创建一个强密码</string>
     <string name="education_generate_password_summary">依据表单中的标准进行简单的定义，随机为该条目生成一个强密码，不在担心忘记安全密码。</string>
     <string name="education_entry_new_field_title">添加自定义字段</string>
     <string name="education_entry_new_field_summary">添加一个新的字段并添加为其添加一个值，此时可以选择是否保护该字段及其值。</string>
@@ -279,16 +279,16 @@
     <string name="education_lock_title">锁定数据库</string>
     <string name="education_lock_summary">可以设置在无操作和屏幕关闭的时候，锁定数据库。</string>
     <string name="education_sort_title">条目排序</string>
-    <string name="education_sort_summary">选择条目和分组的排序方式。</string>
+    <string name="education_sort_summary">选择条目和分组的排序依据。</string>
     <string name="education_donation_title">参与开发</string>
     <string name="education_donation_summary">帮助增加稳定性，安全性并添加更多的功能。</string>
-    <string name="html_text_ad_free">不同于大多数的密码管理应用，无论您是使用免费版本还是付费版本的 KeePassDX，这都是一款&lt;strong&gt;没有广告&lt;/strong&gt;，&lt;strong&gt;基于 copylefted 版权协议的自由软件&lt;/strong&gt;。同时，本软件的任何版本都不会收集您的任何个人信息。</string>
+    <string name="html_text_ad_free">不同于许多密码管理应用，免费和付费版本的 KeePassDX 均&lt;strong&gt;没有广告&lt;/strong&gt;，&lt;strong&gt;基于 copylefted 版权协议&lt;/strong&gt;，不在服务器上收集个人信息。</string>
     <string name="html_text_buy_pro">通过购买高级版本，您将解锁全部&lt;strong&gt;主题样式&lt;/strong&gt;，重要的是，您会为&lt;strong&gt;社区项目的进行&lt;/strong&gt;提供帮助</string>
     <string name="html_text_feature_generosity">此&lt;strong&gt;主题样式&lt;/strong&gt;已可用，感谢您的慷慨相助。</string>
     <string name="html_text_donation">通过多方面向本项目&lt;strong&gt;作贡献&lt;/strong&gt;，可以是&lt;i&gt;（金钱、代码、翻译等）&lt;/i&gt;，你将帮助本项目继续走下去并茁壮成长，并获得&lt;strong&gt;主题&lt;/strong&gt;解锁步骤资格。</string>
     <string name="html_text_dev_feature">此功能目前&lt;strong&gt;仍在开发中&lt;/strong&gt;，&lt;strong&gt;捐助&lt;/strong&gt;将使该功能很快变得可用。</string>
     <string name="html_text_dev_feature_buy_pro">通过购买&lt;strong&gt;专业&lt;/strong&gt;版，</string>
-    <string name="html_text_dev_feature_contibute">通过&lt;strong&gt;贡献&lt;/strong&gt;，</string>
+    <string name="html_text_dev_feature_contibute">通过&lt;strong&gt;做贡献&lt;/strong&gt;，</string>
     <string name="html_text_dev_feature_encourage">您的留言，是对开发人员添加&lt;strong&gt;新功能&lt;/strong&gt;及&lt;strong&gt;修复 bugs&lt;/strong&gt; 的鼓励。</string>
     <string name="html_text_dev_feature_thanks">非常感谢您的捐助和贡献。</string>
     <string name="html_text_dev_feature_work_hard">我们正在努力的研发并尽快发布新特性。</string>
@@ -304,7 +304,7 @@
     <string name="delete_entered_password_summary">在尝试连接数据库后删除输入的密码</string>
     <string name="content_description_open_file">打开文件</string>
     <string name="content_description_node_children">子节点</string>
-    <string name="content_description_add_node">增加节点</string>
+    <string name="content_description_add_node">添加节点</string>
     <string name="content_description_add_entry">添加条目</string>
     <string name="content_description_add_group">添加分组</string>
     <string name="content_description_file_information">文件信息</string>
@@ -324,7 +324,7 @@
     <string name="content_description_background">后台</string>
     <string name="content_description_update_from_list">更新</string>
     <string name="content_description_keyboard_close_fields">关闭字段</string>
-    <string name="error_create_database_file">无法使用此密码和密钥文件新建数据库。</string>
+    <string name="error_create_database_file">无法使用此密码和密钥文件创建数据库。</string>
     <string name="menu_device_unlock_settings">设备解锁</string>
     <string name="biometric">生物识别</string>
     <string name="biometric_auto_open_prompt_title">自动打开提示</string>
@@ -350,12 +350,12 @@
     <string name="error_otp_period">时长必须在%1$d秒到%2$d秒之间。</string>
     <string name="error_otp_digits">口令必须包括%1$d到%2$d个数字。</string>
     <string name="invalid_db_same_uuid">与%1$s的UUID相同的%2$s已经存在。</string>
-    <string name="creating_database">正在新建数据库…</string>
+    <string name="creating_database">正在创建数据库…</string>
     <string name="menu_security_settings">安全设置</string>
     <string name="menu_master_key_settings">主密钥设置</string>
     <string name="contains_duplicate_uuid">该数据库包含重复的 UUID。</string>
     <string name="contains_duplicate_uuid_procedure">是否通过为重复项生成新的 UUID 以解决问题？</string>
-    <string name="database_opened">数据库开启</string>
+    <string name="database_opened">数据库已打开</string>
     <string name="clipboard_explanation_summary">使用设备的剪贴板来复制输入字段</string>
     <string name="device_unlock_explanation_summary">使用设备解锁以便更轻松地打开数据库</string>
     <string name="database_data_compression_title">数据压缩</string>
@@ -390,7 +390,7 @@
     <string name="menu_delete_entry_history">删除历史记录</string>
     <string name="keyboard_auto_go_action_title">自动键操作</string>
     <string name="keyboard_auto_go_action_summary">填充条目后直接登录</string>
-    <string name="download_attachment">下载%1$s</string>
+    <string name="download_attachment">下载 %1$s</string>
     <string name="download_initialization">正在初始化…</string>
     <string name="download_progression">进行中：%1$d%%</string>
     <string name="download_finalization">正在完成…</string>
@@ -411,16 +411,16 @@
     <string name="warning_database_read_only">授予软件文件读写访问权限以保存数据库更改</string>
     <string name="education_setup_OTP_summary">设置一次性密码管理（HOTP / TOTP）以生成请求的用于双因素身份验证（2FA）的令牌。</string>
     <string name="education_setup_OTP_title">设置一次性密码</string>
-    <string name="discard">丢弃</string>
+    <string name="discard">舍弃</string>
     <string name="error_create_database">无法创建数据库文件。</string>
     <string name="entry_add_attachment">添加附件</string>
-    <string name="discard_changes">放弃更改？</string>
+    <string name="discard_changes">舍弃更改？</string>
     <string name="validate">验证</string>
     <string name="lock_database_show_button_summary">在用户界面中显示锁定数据库按钮</string>
     <string name="lock_database_show_button_title">显示锁定数据库按钮</string>
     <string name="autofill_preference_title">自动填充设置</string>
     <string name="warning_database_link_revoked">访问被文件管理器撤消访问权限的文件</string>
-    <string name="error_label_exists">该标签已经存在。</string>
+    <string name="error_label_exists">此标签已存在。</string>
     <string name="autofill_block_restart">重新启动包含该表单的应用以激活拦截。</string>
     <string name="autofill_block">阻止自动填充</string>
     <string name="autofill_web_domain_blocklist_summary">用于阻止网络域名自动填充的阻止名单</string>
@@ -441,7 +441,7 @@
     <string name="education_add_attachment_summary">将附件上传到您的条目以保存重要的外部数据。</string>
     <string name="education_add_attachment_title">添加附件</string>
     <string name="warning_sure_add_file">不论如何都要添加这个文件吗？</string>
-    <string name="warning_replace_file">上载此文件将替换现有文件。</string>
+    <string name="warning_replace_file">上传此文件将替换现有文件。</string>
     <string name="warning_file_too_big">KeePass 数据库应该只包含小的实用程序文件（例如 PGP 密钥文件）。
 \n
 \n上传大文件会使增大数据库体积并降低性能。</string>
@@ -670,7 +670,7 @@
     <string name="warning_database_notification_permission">通知权限允许展示数据库状态并通过可以轻松访问的按钮锁定它。
 \n
 \n如未授予此权限，那么在前台存在另一个程序情况下，后台打开的数据库将不可见。</string>
-    <string name="warning_permission">必须授予通知权限才能使用剪贴板通知功能。</string>
+    <string name="warning_permission">需要权限才能显示通知</string>
     <string name="ask">询问</string>
     <string name="education_validate_entry_summary">记得验证你的条目并保存你的数据库。
 \n

@@ -6,7 +6,7 @@ plugins {
 android {
     namespace 'com.kunzisoft.encrypt'
     compileSdkVersion 36
-    ndkVersion "21.4.7075529"
+    ndkVersion "25.2.9519653"
 
     defaultConfig {
         minSdkVersion 19
@@ -14,6 +14,15 @@ android {
         multiDexEnabled true
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        externalNativeBuild {
+            cmake {
+                // NDK <= 27
+                // arguments "-DANDROID_SUPPORT_FLEXIBLE_PAGE_SIZES=ON"
+                // Use manual linker flags for NDK < 27
+                cppFlags "-Wl,-z,max-page-size=16384"
+            }
+        }
     }
 
     buildTypes {

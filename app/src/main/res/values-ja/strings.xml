@@ -74,7 +74,7 @@
     <string name="decrypting_db">データベースの内容を復号しています…</string>
     <string name="default_checkbox">デフォルトのデータベースとして使用</string>
     <string name="digits">数字</string>
-    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft は&lt;strong&gt;オープンソース&lt;/strong&gt;であり、&lt;strong&gt;広告はありません&lt;/strong&gt;。\n本ソフトウェアは&lt;strong&gt;GPLv3&lt;/strong&gt;ライセンスの下で提供されており、いかなる保証もありません。</string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft は&lt;strong&gt;オープンソース&lt;/strong&gt;で&lt;strong&gt;広告はありません&lt;/strong&gt;。\n本ソフトウェアは&lt;strong&gt;GPLv3&lt;/strong&gt;ライセンスの下で提供されており、いかなる保証もありません。</string>
     <string name="html_about_contribution">&lt;strong&gt;自由を維持し&lt;/strong&gt;、&lt;strong&gt;バグを修正し&lt;/strong&gt;、&lt;strong&gt;機能を追加し&lt;/strong&gt;、そして&lt;strong&gt;活発に開発し続ける&lt;/strong&gt;ために、私たちはあなたの&lt;strong&gt;貢献&lt;/strong&gt;に期待しています。</string>
     <string name="entry_accessed">最終アクセス</string>
     <string name="entry_cancel">キャンセル</string>
@@ -342,7 +342,7 @@
     <string name="recycle_bin">ゴミ箱</string>
     <string name="keyboard">キーボード</string>
     <string name="magic_keyboard_title">Magikeyboard</string>
-    <string name="magic_keyboard_explanation_summary">パスワードとすべての ID フィールドを格納するカスタム キーボードを有効にします</string>
+    <string name="magic_keyboard_explanation_summary">パスワードとすべての id フィールドを格納するカスタム キーボードを有効にします</string>
     <string name="device_keyboard_setting_title">デバイス キーボードの設定</string>
     <string name="keyboard_name">Magikeyboard</string>
     <string name="keyboard_label">Magikeyboard (KeePassDX)</string>
@@ -402,7 +402,7 @@
     <string name="education_select_database_title">既存のデータベースを開く</string>
     <string name="education_select_database_summary">これまで使ってきたデータベース ファイルを、ファイルブラウザから開いて引き続き使用します。</string>
     <string name="education_new_node_title">データベースに項目を追加</string>
-    <string name="education_new_node_summary">エントリーはデジタル ID の管理に役立ちます。\n\nグループ（≒フォルダ）はデータベース内のエントリーを整理します。</string>
+    <string name="education_new_node_summary">エントリーはデジタル id の管理に役立ちます。\n\nグループ（≒フォルダ）はデータベース内のエントリーを整理します。</string>
     <string name="education_search_title">エントリーを検索</string>
     <string name="education_search_summary">パスワードを取得するには、タイトル、ユーザー名、または他のフィールドの内容を入力します。</string>
     <string name="education_entry_edit_title">エントリーを編集</string>
@@ -673,7 +673,7 @@
     <string name="info">情報</string>
     <string name="menu_app_settings_summary">検索、ロック、履歴、プロパティ</string>
     <string name="menu_form_filling_settings_summary">キーボード、自動入力、クリップボード</string>
-    <string name="warning_permission">クリップボード通知機能を使用するには、通知許可が必要です。</string>
+    <string name="warning_permission">通知の表示には権限付与が必要です</string>
     <string name="unlock_and_link_biometric">デバイスのロック解除リンク</string>
     <string name="education_validate_entry_summary">入力内容を検証し、データベースを保存することを忘れないでください。
 \n
@@ -687,7 +687,7 @@
     <string name="hide_templates_title">テンプレートを非表示にする</string>
     <string name="hide_templates_summary">テンプレートは表示されません</string>
     <string name="error_otp_secret_length">秘密鍵は少なくとも %1$d 文字以上でないといけません。</string>
-    <string name="entry_application_id">アプリID</string>
+    <string name="entry_application_id">アプリ Id</string>
     <string name="warning_overwrite_data_title">既存データを上書きしますか？</string>
     <string name="warning_overwrite_data_description">この操作でエントリの既存データが上書きされ、履歴機能が有効ならば古いデータから復元できます。</string>
     <string name="credential_provider">認証プロバイダ</string>
@@ -722,7 +722,7 @@
     <string name="credential_provider_locked_database_description">選択してロックを解除</string>
     <string name="passkey_username">パスキーのユーザー名</string>
     <string name="passkey_private_key">パスキーのプライベートキー</string>
-    <string name="passkey_credential_id">パスキーの認証ID</string>
+    <string name="passkey_credential_id">パスキーの認証Id</string>
     <string name="passkey_user_handle">パスキーのユーザーハンドル</string>
     <string name="passkey_relying_party">パスキーの信頼者</string>
     <string name="passkey_backup_eligibility">パスキーのバックアップ資格</string>
@@ -738,7 +738,7 @@
     <string name="keyboard_auto_switch_summary">入力完了時にマジックキーボードへの自動切替を試みる</string>
     <string name="autofill_share_magikeyboard_title">マジックキーボードへ共有</string>
     <string name="autofill_share_magikeyboard_summary">オートフィルからの取得項目をマジックキーボードへ共有</string>
-    <string name="error_passkey_credential_id">プロバイダ %1$s ・認証情報ID %2$s に対応するパスキーが見つかりませんでした</string>
+    <string name="error_passkey_credential_id">プロバイダ %1$s ・認証情報Id %2$s に対応するパスキーが見つかりませんでした</string>
     <string name="password_creation_description">パスワードを新規エントリとして保存</string>
     <string name="password_selection_description">既存のパスワードを選択</string>
     <string name="error_password_result">パスワードを返せませんでした</string>

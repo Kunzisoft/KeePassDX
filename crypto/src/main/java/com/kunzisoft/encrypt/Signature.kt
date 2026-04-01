@@ -63,6 +63,11 @@ object Signature {
     private const val END_PRIVATE_KEY = "-----END PRIVATE KEY-----"
     private const val  END_PRIVATE_KEY_LINE_BREAK = "\n$END_PRIVATE_KEY"
 
+    // OIDs for algorithms
+    private const val OID_RSA = "1.2.840.113549.1.1.1"
+    private const val OID_EC = "1.2.840.10045.2.1"
+    private const val OID_ED25519 = "1.3.101.112"
+
     init {
         Security.removeProvider(BouncyCastleProvider.PROVIDER_NAME)
         Security.addProvider(BouncyCastleProvider())
@@ -70,12 +75,10 @@ object Signature {
 
     fun sign(privateKeyPem: String, message: ByteArray): ByteArray {
         val privateKey = createPrivateKey(privateKeyPem)
-        val algorithmKey = privateKey.algorithm
-        val algorithmSignature = when (algorithmKey) {
-            "EC" -> "SHA256withECDSA"
-            "ECDSA" -> "SHA256withECDSA"
-            "RSA" -> "SHA256withRSA"
-            "Ed25519" -> "Ed25519"
+        val algorithmSignature = when (val algorithmKey = privateKey.algorithm) {
+            "EC", "ECDSA", OID_EC -> "SHA256withECDSA"
+            "RSA", OID_RSA -> "SHA256withRSA"
+            "Ed25519", OID_ED25519 -> "Ed25519"
             else -> throw SecurityException("$algorithmKey algorithm is unknown")
         }
         val sig = Signature.getInstance(
@@ -350,7 +353,7 @@ object Signature {
     /**
      * Combines a set of signatures into a single string for database storage.
      */
-    fun Set<String>.singleLineFingerprints(): String? {
+    fun Set<String>.singleLineFingerprints(): String {
         return this.joinToString(SIGNATURE_DELIMITER)
     }
 

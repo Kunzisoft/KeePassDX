@@ -655,7 +655,7 @@
     <string name="device_unlock_keystore_warning">A funkció eltárolja a titkosított hitelesítési adatokat az eszköz biztonságos KeyStore-jában. \n \nAz operációs rendszer natív API megvalósításától függően lehet, hogy nem lesz teljes értékű. \n \nEllenőrizze a KeyStore kompatibilitását és biztonságát az eszköz gyártójánál, valamint a használt ROM készítőjénél.</string>
     <string name="show_entry_colors_summary">Megjeleníti egy bejegyzés előtér- és háttérszínét</string>
     <string name="unlock_and_link_biometric">Eszközfeloldási hivatkozás</string>
-    <string name="warning_permission">Az értesítési engedély szükséges a vágólap-értesítési funkció használatához.</string>
+    <string name="warning_permission">Engedély szükséges az értesítés megjelenítéséhez</string>
     <string name="menu_save_copy_to">Másolat mentése ide…</string>
     <string name="enable_screenshot_mode_title">Képernyőkép mód</string>
     <string name="error_driver_required">A(z) %1$s illesztőprogramja szükséges.</string>

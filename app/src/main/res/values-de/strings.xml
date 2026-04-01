@@ -676,7 +676,7 @@
     <string name="warning_database_notification_permission">Die Benachrichtigungsberechtigung ermöglicht es, den Status der Datenbank anzuzeigen und sie mit einer leicht zugänglichen Taste zu sperren.
 \n
 \nWird diese Berechtigung nicht aktiviert, ist die im Hintergrund geöffnete Datenbank nicht sichtbar, wenn eine Anwendung im Vordergrund läuft.</string>
-    <string name="warning_permission">Die Benachrichtigungsberechtigung ist erforderlich, um die Benachrichtigungsfunktion der Zwischenablage zu nutzen.</string>
+    <string name="warning_permission">Die Berechtigung ist erforderlich, um die Benachrichtigung anzuzeigen</string>
     <string name="unlock">Entsperren</string>
     <string name="education_validate_entry_title">Eintrag überprüfen</string>
     <string name="education_validate_entry_summary">Bitte daran denken, den Eintrag zu überprüfen und die Datenbank zu speichern.
@@ -759,5 +759,8 @@
     <string name="user_verification_preferred_summary">Eine Benutzerüberprüfung durchführen, wenn die vertrauende Stelle „bevorzugt“ anfordert</string>
     <string name="user_verification">Benutzerüberprüfung</string>
     <string name="education_user_verification_title">Überprüfung für sensible Aktionen</string>
-    <string name="education_user_verification_summary">Den Benutzerüberprüfungsmodus für die Sitzung ändern.\n \n„Benutzerüberprüfung aktiviert“ überprüft Aktionen in geschützten Feldern und Datenbankeinstellungen.\n„Benutzerüberprüfung deaktiviert“ ermöglicht, beliebige Daten in der Datenbank ohne Überprüfung zu ändern.</string>
+    <string name="education_user_verification_summary">Den Benutzerüberprüfungsmodus für die Sitzung ändern.\n \n„Benutzerüberprüfung aktiviert“ überprüft Aktionen in geschützten Feldern und Datenbankeinstellungen.\n„Benutzerüberprüfung deaktiviert“ ermöglicht ohne Überprüfung beliebige Datenänderungen in der Datenbank.</string>
+    <string name="user_verification_device_credential_title">Benutzerüberprüfungsdaten</string>
+    <string name="content_description_user_verification_information">Benutzer-Verifikationsinfo</string>
+    <string name="error_passkey_credential_id">Kein Passkey für Vertrauensstelle %1$s und Anmeldeinformationen %2$s gefunden</string>
 </resources>

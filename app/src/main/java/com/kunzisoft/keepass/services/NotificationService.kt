@@ -32,7 +32,9 @@ import kotlinx.coroutines.launch
 import org.joda.time.Instant
 
 
-abstract class NotificationService : Service() {
+typealias NotificationService = NotificationServiceParam<Unit>
+
+abstract class NotificationServiceParam<T> : Service() {
 
     protected var notificationManager: NotificationManagerCompat? = null
     private var colorNotificationAccent: Int = 0
@@ -117,11 +119,16 @@ abstract class NotificationService : Service() {
         stopSelf()
     }
 
-    protected fun defineTimerJob(builder: NotificationCompat.Builder,
-                                 type: NotificationServiceType,
-                                 timeoutMilliseconds: Long,
-                                 actionAfterASecond: (() -> Unit)? = null,
-                                 actionEnd: () -> Unit) {
+    protected open fun timerContentText(data: T?): String? = null
+
+    protected fun defineTimerJob(
+        builder: NotificationCompat.Builder,
+        type: NotificationServiceType,
+        timeoutMilliseconds: Long,
+        timerData: T? = null,
+        actionAfterASecond: (() -> Unit)? = null,
+        actionEnd: () -> Unit
+    ) {
         mTimerJob?.cancel()
         mTimerJob = CoroutineScope(Dispatchers.Main).launch {
             if (timeoutMilliseconds > 0) {
@@ -136,9 +143,15 @@ abstract class NotificationService : Service() {
                     }
                     // Update every second
                     actionAfterASecond?.invoke()
-                    builder.setProgress(100,
-                        (currentTime * 100 / timeoutMilliseconds).toInt(),
-                        false)
+                    builder.apply {
+                        setProgress(100,
+                            (currentTime * 100 / timeoutMilliseconds).toInt(),
+                            false
+                        )
+                        timerContentText(timerData)?.let {
+                            setContentText(it)
+                        }
+                    }
                     startForegroundCompat(notificationId, builder, type)
                     delay(1000)
                     currentTime = timeoutMilliseconds - (Instant.now().millis - startInstant)

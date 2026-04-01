@@ -638,7 +638,7 @@
     <string name="error_cancel_by_user">Отказано от потребителя.</string>
     <string name="error_driver_required">За %1$s е необходим драйвер.</string>
     <string name="error_location_unknown">Мястото на хранилището е неизвестно, действието не може да бъде извършено.</string>
-    <string name="warning_permission">Разрешението е необходимо за показване на известия за междинната памет.</string>
+    <string name="warning_permission">Разрешението е необходимо за показване на известия</string>
     <string name="unlock_and_link_biometric">Настройка отключване с устройството</string>
     <string name="clipboard_warning">При неуспешно автоматично изчистване на междинната памет, изчистете историята ѝ ръчно.</string>
     <string name="biometric_unlock_enable_summary">Дава възможност за отключване на хранилището посредством биометрични данни</string>

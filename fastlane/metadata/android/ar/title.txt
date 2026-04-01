@@ -1,1 +1,1 @@
-KeePassDX Passkey Vault
+خزنة مفتاح مرور KeePassDX

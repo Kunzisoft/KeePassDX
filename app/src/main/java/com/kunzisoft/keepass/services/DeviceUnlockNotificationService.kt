@@ -13,7 +13,7 @@ import android.os.IBinder
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.app.database.CipherDatabaseEntity
 import com.kunzisoft.keepass.settings.PreferencesUtil
-import com.kunzisoft.keepass.timeout.TimeoutHelper
+import com.kunzisoft.keepass.timeout.TimeoutHelper.NEVER
 
 class DeviceUnlockNotificationService : NotificationService() {
 
@@ -90,7 +90,7 @@ class DeviceUnlockNotificationService : NotificationService() {
 
         val notificationTimeoutMilliSecs = PreferencesUtil.getDeviceUnlockTimeout(this)
         // Not necessarily a foreground service
-        if (mTimerJob == null && notificationTimeoutMilliSecs != TimeoutHelper.NEVER) {
+        if (mTimerJob == null && notificationTimeoutMilliSecs > NEVER) {
             defineTimerJob(
                 notificationBuilder,
                 NotificationServiceType.DEVICE_UNLOCK,

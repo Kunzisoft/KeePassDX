@@ -31,6 +31,7 @@ import com.kunzisoft.keepass.credentialprovider.magikeyboard.MagikeyboardService
 import com.kunzisoft.keepass.credentialprovider.magikeyboard.MagikeyboardService.Companion.isMagikeyboardActivated
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.timeout.TimeoutHelper
+import com.kunzisoft.keepass.timeout.TimeoutHelper.NEVER
 import com.kunzisoft.keepass.utils.LOCK_ACTION
 
 class KeyboardEntryNotificationService : LockNotificationService() {
@@ -108,7 +109,7 @@ class KeyboardEntryNotificationService : LockNotificationService() {
         }
         // Timeout only if notification clear is available
         if (PreferencesUtil.isClearKeyboardNotificationEnable(this)) {
-            if (mNotificationTimeoutMilliSecs != TimeoutHelper.NEVER) {
+            if (mNotificationTimeoutMilliSecs > NEVER) {
                 defineTimerJob(
                     builder,
                     type = NotificationServiceType.KEYBOARD,
