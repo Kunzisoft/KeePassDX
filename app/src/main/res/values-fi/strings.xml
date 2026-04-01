@@ -155,7 +155,7 @@
     <string name="entry_attachments">Liitetiedostot</string>
     <string name="entry_history">Historia</string>
     <string name="entry_UUID">UUID</string>
-    <string name="html_about_contribution">Pitääksemme <strong>vapautemme</strong>, <strong>korjataksemme bugeja</strong>, <strong>lisätäksemme ominaisuuksia</strong> ja <strong>ollaksemme aina ajantasalla</strong>, luotamme teidän <strong>apuunne</strong>.</string>
+    <string name="html_about_contribution">Pitääksemme &lt;strong&gt;vapautemme&lt;/strong&gt;, &lt;strong&gt;korjataksemme bugeja&lt;/strong&gt;, &lt;strong&gt;lisätäksemme ominaisuuksia&lt;/strong&gt; ja &lt;strong&gt;ollaksemme aina ajantasalla&lt;/strong&gt;, luotamme teidän &lt;strong&gt;apuunne&lt;/strong&gt;.</string>
     <string name="content_description_keyboard_close_fields">Sulje kenttä</string>
     <string name="content_description_update_from_list">Päivitä</string>
     <string name="entry_add_field">Lisää kenttä</string>
