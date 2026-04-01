@@ -17,7 +17,10 @@ android {
 
         externalNativeBuild {
             cmake {
-                arguments "-DANDROID_SUPPORT_FLEXIBLE_PAGE_SIZES=ON"
+                // NDK <= 27
+                // arguments "-DANDROID_SUPPORT_FLEXIBLE_PAGE_SIZES=ON"
+                // Use manual linker flags for NDK < 27
+                cppFlags "-Wl,-z,max-page-size=16384"
             }
         }
     }
