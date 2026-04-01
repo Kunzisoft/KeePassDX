@@ -20,7 +20,7 @@
 --><resources>
     <string name="feedback">Synpunkter</string>
     <string name="homepage">Hemsida</string>
-    <string name="about_description">Android-implementation av KeePass password manager</string>
+    <string name="about_description">Android-implementation av KeePass password manager.</string>
     <string name="accept">OK</string>
     <string name="add_entry">Ny post</string>
     <string name="add_group">Ny grupp</string>
@@ -466,9 +466,9 @@
     <string name="public_key">Offentlig nyckel</string>
     <string name="private_key">Privat nyckel</string>
     <string name="error_database_uri_null">Det går inte att hämta databas-URI.</string>
-    <string name="error_rebuild_list">Det går inte att bygga om listan på rätt sätt.</string>
+    <string name="error_rebuild_list">Kunde inte bygga om listan på rätt sätt.</string>
     <string name="seed">Frö</string>
-    <string name="error_otp_type">Den befintliga OTP-typen känns inte igen av det här formuläret, dess validering kanske inte längre genererar token korrekt.</string>
+    <string name="error_otp_type">Den befintliga OTP-typen känns inte igen av det här formuläret och dess validering kanske inte längre genererar token korrekt.</string>
     <string name="holder">Hållare</string>
     <string name="error_word_reserved">Detta ord är reserverat och kan inte användas.</string>
     <string name="error_string_type">Den här texten stämmer inte överens med det begärda objektet.</string>
@@ -541,4 +541,7 @@
     <string name="filter">Filter</string>
     <string name="warning_database_already_opened">En databas är redan öppen, stäng den för att öppna en ny</string>
     <string name="warning_empty_recycle_bin">Raders papperskorgens alla noder permanent?</string>
+    <string name="clipboard_otp_notifications_title">OTP-notifikation</string>
+    <string name="entry_application_id">App-Id</string>
+    <string name="error_no_response_from_challenge">Kunde inte hämta svaret från utmaningen.</string>
 </resources>
