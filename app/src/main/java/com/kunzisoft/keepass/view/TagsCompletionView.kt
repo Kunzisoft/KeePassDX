@@ -44,6 +44,7 @@ class TagsCompletionView @JvmOverloads constructor(
     }
 
     fun getTags(): Tags {
+        performCompletion()
         val tags = Tags()
         objects.forEach { tag ->
             tags.put(tag)
