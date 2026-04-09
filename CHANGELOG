@@ -1,3 +1,5 @@
+KeePassDX(4.4.0)
+
 KeePassDX(4.3.3)
  * Fix 16 KB ELF alignment #2074
  * Fix image viewer toolbar #2431
