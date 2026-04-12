@@ -56,13 +56,11 @@ captures/
 .idea/dictionaries
 .idea/libraries
 
-# Keystore files
-# Uncomment the following line if you do not want to check your keystore files in.
-#*.jks
-.idea/*
-
-# Keystore files
+# Keystore files - 绝不要提交到 Git！
 *.jks
+*.keystore
+*.p12
+*.pfx
 
 # External native build folder generated in Android Studio 2.2 and later
 .externalNativeBuild
