@@ -40,7 +40,7 @@
     <string name="default_checkbox">设为默认数据库</string>
     <string name="digits">数字</string>
     <string name="html_about_licence">KeePassDX © %1$d Kunzisoft 是一个&lt;strong&gt;不含广告&lt;/strong&gt;的&lt;strong&gt;开源软件&lt;/strong&gt;。\n它是以 &lt;strong&gt;GPLv3&lt;/strong&gt; 许可证依原样提供，不含任何形式的担保。</string>
-    <string name="select_database_file">打开现有密码库</string>
+    <string name="select_database_file">打开数据库</string>
     <string name="entry_accessed">访问时间</string>
     <string name="entry_cancel">取消</string>
     <string name="entry_notes">备注</string>
@@ -176,7 +176,7 @@
     <string name="device_unlock">设备解锁</string>
     <string name="file_name">文件名</string>
     <string name="path">路径</string>
-    <string name="create_keepass_file">创建新密码库</string>
+    <string name="create_keepass_file">创建数据库</string>
     <string name="database_name_title">数据库名称</string>
     <string name="database_description_title">数据库描述</string>
     <string name="database_version_title">数据库版本</string>
