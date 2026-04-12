@@ -158,7 +158,7 @@
     <string name="id_card">ID karty</string>
     <string name="name">Meno</string>
     <string name="error_create_database">Nie je možné vytvoriť databázový súbor.</string>
-    <string name="error_otp_type">Existujúci typ OTP tento formulár nerozpoznáva, jeho validácia už nemusí správne generovať token.</string>
+    <string name="error_otp_type">Existujúci typ OTP tento formulár nerozpoznáva a jeho validácia už nemusí správne generovať token.</string>
     <string name="invalid_db_same_uuid">%1$s s rovnakým UUID %2$s už existuje.</string>
     <string name="education_setup_OTP_title">Nastaviť OTP</string>
     <string name="create_keepass_file">Vytvorte novú trezor</string>
@@ -207,7 +207,7 @@
     <string name="warning_exact_alarm">Aplikácii ste nepovolili používať presný alarm. V dôsledku toho sa funkcie vyžadujúce časovač nebudú vykonávať s presným časom.</string>
     <string name="permission">Povolenie</string>
     <string name="build_label">Zostava %1$s</string>
-    <string name="device_unlock_prompt_store_credential_message">Hlavné heslo trezoru si musíte pamätať aj keď použijete rozpoznanie odomykania zariadenia.</string>
+    <string name="device_unlock_prompt_store_credential_message">UPOZORNENIE: Hlavné heslo trezoru si stále musíte pamätať.</string>
     <string name="device_unlock_invalid_key">Nedá sa prečítať kľúč odomykaného zariadenia. Odstráňte ho a zopakujte postup rozpoznávania odomknutia.</string>
     <string name="device_unlock_not_recognized">Nerozpoznaný odtlačok odomykaného zariadenia</string>
     <string name="device_credential">Heslo zariadenia</string>
@@ -419,7 +419,7 @@
     <string name="error_otp_secret_key">Tajný kľúč musí byť vo formáte Base32.</string>
     <string name="error_start_database_action">Pri vykonávaní akcie s databázou sa vyskytla chyba.</string>
     <string name="error_challenge_already_requested">Výzva už bola vyžiadaná.</string>
-    <string name="file_not_found_content">Nepodarilo sa nájsť súbor. Skúste ho znova otvoriť z prehliadača súborov.</string>
+    <string name="file_not_found_content">Nepodarilo sa nájsť súbor.</string>
     <string name="list_entries_show_username_summary">Zobrazuje používateľské mená v zoznamoch záznamov</string>
     <string name="list_groups_show_number_entries_title">Zobraziť počet záznamov</string>
     <string name="menu_form_filling_settings">Vypĺňanie formulárov</string>
@@ -441,7 +441,7 @@
     <string name="warning_database_info_changed_options">Zlúčte údaje, prepíšte externé úpravy uložením databázy alebo ju znova načítajte s najnovšími zmenami.</string>
     <string name="warning_database_info_reloaded">Opätovné načítanie databázy vymaže lokálne upravené údaje.</string>
     <string name="warning_keyfile_integrity">Hash súboru nie je zaručený, pretože Android môže svoje údaje meniť za chodu. Pre správnu integritu zmeňte príponu súboru na .bin.</string>
-    <string name="device_unlock_prompt_extract_credential_message">Extrahovať poverenia z databázy pomocou údajov z odomykaného zariadenia</string>
+    <string name="device_unlock_prompt_extract_credential_message">Otvoriť databázu pomocou údajov zariadenia</string>
     <string name="lock_database_screen_off_title">Zámok obrazovky</string>
     <string name="lock_database_back_root_title">Stlačte \'Späť\' pre uzamknutie</string>
     <string name="device_credential_unlock_enable_title">Odomykanie heslom zariadenia</string>
@@ -551,7 +551,7 @@
     <string name="error_no_response_from_challenge">Nedá sa získať odpoveď z výzvy.</string>
     <string name="error_cancel_by_user">Zrušené užívateľom.</string>
     <string name="error_driver_required">Vyžaduje sa ovládač pre %1$s.</string>
-    <string name="error_unable_merge_database_kdb">Nedá sa zlúčiť s kdb databázou</string>
+    <string name="error_unable_merge_database_kdb">Nemožno zlúčiť s kdb databázou.</string>
     <string name="error_location_unknown">Umiestnenie databázy je neznáme, akciu databázy nie je možné vykonať.</string>
     <string name="error_hardware_key_unsupported">Hardvérový kľúč nie je podporovaný.</string>
     <string name="error_empty_key">Kľúč nemôže byť prázdny.</string>
@@ -584,7 +584,7 @@
     <string name="credential_before_click_device_unlock_button">Zadajte heslo a potom kliknite na toto tlačidlo.</string>
     <string name="properties">Vlastnosti</string>
     <string name="menu_appearance_settings">Vzhľad</string>
-    <string name="autofill_explanation_summary">Povoľte automatické dopĺňanie na rýchle vyplnenie formulárov v iných aplikáciách</string>
+    <string name="autofill_explanation_summary">Nastavte automatické vyplňovanie pre rýchle vyplnenie formulárov v iných aplikáciách</string>
     <string name="set_credential_provider_service_title">Nastavte predvolenú službu automatického dopĺňania</string>
     <string name="list_password_generator_options_summary">Nastavte povolené znaky generátora hesiel</string>
     <string name="biometric_unlock_enable_summary">Umožňuje vám skenovať biometrické údaje a otvoriť databázu</string>
@@ -664,7 +664,7 @@
     <string name="warning_large_keyfile">Neodporúča sa pridávať veľký súbor s kľúčom, mohlo by to zabrániť otvoreniu databázy.</string>
     <string name="configure">Nastaviť</string>
     <string name="unlock_and_link_biometric">Prepojiť s odomykaním zariadenia</string>
-    <string name="menu_appearance_settings_summary">Motívy, farby, vlastnosti</string>
+    <string name="menu_appearance_settings_summary">Motívy, farby, ikony, písmo, vlastnosti</string>
     <string name="education_validate_entry_summary">Nezabudnite overiť svoj vstup a uložiť databázu.\n\nAk je zapnuté automatické uzamknutie a zabudnete, že ste niečo upravili, riskujete stratu údajov.</string>
     <string name="style_name_forest">Les</string>
     <string name="style_name_divine">Nadprirodzený</string>
@@ -675,7 +675,7 @@
     <string name="hide_templates_title">Skryť šablóny</string>
     <string name="hide_templates_summary">Šablóny sa nezobrazujú</string>
     <string name="warning_database_notification_permission">Oprávnenie na oznámenia umožňuje zobraziť stav databázy a uzamknúť ju ľahko dostupným tlačidlom.\n\nAk neaktivujete toto oprávnenie, databáza otvorená na pozadí nebude viditeľná ak je v popredí iná aplikácia.</string>
-    <string name="warning_permission">Oprávnenie na oznámenia je potrebné na použitie funkcie oznámenia o schránke.</string>
+    <string name="warning_permission">Pre zobrazovanie oznámenia je potrebné oprávnenie prístupu k oznámeniam.</string>
     <string name="later">Neskôr</string>
     <string name="education_validate_entry_title">Overiť vstup</string>
     <string name="warning_database_info_changed_options_read_only">Znovu načítať databázu s poslednými zmenami.</string>
@@ -719,5 +719,23 @@
     <string name="passkey_username">Používateľské meno prístupového kľúča</string>
     <string name="passkey_private_key">Súkromý kľúč prístupového kľúča</string>
     <string name="passkey_credential_id">Id prístupového kľúča</string>
-    <string name="passkey_user_handle"></string>
+    <string name="passkey_user_handle"/>
+    <string name="passkeys_backup_state_summary">Uviesť, že prihlasovacie údaje sú zálohované a chránené proti strate jedného zariadenia</string>
+    <string name="credential_provider_service_subtitle">Prístupové kľúče, poskytovateľ automatického vyplňovania</string>
+    <string name="user_verification">Overenie používateľa</string>
+    <string name="user_verification_device_credential_title">Údaje pre overenie používateľa</string>
+    <string name="user_verification_device_credential_summary">Použiť prihlasovacie údaje zariadenia pre overenie používateľa, ak sú k dispozícii</string>
+    <string name="user_verification_mode_title">Režim overenia používateľa</string>
+    <string name="user_verification_mode_summary">Povolí automatický režim Overenia používateľa pri otvorení databázy</string>
+    <string name="menu_user_verification_enabled">Overenie používateľa povolené</string>
+    <string name="menu_user_verification_disabled">Overenie používateľa zakázané</string>
+    <string name="user_verification_preferred_title">Preferovaný spôsob overenia používateľa</string>
+    <string name="password_creation_description">Uložiť heslo do novej položky</string>
+    <string name="password_selection_description">Vybrať existujúce heslo</string>
+    <string name="user_verification_required_title">Overenie používateľa</string>
+    <string name="user_verification_required_description">Prístup k týmto údajom vyžaduje overenie, že ste to naozaj Vy.</string>
+    <string name="user_verification_required_description_precise">%1$s vyžaduje overenie, že ste to naozaj Vy.</string>
+    <string name="user_verification_database_credential">Zadajte prvé štyri znaky hesla k vašej databáze</string>
+    <string name="first_chars">Prvé znaky</string>
+    <string name="check">Skontrolovať</string>
 </resources>
