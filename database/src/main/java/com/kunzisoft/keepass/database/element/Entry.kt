@@ -119,7 +119,7 @@ class Entry : Node, EntryVersionedInterface<Group> {
             entryKDBX?.icon = value
         }
 
-    var tags: Tags
+    override var tags: Tags
         get() = entryKDBX?.tags ?: Tags()
         set(value) {
             entryKDBX?.tags = value

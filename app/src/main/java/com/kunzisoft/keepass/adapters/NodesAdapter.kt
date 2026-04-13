@@ -31,6 +31,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.ColorInt
 import androidx.core.view.ViewCompat
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SortedList
 import androidx.recyclerview.widget.SortedListAdapterCallback
@@ -369,6 +370,28 @@ class NodesAdapter (
             setTextSize(mTextSizeUnit, mTextDefaultDimension, mPrefSizeMultiplier)
             strikeOut(subNode.isCurrentlyExpires)
         }
+        // Tags
+        holder.tags.apply {
+            val tagsAdapter = TagsAdapter(this.context, TagsAdapter.TagViewType.SMALL)
+            layoutManager = LinearLayoutManager(
+                context,
+                LinearLayoutManager.HORIZONTAL,
+                false
+            )
+            adapter = tagsAdapter
+            val tags = subNode.tags
+            tagsAdapter.setTags(tags)
+            tagsAdapter.onItemClickListener = object : TagsAdapter.OnItemClickListener {
+                override fun onItemClick(item: String) {
+                    mNodeClickCallback?.onNodeClick(database, subNode)
+                }
+                override fun onItemLongClick(item: String): Boolean {
+                    mNodeClickCallback?.onNodeLongClick(database, subNode)
+                    return true
+                }
+            }
+            visibility = if (tags.isNotEmpty()) View.VISIBLE else View.GONE
+        }
         // Add meta text to show UUID
         holder.meta.apply {
             val nodeId = subNode.nodeId?.toVisualString()
@@ -610,6 +633,7 @@ class NodesAdapter (
         var icon: ImageView = itemView.findViewById(R.id.node_icon)
         var text: TextView = itemView.findViewById(R.id.node_text)
         var subText: TextView? = itemView.findViewById(R.id.node_subtext)
+        var tags: RecyclerView = itemView.findViewById(R.id.node_tags_list_view)
         var meta: TextView = itemView.findViewById(R.id.node_meta)
         var path: TextView? = itemView.findViewById(R.id.node_path)
         var otpContainer: ViewGroup? = itemView.findViewById(R.id.node_otp_container)

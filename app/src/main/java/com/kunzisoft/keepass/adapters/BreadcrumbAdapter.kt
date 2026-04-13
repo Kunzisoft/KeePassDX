@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.element.Database
@@ -125,6 +126,28 @@ class BreadcrumbAdapter(val context: Context, val database: Database?)
                     }
                 }
 
+                holder.tagsListView.apply {
+                    val tagsAdapter = TagsAdapter(context, TagsAdapter.TagViewType.SMALL)
+                    layoutManager = LinearLayoutManager(
+                        context,
+                        LinearLayoutManager.HORIZONTAL,
+                        false
+                    )
+                    adapter = tagsAdapter
+                    val tags = group.tags
+                    tagsAdapter.setTags(tags)
+                    tagsAdapter.onItemClickListener = object : TagsAdapter.OnItemClickListener {
+                        override fun onItemClick(item: String) {
+                            onItemClickListener?.invoke(node, position)
+                        }
+                        override fun onItemLongClick(item: String): Boolean {
+                            onLongItemClickListener?.invoke(node, position)
+                            return true
+                        }
+                    }
+                    visibility = if (tags.isNotEmpty()) View.VISIBLE else View.GONE
+                }
+
                 holder.groupMetaView?.apply {
                     val meta = group.nodeId.toVisualString()
                     visibility = if (meta != null
@@ -146,10 +169,11 @@ class BreadcrumbAdapter(val context: Context, val database: Database?)
         return mNodeBreadcrumb.size
     }
 
-    inner class BreadcrumbGroupViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    class BreadcrumbGroupViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var groupIconView: ImageView? = itemView.findViewById(R.id.group_icon)
         var groupNumbersView: TextView? = itemView.findViewById(R.id.group_numbers)
         var groupNameView: TextView = itemView.findViewById(R.id.group_name)
         var groupMetaView: TextView? = itemView.findViewById(R.id.group_meta)
+        var tagsListView: RecyclerView = itemView.findViewById(R.id.group_tags_list_view)
     }
 }
