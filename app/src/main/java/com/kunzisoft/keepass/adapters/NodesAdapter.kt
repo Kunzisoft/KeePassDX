@@ -41,6 +41,7 @@ import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.element.Entry
 import com.kunzisoft.keepass.database.element.Group
 import com.kunzisoft.keepass.database.element.SortNodeEnum
+import com.kunzisoft.keepass.database.element.Tag
 import com.kunzisoft.keepass.database.element.node.Node
 import com.kunzisoft.keepass.database.element.node.NodeVersionedInterface
 import com.kunzisoft.keepass.database.element.node.Type
@@ -120,29 +121,29 @@ class NodesAdapter (
         this.mNodeSortedListCallback = NodeSortedListCallback()
         this.mNodeSortedList = SortedList(Node::class.java, mNodeSortedListCallback)
 
-        val taColorSurfaceContainer = context.obtainStyledAttributes(intArrayOf(R.attr.colorSurfaceContainer))
-        this.mColorSurfaceContainer = taColorSurfaceContainer.getColor(0, Color.BLACK)
-        taColorSurfaceContainer.recycle()
+        context.obtainStyledAttributes(intArrayOf(R.attr.colorSurfaceContainer)).also { taColorSurfaceContainer ->
+            this.mColorSurfaceContainer = taColorSurfaceContainer.getColor(0, Color.BLACK)
+        }.recycle()
         // Retrieve the color to tint the icon
-        val taTextColorPrimary = context.obtainStyledAttributes(intArrayOf(android.R.attr.textColorPrimary))
-        this.mTextColorPrimary = taTextColorPrimary.getColor(0, Color.BLACK)
-        taTextColorPrimary.recycle()
+        context.obtainStyledAttributes(intArrayOf(android.R.attr.textColorPrimary)).also { taTextColorPrimary ->
+            this.mTextColorPrimary = taTextColorPrimary.getColor(0, Color.BLACK)
+        }.recycle()
         // To get text color
-        val taTextColor = context.obtainStyledAttributes(intArrayOf(android.R.attr.textColor))
-        this.mTextColor = taTextColor.getColor(0, Color.BLACK)
-        taTextColor.recycle()
+        context.obtainStyledAttributes(intArrayOf(android.R.attr.textColor)).also { taTextColor ->
+            this.mTextColor = taTextColor.getColor(0, Color.BLACK)
+        }.recycle()
         // To get text color secondary
-        val taTextColorSecondary = context.obtainStyledAttributes(intArrayOf(android.R.attr.textColorSecondary))
-        this.mTextColorSecondary = taTextColorSecondary.getColor(0, Color.BLACK)
-        taTextColorSecondary.recycle()
+        context.obtainStyledAttributes(intArrayOf(android.R.attr.textColorSecondary)).also { taTextColorSecondary ->
+            this.mTextColorSecondary = taTextColorSecondary.getColor(0, Color.BLACK)
+        }.recycle()
         // To get background color for selection
-        val taColorSecondary = context.obtainStyledAttributes(intArrayOf(R.attr.colorSecondary))
-        this.mColorSecondary = taColorSecondary.getColor(0, Color.GRAY)
-        taColorSecondary.recycle()
+        context.obtainStyledAttributes(intArrayOf(R.attr.colorSecondary)).also { taColorSecondary ->
+            this.mColorSecondary = taColorSecondary.getColor(0, Color.GRAY)
+        }.recycle()
         // To get text color for selection
-        val taColorOnSecondary = context.obtainStyledAttributes(intArrayOf(R.attr.colorOnSecondary))
-        this.mColorOnSecondary = taColorOnSecondary.getColor(0, Color.WHITE)
-        taColorOnSecondary.recycle()
+        context.obtainStyledAttributes(intArrayOf(R.attr.colorOnSecondary)).also { taColorOnSecondary ->
+            this.mColorOnSecondary = taColorOnSecondary.getColor(0, Color.WHITE)
+        }.recycle()
     }
 
     private fun assignPreferences() {
@@ -381,11 +382,12 @@ class NodesAdapter (
             adapter = tagsAdapter
             val tags = subNode.tags
             tagsAdapter.setTags(tags)
+            tagsAdapter.toggleSelection(holder.container.isSelected)
             tagsAdapter.onItemClickListener = object : TagsAdapter.OnItemClickListener {
-                override fun onItemClick(item: String) {
+                override fun onItemClick(item: Tag) {
                     mNodeClickCallback?.onNodeClick(database, subNode)
                 }
-                override fun onItemLongClick(item: String): Boolean {
+                override fun onItemLongClick(item: Tag): Boolean {
                     mNodeClickCallback?.onNodeLongClick(database, subNode)
                     return true
                 }

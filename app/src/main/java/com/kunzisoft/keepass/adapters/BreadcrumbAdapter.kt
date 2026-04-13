@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.Group
+import com.kunzisoft.keepass.database.element.Tag
 import com.kunzisoft.keepass.database.element.node.Node
 import com.kunzisoft.keepass.database.element.node.Type
 import com.kunzisoft.keepass.icons.IconDrawableFactory
@@ -137,10 +138,10 @@ class BreadcrumbAdapter(val context: Context, val database: Database?)
                     val tags = group.tags
                     tagsAdapter.setTags(tags)
                     tagsAdapter.onItemClickListener = object : TagsAdapter.OnItemClickListener {
-                        override fun onItemClick(item: String) {
+                        override fun onItemClick(item: Tag) {
                             onItemClickListener?.invoke(node, position)
                         }
-                        override fun onItemLongClick(item: String): Boolean {
+                        override fun onItemLongClick(item: Tag): Boolean {
                             onLongItemClickListener?.invoke(node, position)
                             return true
                         }

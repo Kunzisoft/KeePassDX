@@ -27,6 +27,7 @@
     android:gravity="center_vertical"
     android:layout_gravity="center"
     android:background="@drawable/background_tag"
+    android:backgroundTint="?attr/colorSecondary"
     tools:text="text"
     android:textColor="?attr/colorSecondary"
     android:textSize="12sp"

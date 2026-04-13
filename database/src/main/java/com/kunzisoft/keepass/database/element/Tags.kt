@@ -2,27 +2,31 @@ package com.kunzisoft.keepass.database.element
 
 import android.os.Parcel
 import android.os.Parcelable
-import com.kunzisoft.keepass.utils.StringUtil.removeSpaceChars
+import com.kunzisoft.keepass.utils.readListCompat
+import com.kunzisoft.keepass.utils.writeListCompat
 
 class Tags: Parcelable {
 
-    private val mTags = mutableListOf<String>()
+    private val mTags = mutableListOf<Tag>()
 
     constructor()
 
     constructor(values: String): this() {
         mTags.addAll(values
             .split(DELIMITER, DELIMITER1)
-            .filter { it.removeSpaceChars().isNotEmpty() }
+            .map { it.trim() }
+            .filter { it.isNotEmpty() }
+            .map { Tag(it) }
+            .distinct()
         )
     }
 
     constructor(parcel: Parcel) : this() {
-        parcel.readStringList(mTags)
+        parcel.readListCompat(mTags)
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
-        parcel.writeStringList(mTags)
+        parcel.writeListCompat(mTags)
     }
 
     override fun describeContents(): Int {
@@ -34,13 +38,18 @@ class Tags: Parcelable {
         mTags.addAll(tags.mTags)
     }
 
-    fun get(position: Int): String {
+    fun get(position: Int): Tag {
         return mTags[position]
     }
 
+    fun put(tag: Tag) {
+        val trimmedTag = Tag(tag.name.trim(), tag.isSelected)
+        if (trimmedTag.name.isNotEmpty() && !mTags.contains(trimmedTag))
+            mTags.add(trimmedTag)
+    }
+    
     fun put(tag: String) {
-        if (tag.removeSpaceChars().isNotEmpty() && !mTags.contains(tag))
-            mTags.add(tag)
+        put(Tag(tag.trim()))
     }
 
     fun put(tags: Tags) {
@@ -49,8 +58,12 @@ class Tags: Parcelable {
         }
     }
 
+    fun contains(tag: Tag): Boolean {
+        return mTags.contains(Tag(tag.name.trim()))
+    }
+
     fun contains(tag: String): Boolean {
-        return mTags.contains(tag)
+        return mTags.contains(Tag(tag.trim()))
     }
 
     fun isEmpty(): Boolean {
@@ -69,12 +82,20 @@ class Tags: Parcelable {
         mTags.clear()
     }
 
-    fun toList(): List<String> {
-        return mTags
+    fun selectAll() {
+        mTags.forEach { it.isSelected = true }
+    }
+
+    fun deselectAll() {
+        mTags.forEach { it.isSelected = false }
+    }
+
+    fun toStringList(): List<String> {
+        return mTags.map { it.name }
     }
 
     override fun toString(): String {
-        return mTags.joinToString(DELIMITER.toString())
+        return toStringList().joinToString(DELIMITER.toString())
     }
 
     companion object CREATOR : Parcelable.Creator<Tags> {

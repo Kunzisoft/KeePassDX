@@ -241,7 +241,7 @@ class GroupEditDialogFragment : DatabaseDialogFragment() {
         groupInfo.tags.let { tags ->
             tagsCompletionView.setText("")
             for (i in 0 until tags.size()) {
-                tagsCompletionView.addObjectSync(tags.get(i))
+                tagsCompletionView.addObjectSync(tags.get(i).name)
             }
         }
     }

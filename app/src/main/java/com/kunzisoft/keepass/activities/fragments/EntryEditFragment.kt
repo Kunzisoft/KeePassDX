@@ -82,9 +82,9 @@ class EntryEditFragment: DatabaseFragment() {
         super.onCreateView(inflater, container, savedInstanceState)
 
         // Retrieve the textColor to tint the icon
-        val taIconColor = context?.obtainStyledAttributes(intArrayOf(android.R.attr.textColor))
-        mIconColor = taIconColor?.getColor(0, Color.BLACK) ?: Color.BLACK
-        taIconColor?.recycle()
+        context?.obtainStyledAttributes(intArrayOf(android.R.attr.textColor)).also { taIconColor ->
+            mIconColor = taIconColor?.getColor(0, Color.BLACK) ?: Color.BLACK
+        }?.recycle()
 
         return inflater.inflate(R.layout.fragment_entry_edit, container, false)
     }
@@ -330,7 +330,7 @@ class EntryEditFragment: DatabaseFragment() {
         entryInfo?.tags?.let { tags ->
             tagsCompletionView.setText("")
             for (i in 0 until tags.size()) {
-                tagsCompletionView.addObjectSync(tags.get(i))
+                tagsCompletionView.addObjectSync(tags.get(i).name)
             }
         }
 

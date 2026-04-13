@@ -20,12 +20,17 @@
 package com.kunzisoft.keepass.adapters
 
 import android.content.Context
+import android.content.res.ColorStateList
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.annotation.ColorInt
+import androidx.core.view.ViewCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.kunzisoft.keepass.R
+import com.kunzisoft.keepass.database.element.Tag
 import com.kunzisoft.keepass.database.element.Tags
 
 class TagsAdapter(
@@ -33,9 +38,23 @@ class TagsAdapter(
     val globalViewType: TagViewType = TagViewType.STANDARD
 ) : RecyclerView.Adapter<TagsAdapter.TagViewHolder>() {
 
+    @ColorInt
+    private val mColorSecondary: Int
+    @ColorInt
+    private val mColorOnSecondary: Int
+
     private val inflater: LayoutInflater = LayoutInflater.from(context)
     private var mTags: Tags = Tags()
     var onItemClickListener: OnItemClickListener? = null
+
+    init {
+        context.obtainStyledAttributes(intArrayOf(R.attr.colorSecondary)).also { taColorSecondary ->
+            this.mColorSecondary = taColorSecondary.getColor(0, Color.GRAY)
+        }.recycle()
+        context.obtainStyledAttributes(intArrayOf(R.attr.colorOnSecondary)).also { taColorOnSecondary ->
+            this.mColorOnSecondary = taColorOnSecondary.getColor(0, Color.WHITE)
+        }.recycle()
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TagViewHolder {
         val view = inflater.inflate(when(globalViewType) {
@@ -47,7 +66,15 @@ class TagsAdapter(
 
     override fun onBindViewHolder(holder: TagViewHolder, position: Int) {
         val field = mTags.get(position)
-        holder.name.text = field
+        holder.name.apply {
+            text = field.name
+            setTextColor(if (field.isSelected) mColorOnSecondary else mColorSecondary)
+            ViewCompat.setBackgroundTintList(
+                this,
+                ColorStateList.valueOf(
+                    (if (field.isSelected) mColorOnSecondary else mColorSecondary))
+            )
+        }
         holder.bind(field, onItemClickListener)
     }
 
@@ -64,16 +91,21 @@ class TagsAdapter(
         mTags.clear()
     }
 
+    fun toggleSelection(isSelected: Boolean) {
+        if (isSelected) mTags.selectAll() else mTags.deselectAll()
+        notifyDataSetChanged()
+    }
+
     interface OnItemClickListener {
-        fun onItemClick(item: String)
-        fun onItemLongClick(item: String): Boolean
+        fun onItemClick(item: Tag)
+        fun onItemLongClick(item: Tag): Boolean
     }
 
     class TagViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         var name: TextView = itemView.findViewById(R.id.tag_name)
 
-        fun bind(item: String, listener: OnItemClickListener?) {
+        fun bind(item: Tag, listener: OnItemClickListener?) {
             listener?.let {
                 itemView.setOnClickListener { listener.onItemClick(item) }
                 itemView.setOnLongClickListener { listener.onItemLongClick(item) }
