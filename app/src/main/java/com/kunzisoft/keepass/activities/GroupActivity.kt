@@ -99,6 +99,7 @@ import com.kunzisoft.keepass.model.GroupInfo
 import com.kunzisoft.keepass.model.RegisterInfo
 import com.kunzisoft.keepass.model.SearchInfo
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_ENTRY_TASK
+import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_GROUP_TASK
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.getNewEntry
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.settings.SettingsActivity
@@ -792,6 +793,11 @@ class GroupActivity : DatabaseLockActivity(),
                         }
                     )
                 }
+            }
+        }
+        if (actionTask == ACTION_DATABASE_UPDATE_GROUP_TASK
+            || actionTask == ACTION_DATABASE_UPDATE_ENTRY_TASK) {
+            if (result.isSuccess) {
                 coordinatorError?.showActionErrorIfNeeded(result)
                 // Reload the group
                 loadGroup()
