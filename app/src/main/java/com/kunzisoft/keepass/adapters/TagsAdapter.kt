@@ -74,8 +74,10 @@ class TagsAdapter(
         var name: TextView = itemView.findViewById(R.id.tag_name)
 
         fun bind(item: String, listener: OnItemClickListener?) {
-            itemView.setOnClickListener { listener?.onItemClick(item) }
-            itemView.setOnLongClickListener { listener?.onItemLongClick(item) ?: true }
+            listener?.let {
+                itemView.setOnClickListener { listener.onItemClick(item) }
+                itemView.setOnLongClickListener { listener.onItemLongClick(item) }
+            }
         }
     }
 
