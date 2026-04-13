@@ -1,1 +1,2 @@
  * Correction du Groupe rafraichie du fil d'ariane #2477
+ * Tags dans la vue liste #1539 #2144
