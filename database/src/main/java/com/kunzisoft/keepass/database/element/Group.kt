@@ -127,7 +127,7 @@ class Group : Node, GroupVersionedInterface<Group, Entry> {
             groupKDBX?.icon = value
         }
 
-    var tags: Tags
+    override var tags: Tags
         get() = groupKDBX?.tags ?: Tags()
         set(value) {
             groupKDBX?.tags = value

@@ -28,14 +28,20 @@ import androidx.recyclerview.widget.RecyclerView
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.element.Tags
 
-class TagsAdapter(context: Context) : RecyclerView.Adapter<TagsAdapter.TagViewHolder>() {
+class TagsAdapter(
+    context: Context,
+    val globalViewType: TagViewType = TagViewType.STANDARD
+) : RecyclerView.Adapter<TagsAdapter.TagViewHolder>() {
 
     private val inflater: LayoutInflater = LayoutInflater.from(context)
     private var mTags: Tags = Tags()
     var onItemClickListener: OnItemClickListener? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TagViewHolder {
-        val view = inflater.inflate(R.layout.item_tag, parent, false)
+        val view = inflater.inflate(when(globalViewType) {
+            TagViewType.STANDARD -> R.layout.item_tag
+            TagViewType.SMALL -> R.layout.item_tag_small
+        }, parent, false)
         return TagViewHolder(view)
     }
 
@@ -60,14 +66,20 @@ class TagsAdapter(context: Context) : RecyclerView.Adapter<TagsAdapter.TagViewHo
 
     interface OnItemClickListener {
         fun onItemClick(item: String)
+        fun onItemLongClick(item: String): Boolean
     }
 
-    inner class TagViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    class TagViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         var name: TextView = itemView.findViewById(R.id.tag_name)
 
         fun bind(item: String, listener: OnItemClickListener?) {
             itemView.setOnClickListener { listener?.onItemClick(item) }
+            itemView.setOnLongClickListener { listener?.onItemLongClick(item) ?: true }
         }
+    }
+
+    enum class TagViewType {
+        STANDARD, SMALL
     }
 }
