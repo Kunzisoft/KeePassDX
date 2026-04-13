@@ -1,4 +1,5 @@
 KeePassDX(4.4.0)
+ * Fix breadcrumb Group view refresh #2477
 
 KeePassDX(4.3.3)
  * Fix 16 KB ELF alignment #2074

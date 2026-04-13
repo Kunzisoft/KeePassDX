@@ -1,1 +1,1 @@
- *
+ * Correction du Groupe rafraichie du fil d'ariane #2477

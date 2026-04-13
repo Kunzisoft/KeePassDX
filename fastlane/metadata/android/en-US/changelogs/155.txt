@@ -1,1 +1,1 @@
- *
+ * Fix breadcrumb Group view refresh #2477
