@@ -24,8 +24,7 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class Tag(
-    val name: String,
-    var isSelected: Boolean = false
+    val name: String
 ): Parcelable {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

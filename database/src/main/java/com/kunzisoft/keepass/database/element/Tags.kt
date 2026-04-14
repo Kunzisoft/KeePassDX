@@ -11,6 +11,10 @@ class Tags: Parcelable {
 
     constructor()
 
+    constructor(tags: Tags) {
+        mTags.addAll(tags.mTags)
+    }
+
     constructor(values: String): this() {
         mTags.addAll(values
             .split(DELIMITER, DELIMITER1)
@@ -19,10 +23,6 @@ class Tags: Parcelable {
             .map { Tag(it) }
             .distinct()
         )
-    }
-
-    constructor(tags: List<Tag>): this() {
-        mTags.addAll(tags)
     }
 
     constructor(parcel: Parcel) : this() {
@@ -51,7 +51,7 @@ class Tags: Parcelable {
     }
 
     fun put(tag: Tag) {
-        val trimmedTag = Tag(tag.name.trim(), tag.isSelected)
+        val trimmedTag = Tag(tag.name.trim())
         if (trimmedTag.name.isNotEmpty() && !mTags.contains(trimmedTag))
             mTags.add(trimmedTag)
     }
@@ -64,6 +64,15 @@ class Tags: Parcelable {
         tags.mTags.forEach {
             put(it)
         }
+    }
+
+    fun replaceAll(tags: Tags) {
+        mTags.clear()
+        put(tags)
+    }
+
+    fun remove(tag: Tag) {
+        mTags.remove(tag)
     }
 
     fun contains(tag: Tag): Boolean {
@@ -92,30 +101,6 @@ class Tags: Parcelable {
 
     fun clear() {
         mTags.clear()
-    }
-
-    fun select(tag: String) {
-        mTags.forEach { if (it.name == tag) it.isSelected = true }
-    }
-
-    fun unselect(tag: String) {
-        mTags.forEach { if (it.name == tag) it.isSelected = false }
-    }
-
-    fun toggleSelection(tag: Tag) {
-        mTags.forEach { if (it.name == tag.name) it.isSelected = !it.isSelected }
-    }
-
-    fun getSelectedTags(): Tags {
-        return Tags(mTags.filter { it.isSelected })
-    }
-
-    fun selectAll() {
-        mTags.forEach { it.isSelected = true }
-    }
-
-    fun deselectAll() {
-        mTags.forEach { it.isSelected = false }
     }
 
     fun toStringList(): List<String> {
