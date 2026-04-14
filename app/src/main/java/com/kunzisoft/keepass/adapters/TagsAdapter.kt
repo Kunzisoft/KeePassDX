@@ -28,6 +28,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.annotation.ColorInt
 import androidx.core.view.ViewCompat
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.element.Tag
@@ -120,13 +121,29 @@ class TagsAdapter(
         return mTags.size()
     }
 
-    fun setTags(tags: Tags) {
-        mTags.setTags(tags)
-        notifyDataSetChanged()
+    fun setTags(newTags: Tags) {
+        val oldTags = Tags(mTags)
+        val diffCallback = object : DiffUtil.Callback() {
+            override fun getOldListSize(): Int = oldTags.size()
+            override fun getNewListSize(): Int = newTags.size()
+            override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+                return oldTags.get(oldItemPosition).name == newTags.get(newItemPosition).name
+            }
+            override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+                return oldTags.get(oldItemPosition) == newTags.get(newItemPosition)
+            }
+        }
+        val diffResult = DiffUtil.calculateDiff(diffCallback)
+        mTags.setTags(newTags)
+        diffResult.dispatchUpdatesTo(this)
     }
 
     fun clear() {
-        mTags.clear()
+        val size = mTags.size()
+        if (size > 0) {
+            mTags.clear()
+            notifyItemRangeRemoved(0, size)
+        }
     }
 
     fun getSelectedStringTags(): List<String> {
@@ -135,8 +152,12 @@ class TagsAdapter(
 
     fun selectTags(tags: List<String>) {
         tags.forEach {
-            mSelectedTags.put(Tag(it))
-            notifyItemChanged(mTags.indexOf(Tag(it)))
+            val tag = Tag(it)
+            mSelectedTags.put(tag)
+            val index = mTags.indexOf(tag)
+            if (index != -1) {
+                notifyItemChanged(index)
+            }
         }
     }
 
@@ -145,7 +166,10 @@ class TagsAdapter(
             mSelectedTags.remove(tag)
         else
             mSelectedTags.put(tag)
-        notifyItemChanged(mTags.indexOf(tag))
+        val index = mTags.indexOf(tag)
+        if (index != -1) {
+            notifyItemChanged(index)
+        }
     }
 
     fun toggleSelection(isSelected: Boolean) {
@@ -153,7 +177,7 @@ class TagsAdapter(
             mSelectedTags.replaceAll(mTags)
         else
             mSelectedTags.clear()
-        notifyDataSetChanged()
+        notifyItemRangeChanged(0, mTags.size())
     }
 
     interface OnItemClickListener {
