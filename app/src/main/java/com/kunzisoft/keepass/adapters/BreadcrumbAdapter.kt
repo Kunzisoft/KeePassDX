@@ -37,11 +37,13 @@ class BreadcrumbAdapter(val context: Context, val database: Database?)
     private var mNodeFilter: NodeFilter = NodeFilter(context, database)
 
     private var mShowNumberEntries = false
+    private var mShowTags = false
     private var mShowUUID = false
     private var mIconColor: Int = 0
 
     init {
         mShowNumberEntries = PreferencesUtil.showNumberEntries(context)
+        mShowTags = PreferencesUtil.showTags(context)
         mShowUUID = PreferencesUtil.showUUID(context)
 
         // Retrieve the color to tint the icon
@@ -128,22 +130,25 @@ class BreadcrumbAdapter(val context: Context, val database: Database?)
                 }
 
                 holder.tagsListView.apply {
-                    val tagsAdapter = TagsAdapter(context, TagsAdapter.TagViewType.SMALL)
-                    layoutManager = LinearLayoutManager(
-                        context,
-                        LinearLayoutManager.HORIZONTAL,
-                        false
-                    )
-                    adapter = tagsAdapter
                     val tags = group.tags
-                    tagsAdapter.setTags(tags)
-                    tagsAdapter.onItemClickListener = object : TagsAdapter.OnItemClickListener {
-                        override fun onItemClick(item: Tag) {
-                            onItemClickListener?.invoke(node, position)
-                        }
-                        override fun onItemLongClick(item: Tag): Boolean {
-                            onLongItemClickListener?.invoke(node, position)
-                            return true
+                    if (mShowTags) {
+                        val tagsAdapter = TagsAdapter(context, TagsAdapter.TagViewType.SMALL)
+                        layoutManager = LinearLayoutManager(
+                            context,
+                            LinearLayoutManager.HORIZONTAL,
+                            false
+                        )
+                        adapter = tagsAdapter
+                        tagsAdapter.setTags(tags)
+                        tagsAdapter.onItemClickListener = object : TagsAdapter.OnItemClickListener {
+                            override fun onItemClick(item: Tag) {
+                                onItemClickListener?.invoke(node, position)
+                            }
+
+                            override fun onItemLongClick(item: Tag): Boolean {
+                                onLongItemClickListener?.invoke(node, position)
+                                return true
+                            }
                         }
                     }
                     visibility = if (tags.isNotEmpty()) View.VISIBLE else View.GONE

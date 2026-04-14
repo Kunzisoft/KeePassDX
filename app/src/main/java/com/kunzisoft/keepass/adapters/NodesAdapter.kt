@@ -83,6 +83,7 @@ class NodesAdapter (
     private var mShowEntryColors: Boolean = true
     private var mShowUserNames: Boolean = true
     private var mShowNumberEntries: Boolean = true
+    private var mShowTags: Boolean = false
     private var mShowOTP: Boolean = false
     private var mShowUUID: Boolean = false
     private var mNodeFilters: NodeFilter? = null
@@ -161,6 +162,7 @@ class NodesAdapter (
         this.mShowEntryColors = PreferencesUtil.showEntryColors(context)
         this.mShowUserNames = PreferencesUtil.showUsernamesListEntries(context)
         this.mShowNumberEntries = PreferencesUtil.showNumberEntries(context)
+        this.mShowTags = PreferencesUtil.showTags(context)
         this.mShowOTP = PreferencesUtil.showOTPToken(context)
         this.mShowUUID = PreferencesUtil.showUUID(context)
 
@@ -373,23 +375,26 @@ class NodesAdapter (
         }
         // Tags
         holder.tags.apply {
-            val tagsAdapter = TagsAdapter(this.context, TagsAdapter.TagViewType.SMALL)
-            layoutManager = LinearLayoutManager(
-                context,
-                LinearLayoutManager.HORIZONTAL,
-                false
-            )
-            adapter = tagsAdapter
             val tags = subNode.tags
-            tagsAdapter.setTags(tags)
-            tagsAdapter.toggleSelection(holder.container.isSelected)
-            tagsAdapter.onItemClickListener = object : TagsAdapter.OnItemClickListener {
-                override fun onItemClick(item: Tag) {
-                    mNodeClickCallback?.onNodeClick(database, subNode)
-                }
-                override fun onItemLongClick(item: Tag): Boolean {
-                    mNodeClickCallback?.onNodeLongClick(database, subNode)
-                    return true
+            if (mShowTags) {
+                val tagsAdapter = TagsAdapter(this.context, TagsAdapter.TagViewType.SMALL)
+                layoutManager = LinearLayoutManager(
+                    context,
+                    LinearLayoutManager.HORIZONTAL,
+                    false
+                )
+                adapter = tagsAdapter
+                tagsAdapter.setTags(tags)
+                tagsAdapter.toggleSelection(holder.container.isSelected)
+                tagsAdapter.onItemClickListener = object : TagsAdapter.OnItemClickListener {
+                    override fun onItemClick(item: Tag) {
+                        mNodeClickCallback?.onNodeClick(database, subNode)
+                    }
+
+                    override fun onItemLongClick(item: Tag): Boolean {
+                        mNodeClickCallback?.onNodeLongClick(database, subNode)
+                        return true
+                    }
                 }
             }
             visibility = if (tags.isNotEmpty()) View.VISIBLE else View.GONE

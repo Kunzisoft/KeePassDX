@@ -89,6 +89,11 @@
             android:summary="@string/recursive_number_entries_summary"
             android:defaultValue="@bool/recursive_number_entries_default"/>
         <SwitchPreferenceCompat
+            android:key="@string/show_tags_key"
+            android:title="@string/show_tags_title"
+            android:summary="@string/show_tags_summary"
+            android:defaultValue="@bool/show_tags_default"/>
+        <SwitchPreferenceCompat
             android:key="@string/show_otp_token_key"
             android:title="@string/show_otp_token_title"
             android:summary="@string/show_otp_token_summary"

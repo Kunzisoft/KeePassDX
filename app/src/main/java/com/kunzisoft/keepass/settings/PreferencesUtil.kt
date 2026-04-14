@@ -158,6 +158,12 @@ object PreferencesUtil {
             context.resources.getBoolean(R.bool.recursive_number_entries_default))
     }
 
+    fun showTags(context: Context): Boolean {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        return prefs.getBoolean(context.getString(R.string.show_tags_key),
+            context.resources.getBoolean(R.bool.show_tags_default))
+    }
+
     fun showOTPToken(context: Context): Boolean {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
         return prefs.getBoolean(context.getString(R.string.show_otp_token_key),
@@ -919,6 +925,7 @@ object PreferencesUtil {
                 context.getString(R.string.list_entries_show_username_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.list_groups_show_number_entries_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.recursive_number_entries_key) -> editor.putBoolean(name, value.toBoolean())
+                context.getString(R.string.show_tags_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.show_otp_token_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.show_uuid_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.list_size_key) -> editor.putString(name, value)
