@@ -25,6 +25,7 @@ import android.content.SharedPreferences
 import android.content.res.Resources
 import android.net.Uri
 import android.util.Log
+import androidx.core.content.edit
 import androidx.preference.PreferenceManager
 import com.kunzisoft.keepass.BuildConfig
 import com.kunzisoft.keepass.R
@@ -39,7 +40,6 @@ import com.kunzisoft.keepass.timeout.TimeoutHelper.NEVER
 import com.kunzisoft.keepass.utils.AppUtil.isContributingUser
 import com.kunzisoft.keepass.utils.KeyboardUtil.isKeyboardActivatedInSettings
 import java.util.Properties
-import androidx.core.content.edit
 
 object PreferencesUtil {
 
@@ -363,6 +363,8 @@ object PreferencesUtil {
                 context.resources.getBoolean(R.bool.search_option_uuid_default))
             searchInTags = prefs.getBoolean(context.getString(R.string.search_option_tag_key),
                 context.resources.getBoolean(R.bool.search_option_tag_default))
+            tagsToSearch = prefs.getStringSet(context.getString(R.string.search_option_selected_tags_key),
+                HashSet())?.toList() ?: emptyList()
             searchInCurrentGroup = prefs.getBoolean(context.getString(R.string.search_option_current_group_key),
                 context.resources.getBoolean(R.bool.search_option_current_group_default))
             searchInSearchableGroup = prefs.getBoolean(context.getString(R.string.search_option_searchable_group_key),
@@ -402,6 +404,8 @@ object PreferencesUtil {
                 searchParameters.searchInUUIDs)
             putBoolean(context.getString(R.string.search_option_tag_key),
                 searchParameters.searchInTags)
+            putStringSet(context.getString(R.string.search_option_selected_tags_key),
+                searchParameters.tagsToSearch.toSet())
             putBoolean(context.getString(R.string.search_option_current_group_key),
                 searchParameters.searchInCurrentGroup)
             putBoolean(context.getString(R.string.search_option_searchable_group_key),

@@ -39,6 +39,8 @@ class TagsAdapter(
 ) : RecyclerView.Adapter<TagsAdapter.TagViewHolder>() {
 
     @ColorInt
+    private val mTextColor: Int
+    @ColorInt
     private val mColorSecondary: Int
     @ColorInt
     private val mColorOnSecondary: Int
@@ -48,6 +50,9 @@ class TagsAdapter(
     var onItemClickListener: OnItemClickListener? = null
 
     init {
+        context.obtainStyledAttributes(intArrayOf(android.R.attr.textColor)).also { taTextColor ->
+            this.mTextColor = taTextColor.getColor(0, Color.BLACK)
+        }.recycle()
         context.obtainStyledAttributes(intArrayOf(R.attr.colorSecondary)).also { taColorSecondary ->
             this.mColorSecondary = taColorSecondary.getColor(0, Color.GRAY)
         }.recycle()
@@ -60,6 +65,7 @@ class TagsAdapter(
         val view = inflater.inflate(when(globalViewType) {
             TagViewType.STANDARD -> R.layout.item_tag
             TagViewType.SMALL -> R.layout.item_tag_small
+            TagViewType.CHIP -> R.layout.item_tag_chip
         }, parent, false)
         return TagViewHolder(view)
     }
@@ -68,12 +74,42 @@ class TagsAdapter(
         val field = mTags.get(position)
         holder.name.apply {
             text = field.name
-            setTextColor(if (field.isSelected) mColorOnSecondary else mColorSecondary)
-            ViewCompat.setBackgroundTintList(
-                this,
-                ColorStateList.valueOf(
-                    (if (field.isSelected) mColorOnSecondary else mColorSecondary))
-            )
+        }
+        when (globalViewType) {
+            TagViewType.SMALL -> {
+                // Tint text depending on selection
+                holder.name.setTextColor(if (field.isSelected) mColorOnSecondary else mColorSecondary)
+                // Tint background depending on selection
+                ViewCompat.setBackgroundTintList(
+                    holder.name,
+                    ColorStateList.valueOf(
+                        (if (field.isSelected) mColorOnSecondary else mColorSecondary)
+                    )
+                )
+            }
+            TagViewType.CHIP -> {
+                holder.container?.let {
+                    ViewCompat.setBackgroundTintList(
+                        it,
+                        ColorStateList.valueOf(
+                            (if (field.isSelected) mColorSecondary else mTextColor)
+                        )
+                    )
+                }
+                holder.check?.let { checkView ->
+                    checkView.visibility = if (field.isSelected) View.VISIBLE else View.GONE
+                    ViewCompat.setBackgroundTintList(
+                        checkView,
+                        ColorStateList.valueOf(
+                            (if (field.isSelected) mColorSecondary else mTextColor)
+                        )
+                    )
+                }
+                holder.name.setTextColor(if (field.isSelected) mColorSecondary else mTextColor)
+            }
+            else -> {
+                // No text color change in standard mode
+            }
         }
         holder.bind(field, onItemClickListener)
     }
@@ -91,6 +127,23 @@ class TagsAdapter(
         mTags.clear()
     }
 
+    fun getSelectedStringTags(): List<String> {
+        return mTags.getSelectedTags().toStringList()
+    }
+
+    fun selectTags(tags: List<String>) {
+        // TODO fix when setTags is called after selection
+        tags.forEach {
+            mTags.select(it)
+            notifyItemChanged(mTags.indexOf(Tag(it)))
+        }
+    }
+
+    fun toggleSelection(tag: Tag) {
+        mTags.toggleSelection(tag)
+        notifyItemChanged(mTags.indexOf(tag))
+    }
+
     fun toggleSelection(isSelected: Boolean) {
         if (isSelected) mTags.selectAll() else mTags.deselectAll()
         notifyDataSetChanged()
@@ -103,6 +156,8 @@ class TagsAdapter(
 
     class TagViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
+        var container: View? = itemView.findViewById(R.id.tag_container)
+        var check: View? = itemView.findViewById(R.id.tag_check)
         var name: TextView = itemView.findViewById(R.id.tag_name)
 
         fun bind(item: Tag, listener: OnItemClickListener?) {
@@ -114,6 +169,6 @@ class TagsAdapter(
     }
 
     enum class TagViewType {
-        STANDARD, SMALL
+        STANDARD, SMALL, CHIP
     }
 }

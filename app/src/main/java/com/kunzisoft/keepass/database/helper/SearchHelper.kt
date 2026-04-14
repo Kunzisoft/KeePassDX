@@ -94,8 +94,9 @@ object SearchHelper {
             callback.invoke(
                 SearchParameters().apply {
                     searchQuery = query
-                    searchOptions = optionsString()
                     allowEmptyQuery = false
+                    searchInTags = isTagSearch
+                    tagsToSearch = tags
                     searchInTitles = false
                     searchInUsernames = false
                     searchInPasswords = false
@@ -104,11 +105,11 @@ object SearchHelper {
                     searchByDomain = true
                     searchBySubDomain = searchSubDomains
                     searchInRelyingParty = isPasskeySearch
+                    credentialIds = optionsString()
                     searchInNotes = false
                     searchInOTP = isOTPSearch
                     searchInOther = false
                     searchInUUIDs = false
-                    searchInTags = isTagSearch
                     searchInCurrentGroup = false
                     searchInSearchableGroup = true
                     searchInRecycleBin = false

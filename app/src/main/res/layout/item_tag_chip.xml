@@ -21,28 +21,35 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/tag_container"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_marginHorizontal="6dp"
+    android:layout_marginHorizontal="4dp"
+    android:layout_marginVertical="4dp"
+    android:layout_gravity="center_vertical"
+    android:gravity="center_vertical"
     android:background="@drawable/background_tag"
+    app:backgroundTint="?android:attr/textColor"
     android:orientation="horizontal">
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tag_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:layout_gravity="center_vertical"
-        tools:text="text"
-        android:textSize="12sp"
-        android:paddingHorizontal="4dp" />
     <ImageView
-        android:id="@+id/tag_remove"
+        android:id="@+id/tag_check"
         android:layout_width="24dp"
         android:layout_height="24dp"
         android:padding="4dp"
-        android:src="@drawable/ic_close_white_24dp"
+        android:src="@drawable/ic_check_white_24dp"
         app:tint="?attr/colorSecondary"
         android:gravity="center_vertical"
         android:layout_gravity="center"
         android:contentDescription="@string/menu_delete" />
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tag_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:backgroundTint="?android:attr/textColor"
+        android:minHeight="24dp"
+        android:gravity="center_vertical"
+        android:layout_gravity="center_vertical"
+        tools:text="text"
+        android:textSize="14sp"
+        android:paddingHorizontal="4dp" />
 </LinearLayout>

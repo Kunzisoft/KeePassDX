@@ -1,2 +1,3 @@
  * Fix breadcrumb Group view refresh #2477
  * Tags in list view #1539 #2144
+ * Search by Tags #1338 #2280

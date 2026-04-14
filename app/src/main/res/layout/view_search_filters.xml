@@ -18,28 +18,24 @@
             style="@style/KeepassDXStyle.Text.Badge"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/default_margin"
-            android:layout_marginLeft="@dimen/default_margin"
-            android:layout_marginEnd="@dimen/default_margin"
-            android:layout_marginRight="@dimen/default_margin"
+            android:layout_marginHorizontal="@dimen/default_margin"
             android:layout_gravity="center"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/search_expand"
+            app:layout_constraintBottom_toBottomOf="@+id/search_expand"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             tools:text="3" />
         <HorizontalScrollView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/search_expand"
+            app:layout_constraintBottom_toBottomOf="@+id/search_expand"
             app:layout_constraintEnd_toStartOf="@+id/search_expand"
-            app:layout_constraintStart_toEndOf="@+id/search_numbers"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintStart_toEndOf="@+id/search_numbers">
             <com.google.android.material.chip.ChipGroup
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/default_margin"
-                android:layout_marginLeft="@dimen/default_margin"
                 app:singleLine="true">
                 <com.google.android.material.chip.Chip
                     android:id="@+id/search_chip_current_group"
@@ -48,7 +44,7 @@
                     android:checked="true"
                     style="@style/KeepassDXStyle.Chip.Filter.Icon"
                     android:text="@string/current_group"
-                    app:closeIcon="@drawable/ic_current_folder_white_24dp" />
+                    app:chipIcon="@drawable/ic_current_folder_white_24dp" />
             </com.google.android.material.chip.ChipGroup>
         </HorizontalScrollView>
         <ImageButton
@@ -56,12 +52,47 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/search_tags_container"
             app:layout_constraintEnd_toEndOf="parent"
             style="@style/KeepassDXStyle.ImageButton.Simple"
             android:contentDescription="@string/search_filters"
             android:src="@drawable/ic_list_white_24dp"
             app:tint="?attr/colorOnSurface"/>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/search_tags_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@+id/search_expand"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+            <com.google.android.material.chip.Chip
+                android:id="@+id/search_chip_tag"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="false"
+                android:enabled="false"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginStart="8dp"
+                android:layout_marginBottom="8dp"
+                style="@style/KeepassDXStyle.Chip.Filter.Icon"
+                app:chipIcon="@drawable/ic_bookmark_white_12dp"
+                android:text="@string/tags"/>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/search_tags_list"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintTop_toTopOf="@+id/search_chip_tag"
+                app:layout_constraintBottom_toBottomOf="@+id/search_chip_tag"
+                app:layout_constraintStart_toEndOf="@+id/search_chip_tag"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_gravity="center_vertical"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                android:orientation="horizontal"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
     <LinearLayout
         android:id="@+id/search_advance_filters"
@@ -143,14 +174,6 @@
                 android:checked="false"
                 style="@style/KeepassDXStyle.Chip.Filter"
                 android:text="@string/entry_UUID"/>
-            <com.google.android.material.chip.Chip
-                android:id="@+id/search_chip_tag"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:checked="false"
-                android:enabled="false"
-                style="@style/KeepassDXStyle.Chip.Filter"
-                android:text="@string/tags"/>
         </com.google.android.material.chip.ChipGroup>
         <com.google.android.material.chip.ChipGroup
             android:layout_width="match_parent"

@@ -21,6 +21,10 @@ class Tags: Parcelable {
         )
     }
 
+    constructor(tags: List<Tag>): this() {
+        mTags.addAll(tags)
+    }
+
     constructor(parcel: Parcel) : this() {
         parcel.readListCompat(mTags)
     }
@@ -40,6 +44,10 @@ class Tags: Parcelable {
 
     fun get(position: Int): Tag {
         return mTags[position]
+    }
+
+    fun indexOf(tag: Tag): Int {
+        return mTags.indexOf(tag)
     }
 
     fun put(tag: Tag) {
@@ -66,6 +74,10 @@ class Tags: Parcelable {
         return mTags.contains(Tag(tag.trim()))
     }
 
+    fun containsAny(tags: List<String>): Boolean {
+        return mTags.any { tags.contains(it.name) }
+    }
+
     fun isEmpty(): Boolean {
         return mTags.isEmpty()
     }
@@ -80,6 +92,22 @@ class Tags: Parcelable {
 
     fun clear() {
         mTags.clear()
+    }
+
+    fun select(tag: String) {
+        mTags.forEach { if (it.name == tag) it.isSelected = true }
+    }
+
+    fun unselect(tag: String) {
+        mTags.forEach { if (it.name == tag) it.isSelected = false }
+    }
+
+    fun toggleSelection(tag: Tag) {
+        mTags.forEach { if (it.name == tag.name) it.isSelected = !it.isSelected }
+    }
+
+    fun getSelectedTags(): Tags {
+        return Tags(mTags.filter { it.isSelected })
     }
 
     fun selectAll() {
