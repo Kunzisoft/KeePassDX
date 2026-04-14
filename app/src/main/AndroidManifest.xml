@@ -47,7 +47,7 @@
         android:theme="@style/KeepassDXStyle.Night"
         tools:targetApi="s"
         tools:ignore="CredentialDependency"
-        android:memtagMode="sync">
+        android:memtagMode="async">
         <meta-data
             android:name="com.google.android.backup.api_key"
             android:value="${googleAndroidBackupAPIKey}" />
