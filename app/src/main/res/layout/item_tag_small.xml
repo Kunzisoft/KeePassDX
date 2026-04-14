@@ -23,7 +23,6 @@
     android:id="@+id/tag_name"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:minHeight="24dp"
     android:gravity="center_vertical"
     android:layout_gravity="center"
     android:background="@drawable/background_tag"
@@ -31,8 +30,7 @@
     tools:text="text"
     android:textColor="?attr/colorSecondary"
     android:textSize="12sp"
-    android:layout_marginHorizontal="2dp"
-    android:layout_marginTop="1dp"
-    android:layout_marginBottom="2dp"
-    android:paddingBottom="0dp"
-    android:paddingHorizontal="8dp" />
+    android:paddingVertical="0dp"
+    android:paddingHorizontal="6dp"
+    android:layout_marginEnd="2dp"
+    android:layout_marginBottom="2dp"/>

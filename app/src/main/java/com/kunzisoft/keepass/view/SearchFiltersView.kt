@@ -3,13 +3,19 @@ package com.kunzisoft.keepass.view
 import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.CompoundButton
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.view.isVisible
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.kunzisoft.keepass.R
+import com.kunzisoft.keepass.adapters.TagsAdapter
+import com.kunzisoft.keepass.database.element.Tag
+import com.kunzisoft.keepass.database.element.Tags
 import com.kunzisoft.keepass.database.helper.SearchHelper
 import com.kunzisoft.keepass.database.search.SearchParameters
 import com.kunzisoft.keepass.settings.PreferencesUtil
@@ -23,6 +29,30 @@ class SearchFiltersView @JvmOverloads constructor(context: Context,
     private var searchAdvanceFiltersContainer: ViewGroup? = null
     private var searchExpandButton: ImageView
     private var searchNumbers: TextView
+    private var searchTags: RecyclerView
+    private var searchTagsContainer: View
+    private var searchTag: CompoundButton
+    private var tagsAdapter: TagsAdapter = TagsAdapter(
+        context,
+        TagsAdapter.TagViewType.CHIP
+    ).apply {
+        onItemClickListener = object : TagsAdapter.OnItemClickListener {
+            override fun onItemClick(item: Tag) {
+                toggleSelection(item)
+                val selectedTags = tagsAdapter.getSelectedStringTags()
+                val atLeastOneSelectedTag = selectedTags.isNotEmpty()
+                searchTag.isChecked = atLeastOneSelectedTag
+                searchParameters.apply {
+                    searchInTags = atLeastOneSelectedTag
+                    tagsToSearch = selectedTags
+                }
+                mOnParametersChangeListener?.invoke(searchParameters)
+            }
+            override fun onItemLongClick(item: Tag): Boolean {
+                return false
+            }
+        }
+    }
     private var searchCurrentGroup: CompoundButton
     private var searchCaseSensitive: CompoundButton
     private var searchRegex: CompoundButton
@@ -37,7 +67,6 @@ class SearchFiltersView @JvmOverloads constructor(context: Context,
     private var searchNotes: CompoundButton
     private var searchOther: CompoundButton
     private var searchUUID: CompoundButton
-    private var searchTag: CompoundButton
     private var searchGroupSearchable: CompoundButton
     private var searchRecycleBin: CompoundButton
     private var searchTemplate: CompoundButton
@@ -48,6 +77,8 @@ class SearchFiltersView @JvmOverloads constructor(context: Context,
                 this.searchInCurrentGroup = searchCurrentGroup.isChecked
                 this.caseSensitive = searchCaseSensitive.isChecked
                 this.isRegex = searchRegex.isChecked
+                this.searchInTags = searchTag.isChecked
+                this.tagsToSearch = tagsAdapter.getSelectedStringTags()
                 this.searchInTitles = searchTitle.isChecked
                 this.searchInUsernames = searchUsername.isChecked
                 this.searchInPasswords = searchPassword.isChecked
@@ -59,7 +90,6 @@ class SearchFiltersView @JvmOverloads constructor(context: Context,
                 this.searchInNotes = searchNotes.isChecked
                 this.searchInOther = searchOther.isChecked
                 this.searchInUUIDs = searchUUID.isChecked
-                this.searchInTags = searchTag.isChecked
                 this.searchInRecycleBin = searchRecycleBin.isChecked
                 this.searchInTemplates = searchTemplate.isChecked
             }
@@ -69,6 +99,8 @@ class SearchFiltersView @JvmOverloads constructor(context: Context,
             val tempListener = mOnParametersChangeListener
             mOnParametersChangeListener = null
             searchCurrentGroup.isChecked = value.searchInCurrentGroup
+            searchTag.isChecked = value.searchInTags
+            tagsAdapter.selectTags(value.tagsToSearch)
             searchCaseSensitive.isChecked = value.caseSensitive
             searchRegex.isChecked = value.isRegex
             searchTitle.isChecked = value.searchInTitles
@@ -82,7 +114,6 @@ class SearchFiltersView @JvmOverloads constructor(context: Context,
             searchNotes.isChecked = value.searchInNotes
             searchOther.isChecked = value.searchInOther
             searchUUID.isChecked = value.searchInUUIDs
-            searchTag.isChecked = value.searchInTags
             searchGroupSearchable.isChecked = value.searchInSearchableGroup
             searchRecycleBin.isChecked = value.searchInRecycleBin
             searchTemplate.isChecked = value.searchInTemplates
@@ -110,6 +141,9 @@ class SearchFiltersView @JvmOverloads constructor(context: Context,
         searchExpandButton = findViewById(R.id.search_expand)
         searchNumbers = findViewById(R.id.search_numbers)
         searchCurrentGroup = findViewById(R.id.search_chip_current_group)
+        searchTagsContainer = findViewById(R.id.search_tags_container)
+        searchTag = findViewById(R.id.search_chip_tag)
+        searchTags = findViewById(R.id.search_tags_list)
         searchCaseSensitive = findViewById(R.id.search_chip_case_sensitive)
         searchRegex = findViewById(R.id.search_chip_regex)
         searchTitle = findViewById(R.id.search_chip_title)
@@ -121,7 +155,6 @@ class SearchFiltersView @JvmOverloads constructor(context: Context,
         searchNotes = findViewById(R.id.search_chip_note)
         searchUUID = findViewById(R.id.search_chip_uuid)
         searchOther = findViewById(R.id.search_chip_other)
-        searchTag = findViewById(R.id.search_chip_tag)
         searchGroupSearchable = findViewById(R.id.search_chip_group_searchable)
         searchRecycleBin = findViewById(R.id.search_chip_recycle_bin)
         searchTemplate = findViewById(R.id.search_chip_template)
@@ -140,6 +173,21 @@ class SearchFiltersView @JvmOverloads constructor(context: Context,
 
         searchCurrentGroup.setOnCheckedChangeListener { _, isChecked ->
             searchParameters.searchInCurrentGroup = isChecked
+            mOnParametersChangeListener?.invoke(searchParameters)
+        }
+        searchTags.apply {
+            layoutManager = LinearLayoutManager(
+                context,
+                LinearLayoutManager.HORIZONTAL,
+                false
+            )
+            adapter = tagsAdapter
+        }
+        searchTag.setOnCheckedChangeListener { _, isChecked ->
+            searchParameters.apply {
+                searchInTags = isChecked
+                tagsToSearch = tagsAdapter.getSelectedStringTags()
+            }
             mOnParametersChangeListener?.invoke(searchParameters)
         }
         searchCaseSensitive.setOnCheckedChangeListener { _, isChecked ->
@@ -186,10 +234,6 @@ class SearchFiltersView @JvmOverloads constructor(context: Context,
             searchParameters.searchInOther = isChecked
             mOnParametersChangeListener?.invoke(searchParameters)
         }
-        searchTag.setOnCheckedChangeListener { _, isChecked ->
-            searchParameters.searchInTags = isChecked
-            mOnParametersChangeListener?.invoke(searchParameters)
-        }
         searchGroupSearchable.setOnCheckedChangeListener { _, isChecked ->
             searchParameters.searchInSearchableGroup = isChecked
             mOnParametersChangeListener?.invoke(searchParameters)
@@ -216,6 +260,16 @@ class SearchFiltersView @JvmOverloads constructor(context: Context,
             text.isNullOrEmpty() -> context.getString(R.string.current_group)
             text.length > maxChars -> text.substring(0, maxChars) + "…"
             else -> text
+        }
+    }
+
+    fun setSelectableTags(tags: Tags?) {
+        if (tags == null || tags.isEmpty()) {
+            searchTagsContainer.isVisible = false
+            searchParameters.searchInTags = false
+        } else {
+            searchTagsContainer.isVisible = true
+            tagsAdapter.setTags(tags)
         }
     }
 

@@ -245,6 +245,8 @@
     <string name="list_groups_show_number_entries_summary">Displays the number of entries in a group</string>
     <string name="recursive_number_entries_title">Recursive number of entries</string>
     <string name="recursive_number_entries_summary">Recursively calculates the number of entries in a group</string>
+    <string name="show_tags_title">Show Tags</string>
+    <string name="show_tags_summary">Displays Tags in the list of entries</string>
     <string name="show_otp_token_title">Show OTP Token</string>
     <string name="show_otp_token_summary">Displays OTP tokens in the list of entries</string>
     <string name="show_uuid_title">Show UUID</string>

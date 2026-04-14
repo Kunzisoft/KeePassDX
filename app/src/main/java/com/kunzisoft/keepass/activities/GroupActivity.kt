@@ -866,15 +866,18 @@ class GroupActivity : DatabaseLockActivity(),
         val group = mCurrentGroup
         // Assign title
         if (group?.isVirtual == true) {
-            searchFiltersView?.setNumbers(group.numberOfChildEntries)
-            searchFiltersView?.setCurrentGroupText(mMainGroup?.title ?: getString(R.string.search))
-            searchFiltersView?.availableOther(mDatabase?.allowEntryCustomFields() ?: false)
-            searchFiltersView?.availableApplicationIds(mDatabase?.allowEntryCustomFields() ?: false)
-            searchFiltersView?.availableTags(mDatabase?.allowTags() ?: false)
-            searchFiltersView?.enableTags(mDatabase?.tagPool?.isNotEmpty() ?: false)
-            searchFiltersView?.availableSearchableGroup(mDatabase?.allowCustomSearchableGroup() ?: false)
-            searchFiltersView?.availableTemplates(mDatabase?.allowTemplatesGroup ?: false)
-            searchFiltersView?.enableTemplates(mDatabase?.templatesGroup != null)
+            searchFiltersView?.apply {
+                setNumbers(group.numberOfChildEntries)
+                setSelectableTags(mDatabase?.tagPool)
+                setCurrentGroupText(mMainGroup?.title ?: getString(R.string.search))
+                availableOther(mDatabase?.allowEntryCustomFields() ?: false)
+                availableApplicationIds(mDatabase?.allowEntryCustomFields() ?: false)
+                availableTags(mDatabase?.allowTags() ?: false)
+                enableTags(mDatabase?.tagPool?.isNotEmpty() ?: false)
+                availableSearchableGroup(mDatabase?.allowCustomSearchableGroup() ?: false)
+                availableTemplates(mDatabase?.allowTemplatesGroup ?: false)
+                enableTemplates(mDatabase?.templatesGroup != null)
+            }
         } else {
             // Add breadcrumb
             setBreadcrumbNode(group)

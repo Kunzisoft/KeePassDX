@@ -132,7 +132,13 @@ class SearchHelper {
             entry: Entry,
             searchParameters: SearchParameters
         ): Boolean {
-            // Not found if the search string is empty
+            // Search in Tags
+            if (searchParameters.searchInTags) {
+                if (!entry.tags.containsAny(searchParameters.tagsToSearch))
+                    return false
+            }
+
+            // Show all if the search string is empty
             if (searchParameters.searchQuery.isEmpty())
                 return searchParameters.allowEmptyQuery
 
@@ -178,7 +184,7 @@ class SearchHelper {
             }
             if (searchParameters.searchInRelyingParty) {
                 val relyingParty = searchParameters.searchQuery
-                val credentialIds = searchParameters.searchOptions
+                val credentialIds = searchParameters.credentialIds
                 val containsRelyingParty = entry.getExtraFields().any { field ->
                         field.isRelyingParty()
                                 && field.protectedValue.stringValue
@@ -227,10 +233,6 @@ class SearchHelper {
                     && !field.isPasskey()
                     && checkSearchQuery(field.protectedValue.toString(), searchParameters)
                 })
-                    return true
-            }
-            if (searchParameters.searchInTags) {
-                if (checkSearchQuery(entry.tags.toString(), searchParameters))
                     return true
             }
             return false

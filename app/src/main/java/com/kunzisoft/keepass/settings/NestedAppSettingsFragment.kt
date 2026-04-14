@@ -448,6 +448,7 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
             getString(R.string.list_entries_show_username_key),
             getString(R.string.list_groups_show_number_entries_key),
             getString(R.string.recursive_number_entries_key),
+            getString(R.string.show_tags_key),
             getString(R.string.show_otp_token_key),
             getString(R.string.show_uuid_key),
             getString(R.string.list_size_key),

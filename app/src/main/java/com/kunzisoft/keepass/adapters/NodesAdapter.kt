@@ -31,6 +31,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.ColorInt
 import androidx.core.view.ViewCompat
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SortedList
 import androidx.recyclerview.widget.SortedListAdapterCallback
@@ -40,6 +41,7 @@ import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.element.Entry
 import com.kunzisoft.keepass.database.element.Group
 import com.kunzisoft.keepass.database.element.SortNodeEnum
+import com.kunzisoft.keepass.database.element.Tag
 import com.kunzisoft.keepass.database.element.node.Node
 import com.kunzisoft.keepass.database.element.node.NodeVersionedInterface
 import com.kunzisoft.keepass.database.element.node.Type
@@ -81,6 +83,7 @@ class NodesAdapter (
     private var mShowEntryColors: Boolean = true
     private var mShowUserNames: Boolean = true
     private var mShowNumberEntries: Boolean = true
+    private var mShowTags: Boolean = false
     private var mShowOTP: Boolean = false
     private var mShowUUID: Boolean = false
     private var mNodeFilters: NodeFilter? = null
@@ -119,29 +122,29 @@ class NodesAdapter (
         this.mNodeSortedListCallback = NodeSortedListCallback()
         this.mNodeSortedList = SortedList(Node::class.java, mNodeSortedListCallback)
 
-        val taColorSurfaceContainer = context.obtainStyledAttributes(intArrayOf(R.attr.colorSurfaceContainer))
-        this.mColorSurfaceContainer = taColorSurfaceContainer.getColor(0, Color.BLACK)
-        taColorSurfaceContainer.recycle()
+        context.obtainStyledAttributes(intArrayOf(R.attr.colorSurfaceContainer)).also { taColorSurfaceContainer ->
+            this.mColorSurfaceContainer = taColorSurfaceContainer.getColor(0, Color.BLACK)
+        }.recycle()
         // Retrieve the color to tint the icon
-        val taTextColorPrimary = context.obtainStyledAttributes(intArrayOf(android.R.attr.textColorPrimary))
-        this.mTextColorPrimary = taTextColorPrimary.getColor(0, Color.BLACK)
-        taTextColorPrimary.recycle()
+        context.obtainStyledAttributes(intArrayOf(android.R.attr.textColorPrimary)).also { taTextColorPrimary ->
+            this.mTextColorPrimary = taTextColorPrimary.getColor(0, Color.BLACK)
+        }.recycle()
         // To get text color
-        val taTextColor = context.obtainStyledAttributes(intArrayOf(android.R.attr.textColor))
-        this.mTextColor = taTextColor.getColor(0, Color.BLACK)
-        taTextColor.recycle()
+        context.obtainStyledAttributes(intArrayOf(android.R.attr.textColor)).also { taTextColor ->
+            this.mTextColor = taTextColor.getColor(0, Color.BLACK)
+        }.recycle()
         // To get text color secondary
-        val taTextColorSecondary = context.obtainStyledAttributes(intArrayOf(android.R.attr.textColorSecondary))
-        this.mTextColorSecondary = taTextColorSecondary.getColor(0, Color.BLACK)
-        taTextColorSecondary.recycle()
+        context.obtainStyledAttributes(intArrayOf(android.R.attr.textColorSecondary)).also { taTextColorSecondary ->
+            this.mTextColorSecondary = taTextColorSecondary.getColor(0, Color.BLACK)
+        }.recycle()
         // To get background color for selection
-        val taColorSecondary = context.obtainStyledAttributes(intArrayOf(R.attr.colorSecondary))
-        this.mColorSecondary = taColorSecondary.getColor(0, Color.GRAY)
-        taColorSecondary.recycle()
+        context.obtainStyledAttributes(intArrayOf(R.attr.colorSecondary)).also { taColorSecondary ->
+            this.mColorSecondary = taColorSecondary.getColor(0, Color.GRAY)
+        }.recycle()
         // To get text color for selection
-        val taColorOnSecondary = context.obtainStyledAttributes(intArrayOf(R.attr.colorOnSecondary))
-        this.mColorOnSecondary = taColorOnSecondary.getColor(0, Color.WHITE)
-        taColorOnSecondary.recycle()
+        context.obtainStyledAttributes(intArrayOf(R.attr.colorOnSecondary)).also { taColorOnSecondary ->
+            this.mColorOnSecondary = taColorOnSecondary.getColor(0, Color.WHITE)
+        }.recycle()
     }
 
     private fun assignPreferences() {
@@ -159,6 +162,7 @@ class NodesAdapter (
         this.mShowEntryColors = PreferencesUtil.showEntryColors(context)
         this.mShowUserNames = PreferencesUtil.showUsernamesListEntries(context)
         this.mShowNumberEntries = PreferencesUtil.showNumberEntries(context)
+        this.mShowTags = PreferencesUtil.showTags(context)
         this.mShowOTP = PreferencesUtil.showOTPToken(context)
         this.mShowUUID = PreferencesUtil.showUUID(context)
 
@@ -368,6 +372,32 @@ class NodesAdapter (
             text = subNode.title
             setTextSize(mTextSizeUnit, mTextDefaultDimension, mPrefSizeMultiplier)
             strikeOut(subNode.isCurrentlyExpires)
+        }
+        // Tags
+        holder.tags.apply {
+            val tags = subNode.tags
+            if (mShowTags) {
+                val tagsAdapter = TagsAdapter(this.context, TagsAdapter.TagViewType.SMALL)
+                layoutManager = LinearLayoutManager(
+                    context,
+                    LinearLayoutManager.HORIZONTAL,
+                    false
+                )
+                adapter = tagsAdapter
+                tagsAdapter.setTags(tags)
+                tagsAdapter.toggleSelection(holder.container.isSelected)
+                tagsAdapter.onItemClickListener = object : TagsAdapter.OnItemClickListener {
+                    override fun onItemClick(item: Tag) {
+                        mNodeClickCallback?.onNodeClick(database, subNode)
+                    }
+
+                    override fun onItemLongClick(item: Tag): Boolean {
+                        mNodeClickCallback?.onNodeLongClick(database, subNode)
+                        return true
+                    }
+                }
+            }
+            visibility = if (tags.isNotEmpty()) View.VISIBLE else View.GONE
         }
         // Add meta text to show UUID
         holder.meta.apply {
@@ -610,6 +640,7 @@ class NodesAdapter (
         var icon: ImageView = itemView.findViewById(R.id.node_icon)
         var text: TextView = itemView.findViewById(R.id.node_text)
         var subText: TextView? = itemView.findViewById(R.id.node_subtext)
+        var tags: RecyclerView = itemView.findViewById(R.id.node_tags_list_view)
         var meta: TextView = itemView.findViewById(R.id.node_meta)
         var path: TextView? = itemView.findViewById(R.id.node_path)
         var otpContainer: ViewGroup? = itemView.findViewById(R.id.node_otp_container)

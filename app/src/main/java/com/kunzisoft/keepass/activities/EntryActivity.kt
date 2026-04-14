@@ -192,6 +192,7 @@ class EntryActivity : DatabaseLockActivity() {
         tagsListView?.apply {
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
             adapter = tagsAdapter
+            isFocusable = false
         }
 
         // Init preferences
@@ -278,7 +279,7 @@ class EntryActivity : DatabaseLockActivity() {
                 toolbar?.title = entryTitle
                 // Assign tags
                 val tags = entryInfo.tags
-                tagsListView?.visibility = if (tags.isEmpty()) View.GONE else View.VISIBLE
+                tagsListView    ?.visibility = if (tags.isEmpty()) View.GONE else View.VISIBLE
                 tagsAdapter?.setTags(tags)
                 // Assign colors
                 val showEntryColors = PreferencesUtil.showEntryColors(this)

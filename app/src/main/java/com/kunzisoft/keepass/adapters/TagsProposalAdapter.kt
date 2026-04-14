@@ -8,7 +8,7 @@ class TagsProposalAdapter(context: Context, proposal: Tags?)
     : FilteredArrayAdapter<String>(
     context,
     android.R.layout.simple_list_item_1,
-    (proposal ?: Tags()).toList()
+    (proposal ?: Tags()).toStringList()
 ) {
 
     override fun keepObject(obj: String, mask: String?): Boolean {

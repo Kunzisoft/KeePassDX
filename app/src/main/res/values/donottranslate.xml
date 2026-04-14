@@ -216,6 +216,8 @@
     <bool name="list_groups_show_number_entries_default" translatable="false">true</bool>
     <string name="recursive_number_entries_key" translatable="false">recursive_number_entries_key</string>
     <bool name="recursive_number_entries_default" translatable="false">true</bool>
+    <string name="show_tags_key" translatable="false">show_tags_key</string>
+    <bool name="show_tags_default" translatable="false">true</bool>
     <string name="show_otp_token_key" translatable="false">show_otp_token_key</string>
     <bool name="show_otp_token_default" translatable="false">true</bool>
     <string name="show_uuid_key" translatable="false">show_uuid_key</string>
@@ -272,6 +274,7 @@
     <bool name="search_option_uuid_default" translatable="false">false</bool>
     <string name="search_option_tag_key" translatable="false">search_option_tag_key</string>
     <bool name="search_option_tag_default" translatable="false">false</bool>
+    <string name="search_option_selected_tags_key" translatable="false">search_option_selected_tags_key</string>
     <string name="search_option_current_group_key" translatable="false">search_option_current_group_key</string>
     <bool name="search_option_current_group_default" translatable="false">false</bool>
     <string name="search_option_searchable_group_key" translatable="false">search_option_searchable_group_key</string>

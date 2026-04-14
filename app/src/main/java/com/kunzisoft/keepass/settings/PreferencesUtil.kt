@@ -25,6 +25,7 @@ import android.content.SharedPreferences
 import android.content.res.Resources
 import android.net.Uri
 import android.util.Log
+import androidx.core.content.edit
 import androidx.preference.PreferenceManager
 import com.kunzisoft.keepass.BuildConfig
 import com.kunzisoft.keepass.R
@@ -39,7 +40,6 @@ import com.kunzisoft.keepass.timeout.TimeoutHelper.NEVER
 import com.kunzisoft.keepass.utils.AppUtil.isContributingUser
 import com.kunzisoft.keepass.utils.KeyboardUtil.isKeyboardActivatedInSettings
 import java.util.Properties
-import androidx.core.content.edit
 
 object PreferencesUtil {
 
@@ -156,6 +156,12 @@ object PreferencesUtil {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
         return prefs.getBoolean(context.getString(R.string.recursive_number_entries_key),
             context.resources.getBoolean(R.bool.recursive_number_entries_default))
+    }
+
+    fun showTags(context: Context): Boolean {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        return prefs.getBoolean(context.getString(R.string.show_tags_key),
+            context.resources.getBoolean(R.bool.show_tags_default))
     }
 
     fun showOTPToken(context: Context): Boolean {
@@ -363,6 +369,8 @@ object PreferencesUtil {
                 context.resources.getBoolean(R.bool.search_option_uuid_default))
             searchInTags = prefs.getBoolean(context.getString(R.string.search_option_tag_key),
                 context.resources.getBoolean(R.bool.search_option_tag_default))
+            tagsToSearch = prefs.getStringSet(context.getString(R.string.search_option_selected_tags_key),
+                HashSet())?.toList() ?: emptyList()
             searchInCurrentGroup = prefs.getBoolean(context.getString(R.string.search_option_current_group_key),
                 context.resources.getBoolean(R.bool.search_option_current_group_default))
             searchInSearchableGroup = prefs.getBoolean(context.getString(R.string.search_option_searchable_group_key),
@@ -402,6 +410,8 @@ object PreferencesUtil {
                 searchParameters.searchInUUIDs)
             putBoolean(context.getString(R.string.search_option_tag_key),
                 searchParameters.searchInTags)
+            putStringSet(context.getString(R.string.search_option_selected_tags_key),
+                searchParameters.tagsToSearch.toSet())
             putBoolean(context.getString(R.string.search_option_current_group_key),
                 searchParameters.searchInCurrentGroup)
             putBoolean(context.getString(R.string.search_option_searchable_group_key),
@@ -915,6 +925,7 @@ object PreferencesUtil {
                 context.getString(R.string.list_entries_show_username_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.list_groups_show_number_entries_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.recursive_number_entries_key) -> editor.putBoolean(name, value.toBoolean())
+                context.getString(R.string.show_tags_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.show_otp_token_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.show_uuid_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.list_size_key) -> editor.putString(name, value)
