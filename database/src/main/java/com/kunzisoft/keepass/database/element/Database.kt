@@ -796,7 +796,7 @@ open class Database {
                     else -> throw SignatureDatabaseException()
                 }
             }
-        } catch (fileNotFoundException : FileNotFoundException) {
+        } catch (_ : FileNotFoundException) {
             throw FileNotFoundDatabaseException()
         }
     }
@@ -1035,7 +1035,7 @@ open class Database {
             }
         }
         if (virtual)
-            group?.isVirtual = virtual
+            group?.isVirtual = true
 
         return group
     }
