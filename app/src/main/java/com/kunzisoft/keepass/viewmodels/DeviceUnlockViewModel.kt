@@ -118,7 +118,7 @@ class DeviceUnlockViewModel(application: Application): AndroidViewModel(applicat
     }
 
     /**
-     * Check unlock availability and change the current mode depending of device's state
+     * Check unlock availability and change the current mode depending on device's state
      */
     fun checkUnlockAvailability() {
         if (PreferencesUtil.isBiometricUnlockEnable(getApplication())) {
@@ -289,10 +289,11 @@ class DeviceUnlockViewModel(application: Application): AndroidViewModel(applicat
         // retrieve the encrypted value from preferences
         cancelAndLaunchCipherJob {
             databaseUri?.let { databaseUri ->
-                cipherDatabase?.encryptedValue?.let { encryptedCredential ->
+                cipherDatabase?.let { cipherDb ->
                     deviceUnlockManager?.decryptData(
-                        encryptedValue = encryptedCredential,
+                        encryptedValue = cipherDb.encryptedValue,
                         cipher = cipher,
+                        ivSpecValue = cipherDb.specParameters,
                         handleDecryptedResult = { decryptedValue ->
                             // Load database directly with password retrieve
                             onCredentialDecrypted(
