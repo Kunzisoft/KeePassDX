@@ -38,6 +38,12 @@
 #include "aes.h"
 #include "sha2.h"
 
+static void secure_wipe_memory(void *v, size_t n) {
+  if (v == NULL || n == 0) return;
+  static void *(*const volatile memset_sec)(void *, int, size_t) = &memset;
+  memset_sec(v, 0, n);
+}
+
 static jclass bad_arg, no_mem, bad_padding, short_buf, block_size;
 
 typedef enum {
@@ -144,12 +150,14 @@ JNIEXPORT jlong JNICALL Java_com_kunzisoft_encrypt_aes_NativeAESCipherSpi_nInit(
     aes_decrypt_key(ckey, key_len, DEC_CTX(state));
   }
 
+  secure_wipe_memory(ckey, sizeof(ckey));
+
   return (jlong)state;
 }
 
 JNIEXPORT void JNICALL Java_com_kunzisoft_encrypt_aes_NativeAESCipherSpi_nCleanup(JNIEnv *env, jclass this, jlong state) {
   if (state) {
-    memset((void *)state, 0, sizeof(aes_state));
+    secure_wipe_memory((void *)state, sizeof(aes_state));
     free((void *)state);
   }
 }
@@ -211,6 +219,7 @@ JNIEXPORT jint JNICALL Java_com_kunzisoft_encrypt_aes_NativeAESCipherSpi_nUpdate
 
   out = malloc(outLen+ALIGN_EXTRA);
   if( out == NULL ) {
+    secure_wipe_memory(in, cryptLen+ALIGN_EXTRA);
     free(in);
     (*env)->ThrowNew(env, no_mem, "Unable to allocate heap space for encryption output");
     return -1;
@@ -229,7 +238,9 @@ JNIEXPORT jint JNICALL Java_com_kunzisoft_encrypt_aes_NativeAESCipherSpi_nUpdate
   else
     aes_ret = aes_cbc_decrypt(c_input, c_output, (int)outLen, c_state->iv, DEC_CTX(c_state));
   if( aes_ret != EXIT_SUCCESS ) {
+    secure_wipe_memory(in, cryptLen+ALIGN_EXTRA);
     free(in);
+    secure_wipe_memory(out, outLen+ALIGN_EXTRA);
     free(out);
     (*env)->ThrowNew(env, bad_arg, "Failed to encrypt input data"); // FIXME: get a better exception class for this...
     return -1;
@@ -244,7 +255,9 @@ JNIEXPORT jint JNICALL Java_com_kunzisoft_encrypt_aes_NativeAESCipherSpi_nUpdate
     c_state->cache_len = 0;
   }
 
+  secure_wipe_memory(in, cryptLen+ALIGN_EXTRA);
   free(in);
+  secure_wipe_memory(out, outLen+ALIGN_EXTRA);
   free(out);
 
   #if defined(KPD_DEBUG)
@@ -264,6 +277,7 @@ JNIEXPORT jint JNICALL Java_com_kunzisoft_encrypt_aes_NativeAESCipherSpi_nFinal(
   uint32_t padValue, paddedCacheLen;
   uint8_t final_output[CACHE_SIZE] __attribute__ ((aligned (16)));
   aes_state *c_state;
+  jint result_val;
 
   #if defined(KPD_DEBUG)
   __android_log_print(ANDROID_LOG_INFO, "aes_jni.c/nFinal", "entry: outputOffset=%d, outputSize=%d", outputOffset, outputSize);
@@ -312,7 +326,7 @@ JNIEXPORT jint JNICALL Java_com_kunzisoft_encrypt_aes_NativeAESCipherSpi_nFinal(
     #if defined(KPD_DEBUG)
     __android_log_print(ANDROID_LOG_INFO, "aes_jni.c/nFinal", "encryption operation completed, returning %d bytes", paddedCacheLen);
     #endif
-    return (jint)paddedCacheLen;
+    result_val = (jint)paddedCacheLen;
   } else { // DECRYPTION
 
     paddedCacheLen = c_state->cache_len;
@@ -356,8 +370,10 @@ JNIEXPORT jint JNICALL Java_com_kunzisoft_encrypt_aes_NativeAESCipherSpi_nFinal(
     #if defined(KPD_DEBUG)
     __android_log_print(ANDROID_LOG_INFO, "aes_jni.c/nFinal", "decryption operation completed, returning %d bytes", retOutputSize);
     #endif
-    return (jint)retOutputSize;
+    result_val = (jint)retOutputSize;
   }
+  secure_wipe_memory(final_output, sizeof(final_output));
+  return result_val;
 }
 
 JNIEXPORT jint JNICALL Java_com_kunzisoft_encrypt_aes_NativeAESCipherSpi_nGetCacheSize(JNIEnv* env, jobject this, jlong state) {
@@ -433,6 +449,8 @@ uint32_t generate_key_material(void *arg) {
     mk->done[1] = 1;
     pthread_mutex_unlock(&mk->lock2);
   }
+
+  secure_wipe_memory(e_ctx, sizeof(e_ctx));
 
   return flip;
 }
@@ -518,6 +536,9 @@ JNIEXPORT jbyteArray JNICALL Java_com_kunzisoft_encrypt_aes_NativeAESKeyTransfor
     (*env)->SetByteArrayRegion(env, result, 0, MASTER_KEY_SIZE, (jbyte *)mk.key2);
   else
     (*env)->SetByteArrayRegion(env, result, 0, MASTER_KEY_SIZE, (jbyte *)mk.key1);
+
+  secure_wipe_memory(&mk, sizeof(mk));
+  secure_wipe_memory(h_ctx, sizeof(h_ctx));
 
   return result;
 }
