@@ -93,11 +93,7 @@ JNIEnv *env;
     (*env)->DeleteGlobalRef(env, short_buf);
     (*env)->DeleteGlobalRef(env, block_size);
     */
-
-    return;
 }
-
-
 
 uint32_t getJNIArray(JNIEnv *env, jbyteArray array, uint8_t **output) {
     if (array == NULL) {
@@ -183,10 +179,22 @@ JNICALL Java_com_kunzisoft_encrypt_argon2_NativeArgon2KeyTransformer_nTransformK
 
     clear_internal_memory(out, ARGON2_HASHLEN);
     free(out);
-    if (passwordBuf != NULL) { free(passwordBuf); }
-    if (saltBuf != NULL) { free(saltBuf); }
-    if (secretBuf != NULL) { free(secretBuf); }
-    if (adBuf != NULL) { free(adBuf); }
+    if (passwordBuf != NULL) {
+        clear_internal_memory(passwordBuf, passwordLen);
+        free(passwordBuf);
+    }
+    if (saltBuf != NULL) {
+        clear_internal_memory(saltBuf, saltLen);
+        free(saltBuf);
+    }
+    if (secretBuf != NULL) {
+        clear_internal_memory(secretBuf, secretLen);
+        free(secretBuf);
+    }
+    if (adBuf != NULL) {
+        clear_internal_memory(adBuf, adLen);
+        free(adBuf);
+    }
 
     return result;
 }
