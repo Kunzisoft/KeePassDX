@@ -38,7 +38,6 @@
 #include "aes.h"
 #include "sha2.h"
 
-static JavaVM *cached_vm;
 static jclass bad_arg, no_mem, bad_padding, short_buf, block_size;
 
 typedef enum {
@@ -50,7 +49,7 @@ typedef enum {
 #define AES_BLOCK_SIZE 16
 #define CACHE_SIZE 32
 
-typedef struct _aes_state {
+typedef struct aes_state {
   edir_t direction;
   uint32_t cache_len;
   uint8_t iv[16], cache[CACHE_SIZE];
@@ -66,7 +65,6 @@ JNIEXPORT jint JNICALL JNI_OnLoad( JavaVM *vm, void *reserved ) {
   JNIEnv *env;
   jclass cls;
 
-  cached_vm = vm;
   if((*vm)->GetEnv(vm, (void **)&env, JNI_VERSION_1_6))
     return JNI_ERR;
 
@@ -115,7 +113,6 @@ JNIEXPORT void JNICALL JNI_OnUnload( JavaVM *vm, void *reserved ) {
   (*env)->DeleteGlobalRef(env, bad_padding);
   (*env)->DeleteGlobalRef(env, short_buf);
   (*env)->DeleteGlobalRef(env, block_size);
-  return;
 }
 
 JNIEXPORT jlong JNICALL Java_com_kunzisoft_encrypt_aes_NativeAESCipherSpi_nInit(JNIEnv *env, jobject this, jboolean encrypting, jbyteArray key, jbyteArray iv) {
@@ -376,7 +373,7 @@ JNIEXPORT jint JNICALL Java_com_kunzisoft_encrypt_aes_NativeAESCipherSpi_nGetCac
 
 #define MASTER_KEY_SIZE 32
 
-typedef struct _master_key {
+typedef struct master_key {
   uint64_t rounds;
   uint32_t done[2];
   pthread_mutex_t lock1, lock2; // these lock the two halves of the key material
