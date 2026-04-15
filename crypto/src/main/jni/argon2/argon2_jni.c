@@ -20,19 +20,18 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdarg.h>
 #include <jni.h>
 
 #include "argon2.h"
 #include "core.h"
 
-static JavaVM *cached_vm;
 static jclass bad_arg, io, no_mem;
 
 JNIEXPORT jint JNICALL JNI_OnLoad( JavaVM *vm, void *reserved ) {
     JNIEnv *env;
     jclass cls;
 
-    cached_vm = vm;
     if((*vm)->GetEnv(vm, (void **)&env, JNI_VERSION_1_6))
         return JNI_ERR;
 
@@ -56,43 +55,18 @@ JNIEXPORT jint JNICALL JNI_OnLoad( JavaVM *vm, void *reserved ) {
     if( no_mem == NULL )
         return JNI_ERR;
 
-    /*
-    cls = (*env)->FindClass(env, "javax/crypto/BadPaddingException");
-    if( cls == NULL )
-        return JNI_ERR;
-    bad_padding = (*env)->NewGlobalRef(env, cls);
-
-    cls = (*env)->FindClass(env, "javax/crypto/ShortBufferException");
-    if( cls == NULL )
-        return JNI_ERR;
-    short_buf = (*env)->NewGlobalRef(env, cls);
-
-    cls = (*env)->FindClass(env, "javax/crypto/IllegalBlockSizeException");
-    if( cls == NULL )
-        return JNI_ERR;
-    block_size = (*env)->NewGlobalRef(env, cls);
-
-    aes_init();
-    */
-
     return JNI_VERSION_1_6;
 }
 
 // called on garbage collection
 JNIEXPORT void JNICALL JNI_OnUnload( JavaVM *vm, void *reserved ) {
-JNIEnv *env;
+    JNIEnv *env;
     if((*vm)->GetEnv(vm, (void **)&env, JNI_VERSION_1_6)) {
         return;
     }
     (*env)->DeleteGlobalRef(env, bad_arg);
     (*env)->DeleteGlobalRef(env, io);
     (*env)->DeleteGlobalRef(env, no_mem);
-
-    /*
-    (*env)->DeleteGlobalRef(env, bad_padding);
-    (*env)->DeleteGlobalRef(env, short_buf);
-    (*env)->DeleteGlobalRef(env, block_size);
-    */
 }
 
 uint32_t getJNIArray(JNIEnv *env, jbyteArray array, uint8_t **output) {
@@ -101,13 +75,15 @@ uint32_t getJNIArray(JNIEnv *env, jbyteArray array, uint8_t **output) {
         return 0;
     }
 
-    uint32_t len = (*env)->GetArrayLength(env, array);
-    uint8_t *buf = (uint8_t *)malloc(len);
-    (*env)->GetByteArrayRegion(env, array, 0, len, (jbyte*) buf);
+    jsize len = (*env)->GetArrayLength(env, array);
+    uint8_t *buf = (uint8_t *)malloc((size_t)len);
+    if (buf != NULL) {
+        (*env)->GetByteArrayRegion(env, array, 0, len, (jbyte*) buf);
+    }
 
     *output = buf;
 
-    return len;
+    return (uint32_t)len;
 }
 
 void throwExceptionF(JNIEnv *env, jclass exception, const char *format, ...) {
@@ -115,7 +91,7 @@ void throwExceptionF(JNIEnv *env, jclass exception, const char *format, ...) {
 
     va_list args;
     va_start(args, format);
-    snprintf(message, 512, format, args);
+    vsnprintf(message, 512, format, args);
     va_end(args);
 
     (*env)->ThrowNew(env, exception, message);
@@ -174,7 +150,6 @@ JNICALL Java_com_kunzisoft_encrypt_argon2_NativeArgon2KeyTransformer_nTransformK
     } else {
         result = (*env)->NewByteArray(env, ARGON2_HASHLEN);
         (*env)->SetByteArrayRegion(env, result, 0, ARGON2_HASHLEN, (jbyte *) out);
-
     }
 
     clear_internal_memory(out, ARGON2_HASHLEN);
