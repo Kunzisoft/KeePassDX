@@ -31,7 +31,6 @@ import com.kunzisoft.keepass.database.element.icon.IconsManager
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.node.Type
 import com.kunzisoft.keepass.database.exception.DuplicateUuidDatabaseException
-import java.io.InputStream
 import java.io.UnsupportedEncodingException
 import java.nio.charset.Charset
 import java.util.UUID
@@ -276,6 +275,13 @@ abstract class DatabaseVersioned<
 
     abstract fun isInRecycleBin(group: Group): Boolean
 
+    open fun clearSensitiveData() {
+        masterKey.fill(0)
+        finalKey?.fill(0)
+        checkKey.fill(0)
+        transformSeed?.fill(0)
+    }
+
     fun clearIconsCache() {
         iconsManager.doForEachCustomIcon { _, binary ->
             try {
@@ -303,6 +309,7 @@ abstract class DatabaseVersioned<
     }
 
     fun clearAll() {
+        clearSensitiveData()
         clearIndexes()
         clearIconsCache()
         clearAttachmentsCache()

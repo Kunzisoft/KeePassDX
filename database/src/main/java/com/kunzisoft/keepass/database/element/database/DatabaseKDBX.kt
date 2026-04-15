@@ -265,6 +265,11 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
 
         // Build check key
         this.checkKey = masterCredential.getCheckKey()
+
+        // Clear temporary sensitive data
+        passwordBytes?.fill(0)
+        keyFileBytes?.fill(0)
+        hardwareKeyBytes?.fill(0)
     }
 
     @Throws(DatabaseOutputException::class)
@@ -289,6 +294,7 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
                 keyFileBytes,
                 hardwareKeyBytes
             )
+            hardwareKeyBytes.fill(0)
         }
     }
 
@@ -651,6 +657,7 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
                 throw IOException("No SHA-512 implementation")
             } finally {
                 Arrays.fill(cmpKey, 0.toByte())
+                transformedMasterKey.fill(0)
             }
         }
     }
@@ -895,6 +902,12 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
         } catch (e: Exception) {
             Log.e(TAG, "Unable to clear cache", e)
         }
+    }
+
+    override fun clearSensitiveData() {
+        super.clearSensitiveData()
+        hmacKey?.fill(0)
+        mCompositeKey.clear()
     }
 
     companion object {
