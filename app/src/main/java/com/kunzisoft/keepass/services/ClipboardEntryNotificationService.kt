@@ -103,7 +103,7 @@ class ClipboardEntryNotificationService : LockNotificationServiceParam<OtpElemen
         }
         // Add others OTP
         if (otpModels.size > 1) {
-            for (i in 1..<otpModels.size) {
+            for (i in 1 until otpModels.size) {
                 builder.addAction(
                     R.drawable.notification_ic_clipboard_key_24dp,
                     otpModels[i].toString(),
@@ -161,9 +161,10 @@ class ClipboardEntryNotificationService : LockNotificationServiceParam<OtpElemen
     }
 
     private fun copyToClipboard(otpToCopy: String) {
-        clipboardHelper?.copyToClipboard(
+        clipboardHelper?.timeoutCopyToClipboard(
             getString(R.string.entry_otp),
-            otpToCopy
+            otpToCopy,
+            true
         )
     }
 

@@ -53,7 +53,7 @@ class ClipboardHelper(context: Context) {
     fun timeoutCopyToClipboard(label: String, text: String, sensitive: Boolean = false) {
         try {
             copyToClipboard(label, text, sensitive)
-        } catch (e: Exception) {
+        } catch (_: Exception) {
             showClipboardErrorDialog()
             return
         }
