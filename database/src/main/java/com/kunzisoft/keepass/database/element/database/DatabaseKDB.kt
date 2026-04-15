@@ -245,8 +245,6 @@ class DatabaseKDB : DatabaseVersioned<Int, UUID, GroupKDB, EntryKDB>() {
     }
 
     companion object {
-        val TYPE = DatabaseKDB::class.java
-
         const val BACKUP_FOLDER_TITLE = "Backup"
     }
 }
