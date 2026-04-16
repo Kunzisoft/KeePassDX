@@ -125,6 +125,7 @@ class DatabaseKDB : DatabaseVersioned<Int, UUID, GroupKDB, EntryKDB>() {
         val transformedKey = AESTransformer.transformKey(transformSeed, masterKey, numRounds) ?: ByteArray(0)
         // Write checksum Checksum
         finalKey = HashManager.hashSha256(masterSeed, transformedKey)
+        transformedKey.fill(0)
     }
 
     fun deriveMasterKey(
@@ -155,6 +156,8 @@ class DatabaseKDB : DatabaseVersioned<Int, UUID, GroupKDB, EntryKDB>() {
                 passwordBytes,
                 keyFileBytes
             )
+            passwordBytes.fill(0)
+            keyFileBytes.fill(0)
         } else {
             this.masterKey = passwordBytes ?: keyFileBytes ?: byteArrayOf(0)
         }

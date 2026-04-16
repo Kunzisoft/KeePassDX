@@ -118,7 +118,9 @@ data class MasterCredential(
             } catch (_: UnsupportedEncodingException) {
                 key.toByteArray()
             }
-            return HashManager.hashSha256(bKey)
+            val hash = HashManager.hashSha256(bKey)
+            bKey.fill(0)
+            return hash
         }
 
         @Throws(IOException::class)

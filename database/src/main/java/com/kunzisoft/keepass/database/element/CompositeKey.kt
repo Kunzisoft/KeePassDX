@@ -2,9 +2,11 @@ package com.kunzisoft.keepass.database.element
 
 import com.kunzisoft.keepass.hardware.HardwareKey
 
-data class CompositeKey(var passwordData: ByteArray? = null,
-                        var keyFileData: ByteArray? = null,
-                        var hardwareKey: HardwareKey? = null) {
+data class CompositeKey(
+    var passwordData: ByteArray? = null,
+    var keyFileData: ByteArray? = null,
+    var hardwareKey: HardwareKey? = null
+) {
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
@@ -30,5 +32,13 @@ data class CompositeKey(var passwordData: ByteArray? = null,
         result = 31 * result + (keyFileData?.contentHashCode() ?: 0)
         result = 31 * result + (hardwareKey?.hashCode() ?: 0)
         return result
+    }
+
+    fun clear() {
+        passwordData?.fill(0)
+        keyFileData?.fill(0)
+        passwordData = null
+        keyFileData = null
+        hardwareKey = null
     }
 }

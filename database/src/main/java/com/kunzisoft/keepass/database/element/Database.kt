@@ -973,6 +973,8 @@ open class Database {
 
     open fun clearAndClose(filesDirectory: File? = null) {
         clearIndexesAndBinaries(filesDirectory)
+        this.mDatabaseKDB?.clearSensitiveData()
+        this.mDatabaseKDBX?.clearSensitiveData()
         this.mDatabaseKDB = null
         this.mDatabaseKDBX = null
         this.loaded = false
