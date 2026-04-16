@@ -265,11 +265,6 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
 
         // Build check key
         this.checkKey = masterCredential.getCheckKey()
-
-        // Clear temporary sensitive data
-        passwordBytes?.fill(0)
-        keyFileBytes?.fill(0)
-        hardwareKeyBytes?.fill(0)
     }
 
     @Throws(DatabaseOutputException::class)
@@ -294,7 +289,6 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
                 keyFileBytes,
                 hardwareKeyBytes
             )
-            hardwareKeyBytes.fill(0)
         }
     }
 

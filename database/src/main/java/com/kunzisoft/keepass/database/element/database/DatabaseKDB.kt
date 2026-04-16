@@ -156,8 +156,6 @@ class DatabaseKDB : DatabaseVersioned<Int, UUID, GroupKDB, EntryKDB>() {
                 passwordBytes,
                 keyFileBytes
             )
-            passwordBytes.fill(0)
-            keyFileBytes.fill(0)
         } else {
             this.masterKey = passwordBytes ?: keyFileBytes ?: byteArrayOf(0)
         }

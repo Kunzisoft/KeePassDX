@@ -1,5 +1,5 @@
  * Correction du Groupe rafraichie du fil d'ariane #2477
  * Tags dans la vue liste #1539 #2144
- * Recherche par Tags #1338 #2280Wipe memory
+ * Recherche par Tags #1338 #2280
  * Accessibilité améliorée #2475
  * Sécurité améliorée #2481 #2482 #2483 #2484 #2488 #2480
