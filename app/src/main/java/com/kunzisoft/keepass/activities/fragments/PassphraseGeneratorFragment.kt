@@ -34,6 +34,7 @@ import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.password.PassphraseGenerator
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.timeout.ClipboardHelper
+import com.kunzisoft.keepass.utils.clear
 import com.kunzisoft.keepass.view.PasswordEditView
 import com.kunzisoft.keepass.viewmodels.KeyGeneratorViewModel
 
@@ -80,7 +81,7 @@ class PassphraseGeneratorFragment : DatabaseFragment() {
             passphraseCopyView?.setOnClickListener {
                 clipboardHelper.timeoutCopyToClipboard(
                     getString(R.string.passphrase),
-                    passwordEditView.passwordString,
+                    passwordEditView.passwordCharArray,
                     true
                 )
             }
@@ -146,7 +147,7 @@ class PassphraseGeneratorFragment : DatabaseFragment() {
         generatePassphrase()
 
         mKeyGeneratorViewModel.passphraseGeneratedValidated.observe(viewLifecycleOwner) {
-            mKeyGeneratorViewModel.setKeyGenerated(passwordEditView.passwordString)
+            mKeyGeneratorViewModel.setKeyGenerated(passwordEditView.passwordCharArray)
         }
 
         mKeyGeneratorViewModel.requirePassphraseGeneration.observe(viewLifecycleOwner) {
@@ -159,7 +160,7 @@ class PassphraseGeneratorFragment : DatabaseFragment() {
     private fun getWordCount(): Int {
         return try {
             Integer.valueOf(wordCountText.text.toString())
-        } catch (numberException: NumberFormatException) {
+        } catch (_: NumberFormatException) {
             minSliderWordCount
         }
     }
@@ -210,17 +211,17 @@ class PassphraseGeneratorFragment : DatabaseFragment() {
     }
 
     private fun generatePassphrase() {
-        var passphrase = ""
         try {
-            passphrase = PassphraseGenerator().generatePassphrase(
+            val passphrase = PassphraseGenerator().generatePassphrase(
                 getWordCount(),
                 getWordSeparator(),
                 getWordCase())
+            passwordEditView.passwordCharArray = passphrase
+            charactersCountText.text = getString(R.string.character_count, passphrase.size)
+            passphrase.clear()
         } catch (e: Exception) {
             Log.e(TAG, "Unable to generate a passphrase", e)
         }
-        passwordEditView.passwordString = passphrase
-        charactersCountText.text = getString(R.string.character_count, passphrase.length)
     }
 
     override fun onDestroy() {

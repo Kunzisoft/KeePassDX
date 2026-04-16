@@ -50,7 +50,7 @@ class ClipboardHelper(context: Context) {
         return mClipboardManager
     }
 
-    fun timeoutCopyToClipboard(label: String, text: String, sensitive: Boolean = false) {
+    fun timeoutCopyToClipboard(label: String, text: CharSequence, sensitive: Boolean = false) {
         try {
             copyToClipboard(label, text, sensitive)
         } catch (_: Exception) {
@@ -64,7 +64,13 @@ class ClipboardHelper(context: Context) {
         }
     }
 
-    fun copyToClipboard(label: String, value: String, sensitive: Boolean = false) {
+    fun timeoutCopyToClipboard(label: String, text: CharArray?, sensitive: Boolean = false) {
+        if (text == null) return
+        // No need to clear textString as it is already in heap and immutable
+        timeoutCopyToClipboard(label, String(text), sensitive)
+    }
+
+    fun copyToClipboard(label: String, value: CharSequence, sensitive: Boolean = false) {
         getClipboardManager()?.setPrimaryClip(ClipData.newPlainText(DEFAULT_LABEL, value).apply {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                 description.extras = PersistableBundle().apply {
@@ -97,7 +103,7 @@ class ClipboardHelper(context: Context) {
     }
 
     // Task which clears the clipboard, and sends a toast to the foreground.
-    private inner class ClearClipboardTask (private val mClearText: String) : TimerTask() {
+    private inner class ClearClipboardTask (private val mClearText: CharSequence) : TimerTask() {
         override fun run() {
             if (getClipboard(mAppContext).toString() == mClearText) {
                 cleanClipboard()

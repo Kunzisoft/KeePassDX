@@ -27,6 +27,7 @@ import com.kunzisoft.keepass.database.element.binary.BinaryData.Companion.BASE64
 import com.kunzisoft.keepass.hardware.HardwareKey
 import com.kunzisoft.keepass.utils.StringUtil.removeSpaceChars
 import com.kunzisoft.keepass.utils.StringUtil.toHexString
+import com.kunzisoft.keepass.utils.clear
 import com.kunzisoft.keepass.utils.readByteArrayCompat
 import com.kunzisoft.keepass.utils.readEnum
 import com.kunzisoft.keepass.utils.writeByteArrayCompat
@@ -36,26 +37,27 @@ import org.w3c.dom.Node
 import java.io.ByteArrayInputStream
 import java.io.IOException
 import java.io.InputStream
-import java.io.UnsupportedEncodingException
+import java.nio.CharBuffer
 import java.nio.charset.Charset
 import javax.xml.XMLConstants
 import javax.xml.parsers.DocumentBuilderFactory
 import javax.xml.parsers.ParserConfigurationException
+import kotlin.math.min
 
 data class MasterCredential(
-    var password: String? = null,
+    var password: CharArray? = null,
     var keyFileData: ByteArray? = null,
     var hardwareKey: HardwareKey? = null
 ): Parcelable {
 
     constructor(parcel: Parcel) : this() {
-        password = parcel.readString()
+        password = parcel.createCharArray()
         keyFileData = parcel.readByteArrayCompat()
         hardwareKey = parcel.readEnum<HardwareKey>()
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
-        parcel.writeString(password)
+        parcel.writeCharArray(password)
         parcel.writeByteArrayCompat(keyFileData)
         parcel.writeEnum(hardwareKey)
     }
@@ -74,18 +76,34 @@ data class MasterCredential(
 
         other as MasterCredential
 
-        if (password != other.password) return false
-        if (!keyFileData.contentEquals(other.keyFileData)) return false
+        if (password != null) {
+            if (other.password == null) return false
+            if (!password!!.contentEquals(other.password!!)) return false
+        } else if (other.password != null) return false
+
+        if (keyFileData != null) {
+            if (other.keyFileData == null) return false
+            if (!keyFileData!!.contentEquals(other.keyFileData!!)) return false
+        } else if (other.keyFileData != null) return false
+
         if (hardwareKey != other.hardwareKey) return false
 
         return true
     }
 
     override fun hashCode(): Int {
-        var result = password?.hashCode() ?: 0
-        result = 31 * result + (keyFileData?.hashCode() ?: 0)
+        var result = password?.contentHashCode() ?: 0
+        result = 31 * result + (keyFileData?.contentHashCode() ?: 0)
         result = 31 * result + (hardwareKey?.hashCode() ?: 0)
         return result
+    }
+
+    fun clear() {
+        password?.clear()
+        password = null
+        keyFileData?.clear()
+        keyFileData = null
+        hardwareKey = null
     }
 
     companion object CREATOR : Parcelable.Creator<MasterCredential> {
@@ -99,27 +117,29 @@ data class MasterCredential(
 
         private val TAG = MasterCredential::class.java.simpleName
 
-        fun getCheckKey(password: String?): ByteArray {
-            return retrievePasswordKey(
-                try {
-                    password?.substring(0, CHECK_KEY_PASSWORD_LENGTH) ?: ""
-                } catch (_: Exception) { "" },
-                Charsets.UTF_8
-            )
+        fun getCheckKey(password: CharArray?): ByteArray {
+            val shortPass = password?.copyOfRange(0, min(password.size, CHECK_KEY_PASSWORD_LENGTH))
+                    ?: charArrayOf()
+            // TODO Verify encoding
+            val res = retrievePasswordKey(shortPass, Charsets.UTF_8)
+            shortPass.clear()
+            return res
         }
 
         @Throws(IOException::class)
         fun retrievePasswordKey(
-            key: String,
+            key: CharArray,
             encoding: Charset
         ): ByteArray {
-            val bKey: ByteArray = try {
-                key.toByteArray(encoding)
-            } catch (_: UnsupportedEncodingException) {
-                key.toByteArray()
-            }
+            val byteBuffer = encoding.encode(CharBuffer.wrap(key))
+            val bKey = ByteArray(byteBuffer.remaining())
+            byteBuffer.get(bKey)
+
             val hash = HashManager.hashSha256(bKey)
-            bKey.fill(0)
+            bKey.clear()
+            if (byteBuffer.hasArray()) {
+                byteBuffer.array().clear()
+            }
             return hash
         }
 

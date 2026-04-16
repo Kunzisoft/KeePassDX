@@ -2,4 +2,4 @@
  * Tags in list view #1539 #2144
  * Search by Tags #1338 #2280
  * Improved accessibility #2475
- * Improved security #2481 #2482 #2483 #2484 #2488 #2480
+ * Improved security #2481 #2482 #2483 #2484 #2485 #2488 #2480

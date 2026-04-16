@@ -80,15 +80,19 @@ open class PasswordTextFieldView @JvmOverloads constructor(context: Context,
         label = resources.getString(labelId)
     }
 
+    // TODO Method with charArray param
     override var value: String
         get() {
             return valueView.text.toString()
         }
         set(value) {
             val spannableString =
-                if (PreferencesUtil.colorizePassword(context))
-                    PasswordGenerator.getColorizedPassword(value)
-                else
+                if (PreferencesUtil.colorizePassword(context)) {
+                    val charArray = value.toCharArray()
+                    val result = PasswordGenerator.getColorizedPassword(charArray)
+                    charArray.fill('\u0000')
+                    result
+                } else
                     SpannableString(value)
             valueView.text = spannableString
             changeProtectedValueParameters()

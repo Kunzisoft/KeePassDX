@@ -1,6 +1,5 @@
 package com.kunzisoft.keepass.activities
 
-import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
@@ -64,7 +63,7 @@ class KeyGeneratorActivity : DatabaseLockActivity() {
         }
 
         keyGeneratorViewModel.keyGenerated.observe(this) { keyGenerated ->
-            setResult(Activity.RESULT_OK, Intent().apply {
+            setResult(RESULT_OK, Intent().apply {
                 putExtra(KEY_GENERATED, keyGenerated)
             })
             finish()
@@ -109,7 +108,7 @@ class KeyGeneratorActivity : DatabaseLockActivity() {
     }
 
     override fun onDatabaseBackPressed() {
-        setResult(Activity.RESULT_CANCELED, Intent())
+        setResult(RESULT_CANCELED, Intent())
         super.onDatabaseBackPressed()
     }
 
@@ -117,12 +116,15 @@ class KeyGeneratorActivity : DatabaseLockActivity() {
         private const val KEY_GENERATED = "KEY_GENERATED"
         private const val KEY_GENERATED_FRAGMENT_TAG = "KEY_GENERATED_FRAGMENT_TAG"
 
-        fun registerForGeneratedKeyResult(activity: FragmentActivity,
-                                          keyGeneratedListener: (String?) -> Unit): ActivityResultLauncher<Intent> {
+        fun registerForGeneratedKeyResult(
+            activity: FragmentActivity,
+            keyGeneratedListener: (CharArray?) -> Unit
+        ): ActivityResultLauncher<Intent> {
             return activity.registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-                if (result.resultCode == Activity.RESULT_OK) {
+                if (result.resultCode == RESULT_OK) {
                     keyGeneratedListener.invoke(
-                        result.data?.getStringExtra(KEY_GENERATED)
+                        //TODO TransientStorage
+                        result.data?.getCharArrayExtra(KEY_GENERATED)
                     )
                 } else {
                     keyGeneratedListener.invoke(null)
@@ -130,8 +132,10 @@ class KeyGeneratorActivity : DatabaseLockActivity() {
             }
         }
 
-        fun launch(context: FragmentActivity,
-                   resultLauncher: ActivityResultLauncher<Intent>) {
+        fun launch(
+            context: FragmentActivity,
+            resultLauncher: ActivityResultLauncher<Intent>
+        ) {
             // Create an instance to return the picker icon
             resultLauncher.launch(
                 Intent(context, KeyGeneratorActivity::class.java)

@@ -131,12 +131,16 @@ class PasswordTextEditFieldView @JvmOverloads constructor(context: Context,
         }
     }
 
+    // TODO Method with charArray param
     override fun spannableValue(value: String?): Spannable? {
         if (value == null)
             return null
-        return if (isColorizedPasswordActivated)
-            PasswordGenerator.getColorizedPassword(value)
-        else
+        return if (isColorizedPasswordActivated) {
+            val charArray = value.toCharArray()
+            val spannable = PasswordGenerator.getColorizedPassword(charArray)
+            charArray.fill('\u0000')
+            spannable
+        } else
             super.spannableValue(value)
     }
 

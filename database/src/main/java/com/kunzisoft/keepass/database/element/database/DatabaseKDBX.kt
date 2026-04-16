@@ -54,6 +54,7 @@ import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX.Companion.FILE_VER
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX.Companion.FILE_VERSION_41
 import com.kunzisoft.keepass.hardware.HardwareKey
 import com.kunzisoft.keepass.utils.UnsignedInt
+import com.kunzisoft.keepass.utils.clear
 import com.kunzisoft.keepass.utils.longTo8Bytes
 import java.io.IOException
 import java.nio.charset.Charset
@@ -476,7 +477,7 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
         customIconId: UUID? = null,
         result: (IconImageCustom, BinaryData?) -> Unit,
     ) {
-        // Create a binary file for a brand new custom icon
+        // Create a binary file for a brand-new custom icon
         addCustomIcon(customIconId, "", null, false, result)
     }
 
@@ -651,7 +652,7 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
                 throw IOException("No SHA-512 implementation")
             } finally {
                 Arrays.fill(cmpKey, 0.toByte())
-                transformedMasterKey.fill(0)
+                transformedMasterKey.clear()
             }
         }
     }
@@ -883,7 +884,7 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
         }
     }
 
-    override fun isValidCredential(password: String?, containsKeyFile: Boolean): Boolean {
+    override fun isValidCredential(password: CharArray?, containsKeyFile: Boolean): Boolean {
         if (password == null)
             return true
         return super.isValidCredential(password, containsKeyFile)
@@ -900,7 +901,7 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
 
     override fun clearSensitiveData() {
         super.clearSensitiveData()
-        hmacKey?.fill(0)
+        hmacKey?.clear()
         mCompositeKey.clear()
     }
 

@@ -90,6 +90,9 @@ import com.kunzisoft.keepass.viewmodels.DatabaseFileViewModel
 import com.kunzisoft.keepass.viewmodels.DeviceUnlockViewModel
 import kotlinx.coroutines.launch
 import java.io.FileNotFoundException
+import java.nio.ByteBuffer
+import java.nio.CharBuffer
+import java.nio.charset.StandardCharsets
 
 
 class MainCredentialActivity : DatabaseModeActivity() {
@@ -449,8 +452,13 @@ class MainCredentialActivity : DatabaseModeActivity() {
     }
 
     private val credentialStorageListener = object: MainCredentialView.CredentialStorageListener {
-        override fun passwordToStore(password: String?): ByteArray? {
-            return password?.toByteArray()
+        override fun passwordToStore(password: CharArray?): ByteArray? {
+            if (password == null) return null
+            // TODO Default encoding
+            val byteBuffer = StandardCharsets.UTF_8.encode(CharBuffer.wrap(password))
+            val bytes = ByteArray(byteBuffer.remaining())
+            byteBuffer.get(bytes)
+            return bytes
         }
 
         override fun keyfileToStore(keyfile: Uri?): ByteArray? {
@@ -483,7 +491,11 @@ class MainCredentialActivity : DatabaseModeActivity() {
         val mainCredential = mainCredentialView?.getMainCredential() ?: MainCredential()
         when (cipherDecryptDatabase.credentialStorage) {
             CredentialStorage.PASSWORD -> {
-                mainCredential.password = String(cipherDecryptDatabase.decryptedValue)
+                // TODO Default encoding
+                val charBuffer = StandardCharsets.UTF_8.decode(ByteBuffer.wrap(cipherDecryptDatabase.decryptedValue))
+                val password = CharArray(charBuffer.remaining())
+                charBuffer.get(password)
+                mainCredential.password = password
             }
             CredentialStorage.KEY_FILE -> {
                 // TODO advanced unlock key file
@@ -518,11 +530,12 @@ class MainCredentialActivity : DatabaseModeActivity() {
 
         // If Activity is launch with a password and want to open directly
         val intent = intent
+        // TODO Change to getCharArrayExtra(KEY_PASSWORD)
         val password = intent.getStringExtra(KEY_PASSWORD)
         // Consume the intent extra password
         intent.removeExtra(KEY_PASSWORD)
         if (password != null) {
-            mainCredentialView?.populatePasswordTextView(password)
+            mainCredentialView?.populatePasswordTextView(password.toCharArray())
         }
         val launchImmediately = intent.getBooleanExtra(KEY_LAUNCH_IMMEDIATELY, false)
         intent.removeExtra(KEY_LAUNCH_IMMEDIATELY)

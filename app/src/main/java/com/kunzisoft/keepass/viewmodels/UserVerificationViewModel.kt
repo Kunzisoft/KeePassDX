@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import com.kunzisoft.keepass.credentialprovider.UserVerificationData
 import com.kunzisoft.keepass.database.element.MasterCredential.CREATOR.getCheckKey
 import com.kunzisoft.keepass.database.exception.InvalidCredentialsDatabaseException
+import com.kunzisoft.keepass.utils.clear
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
@@ -17,15 +18,16 @@ class UserVerificationViewModel: ViewModel() {
 
     var dataToVerify: UserVerificationData? = null
 
-    fun checkMainCredential(checkString: String) {
+    fun checkMainCredential(checkCharArray: CharArray) {
         // Check the password part
         val data = dataToVerify
-        if (data?.database?.checkKey(getCheckKey(checkString)) == true)
+        if (data?.database?.checkKey(getCheckKey(checkCharArray)) == true)
             onUserVerificationSucceeded(data)
         else {
             onUserVerificationFailed(dataToVerify, InvalidCredentialsDatabaseException())
         }
         dataToVerify = null
+        checkCharArray.clear()
     }
 
     fun onUserVerificationSucceeded(dataToVerify: UserVerificationData) {

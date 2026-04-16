@@ -24,23 +24,26 @@ import android.os.Parcel
 import android.os.Parcelable
 import com.kunzisoft.keepass.database.element.MasterCredential
 import com.kunzisoft.keepass.hardware.HardwareKey
-import com.kunzisoft.keepass.utils.readParcelableCompat
+import com.kunzisoft.keepass.utils.clear
 import com.kunzisoft.keepass.utils.getUriInputStream
 import com.kunzisoft.keepass.utils.readEnum
+import com.kunzisoft.keepass.utils.readParcelableCompat
 import com.kunzisoft.keepass.utils.writeEnum
 
-data class MainCredential(var password: String? = null,
-                          var keyFileUri: Uri? = null,
-                          var hardwareKey: HardwareKey? = null): Parcelable {
+data class MainCredential(
+    var password: CharArray? = null,
+    var keyFileUri: Uri? = null,
+    var hardwareKey: HardwareKey? = null
+): Parcelable {
 
     constructor(parcel: Parcel) : this() {
-        password = parcel.readString()
+        password = parcel.createCharArray()
         keyFileUri = parcel.readParcelableCompat()
         hardwareKey = parcel.readEnum<HardwareKey>()
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
-        parcel.writeString(password)
+        parcel.writeCharArray(password)
         parcel.writeParcelable(keyFileUri, flags)
         parcel.writeEnum(hardwareKey)
     }
@@ -55,7 +58,11 @@ data class MainCredential(var password: String? = null,
 
         other as MainCredential
 
-        if (password != other.password) return false
+        if (password != null) {
+            if (other.password == null) return false
+            if (!password!!.contentEquals(other.password!!)) return false
+        } else if (other.password != null) return false
+        
         if (keyFileUri != other.keyFileUri) return false
         if (hardwareKey != other.hardwareKey) return false
 
@@ -63,7 +70,7 @@ data class MainCredential(var password: String? = null,
     }
 
     override fun hashCode(): Int {
-        var result = password?.hashCode() ?: 0
+        var result = password?.contentHashCode() ?: 0
         result = 31 * result + (keyFileUri?.hashCode() ?: 0)
         result = 31 * result + (hardwareKey?.hashCode() ?: 0)
         return result
@@ -87,6 +94,13 @@ data class MainCredential(var password: String? = null,
         return null
     }
 
+    fun clear() {
+        password?.clear()
+        password = null
+        keyFileUri = null
+        hardwareKey = null
+    }
+
     companion object CREATOR : Parcelable.Creator<MainCredential> {
         override fun createFromParcel(parcel: Parcel): MainCredential {
             return MainCredential(parcel)
@@ -95,7 +109,5 @@ data class MainCredential(var password: String? = null,
         override fun newArray(size: Int): Array<MainCredential?> {
             return arrayOfNulls(size)
         }
-
-        private val TAG = MainCredential::class.java.simpleName
     }
 }

@@ -21,6 +21,7 @@ package com.kunzisoft.keepass.database.element.security
 
 import android.os.Parcel
 import android.os.Parcelable
+import com.kunzisoft.keepass.utils.clear
 import com.kunzisoft.keepass.utils.readBooleanCompat
 import com.kunzisoft.keepass.utils.writeBooleanCompat
 
@@ -28,21 +29,34 @@ class ProtectedString : Parcelable {
 
     var isProtected: Boolean = false
         private set
-    var stringValue: String = ""
+    var charArrayValue: CharArray = charArrayOf()
+        private set
+
+    var stringValue: String
+        get() = String(charArrayValue)
+        set(value) {
+            charArrayValue.clear()
+            charArrayValue = value.toCharArray()
+        }
 
     constructor(toCopy: ProtectedString) {
         this.isProtected = toCopy.isProtected
-        this.stringValue = toCopy.stringValue
+        this.charArrayValue = toCopy.charArrayValue.copyOf()
     }
 
     constructor(enableProtection: Boolean = false, string: String = "") {
         this.isProtected = enableProtection
-        this.stringValue = string
+        this.charArrayValue = string.toCharArray()
     }
+
+    constructor(enableProtection: Boolean, charArray: CharArray?) {
+        this.isProtected = enableProtection
+        this.charArrayValue = charArray?.copyOf() ?: charArrayOf()
+        }
 
     constructor(parcel: Parcel) {
         isProtected = parcel.readBooleanCompat()
-        stringValue = parcel.readString() ?: stringValue
+        charArrayValue = parcel.createCharArray() ?: charArrayOf()
     }
 
     override fun describeContents(): Int {
@@ -51,15 +65,38 @@ class ProtectedString : Parcelable {
 
     override fun writeToParcel(dest: Parcel, flags: Int) {
         dest.writeBooleanCompat(isProtected)
-        dest.writeString(stringValue)
+        dest.writeCharArray(charArrayValue)
     }
 
     fun length(): Int {
-        return stringValue.length
+        return charArrayValue.size
     }
 
     override fun toString(): String {
         return stringValue
+    }
+
+    // TODO Use to properly clear data
+    fun clear() {
+        charArrayValue.clear()
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as ProtectedString
+
+        if (isProtected != other.isProtected) return false
+        if (!charArrayValue.contentEquals(other.charArrayValue)) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = isProtected.hashCode()
+        result = 31 * result + charArrayValue.contentHashCode()
+        return result
     }
 
     companion object {
