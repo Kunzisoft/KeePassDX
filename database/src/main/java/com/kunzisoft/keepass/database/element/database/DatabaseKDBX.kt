@@ -146,7 +146,7 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
     var color = ""
 
     /**
-     * Determine if RecycleBin is enable or not
+     * Determine if RecycleBin is enabled or not
      * @return true if RecycleBin enable, false if is not available or not enable
      */
     var isRecycleBinEnabled = true
@@ -783,9 +783,9 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
     }
 
     /**
-     * Define if a Node must be delete or recycle when remove action is called
+     * Define if a Node must be deleted or recycle when remove action is called
      * @param node Node to remove
-     * @return true if node can be recycle, false elsewhere
+     * @return true if node can be recycled, false elsewhere
      */
     fun canRecycle(node: NodeVersioned<*, GroupKDBX, EntryKDBX>): Boolean {
         if (!isRecycleBinEnabled)
