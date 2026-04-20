@@ -180,7 +180,7 @@ class EntryViewModel(application: Application): AndroidViewModel(application) {
     fun copyToClipboard(field: Field) {
         mClipboardHelper.timeoutCopyToClipboard(
             TemplateField.getLocalizedName(getApplication(), field.name),
-            field.protectedValue.stringValue,
+            field.protectedValue.toString(),
             field.protectedValue.isProtected
         )
     }

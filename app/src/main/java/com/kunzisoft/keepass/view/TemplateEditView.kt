@@ -282,11 +282,13 @@ class TemplateEditView @JvmOverloads constructor(context: Context,
         return super.populateViewsWithEntryInfo(showEmptyFields)
     }
 
-    override fun populateEntryInfoWithViews(templateFieldNotEmpty: Boolean,
-                                            retrieveDefaultValues: Boolean) {
+    override fun populateEntryInfoWithViews(
+        templateFieldNotEmpty: Boolean,
+        retrieveDefaultValues: Boolean
+    ) {
         super.populateEntryInfoWithViews(templateFieldNotEmpty, retrieveDefaultValues)
         val getField: (id: String) -> String? = { key ->
-            getCustomFieldOrNull(key)?.protectedValue?.stringValue
+            getCustomFieldOrNull(key)?.protectedValue?.toString() // TODO CharArray
         }
         mEntryInfo?.otpModel = OtpEntryFields.parseFields(getField)?.otpModel
         mEntryInfo?.creditCard = CreditCardEntryFields.parseFields(getField)

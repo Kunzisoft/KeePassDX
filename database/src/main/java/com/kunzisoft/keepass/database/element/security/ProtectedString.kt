@@ -32,14 +32,6 @@ class ProtectedString : Parcelable {
     var charArrayValue: CharArray = charArrayOf()
         private set
 
-    // TODO Remove
-    var stringValue: String
-        get() = String(charArrayValue)
-        set(value) {
-            charArrayValue.clear()
-            charArrayValue = value.toCharArray()
-        }
-
     constructor(toCopy: ProtectedString) {
         this.isProtected = toCopy.isProtected
         this.charArrayValue = toCopy.charArrayValue.copyOf()
@@ -75,7 +67,7 @@ class ProtectedString : Parcelable {
     }
 
     override fun toString(): String {
-        return stringValue
+        return String(charArrayValue)
     }
 
     // TODO Use to properly clear data

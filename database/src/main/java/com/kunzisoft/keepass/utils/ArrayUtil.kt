@@ -43,3 +43,22 @@ fun StringBuilder.clear() {
 fun ByteArray.clear() {
     this.fill(0)
 }
+
+/**
+ * Extension function to check if a CharArray contains a string, ignoring case.
+ */
+fun CharArray.contains(string: String, ignoreCase: Boolean = false): Boolean {
+    if (string.isEmpty()) return true
+    if (this.size < string.length) return false
+    for (i in 0..this.size - string.length) {
+        var match = true
+        for (j in string.indices) {
+            if (!this[i + j].equals(string[j], ignoreCase = ignoreCase)) {
+                match = false
+                break
+            }
+        }
+        if (match) return true
+    }
+    return false
+}

@@ -21,6 +21,7 @@ package com.kunzisoft.keepass.database.element.template
 import android.os.Parcel
 import android.os.Parcelable
 import com.kunzisoft.keepass.database.element.DateInstant
+import com.kunzisoft.keepass.utils.contains
 import com.kunzisoft.keepass.utils.readStringStringMap
 import com.kunzisoft.keepass.utils.writeStringStringMap
 
@@ -271,17 +272,18 @@ class TemplateAttributeOption() : Parcelable {
             return string.filterNot { "{,:}".indexOf(it) > -1 }
         }
 
-        fun getOptionsFromString(label: String): TemplateAttributeOption {
+        fun getOptionsFrom(label: CharArray): TemplateAttributeOption {
             val options = TemplateAttributeOption()
-            val optionsMap =  if (label.contains("{") || label.contains("}")) {
+            val optionsMap = if (label.contains("{") || label.contains("}")) {
+                val labelString = String(label)
                 try {
-                    label.trim().substringAfter("{").substringBefore("}")
+                    labelString.trim().substringAfter("{").substringBefore("}")
                         .split(",").associate {
                             val keyValue = it.trim()
                             val (left, right) = keyValue.split(":")
                             left to right
                         }.toMutableMap()
-                } catch (e: Exception) {
+                } catch (_: Exception) {
                     mutableMapOf()
                 }
             } else {

@@ -159,7 +159,7 @@ class EntryInfo : NodeInfo {
     }
 
     /**
-     * Add an unique field to the custom fields list with a suffix
+     * Add a unique field to the list of custom fields with a suffix
      * if name already exists and value not the same
      * @param field the field to add
      * @param position the number to add to the suffix
@@ -170,7 +170,8 @@ class EntryInfo : NodeInfo {
         if (customFields.any { currentField -> currentField.name == field.name + suffix }) {
             val fieldFound = customFields.find {
                 it.name == field.name + suffix
-                        && it.protectedValue.stringValue == field.protectedValue.stringValue
+                        && it.protectedValue.charArrayValue
+                            .contentEquals(field.protectedValue.charArrayValue)
             }
             return if (fieldFound != null) {
                 Pair(position, fieldFound)
@@ -227,7 +228,7 @@ class EntryInfo : NodeInfo {
 
     /**
      * Add registerInfo to current EntryInfo,
-     * return true if data has been overwrite
+     * return true if data has been overwritten
      */
     fun saveRegisterInfo(database: Database?, registerInfo: RegisterInfo): Boolean {
         saveSearchInfo(database, registerInfo.searchInfo)

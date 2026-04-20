@@ -22,6 +22,7 @@ package com.kunzisoft.keepass.model
 import com.kunzisoft.keepass.database.element.Field
 import com.kunzisoft.keepass.database.element.security.ProtectedString
 import com.kunzisoft.keepass.model.EntryInfo.Companion.suffixFieldNamePosition
+import com.kunzisoft.keepass.utils.contains
 
 object AppOriginEntryField {
 
@@ -30,7 +31,7 @@ object AppOriginEntryField {
     const val APPLICATION_SIGNATURE_FIELD_NAME = "AndroidApp Signature"
 
     /**
-     * Parse fields of an entry to retrieve a an AppOrigin
+     * Parse the fields of an entry to retrieve an AppOrigin
      */
     fun parseFields(getField: (id: String) -> String?): AppOrigin {
         val appOrigin = AppOrigin(verified = true)
@@ -69,13 +70,13 @@ object AppOriginEntryField {
     }
 
     /**
-     * Useful to detect if an other KeePass compatibility app already add a web domain or an app id
+     * Useful for checking whether another KeePass-compatible app has already added a website or an app ID
      */
     fun EntryInfo.containsDomainOrApplicationId(search: String): Boolean {
         if (url.contains(search))
             return true
         return customFields.find {
-            it.protectedValue.stringValue.contains(search)
+            it.protectedValue.charArrayValue.contains(search)
         } != null
     }
 

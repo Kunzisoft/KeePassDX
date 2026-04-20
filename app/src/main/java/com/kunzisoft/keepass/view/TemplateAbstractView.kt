@@ -430,7 +430,7 @@ abstract class TemplateAbstractView<
                                 try {
                                     customView.activation = true
                                     customView.dateTime = DateInstant(customField
-                                        .protectedValue.stringValue)
+                                        .protectedValue.toString())
                                 } catch (e: Exception) {
                                     customView.activation = false
                                     customView.dateTime = DateInstant.NEVER_EXPIRES
