@@ -165,7 +165,7 @@ object OtpEntryFields {
                 if (counterParameter != null) {
                     try {
                         otpElement.counter = counterParameter.toLongOrNull() ?: HOTP_INITIAL_COUNTER
-                    } catch (e: NumberFormatException) {
+                    } catch (_: NumberFormatException) {
                         Log.e(TAG, "Invalid counter in uri")
                         return false
                     }
@@ -323,7 +323,7 @@ object OtpEntryFields {
                             else -> HashAlgorithm.SHA1
                         }
             }
-        } catch (exception: Exception) {
+        } catch (_: Exception) {
             return false
         }
         return true
@@ -342,7 +342,7 @@ object OtpEntryFields {
                     otpElement.digits = query[DIGITS_KEY]?.toIntOrNull() ?: OTP_DEFAULT_DIGITS
                     otpElement.period = query[STEP_KEY]?.toIntOrNull() ?: TOTP_DEFAULT_PERIOD
                     true
-                } catch (exception: Exception) {
+                } catch (_: Exception) {
                     false
                 }
             } else {
@@ -373,14 +373,14 @@ object OtpEntryFields {
                 matcher.group(2)?.let { secondMatcher ->
                     try {
                         otpElement.digits = secondMatcher.toInt()
-                    } catch (e: NumberFormatException) {
+                    } catch (_: NumberFormatException) {
                         otpElement.digits = OTP_DEFAULT_DIGITS
                         otpElement.tokenType = OtpTokenType.getFromString(secondMatcher)
                     }
                 }
 
             }
-        } catch (exception: Exception) {
+        } catch (_: Exception) {
             return false
         }
         return true
@@ -404,7 +404,7 @@ object OtpEntryFields {
             if (secretCounterField != null) {
                 otpElement.counter = secretCounterField.toLongOrNull() ?: HOTP_INITIAL_COUNTER
             }
-        } catch (exception: Exception) {
+        } catch (_: Exception) {
             return false
         }
         return true
