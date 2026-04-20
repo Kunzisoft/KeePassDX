@@ -32,6 +32,7 @@ class ProtectedString : Parcelable {
     var charArrayValue: CharArray = charArrayOf()
         private set
 
+    // TODO Remove
     var stringValue: String
         get() = String(charArrayValue)
         set(value) {
@@ -44,15 +45,16 @@ class ProtectedString : Parcelable {
         this.charArrayValue = toCopy.charArrayValue.copyOf()
     }
 
-    constructor(enableProtection: Boolean = false, string: String = "") {
+    // TODO Remove
+    constructor(enableProtection: Boolean = false, value: String) {
         this.isProtected = enableProtection
-        this.charArrayValue = string.toCharArray()
+        this.charArrayValue = value.toCharArray()
     }
 
-    constructor(enableProtection: Boolean, charArray: CharArray?) {
+    constructor(enableProtection: Boolean = false, value: CharArray? = null) {
         this.isProtected = enableProtection
-        this.charArrayValue = charArray?.copyOf() ?: charArrayOf()
-        }
+        this.charArrayValue = value?.copyOf() ?: charArrayOf()
+    }
 
     constructor(parcel: Parcel) {
         isProtected = parcel.readBooleanCompat()

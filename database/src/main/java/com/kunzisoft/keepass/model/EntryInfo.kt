@@ -49,7 +49,7 @@ class EntryInfo : NodeInfo {
 
     var id: UUID = UUID.randomUUID()
     var username: String = ""
-    var password: String = ""
+    var password: String = "" // TODO CharArray
     var url: String = ""
     var notes: String = ""
     var tags: Tags = Tags()

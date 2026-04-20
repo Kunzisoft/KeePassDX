@@ -165,6 +165,7 @@ data class OtpElement(var otpModel: OtpModel = OtpModel()) {
             throw IllegalArgumentException()
     }
 
+    // TODO Replace with CharArray
     val token: String
         get() {
             if (secret == null)
@@ -181,6 +182,7 @@ data class OtpElement(var otpModel: OtpModel = OtpModel()) {
     /**
      * Token with space each 3 digits
      */
+    // TODO Replace with CharArray
     val tokenString: String
         get() {
             return token.replace("...".toRegex(), "$0 ")

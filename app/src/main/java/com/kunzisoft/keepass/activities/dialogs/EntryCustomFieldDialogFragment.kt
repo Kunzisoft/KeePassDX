@@ -53,7 +53,7 @@ class EntryCustomFieldDialogFragment: DatabaseDialogFragment() {
         super.onAttach(context)
         try {
             entryCustomFieldListener = context as EntryCustomFieldListener
-        } catch (e: ClassCastException) {
+        } catch (_: ClassCastException) {
             // The activity doesn't implement the interface, throw exception
             throw ClassCastException(context.toString()
                     + " must implement " + EntryCustomFieldListener::class.java.name)
@@ -126,15 +126,24 @@ class EntryCustomFieldDialogFragment: DatabaseDialogFragment() {
         if (isValid()) {
             oldField?.let {
                 // New property with old value
-                entryCustomFieldListener?.onEditCustomFieldApproved(it,
-                        Field(customFieldLabel?.text?.toString() ?: "",
-                                ProtectedString(customFieldProtectionButton?.isChecked == true,
-                                        it.protectedValue.stringValue))
+                entryCustomFieldListener?.onEditCustomFieldApproved(
+                    oldField = it,
+                    newField = Field(
+                        name = customFieldLabel?.text?.toString() ?: "",
+                        value = ProtectedString(
+                            enableProtection = customFieldProtectionButton?.isChecked == true,
+                            value = it.protectedValue.charArrayValue
+                        )
+                    )
                 )
             } ?: run {
                 entryCustomFieldListener?.onNewCustomFieldApproved(
-                        Field(customFieldLabel?.text?.toString() ?: "",
-                                ProtectedString(customFieldProtectionButton?.isChecked == true))
+                    newField = Field(
+                        name = customFieldLabel?.text?.toString() ?: "",
+                        value = ProtectedString(
+                            enableProtection = customFieldProtectionButton?.isChecked == true
+                        )
+                    )
                 )
             }
             (dialog as AlertDialog?)?.dismiss()

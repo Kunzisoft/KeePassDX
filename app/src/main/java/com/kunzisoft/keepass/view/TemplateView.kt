@@ -20,10 +20,11 @@ import com.kunzisoft.keepass.otp.OtpElement
 import com.kunzisoft.keepass.otp.OtpEntryFields.OTP_TOKEN_FIELD
 
 
-class TemplateView @JvmOverloads constructor(context: Context,
-                                                 attrs: AttributeSet? = null,
-                                                 defStyle: Int = 0)
-    : TemplateAbstractView<TextFieldView, TextFieldView, DateTimeFieldView>
+class TemplateView @JvmOverloads constructor(
+    context: Context,
+    attrs: AttributeSet? = null,
+    defStyle: Int = 0
+) : TemplateAbstractView<TextFieldView, TextFieldView, DateTimeFieldView>
         (context, attrs, defStyle) {
 
     private var mOnChangeFieldProtectionClickListener: ((FieldProtection) -> Unit)? = null
@@ -54,8 +55,10 @@ class TemplateView @JvmOverloads constructor(context: Context,
         headerContainerView.isVisible = false
     }
 
-    override fun buildLinearTextView(templateAttribute: TemplateAttribute,
-                                     field: Field): TextFieldView? {
+    override fun buildLinearTextView(
+        templateAttribute: TemplateAttribute,
+        field: Field
+    ): TextFieldView? {
         // Add an action icon if needed
         return context?.let {
             (if (TemplateField.isStandardPasswordName(context, templateAttribute.label))
@@ -80,7 +83,7 @@ class TemplateView @JvmOverloads constructor(context: Context,
                         ?: TemplateField.getLocalizedName(context, field.name)
                 setMaxChars(templateAttribute.options.getNumberChars())
                 // TODO Linkify
-                value = field.protectedValue.stringValue
+                value = field.protectedValue.charArrayValue
                 // Here the value is often empty
 
                 if (field.protectedValue.isProtected) {
@@ -100,7 +103,7 @@ class TemplateView @JvmOverloads constructor(context: Context,
                                             name = label,
                                             value = ProtectedString(
                                                 enableProtection = true,
-                                                string = value
+                                                value = value
                                             )
                                         ),
                                         isCurrentlyProtected = isCurrentlyProtected()
@@ -121,7 +124,7 @@ class TemplateView @JvmOverloads constructor(context: Context,
                                     name = label,
                                     value = ProtectedString(
                                         enableProtection = false,
-                                        string = value
+                                        value = value
                                     )
                                 ),
                                 isCurrentlyProtected = isCurrentlyProtected()
@@ -212,7 +215,7 @@ class TemplateView @JvmOverloads constructor(context: Context,
                 setCopyButtonState(TextFieldView.ButtonState.GONE)
             } else {
                 label = otpElement.type.name
-                value = otpElement.tokenString
+                value = otpElement.tokenString.toCharArray()
                 setCopyButtonState(TextFieldView.ButtonState.ACTIVATE)
                 setCopyButtonClickListener { _, _ ->
                     mOnCopyActionClickListener?.invoke(
@@ -221,7 +224,7 @@ class TemplateView @JvmOverloads constructor(context: Context,
                                 name = otpElement.type.name,
                                 value = ProtectedString(
                                     enableProtection = false,
-                                    string = otpElement.token
+                                    value = otpElement.token
                                 )
                             ),
                             isCurrentlyProtected = false
@@ -232,7 +235,7 @@ class TemplateView @JvmOverloads constructor(context: Context,
                 mLastOtpTokenView = this
                 mOtpRunnable = Runnable {
                     if (otpElement.shouldRefreshToken()) {
-                        value = otpElement.tokenString
+                        value = otpElement.tokenString.toCharArray()
                     }
                     if (mLastOtpTokenView == null) {
                         mOnOtpElementUpdated?.invoke(null)

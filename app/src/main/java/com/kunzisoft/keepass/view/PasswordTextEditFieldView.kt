@@ -20,7 +20,6 @@
 package com.kunzisoft.keepass.view
 
 import android.content.Context
-import android.text.Spannable
 import android.util.AttributeSet
 import android.util.TypedValue
 import android.widget.TextView
@@ -35,10 +34,11 @@ import com.kunzisoft.keepass.password.PasswordGenerator
 import com.kunzisoft.keepass.settings.PreferencesUtil
 
 
-class PasswordTextEditFieldView @JvmOverloads constructor(context: Context,
-                                                          attrs: AttributeSet? = null,
-                                                          defStyle: Int = 0)
-    : TextEditFieldView(context, attrs, defStyle) {
+class PasswordTextEditFieldView @JvmOverloads constructor(
+    context: Context,
+    attrs: AttributeSet? = null,
+    defStyle: Int = 0
+) : TextEditFieldView(context, attrs, defStyle) {
 
     private var mPasswordEntropyCalculator: PasswordEntropy = PasswordEntropy {
         valueView.text?.toString()?.let { firstPassword ->
@@ -131,18 +131,15 @@ class PasswordTextEditFieldView @JvmOverloads constructor(context: Context,
         }
     }
 
-    // TODO Method with charArray param
-    override fun spannableValue(value: String?): Spannable? {
-        if (value == null)
-            return null
-        return if (isColorizedPasswordActivated) {
-            val charArray = value.toCharArray()
-            val spannable = PasswordGenerator.getColorizedPassword(charArray)
-            charArray.fill('\u0000')
-            spannable
-        } else
-            super.spannableValue(value)
-    }
+    override var value: CharArray
+        get() = super.value
+        set(value) {
+            if (isColorizedPasswordActivated) {
+                valueView.setText(PasswordGenerator.getColorizedPassword(value))
+            } else {
+                valueView.setText(value, 0, value.size)
+            }
+        }
 
     override var label: String
         get() {
