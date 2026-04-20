@@ -114,7 +114,7 @@ class SetOTPDialogFragment : DatabaseDialogFragment() {
         try {
             // Instantiate the NoticeDialogListener so we can send events to the host
             mCreateOTPElementListener = context as CreateOtpListener
-        } catch (e: ClassCastException) {
+        } catch (_: ClassCastException) {
             // The activity doesn't implement the interface, throw exception
             throw ClassCastException(context.toString()
                     + " must implement " + CreateOtpListener::class.java.name)
@@ -123,6 +123,7 @@ class SetOTPDialogFragment : DatabaseDialogFragment() {
 
     override fun onDetach() {
         mCreateOTPElementListener = null
+        mOtpElement.clear()
         super.onDetach()
     }
 
@@ -133,15 +134,19 @@ class SetOTPDialogFragment : DatabaseDialogFragment() {
         if (savedInstanceState != null) {
             if (savedInstanceState.containsKey(KEY_OTP)) {
                 savedInstanceState.getParcelableCompat<OtpModel>(KEY_OTP)?.let { otpModel ->
+                    mOtpElement.clear()
                     mOtpElement = OtpElement(otpModel)
                 }
+                savedInstanceState.remove(KEY_OTP)
             }
         } else {
             arguments?.apply {
                 if (containsKey(KEY_OTP)) {
                     getParcelableCompat<OtpModel>(KEY_OTP)?.let { otpModel ->
+                        mOtpElement.clear()
                         mOtpElement = OtpElement(otpModel)
                     }
+                    remove(KEY_OTP)
                 }
             }
         }
@@ -197,7 +202,7 @@ class SetOTPDialogFragment : DatabaseDialogFragment() {
             }
 
             // HOTP / TOTP Type selection
-            val otpTypeArray = OtpType.values()
+            val otpTypeArray = OtpType.entries.toTypedArray()
             otpTypeAdapter = ArrayAdapter(activity,
                     android.R.layout.simple_spinner_item, otpTypeArray).apply {
                 setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
@@ -222,7 +227,7 @@ class SetOTPDialogFragment : DatabaseDialogFragment() {
             otpTokenTypeSpinner?.adapter = otpTokenTypeAdapter
 
             // OTP Algorithm
-            val otpAlgorithmArray = TokenCalculator.HashAlgorithm.values()
+            val otpAlgorithmArray = TokenCalculator.HashAlgorithm.entries.toTypedArray()
             otpAlgorithmAdapter = ArrayAdapter(activity,
                     android.R.layout.simple_spinner_item, otpAlgorithmArray).apply {
                 setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
@@ -320,9 +325,9 @@ class SetOTPDialogFragment : DatabaseDialogFragment() {
                 s?.toString()?.let { userString ->
                     if (userString.length >= MIN_OTP_SECRET) {
                         try {
-                            mOtpElement.setBase32Secret(userString.uppercase(Locale.ENGLISH))
+                            mOtpElement.setBase32Secret(userString.uppercase(Locale.ENGLISH).toCharArray())
                             otpSecretContainer?.error = null
-                        } catch (exception: Exception) {
+                        } catch (_: Exception) {
                             otpSecretContainer?.error = getString(R.string.error_otp_secret_key)
                         }
                     } else {
@@ -344,7 +349,7 @@ class SetOTPDialogFragment : DatabaseDialogFragment() {
                         try {
                             mOtpElement.counter = it
                             otpCounterContainer?.error = null
-                        } catch (exception: Exception) {
+                        } catch (_: Exception) {
                             otpCounterContainer?.error = getString(R.string.error_otp_counter,
                                     MIN_HOTP_COUNTER, MAX_HOTP_COUNTER)
                         }
@@ -364,7 +369,7 @@ class SetOTPDialogFragment : DatabaseDialogFragment() {
                         try {
                             mOtpElement.period = it
                             otpPeriodContainer?.error = null
-                        } catch (exception: Exception) {
+                        } catch (_: Exception) {
                             otpPeriodContainer?.error = getString(R.string.error_otp_period,
                                     MIN_TOTP_PERIOD, MAX_TOTP_PERIOD)
                         }
@@ -384,7 +389,7 @@ class SetOTPDialogFragment : DatabaseDialogFragment() {
                         try {
                             mOtpElement.digits = it
                             otpDigitsContainer?.error = null
-                        } catch (exception: Exception) {
+                        } catch (_: Exception) {
                             otpDigitsContainer?.error = getString(R.string.error_otp_digits,
                                     MIN_OTP_DIGITS, MAX_OTP_DIGITS)
                         }
@@ -398,7 +403,7 @@ class SetOTPDialogFragment : DatabaseDialogFragment() {
     }
 
     private fun upgradeType() {
-        otpTypeSpinner?.setSelection(OtpType.values().indexOf(mOtpElement.type))
+        otpTypeSpinner?.setSelection(OtpType.entries.indexOf(mOtpElement.type))
     }
 
     private fun upgradeTokenType() {
@@ -437,12 +442,12 @@ class SetOTPDialogFragment : DatabaseDialogFragment() {
     }
 
     private fun upgradeParameters() {
-        otpAlgorithmSpinner?.setSelection(TokenCalculator.HashAlgorithm.values()
-                .indexOf(mOtpElement.algorithm))
+        otpAlgorithmSpinner?.setSelection(
+            TokenCalculator.HashAlgorithm.entries.indexOf(mOtpElement.algorithm))
 
         val secret = mOtpElement.getBase32Secret()
         otpSecretTextView?.apply {
-            setText(secret)
+            setText(secret, 0, secret.size)
             // Cursor at end
             setSelection(this.text.length)
         }

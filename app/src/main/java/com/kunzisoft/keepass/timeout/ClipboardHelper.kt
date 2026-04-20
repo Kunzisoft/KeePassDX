@@ -50,9 +50,9 @@ class ClipboardHelper(context: Context) {
         return mClipboardManager
     }
 
-    fun timeoutCopyToClipboard(label: String, text: CharSequence, sensitive: Boolean = false) {
+    fun timeoutCopyToClipboard(label: String, value: CharSequence, sensitive: Boolean = false) {
         try {
-            copyToClipboard(label, text, sensitive)
+            copyToClipboard(label, value, sensitive)
         } catch (_: Exception) {
             showClipboardErrorDialog()
             return
@@ -60,14 +60,13 @@ class ClipboardHelper(context: Context) {
 
         val clipboardTimeout = PreferencesUtil.getClipboardTimeout(mAppContext)
         if (clipboardTimeout > 0) {
-            mTimer.schedule(ClearClipboardTask(text), clipboardTimeout)
+            mTimer.schedule(ClearClipboardTask(value), clipboardTimeout)
         }
     }
 
-    fun timeoutCopyToClipboard(label: String, text: CharArray?, sensitive: Boolean = false) {
-        if (text == null) return
-        // No need to clear textString as it is already in heap and immutable
-        timeoutCopyToClipboard(label, String(text), sensitive)
+    fun timeoutCopyToClipboard(label: String, value: CharArray?, sensitive: Boolean = false) {
+        if (value == null) return
+        timeoutCopyToClipboard(label, String(value), sensitive)
     }
 
     fun copyToClipboard(label: String, value: CharSequence, sensitive: Boolean = false) {
@@ -88,6 +87,11 @@ class ClipboardHelper(context: Context) {
                 Toast.LENGTH_LONG
             ).show()
         }
+    }
+
+    fun copyToClipboard(label: String, value: CharArray?, sensitive: Boolean = false) {
+        if (value == null) return
+        copyToClipboard(label, String(value), sensitive)
     }
 
     fun cleanClipboard() {

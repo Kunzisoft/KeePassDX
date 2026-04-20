@@ -25,6 +25,7 @@ import com.kunzisoft.keepass.otp.OtpTokenType
 import com.kunzisoft.keepass.otp.OtpType
 import com.kunzisoft.keepass.otp.TokenCalculator
 import com.kunzisoft.keepass.otp.TokenCalculator.OTP_DEFAULT_ALGORITHM
+import com.kunzisoft.keepass.utils.clear
 import com.kunzisoft.keepass.utils.readEnum
 import com.kunzisoft.keepass.utils.writeEnum
 
@@ -104,6 +105,11 @@ class OtpModel() : Parcelable {
 
     override fun toString(): String {
         return "$type ($name)"
+    }
+    
+    fun clear() {
+        secret?.clear()
+        secret = null
     }
 
     companion object CREATOR : Parcelable.Creator<OtpModel> {

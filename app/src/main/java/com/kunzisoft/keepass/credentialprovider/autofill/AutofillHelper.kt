@@ -57,7 +57,6 @@ import com.kunzisoft.keepass.utils.getParcelableCompat
 import com.kunzisoft.keepass.utils.getParcelableExtraCompat
 import java.io.IOException
 import kotlin.math.min
-import kotlin.text.padStart
 
 
 @RequiresApi(api = Build.VERSION_CODES.O)
@@ -326,10 +325,12 @@ object AutofillHelper {
 
         // OTP
         struct.otpTokenId?.let { otpTokenId ->
-            datasetBuilder.addValueToDatasetBuilder(
-                otpTokenId,
-                AutofillValue.forText(entryInfo.getOtpToken())
-            )
+            entryInfo.getOtpToken()?.let {
+                datasetBuilder.addValueToDatasetBuilder(
+                    otpTokenId,
+                    AutofillValue.forText(String(it))
+                )
+            }
         }
 
         val dataset = datasetBuilder.build()

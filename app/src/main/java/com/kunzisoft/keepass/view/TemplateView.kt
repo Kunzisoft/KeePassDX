@@ -215,7 +215,7 @@ class TemplateView @JvmOverloads constructor(
                 setCopyButtonState(TextFieldView.ButtonState.GONE)
             } else {
                 label = otpElement.type.name
-                value = otpElement.tokenString.toCharArray()
+                value = otpElement.tokenFormatted
                 setCopyButtonState(TextFieldView.ButtonState.ACTIVATE)
                 setCopyButtonClickListener { _, _ ->
                     mOnCopyActionClickListener?.invoke(
@@ -235,7 +235,7 @@ class TemplateView @JvmOverloads constructor(
                 mLastOtpTokenView = this
                 mOtpRunnable = Runnable {
                     if (otpElement.shouldRefreshToken()) {
-                        value = otpElement.tokenString.toCharArray()
+                        value = otpElement.tokenFormatted
                     }
                     if (mLastOtpTokenView == null) {
                         mOnOtpElementUpdated?.invoke(null)

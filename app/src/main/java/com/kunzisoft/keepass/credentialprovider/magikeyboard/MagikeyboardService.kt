@@ -67,6 +67,7 @@ import com.kunzisoft.keepass.utils.KeyboardUtil.switchToPreviousKeyboard
 import com.kunzisoft.keepass.utils.LOCK_ACTION
 import com.kunzisoft.keepass.utils.LockReceiver
 import com.kunzisoft.keepass.utils.REMOVE_ENTRY_MAGIKEYBOARD_ACTION
+import com.kunzisoft.keepass.utils.clear
 import com.kunzisoft.keepass.utils.registerLockReceiver
 import com.kunzisoft.keepass.utils.unregisterLockReceiver
 import java.util.UUID
@@ -135,8 +136,10 @@ class MagikeyboardService : InputMethodService(),
         fieldsAdapter = KeyboardFieldsAdapter(this)
         fieldsAdapter?.onItemClickListener = object : KeyboardFieldsAdapter.OnItemClickListener {
             override fun onItemClick(item: Field) {
-                currentInputConnection.commitText(getEntryInfo()?.getGeneratedFieldValue(item.name) , 1)
-                actionTabAutomatically()
+                getEntryInfo()?.getGeneratedFieldValue(item.name)?.let { otpToken ->
+                    currentInputConnection.commitText(String(otpToken), 1)
+                    actionTabAutomatically()
+                }
             }
         }
 
@@ -385,25 +388,26 @@ class MagikeyboardService : InputMethodService(),
             }
             KEY_OTP -> {
                 getEntryInfo()?.let { entryInfo ->
-                    currentInputConnection.commitText(
-                        entryInfo.getGeneratedFieldValue(OTP_TOKEN_FIELD), 1)
+                    entryInfo.getGeneratedFieldValue(OTP_TOKEN_FIELD)?.let {
+                        currentInputConnection.commitText(String(it), 1)
+                    }
                 }
                 actionGoAutomatically()
             }
             KEY_OTP_ALT -> {
                 getEntryInfo()?.let { entryInfo ->
-                    val otpToken = entryInfo.getGeneratedFieldValue(OTP_TOKEN_FIELD)
-                    if (otpToken.isNotEmpty()) {
+                    val otpToken = entryInfo.getGeneratedFieldValue(OTP_TOKEN_FIELD)?.copyOf()
+                    if (otpToken != null && otpToken.isNotEmpty()) {
                         // Cut to fill each digit separatelyKeyEvent.KEYCODE_TAB
-                        val otpTokenChars = otpToken.chunked(1)
-                        otpTokenChars.forEachIndexed { index, char ->
-                            currentInputConnection.commitText(char, 1)
-                            if (index < (otpTokenChars.size-1))
+                        otpToken.forEachIndexed { index, char ->
+                            currentInputConnection.commitText(char.toString(), 1)
+                            if (index < (otpToken.size-1))
                                 currentInputConnection.sendKeyEvent(
                                     KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_TAB)
                                 )
                         }
                     }
+                    otpToken?.clear()
                 }
                 actionGoAutomatically()
             }

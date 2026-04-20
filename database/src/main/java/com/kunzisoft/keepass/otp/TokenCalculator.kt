@@ -18,115 +18,142 @@
  * https://github.com/andOTP/andOTP/blob/master/app/src/main/java/org/shadowice/flocke/andotp/
  * Utilities/TokenCalculator.java
  */
-package com.kunzisoft.keepass.otp;
+package com.kunzisoft.keepass.otp
 
-import java.nio.ByteBuffer;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
-import java.text.NumberFormat;
-import java.util.Locale;
+import java.nio.ByteBuffer
+import java.security.InvalidKeyException
+import java.security.NoSuchAlgorithmException
+import java.text.NumberFormat
+import java.util.Locale
+import javax.crypto.Mac
+import javax.crypto.spec.SecretKeySpec
+import kotlin.math.pow
 
-import javax.crypto.Mac;
-import javax.crypto.spec.SecretKeySpec;
+object TokenCalculator {
+    const val TOTP_DEFAULT_PERIOD: Int = 30
+    const val HOTP_INITIAL_COUNTER: Long = 1
+    const val OTP_DEFAULT_DIGITS: Int = 6
+    const val STEAM_DEFAULT_DIGITS: Int = 5
+    val OTP_DEFAULT_ALGORITHM: HashAlgorithm = HashAlgorithm.SHA1
 
-public class TokenCalculator {
-    public static final int TOTP_DEFAULT_PERIOD = 30;
-    public static final long HOTP_INITIAL_COUNTER = 1;
-    public static final int OTP_DEFAULT_DIGITS = 6;
-    public static final int STEAM_DEFAULT_DIGITS = 5;
-    public static final HashAlgorithm OTP_DEFAULT_ALGORITHM = HashAlgorithm.SHA1;
+    private val STEAM_CHARS = charArrayOf(
+        '2', '3', '4', '5', '6', '7', '8', '9', 'B', 'C',
+        'D', 'F', 'G', 'H', 'J', 'K', 'M', 'N', 'P', 'Q',
+        'R', 'T', 'V', 'W', 'X', 'Y'
+    )
 
-    private static final char[] STEAMCHARS = new char[] {
-            '2', '3', '4', '5', '6', '7', '8', '9', 'B', 'C',
-            'D', 'F', 'G', 'H', 'J', 'K', 'M', 'N', 'P', 'Q',
-            'R', 'T', 'V', 'W', 'X', 'Y'
-    };
+    @Throws(NoSuchAlgorithmException::class, InvalidKeyException::class)
+    private fun generateHash(
+        algorithm: HashAlgorithm,
+        key: ByteArray?,
+        data: ByteArray?
+    ): ByteArray {
+        val algo = "Hmac$algorithm"
 
-    public enum HashAlgorithm {
+        val mac = Mac.getInstance(algo)
+        mac.init(SecretKeySpec(key, algo))
+
+        return mac.doFinal(data)
+    }
+
+    fun getTotpRfc6238Token(
+        secret: ByteArray?,
+        period: Int,
+        time: Long,
+        digits: Int,
+        algorithm: HashAlgorithm
+    ): Int {
+        val fullToken = getTotpToken(secret, period, time, algorithm)
+        val div = 10.0.pow(digits.toDouble()).toInt()
+
+        return fullToken % div
+    }
+
+    fun getTotpRfc6238Token(
+        secret: ByteArray?,
+        period: Int,
+        digits: Int,
+        algorithm: HashAlgorithm
+    ): CharArray {
+        return formatTokenString(
+            getTotpRfc6238Token(
+                secret,
+                period,
+                System.currentTimeMillis() / 1000,
+                digits,
+                algorithm
+            ), digits
+        )
+    }
+
+    fun getTotpSteamToken(
+        secret: ByteArray?,
+        period: Int,
+        digits: Int,
+        algorithm: HashAlgorithm
+    ): CharArray {
+        var fullToken = getTotpToken(secret, period, System.currentTimeMillis() / 1000, algorithm)
+
+        val token = CharArray(digits)
+        for (i in 0..<digits) {
+            token[i] = STEAM_CHARS[fullToken % STEAM_CHARS.size]
+            fullToken /= STEAM_CHARS.size
+        }
+
+        return token
+    }
+
+    fun getHotpToken(secret: ByteArray?, counter: Long, digits: Int, algorithm: HashAlgorithm): CharArray {
+        val fullToken = getHotpToken(secret, counter, algorithm)
+        val div = 10.0.pow(digits.toDouble()).toInt()
+
+        return formatTokenString(fullToken % div, digits)
+    }
+
+    private fun getTotpToken(key: ByteArray?, period: Int, time: Long, algorithm: HashAlgorithm): Int {
+        return getHotpToken(key, time / period, algorithm)
+    }
+
+    private fun getHotpToken(key: ByteArray?, counter: Long, algorithm: HashAlgorithm): Int {
+        var r = 0
+        try {
+            val data = ByteBuffer.allocate(8).putLong(counter).array()
+            val hash = generateHash(algorithm, key, data)
+
+            val offset = hash[hash.size - 1].toInt() and 0xF
+
+            var binary = (hash[offset].toInt() and 0x7F) shl 0x18
+            binary = binary or ((hash[offset + 1].toInt() and 0xFF) shl 0x10)
+            binary = binary or ((hash[offset + 2].toInt() and 0xFF) shl 0x08)
+            binary = binary or (hash[offset + 3].toInt() and 0xFF)
+
+            r = binary
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        return r
+    }
+
+    fun formatTokenString(token: Int, digits: Int): CharArray {
+        val numberFormat = NumberFormat.getInstance(Locale.ENGLISH)
+        numberFormat.minimumIntegerDigits = digits
+        numberFormat.isGroupingUsed = false
+
+        return numberFormat.format(token.toLong()).toCharArray()
+    }
+
+    enum class HashAlgorithm {
         SHA1, SHA256, SHA512;
 
-        static HashAlgorithm fromString(String hashString) {
-            String hash = hashString.replace("[^a-zA-Z0-9]", "").toUpperCase();
-            try {
-                return valueOf(hash);
-            } catch (Exception e) {
-                return OTP_DEFAULT_ALGORITHM;
+        companion object {
+            fun fromString(hashString: String): HashAlgorithm {
+                val hash = hashString.replace(Regex("[^a-zA-Z0-9]"), "").uppercase(Locale.getDefault())
+                return try {
+                    valueOf(hash)
+                } catch (_: Exception) {
+                    OTP_DEFAULT_ALGORITHM
+                }
             }
         }
-    }
-
-    private static byte[] generateHash(HashAlgorithm algorithm, byte[] key, byte[] data)
-            throws NoSuchAlgorithmException, InvalidKeyException {
-        String algo = "Hmac" + algorithm.toString();
-
-        Mac mac = Mac.getInstance(algo);
-        mac.init(new SecretKeySpec(key, algo));
-
-        return mac.doFinal(data);
-    }
-
-    public static int TOTP_RFC6238(byte[] secret, int period, long time, int digits, HashAlgorithm algorithm) {
-        int fullToken = TOTP(secret, period, time, algorithm);
-        int div = (int) Math.pow(10, digits);
-
-        return fullToken % div;
-    }
-
-    public static String TOTP_RFC6238(byte[] secret, int period, int digits, HashAlgorithm algorithm) {
-        return formatTokenString(TOTP_RFC6238(secret, period, System.currentTimeMillis() / 1000, digits, algorithm), digits);
-    }
-
-    public static String TOTP_Steam(byte[] secret, int period, int digits, HashAlgorithm algorithm) {
-        int fullToken = TOTP(secret, period, System.currentTimeMillis() / 1000, algorithm);
-
-        StringBuilder tokenBuilder = new StringBuilder();
-
-        for (int i = 0; i < digits; i++) {
-            tokenBuilder.append(STEAMCHARS[fullToken % STEAMCHARS.length]);
-            fullToken /= STEAMCHARS.length;
-        }
-
-        return tokenBuilder.toString();
-    }
-
-    public static String HOTP(byte[] secret, long counter, int digits, HashAlgorithm algorithm) {
-        int fullToken = HOTP(secret, counter, algorithm);
-        int div = (int) Math.pow(10, digits);
-
-        return formatTokenString(fullToken % div, digits);
-    }
-
-    private static int TOTP(byte[] key, int period, long time, HashAlgorithm algorithm) {
-        return HOTP(key, time / period, algorithm);
-    }
-
-    private static int HOTP(byte[] key, long counter, HashAlgorithm algorithm) {
-        int r = 0;
-
-        try {
-            byte[] data = ByteBuffer.allocate(8).putLong(counter).array();
-            byte[] hash = generateHash(algorithm, key, data);
-
-            int offset = hash[hash.length - 1] & 0xF;
-
-            int binary = (hash[offset] & 0x7F) << 0x18;
-            binary |= (hash[offset + 1] & 0xFF) << 0x10;
-            binary |= (hash[offset + 2] & 0xFF) << 0x08;
-            binary |= (hash[offset + 3] & 0xFF);
-
-            r = binary;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return r;
-    }
-
-    public static String formatTokenString(int token, int digits) {
-        NumberFormat numberFormat = NumberFormat.getInstance(Locale.ENGLISH);
-        numberFormat.setMinimumIntegerDigits(digits);
-        numberFormat.setGroupingUsed(false);
-
-        return numberFormat.format(token);
     }
 }

@@ -516,8 +516,10 @@ abstract class TemplateAbstractView<
     }
 
     fun getEntryInfo(): EntryInfo {
-        populateEntryInfoWithViews(templateFieldNotEmpty = true,
-                                   retrieveDefaultValues = true)
+        populateEntryInfoWithViews(
+            templateFieldNotEmpty = true,
+            retrieveDefaultValues = true
+        )
         return mEntryInfo ?: EntryInfo()
     }
 
@@ -661,14 +663,18 @@ abstract class TemplateAbstractView<
                                    focus: Boolean): Boolean {
         if (!isStandardFieldName(newField.name)) {
             getViewFieldByName(oldField.name)?.view?.let { viewToReplace ->
-                val oldValue = getCustomField(oldField.name).protectedValue.toString()
+                val oldValue = getCustomField(oldField.name).protectedValue.charArrayValue
 
                 val parentGroup = viewToReplace.parent as? ViewGroup?
                 parentGroup?.removeView(viewToReplace)
 
                 val newCustomFieldWithValue = if (keepOldValue)
-                    Field(newField.name,
-                        ProtectedString(newField.protectedValue.isProtected, oldValue)
+                    Field(
+                        newField.name,
+                        ProtectedString(
+                            newField.protectedValue.isProtected,
+                            oldValue
+                        )
                     )
                 else
                     newField

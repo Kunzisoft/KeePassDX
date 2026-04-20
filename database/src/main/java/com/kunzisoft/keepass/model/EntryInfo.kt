@@ -111,7 +111,7 @@ class EntryInfo : NodeInfo {
         parcel.writeBooleanCompat(isTemplate)
     }
 
-    fun getOtpToken(): String? {
+    fun getOtpToken(): CharArray? {
         return otpModel?.let {
             OtpElement(it).token
         }
@@ -127,13 +127,13 @@ class EntryInfo : NodeInfo {
         return customFields.lastOrNull { it.name == label } != null
     }
 
-    fun getGeneratedFieldValue(label: String): String {
+    fun getGeneratedFieldValue(label: String): CharArray? {
         if (label == OTP_TOKEN_FIELD) {
             otpModel?.let {
                 return OtpElement(it).token
             }
         }
-        return customFields.lastOrNull { it.name == label }?.protectedValue?.toString() ?: ""
+        return customFields.lastOrNull { it.name == label }?.protectedValue?.charArrayValue
     }
 
     /**

@@ -194,7 +194,7 @@ object OtpEntryFields {
             val secretParam = uri.getQueryParameter(SECRET_URL_PARAM)
             if (!secretParam.isNullOrEmpty()) {
                 try {
-                    otpElement.setBase32Secret(secretParam)
+                    otpElement.setBase32Secret(secretParam.toCharArray())
                 } catch (exception: Exception) {
                     Log.e(TAG, "Unable to retrieve OTP secret.", exception)
                 }
@@ -268,7 +268,7 @@ object OtpEntryFields {
                     encodeParameter(username)
                 else
                     encodeParameter(otpElement.name)
-        val secret = encodeParameter(otpElement.getBase32Secret())
+        val secret = encodeParameter(String(otpElement.getBase32Secret()))
         val uriString = StringBuilder("otpauth://$otpAuthority/$issuer%3A$accountName" +
                 "?$SECRET_URL_PARAM=${secret}" +
                 "&$counterOrPeriodLabel=$counterOrPeriodValue" +
@@ -296,11 +296,12 @@ object OtpEntryFields {
         val periodField = getField(TIMEOTP_PERIOD_FIELD)
         val algorithmField = getField(TIMEOTP_ALGORITHM_FIELD)
         try {
+            //TODO getField as CharArray
             when {
-                secretField != null -> otpElement.setUTF8Secret(secretField)
-                secretHexField != null -> otpElement.setHexSecret(secretHexField)
-                secretBase32Field != null -> otpElement.setBase32Secret(secretBase32Field)
-                secretBase64Field != null -> otpElement.setBase64Secret(secretBase64Field)
+                secretField != null -> otpElement.setUTF8Secret(secretField.toCharArray())
+                secretHexField != null -> otpElement.setHexSecret(secretHexField.toCharArray())
+                secretBase32Field != null -> otpElement.setBase32Secret(secretBase32Field.toCharArray())
+                secretBase64Field != null -> otpElement.setBase64Secret(secretBase64Field.toCharArray())
                 else -> return false
             }
             otpElement.type = OtpType.TOTP
@@ -329,6 +330,7 @@ object OtpEntryFields {
     }
 
     private fun parseTOTPKeyValues(getField: (id: String) -> String?, otpElement: OtpElement): Boolean {
+        //TODO getField as CharArray
         val plainText = getField(OTP_FIELD)
         if (!plainText.isNullOrEmpty()) {
             if (Pattern.matches(validKeyValueRegex, plainText)) {
@@ -336,7 +338,7 @@ object OtpEntryFields {
                     // KeeOtp string format
                     val query = breakDownKeyValuePairs(plainText)
                     otpElement.type = OtpType.TOTP
-                    otpElement.setBase32Secret(query[SEED_KEY] ?: "")
+                    otpElement.setBase32Secret((query[SEED_KEY] ?: "").toCharArray())
                     otpElement.digits = query[DIGITS_KEY]?.toIntOrNull() ?: OTP_DEFAULT_DIGITS
                     otpElement.period = query[STEP_KEY]?.toIntOrNull() ?: TOTP_DEFAULT_PERIOD
                     true
@@ -354,7 +356,8 @@ object OtpEntryFields {
     private fun parseTOTPFromPluginField(getField: (id: String) -> String?, otpElement: OtpElement): Boolean {
         val seedField = getField(TOTP_SEED_FIELD) ?: return false
         try {
-            otpElement.setBase32Secret(seedField)
+            //TODO getField as CharArray
+            otpElement.setBase32Secret(seedField.toCharArray())
 
             val settingsField = getField(TOTP_SETTING_FIELD)
             if (settingsField != null) {
@@ -390,11 +393,11 @@ object OtpEntryFields {
         val secretBase64Field = getField(HMACOTP_SECRET_BASE64_FIELD)
         val secretCounterField = getField(HMACOTP_SECRET_COUNTER_FIELD)
         try {
-            when {
-                secretField != null -> otpElement.setUTF8Secret(secretField)
-                secretHexField != null -> otpElement.setHexSecret(secretHexField)
-                secretBase32Field != null -> otpElement.setBase32Secret(secretBase32Field)
-                secretBase64Field != null -> otpElement.setBase64Secret(secretBase64Field)
+            when { //TODO getField as CharArray
+                secretField != null -> otpElement.setUTF8Secret(secretField.toCharArray())
+                secretHexField != null -> otpElement.setHexSecret(secretHexField.toCharArray())
+                secretBase32Field != null -> otpElement.setBase32Secret(secretBase32Field.toCharArray())
+                secretBase64Field != null -> otpElement.setBase64Secret(secretBase64Field.toCharArray())
                 else -> return false
             }
             otpElement.type = OtpType.HOTP
@@ -432,8 +435,13 @@ object OtpEntryFields {
      * Build Otp field from an OtpElement
      */
     fun buildOtpField(otpElement: OtpElement, title: String? = null, username: String? = null): Field {
-        return Field(OTP_FIELD, ProtectedString(true,
-                buildOtpUri(otpElement, title, username).toString()))
+        return Field(
+            OTP_FIELD,
+            ProtectedString(
+                true,
+                buildOtpUri(otpElement, title, username).toString()
+            )
+        )
     }
 
     fun EntryInfo.setOtp(otpString: String): Boolean {
