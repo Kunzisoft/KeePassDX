@@ -87,8 +87,8 @@ data class MasterCredential(
         return 0
     }
 
-    fun getCheckKey(): ByteArray {
-        return getCheckKey(password)
+    fun getCheckKey(encoding: Charset): ByteArray {
+        return getCheckKey(password, encoding)
     }
 
     override fun equals(other: Any?): Boolean {
@@ -138,11 +138,10 @@ data class MasterCredential(
 
         private val TAG = MasterCredential::class.java.simpleName
 
-        fun getCheckKey(password: CharArray?): ByteArray {
+        fun getCheckKey(password: CharArray?, encoding: Charset): ByteArray {
             val shortPass = password?.copyOfRange(0, min(password.size, CHECK_KEY_PASSWORD_LENGTH))
                     ?: charArrayOf()
-            // TODO Verify encoding
-            val res = retrievePasswordKey(shortPass, Charsets.UTF_8)
+            val res = retrievePasswordKey(shortPass, encoding)
             shortPass.clear()
             return res
         }

@@ -162,7 +162,7 @@ class DatabaseKDB : DatabaseVersioned<Int, UUID, GroupKDB, EntryKDB>() {
         }
 
         // Build check key
-        this.checkKey = masterCredential.getCheckKey()
+        this.checkKey = masterCredential.getCheckKey(passwordEncoding)
     }
 
     override fun createGroup(): GroupKDB {

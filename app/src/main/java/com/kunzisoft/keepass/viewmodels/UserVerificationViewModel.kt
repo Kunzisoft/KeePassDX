@@ -21,7 +21,8 @@ class UserVerificationViewModel: ViewModel() {
     fun checkMainCredential(checkCharArray: CharArray) {
         // Check the password part
         val data = dataToVerify
-        if (data?.database?.checkKey(getCheckKey(checkCharArray)) == true)
+        val database = data?.database
+        if (database?.checkKey(getCheckKey(checkCharArray, database.passwordEncoding)) == true)
             onUserVerificationSucceeded(data)
         else {
             onUserVerificationFailed(dataToVerify, InvalidCredentialsDatabaseException())
@@ -56,5 +57,4 @@ class UserVerificationViewModel: ViewModel() {
             val error: Throwable?
         ): UVState()
     }
-
 }

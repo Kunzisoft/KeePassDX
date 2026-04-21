@@ -58,6 +58,7 @@ import com.kunzisoft.keepass.credentialprovider.SpecialMode
 import com.kunzisoft.keepass.credentialprovider.TypeMode
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.MainCredential
+import com.kunzisoft.keepass.database.element.Database.Companion.DEFAULT_PASSWORD_ENCODING
 import com.kunzisoft.keepass.database.exception.DuplicateUuidDatabaseException
 import com.kunzisoft.keepass.database.exception.FileNotFoundDatabaseException
 import com.kunzisoft.keepass.education.PasswordActivityEducation
@@ -92,7 +93,6 @@ import kotlinx.coroutines.launch
 import java.io.FileNotFoundException
 import java.nio.ByteBuffer
 import java.nio.CharBuffer
-import java.nio.charset.StandardCharsets
 
 
 class MainCredentialActivity : DatabaseModeActivity() {
@@ -457,7 +457,9 @@ class MainCredentialActivity : DatabaseModeActivity() {
     private val credentialStorageListener = object: MainCredentialView.CredentialStorageListener {
         override fun passwordToStore(password: CharArray?): ByteArray? {
             if (password == null) return null
-            val byteBuffer = PASSWORD_ENCODING.encode(CharBuffer.wrap(password))
+            val byteBuffer = DEFAULT_PASSWORD_ENCODING.encode(
+                CharBuffer.wrap(password)
+            )
             val bytes = ByteArray(byteBuffer.remaining())
             byteBuffer.get(bytes)
             return bytes
@@ -501,7 +503,9 @@ class MainCredentialActivity : DatabaseModeActivity() {
         val mainCredential = mMainCredential
         when (cipherDecryptDatabase.credentialStorage) {
             CredentialStorage.PASSWORD -> {
-                val charBuffer = PASSWORD_ENCODING.decode(ByteBuffer.wrap(cipherDecryptDatabase.decryptedValue))
+                val charBuffer = DEFAULT_PASSWORD_ENCODING.decode(
+                    ByteBuffer.wrap(cipherDecryptDatabase.decryptedValue)
+                )
                 val password = CharArray(charBuffer.remaining())
                 charBuffer.get(password)
                 mainCredential.password = password
@@ -519,9 +523,11 @@ class MainCredentialActivity : DatabaseModeActivity() {
         )
     }
 
-    private fun onDatabaseFileLoaded(databaseFileUri: Uri?,
-                                     keyFileUri: Uri?,
-                                     hardwareKey: HardwareKey?) {
+    private fun onDatabaseFileLoaded(
+        databaseFileUri: Uri?,
+        keyFileUri: Uri?,
+        hardwareKey: HardwareKey?
+    ) {
         // Define Key File text
         if (mRememberKeyFile) {
             mainCredentialView?.populateKeyFileView(keyFileUri)
@@ -817,8 +823,6 @@ class MainCredentialActivity : DatabaseModeActivity() {
     companion object {
 
         private val TAG = MainCredentialActivity::class.java.name
-
-        private val PASSWORD_ENCODING = StandardCharsets.UTF_8
 
         private const val UNLOCK_FRAGMENT_TAG = "UNLOCK_FRAGMENT_TAG"
 

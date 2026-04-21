@@ -66,6 +66,8 @@ import java.io.File
 import java.io.FileNotFoundException
 import java.io.InputStream
 import java.io.OutputStream
+import java.nio.charset.Charset
+import java.nio.charset.StandardCharsets
 import java.util.UUID
 
 
@@ -315,6 +317,11 @@ open class Database {
 
     val allowNoMasterKey: Boolean
         get() = mDatabaseKDBX != null
+
+    val passwordEncoding: Charset
+        get() = mDatabaseKDB?.passwordEncoding
+            ?: mDatabaseKDBX?.passwordEncoding
+            ?: DEFAULT_PASSWORD_ENCODING
 
     fun getEncryptionAlgorithmName(): String {
         return mDatabaseKDB?.encryptionAlgorithm?.toString()
@@ -1348,5 +1355,7 @@ open class Database {
 
     companion object : SingletonHolder<Database>(::Database) {
         private val TAG = Database::class.java.name
+
+        val DEFAULT_PASSWORD_ENCODING: Charset = StandardCharsets.UTF_8
     }
 }
