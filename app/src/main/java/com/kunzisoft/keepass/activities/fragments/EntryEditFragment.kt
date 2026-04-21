@@ -158,8 +158,7 @@ class EntryEditFragment: DatabaseFragment() {
         }
 
         mEntryEditViewModel.requestEntryInfoUpdate.observe(viewLifecycleOwner) {
-            val entryInfo = retrieveEntryInfo()
-            mEntryEditViewModel.saveEntryInfo(it.database, it.entry, it.parent, entryInfo)
+            mEntryEditViewModel.saveEntryInfo(retrieveEntryInfo())
         }
 
         mEntryEditViewModel.onIconSelected.observe(viewLifecycleOwner) { iconImage ->

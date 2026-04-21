@@ -668,7 +668,7 @@ class EntryEditActivity : DatabaseLockActivity(),
      */
     private fun validateEntry() {
         mAttachmentFileBinderManager?.stopUploadAllAttachments()
-        mEntryEditViewModel.requestEntryInfoUpdate(mDatabase)
+        mEntryEditViewModel.requestEntryInfoUpdate()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

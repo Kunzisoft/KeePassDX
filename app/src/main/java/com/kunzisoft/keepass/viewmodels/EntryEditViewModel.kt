@@ -28,6 +28,7 @@ import java.util.UUID
 
 class EntryEditViewModel: NodeEditViewModel() {
 
+    private var mDatabase: ContextualDatabase? = null
     private var mEntryId: NodeId<UUID>? = null
     private var mParentId: NodeId<*>? = null
     private var mRegisterInfo: RegisterInfo? = null
@@ -93,6 +94,7 @@ class EntryEditViewModel: NodeEditViewModel() {
         get() = templatesEntry.value != null
 
     fun loadTemplateEntry(database: ContextualDatabase) {
+        mDatabase = database
         allowCustomFields = database.allowEntryCustomFields() == true
         allowOTP = database.allowOTP == true
         loadTemplateEntry(database, mEntryId, mParentId, mRegisterInfo)
@@ -222,47 +224,52 @@ class EntryEditViewModel: NodeEditViewModel() {
         }
     }
 
-    fun requestEntryInfoUpdate(database: ContextualDatabase?) {
-        _requestEntryInfoUpdate.value = EntryUpdate(database, mEntry, mParent)
+    fun requestEntryInfoUpdate() {
+        _requestEntryInfoUpdate.value = EntryUpdate
     }
 
     fun unlockAction() {
         actionLocked = false
     }
 
-    fun saveEntryInfo(database: ContextualDatabase?, entry: Entry?, parent: Group?, entryInfo: EntryInfo) {
+    fun saveEntryInfo(entryInfo: EntryInfo) {
         if (actionLocked.not()) {
             actionLocked = true
             IOActionTask(
                 scope = viewModelScope,
                 action = {
                     removeTempAttachmentsNotCompleted(entryInfo)
-                    entry?.let { oldEntry ->
-                        // Create a clone
-                        var newEntry = Entry(oldEntry)
+                    mDatabase?.let { database ->
+                        mEntry?.let { oldEntry ->
+                            // Create a clone
+                            var newEntry = Entry(oldEntry)
 
-                        // Build info
-                        newEntry.setEntryInfo(database, entryInfo)
+                            // Build info
+                            newEntry.setEntryInfo(database, entryInfo)
 
-                        // Encode entry properties for template
-                        _onTemplateChanged.value?.let { template ->
-                            newEntry =
-                                database?.encodeEntryWithTemplateConfiguration(newEntry, template)
-                                    ?: newEntry
-                        }
+                            // Encode entry properties for template
+                            _onTemplateChanged.value?.let { template ->
+                                newEntry = database.encodeEntryWithTemplateConfiguration(
+                                        newEntry,
+                                        template
+                                    )
+                            }
 
-                        // Delete temp attachment if not used
-                        mTempAttachments.forEach { tempAttachmentState ->
-                            val tempAttachment = tempAttachmentState.attachment
-                            database?.attachmentPool?.let { binaryPool ->
-                                if (!newEntry.getAttachments(binaryPool).contains(tempAttachment)) {
-                                    database.removeAttachmentIfNotUsed(tempAttachment)
+                            // Delete temp attachment if not used
+                            mTempAttachments.forEach { tempAttachmentState ->
+                                val tempAttachment = tempAttachmentState.attachment
+                                database.attachmentPool.let { binaryPool ->
+                                    if (!newEntry.getAttachments(binaryPool)
+                                            .contains(tempAttachment)
+                                    ) {
+                                        database.removeAttachmentIfNotUsed(tempAttachment)
+                                    }
                                 }
                             }
-                        }
 
-                        // Return entry to save
-                        EntrySave(oldEntry, newEntry, parent)
+                            // Return entry to save
+                            EntrySave(oldEntry, newEntry, mParent)
+                        }
                     }
                 },
                 onActionComplete = { entrySave ->
@@ -378,7 +385,7 @@ class EntryEditViewModel: NodeEditViewModel() {
         val entryInfo: EntryInfo?,
         val overwrittenData: Boolean = false
     )
-    data class EntryUpdate(val database: ContextualDatabase?, val entry: Entry?, val parent: Group?)
+    object EntryUpdate
     data class EntrySave(val oldEntry: Entry, val newEntry: Entry, val parent: Group?)
     data class FieldEdition(val oldField: Field?, val newField: Field?)
     data class AttachmentBuild(val attachmentToUploadUri: Uri, val fileName: String)
