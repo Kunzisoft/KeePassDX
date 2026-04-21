@@ -40,7 +40,6 @@ import com.kunzisoft.keepass.adapters.EntryAttachmentsItemsAdapter
 import com.kunzisoft.keepass.adapters.TagsProposalAdapter
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.element.Attachment
-import com.kunzisoft.keepass.database.element.template.Template
 import com.kunzisoft.keepass.model.AttachmentState
 import com.kunzisoft.keepass.model.EntryAttachmentState
 import com.kunzisoft.keepass.model.EntryInfo
@@ -70,8 +69,6 @@ class EntryEditFragment: DatabaseFragment() {
     private lateinit var tagsContainerView: TextInputLayout
     private lateinit var tagsCompletionView: TagsCompletionView
     private var tagsAdapter: FilteredArrayAdapter<String>? = null
-
-    private var mTemplate: Template? = null
     private var mAllowMultipleAttachments: Boolean = false
 
     private var mIconColor: Int = 0
@@ -142,16 +139,12 @@ class EntryEditFragment: DatabaseFragment() {
         }
 
         mEntryEditViewModel.onTemplateChanged.observe(viewLifecycleOwner) { template ->
-            this.mTemplate = template
             templateView.setTemplate(template)
         }
 
         mEntryEditViewModel.templatesEntry.observe(viewLifecycleOwner) { templateEntry ->
             if (templateEntry != null) {
-                val selectedTemplate = if (mTemplate != null)
-                    mTemplate
-                else
-                    templateEntry.defaultTemplate
+                val selectedTemplate = templateEntry.template ?: templateEntry.defaultTemplate
                 templateView.setTemplate(selectedTemplate)
                 // Load entry info only the first time to keep change locally
                 if (savedInstanceState == null) {

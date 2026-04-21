@@ -198,6 +198,7 @@ class EntryEditViewModel: NodeEditViewModel() {
             }
         }
         return TemplatesEntry(
+            onTemplateChanged.value,
             isTemplate,
             templates,
             entryTemplate,
@@ -362,6 +363,7 @@ class EntryEditViewModel: NodeEditViewModel() {
     }
 
     data class TemplatesEntry(
+        val template: Template?,
         val isTemplate: Boolean,
         val templates: List<Template>,
         val defaultTemplate: Template,

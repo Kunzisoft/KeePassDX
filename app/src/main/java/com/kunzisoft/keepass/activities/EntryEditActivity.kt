@@ -75,7 +75,6 @@ import com.kunzisoft.keepass.database.element.Entry
 import com.kunzisoft.keepass.database.element.Field
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.security.ProtectedString
-import com.kunzisoft.keepass.database.element.template.Template
 import com.kunzisoft.keepass.education.EntryEditActivityEducation
 import com.kunzisoft.keepass.model.AttachmentState
 import com.kunzisoft.keepass.model.DataTime
@@ -130,7 +129,6 @@ class EntryEditActivity : DatabaseLockActivity(),
     private var loadingView: ProgressBar? = null
 
     private val mEntryEditViewModel: EntryEditViewModel by viewModels()
-    private var mTemplate: Template? = null
     private var mIsTemplate: Boolean = false
     private var mEntryLoaded: Boolean = false
     private var mTemplatesSelectorAdapter: TemplatesSelectorAdapter? = null
@@ -250,10 +248,6 @@ class EntryEditActivity : DatabaseLockActivity(),
         // Save button
         validateButton?.setOnClickListener { validateEntry() }
 
-        mEntryEditViewModel.onTemplateChanged.observe(this) { template ->
-            this.mTemplate = template
-        }
-
         mEntryEditViewModel.templatesEntry.observe(this) { templatesEntry ->
             if (templatesEntry != null) {
                 // Change template dynamically
@@ -269,10 +263,8 @@ class EntryEditActivity : DatabaseLockActivity(),
                                 iconDrawableFactory = mDatabase?.iconDrawableFactory
                             }
                             adapter = mTemplatesSelectorAdapter
-                            val selectedTemplate = if (mTemplate != null)
-                                mTemplate
-                            else
-                                templatesEntry.defaultTemplate
+                            val selectedTemplate = templatesEntry.template
+                                ?: templatesEntry.defaultTemplate
                             setSelection(templates.indexOf(selectedTemplate))
                             onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                                 override fun onItemSelected(
