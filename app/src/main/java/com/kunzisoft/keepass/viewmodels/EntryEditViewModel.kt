@@ -33,7 +33,8 @@ class EntryEditViewModel: NodeEditViewModel() {
     private var mRegisterInfo: RegisterInfo? = null
     private var mParent: Group? = null
     private var mEntry: Entry? = null
-    private var mIsTemplate: Boolean = false
+    var isTemplate: Boolean = false
+        private set
     private val mTempAttachments = mutableListOf<EntryAttachmentState>()
 
     // To show dialog only one time
@@ -84,6 +85,9 @@ class EntryEditViewModel: NodeEditViewModel() {
     private val mEntryEditState = MutableStateFlow<EntryEditState>(EntryEditState.Loading)
     val entryEditState: StateFlow<EntryEditState> = mEntryEditState
 
+    val entryLoaded: Boolean
+        get() = templatesEntry.value != null
+
     fun loadTemplateEntry(database: ContextualDatabase?) {
         loadTemplateEntry(database, mEntryId, mParentId, mRegisterInfo)
     }
@@ -112,11 +116,11 @@ class EntryEditViewModel: NodeEditViewModel() {
                                 entry.parent = database.rootGroup
                             }
                             // Define if current entry is a template (in direct template group)
-                            mIsTemplate = database.entryIsTemplate(mEntry)
+                            isTemplate = database.entryIsTemplate(mEntry)
                             decodeTemplateEntry(
                                 database,
                                 entry,
-                                mIsTemplate,
+                                isTemplate,
                                 registerInfo
                             )
                         }
@@ -155,11 +159,11 @@ class EntryEditViewModel: NodeEditViewModel() {
                                 // Useful to recognize child state (ie: entry is a template)
                                 parent = parentGroup
                             }
-                            mIsTemplate = database.entryIsTemplate(mEntry)
+                            isTemplate = database.entryIsTemplate(mEntry)
                             decodeTemplateEntry(
                                 database,
                                 mEntry,
-                                mIsTemplate,
+                                isTemplate,
                                 registerInfo
                             )
                         }
@@ -198,12 +202,11 @@ class EntryEditViewModel: NodeEditViewModel() {
             }
         }
         return TemplatesEntry(
-            onTemplateChanged.value,
-            isTemplate,
-            templates,
-            entryTemplate,
-            entryInfo,
-            overwrittenData
+            template = onTemplateChanged.value,
+            templates = templates,
+            defaultTemplate = entryTemplate,
+            entryInfo = entryInfo,
+            overwrittenData = overwrittenData
         )
     }
 
@@ -364,7 +367,6 @@ class EntryEditViewModel: NodeEditViewModel() {
 
     data class TemplatesEntry(
         val template: Template?,
-        val isTemplate: Boolean,
         val templates: List<Template>,
         val defaultTemplate: Template,
         val entryInfo: EntryInfo?,

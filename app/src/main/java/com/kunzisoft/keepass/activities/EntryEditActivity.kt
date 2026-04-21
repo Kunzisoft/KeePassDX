@@ -129,8 +129,6 @@ class EntryEditActivity : DatabaseLockActivity(),
     private var loadingView: ProgressBar? = null
 
     private val mEntryEditViewModel: EntryEditViewModel by viewModels()
-    private var mIsTemplate: Boolean = false
-    private var mEntryLoaded: Boolean = false
     private var mTemplatesSelectorAdapter: TemplatesSelectorAdapter? = null
 
     private val mColorPickerViewModel: ColorPickerViewModel by viewModels()
@@ -251,7 +249,6 @@ class EntryEditActivity : DatabaseLockActivity(),
         mEntryEditViewModel.templatesEntry.observe(this) { templatesEntry ->
             if (templatesEntry != null) {
                 // Change template dynamically
-                this.mIsTemplate = templatesEntry.isTemplate
                 templatesEntry.templates.let { templates ->
                     templateSelectorSpinner?.apply {
                         // Build template selector
@@ -283,9 +280,7 @@ class EntryEditActivity : DatabaseLockActivity(),
                         }
                     }
                 }
-
                 loadingView?.hideByFading()
-                mEntryLoaded = true
             } else {
                 finish()
             }
@@ -683,7 +678,7 @@ class EntryEditActivity : DatabaseLockActivity(),
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         super.onCreateOptionsMenu(menu)
-        if (mEntryLoaded) {
+        if (mEntryEditViewModel.entryLoaded) {
             menuInflater.inflate(R.menu.entry_edit, menu)
             Handler(Looper.getMainLooper()).post {
                 performedNextEducation()
@@ -698,12 +693,11 @@ class EntryEditActivity : DatabaseLockActivity(),
             isVisible = isEnabled
         }
         menu?.findItem(R.id.menu_add_attachment)?.apply {
-            isEnabled = !mIsTemplate
+            isEnabled = !mEntryEditViewModel.isTemplate
             isVisible = isEnabled
         }
         menu?.findItem(R.id.menu_add_otp)?.apply {
-            isEnabled = mAllowOTP
-                    && !mIsTemplate
+            isEnabled = mAllowOTP && !mEntryEditViewModel.isTemplate
             isVisible = isEnabled
         }
         return super.onPrepareOptionsMenu(menu)
