@@ -457,8 +457,7 @@ class MainCredentialActivity : DatabaseModeActivity() {
     private val credentialStorageListener = object: MainCredentialView.CredentialStorageListener {
         override fun passwordToStore(password: CharArray?): ByteArray? {
             if (password == null) return null
-            // TODO Default encoding
-            val byteBuffer = StandardCharsets.UTF_8.encode(CharBuffer.wrap(password))
+            val byteBuffer = PASSWORD_ENCODING.encode(CharBuffer.wrap(password))
             val bytes = ByteArray(byteBuffer.remaining())
             byteBuffer.get(bytes)
             return bytes
@@ -502,8 +501,7 @@ class MainCredentialActivity : DatabaseModeActivity() {
         val mainCredential = mMainCredential
         when (cipherDecryptDatabase.credentialStorage) {
             CredentialStorage.PASSWORD -> {
-                // TODO Default encoding
-                val charBuffer = StandardCharsets.UTF_8.decode(ByteBuffer.wrap(cipherDecryptDatabase.decryptedValue))
+                val charBuffer = PASSWORD_ENCODING.decode(ByteBuffer.wrap(cipherDecryptDatabase.decryptedValue))
                 val password = CharArray(charBuffer.remaining())
                 charBuffer.get(password)
                 mainCredential.password = password
@@ -819,6 +817,8 @@ class MainCredentialActivity : DatabaseModeActivity() {
     companion object {
 
         private val TAG = MainCredentialActivity::class.java.name
+
+        private val PASSWORD_ENCODING = StandardCharsets.UTF_8
 
         private const val UNLOCK_FRAGMENT_TAG = "UNLOCK_FRAGMENT_TAG"
 
