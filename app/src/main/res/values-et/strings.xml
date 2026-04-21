@@ -553,7 +553,7 @@
     <string name="education_create_database_summary">Loo oma esimene andmebaasifail, mis on mõeldud salasõnade halduseks.</string>
     <string name="education_select_database_summary">Ava varemloodud andmebaasifail, mis on mõeldud salasõnade halduseks.</string>
     <string name="device_unlock_prompt_store_credential_title">Link seadme lukustuse eemaldamisele</string>
-    <string name="unlock">Eemalda lukustus</string>
+    <string name="unlock">Ava lukustus</string>
     <string name="device_unlock_tap_delete">Seadme lukustuse eemaldamise võtmete kustutamiseks klõpsi</string>
     <string name="device_unlock_explanation_summary">Andmebaasi mugavamaks avamiseks kasuta nutiseadme lukustuse eemaldamise võimalusi</string>
     <string name="device_credential_unlock_enable_title">Lukustuse eemaldamine nutiseadme autentimisega</string>
