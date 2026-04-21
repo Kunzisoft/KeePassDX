@@ -53,8 +53,8 @@ class EntryEditViewModel: NodeEditViewModel() {
     val templatesEntry : LiveData<TemplatesEntry?> get() = _templatesEntry
     private val _templatesEntry = MutableLiveData<TemplatesEntry?>()
 
-    val requestEntryInfoUpdate : LiveData<EntryUpdate> get() = _requestEntryInfoUpdate
-    private val _requestEntryInfoUpdate = SingleLiveEvent<EntryUpdate>()
+    val requestEntryInfoUpdate : LiveData<Void?> get() = _requestEntryInfoUpdate
+    private val _requestEntryInfoUpdate = SingleLiveEvent<Void?>()
     val onEntrySaved : LiveData<EntrySave> get() = _onEntrySaved
     private val _onEntrySaved = SingleLiveEvent<EntrySave>()
 
@@ -227,7 +227,7 @@ class EntryEditViewModel: NodeEditViewModel() {
     }
 
     fun requestEntryInfoUpdate() {
-        _requestEntryInfoUpdate.value = EntryUpdate
+        _requestEntryInfoUpdate.call()
     }
 
     fun unlockAction() {
