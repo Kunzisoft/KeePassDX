@@ -42,6 +42,8 @@ class EntryEditViewModel: NodeEditViewModel() {
         private set
     private val mTempAttachments = mutableListOf<EntryAttachmentState>()
 
+    var passwordField: Field? = null
+
     // To show dialog only one time
     var backPressedAlreadyApproved = false
 
@@ -59,8 +61,8 @@ class EntryEditViewModel: NodeEditViewModel() {
     val onTemplateChanged : LiveData<Template> get() = _onTemplateChanged
     private val _onTemplateChanged = MutableLiveData<Template>()
 
-    val requestPasswordSelection : LiveData<Field> get() = _requestPasswordSelection
-    private val _requestPasswordSelection = SingleLiveEvent<Field>()
+    val requestPasswordSelection : LiveData<Void?> get() = _requestPasswordSelection
+    private val _requestPasswordSelection = SingleLiveEvent<Void?>()
     val onPasswordSelected : LiveData<Field> get() = _onPasswordSelected
     private val _onPasswordSelected = SingleLiveEvent<Field>()
 
@@ -303,7 +305,8 @@ class EntryEditViewModel: NodeEditViewModel() {
     }
 
     fun requestPasswordSelection(passwordField: Field) {
-        _requestPasswordSelection.value = passwordField
+        this.passwordField = passwordField
+        _requestPasswordSelection.call()
     }
 
     fun selectPassword(passwordField: Field) {

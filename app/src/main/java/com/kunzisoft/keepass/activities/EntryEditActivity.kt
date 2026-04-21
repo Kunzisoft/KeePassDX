@@ -144,10 +144,9 @@ class EntryEditActivity : DatabaseLockActivity(),
         mEntryEditViewModel.selectIcon(icon)
     }
 
-    private var mPasswordField: Field? = null
     private var mKeyGeneratorResultLauncher = KeyGeneratorActivity.registerForGeneratedKeyResult(this) { keyGenerated ->
         keyGenerated?.let {
-            mPasswordField?.let {
+            mEntryEditViewModel.passwordField?.let {
                 it.protectedValue = ProtectedString(
                     it.protectedValue.isProtected,
                     keyGenerated
@@ -156,7 +155,7 @@ class EntryEditActivity : DatabaseLockActivity(),
                 keyGenerated.clear()
             }
         }
-        mPasswordField = null
+        mEntryEditViewModel.passwordField = null
         Handler(Looper.getMainLooper()).post {
             performedNextEducation()
         }
@@ -318,8 +317,7 @@ class EntryEditActivity : DatabaseLockActivity(),
             }
         }
 
-        mEntryEditViewModel.requestPasswordSelection.observe(this) { passwordField ->
-            mPasswordField = passwordField
+        mEntryEditViewModel.requestPasswordSelection.observe(this) {
             KeyGeneratorActivity.launch(this, mKeyGeneratorResultLauncher)
         }
 

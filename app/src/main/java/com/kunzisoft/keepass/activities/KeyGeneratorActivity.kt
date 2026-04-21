@@ -123,7 +123,6 @@ class KeyGeneratorActivity : DatabaseLockActivity() {
             return activity.registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
                 if (result.resultCode == RESULT_OK) {
                     keyGeneratedListener.invoke(
-                        //TODO TransientStorage
                         result.data?.getCharArrayExtra(KEY_GENERATED)
                     )
                 } else {
