@@ -23,7 +23,9 @@ import android.os.Parcel
 import android.os.Parcelable
 import com.kunzisoft.keepass.utils.clear
 import com.kunzisoft.keepass.utils.readBooleanCompat
+import com.kunzisoft.keepass.utils.readCharArrayCompat
 import com.kunzisoft.keepass.utils.writeBooleanCompat
+import com.kunzisoft.keepass.utils.writeCharArrayCompat
 
 class ProtectedString : Parcelable {
 
@@ -50,7 +52,7 @@ class ProtectedString : Parcelable {
 
     constructor(parcel: Parcel) {
         isProtected = parcel.readBooleanCompat()
-        charArrayValue = parcel.createCharArray() ?: charArrayOf()
+        charArrayValue = parcel.readCharArrayCompat() ?: charArrayOf()
     }
 
     override fun describeContents(): Int {
@@ -59,7 +61,7 @@ class ProtectedString : Parcelable {
 
     override fun writeToParcel(dest: Parcel, flags: Int) {
         dest.writeBooleanCompat(isProtected)
-        dest.writeCharArray(charArrayValue)
+        dest.writeCharArrayCompat(charArrayValue)
     }
 
     fun length(): Int {

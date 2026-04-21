@@ -3,6 +3,8 @@ package com.kunzisoft.keepass.model
 import android.os.Parcel
 import android.os.Parcelable
 import com.kunzisoft.keepass.utils.CharArrayUtil.clear
+import com.kunzisoft.keepass.utils.readCharArrayCompat
+import com.kunzisoft.keepass.utils.writeCharArrayCompat
 
 data class CreditCard(
     val cardholder: String?,
@@ -12,14 +14,14 @@ data class CreditCard(
 
     constructor(parcel: Parcel) : this(
             parcel.readString(),
-            parcel.createCharArray(),
-            parcel.createCharArray()) {
+            parcel.readCharArrayCompat(),
+            parcel.readCharArrayCompat()) {
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(cardholder)
-        parcel.writeCharArray(number)
-        parcel.writeCharArray(cvv)
+        parcel.writeCharArrayCompat(number)
+        parcel.writeCharArrayCompat(cvv)
     }
 
     fun clear() {

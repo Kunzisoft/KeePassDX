@@ -28,7 +28,9 @@ import com.kunzisoft.keepass.utils.clear
 import com.kunzisoft.keepass.utils.getUriInputStream
 import com.kunzisoft.keepass.utils.readEnum
 import com.kunzisoft.keepass.utils.readParcelableCompat
+import com.kunzisoft.keepass.utils.readCharArrayCompat
 import com.kunzisoft.keepass.utils.writeEnum
+import com.kunzisoft.keepass.utils.writeCharArrayCompat
 
 data class MainCredential(
     var password: CharArray? = null,
@@ -37,13 +39,13 @@ data class MainCredential(
 ): Parcelable {
 
     constructor(parcel: Parcel) : this() {
-        password = parcel.createCharArray()
+        password = parcel.readCharArrayCompat()
         keyFileUri = parcel.readParcelableCompat()
         hardwareKey = parcel.readEnum<HardwareKey>()
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
-        parcel.writeCharArray(password)
+        parcel.writeCharArrayCompat(password)
         parcel.writeParcelable(keyFileUri, flags)
         parcel.writeEnum(hardwareKey)
     }

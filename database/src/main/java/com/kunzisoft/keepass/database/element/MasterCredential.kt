@@ -29,8 +29,10 @@ import com.kunzisoft.keepass.utils.StringUtil.removeSpaceChars
 import com.kunzisoft.keepass.utils.StringUtil.toHexString
 import com.kunzisoft.keepass.utils.clear
 import com.kunzisoft.keepass.utils.readByteArrayCompat
+import com.kunzisoft.keepass.utils.readCharArrayCompat
 import com.kunzisoft.keepass.utils.readEnum
 import com.kunzisoft.keepass.utils.writeByteArrayCompat
+import com.kunzisoft.keepass.utils.writeCharArrayCompat
 import com.kunzisoft.keepass.utils.writeEnum
 import org.apache.commons.codec.binary.Hex
 import org.w3c.dom.Node
@@ -70,13 +72,13 @@ data class MasterCredential(
     }
 
     constructor(parcel: Parcel) : this(
-        parcel.createCharArray(),
+        parcel.readCharArrayCompat(),
         parcel.readByteArrayCompat(),
         parcel.readEnum<HardwareKey>()
     )
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
-        parcel.writeCharArray(password)
+        parcel.writeCharArrayCompat(password)
         parcel.writeByteArrayCompat(keyFileData)
         parcel.writeEnum(hardwareKey)
     }

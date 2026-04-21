@@ -32,6 +32,8 @@ import com.kunzisoft.keepass.database.element.node.NodeIdUUID
 import com.kunzisoft.keepass.database.element.node.NodeKDBInterface
 import com.kunzisoft.keepass.database.element.node.Type
 import com.kunzisoft.keepass.utils.readParcelableCompat
+import com.kunzisoft.keepass.utils.readCharArrayCompat
+import com.kunzisoft.keepass.utils.writeCharArrayCompat
 import java.util.UUID
 
 /**
@@ -113,7 +115,7 @@ class EntryKDB : EntryVersioned<Int, UUID, GroupKDB, EntryKDB>, NodeKDBInterface
     constructor(parcel: Parcel) : super(parcel) {
         title = parcel.readString() ?: title
         username = parcel.readString() ?: username
-        password = parcel.createCharArray() ?: password
+        password = parcel.readCharArrayCompat() ?: password
         url = parcel.readString() ?: url
         notes = parcel.readString() ?: notes
         binaryDescription = parcel.readString() ?: binaryDescription
@@ -133,7 +135,7 @@ class EntryKDB : EntryVersioned<Int, UUID, GroupKDB, EntryKDB>, NodeKDBInterface
         super.writeToParcel(dest, flags)
         dest.writeString(title)
         dest.writeString(username)
-        dest.writeCharArray(password)
+        dest.writeCharArrayCompat(password)
         dest.writeString(url)
         dest.writeString(notes)
         dest.writeString(binaryDescription)

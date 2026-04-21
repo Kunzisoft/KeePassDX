@@ -42,7 +42,9 @@ import com.kunzisoft.keepass.utils.CharArrayUtil.clear
 import com.kunzisoft.keepass.utils.readBooleanCompat
 import com.kunzisoft.keepass.utils.readListCompat
 import com.kunzisoft.keepass.utils.readParcelableCompat
+import com.kunzisoft.keepass.utils.readCharArrayCompat
 import com.kunzisoft.keepass.utils.writeBooleanCompat
+import com.kunzisoft.keepass.utils.writeCharArrayCompat
 import java.util.Locale
 import java.util.UUID
 
@@ -70,7 +72,7 @@ class EntryInfo : NodeInfo {
     constructor(parcel: Parcel) : super(parcel) {
         id = parcel.readParcelableCompat<ParcelUuid>()?.uuid ?: id
         username = parcel.readString() ?: username
-        password = parcel.createCharArray() ?: password
+        password = parcel.readCharArrayCompat() ?: password
         url = parcel.readString() ?: url
         notes = parcel.readString() ?: notes
         tags = parcel.readParcelableCompat() ?: tags
@@ -96,7 +98,7 @@ class EntryInfo : NodeInfo {
         super.writeToParcel(parcel, flags)
         parcel.writeParcelable(ParcelUuid(id), flags)
         parcel.writeString(username)
-        parcel.writeCharArray(password)
+        parcel.writeCharArrayCompat(password)
         parcel.writeString(url)
         parcel.writeString(notes)
         parcel.writeParcelable(tags, flags)

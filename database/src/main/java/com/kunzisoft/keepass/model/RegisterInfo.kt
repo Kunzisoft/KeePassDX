@@ -7,6 +7,8 @@ import com.kunzisoft.keepass.database.element.DateInstant
 import com.kunzisoft.keepass.utils.ObjectNameResource
 import com.kunzisoft.keepass.utils.clear
 import com.kunzisoft.keepass.utils.readParcelableCompat
+import com.kunzisoft.keepass.utils.readCharArrayCompat
+import com.kunzisoft.keepass.utils.writeCharArrayCompat
 
 data class RegisterInfo(
     val searchInfo: SearchInfo,
@@ -21,7 +23,7 @@ data class RegisterInfo(
     constructor(parcel: Parcel) : this(
         searchInfo = parcel.readParcelableCompat() ?: SearchInfo(),
         username = parcel.readString(),
-        password = parcel.createCharArray(),
+        password = parcel.readCharArrayCompat(),
         expiration = parcel.readParcelableCompat(),
         creditCard = parcel.readParcelableCompat(),
         passkey = parcel.readParcelableCompat(),
@@ -31,7 +33,7 @@ data class RegisterInfo(
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeParcelable(searchInfo, flags)
         parcel.writeString(username)
-        parcel.writeCharArray(password)
+        parcel.writeCharArrayCompat(password)
         parcel.writeParcelable(expiration, flags)
         parcel.writeParcelable(creditCard, flags)
         parcel.writeParcelable(passkey, flags)
