@@ -35,6 +35,10 @@ class EntryEditViewModel: NodeEditViewModel() {
     private var mEntry: Entry? = null
     var isTemplate: Boolean = false
         private set
+    var allowCustomFields: Boolean = false
+        private set
+    var allowOTP: Boolean = false
+        private set
     private val mTempAttachments = mutableListOf<EntryAttachmentState>()
 
     // To show dialog only one time
@@ -88,7 +92,9 @@ class EntryEditViewModel: NodeEditViewModel() {
     val entryLoaded: Boolean
         get() = templatesEntry.value != null
 
-    fun loadTemplateEntry(database: ContextualDatabase?) {
+    fun loadTemplateEntry(database: ContextualDatabase) {
+        allowCustomFields = database.allowEntryCustomFields() == true
+        allowOTP = database.allowOTP == true
         loadTemplateEntry(database, mEntryId, mParentId, mRegisterInfo)
     }
 

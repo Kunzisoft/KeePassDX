@@ -134,9 +134,6 @@ class EntryEditActivity : DatabaseLockActivity(),
     private val mColorPickerViewModel: ColorPickerViewModel by viewModels()
     private val mUserVerificationViewModel: UserVerificationViewModel by viewModels()
 
-    private var mAllowCustomFields = false
-    private var mAllowOTP = false
-
     // To manage attachments
     private var mExternalFileHelper: ExternalFileHelper? = null
     private var mAttachmentFileBinderManager: AttachmentFileBinderManager? = null
@@ -469,8 +466,6 @@ class EntryEditActivity : DatabaseLockActivity(),
 
     override fun onDatabaseRetrieved(database: ContextualDatabase) {
         super.onDatabaseRetrieved(database)
-        mAllowCustomFields = database.allowEntryCustomFields() == true
-        mAllowOTP = database.allowOTP == true
         mEntryEditViewModel.loadTemplateEntry(database)
         mTemplatesSelectorAdapter?.apply {
             iconDrawableFactory = database.iconDrawableFactory
@@ -689,7 +684,7 @@ class EntryEditActivity : DatabaseLockActivity(),
 
     override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
         menu?.findItem(R.id.menu_add_field)?.apply {
-            isEnabled = mAllowCustomFields
+            isEnabled = mEntryEditViewModel.allowCustomFields
             isVisible = isEnabled
         }
         menu?.findItem(R.id.menu_add_attachment)?.apply {
@@ -697,7 +692,7 @@ class EntryEditActivity : DatabaseLockActivity(),
             isVisible = isEnabled
         }
         menu?.findItem(R.id.menu_add_otp)?.apply {
-            isEnabled = mAllowOTP && !mEntryEditViewModel.isTemplate
+            isEnabled = mEntryEditViewModel.allowOTP && !mEntryEditViewModel.isTemplate
             isVisible = isEnabled
         }
         return super.onPrepareOptionsMenu(menu)
@@ -721,7 +716,7 @@ class EntryEditActivity : DatabaseLockActivity(),
 
         if (!generatePasswordEductionPerformed) {
             val addNewFieldView: View? = entryEditAddToolBar?.findViewById(R.id.menu_add_field)
-            val addNewFieldEducationPerformed = mAllowCustomFields
+            val addNewFieldEducationPerformed = mEntryEditViewModel.allowCustomFields
                     && addNewFieldView != null
                     && addNewFieldView.isVisible
                     && mEntryEditActivityEducation.checkAndPerformedEntryNewFieldEducation(
@@ -761,7 +756,7 @@ class EntryEditActivity : DatabaseLockActivity(),
                     )
                     if (!validateEntryEducationPerformed) {
                         val entryValidateView = validateButton
-                        mAllowCustomFields
+                        mEntryEditViewModel.allowCustomFields
                                 && entryValidateView != null
                                 && entryValidateView.isVisible
                                 && mEntryEditActivityEducation.checkAndPerformedValidateEntryEducation(
