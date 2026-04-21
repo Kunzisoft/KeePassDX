@@ -814,6 +814,16 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
         addDeletedObject(DeletedObject(objectId))
     }
 
+    override fun addGroupTo(newGroup: GroupKDBX, parent: GroupKDBX?) {
+        super.addGroupTo(newGroup, parent)
+        tagPool.put(newGroup.tags)
+    }
+
+    override fun updateGroup(group: GroupKDBX) {
+        super.updateGroup(group)
+        tagPool.put(group.tags)
+    }
+
     override fun addEntryTo(newEntry: EntryKDBX, parent: GroupKDBX?) {
         super.addEntryTo(newEntry, parent)
         tagPool.put(newEntry.tags)
@@ -830,6 +840,17 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
         super.removeEntryFrom(entryToRemove, parent)
         // Do not remove tags from pool, it's only in temp memory
         mFieldReferenceEngine.clear()
+    }
+
+    fun getTagPoolWithoutHistory(): Tags {
+        val activeTags = Tags()
+        getGroupIndexes().forEach { group ->
+            activeTags.put(group.tags)
+        }
+        getEntryIndexes().forEach { entry ->
+            activeTags.put(entry.tags)
+        }
+        return activeTags
     }
 
     fun buildNewBinaryAttachment(

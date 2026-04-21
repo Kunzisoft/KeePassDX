@@ -314,7 +314,10 @@ class EntryEditFragment: DatabaseFragment() {
             }
         }
 
-        tagsAdapter = TagsProposalAdapter(requireContext(), database.tagPool)
+        tagsAdapter = TagsProposalAdapter(
+            requireContext(),
+            database.tagPoolWithoutHistory
+        )
         tagsCompletionView.apply {
             threshold = 1
             setAdapter(tagsAdapter)

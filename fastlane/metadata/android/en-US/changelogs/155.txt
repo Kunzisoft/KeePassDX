@@ -1,5 +1,6 @@
  * Fix breadcrumb Group view refresh #2477
  * Tags in list view #1539 #2144
  * Search by Tags #1338 #2280
+ * Hidden tag history #2374 #1405
  * Improved accessibility #2475
  * Improved security #2481 #2482 #2483 #2484 #2485 #2487 #2488 #2489 #2480

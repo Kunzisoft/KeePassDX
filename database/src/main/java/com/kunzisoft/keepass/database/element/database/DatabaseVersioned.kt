@@ -239,14 +239,14 @@ abstract class DatabaseVersioned<
 
     abstract fun getStandardIcon(iconId: Int): IconImageStandard
 
-    fun addGroupTo(newGroup: Group, parent: Group?) {
+    open fun addGroupTo(newGroup: Group, parent: Group?) {
         // Add tree to parent tree
         parent?.addChildGroup(newGroup)
         newGroup.parent = parent
         addGroupIndex(newGroup)
     }
 
-    fun updateGroup(group: Group) {
+    open fun updateGroup(group: Group) {
         group.parent?.updateChildGroup(group)
         val groupId = group.nodeId
         if (groupIndexes.containsKey(groupId)) {

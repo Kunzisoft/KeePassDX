@@ -918,14 +918,13 @@ open class Database {
     }
 
     val tagPool: Tags
-        get() {
-            return mDatabaseKDBX?.tagPool ?: Tags()
-        }
+        get() = mDatabaseKDBX?.tagPool ?: Tags()
+
+    val tagPoolWithoutHistory: Tags
+        get() = mDatabaseKDBX?.getTagPoolWithoutHistory() ?: Tags()
 
     val attachmentPool: AttachmentPool
-        get() {
-            return mDatabaseKDB?.attachmentPool ?: mDatabaseKDBX?.attachmentPool ?: AttachmentPool()
-        }
+        get() = mDatabaseKDB?.attachmentPool ?: mDatabaseKDBX?.attachmentPool ?: AttachmentPool()
 
     val allowMultipleAttachments: Boolean
         get() {

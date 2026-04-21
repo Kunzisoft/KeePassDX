@@ -21,7 +21,6 @@ package com.kunzisoft.keepass.activities
 import android.app.Activity
 import android.content.Intent
 import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
@@ -40,6 +39,7 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.graphics.BlendModeColorFilterCompat
 import androidx.core.graphics.BlendModeCompat
 import androidx.core.graphics.ColorUtils
+import androidx.core.graphics.drawable.toDrawable
 import androidx.core.view.ViewCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -279,7 +279,7 @@ class EntryActivity : DatabaseLockActivity() {
                 toolbar?.title = entryTitle
                 // Assign tags
                 val tags = entryInfo.tags
-                tagsListView    ?.visibility = if (tags.isEmpty()) View.GONE else View.VISIBLE
+                tagsListView?.visibility = if (tags.isEmpty()) View.GONE else View.VISIBLE
                 tagsAdapter?.setTags(tags)
                 // Assign colors
                 val showEntryColors = PreferencesUtil.showEntryColors(this)
@@ -452,7 +452,7 @@ class EntryActivity : DatabaseLockActivity() {
         when (actionTask) {
             ACTION_DATABASE_RESTORE_ENTRY_HISTORY,
             ACTION_DATABASE_DELETE_ENTRY_HISTORY -> {
-                // Close the current activity after an history action
+                // Close the current activity after a history action
                 if (result.isSuccess)
                     finish()
             }
@@ -493,7 +493,7 @@ class EntryActivity : DatabaseLockActivity() {
 
     private fun applyToolbarColors() {
         collapsingToolbarLayout?.setBackgroundColor(mBackgroundColor ?: mColorSurface)
-        collapsingToolbarLayout?.contentScrim = ColorDrawable(mBackgroundColor ?: mColorSurface)
+        collapsingToolbarLayout?.contentScrim = (mBackgroundColor ?: mColorSurface).toDrawable()
         val backgroundDarker = if (mBackgroundColor != null) {
             ColorUtils.blendARGB(mBackgroundColor!!, Color.WHITE, 0.1f)
         } else {

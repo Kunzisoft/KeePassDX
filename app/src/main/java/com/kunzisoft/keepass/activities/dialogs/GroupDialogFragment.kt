@@ -140,7 +140,7 @@ class GroupDialogFragment : DatabaseDialogFragment() {
             tagsListView.visibility = if (tags.isEmpty()) View.GONE else View.VISIBLE
             tagsAdapter?.setTags(tags)
             val notes = mGroupInfo.notes
-            if (notes == null || notes.isEmpty()) {
+            if (notes.isNullOrEmpty()) {
                 notesTextLabelView.visibility = View.GONE
                 notesTextView.visibility = View.GONE
             } else {
@@ -156,7 +156,7 @@ class GroupDialogFragment : DatabaseDialogFragment() {
             autoTypeView.text = stringFromInheritableBoolean(mGroupInfo.enableAutoType,
                 mGroupInfo.defaultAutoTypeSequence)
             val uuid = mGroupInfo.id?.asHexString()
-            if (uuid == null || uuid.isEmpty()) {
+            if (uuid.isNullOrEmpty()) {
                 uuidContainerView.visibility = View.GONE
             } else {
                 uuidReferenceView.text = uuid
@@ -176,7 +176,7 @@ class GroupDialogFragment : DatabaseDialogFragment() {
     }
 
     private fun stringFromInheritableBoolean(enable: Boolean?, value: String? = null): String {
-        val valueString = if (value != null && value.isNotEmpty()) " [$value]" else ""
+        val valueString = if (!value.isNullOrEmpty()) " [$value]" else ""
         return when {
             enable == null -> getString(R.string.inherited) + valueString
             enable -> getString(R.string.enable) + valueString

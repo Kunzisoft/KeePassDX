@@ -866,14 +866,15 @@ class GroupActivity : DatabaseLockActivity(),
         val group = mCurrentGroup
         // Assign title
         if (group?.isVirtual == true) {
+            val tags = mDatabase?.tagPoolWithoutHistory
             searchFiltersView?.apply {
                 setNumbers(group.numberOfChildEntries)
-                setSelectableTags(mDatabase?.tagPool)
+                setSelectableTags(tags)
                 setCurrentGroupText(mMainGroup?.title ?: getString(R.string.search))
                 availableOther(mDatabase?.allowEntryCustomFields() ?: false)
                 availableApplicationIds(mDatabase?.allowEntryCustomFields() ?: false)
                 availableTags(mDatabase?.allowTags() ?: false)
-                enableTags(mDatabase?.tagPool?.isNotEmpty() ?: false)
+                enableTags(tags?.isNotEmpty() ?: false)
                 availableSearchableGroup(mDatabase?.allowCustomSearchableGroup() ?: false)
                 availableTemplates(mDatabase?.allowTemplatesGroup ?: false)
                 enableTemplates(mDatabase?.templatesGroup != null)
