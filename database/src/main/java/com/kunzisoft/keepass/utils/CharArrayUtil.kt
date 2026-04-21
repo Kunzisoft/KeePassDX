@@ -66,4 +66,59 @@ object CharArrayUtil {
         }
         return true
     }
+
+    fun CharArray.indexOf(str: String, startIndex: Int = 0, ignoreCase: Boolean = false): Int {
+        if (str.isEmpty()) return startIndex
+        val firstChar = str[0]
+        val max = size - str.length
+        for (i in startIndex..max) {
+            if (this[i].equals(firstChar, ignoreCase)) {
+                var match = true
+                for (j in 1 until str.length) {
+                    if (!this[i + j].equals(str[j], ignoreCase)) {
+                        match = false
+                        break
+                    }
+                }
+                if (match) return i
+            }
+        }
+        return -1
+    }
+
+    fun CharArray.contains(str: String, ignoreCase: Boolean = false): Boolean {
+        return indexOf(str, 0, ignoreCase) >= 0
+    }
+
+    fun CharArray.replace(oldValue: String, newValue: CharArray, ignoreCase: Boolean = false): CharArray {
+        var occurrences = 0
+        var index = indexOf(oldValue, 0, ignoreCase)
+        while (index != -1) {
+            occurrences++
+            index = indexOf(oldValue, index + oldValue.length, ignoreCase)
+        }
+
+        if (occurrences == 0) return this
+
+        val newSize = size + (newValue.size - oldValue.length) * occurrences
+        val result = CharArray(newSize)
+        var resultPos = 0
+        var currentPos = 0
+
+        index = indexOf(oldValue, 0, ignoreCase)
+        while (index != -1) {
+            val copyLen = index - currentPos
+            System.arraycopy(this, currentPos, result, resultPos, copyLen)
+            resultPos += copyLen
+
+            System.arraycopy(newValue, 0, result, resultPos, newValue.size)
+            resultPos += newValue.size
+
+            currentPos = index + oldValue.length
+            index = indexOf(oldValue, currentPos, ignoreCase)
+        }
+
+        System.arraycopy(this, currentPos, result, resultPos, size - currentPos)
+        return result
+    }
 }

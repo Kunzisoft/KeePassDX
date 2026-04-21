@@ -20,12 +20,17 @@
 package com.kunzisoft.keepass.utils
 
 import com.kunzisoft.keepass.utils.CharArrayUtil.clear
+import com.kunzisoft.keepass.utils.CharArrayUtil.contains
 import com.kunzisoft.keepass.utils.CharArrayUtil.contentEquals
+import com.kunzisoft.keepass.utils.CharArrayUtil.indexOf
 import com.kunzisoft.keepass.utils.CharArrayUtil.removeSpaceChars
+import com.kunzisoft.keepass.utils.CharArrayUtil.replace
 import com.kunzisoft.keepass.utils.CharArrayUtil.toByteArray
 import com.kunzisoft.keepass.utils.CharArrayUtil.toUtf8ByteArray
 import org.junit.Assert.assertArrayEquals
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
+import org.junit.Assert.assertTrue
 import org.junit.Test
 import java.nio.charset.Charset
 
@@ -79,5 +84,53 @@ class CharArrayUtilTest {
         assertEquals(false, a1.contentEquals(a3))
         assertEquals(true, a1.contentEquals(a3, ignoreCase = true))
         assertEquals(false, a1.contentEquals(a4))
+    }
+
+    @Test
+    fun testIndexOf() {
+        val input = "Hello World".toCharArray()
+        assertEquals(0, input.indexOf("Hello"))
+        assertEquals(6, input.indexOf("World"))
+        assertEquals(2, input.indexOf("l"))
+        assertEquals(3, input.indexOf("l", 3))
+        assertEquals(9, input.indexOf("l", 4))
+        assertEquals(-1, input.indexOf("Universe"))
+        
+        assertEquals(0, input.indexOf("hello", ignoreCase = true))
+        assertEquals(6, input.indexOf("WORLD", ignoreCase = true))
+    }
+
+    @Test
+    fun testContains() {
+        val input = "Hello World".toCharArray()
+        assertTrue(input.contains("Hello"))
+        assertTrue(input.contains("hello", ignoreCase = true))
+        assertFalse(input.contains("Universe"))
+    }
+
+    @Test
+    fun testReplace() {
+        val input = "Hello World".toCharArray()
+        
+        // Simple replace
+        val r1 = input.replace("World", "Universe".toCharArray())
+        assertArrayEquals("Hello Universe".toCharArray(), r1)
+        
+        // Multiple replace
+        val input2 = "a b a c a".toCharArray()
+        val r2 = input2.replace("a", "x".toCharArray())
+        assertArrayEquals("x b x c x".toCharArray(), r2)
+        
+        // Different size
+        val r3 = "abc".toCharArray().replace("b", "xyz".toCharArray())
+        assertArrayEquals("axyzc".toCharArray(), r3)
+        
+        // Ignore case
+        val r4 = "Hello World".toCharArray().replace("HELLO", "Hi".toCharArray(), ignoreCase = true)
+        assertArrayEquals("Hi World".toCharArray(), r4)
+        
+        // No match
+        val r5 = input.replace("Universe", "???".toCharArray())
+        assertTrue(input === r5)
     }
 }

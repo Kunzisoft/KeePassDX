@@ -163,39 +163,42 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
     /**
      * Decode a reference key with the FieldReferencesEngine
      */
-    // TODO Change to manage CharArray
-    private fun decodeRefKey(decodeRef: Boolean, key: String, recursionLevel: Int): String {
-        return fields[key]?.toString()?.let { text ->
+    private fun decodeRefKey(decodeRef: Boolean, key: String, recursionLevel: Int): CharArray {
+        return fields[key]?.charArrayValue?.let { charArray ->
             return if (decodeRef) {
-                mDatabase?.getFieldReferenceValue(this, text, recursionLevel) ?: text
-            } else text
-        } ?: ""
+                mDatabase?.getFieldReferenceValue(
+                    entry = this,
+                    textReference = charArray,
+                    recursionLevel = recursionLevel
+                ) ?: charArray
+            } else charArray
+        } ?: charArrayOf()
     }
 
-    fun decodeTitleKey(recursionLevel: Int): String {
+    fun decodeTitleKey(recursionLevel: Int): CharArray {
         return decodeRefKey(mDecodeRef, STR_TITLE, recursionLevel)
     }
 
     override var title: String
-        get() = decodeTitleKey(0)
+        get() = String(decodeTitleKey(0))
         set(value) {
             val protect = mDatabase != null && mDatabase!!.memoryProtection.protectTitle
             fields[STR_TITLE] = ProtectedString(protect, value)
         }
 
-    fun decodeUsernameKey(recursionLevel: Int): String {
+    fun decodeUsernameKey(recursionLevel: Int): CharArray {
         return decodeRefKey(mDecodeRef, STR_USERNAME, recursionLevel)
     }
 
     override var username: String
-        get() = decodeUsernameKey(0)
+        get() = String(decodeUsernameKey(0))
         set(value) {
             val protect = mDatabase != null && mDatabase!!.memoryProtection.protectUserName
             fields[STR_USERNAME] = ProtectedString(protect, value)
         }
 
     fun decodePasswordKey(recursionLevel: Int): CharArray {
-        return decodeRefKey(mDecodeRef, STR_PASSWORD, recursionLevel).toCharArray()
+        return decodeRefKey(mDecodeRef, STR_PASSWORD, recursionLevel)
     }
 
     override var password: CharArray
@@ -205,30 +208,29 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
             fields[STR_PASSWORD] = ProtectedString(protect, value)
         }
 
-    fun decodeUrlKey(recursionLevel: Int): String {
+    fun decodeUrlKey(recursionLevel: Int): CharArray {
         return decodeRefKey(mDecodeRef, STR_URL, recursionLevel)
     }
 
     override var url
-        get() = decodeUrlKey(0)
+        get() = String(decodeUrlKey(0))
         set(value) {
             val protect = mDatabase != null && mDatabase!!.memoryProtection.protectUrl
             fields[STR_URL] = ProtectedString(protect, value)
         }
 
-    fun decodeNotesKey(recursionLevel: Int): String {
+    fun decodeNotesKey(recursionLevel: Int): CharArray {
         return decodeRefKey(mDecodeRef, STR_NOTES, recursionLevel)
     }
 
     override var notes: String
-        get() = decodeNotesKey(0)
+        get() = String(decodeNotesKey(0))
         set(value) {
             val protect = mDatabase != null && mDatabase!!.memoryProtection.protectNotes
             fields[STR_NOTES] = ProtectedString(protect, value)
         }
 
-    // TODO As CharArray
-    fun getCustomFieldValue(label: String, recursionLevel: Int = 0): String {
+    fun getCustomFieldValue(label: String, recursionLevel: Int = 0): CharArray {
         return decodeRefKey(mDecodeRef, label, recursionLevel)
     }
 

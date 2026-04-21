@@ -53,8 +53,8 @@ import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX.Companion.FILE_VER
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX.Companion.FILE_VERSION_40
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX.Companion.FILE_VERSION_41
 import com.kunzisoft.keepass.hardware.HardwareKey
-import com.kunzisoft.keepass.utils.UnsignedInt
 import com.kunzisoft.keepass.utils.CharArrayUtil.contentEquals
+import com.kunzisoft.keepass.utils.UnsignedInt
 import com.kunzisoft.keepass.utils.clear
 import com.kunzisoft.keepass.utils.longTo8Bytes
 import java.io.IOException
@@ -585,19 +585,19 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
 
     fun getEntryByTitle(title: String, recursionLevel: Int): EntryKDBX? {
         return findEntry { entry ->
-            entry.decodeTitleKey(recursionLevel).equals(title, true)
+            entry.decodeTitleKey(recursionLevel).contentEquals(title.toCharArray(), true)
         }
     }
 
     fun getEntryByUsername(username: String, recursionLevel: Int): EntryKDBX? {
         return findEntry { entry ->
-            entry.decodeUsernameKey(recursionLevel).equals(username, true)
+            entry.decodeUsernameKey(recursionLevel).contentEquals(username.toCharArray(), true)
         }
     }
 
     fun getEntryByURL(url: String, recursionLevel: Int): EntryKDBX? {
         return findEntry { entry ->
-            entry.decodeUrlKey(recursionLevel).equals(url, true)
+            entry.decodeUrlKey(recursionLevel).contentEquals(url.toCharArray(), true)
         }
     }
 
@@ -609,7 +609,7 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
 
     fun getEntryByNotes(notes: String, recursionLevel: Int): EntryKDBX? {
         return findEntry { entry ->
-            entry.decodeNotesKey(recursionLevel).equals(notes, true)
+            entry.decodeNotesKey(recursionLevel).contentEquals(notes.toCharArray(), true)
         }
     }
 
@@ -622,7 +622,7 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
     /**
      * Retrieve the value of a field reference
      */
-    fun getFieldReferenceValue(entry: EntryKDBX, textReference: String, recursionLevel: Int): String {
+    fun getFieldReferenceValue(entry: EntryKDBX, textReference: CharArray, recursionLevel: Int): CharArray {
         return mFieldReferenceEngine.compile(entry, textReference, recursionLevel)
     }
 
