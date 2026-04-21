@@ -4,3 +4,4 @@
  * Historique des Tags caché #2374 #1405
  * Accessibilité améliorée #2475
  * Sécurité améliorée #2481 #2482 #2483 #2484 #2485 #2487 #2488 #2489 #2480
+ * Petites corrections #2476

@@ -4,3 +4,4 @@
  * Hidden tag history #2374 #1405
  * Improved accessibility #2475
  * Improved security #2481 #2482 #2483 #2484 #2485 #2487 #2488 #2489 #2480
+ * Small fixes #2476
