@@ -433,7 +433,7 @@ class KeeAutofillService : AutofillService() {
                     val registerInfo = RegisterInfo(
                         searchInfo = searchInfo,
                         username = parseResult.usernameValue?.textValue?.toString(),
-                        password = parseResult.passwordValue?.textValue?.toString(),
+                        password = parseResult.passwordValue?.textValue?.toString()?.toCharArray(),
                         expiration = DateInstant(Instant(expiration)),
                         creditCard = parseResult.creditCardNumber?.textValue?.toString()?.let { cardNumber ->
                             CreditCard(

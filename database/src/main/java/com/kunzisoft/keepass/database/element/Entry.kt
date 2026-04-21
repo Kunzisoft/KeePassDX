@@ -226,8 +226,8 @@ class Entry : Node, EntryVersionedInterface<Group> {
             entryKDBX?.username = value
         }
 
-    override var password: String
-        get() = entryKDB?.password ?: entryKDBX?.password ?: ""
+    override var password: CharArray
+        get() = entryKDB?.password ?: entryKDBX?.password ?: charArrayOf()
         set(value) {
             entryKDB?.password = value
             entryKDBX?.password = value

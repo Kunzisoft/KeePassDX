@@ -25,7 +25,7 @@ interface EntryVersionedInterface<ParentGroup> : NodeVersionedInterface<ParentGr
 
     var username: String
 
-    var password: String
+    var password: CharArray
 
     var url: String
 

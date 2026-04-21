@@ -54,6 +54,7 @@ import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX.Companion.FILE_VER
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX.Companion.FILE_VERSION_41
 import com.kunzisoft.keepass.hardware.HardwareKey
 import com.kunzisoft.keepass.utils.UnsignedInt
+import com.kunzisoft.keepass.utils.CharArrayUtil.contentEquals
 import com.kunzisoft.keepass.utils.clear
 import com.kunzisoft.keepass.utils.longTo8Bytes
 import java.io.IOException
@@ -600,9 +601,9 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
         }
     }
 
-    fun getEntryByPassword(password: String, recursionLevel: Int): EntryKDBX? {
+    fun getEntryByPassword(password: CharArray, recursionLevel: Int): EntryKDBX? {
         return findEntry { entry ->
-            entry.decodePasswordKey(recursionLevel).equals(password, true)
+            entry.decodePasswordKey(recursionLevel).contentEquals(password, true)
         }
     }
 

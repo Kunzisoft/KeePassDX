@@ -162,10 +162,8 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
 
     /**
      * Decode a reference key with the FieldReferencesEngine
-     * @param decodeRef
-     * @param key
-     * @return
      */
+    // TODO Change to manage CharArray
     private fun decodeRefKey(decodeRef: Boolean, key: String, recursionLevel: Int): String {
         return fields[key]?.toString()?.let { text ->
             return if (decodeRef) {
@@ -196,11 +194,11 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
             fields[STR_USERNAME] = ProtectedString(protect, value)
         }
 
-    fun decodePasswordKey(recursionLevel: Int): String {
-        return decodeRefKey(mDecodeRef, STR_PASSWORD, recursionLevel)
+    fun decodePasswordKey(recursionLevel: Int): CharArray {
+        return decodeRefKey(mDecodeRef, STR_PASSWORD, recursionLevel).toCharArray()
     }
 
-    override var password: String
+    override var password: CharArray
         get() = decodePasswordKey(0)
         set(value) {
             val protect = mDatabase != null && mDatabase!!.memoryProtection.protectPassword
@@ -229,6 +227,7 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
             fields[STR_NOTES] = ProtectedString(protect, value)
         }
 
+    // TODO As CharArray
     fun getCustomFieldValue(label: String, recursionLevel: Int = 0): String {
         return decodeRefKey(mDecodeRef, label, recursionLevel)
     }

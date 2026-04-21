@@ -208,7 +208,7 @@ object AutofillHelper {
         struct.passwordId?.let { passwordId ->
             datasetBuilder.addValueToDatasetBuilder(
                 passwordId,
-                AutofillValue.forText(entryInfo.password)
+                AutofillValue.forText(String(entryInfo.password))
             )
         }
 

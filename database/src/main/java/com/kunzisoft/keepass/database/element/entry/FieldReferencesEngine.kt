@@ -24,15 +24,17 @@ import com.kunzisoft.keepass.database.element.database.DatabaseKDBX
 import com.kunzisoft.keepass.database.element.node.NodeIdUUID
 import com.kunzisoft.keepass.utils.UUIDUtils.asHexString
 import com.kunzisoft.keepass.utils.UUIDUtils.asUUID
+import com.kunzisoft.keepass.utils.clear
 import java.util.concurrent.ConcurrentHashMap
 
 class FieldReferencesEngine(private val mDatabase: DatabaseKDBX) {
 
     // Key : <WantedField>@<SearchIn>:<Text>
     // Value : content
-    private var refsCache = ConcurrentHashMap<String, String?>()
+    private var refsCache = ConcurrentHashMap<String, CharArray>()
 
     fun clear() {
+        refsCache.values.forEach { it.clear() }
         refsCache.clear()
     }
 
@@ -47,6 +49,7 @@ class FieldReferencesEngine(private val mDatabase: DatabaseKDBX) {
     /**
      * Manage placeholders with {REF:<WantedField>@<SearchIn>:<Text>}
      */
+    // TODO CharArray
     private fun fillReferencesPlaceholders(
         currentEntry: EntryKDBX,
         textReference: String,
@@ -85,23 +88,26 @@ class FieldReferencesEngine(private val mDatabase: DatabaseKDBX) {
 
                 if (!refsCache.containsKey(fullReference)) {
                     val newRecursionLevel = recursionLevel + 1
-                    val data: String? = if (selfReference) {
+                    val data: CharArray? = if (selfReference) {
                         reference.split(":")
-                            .let { currentEntry.getCustomFieldValue(it.last(), newRecursionLevel) }
+                            .let { currentEntry
+                                .getCustomFieldValue(it.last(), newRecursionLevel)
+                                .toCharArray()
+                            }
                     } else {
                         with(findReferenceTarget(reference, newRecursionLevel)) {
                             when (wanted) {
-                                'T' -> entry?.decodeTitleKey(newRecursionLevel)
-                                'U' -> entry?.decodeUsernameKey(newRecursionLevel)
-                                'A' -> entry?.decodeUrlKey(newRecursionLevel)
+                                'T' -> entry?.decodeTitleKey(newRecursionLevel)?.toCharArray()
+                                'U' -> entry?.decodeUsernameKey(newRecursionLevel)?.toCharArray()
+                                'A' -> entry?.decodeUrlKey(newRecursionLevel)?.toCharArray()
                                 'P' -> entry?.decodePasswordKey(newRecursionLevel)
-                                'N' -> entry?.decodeNotesKey(newRecursionLevel)
-                                'I' -> entry?.nodeId?.id?.asHexString()
+                                'N' -> entry?.decodeNotesKey(newRecursionLevel)?.toCharArray()
+                                'I' -> entry?.nodeId?.id?.asHexString()?.toCharArray()
                                 else -> null
                             }
                         }
                     }
-                    refsCache[fullReference] = data
+                    refsCache[fullReference] = data ?: CharArray(0)
                     textValue = fillReferencesUsingCache(currentEntry, textValue)
                 }
 
@@ -124,7 +130,11 @@ class FieldReferencesEngine(private val mDatabase: DatabaseKDBX) {
                 ?: key
 
             // Replace by original placeholder if value not found or entry id doesn't match
-            expandedText.replace(placeholder, refsCache[key] ?: placeholder, true)
+            expandedText.replace(
+                oldValue = placeholder,
+                newValue = refsCache[key]?.let { String(it) } ?: placeholder,
+                ignoreCase = true
+            )
         }
 
     private fun findReferenceTarget(reference: String, recursionLevel: Int): TargetResult {
@@ -148,7 +158,7 @@ class FieldReferencesEngine(private val mDatabase: DatabaseKDBX) {
             'T' -> mDatabase.getEntryByTitle(searchQuery, recursionLevel)
             'U' -> mDatabase.getEntryByUsername(searchQuery, recursionLevel)
             'A' -> mDatabase.getEntryByURL(searchQuery, recursionLevel)
-            'P' -> mDatabase.getEntryByPassword(searchQuery, recursionLevel)
+            'P' -> mDatabase.getEntryByPassword(searchQuery.toCharArray(), recursionLevel)
             'N' -> mDatabase.getEntryByNotes(searchQuery, recursionLevel)
             'I' -> {
                 searchQuery.asUUID()?.let { uuid ->

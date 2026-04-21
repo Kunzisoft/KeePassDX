@@ -20,6 +20,7 @@
 package com.kunzisoft.keepass.model
 
 import android.os.Parcelable
+import com.kunzisoft.keepass.utils.CharArrayUtil.clear
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
@@ -32,6 +33,11 @@ data class Passkey(
     val backupEligibility: Boolean?,
     val backupState: Boolean?
 ): Parcelable {
+
+    fun clear() {
+        privateKeyPem.clear()
+    }
+
     // Do not compare BE and BS because are modifiable by the user
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

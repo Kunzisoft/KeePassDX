@@ -20,6 +20,7 @@
 package com.kunzisoft.keepass.utils
 
 import com.kunzisoft.keepass.utils.CharArrayUtil.clear
+import com.kunzisoft.keepass.utils.CharArrayUtil.contentEquals
 import com.kunzisoft.keepass.utils.CharArrayUtil.removeSpaceChars
 import com.kunzisoft.keepass.utils.CharArrayUtil.toByteArray
 import com.kunzisoft.keepass.utils.CharArrayUtil.toUtf8ByteArray
@@ -65,5 +66,18 @@ class CharArrayUtilTest {
         for (c in input) {
             assertEquals('\u0000', c)
         }
+    }
+
+    @Test
+    fun testContentEquals() {
+        val a1 = charArrayOf('a', 'b', 'c')
+        val a2 = charArrayOf('a', 'b', 'c')
+        val a3 = charArrayOf('A', 'B', 'C')
+        val a4 = charArrayOf('a', 'b')
+
+        assertEquals(true, a1.contentEquals(a2))
+        assertEquals(false, a1.contentEquals(a3))
+        assertEquals(true, a1.contentEquals(a3, ignoreCase = true))
+        assertEquals(false, a1.contentEquals(a4))
     }
 }

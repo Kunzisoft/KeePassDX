@@ -112,7 +112,7 @@ object PasswordHelper {
                 passwordCreated.invoke(
                     PasswordInfo(
                         username = creationOptions.id,
-                        password = creationOptions.password,
+                        password = creationOptions.password.toCharArray(),
                         appOrigin = appInfoToStore
                     )
                 )

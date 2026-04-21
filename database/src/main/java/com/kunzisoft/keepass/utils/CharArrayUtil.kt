@@ -56,4 +56,14 @@ object CharArrayUtil {
     fun CharArray.clear() {
         Arrays.fill(this, '\u0000')
     }
+
+    fun CharArray.contentEquals(other: CharArray, ignoreCase: Boolean = false): Boolean {
+        if (this.size != other.size) return false
+        for (i in indices) {
+            if (!this[i].equals(other[i], ignoreCase)) {
+                return false
+            }
+        }
+        return true
+    }
 }

@@ -381,7 +381,7 @@ class MagikeyboardService : InputMethodService(),
             KEY_PASSWORD -> {
                 val entryInfoKey = getEntryInfo()
                 entryInfoKey?.password?.let { password ->
-                    currentInputConnection.commitText(password, 1)
+                    currentInputConnection.commitText(String(password), 1)
                 }
                 val otpFieldExists = entryInfoKey?.containsCustomField(OTP_TOKEN_FIELD) ?: false
                 actionGoAutomatically(!otpFieldExists)

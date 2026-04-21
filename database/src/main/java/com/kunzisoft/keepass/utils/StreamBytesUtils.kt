@@ -25,6 +25,7 @@ import org.joda.time.Instant
 import java.io.IOException
 import java.io.InputStream
 import java.io.OutputStream
+import java.nio.ByteBuffer
 import java.nio.charset.Charset
 import java.util.*
 
@@ -108,6 +109,11 @@ fun InputStream.readBytes16ToUuid(): UUID {
 @Throws(IOException::class)
 fun InputStream.readBytesToString(length: Int, replaceCRLF: Boolean = true): String {
     return bytesToString(this.readBytesLength(length), replaceCRLF)
+}
+
+@Throws(IOException::class)
+fun InputStream.readBytesToCharArray(length: Int, replaceCRLF: Boolean = true): CharArray {
+    return bytesToCharArray(this.readBytesLength(length), replaceCRLF)
 }
 
 @Throws(IOException::class)
@@ -328,6 +334,52 @@ fun bytesToString(buf: ByteArray, replaceCRLF: Boolean = true): String {
         jstring = jstring.replace(CRLF, SEP!!)
     }
     return jstring
+}
+
+fun bytesToCharArray(buf: ByteArray, replaceCRLF: Boolean = true): CharArray {
+    // length of null-terminated string (i.e. distance to null) within a byte buffer.
+    var len = 0
+    while (len < buf.size && buf[len].toInt() != 0) {
+        len++
+    }
+
+    val cb = defaultCharset.newDecoder()
+        .decode(ByteBuffer.wrap(buf, 0, len))
+    val decodedChars = CharArray(cb.remaining())
+    cb.get(decodedChars)
+
+    if (replaceCRLF && REPLACE && SEP != null) {
+        val sep = SEP
+        var crlfCount = 0
+        var i = 0
+        while (i < decodedChars.size - 1) {
+            if (decodedChars[i] == '\r' && decodedChars[i + 1] == '\n') {
+                crlfCount++
+                i += 2
+            } else {
+                i++
+            }
+        }
+
+        if (crlfCount > 0) {
+            val result = CharArray(decodedChars.size - crlfCount * (2 - sep.length))
+            var readIdx = 0
+            var writeIdx = 0
+            while (readIdx < decodedChars.size) {
+                if (readIdx < decodedChars.size - 1 && decodedChars[readIdx] == '\r' && decodedChars[readIdx + 1] == '\n') {
+                    for (j in sep.indices) {
+                        result[writeIdx++] = sep[j]
+                    }
+                    readIdx += 2
+                } else {
+                    result[writeIdx++] = decodedChars[readIdx++]
+                }
+            }
+            decodedChars.clear()
+            return result
+        }
+    }
+    return decodedChars
 }
 
 @Throws(IOException::class)

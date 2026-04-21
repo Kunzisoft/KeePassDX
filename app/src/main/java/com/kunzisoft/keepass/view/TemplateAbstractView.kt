@@ -476,7 +476,7 @@ abstract class TemplateAbstractView<
         try {
             val passwordView: TEntryFieldView? = findViewWithTag(FIELD_PASSWORD_TAG)
             passwordView?.value?.let {
-                mEntryInfo?.password = String(it)
+                mEntryInfo?.password = it
             }
         } catch (e: Exception) {
             Log.e(TAG, "Unable to populate password view", e)

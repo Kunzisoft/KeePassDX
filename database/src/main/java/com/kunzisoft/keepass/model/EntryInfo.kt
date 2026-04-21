@@ -38,6 +38,7 @@ import com.kunzisoft.keepass.otp.OtpElement
 import com.kunzisoft.keepass.otp.OtpEntryFields.OTP_TOKEN_FIELD
 import com.kunzisoft.keepass.otp.OtpEntryFields.isOTP
 import com.kunzisoft.keepass.otp.OtpEntryFields.setOtp
+import com.kunzisoft.keepass.utils.CharArrayUtil.clear
 import com.kunzisoft.keepass.utils.readBooleanCompat
 import com.kunzisoft.keepass.utils.readListCompat
 import com.kunzisoft.keepass.utils.readParcelableCompat
@@ -49,7 +50,7 @@ class EntryInfo : NodeInfo {
 
     var id: UUID = UUID.randomUUID()
     var username: String = ""
-    var password: String = "" // TODO CharArray
+    var password: CharArray = charArrayOf()
     var url: String = ""
     var notes: String = ""
     var tags: Tags = Tags()
@@ -69,7 +70,7 @@ class EntryInfo : NodeInfo {
     constructor(parcel: Parcel) : super(parcel) {
         id = parcel.readParcelableCompat<ParcelUuid>()?.uuid ?: id
         username = parcel.readString() ?: username
-        password = parcel.readString() ?: password
+        password = parcel.createCharArray() ?: password
         url = parcel.readString() ?: url
         notes = parcel.readString() ?: notes
         tags = parcel.readParcelableCompat() ?: tags
@@ -95,7 +96,7 @@ class EntryInfo : NodeInfo {
         super.writeToParcel(parcel, flags)
         parcel.writeParcelable(ParcelUuid(id), flags)
         parcel.writeString(username)
-        parcel.writeString(password)
+        parcel.writeCharArray(password)
         parcel.writeString(url)
         parcel.writeString(notes)
         parcel.writeParcelable(tags, flags)
@@ -109,6 +110,14 @@ class EntryInfo : NodeInfo {
         parcel.writeParcelable(passkey, flags)
         parcel.writeParcelable(appOrigin, flags)
         parcel.writeBooleanCompat(isTemplate)
+    }
+
+    fun clear() {
+        password.clear()
+        customFields.forEach { it.clear() }
+        otpModel?.clear()
+        creditCard?.clear()
+        passkey?.clear()
     }
 
     fun getOtpToken(): CharArray? {
@@ -269,7 +278,7 @@ class EntryInfo : NodeInfo {
 
         if (id != other.id) return false
         if (username != other.username) return false
-        if (password != other.password) return false
+        if (!password.contentEquals(other.password)) return false
         if (url != other.url) return false
         if (notes != other.notes) return false
         if (tags != other.tags) return false
@@ -291,7 +300,7 @@ class EntryInfo : NodeInfo {
         var result = super.hashCode()
         result = 31 * result + id.hashCode()
         result = 31 * result + username.hashCode()
-        result = 31 * result + password.hashCode()
+        result = 31 * result + password.contentHashCode()
         result = 31 * result + url.hashCode()
         result = 31 * result + notes.hashCode()
         result = 31 * result + tags.hashCode()
