@@ -48,7 +48,7 @@ class MergeDatabaseRunnable(
     challengeResponseRetriever
 ) {
 
-    private var mMasterCredential: MasterCredential? = null
+    private var mMergeMasterCredential: MasterCredential? = null
 
     override fun onStartRun() {
         database.wasReloaded = true
@@ -58,12 +58,12 @@ class MergeDatabaseRunnable(
     override fun onActionRun() {
         try {
             val contentResolver = context.contentResolver
-            mMasterCredential = mDatabaseToMergeMainCredential?.toMasterCredential(contentResolver)
+            mMergeMasterCredential = mDatabaseToMergeMainCredential?.toMasterCredential(contentResolver)
             database.mergeData(
                 databaseToMergeStream = contentResolver.getUriInputStream(
                     mDatabaseToMergeUri ?: database.fileUri
                 ) ?: throw UnknownDatabaseLocationException(),
-                databaseToMergeMasterCredential = mMasterCredential,
+                databaseToMergeMasterCredential = mMergeMasterCredential,
                 databaseToMergeChallengeResponseRetriever = mDatabaseToMergeChallengeResponseRetriever,
                 isRAMSufficient = { memoryWanted ->
                     BinaryData.canMemoryBeAllocatedInRAM(context, memoryWanted)
@@ -78,7 +78,7 @@ class MergeDatabaseRunnable(
     }
 
     override fun onFinishRun() {
-        mMasterCredential?.clear()
+        mMergeMasterCredential?.clear()
         super.onFinishRun()
     }
 }

@@ -256,6 +256,7 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
         ) else null
 
         // Save to rebuild master password with new seed later
+        mCompositeKey.clear()
         mCompositeKey = CompositeKey(passwordBytes, keyFileBytes, hardwareKey)
 
         // Build the master key
@@ -308,7 +309,7 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
 
     fun copyMasterKeyFrom(databaseVersioned: DatabaseKDBX) {
         super.copyMasterKeyFrom(databaseVersioned)
-        this.mCompositeKey = databaseVersioned.mCompositeKey
+        this.mCompositeKey = databaseVersioned.mCompositeKey.copyOf()
     }
 
     fun getMinKdbxVersion(): UnsignedInt {

@@ -35,6 +35,14 @@ data class CompositeKey(
         return result
     }
 
+    fun copyOf(): CompositeKey {
+        return CompositeKey(
+            passwordData?.copyOf(),
+            keyFileData?.copyOf(),
+            hardwareKey
+        )
+    }
+
     fun clear() {
         passwordData?.clear()
         keyFileData?.clear()
