@@ -13,11 +13,14 @@ import com.kunzisoft.keepass.BuildConfig
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.credentialprovider.passkey.data.AndroidPrivilegedApp
 import com.kunzisoft.keepass.education.Education
+import java.security.SecureRandom
 
 object AppUtil {
 
+    private val secureRandom = SecureRandom()
+
     fun randomRequestCode(): Int {
-        return (Math.random() * Integer.MAX_VALUE).toInt()
+        return secureRandom.nextInt(Int.MAX_VALUE)
     }
 
     fun Context.isExternalAppInstalled(packageName: String, showError: Boolean = true): Boolean {
@@ -41,7 +44,7 @@ object AppUtil {
             launchIntent = this.packageManager.getLaunchIntentForPackage(packageName)?.apply {
                 addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             }
-        } catch (ignored: Exception) { }
+        } catch (_: Exception) { }
         try {
             if (launchIntent == null) {
                 this.startActivity(

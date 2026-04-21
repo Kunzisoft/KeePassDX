@@ -3,7 +3,7 @@ KeePassDX(4.4.0)
  * Tags in list view #1539 #2144
  * Search by Tags #1338 #2280
  * Improved accessibility #2475
- * Improved security #2481 #2482 #2483 #2484 #2485 #2487 #2488 #2480
+ * Improved security #2481 #2482 #2483 #2484 #2485 #2487 #2488 #2489 #2480
 
 KeePassDX(4.3.3)
  * Fix 16 KB ELF alignment #2074
