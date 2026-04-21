@@ -12,7 +12,7 @@ enum class HardwareKey(val value: String) {
         val DEFAULT = CHALLENGE_RESPONSE_YUBIKEY
 
         fun getStringValues(): List<String> {
-            return values().map { it.value }
+            return HardwareKey.entries.map { it.value }
         }
 
         fun fromPosition(position: Int): HardwareKey {
@@ -26,7 +26,7 @@ enum class HardwareKey(val value: String) {
         fun getHardwareKeyFromString(text: String?): HardwareKey? {
             if (text == null)
                 return null
-            values().find { it.value == text }?.let {
+            HardwareKey.entries.find { it.value == text }?.let {
                 return it
             }
             return DEFAULT

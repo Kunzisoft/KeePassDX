@@ -23,6 +23,7 @@ import android.content.Context
 import android.net.Uri
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.MainCredential
+import com.kunzisoft.keepass.database.element.MasterCredential
 import com.kunzisoft.keepass.database.exception.DatabaseException
 import com.kunzisoft.keepass.hardware.HardwareKey
 import com.kunzisoft.keepass.tasks.ActionRunnable
@@ -38,6 +39,7 @@ open class SaveDatabaseRunnable(
     private var databaseCopyUri: Uri? = null
 ) : ActionRunnable() {
 
+    private var mMasterCredential: MasterCredential? = null
     var afterSaveDatabase: ((Result) -> Unit)? = null
 
     override fun onStartRun() {}
@@ -48,6 +50,7 @@ open class SaveDatabaseRunnable(
         if ((databaseCopyUri != null || saveDatabase) && result.isSuccess) {
             try {
                 val contentResolver = context.contentResolver
+                mMasterCredential = mainCredential?.toMasterCredential(contentResolver)
                 // Build temp database file to avoid file corruption if error
                 database.saveData(
                     cacheFile = File(context.cacheDir, databaseCopyUri.hashCode().toString()),
@@ -56,8 +59,9 @@ open class SaveDatabaseRunnable(
                             .getUriOutputStream(databaseCopyUri ?: database.fileUri)
                     },
                     isNewLocation = databaseCopyUri == null,
-                    mainCredential?.toMasterCredential(contentResolver),
-                    challengeResponseRetriever)
+                    masterCredential = mMasterCredential,
+                    challengeResponseRetriever = challengeResponseRetriever
+                )
             } catch (e: DatabaseException) {
                 setError(e)
             }
@@ -66,6 +70,7 @@ open class SaveDatabaseRunnable(
 
     override fun onFinishRun() {
         // Need to call super.onFinishRun() in child class
+        mMasterCredential?.clear()
         afterSaveDatabase?.invoke(result)
     }
 }

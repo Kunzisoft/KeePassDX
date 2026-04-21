@@ -173,7 +173,10 @@ abstract class DatabaseLockActivity : DatabaseModeActivity(),
         mDatabase?.let { database ->
             database.fileUri?.let { databaseUri ->
                 // Show the progress dialog now or after dialog confirmation
-                if (database.isValidCredential(mainCredential.toMasterCredential(contentResolver))) {
+                val masterCredential = mainCredential.toMasterCredential(contentResolver)
+                val validCredential = database.isValidCredential(masterCredential)
+                masterCredential.clear()
+                if (validCredential) {
                     mDatabaseViewModel.assignMainCredential(databaseUri, mainCredential)
                 } else {
                     PasswordEncodingDialogFragment.getInstance(databaseUri, mainCredential)

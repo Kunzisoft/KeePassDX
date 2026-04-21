@@ -45,16 +45,35 @@ import javax.xml.parsers.ParserConfigurationException
 import kotlin.math.min
 
 data class MasterCredential(
-    var password: CharArray? = null,
-    var keyFileData: ByteArray? = null,
+    private var mPassword: CharArray? = null,
+    private var mKeyFileData: ByteArray? = null,
     var hardwareKey: HardwareKey? = null
 ): Parcelable {
 
-    constructor(parcel: Parcel) : this() {
-        password = parcel.createCharArray()
-        keyFileData = parcel.readByteArrayCompat()
-        hardwareKey = parcel.readEnum<HardwareKey>()
+    var password: CharArray?
+        get() = mPassword
+        set(value) {
+            mPassword?.clear()
+            mPassword = value?.copyOf()
+        }
+
+    var keyFileData: ByteArray?
+        get() = mKeyFileData
+        set(value) {
+            mKeyFileData?.fill(0)
+            mKeyFileData = value?.copyOf()
+        }
+
+    init {
+        mPassword = mPassword?.copyOf()
+        mKeyFileData = mKeyFileData?.copyOf()
     }
+
+    constructor(parcel: Parcel) : this(
+        parcel.createCharArray(),
+        parcel.readByteArrayCompat(),
+        parcel.readEnum<HardwareKey>()
+    )
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeCharArray(password)
