@@ -20,7 +20,7 @@ object CipherFactory {
     }
 
     @Throws(NoSuchAlgorithmException::class, NoSuchPaddingException::class, InvalidKeyException::class, InvalidAlgorithmParameterException::class)
-    fun getAES(opmode: Int, key: ByteArray, IV: ByteArray, forceNative: Boolean = false): Cipher {
+    fun getAES(opmode: Int, key: ByteArray, iv: ByteArray, forceNative: Boolean = false): Cipher {
         val transformation = "AES/CBC/PKCS5Padding"
         val cipher = if (forceNative || NativeLib.loaded()) {
             // Try native implementation
@@ -33,25 +33,25 @@ object CipherFactory {
         } else {
             Cipher.getInstance(transformation)
         }
-        cipher.init(opmode, SecretKeySpec(key, "AES"), IvParameterSpec(IV))
+        cipher.init(opmode, SecretKeySpec(key, "AES"), IvParameterSpec(iv))
         return cipher
     }
 
     @Throws(NoSuchAlgorithmException::class, NoSuchPaddingException::class, InvalidKeyException::class, InvalidAlgorithmParameterException::class)
-    fun getTwofish(opmode: Int, key: ByteArray, IV: ByteArray, forceCompatibility: Boolean = false): Cipher {
+    fun getTwofish(opmode: Int, key: ByteArray, iv: ByteArray, forceCompatibility: Boolean = false): Cipher {
         val cipher: Cipher = if (forceCompatibility) {
             Cipher.getInstance("Twofish/CBC/NoPadding")
         } else {
             Cipher.getInstance("Twofish/CBC/PKCS7PADDING")
         }
-        cipher.init(opmode, SecretKeySpec(key, "AES"), IvParameterSpec(IV))
+        cipher.init(opmode, SecretKeySpec(key, "Twofish"), IvParameterSpec(iv))
         return cipher
     }
 
     @Throws(NoSuchAlgorithmException::class, NoSuchPaddingException::class, InvalidKeyException::class, InvalidAlgorithmParameterException::class)
-    fun getChacha20(opmode: Int, key: ByteArray, IV: ByteArray): Cipher {
+    fun getChacha20(opmode: Int, key: ByteArray, iv: ByteArray): Cipher {
         val cipher = Cipher.getInstance("Chacha7539", BouncyCastleProvider())
-        cipher.init(opmode, SecretKeySpec(key, "ChaCha7539"), IvParameterSpec(IV))
+        cipher.init(opmode, SecretKeySpec(key, "ChaCha7539"), IvParameterSpec(iv))
         return cipher
     }
 }
