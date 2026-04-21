@@ -36,6 +36,9 @@ import com.kunzisoft.keepass.utils.putParcelableList
 
 class ClipboardEntryNotificationService : LockNotificationServiceParam<OtpElement>() {
 
+    private var otpModels: List<OtpModel>? = null
+    private var otpModelToCopy: OtpModel? = null
+
     override val notificationId = 485
     private var clipboardHelper: ClipboardHelper? = null
 
@@ -57,20 +60,22 @@ class ClipboardEntryNotificationService : LockNotificationServiceParam<OtpElemen
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         super.onStartCommand(intent, flags, startId)
-
-        val otpModels: List<OtpModel>? = intent?.getParcelableList(EXTRA_LIST_OTP)
-        val otpModelToCopy: OtpModel? = intent?.getParcelableExtraCompat(EXTRA_OTP_TO_COPY)
-
         when (intent?.action) {
             null -> Log.w(TAG, "null intent")
             ACTION_NEW_NOTIFICATION -> {
-                if (!otpModels.isNullOrEmpty()) {
-                    newNotification(otpModels)
+                intent.getParcelableList<OtpModel>(EXTRA_LIST_OTP)?.let { models ->
+                    otpModels?.forEach { it.clear() }
+                    otpModels = models
+                    if (models.isNotEmpty()) {
+                        newNotification(models)
+                    }
                 }
             }
             ACTION_COPY_CLIPBOARD -> {
-                otpModelToCopy?.let {
-                    copyToClipboard(OtpElement(otpModelToCopy).token)
+                intent.getParcelableExtraCompat<OtpModel>(EXTRA_OTP_TO_COPY)?.let { model ->
+                    otpModelToCopy?.clear()
+                    otpModelToCopy = model
+                    copyOTPToClipboard(OtpElement(model).token)
                 }
                 stopService()
             }
@@ -83,7 +88,7 @@ class ClipboardEntryNotificationService : LockNotificationServiceParam<OtpElemen
     }
 
     override fun timerContentText(data: OtpElement?): String? {
-        return data?.token
+        return data?.token?.let { String(it) }
     }
 
     private fun newNotification(otpModels: List<OtpModel>) {
@@ -97,7 +102,7 @@ class ClipboardEntryNotificationService : LockNotificationServiceParam<OtpElemen
             setSmallIcon(R.drawable.notification_ic_clipboard_key_24dp)
             setContentTitle(firstOtpModel.toString())
             setAutoCancel(false)
-            setContentText(otpElement.token)
+            setContentText(String(otpElement.token))
             setContentIntent(pendingCopyIntent)
             setDeleteIntent(pendingDeleteIntent)
         }
@@ -160,15 +165,19 @@ class ClipboardEntryNotificationService : LockNotificationServiceParam<OtpElemen
         )
     }
 
-    private fun copyToClipboard(otpToCopy: String) {
+    private fun copyOTPToClipboard(value: CharArray?) {
         clipboardHelper?.timeoutCopyToClipboard(
             getString(R.string.entry_otp),
-            otpToCopy,
+            value,
             true
         )
     }
 
     override fun onDestroy() {
+        otpModels?.forEach {
+            it.clear()
+        }
+        otpModelToCopy?.clear()
         pendingCopyIntent?.cancel()
         pendingDeleteIntent?.cancel()
         super.onDestroy()

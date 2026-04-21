@@ -57,7 +57,6 @@ import com.kunzisoft.keepass.utils.getParcelableCompat
 import com.kunzisoft.keepass.utils.getParcelableExtraCompat
 import java.io.IOException
 import kotlin.math.min
-import kotlin.text.padStart
 
 
 @RequiresApi(api = Build.VERSION_CODES.O)
@@ -209,7 +208,7 @@ object AutofillHelper {
         struct.passwordId?.let { passwordId ->
             datasetBuilder.addValueToDatasetBuilder(
                 passwordId,
-                AutofillValue.forText(entryInfo.password)
+                AutofillValue.forText(String(entryInfo.password))
             )
         }
 
@@ -224,13 +223,13 @@ object AutofillHelper {
         struct.creditCardNumberId?.let { ccnId ->
             datasetBuilder.addValueToDatasetBuilder(
                 ccnId,
-                AutofillValue.forText(creditCard?.number)
+                AutofillValue.forText(creditCard?.number?.let { String(it) })
             )
         }
         struct.cardVerificationValueId?.let { ccnId ->
             datasetBuilder.addValueToDatasetBuilder(
                 ccnId,
-                AutofillValue.forText(creditCard?.cvv)
+                AutofillValue.forText(creditCard?.cvv?.let { String(it) })
             )
         }
 
@@ -326,10 +325,12 @@ object AutofillHelper {
 
         // OTP
         struct.otpTokenId?.let { otpTokenId ->
-            datasetBuilder.addValueToDatasetBuilder(
-                otpTokenId,
-                AutofillValue.forText(entryInfo.getOtpToken())
-            )
+            entryInfo.getOtpToken()?.let {
+                datasetBuilder.addValueToDatasetBuilder(
+                    otpTokenId,
+                    AutofillValue.forText(String(it))
+                )
+            }
         }
 
         val dataset = datasetBuilder.build()

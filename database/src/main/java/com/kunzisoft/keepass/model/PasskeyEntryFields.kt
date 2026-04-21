@@ -23,15 +23,15 @@ object PasskeyEntryFields {
     /**
      * Parse fields of an entry to retrieve a Passkey
      */
-    fun parseFields(getField: (id: String) -> String?): Passkey? {
-        val usernameField: String? = getField(FIELD_USERNAME)
-        val privateKeyField: String? = getField(FIELD_PRIVATE_KEY)
-        val credentialIdField: String? = getField(FIELD_CREDENTIAL_ID)
-        val userHandleField: String? = getField(FIELD_USER_HANDLE)
-        val relyingPartyField: String? = getField(FIELD_RELYING_PARTY)
+    fun parseFields(getField: (id: String) -> CharArray?): Passkey? {
+        val usernameField = getField(FIELD_USERNAME)
+        val privateKeyField = getField(FIELD_PRIVATE_KEY)
+        val credentialIdField = getField(FIELD_CREDENTIAL_ID)
+        val userHandleField = getField(FIELD_USER_HANDLE)
+        val relyingPartyField = getField(FIELD_RELYING_PARTY)
         // Optional fields
-        val backupEligibilityField: Boolean? = getField(FIELD_FLAG_BE)?.toBooleanCompat()
-        val backupStateField: Boolean? = getField(FIELD_FLAG_BS)?.toBooleanCompat()
+        val backupEligibilityField = getField(FIELD_FLAG_BE)?.let { String(it).toBooleanCompat() }
+        val backupStateField = getField(FIELD_FLAG_BS)?.let { String(it).toBooleanCompat() }
         if (usernameField == null
             || privateKeyField == null
             || credentialIdField == null
@@ -39,11 +39,11 @@ object PasskeyEntryFields {
             || relyingPartyField == null)
             return null
         return Passkey(
-            username = usernameField,
+            username = String(usernameField),
             privateKeyPem = privateKeyField,
-            credentialId = credentialIdField,
-            userHandle = userHandleField,
-            relyingParty = relyingPartyField,
+            credentialId = String(credentialIdField),
+            userHandle = String(userHandleField),
+            relyingParty = String(relyingPartyField),
             backupEligibility = backupEligibilityField,
             backupState = backupStateField
         )

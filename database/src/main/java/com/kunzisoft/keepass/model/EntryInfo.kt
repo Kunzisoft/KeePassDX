@@ -38,10 +38,13 @@ import com.kunzisoft.keepass.otp.OtpElement
 import com.kunzisoft.keepass.otp.OtpEntryFields.OTP_TOKEN_FIELD
 import com.kunzisoft.keepass.otp.OtpEntryFields.isOTP
 import com.kunzisoft.keepass.otp.OtpEntryFields.setOtp
+import com.kunzisoft.keepass.utils.CharArrayUtil.clear
 import com.kunzisoft.keepass.utils.readBooleanCompat
 import com.kunzisoft.keepass.utils.readListCompat
 import com.kunzisoft.keepass.utils.readParcelableCompat
+import com.kunzisoft.keepass.utils.readCharArrayCompat
 import com.kunzisoft.keepass.utils.writeBooleanCompat
+import com.kunzisoft.keepass.utils.writeCharArrayCompat
 import java.util.Locale
 import java.util.UUID
 
@@ -49,7 +52,7 @@ class EntryInfo : NodeInfo {
 
     var id: UUID = UUID.randomUUID()
     var username: String = ""
-    var password: String = ""
+    var password: CharArray = charArrayOf()
     var url: String = ""
     var notes: String = ""
     var tags: Tags = Tags()
@@ -69,7 +72,7 @@ class EntryInfo : NodeInfo {
     constructor(parcel: Parcel) : super(parcel) {
         id = parcel.readParcelableCompat<ParcelUuid>()?.uuid ?: id
         username = parcel.readString() ?: username
-        password = parcel.readString() ?: password
+        password = parcel.readCharArrayCompat() ?: password
         url = parcel.readString() ?: url
         notes = parcel.readString() ?: notes
         tags = parcel.readParcelableCompat() ?: tags
@@ -95,7 +98,7 @@ class EntryInfo : NodeInfo {
         super.writeToParcel(parcel, flags)
         parcel.writeParcelable(ParcelUuid(id), flags)
         parcel.writeString(username)
-        parcel.writeString(password)
+        parcel.writeCharArrayCompat(password)
         parcel.writeString(url)
         parcel.writeString(notes)
         parcel.writeParcelable(tags, flags)
@@ -111,7 +114,15 @@ class EntryInfo : NodeInfo {
         parcel.writeBooleanCompat(isTemplate)
     }
 
-    fun getOtpToken(): String? {
+    fun clear() {
+        password.clear()
+        customFields.forEach { it.clear() }
+        otpModel?.clear()
+        creditCard?.clear()
+        passkey?.clear()
+    }
+
+    fun getOtpToken(): CharArray? {
         return otpModel?.let {
             OtpElement(it).token
         }
@@ -127,13 +138,13 @@ class EntryInfo : NodeInfo {
         return customFields.lastOrNull { it.name == label } != null
     }
 
-    fun getGeneratedFieldValue(label: String): String {
+    fun getGeneratedFieldValue(label: String): CharArray? {
         if (label == OTP_TOKEN_FIELD) {
             otpModel?.let {
                 return OtpElement(it).token
             }
         }
-        return customFields.lastOrNull { it.name == label }?.protectedValue?.toString() ?: ""
+        return customFields.lastOrNull { it.name == label }?.protectedValue?.charArrayValue
     }
 
     /**
@@ -159,7 +170,7 @@ class EntryInfo : NodeInfo {
     }
 
     /**
-     * Add an unique field to the custom fields list with a suffix
+     * Add a unique field to the list of custom fields with a suffix
      * if name already exists and value not the same
      * @param field the field to add
      * @param position the number to add to the suffix
@@ -170,7 +181,8 @@ class EntryInfo : NodeInfo {
         if (customFields.any { currentField -> currentField.name == field.name + suffix }) {
             val fieldFound = customFields.find {
                 it.name == field.name + suffix
-                        && it.protectedValue.stringValue == field.protectedValue.stringValue
+                        && it.protectedValue.charArrayValue
+                            .contentEquals(field.protectedValue.charArrayValue)
             }
             return if (fieldFound != null) {
                 Pair(position, fieldFound)
@@ -227,7 +239,7 @@ class EntryInfo : NodeInfo {
 
     /**
      * Add registerInfo to current EntryInfo,
-     * return true if data has been overwrite
+     * return true if data has been overwritten
      */
     fun saveRegisterInfo(database: Database?, registerInfo: RegisterInfo): Boolean {
         saveSearchInfo(database, registerInfo.searchInfo)
@@ -268,7 +280,7 @@ class EntryInfo : NodeInfo {
 
         if (id != other.id) return false
         if (username != other.username) return false
-        if (password != other.password) return false
+        if (!password.contentEquals(other.password)) return false
         if (url != other.url) return false
         if (notes != other.notes) return false
         if (tags != other.tags) return false
@@ -290,7 +302,7 @@ class EntryInfo : NodeInfo {
         var result = super.hashCode()
         result = 31 * result + id.hashCode()
         result = 31 * result + username.hashCode()
-        result = 31 * result + password.hashCode()
+        result = 31 * result + password.contentHashCode()
         result = 31 * result + url.hashCode()
         result = 31 * result + notes.hashCode()
         result = 31 * result + tags.hashCode()

@@ -171,7 +171,7 @@ class PasswordLauncherViewModel(application: Application): CredentialLauncherVie
             else {
                 val passwordCredential = PasswordCredential(
                     id = passwordInfo.username,
-                    password = passwordInfo.password
+                    password = String(passwordInfo.password)
                 )
                 // Build the response
                 val result = Intent()

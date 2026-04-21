@@ -34,16 +34,18 @@ import com.kunzisoft.keepass.password.PasswordGenerator
 import com.kunzisoft.keepass.settings.PreferencesUtil
 
 
-open class PasswordTextFieldView @JvmOverloads constructor(context: Context,
-                                                           attrs: AttributeSet? = null,
-                                                           defStyle: Int = 0)
-    : TextFieldView(context, attrs, defStyle) {
+open class PasswordTextFieldView @JvmOverloads constructor(
+    context: Context,
+    attrs: AttributeSet? = null,
+    defStyle: Int = 0
+) : TextFieldView(context, attrs, defStyle) {
 
     private var mPasswordEntropyCalculator: PasswordEntropy = PasswordEntropy {
         valueView.text?.toString()?.let { firstPassword ->
             getEntropyStrength(firstPassword)
         }
     }
+    private var isColorizedPasswordActivated = PreferencesUtil.colorizePassword(context)
 
     protected var indicatorDrawable = ContextCompat.getDrawable(
         context,
@@ -80,23 +82,16 @@ open class PasswordTextFieldView @JvmOverloads constructor(context: Context,
         label = resources.getString(labelId)
     }
 
-    override var value: String
-        get() {
-            return valueView.text.toString()
-        }
+    override var value: CharArray
+        get() = super.value
         set(value) {
-            val spannableString =
-                if (PreferencesUtil.colorizePassword(context))
-                    PasswordGenerator.getColorizedPassword(value)
-                else
-                    SpannableString(value)
-            valueView.text = spannableString
+            if (isColorizedPasswordActivated) {
+                valueView.text = PasswordGenerator.getColorizedPassword(value)
+            } else {
+                valueView.setText(value, 0, value.size)
+            }
             changeProtectedValueParameters()
         }
-
-    override fun setValue(@StringRes valueId: Int) {
-        value = resources.getString(valueId)
-    }
 
     protected open fun getEntropyStrength(passwordText: String) {
         mPasswordEntropyCalculator.getEntropyStrength(passwordText) { entropyStrength ->

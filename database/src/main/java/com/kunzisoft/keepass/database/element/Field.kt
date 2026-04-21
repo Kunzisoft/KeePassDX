@@ -53,6 +53,10 @@ class Field : Parcelable {
         dest.writeParcelable(protectedValue, flags)
     }
 
+    fun clear() {
+        protectedValue.clear()
+    }
+
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other !is Field) return false

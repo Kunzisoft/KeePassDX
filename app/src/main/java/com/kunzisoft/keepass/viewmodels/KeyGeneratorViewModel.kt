@@ -22,11 +22,12 @@ package com.kunzisoft.keepass.viewmodels
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.kunzisoft.keepass.utils.clear
 
 class KeyGeneratorViewModel: ViewModel() {
 
-    val keyGenerated : LiveData<String> get() = _keyGenerated
-    private val _keyGenerated = MutableLiveData<String>()
+    val keyGenerated : LiveData<CharArray?> get() = _keyGenerated
+    private val _keyGenerated = MutableLiveData<CharArray?>()
 
     val keyGeneratedValidated : LiveData<Void?> get() = _keyGeneratedValidated
     private val _keyGeneratedValidated = SingleLiveEvent<Void?>()
@@ -43,8 +44,8 @@ class KeyGeneratorViewModel: ViewModel() {
     val requirePassphraseGeneration : LiveData<Void?> get() = _requirePassphraseGeneration
     private val _requirePassphraseGeneration = SingleLiveEvent<Void?>()
 
-    fun setKeyGenerated(value: String) {
-        _keyGenerated.value = value
+    fun setKeyGenerated(value: CharArray?) {
+        _keyGenerated.value = value?.copyOf()
     }
 
     fun validateKeyGenerated() {
@@ -69,5 +70,10 @@ class KeyGeneratorViewModel: ViewModel() {
 
     fun requirePassphraseGeneration() {
         _requirePassphraseGeneration.call()
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        _keyGenerated.value?.clear()
     }
 }

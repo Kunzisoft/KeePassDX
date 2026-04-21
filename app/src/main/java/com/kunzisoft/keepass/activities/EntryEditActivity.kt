@@ -74,6 +74,7 @@ import com.kunzisoft.keepass.database.element.DateInstant
 import com.kunzisoft.keepass.database.element.Entry
 import com.kunzisoft.keepass.database.element.Field
 import com.kunzisoft.keepass.database.element.node.NodeId
+import com.kunzisoft.keepass.database.element.security.ProtectedString
 import com.kunzisoft.keepass.database.element.template.Template
 import com.kunzisoft.keepass.education.EntryEditActivityEducation
 import com.kunzisoft.keepass.model.AttachmentState
@@ -93,6 +94,7 @@ import com.kunzisoft.keepass.tasks.AttachmentFileBinderManager
 import com.kunzisoft.keepass.timeout.TimeoutHelper
 import com.kunzisoft.keepass.utils.TimeUtil.datePickerToDataDate
 import com.kunzisoft.keepass.utils.UriUtil.getDocumentFile
+import com.kunzisoft.keepass.utils.clear
 import com.kunzisoft.keepass.utils.getParcelableExtraCompat
 import com.kunzisoft.keepass.view.ToolbarAction
 import com.kunzisoft.keepass.view.WindowInsetPosition
@@ -153,8 +155,12 @@ class EntryEditActivity : DatabaseLockActivity(),
     private var mKeyGeneratorResultLauncher = KeyGeneratorActivity.registerForGeneratedKeyResult(this) { keyGenerated ->
         keyGenerated?.let {
             mPasswordField?.let {
-                it.protectedValue.stringValue = keyGenerated
+                it.protectedValue = ProtectedString(
+                    it.protectedValue.isProtected,
+                    keyGenerated
+                )
                 mEntryEditViewModel.selectPassword(it)
+                keyGenerated.clear()
             }
         }
         mPasswordField = null

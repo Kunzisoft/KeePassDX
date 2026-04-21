@@ -31,7 +31,8 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled = false
+            minifyEnabled = true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
 
@@ -116,7 +117,16 @@ android {
     }
 }
 
-def room_version = "2.5.1"
+def room_version = "2.6.1"
+
+repositories {
+    maven {
+        url "https://jitpack.io"
+        content {
+            includeGroup "com.github.Kunzisoft"
+        }
+    }
+}
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
@@ -144,16 +154,16 @@ dependencies {
     // Autofill
     implementation "androidx.autofill:autofill:1.1.0"
     // Time
-    implementation 'joda-time:joda-time:2.13.0'
+    implementation "joda-time:joda-time:$joda_time_version"
     // Color
     implementation 'com.github.Kunzisoft:AndroidClearChroma:2.6'
     // Education
     implementation 'com.getkeepsafe.taptargetview:taptargetview:1.13.3'
     // Apache Commons
-    implementation 'commons-io:commons-io:2.8.0'
-    implementation 'commons-codec:commons-codec:1.15'
+    implementation "commons-io:commons-io:$commons_io_version"
+    implementation "commons-codec:commons-codec:$commons_codec_version"
     // Password generator
-    implementation 'me.gosimple:nbvcxz:1.5.0'
+    implementation 'me.gosimple:nbvcxz:1.5.1'
 
     // Credentials Provider
     implementation "androidx.credentials:credentials:1.2.2"

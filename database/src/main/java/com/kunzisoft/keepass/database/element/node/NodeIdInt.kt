@@ -22,16 +22,14 @@ package com.kunzisoft.keepass.database.element.node
 import android.os.Parcel
 import android.os.Parcelable
 
-import java.util.Random
+import java.security.SecureRandom
 
 class NodeIdInt : NodeId<Int> {
 
     override var id: Int = -1
         private set
 
-    constructor(source: NodeIdInt) : this(source.id)
-
-    constructor(groupId: Int = Random().nextInt()) : super() {
+    constructor(groupId: Int = SecureRandom().nextInt()) : super() {
         this.id = groupId
     }
 

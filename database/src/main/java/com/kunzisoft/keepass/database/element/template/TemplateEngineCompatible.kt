@@ -26,6 +26,7 @@ import com.kunzisoft.keepass.database.element.entry.EntryKDBX
 import com.kunzisoft.keepass.database.element.security.ProtectedString
 import com.kunzisoft.keepass.utils.UUIDUtils.asHexString
 import com.kunzisoft.keepass.utils.UUIDUtils.asUUID
+import com.kunzisoft.keepass.utils.contains
 
 class TemplateEngineCompatible(database: DatabaseKDBX): TemplateEngine(database) {
 
@@ -110,15 +111,15 @@ class TemplateEngineCompatible(database: DatabaseKDBX): TemplateEngine(database)
         entryCopy.removeField(TEMPLATE_LABEL_VERSION)
         // Dynamic attributes
         templateEntry.doForEachDecodedCustomField { field ->
-
             val label = field.name
-            val value = field.protectedValue.stringValue
+            val value = field.protectedValue.charArrayValue
+            val stringValue = field.protectedValue.toString()
             when {
                 label.startsWith(TEMPLATE_ATTRIBUTE_POSITION_PREFIX, true) -> {
                     try {
                         val attributeName = label.substring(TEMPLATE_ATTRIBUTE_POSITION_PREFIX.length)
                         val attribute = getOrRetrieveAttributeFromName(attributes, attributeName)
-                        attribute.position = value.toInt()
+                        attribute.position = stringValue.toInt()
                         entryCopy.removeField(field.name)
                     } catch (e: Exception) {
                         Log.e(TAG, "Unable to retrieve template position", e)
@@ -129,8 +130,8 @@ class TemplateEngineCompatible(database: DatabaseKDBX): TemplateEngine(database)
                         val attributeName = label.substring(TEMPLATE_ATTRIBUTE_TITLE_PREFIX.length)
                         val attribute = getOrRetrieveAttributeFromName(attributes, attributeName)
                         // Here title is an alias if different (often the same)
-                        if (attributeName != value) {
-                            attribute.attribute.alias = value
+                        if (!attributeName.toCharArray().contentEquals(value)) {
+                            attribute.attribute.alias = stringValue
                         }
                         entryCopy.removeField(field.name)
                     } catch (e: Exception) {
@@ -190,7 +191,7 @@ class TemplateEngineCompatible(database: DatabaseKDBX): TemplateEngine(database)
                         val attributeName = label.substring(TEMPLATE_ATTRIBUTE_OPTIONS_PREFIX.length)
                         val attribute = getOrRetrieveAttributeFromName(attributes, attributeName)
                         if (value.isNotEmpty()) {
-                            attribute.attribute.options.put(TEMPLATE_ATTRIBUTE_OPTIONS_TEMP, value)
+                            attribute.attribute.options.put(TEMPLATE_ATTRIBUTE_OPTIONS_TEMP, stringValue)
                         }
                         entryCopy.removeField(field.name)
                     } catch (e: Exception) {
@@ -200,7 +201,7 @@ class TemplateEngineCompatible(database: DatabaseKDBX): TemplateEngine(database)
                 else -> {
                     // To retrieve default values
                     if (value.isNotEmpty()) {
-                        defaultValues[label] = value
+                        defaultValues[label] = stringValue
                     }
                     entryCopy.removeField(label)
                 }
@@ -298,14 +299,16 @@ class TemplateEngineCompatible(database: DatabaseKDBX): TemplateEngine(database)
         var index = 0
         templateEntry.doForEachDecodedCustomField { field ->
             val label = removeTemplateDecorator(encodeTemplateAttribute(field.name))
-            val value = field.protectedValue
+            val protectedValue = field.protectedValue
+            val value = protectedValue.charArrayValue
+            val isProtected = protectedValue.isProtected
             when {
                 label.equals(TEMPLATE_LABEL_VERSION, true) -> {
                     // Keep template version as is
                 }
                 else -> {
                     entryCopy.removeField(field.name)
-                    val options = TemplateAttributeOption.getOptionsFromString(value.stringValue)
+                    val options = TemplateAttributeOption.getOptionsFrom(value)
 
                     // Add Position attribute
                     entryCopy.putField(
@@ -320,30 +323,30 @@ class TemplateEngineCompatible(database: DatabaseKDBX): TemplateEngine(database)
                     )
                     // Add Type attribute
                     var typeString: String = when {
-                        value.stringValue.contains(TemplateAttributeType.TEXT.typeString, true) -> {
+                        value.contains(TemplateAttributeType.TEXT.typeString, true) -> {
                             when (options.getNumberLines()) {
                                 1 -> TEMPLATE_ATTRIBUTE_TYPE_INLINE
                                 else -> TEMPLATE_ATTRIBUTE_TYPE_MULTILINE
                             }
                         }
-                        value.stringValue.contains(TemplateAttributeType.LIST.typeString, true) -> {
+                        value.contains(TemplateAttributeType.LIST.typeString, true) -> {
                             TEMPLATE_ATTRIBUTE_TYPE_LISTBOX
 
                         }
-                        value.stringValue.contains(TemplateAttributeType.DATETIME.typeString, true) -> {
+                        value.contains(TemplateAttributeType.DATETIME.typeString, true) -> {
                             when (options.getDateFormat()) {
                                 DateInstant.Type.DATE -> TEMPLATE_ATTRIBUTE_TYPE_DATE
                                 DateInstant.Type.TIME -> TEMPLATE_ATTRIBUTE_TYPE_TIME
                                 else -> TEMPLATE_ATTRIBUTE_TYPE_DATE_TIME
                             }
                         }
-                        value.stringValue.contains(TemplateAttributeType.DIVIDER.typeString, true) -> {
+                        value.contains(TemplateAttributeType.DIVIDER.typeString, true) -> {
                             TEMPLATE_ATTRIBUTE_TYPE_DIVIDER
                         }
                         else -> TEMPLATE_ATTRIBUTE_TYPE_INLINE
                     }
                     // Add protected string if needed
-                    if (value.isProtected) {
+                    if (isProtected) {
                         typeString = "$TEMPLATE_ATTRIBUTE_TYPE_PROTECTED $typeString"
                     }
                     entryCopy.putField(
@@ -379,7 +382,7 @@ class TemplateEngineCompatible(database: DatabaseKDBX): TemplateEngine(database)
                     if (options.default.isNotEmpty()) {
                         entryCopy.putField(
                             label,
-                            ProtectedString(value.isProtected, options.default)
+                            ProtectedString(isProtected, options.default)
                         )
                     }
                     index++

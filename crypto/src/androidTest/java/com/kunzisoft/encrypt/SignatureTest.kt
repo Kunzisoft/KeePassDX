@@ -30,18 +30,18 @@ class SignatureTest {
 
     @Test
     fun testEC256KeyConversionKeypassXCIn() {
-        val privateKey = Signature.createPrivateKey(es256PemInKeePassXC)
+        val privateKey = Signature.createPrivateKey(es256PemInKeePassXC.toCharArray())
         val pemOut = Signature.convertPrivateKeyToPem(privateKey)
 
-        assert(pemOut == es256PemInKeePassDX)
+        assert(pemOut.contentEquals(es256PemInKeePassDX.toCharArray()))
     }
 
     @Test
     fun testEC256KeyConversionKeePassDXIn() {
-        val privateKey = Signature.createPrivateKey(es256PemInKeePassDX)
+        val privateKey = Signature.createPrivateKey(es256PemInKeePassDX.toCharArray())
         val pemOut = Signature.convertPrivateKeyToPem(privateKey)
 
-        assert(pemOut == es256PemInKeePassDX)
+        assert(pemOut.contentEquals(es256PemInKeePassDX.toCharArray()))
     }
 
     @Test
@@ -50,8 +50,9 @@ class SignatureTest {
         val privateKeyPem = Signature.convertPrivateKeyToPem(keyPair.private)
 
         assert(keyTypeId == Signature.ES256_ALGORITHM)
-        assert(privateKeyPem.contains("-----BEGIN PRIVATE KEY-----", true))
-        assert( privateKeyPem.contains("-----BEGIN EC PRIVATE KEY-----", true).not())
+        val privateKeyPemString = String(privateKeyPem)
+        assert(privateKeyPemString.contains("-----BEGIN PRIVATE KEY-----", true))
+        assert(privateKeyPemString.contains("-----BEGIN EC PRIVATE KEY-----", true).not())
 
     }
 
@@ -92,10 +93,10 @@ class SignatureTest {
 
     @Test
     fun testRS256KeyConversion() {
-        val privateKey = Signature.createPrivateKey(rsa256PemIn)
+        val privateKey = Signature.createPrivateKey(rsa256PemIn.toCharArray())
         val pemOut = Signature.convertPrivateKeyToPem(privateKey)
 
-        assert(pemOut == rsa256PemIn)
+        assert(pemOut.contentEquals(rsa256PemIn.toCharArray()))
     }
 
     @Test
@@ -104,7 +105,7 @@ class SignatureTest {
         val privateKeyPem = Signature.convertPrivateKeyToPem(keyPair.private)
 
         assert(keyTypeId == Signature.RS256_ALGORITHM)
-        assert(privateKeyPem.contains("-----BEGIN PRIVATE KEY-----", true))
+        assert(String(privateKeyPem).contains("-----BEGIN PRIVATE KEY-----", true))
     }
     // endregion
 
@@ -131,18 +132,18 @@ class SignatureTest {
 
     @Test
     fun testEd25519KeyConverionShortIn() {
-        val privateKey = Signature.createPrivateKey(ed25519PemInShort)
+        val privateKey = Signature.createPrivateKey(ed25519PemInShort.toCharArray())
         val pemOut = Signature.convertPrivateKeyToPem(privateKey)
 
-        assert(pemOut == ed25519PemInShort)
+        assert(pemOut.contentEquals(ed25519PemInShort.toCharArray()))
     }
 
     @Test
     fun testEd25519KeyConverionLongIn() {
-        val privateKey = Signature.createPrivateKey(ed25519PemInLong)
+        val privateKey = Signature.createPrivateKey(ed25519PemInLong.toCharArray())
         val pemOut = Signature.convertPrivateKeyToPem(privateKey)
 
-        assert(pemOut == ed25519PemOut)
+        assert(pemOut.contentEquals(ed25519PemOut.toCharArray()))
     }
 
     @Test
@@ -151,8 +152,9 @@ class SignatureTest {
         val privateKeyPem = Signature.convertPrivateKeyToPem(keyPair.private)
 
         assert(keyTypeId == Signature.ED_DSA_ALGORITHM)
-        assert(privateKeyPem.contains("-----BEGIN PRIVATE KEY-----", true))
-        assert(privateKeyPem.contains("-----BEGIN EC PRIVATE KEY-----", true).not())
+        val privateKeyPemString = String(privateKeyPem)
+        assert(privateKeyPemString.contains("-----BEGIN PRIVATE KEY-----", true))
+        assert(privateKeyPemString.contains("-----BEGIN EC PRIVATE KEY-----", true).not())
     }
 
     // endregion

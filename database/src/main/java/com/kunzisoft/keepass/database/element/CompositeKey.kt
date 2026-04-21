@@ -1,6 +1,7 @@
 package com.kunzisoft.keepass.database.element
 
 import com.kunzisoft.keepass.hardware.HardwareKey
+import com.kunzisoft.keepass.utils.clear
 
 data class CompositeKey(
     var passwordData: ByteArray? = null,
@@ -35,8 +36,8 @@ data class CompositeKey(
     }
 
     fun clear() {
-        passwordData?.fill(0)
-        keyFileData?.fill(0)
+        passwordData?.clear()
+        keyFileData?.clear()
         passwordData = null
         keyFileData = null
         hardwareKey = null

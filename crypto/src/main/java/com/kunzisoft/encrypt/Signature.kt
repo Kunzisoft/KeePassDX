@@ -35,8 +35,8 @@ import org.bouncycastle.openssl.jcajce.JcaPEMKeyConverter
 import org.bouncycastle.openssl.jcajce.JcaPKCS8Generator
 import org.bouncycastle.util.BigIntegers
 import org.bouncycastle.util.io.pem.PemWriter
-import java.io.StringReader
-import java.io.StringWriter
+import java.io.CharArrayReader
+import java.io.CharArrayWriter
 import java.security.KeyPair
 import java.security.KeyPairGenerator
 import java.security.MessageDigest
@@ -73,7 +73,7 @@ object Signature {
         Security.addProvider(BouncyCastleProvider())
     }
 
-    fun sign(privateKeyPem: String, message: ByteArray): ByteArray {
+    fun sign(privateKeyPem: CharArray, message: ByteArray): ByteArray {
         val privateKey = createPrivateKey(privateKeyPem)
         val algorithmSignature = when (val algorithmKey = privateKey.algorithm) {
             "EC", "ECDSA", OID_EC -> "SHA256withECDSA"
@@ -90,26 +90,47 @@ object Signature {
         return sig.sign()
     }
 
-    fun createPrivateKey(privateKeyPem: String): PrivateKey {
-        var privateKeyString = privateKeyPem
-        if (privateKeyPem.startsWith(BEGIN_PRIVATE_KEY_LINE_BREAK).not()) {
-            privateKeyString = privateKeyString.removePrefix(BEGIN_PRIVATE_KEY)
-            privateKeyString = "$BEGIN_PRIVATE_KEY_LINE_BREAK$privateKeyString"
+    /**
+     * Creates a PrivateKey from a PEM CharArray.
+     * Note: This function zeroes out the input [privateKeyPem] array after processing.
+     */
+    fun createPrivateKey(privateKeyPem: CharArray): PrivateKey {
+        var workingBuffer = privateKeyPem
+        var tempBuffer: CharArray? = null
+        try {
+            // Check if normalization is needed without creating strings first
+            val needsPrefixFix = !workingBuffer.startsWith(BEGIN_PRIVATE_KEY_LINE_BREAK) &&
+                    workingBuffer.startsWith(BEGIN_PRIVATE_KEY)
+            val needsSuffixFix = !workingBuffer.endsWith(END_PRIVATE_KEY_LINE_BREAK) &&
+                    workingBuffer.endsWith(END_PRIVATE_KEY)
+
+            if (needsPrefixFix || needsSuffixFix) {
+                val pemString = String(workingBuffer)
+                var normalized = pemString
+                if (needsPrefixFix) {
+                    normalized = BEGIN_PRIVATE_KEY_LINE_BREAK + normalized.removePrefix(BEGIN_PRIVATE_KEY)
+                }
+                if (needsSuffixFix) {
+                    normalized = normalized.removeSuffix(END_PRIVATE_KEY) + END_PRIVATE_KEY_LINE_BREAK
+                }
+                tempBuffer = normalized.toCharArray()
+                workingBuffer = tempBuffer
+            }
+
+            return PEMParser(CharArrayReader(workingBuffer)).use { pemParser ->
+                val obj = pemParser.readObject()
+                val privateKeyInfo = obj as? PrivateKeyInfo
+                    ?: throw SecurityException("Invalid private key format or encrypted key not supported (type: ${obj?.javaClass?.name})")
+                JcaPEMKeyConverter().getPrivateKey(privateKeyInfo)
+            }
+        } finally {
+            // Securely wipe the input and any temporary buffers from memory
+            privateKeyPem.fill('0')
+            tempBuffer?.fill('0')
         }
-        if (privateKeyPem.endsWith(END_PRIVATE_KEY_LINE_BREAK).not()) {
-            privateKeyString = privateKeyString.removeSuffix(END_PRIVATE_KEY)
-            privateKeyString += END_PRIVATE_KEY_LINE_BREAK
-        }
-        val targetReader = StringReader(privateKeyString)
-        val pemParser = PEMParser(targetReader)
-        val privateKeyInfo = pemParser.readObject() as? PrivateKeyInfo?
-        val privateKey = JcaPEMKeyConverter().getPrivateKey(privateKeyInfo)
-        pemParser.close()
-        targetReader.close()
-        return privateKey
     }
 
-    fun convertPrivateKeyToPem(privateKey: PrivateKey): String {
+    fun convertPrivateKeyToPem(privateKey: PrivateKey): CharArray {
         var useV1Info = false
         if (privateKey is BCEdDSAPrivateKey) {
             // to generate PEM, which are compatible to KeepassXC
@@ -123,14 +144,46 @@ object Signature {
         val noOutputEncryption = null
         val pemObjectGenerator = JcaPKCS8Generator(privateKey, noOutputEncryption)
 
-        val writer = StringWriter()
+        val writer = CharArrayWriter()
         val pemWriter = PemWriter(writer)
         pemWriter.writeObject(pemObjectGenerator)
         pemWriter.close()
 
-        val privateKeyInPem = writer.toString().trim()
+        val privateKeyInPem = writer.toCharArray()
         writer.close()
-        return privateKeyInPem
+
+        var start = 0
+        while (start < privateKeyInPem.size && privateKeyInPem[start] <= ' ') {
+            start++
+        }
+        var end = privateKeyInPem.size
+        while (end > start && privateKeyInPem[end - 1] <= ' ') {
+            end--
+        }
+
+        return if (start == 0 && end == privateKeyInPem.size) {
+            privateKeyInPem
+        } else {
+            val trimmed = privateKeyInPem.copyOfRange(start, end)
+            privateKeyInPem.fill('0') // Wipe the untrimmed original
+            trimmed
+        }
+    }
+
+    private fun CharArray.startsWith(prefix: String): Boolean {
+        if (size < prefix.length) return false
+        for (i in prefix.indices) {
+            if (this[i] != prefix[i]) return false
+        }
+        return true
+    }
+
+    private fun CharArray.endsWith(suffix: String): Boolean {
+        if (size < suffix.length) return false
+        for (i in suffix.indices) {
+            if (this[size - suffix.length + i] != suffix[i]) return false
+        }
+        return true
     }
 
     fun generateKeyPair(keyTypeIdList: List<Long>): Pair<KeyPair, Long>? {

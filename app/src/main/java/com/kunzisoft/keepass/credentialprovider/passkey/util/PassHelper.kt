@@ -124,7 +124,12 @@ object PassHelper {
             throw CreateCredentialUnknownException("Authentication code empty")
         if (valueToCheck.matches(REGEX_AUTHENTICATION_CODE).not())
             throw CreateCredentialUnknownException("Authentication not valid")
-        if (MessageDigest.isEqual(authenticationCode, generateAuthenticationCode(valueToCheck)))
+
+        // Convert the hex string from intent back to bytes and compare
+        val intentCode = valueToCheck.chunked(2)
+            .map { it.toInt(16).toByte() }
+            .toByteArray()
+        if (!MessageDigest.isEqual(authenticationCode, intentCode))
             throw CreateCredentialUnknownException("Authentication code incorrect")
     }
 
@@ -157,13 +162,14 @@ object PassHelper {
     }
 
     /**
-     * Generate the HMAC key if cannot be found in the KeyStore
+     * Generate the HMAC key if it is not present in the Keystore
      */
     private fun generateKey(): SecretKey? {
         val keyGenerator = KeyGenerator.getInstance(
             KeyProperties.KEY_ALGORITHM_HMAC_SHA256, KEYSTORE_TYPE
         )
-        val keySizeInBits = 128
+        // Recommended for HMAC-256
+        val keySizeInBits = 256
         keyGenerator.init(
             KeyGenParameterSpec.Builder(NAME_OF_HMAC_KEY, KeyProperties.PURPOSE_SIGN)
                 .setKeySize(keySizeInBits)

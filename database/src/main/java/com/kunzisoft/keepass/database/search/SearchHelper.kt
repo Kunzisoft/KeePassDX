@@ -33,6 +33,7 @@ import com.kunzisoft.keepass.model.PasskeyEntryFields.isRelyingParty
 import com.kunzisoft.keepass.otp.OtpEntryFields.isOTP
 import com.kunzisoft.keepass.otp.OtpEntryFields.isOTPURIField
 import com.kunzisoft.keepass.utils.UUIDUtils.asHexString
+import com.kunzisoft.keepass.utils.contains
 import com.kunzisoft.keepass.utils.inTheSameDomainAs
 
 class SearchHelper {
@@ -164,7 +165,7 @@ class SearchHelper {
             if (searchParameters.searchInAppIds) {
                 if (entry.getExtraFields().any { field ->
                         field.isAppId()
-                        && checkSearchQuery(field.protectedValue.stringValue, searchParameters)
+                        && checkSearchQuery(field.protectedValue.charArrayValue, searchParameters)
                     })
                     return true
             }
@@ -175,7 +176,7 @@ class SearchHelper {
                     return true
                 } else if (entry.getExtraFields().any { field ->
                         field.isWebDomain()
-                        && checkSearchQuery(field.protectedValue.stringValue, searchParameters) { stringToCheck, word ->
+                        && checkSearchQuery(field.protectedValue.toString(), searchParameters) { stringToCheck, word ->
                             specialWebDomainComparison(searchParameters, stringToCheck, word)
                         }
                     }) {
@@ -187,7 +188,7 @@ class SearchHelper {
                 val credentialIds = searchParameters.credentialIds
                 val containsRelyingParty = entry.getExtraFields().any { field ->
                         field.isRelyingParty()
-                                && field.protectedValue.stringValue
+                                && field.protectedValue.toString()
                                     .equals(relyingParty, ignoreCase = true)
                     }
                 // Check empty to allow any credential if not defined
@@ -197,7 +198,7 @@ class SearchHelper {
                     else entry.getExtraFields().any { field ->
                         field.isCredentialId() && credentialIds.any { credentialId ->
                            checkSearchQuery(
-                               stringToCheck =  field.protectedValue.stringValue,
+                               stringToCheck =  field.protectedValue.charArrayValue,
                                searchParameters = SearchParameters().apply {
                                    searchQuery = credentialId
                                    caseSensitive = false
@@ -220,7 +221,7 @@ class SearchHelper {
             if (searchParameters.searchInOTP) {
                 if (entry.getExtraFields().any { field ->
                     field.isOTPURIField()
-                    && checkSearchQuery(field.protectedValue.stringValue, searchParameters)
+                    && checkSearchQuery(field.protectedValue.charArrayValue, searchParameters)
                 })
                     return true
             }
@@ -231,7 +232,7 @@ class SearchHelper {
                     && !field.isWebDomain()
                     && !field.isOTP()
                     && !field.isPasskey()
-                    && checkSearchQuery(field.protectedValue.toString(), searchParameters)
+                    && checkSearchQuery(field.protectedValue.charArrayValue, searchParameters)
                 })
                     return true
             }
@@ -258,7 +259,18 @@ class SearchHelper {
         private fun checkSearchQuery(
             stringToCheck: String,
             searchParameters: SearchParameters,
-            specialComparison: ((check: String, word: String) -> Boolean?)? = null): Boolean {
+            specialComparison: ((check: String, word: String) -> Boolean?)? = null
+        ): Boolean {
+            return checkSearchQuery(stringToCheck.toCharArray(), searchParameters) { check, word ->
+                specialComparison?.invoke(String(check), word)
+            }
+        }
+
+        private fun checkSearchQuery(
+            stringToCheck: CharArray,
+            searchParameters: SearchParameters,
+            specialComparison: ((check: CharArray, word: String) -> Boolean?)? = null
+        ): Boolean {
             /*
             // TODO Search settings
             var removeAccents = true <- Too much time, to study
@@ -273,7 +285,7 @@ class SearchHelper {
                     searchParameters.searchQuery
                         .toRegex(setOf(RegexOption.DOT_MATCHES_ALL, RegexOption.IGNORE_CASE))
                 }
-                regex.matches(stringToCheck)
+                regex.matches(String(stringToCheck))
             } else {
                 specialComparison?.invoke(stringToCheck, searchParameters.searchQuery)
                     ?: run {
@@ -281,10 +293,7 @@ class SearchHelper {
                         var searchFound = true
                         searchParameters.searchQuery.split(" ").forEach { word ->
                             searchFound = searchFound
-                                    && stringToCheck.contains(
-                                word,
-                                !searchParameters.caseSensitive
-                                    )
+                                    && stringToCheck.contains(word, !searchParameters.caseSensitive)
                         }
                         searchFound
                     }

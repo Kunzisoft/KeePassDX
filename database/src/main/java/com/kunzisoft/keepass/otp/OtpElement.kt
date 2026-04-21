@@ -20,12 +20,14 @@
 package com.kunzisoft.keepass.otp
 
 import com.kunzisoft.keepass.model.OtpModel
-import com.kunzisoft.keepass.utils.StringUtil.removeSpaceChars
+import com.kunzisoft.keepass.utils.CharArrayUtil.removeSpaceChars
+import com.kunzisoft.keepass.utils.CharArrayUtil.toUtf8ByteArray
 import org.apache.commons.codec.binary.Base32
 import org.apache.commons.codec.binary.Base64
 import org.apache.commons.codec.binary.Hex
-import java.nio.charset.Charset
-import java.util.*
+import java.nio.CharBuffer
+import java.util.Arrays
+import java.util.Locale
 import java.util.regex.Pattern
 
 data class OtpElement(var otpModel: OtpModel = OtpModel()) {
@@ -128,52 +130,56 @@ data class OtpElement(var otpModel: OtpModel = OtpModel()) {
         }
 
     @Throws(IllegalArgumentException::class)
-    fun setUTF8Secret(secret: String) {
+    fun setUTF8Secret(secret: CharArray) {
         if (secret.isNotEmpty())
-            otpModel.secret = secret.toByteArray(Charset.forName("UTF-8"))
+            otpModel.secret = secret.toUtf8ByteArray()
         else
             throw IllegalArgumentException()
     }
 
     @Throws(IllegalArgumentException::class)
-    fun setHexSecret(secret: String) {
+    fun setHexSecret(secret: CharArray) {
         if (secret.isNotEmpty())
-            otpModel.secret = Hex.decodeHex(secret.toCharArray())
+            otpModel.secret = Hex.decodeHex(secret)
         else
             throw IllegalArgumentException()
     }
 
-    fun getBase32Secret(): String {
+    fun getBase32Secret(): CharArray {
         return otpModel.secret?.let {
-            Base32().encodeAsString(it)
-        } ?: ""
+            Base32().encode(it).map { b -> b.toInt().toChar() }.toCharArray()
+        } ?: charArrayOf()
     }
 
     @Throws(IllegalArgumentException::class)
-    fun setBase32Secret(secret: String) {
+    fun setBase32Secret(secret: CharArray) {
         if (isValidBase32(secret)) {
-            otpModel.secret = Base32().decode(replaceBase32Chars(secret))
+            val secretChars = replaceBase32Chars(secret)
+            val secretBytes = secretChars.toUtf8ByteArray()
+            otpModel.secret = Base32().decode(secretBytes)
+            Arrays.fill(secretBytes, 0.toByte())
         } else
             throw IllegalArgumentException()
     }
 
     @Throws(IllegalArgumentException::class)
-    fun setBase64Secret(secret: String) {
-        if (isValidBase64(secret))
-            otpModel.secret = Base64().decode(secret)
-        else
+    fun setBase64Secret(secret: CharArray) {
+        if (isValidBase64(secret)) {
+            val secretBytes = secret.toUtf8ByteArray()
+            otpModel.secret = Base64.decodeBase64(secretBytes)
+            Arrays.fill(secretBytes, 0.toByte())
+        } else
             throw IllegalArgumentException()
     }
 
-    val token: String
+    val token: CharArray
         get() {
-            if (secret == null)
-                return ""
+            val secretBytes = secret ?: return charArrayOf()
             return when (type) {
-                OtpType.HOTP -> TokenCalculator.HOTP(secret, counter, digits, algorithm)
+                OtpType.HOTP -> TokenCalculator.getHotpToken(secretBytes, counter, digits, algorithm)
                 OtpType.TOTP -> when (tokenType) {
-                    OtpTokenType.STEAM -> TokenCalculator.TOTP_Steam(secret, period, digits, algorithm)
-                    else -> TokenCalculator.TOTP_RFC6238(secret, period, digits, algorithm)
+                    OtpTokenType.STEAM -> TokenCalculator.getTotpSteamToken(secretBytes, period, digits, algorithm)
+                    else -> TokenCalculator.getTotpRfc6238Token(secretBytes, period, digits, algorithm)
                 }
             }
         }
@@ -181,9 +187,20 @@ data class OtpElement(var otpModel: OtpModel = OtpModel()) {
     /**
      * Token with space each 3 digits
      */
-    val tokenString: String
+    val tokenFormatted: CharArray
         get() {
-            return token.replace("...".toRegex(), "$0 ")
+            val t = token
+            if (t.isEmpty()) return charArrayOf()
+            val spaceCount = (t.size - 1) / 3
+            val result = CharArray(t.size + spaceCount)
+            var j = 0
+            for (i in t.indices) {
+                if (i > 0 && i % 3 == 0) {
+                    result[j++] = ' '
+                }
+                result[j++] = t[i]
+            }
+            return result
         }
 
     val secondsRemaining: Int
@@ -191,6 +208,10 @@ data class OtpElement(var otpModel: OtpModel = OtpModel()) {
 
     fun shouldRefreshToken(): Boolean {
         return secondsRemaining == otpModel.period
+    }
+
+    fun clear() {
+        otpModel.clear()
     }
 
     override fun equals(other: Any?): Boolean {
@@ -230,22 +251,27 @@ data class OtpElement(var otpModel: OtpModel = OtpModel()) {
             return digits in MIN_OTP_DIGITS..MAX_OTP_DIGITS
         }
 
-        fun isValidBase32(secret: String): Boolean {
+        fun isValidBase32(secret: CharArray): Boolean {
             val secretChars = replaceBase32Chars(secret)
-            return secret.isNotEmpty()
-                    && (Pattern.matches("^(?:[A-Z2-7]{8})*(?:[A-Z2-7]{2}=*|[A-Z2-7]{4}=*|[A-Z2-7]{5}=*|[A-Z2-7]{7}=*)?$", secretChars))
+            val charBuffer = CharBuffer.wrap(secretChars)
+            return secretChars.isNotEmpty()
+                    && (Pattern.matches("^(?:[A-Z2-7]{8})*(?:[A-Z2-7]{2}=*|[A-Z2-7]{4}=*|[A-Z2-7]{5}=*|[A-Z2-7]{7}=*)?$", charBuffer))
         }
 
-        fun isValidBase64(secret: String): Boolean {
+        fun isValidBase64(secret: CharArray): Boolean {
             // TODO replace base 64 chars
+            val charBuffer = CharBuffer.wrap(secret)
             return secret.isNotEmpty()
-                    && (Pattern.matches("^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}=*|[A-Za-z0-9+/]{3}=*)?$", secret))
+                    && (Pattern.matches("^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}=*|[A-Za-z0-9+/]{3}=*)?$", charBuffer))
         }
 
-        fun replaceBase32Chars(parameter: String): String {
+        private fun replaceBase32Chars(parameter: CharArray): CharArray {
             // Add padding '=' at end if not Base32 length
-            var parameterNewSize = parameter.uppercase(Locale.ENGLISH).removeSpaceChars()
-            while (parameterNewSize.length % 8 != 0) {
+            var parameterNewSize = parameter
+                .map { it.uppercaseChar() }
+                .toCharArray()
+                .removeSpaceChars()
+            while (parameterNewSize.size % 8 != 0) {
                 parameterNewSize += '='
             }
             return parameterNewSize

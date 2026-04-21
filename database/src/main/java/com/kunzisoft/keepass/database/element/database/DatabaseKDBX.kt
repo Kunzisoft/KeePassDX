@@ -53,7 +53,9 @@ import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX.Companion.FILE_VER
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX.Companion.FILE_VERSION_40
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX.Companion.FILE_VERSION_41
 import com.kunzisoft.keepass.hardware.HardwareKey
+import com.kunzisoft.keepass.utils.CharArrayUtil.contentEquals
 import com.kunzisoft.keepass.utils.UnsignedInt
+import com.kunzisoft.keepass.utils.clear
 import com.kunzisoft.keepass.utils.longTo8Bytes
 import java.io.IOException
 import java.nio.charset.Charset
@@ -145,7 +147,7 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
     var color = ""
 
     /**
-     * Determine if RecycleBin is enable or not
+     * Determine if RecycleBin is enabled or not
      * @return true if RecycleBin enable, false if is not available or not enable
      */
     var isRecycleBinEnabled = true
@@ -264,7 +266,7 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
         )
 
         // Build check key
-        this.checkKey = masterCredential.getCheckKey()
+        this.checkKey = masterCredential.getCheckKey(passwordEncoding)
     }
 
     @Throws(DatabaseOutputException::class)
@@ -476,7 +478,7 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
         customIconId: UUID? = null,
         result: (IconImageCustom, BinaryData?) -> Unit,
     ) {
-        // Create a binary file for a brand new custom icon
+        // Create a binary file for a brand-new custom icon
         addCustomIcon(customIconId, "", null, false, result)
     }
 
@@ -583,31 +585,31 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
 
     fun getEntryByTitle(title: String, recursionLevel: Int): EntryKDBX? {
         return findEntry { entry ->
-            entry.decodeTitleKey(recursionLevel).equals(title, true)
+            entry.decodeTitleKey(recursionLevel).contentEquals(title.toCharArray(), true)
         }
     }
 
     fun getEntryByUsername(username: String, recursionLevel: Int): EntryKDBX? {
         return findEntry { entry ->
-            entry.decodeUsernameKey(recursionLevel).equals(username, true)
+            entry.decodeUsernameKey(recursionLevel).contentEquals(username.toCharArray(), true)
         }
     }
 
     fun getEntryByURL(url: String, recursionLevel: Int): EntryKDBX? {
         return findEntry { entry ->
-            entry.decodeUrlKey(recursionLevel).equals(url, true)
+            entry.decodeUrlKey(recursionLevel).contentEquals(url.toCharArray(), true)
         }
     }
 
-    fun getEntryByPassword(password: String, recursionLevel: Int): EntryKDBX? {
+    fun getEntryByPassword(password: CharArray, recursionLevel: Int): EntryKDBX? {
         return findEntry { entry ->
-            entry.decodePasswordKey(recursionLevel).equals(password, true)
+            entry.decodePasswordKey(recursionLevel).contentEquals(password, true)
         }
     }
 
     fun getEntryByNotes(notes: String, recursionLevel: Int): EntryKDBX? {
         return findEntry { entry ->
-            entry.decodeNotesKey(recursionLevel).equals(notes, true)
+            entry.decodeNotesKey(recursionLevel).contentEquals(notes.toCharArray(), true)
         }
     }
 
@@ -620,7 +622,7 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
     /**
      * Retrieve the value of a field reference
      */
-    fun getFieldReferenceValue(entry: EntryKDBX, textReference: String, recursionLevel: Int): String {
+    fun getFieldReferenceValue(entry: EntryKDBX, textReference: CharArray, recursionLevel: Int): CharArray {
         return mFieldReferenceEngine.compile(entry, textReference, recursionLevel)
     }
 
@@ -651,7 +653,7 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
                 throw IOException("No SHA-512 implementation")
             } finally {
                 Arrays.fill(cmpKey, 0.toByte())
-                transformedMasterKey.fill(0)
+                transformedMasterKey.clear()
             }
         }
     }
@@ -782,9 +784,9 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
     }
 
     /**
-     * Define if a Node must be delete or recycle when remove action is called
+     * Define if a Node must be deleted or recycle when remove action is called
      * @param node Node to remove
-     * @return true if node can be recycle, false elsewhere
+     * @return true if node can be recycled, false elsewhere
      */
     fun canRecycle(node: NodeVersioned<*, GroupKDBX, EntryKDBX>): Boolean {
         if (!isRecycleBinEnabled)
@@ -883,7 +885,7 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
         }
     }
 
-    override fun isValidCredential(password: String?, containsKeyFile: Boolean): Boolean {
+    override fun isValidCredential(password: CharArray?, containsKeyFile: Boolean): Boolean {
         if (password == null)
             return true
         return super.isValidCredential(password, containsKeyFile)
@@ -900,7 +902,7 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
 
     override fun clearSensitiveData() {
         super.clearSensitiveData()
-        hmacKey?.fill(0)
+        hmacKey?.clear()
         mCompositeKey.clear()
     }
 

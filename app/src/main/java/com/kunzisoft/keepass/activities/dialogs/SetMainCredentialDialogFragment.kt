@@ -29,7 +29,7 @@ import android.text.SpannableStringBuilder
 import android.text.TextWatcher
 import android.view.View
 import android.widget.CompoundButton
-import android.widget.TextView
+import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
 import com.google.android.material.textfield.TextInputLayout
 import com.kunzisoft.keepass.R
@@ -41,6 +41,7 @@ import com.kunzisoft.keepass.hardware.HardwareKey
 import com.kunzisoft.keepass.password.PasswordEntropy
 import com.kunzisoft.keepass.utils.UriUtil.getDocumentFile
 import com.kunzisoft.keepass.utils.UriUtil.openUrl
+import com.kunzisoft.keepass.utils.clear
 import com.kunzisoft.keepass.view.HardwareKeySelectionView
 import com.kunzisoft.keepass.view.KeyFileSelectionView
 import com.kunzisoft.keepass.view.PasswordEditView
@@ -53,7 +54,7 @@ import java.security.SecureRandom
 
 class SetMainCredentialDialogFragment : DatabaseDialogFragment() {
 
-    private var mMasterPassword: String? = null
+    private var mMasterPassword: CharArray? = null
     private var mKeyFileUri: Uri? = null
     private var mHardwareKey: HardwareKey? = null
 
@@ -62,7 +63,7 @@ class SetMainCredentialDialogFragment : DatabaseDialogFragment() {
     private lateinit var passwordCheckBox: CompoundButton
     private lateinit var passwordEditView: PasswordEditView
     private lateinit var passwordRepeatTextInputLayout: TextInputLayout
-    private lateinit var passwordRepeatView: TextView
+    private lateinit var passwordRepeatView: EditText
 
     private lateinit var keyFileCheckBox: CompoundButton
     private lateinit var keyFileGenerateButton: View
@@ -101,7 +102,7 @@ class SetMainCredentialDialogFragment : DatabaseDialogFragment() {
         super.onAttach(activity)
         try {
             mListener = activity as AssignMainCredentialDialogListener
-        } catch (e: ClassCastException) {
+        } catch (_: ClassCastException) {
             throw ClassCastException(activity.toString()
                     + " must implement " + AssignMainCredentialDialogListener::class.java.name)
         }
@@ -199,7 +200,7 @@ class SetMainCredentialDialogFragment : DatabaseDialogFragment() {
                 val positiveButton = (dialog1 as AlertDialog).getButton(DialogInterface.BUTTON_POSITIVE)
                 positiveButton.setOnClickListener {
 
-                    mMasterPassword = ""
+                    mMasterPassword = null
                     mKeyFileUri = null
                     mHardwareKey = null
 
@@ -249,7 +250,7 @@ class SetMainCredentialDialogFragment : DatabaseDialogFragment() {
                     getString(R.string.error_disallow_no_credentials)
             }
         } else if (!error
-            && mMasterPassword.isNullOrEmpty()
+            && (mMasterPassword == null || mMasterPassword!!.isEmpty())
             && !keyFileCheckBox.isChecked
             && !hardwareKeyCheckBox.isChecked
         ) {
@@ -275,15 +276,17 @@ class SetMainCredentialDialogFragment : DatabaseDialogFragment() {
         var error = false
         passwordRepeatTextInputLayout.error = null
         if (passwordCheckBox.isChecked) {
-            mMasterPassword = passwordEditView.passwordString
-            val confPassword = passwordRepeatView.text.toString()
+            mMasterPassword = passwordEditView.passwordCharArray
+            val confPassword = CharArray(passwordRepeatView.length())
+            passwordRepeatView.text.getChars(0, passwordRepeatView.length(), confPassword, 0)
 
             // Verify that passwords match
-            if (mMasterPassword != confPassword) {
+            if (mMasterPassword == null || !mMasterPassword!!.contentEquals(confPassword)) {
                 error = true
                 // Passwords do not match
                 passwordRepeatTextInputLayout.error = getString(R.string.error_pass_match)
             }
+            confPassword.clear()
         }
         return error
     }

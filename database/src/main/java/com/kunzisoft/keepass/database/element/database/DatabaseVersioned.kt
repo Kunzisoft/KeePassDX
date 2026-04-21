@@ -31,7 +31,9 @@ import com.kunzisoft.keepass.database.element.icon.IconsManager
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.node.Type
 import com.kunzisoft.keepass.database.exception.DuplicateUuidDatabaseException
+import com.kunzisoft.keepass.utils.clear
 import java.io.UnsupportedEncodingException
+import java.nio.CharBuffer
 import java.nio.charset.Charset
 import java.util.UUID
 
@@ -90,7 +92,7 @@ abstract class DatabaseVersioned<
         return getGroupIndexes().filter { it != rootGroup }
     }
 
-    open fun isValidCredential(password: String?, containsKeyFile: Boolean): Boolean {
+    open fun isValidCredential(password: CharArray?, containsKeyFile: Boolean): Boolean {
         if (password == null && !containsKeyFile)
             return false
 
@@ -101,24 +103,30 @@ abstract class DatabaseVersioned<
 
         val bKey: ByteArray
         try {
-            bKey = password.toByteArray(encoding)
+            val charBuffer = CharBuffer.wrap(password)
+            val byteBuffer = encoding.encode(charBuffer)
+            bKey = ByteArray(byteBuffer.remaining())
+            byteBuffer.get(bKey)
         } catch (_: UnsupportedEncodingException) {
             return false
         }
 
-        val reEncoded: String
+        val reEncoded: CharArray
         try {
-            reEncoded = String(bKey, encoding)
+            reEncoded = String(bKey, encoding).toCharArray()
         } catch (_: UnsupportedEncodingException) {
             return false
         }
-        return password == reEncoded
+        val res = password.contentEquals(reEncoded)
+        bKey.clear()
+        reEncoded.clear()
+        return res
     }
 
     fun copyMasterKeyFrom(databaseVersioned: DatabaseVersioned<GroupId, EntryId, Group, Entry>) {
-        this.masterKey = databaseVersioned.masterKey
-        this.transformSeed = databaseVersioned.transformSeed
-        this.checkKey = databaseVersioned.checkKey
+        this.masterKey = databaseVersioned.masterKey.copyOf()
+        this.transformSeed = databaseVersioned.transformSeed?.copyOf()
+        this.checkKey = databaseVersioned.checkKey.copyOf()
     }
 
     /*
@@ -276,10 +284,10 @@ abstract class DatabaseVersioned<
     abstract fun isInRecycleBin(group: Group): Boolean
 
     open fun clearSensitiveData() {
-        masterKey.fill(0)
-        finalKey?.fill(0)
-        checkKey.fill(0)
-        transformSeed?.fill(0)
+        masterKey.clear()
+        finalKey?.clear()
+        checkKey.clear()
+        transformSeed?.clear()
     }
 
     fun clearIconsCache() {

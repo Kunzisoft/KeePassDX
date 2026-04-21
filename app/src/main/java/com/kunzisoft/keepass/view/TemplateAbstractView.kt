@@ -32,6 +32,7 @@ import com.kunzisoft.keepass.otp.OtpElement
 import com.kunzisoft.keepass.otp.OtpEntryFields
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.utils.KeyboardUtil.hideKeyboard
+import com.kunzisoft.keepass.utils.clear
 import com.kunzisoft.keepass.utils.readParcelableCompat
 import com.kunzisoft.keepass.utils.readSetCompat
 import com.kunzisoft.keepass.utils.writeSetCompat
@@ -40,10 +41,11 @@ import com.kunzisoft.keepass.utils.writeSetCompat
 abstract class TemplateAbstractView<
         TEntryFieldView: GenericTextFieldView,
         TEntrySelectFieldView: GenericTextFieldView,
-        TDateTimeView: GenericDateTimeFieldView> @JvmOverloads constructor(context: Context,
-                                                                           attrs: AttributeSet? = null,
-                                                                           defStyle: Int = 0)
-    : FrameLayout(context, attrs, defStyle) {
+        TDateTimeView: GenericDateTimeFieldView> @JvmOverloads constructor(
+    context: Context,
+    attrs: AttributeSet? = null,
+    defStyle: Int = 0
+) : FrameLayout(context, attrs, defStyle) {
 
     private var mTemplate: Template? = null
     protected var mEntryInfo: EntryInfo? = null
@@ -142,12 +144,12 @@ abstract class TemplateAbstractView<
                 TemplateField.LABEL_TITLE,
                 TemplateAttributeType.TEXT).apply {
                     default = template.title
-            }
+                }
             val titleView = buildViewForTemplateField(
                 titleAttribute,
                 Field(
                     titleAttribute.label,
-                    ProtectedString(titleAttribute.protected, "")
+                    ProtectedString(titleAttribute.protected)
                 ),
                 FIELD_TITLE_TAG
             )
@@ -168,8 +170,10 @@ abstract class TemplateAbstractView<
                             templateAttribute,
                             Field(
                                 templateAttribute.label,
-                                ProtectedString(templateAttribute.protected,
-                                    templateAttribute.default)
+                                ProtectedString(
+                                    templateAttribute.protected,
+                                    templateAttribute.default
+                                )
                             ),
                             fieldTag
                         )
@@ -291,11 +295,29 @@ abstract class TemplateAbstractView<
         buildTemplateAndPopulateInfo()
     }
 
+    private fun populateEntryFieldView(
+        fieldTag: String,
+        templateAttribute: TemplateAttribute,
+        entryInfoValue: String,
+        showEmptyFields: Boolean
+    ) {
+        val infoValue = entryInfoValue.toCharArray()
+        populateEntryFieldView(
+            fieldTag,
+            templateAttribute,
+            infoValue,
+            showEmptyFields
+        )
+        infoValue.clear()
+    }
+
     @Suppress("UNCHECKED_CAST")
-    private fun populateEntryFieldView(fieldTag: String,
-                                       templateAttribute: TemplateAttribute,
-                                       entryInfoValue: String,
-                                       showEmptyFields: Boolean) {
+    private fun populateEntryFieldView(
+        fieldTag: String,
+        templateAttribute: TemplateAttribute,
+        entryInfoValue: CharArray,
+        showEmptyFields: Boolean
+    ) {
         try {
             var fieldView: TEntryFieldView? = findViewWithTag(fieldTag)
             if (!showEmptyFields && entryInfoValue.isEmpty()) {
@@ -304,7 +326,8 @@ abstract class TemplateAbstractView<
                 // Add new not referenced view if standard field not in template
                 fieldView = buildViewForNotReferencedField(
                     Field(templateAttribute.label,
-                        ProtectedString(templateAttribute.protected, "")),
+                        ProtectedString(templateAttribute.protected)
+                    ),
                     templateAttribute
                 ) as? TEntryFieldView?
                 fieldView?.let {
@@ -329,19 +352,23 @@ abstract class TemplateAbstractView<
     }
 
     @Suppress("UNCHECKED_CAST")
-    private fun populateDateTimeView(fieldTag: String,
-                                     templateAttribute: TemplateAttribute,
-                                     expires: Boolean,
-                                     expiryTime: DateInstant,
-                                     showEmptyFields: Boolean) {
+    private fun populateDateTimeView(
+        fieldTag: String,
+        templateAttribute: TemplateAttribute,
+        expires: Boolean,
+        expiryTime: DateInstant,
+        showEmptyFields: Boolean
+    ) {
         try {
             var fieldView: TDateTimeView? = findViewWithTag(fieldTag)
             if (!showEmptyFields && !expires) {
                 fieldView?.isFieldVisible = false
             } else if (fieldView == null && expires) {
                 fieldView = buildViewForNotReferencedField(
-                        Field(templateAttribute.label,
-                                ProtectedString(templateAttribute.protected, "")),
+                        Field(
+                            templateAttribute.label,
+                            ProtectedString(templateAttribute.protected)
+                        ),
                         templateAttribute
                 ) as? TDateTimeView?
                 fieldView?.let {
@@ -397,13 +424,13 @@ abstract class TemplateAbstractView<
                     emptyCustomFields.remove(viewField)
                     viewField.view.let { customView ->
                             if (customView is GenericTextFieldView) {
-                                customView.value = customField.protectedValue.stringValue
+                                customView.value = customField.protectedValue.charArrayValue
                                 customView.applyFontVisibility(mFontInVisibility)
                             } else if (customView is GenericDateTimeFieldView) {
                                 try {
                                     customView.activation = true
                                     customView.dateTime = DateInstant(customField
-                                        .protectedValue.stringValue)
+                                        .protectedValue.toString())
                                 } catch (e: Exception) {
                                     customView.activation = false
                                     customView.dateTime = DateInstant.NEVER_EXPIRES
@@ -421,15 +448,17 @@ abstract class TemplateAbstractView<
         return emptyList()
     }
 
-    protected open fun populateEntryInfoWithViews(templateFieldNotEmpty: Boolean,
-                                                  retrieveDefaultValues: Boolean) {
+    protected open fun populateEntryInfoWithViews(
+        templateFieldNotEmpty: Boolean,
+        retrieveDefaultValues: Boolean
+    ) {
         if (mEntryInfo == null)
             mEntryInfo = EntryInfo()
 
         try {
             val titleView: TEntryFieldView? = findViewWithTag(FIELD_TITLE_TAG)
             titleView?.value?.let {
-                mEntryInfo?.title = it
+                mEntryInfo?.title = String(it)
             }
         } catch (e: Exception) {
             Log.e(TAG, "Unable to populate title view", e)
@@ -438,7 +467,7 @@ abstract class TemplateAbstractView<
         try {
             val userNameView: TEntryFieldView? = findViewWithTag(FIELD_USERNAME_TAG)
             userNameView?.value?.let {
-                mEntryInfo?.username = it
+                mEntryInfo?.username = String(it)
             }
         } catch (e: Exception) {
             Log.e(TAG, "Unable to populate username view", e)
@@ -456,7 +485,7 @@ abstract class TemplateAbstractView<
         try {
             val urlView: TEntryFieldView? = findViewWithTag(FIELD_URL_TAG)
             urlView?.value?.let {
-                mEntryInfo?.url = it
+                mEntryInfo?.url = String(it)
             }
         } catch (e: Exception) {
             Log.e(TAG, "Unable to populate url view", e)
@@ -477,7 +506,7 @@ abstract class TemplateAbstractView<
         try {
             val notesView: TEntryFieldView? = findViewWithTag(FIELD_NOTES_TAG)
             notesView?.value?.let {
-                mEntryInfo?.notes = it
+                mEntryInfo?.notes = String(it)
             }
         } catch (e: Exception) {
             Log.e(TAG, "Unable to populate notes view", e)
@@ -487,8 +516,10 @@ abstract class TemplateAbstractView<
     }
 
     fun getEntryInfo(): EntryInfo {
-        populateEntryInfoWithViews(templateFieldNotEmpty = true,
-                                   retrieveDefaultValues = true)
+        populateEntryInfoWithViews(
+            templateFieldNotEmpty = true,
+            retrieveDefaultValues = true
+        )
         return mEntryInfo ?: EntryInfo()
     }
 
@@ -553,22 +584,29 @@ abstract class TemplateAbstractView<
         )
     }
 
-    private fun getCustomField(fieldName: String,
-                               templateFieldNotEmpty: Boolean,
-                               retrieveDefaultValues: Boolean): Field? {
+    private fun getCustomField(
+        fieldName: String,
+        templateFieldNotEmpty: Boolean,
+        retrieveDefaultValues: Boolean
+    ): Field? {
         getViewFieldByName(fieldName)?.let { fieldId ->
             val editView: View = fieldId.view
             if (editView is GenericFieldView) {
                 // Do not return field with a default value
                 val defaultViewValue =
-                    if (retrieveDefaultValues || editView.value != editView.default) {
+                    if (retrieveDefaultValues
+                        || !editView.value.contentEquals(editView.default)
+                        ) {
                         editView.value
-                    } else ""
+                    } else CharArray(0)
                 if (!templateFieldNotEmpty
                     || (editView.tag == FIELD_CUSTOM_TAG && defaultViewValue.isNotEmpty())) {
                     return Field(
                         fieldName,
-                        ProtectedString(fieldId.field.protectedValue.isProtected, defaultViewValue)
+                        ProtectedString(
+                            fieldId.field.protectedValue.isProtected,
+                            defaultViewValue
+                        )
                     )
                 }
             }
@@ -577,7 +615,7 @@ abstract class TemplateAbstractView<
     }
 
     /**
-     * Update a custom field or create a new one if doesn't exists, the old value is lost
+     * Update a custom field or create a new one if it doesn't exist; the old value will be lost
      */
     private fun putCustomField(customField: Field, focus: Boolean): Boolean {
         if (mTemplate == TemplateEngine.CREATION
@@ -625,14 +663,18 @@ abstract class TemplateAbstractView<
                                    focus: Boolean): Boolean {
         if (!isStandardFieldName(newField.name)) {
             getViewFieldByName(oldField.name)?.view?.let { viewToReplace ->
-                val oldValue = getCustomField(oldField.name).protectedValue.toString()
+                val oldValue = getCustomField(oldField.name).protectedValue.charArrayValue
 
                 val parentGroup = viewToReplace.parent as? ViewGroup?
                 parentGroup?.removeView(viewToReplace)
 
                 val newCustomFieldWithValue = if (keepOldValue)
-                    Field(newField.name,
-                        ProtectedString(newField.protectedValue.isProtected, oldValue)
+                    Field(
+                        newField.name,
+                        ProtectedString(
+                            newField.protectedValue.isProtected,
+                            oldValue
+                        )
                     )
                 else
                     newField

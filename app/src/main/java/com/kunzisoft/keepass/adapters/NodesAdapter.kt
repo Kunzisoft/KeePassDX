@@ -565,7 +565,9 @@ class NodesAdapter (
             null -> {}
         }
         holder?.otpToken?.apply {
-            text = otpElement?.tokenString
+            otpElement?.tokenFormatted?.let { token ->
+                setText(token, 0, token.size)
+            }
             setTextSize(mTextSizeUnit, mOtpTokenTextDefaultDimension, mPrefSizeMultiplier)
             textDirection = View.TEXT_DIRECTION_LTR
             

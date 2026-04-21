@@ -36,11 +36,13 @@ object PrivilegedAllowLists {
     private const val FILE_NAME_PRIVILEGED_APPS_COMMUNITY = "passkeys_privileged_apps_community.json"
     private const val FILE_NAME_PRIVILEGED_APPS_GOOGLE = "passkeys_privileged_apps_google.json"
 
+    private val PRIVILEGED_LIST_ENCODING = Charsets.UTF_8
+
     private fun retrieveContentFromStream(
         inputStream: InputStream,
     ): String {
         return inputStream.use { fileInputStream ->
-            fileInputStream.bufferedReader(Charsets.UTF_8).readText()
+            fileInputStream.bufferedReader(PRIVILEGED_LIST_ENCODING).readText()
         }
     }
 
@@ -190,7 +192,7 @@ object PrivilegedAllowLists {
                 fileOutputStream.write(
                     jsonToSave
                         .toString(4) // toString(4) for pretty print
-                        .toByteArray(Charsets.UTF_8)
+                        .toByteArray(PRIVILEGED_LIST_ENCODING)
                 )
             }
             true

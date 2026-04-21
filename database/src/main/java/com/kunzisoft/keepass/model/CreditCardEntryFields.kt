@@ -32,7 +32,7 @@ object CreditCardEntryFields {
     /**
      * Parse fields of an entry to retrieve a Passkey
      */
-    fun parseFields(getField: (id: String) -> String?): CreditCard? {
+    fun parseFields(getField: (id: String) -> CharArray?): CreditCard? {
         val cardHolderField = getField(LABEL_HOLDER)
         val cardNumberField = getField(LABEL_NUMBER)
         val cardCVVField = getField(LABEL_CVV)
@@ -40,7 +40,7 @@ object CreditCardEntryFields {
             || cardNumberField == null)
             return null
         return CreditCard(
-            cardholder = cardHolderField,
+            cardholder = String(cardHolderField),
             number = cardNumberField,
             cvv = cardCVVField
         )
