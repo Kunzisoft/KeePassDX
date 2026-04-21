@@ -33,7 +33,7 @@ object AppOriginEntryField {
     /**
      * Parse the fields of an entry to retrieve an AppOrigin
      */
-    fun parseFields(getField: (id: String) -> String?): AppOrigin {
+    fun parseFields(getField: (id: String) -> CharArray?): AppOrigin {
         val appOrigin = AppOrigin(verified = true)
         // Get Application identifiers
         generateSequence(0) { it + 1 }
@@ -42,7 +42,7 @@ object AppOriginEntryField {
                 val appSignature = getField(APPLICATION_SIGNATURE_FIELD_NAME + suffixFieldNamePosition(position))
                 // Pair them up, if appId is null, we stop
                 if (appId != null) {
-                    appId to (appSignature ?: "")
+                    appId to (appSignature ?: charArrayOf())
                 } else {
                     // Stop
                     null
@@ -50,7 +50,9 @@ object AppOriginEntryField {
             }.takeWhile { it != null }
             .forEach { pair ->
                 appOrigin.addAndroidOrigin(
-                    AndroidOrigin(pair!!.first, pair.second)
+                    AndroidOrigin(
+                        packageName = String(pair!!.first),
+                        fingerprint = if (pair.second.isNotEmpty()) String(pair.second) else null)
                 )
             }
         // Get Domains
@@ -59,7 +61,7 @@ object AppOriginEntryField {
             val domainKey = WEB_DOMAIN_FIELD_NAME + suffixFieldNamePosition(domainFieldPosition)
             val domainValue = getField(domainKey)
             if (domainValue != null) {
-                appOrigin.addWebOrigin(WebOrigin(origin = domainValue))
+                appOrigin.addWebOrigin(WebOrigin(origin = String(domainValue)))
                 domainFieldPosition++
             } else {
                 break // No more domain found

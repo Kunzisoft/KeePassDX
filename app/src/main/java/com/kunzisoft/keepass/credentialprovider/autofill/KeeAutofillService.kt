@@ -438,8 +438,8 @@ class KeeAutofillService : AutofillService() {
                         creditCard = parseResult.creditCardNumber?.textValue?.toString()?.let { cardNumber ->
                             CreditCard(
                                 cardholder = parseResult.creditCardHolder?.textValue?.toString(),
-                                number = cardNumber,
-                                cvv = parseResult.cardVerificationValue?.textValue?.toString()
+                                number = cardNumber.toCharArray(),
+                                cvv = parseResult.cardVerificationValue?.textValue?.toString()?.toCharArray()
                             )
                         }
                     )

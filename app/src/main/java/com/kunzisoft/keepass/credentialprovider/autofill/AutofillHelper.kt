@@ -223,13 +223,13 @@ object AutofillHelper {
         struct.creditCardNumberId?.let { ccnId ->
             datasetBuilder.addValueToDatasetBuilder(
                 ccnId,
-                AutofillValue.forText(creditCard?.number)
+                AutofillValue.forText(creditCard?.number?.let { String(it) })
             )
         }
         struct.cardVerificationValueId?.let { ccnId ->
             datasetBuilder.addValueToDatasetBuilder(
                 ccnId,
-                AutofillValue.forText(creditCard?.cvv)
+                AutofillValue.forText(creditCard?.cvv?.let { String(it) })
             )
         }
 

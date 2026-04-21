@@ -32,7 +32,7 @@ class AuthenticatorAssertionResponse(
     private val backupEligibility: Boolean,
     private val backupState: Boolean,
     private var userHandle: String,
-    privateKey: String,
+    privateKey: CharArray,
     private val clientDataResponse: ClientDataResponse,
 ) : AuthenticatorResponse {
 
