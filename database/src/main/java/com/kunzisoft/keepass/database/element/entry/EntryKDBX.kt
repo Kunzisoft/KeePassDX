@@ -378,6 +378,10 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
         } else null
     }
 
+    fun removeAllHistory() {
+        history.clear()
+    }
+
     override fun touch(modified: Boolean, touchParents: Boolean) {
         super.touch(modified, touchParents)
         usageCount.plusOne()

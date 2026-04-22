@@ -184,6 +184,8 @@ class DatabaseViewModel(application: Application): AndroidViewModel(application)
         entryToUpdate: Entry,
         save: Boolean
     ) {
+        // Remove the history to keep memory
+        entryToUpdate.removeAllHistory()
         mDatabaseTaskProvider.startDatabaseUpdateEntry(
             oldEntry,
             entryToUpdate,

@@ -26,7 +26,7 @@ import com.kunzisoft.keepass.database.element.Entry
 import com.kunzisoft.keepass.database.element.node.Node
 import com.kunzisoft.keepass.hardware.HardwareKey
 
-class UpdateEntryRunnable constructor(
+class UpdateEntryRunnable(
     context: Context,
     database: ContextualDatabase,
     private val mOldEntry: Entry,
@@ -40,6 +40,11 @@ class UpdateEntryRunnable constructor(
         if (mOldEntry.nodeId == mNewEntry.nodeId) {
             // WARNING : Re attribute parent removed in entry edit activity to save memory
             mNewEntry.addParentFrom(mOldEntry)
+
+            // Re-attribute history removed to save memory in Bundle creation
+            mOldEntry.getHistory().forEach {
+                mNewEntry.addEntryToHistory(it)
+            }
 
             // Build oldest attachments
             val oldEntryAttachments = mOldEntry.getAttachments(database.attachmentPool, true)
