@@ -116,4 +116,16 @@
         style="@style/KeepassDXStyle.Keyboard"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/screenshot_mode_banner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="4dp"
+        android:text="@string/screenshot_mode_banner_text"
+        android:textColor="@color/white"
+        android:textSize="14sp"
+        android:textAlignment="center"
+        android:visibility="visible"
+        android:layout_gravity="center" />
 </LinearLayout>

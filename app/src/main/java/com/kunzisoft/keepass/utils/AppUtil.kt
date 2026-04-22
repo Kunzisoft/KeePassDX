@@ -6,6 +6,8 @@ import android.content.pm.PackageManager
 import android.content.pm.ResolveInfo
 import android.os.Build
 import android.util.Log
+import android.view.Window
+import android.view.WindowManager.LayoutParams.FLAG_SECURE
 import androidx.annotation.RequiresApi
 import androidx.core.net.toUri
 import com.kunzisoft.encrypt.Signature.getAllFingerprints
@@ -151,6 +153,21 @@ object AppUtil {
         } catch (e: Exception) {
             Log.e(AppUtil::class.simpleName, "Error processing package: $packageName", e)
             null
+        }
+    }
+
+    /**
+     * Set the screenshot mode for the window
+     * @param window The window to set the screenshot mode for
+     * @param isEnabled True if the screenshot mode is enabled
+     */
+    fun setScreenshotMode(window: Window?, isEnabled: Boolean) {
+        window?.let {
+            if (isEnabled) {
+                it.clearFlags(FLAG_SECURE)
+            } else {
+                it.setFlags(FLAG_SECURE, FLAG_SECURE)
+            }
         }
     }
 }

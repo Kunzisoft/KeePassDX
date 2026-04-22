@@ -5,4 +5,5 @@
  * Accessibilité améliorée #2475
  * Sécurité améliorée #2481 #2482 #2483 #2484 #2485 #2487 #2488 #2489 #2480
  * Correction de la sauvegarde de l'historique #2471
+ * Correction du mode capture d'écran #2407
  * Petites corrections #2476

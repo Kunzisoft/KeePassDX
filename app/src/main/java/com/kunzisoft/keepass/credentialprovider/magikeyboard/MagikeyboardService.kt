@@ -22,6 +22,7 @@ package com.kunzisoft.keepass.credentialprovider.magikeyboard
 
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences.OnSharedPreferenceChangeListener
 import android.inputmethodservice.InputMethodService
 import android.media.AudioManager
 import android.provider.Settings
@@ -30,6 +31,8 @@ import android.view.HapticFeedbackConstants
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.view.WindowManager
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
@@ -44,6 +47,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ServiceLifecycleDispatcher
+import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.kunzisoft.keepass.R
@@ -61,6 +65,7 @@ import com.kunzisoft.keepass.otp.OtpEntryFields.OTP_TOKEN_FIELD
 import com.kunzisoft.keepass.services.ClipboardEntryNotificationService
 import com.kunzisoft.keepass.services.KeyboardEntryNotificationService
 import com.kunzisoft.keepass.settings.PreferencesUtil
+import com.kunzisoft.keepass.utils.AppUtil
 import com.kunzisoft.keepass.utils.AppUtil.isWebBrowserPackage
 import com.kunzisoft.keepass.utils.KeyboardUtil.showKeyboardPicker
 import com.kunzisoft.keepass.utils.KeyboardUtil.switchToPreviousKeyboard
@@ -91,12 +96,19 @@ class MagikeyboardService : InputMethodService(),
     private var keyboardEntry: Keyboard? = null
     private var entryListView: RecyclerView? = null
     private var popupCustomKeys: PopupWindow? = null
+    private var screenshotModeView: View? = null
     private var entriesAdapter: KeyboardEntriesAdapter? = null
     private var fieldsAdapter: KeyboardFieldsAdapter? = null
     private var playSoundDuringCLick: Boolean = false
 
     private var lockReceiver: LockReceiver? = null
     private var mSearchInfo: SearchInfo? = null
+
+    private val onScreenshotModePrefListener = OnSharedPreferenceChangeListener { _, key ->
+        if (key != getString(R.string.enable_screenshot_mode_key))
+            return@OnSharedPreferenceChangeListener
+        setScreenshotMode()
+    }
 
     private val lifecycleDispatcher = ServiceLifecycleDispatcher(this)
 
@@ -169,6 +181,9 @@ class MagikeyboardService : InputMethodService(),
             assignKeyboardView()
         }
 
+        PreferenceManager.getDefaultSharedPreferences(this)
+            .registerOnSharedPreferenceChangeListener(onScreenshotModePrefListener)
+
         registerLockReceiver(lockReceiver, true)
     }
 
@@ -189,6 +204,7 @@ class MagikeyboardService : InputMethodService(),
         appIdIcon = rootKeyboardView.findViewById(R.id.magikeyboard_app_id_icon)
         webDomainIcon = rootKeyboardView.findViewById(R.id.magikeyboard_web_domain_icon)
         keyboardView = rootKeyboardView.findViewById(R.id.magikeyboard_view)
+        screenshotModeView = rootKeyboardView.findViewById(R.id.screenshot_mode_banner)
 
         if (keyboardView != null) {
             keyboard = Keyboard(this, R.xml.keyboard_password)
@@ -253,29 +269,29 @@ class MagikeyboardService : InputMethodService(),
             && searchString.isNullOrEmpty().not()
             ) {
             if (searchInfo.isDomainSearch) {
-                appIdIcon?.visibility = View.GONE
-                webDomainIcon?.visibility = View.VISIBLE
+                appIdIcon?.visibility = GONE
+                webDomainIcon?.visibility = VISIBLE
             } else if (searchInfo.isAppIdSearch) {
-                appIdIcon?.visibility = View.VISIBLE
-                webDomainIcon?.visibility = View.GONE
+                appIdIcon?.visibility = VISIBLE
+                webDomainIcon?.visibility = GONE
             } else {
-                appIdIcon?.visibility = View.GONE
-                webDomainIcon?.visibility = View.GONE
+                appIdIcon?.visibility = GONE
+                webDomainIcon?.visibility = GONE
             }
             packageText?.text = searchString
-            containerPackageText?.visibility = View.VISIBLE
+            containerPackageText?.visibility = VISIBLE
         } else {
-            containerPackageText?.visibility = View.GONE
+            containerPackageText?.visibility = GONE
         }
         dismissCustomKeys()
         if (keyboardView != null) {
             if (entriesAdapter?.isEmpty() != false) {
-                entryListView?.visibility = View.GONE
+                entryListView?.visibility = GONE
                 if (keyboard != null) {
                     keyboardView?.keyboard = keyboard
                 }
             } else {
-                entryListView?.visibility = View.VISIBLE
+                entryListView?.visibility = VISIBLE
                 if (keyboardEntry != null) {
                     keyboardView?.keyboard = keyboardEntry
                 }
@@ -290,18 +306,18 @@ class MagikeyboardService : InputMethodService(),
 
     private fun setDatabaseViews() {
         if (mDatabase == null || mDatabase?.loaded != true) {
-            entryContainer?.visibility = View.GONE
+            entryContainer?.visibility = GONE
         } else {
-            entryContainer?.visibility = View.VISIBLE
+            entryContainer?.visibility = VISIBLE
         }
         databaseText?.text = mDatabase?.name ?: ""
         val databaseColor = mDatabase?.customColor
         if (databaseColor != null) {
             databaseColorView?.drawable?.colorFilter = BlendModeColorFilterCompat
                 .createBlendModeColorFilterCompat(databaseColor, BlendModeCompat.SRC_IN)
-            databaseColorView?.visibility = View.VISIBLE
+            databaseColorView?.visibility = VISIBLE
         } else {
-            databaseColorView?.visibility = View.GONE
+            databaseColorView?.visibility = GONE
         }
     }
 
@@ -311,6 +327,7 @@ class MagikeyboardService : InputMethodService(),
             applicationId = info.packageName
         }
         assignKeyboardView()
+        setScreenshotMode()
     }
 
     override fun onUnbindInput() {
@@ -515,9 +532,18 @@ class MagikeyboardService : InputMethodService(),
         fieldsAdapter?.clear()
     }
 
+    private fun setScreenshotMode() {
+        // Several gingerbread devices have problems with FLAG_SECURE
+        val isEnabled = PreferencesUtil.isScreenshotModeEnabled(this)
+        AppUtil.setScreenshotMode(window?.window, isEnabled)
+        screenshotModeView?.visibility = if (isEnabled) VISIBLE else GONE
+    }
+
     override fun onDestroy() {
         lifecycleDispatcher.onServicePreSuperOnDestroy()
         dismissCustomKeys()
+        PreferenceManager.getDefaultSharedPreferences(this)
+            .unregisterOnSharedPreferenceChangeListener(onScreenshotModePrefListener)
         unregisterLockReceiver(lockReceiver)
         mDatabaseTaskProvider?.unregisterProgressTask()
         super.onDestroy()
