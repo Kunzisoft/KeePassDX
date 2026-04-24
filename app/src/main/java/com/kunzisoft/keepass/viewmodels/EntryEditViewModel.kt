@@ -50,6 +50,13 @@ class EntryEditViewModel: NodeEditViewModel() {
     // Useful to not relaunch a current action
     private var actionLocked: Boolean = false
 
+    private var mInitialEntryInfo: EntryInfo? = null
+
+    /**
+     * Provider to retrieve the current entry info from the view
+     */
+    var entryInfoProvider: (() -> EntryInfo)? = null
+
     val templatesEntry : LiveData<TemplatesEntry?> get() = _templatesEntry
     private val _templatesEntry = MutableLiveData<TemplatesEntry?>()
 
@@ -137,6 +144,9 @@ class EntryEditViewModel: NodeEditViewModel() {
                     },
                     onActionComplete = { templatesEntry ->
                         mEntryId = null
+                        mInitialEntryInfo = templatesEntry?.entryInfo?.let { entryInfo ->
+                            EntryInfo(entryInfo)
+                        }
                         _templatesEntry.value = templatesEntry
                         if (templatesEntry?.overwrittenData == true) {
                             mEntryEditState.value = EntryEditState.ShowOverwriteMessage
@@ -180,6 +190,9 @@ class EntryEditViewModel: NodeEditViewModel() {
                     },
                     onActionComplete = { templatesEntry ->
                         mParentId = null
+                        mInitialEntryInfo = templatesEntry?.entryInfo?.let { entryInfo ->
+                            EntryInfo(entryInfo)
+                        }
                         _templatesEntry.value = templatesEntry
                     }
                 ).execute()
@@ -381,6 +394,12 @@ class EntryEditViewModel: NodeEditViewModel() {
         mEntryEditState.value = EntryEditState.Loading
     }
 
+    fun hasChanges(): Boolean {
+        return entryInfoProvider?.invoke()?.let { currentEntryInfo ->
+            mInitialEntryInfo != currentEntryInfo
+        } ?: false
+    }
+
     data class TemplatesEntry(
         val template: Template?,
         val templates: List<Template>,
@@ -388,7 +407,7 @@ class EntryEditViewModel: NodeEditViewModel() {
         val entryInfo: EntryInfo?,
         val overwrittenData: Boolean = false
     )
-    object EntryUpdate
+    object EntryUpdate // TODO Change
     data class EntrySave(val oldEntry: Entry, val newEntry: Entry, val parent: Group?)
     data class FieldEdition(val oldField: Field?, val newField: Field?)
     data class AttachmentBuild(val attachmentToUploadUri: Uri, val fileName: String)

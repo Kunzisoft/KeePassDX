@@ -7,4 +7,4 @@
  * Filter browser appId in Magikeyboard #2466 #2394 #2400 #2317
  * Fix history save #2471
  * Fix screenshot mode #2407
- * Small fixes #2476
+ * Small fixes #2476 #2369

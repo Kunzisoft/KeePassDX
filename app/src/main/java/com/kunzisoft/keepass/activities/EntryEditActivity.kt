@@ -806,7 +806,8 @@ class EntryEditActivity : DatabaseLockActivity(),
 
     private fun onApprovedBackPressed(approved: () -> Unit) {
         if (mEntryEditViewModel.backPressedAlreadyApproved.not()) {
-            AlertDialog.Builder(this)
+            if (mEntryEditViewModel.hasChanges()) {
+                AlertDialog.Builder(this)
                     .setMessage(R.string.discard_changes)
                     .setNegativeButton(android.R.string.cancel, null)
                     .setPositiveButton(R.string.discard) { _, _ ->
@@ -814,6 +815,9 @@ class EntryEditActivity : DatabaseLockActivity(),
                         mEntryEditViewModel.backPressedAlreadyApproved = true
                         approved.invoke()
                     }.create().show()
+            } else {
+                approved.invoke()
+            }
         } else {
             approved.invoke()
         }

@@ -79,6 +79,19 @@ class CustomData : Parcelable {
         return 0
     }
 
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is CustomData) return false
+
+        if (mCustomDataItems != other.mCustomDataItems) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        return mCustomDataItems.hashCode()
+    }
+
     companion object CREATOR : Parcelable.Creator<CustomData> {
         override fun createFromParcel(parcel: Parcel): CustomData {
             return CustomData(parcel)

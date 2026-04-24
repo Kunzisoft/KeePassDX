@@ -40,9 +40,9 @@ import com.kunzisoft.keepass.otp.OtpEntryFields.isOTP
 import com.kunzisoft.keepass.otp.OtpEntryFields.setOtp
 import com.kunzisoft.keepass.utils.CharArrayUtil.clear
 import com.kunzisoft.keepass.utils.readBooleanCompat
+import com.kunzisoft.keepass.utils.readCharArrayCompat
 import com.kunzisoft.keepass.utils.readListCompat
 import com.kunzisoft.keepass.utils.readParcelableCompat
-import com.kunzisoft.keepass.utils.readCharArrayCompat
 import com.kunzisoft.keepass.utils.writeBooleanCompat
 import com.kunzisoft.keepass.utils.writeCharArrayCompat
 import java.util.Locale
@@ -68,6 +68,25 @@ class EntryInfo : NodeInfo {
     var isTemplate: Boolean = false
 
     constructor() : super()
+
+    constructor(entryToCopy: EntryInfo) : super(entryToCopy) {
+        this.id = entryToCopy.id
+        this.username = entryToCopy.username
+        this.password = entryToCopy.password.copyOf()
+        this.url = entryToCopy.url
+        this.notes = entryToCopy.notes
+        this.tags = Tags(entryToCopy.tags)
+        this.backgroundColor = entryToCopy.backgroundColor
+        this.foregroundColor = entryToCopy.foregroundColor
+        this.customFields = entryToCopy.customFields.map { Field(it) }.toMutableList()
+        this.attachments = entryToCopy.attachments.toMutableList()
+        this.autoType = AutoType(entryToCopy.autoType)
+        this.otpModel = entryToCopy.otpModel?.let { OtpModel(it) }
+        this.creditCard = entryToCopy.creditCard?.let { CreditCard(it) }
+        this.passkey = entryToCopy.passkey?.let { Passkey(it) }
+        this.appOrigin = entryToCopy.appOrigin?.let { AppOrigin(it) }
+        this.isTemplate = entryToCopy.isTemplate
+    }
 
     constructor(parcel: Parcel) : super(parcel) {
         id = parcel.readParcelableCompat<ParcelUuid>()?.uuid ?: id

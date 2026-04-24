@@ -233,7 +233,7 @@ object PassHelper {
 
             // Check if the webDomain is validated by the system
             withContext(Dispatchers.Main) {
-                if (callOrigin != null && providedClientDataHash != null) {
+                if (callOrigin.isNullOrEmpty().not() && providedClientDataHash != null) {
                     // Origin already defined by the system
                     Log.d(javaClass.simpleName, "Origin $callOrigin retrieved from callingAppInfo")
                     onOriginRetrieved(
@@ -281,7 +281,7 @@ object PassHelper {
                 fingerprint = callingAppInfo.signingInfo.getApplicationFingerprints()
             )
             withContext(Dispatchers.Main) {
-                if (callOrigin != null) {
+                if (callOrigin.isNullOrEmpty().not()) {
                     Log.d(javaClass.simpleName, "Origin $callOrigin retrieved from callingAppInfo")
                     onOriginRetrieved(
                         AppOrigin.fromOrigin(callOrigin, androidOrigin, verified = true),

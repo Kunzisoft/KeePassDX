@@ -36,12 +36,20 @@ data class AppOrigin(
     val webOrigins: MutableList<WebOrigin> = mutableListOf(),
 ) : Parcelable {
 
+    constructor(appOrigin: AppOrigin) : this(
+        appOrigin.verified,
+        appOrigin.androidOrigins.toMutableList(),
+        appOrigin.webOrigins.toMutableList()
+    )
+
     fun addAndroidOrigin(androidOrigin: AndroidOrigin) {
-        androidOrigins.add(androidOrigin)
+        if (androidOrigins.contains(androidOrigin).not())
+            this.androidOrigins.add(androidOrigin)
     }
 
     fun addWebOrigin(webOrigin: WebOrigin) {
-        this.webOrigins.add(webOrigin)
+        if (webOrigins.contains(webOrigin).not())
+            this.webOrigins.add(webOrigin)
     }
 
     /**
@@ -103,17 +111,25 @@ data class AppOrigin(
 
         other as AppOrigin
 
-        try {
-            checkAppOrigin(other)
-        } catch (e: Exception) {
-            return false
+        if (containsAndroidOriginSignature().not()
+            && other.containsAndroidOriginSignature().not()) {
+            if (androidOrigins != other.androidOrigins) return false
+            if (webOrigins != other.webOrigins) return false
+        } else {
+            // TODO Change equals by manual call of checkAppOrigin()
+            try {
+                checkAppOrigin(other)
+            } catch (_: Exception) {
+                return false
+            }
         }
 
         return true
     }
 
     override fun hashCode(): Int {
-        var result = androidOrigins.hashCode()
+        var result = verified.hashCode()
+        result = 31 * result + androidOrigins.hashCode()
         result = 31 * result + webOrigins.hashCode()
         return result
     }
@@ -170,7 +186,7 @@ data class AndroidOrigin(
      */
     fun toOriginValue(): String {
         if (fingerprint == null) {
-            throw IllegalArgumentException("Fingerprint $fingerprint cannot be null")
+            throw IllegalArgumentException("Fingerprint cannot be null")
         }
         return "android:apk-key-hash:${fingerprintToUrlSafeBase64(fingerprint)}"
     }
@@ -201,7 +217,9 @@ data class WebOrigin(
         const val WEB_ORIGIN_DEFAULT_SCHEME = "https"
         const val WEB_ORIGIN_SCHEME_SEPARATOR = "://"
 
-        fun fromDomain(domain: String, scheme: String? = null): WebOrigin {
+        fun fromDomain(domain: String?, scheme: String? = null): WebOrigin? {
+            if (domain.isNullOrEmpty())
+                return null
             return if (domain.contains(WEB_ORIGIN_SCHEME_SEPARATOR)) {
                 WebOrigin(domain)
             } else {

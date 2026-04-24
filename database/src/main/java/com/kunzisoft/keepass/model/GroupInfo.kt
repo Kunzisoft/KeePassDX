@@ -24,6 +24,15 @@ class GroupInfo : NodeInfo {
 
     constructor(): super()
 
+    constructor(groupToCopy: GroupInfo): super(groupToCopy) {
+        this.id = groupToCopy.id
+        this.notes = groupToCopy.notes
+        this.searchable = groupToCopy.searchable
+        this.enableAutoType = groupToCopy.enableAutoType
+        this.defaultAutoTypeSequence = groupToCopy.defaultAutoTypeSequence
+        this.tags = Tags(groupToCopy.tags)
+    }
+
     constructor(parcel: Parcel): super(parcel) {
         id = parcel.readParcelableCompat<ParcelUuid>()?.uuid ?: id
         notes = parcel.readString()

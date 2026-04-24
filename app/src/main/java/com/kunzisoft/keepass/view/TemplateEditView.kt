@@ -293,7 +293,7 @@ class TemplateEditView @JvmOverloads constructor(context: Context,
         mEntryInfo?.otpModel = OtpEntryFields.parseFields(getField)?.otpModel
         mEntryInfo?.creditCard = CreditCardEntryFields.parseFields(getField)
         mEntryInfo?.passkey = PasskeyEntryFields.parseFields(getField)
-        mEntryInfo?.appOrigin = AppOriginEntryField.parseFields(getField)
+        mEntryInfo?.appOrigin = AppOriginEntryField.parseFields(getUrlFromView(), getField)
     }
 
     override fun onRestoreEntryInstanceState(state: SavedState) {

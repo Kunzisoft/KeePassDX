@@ -7,4 +7,4 @@
  * Filtre les id de navigateurs dans le Magiclavier #2466 #2394 #2400 #2317
  * Correction de la sauvegarde de l'historique #2471
  * Correction du mode capture d'écran #2407
- * Petites corrections #2476
+ * Petites corrections #2476 #2369

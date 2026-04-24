@@ -375,7 +375,7 @@ class Entry : Node, EntryVersionedInterface<Group> {
 
     fun getAppOrigin(): AppOrigin? {
         entryKDBX?.let {
-            return AppOriginEntryField.parseFields { key ->
+            return AppOriginEntryField.parseFields(url) { key ->
                 it.getFieldValue(key)?.charArrayValue
             }
         }

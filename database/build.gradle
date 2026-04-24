@@ -51,5 +51,5 @@ dependencies {
 
     // Tests
     androidTestImplementation "androidx.test:runner:$android_test_version"
-    testImplementation "androidx.test:runner:$android_test_version"
+    testImplementation "junit:junit:4.13.2"
 }

@@ -96,6 +96,28 @@ class AutoType : Parcelable {
         }
     }
 
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as AutoType
+
+        if (enabled != other.enabled) return false
+        if (obfuscationOptions != other.obfuscationOptions) return false
+        if (defaultSequence != other.defaultSequence) return false
+        if (windowSeqPairs != other.windowSeqPairs) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = enabled.hashCode()
+        result = 31 * result + obfuscationOptions.hashCode()
+        result = 31 * result + defaultSequence.hashCode()
+        result = 31 * result + windowSeqPairs.hashCode()
+        return result
+    }
+
     companion object {
         private val OBF_OPT_NONE = UnsignedInt(0)
 

@@ -12,6 +12,12 @@ data class CreditCard(
     val cvv: CharArray?
 ) : Parcelable {
 
+    constructor(creditCard: CreditCard) : this(
+        creditCard.cardholder,
+        creditCard.number?.copyOf(),
+        creditCard.cvv?.copyOf()
+    )
+
     constructor(parcel: Parcel) : this(
             parcel.readString(),
             parcel.readCharArrayCompat(),

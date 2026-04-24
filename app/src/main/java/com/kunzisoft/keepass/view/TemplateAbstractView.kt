@@ -448,6 +448,18 @@ abstract class TemplateAbstractView<
         return emptyList()
     }
 
+    protected fun getUrlFromView(): String? {
+        return try {
+            val urlView: TEntryFieldView? = findViewWithTag(FIELD_URL_TAG)
+            urlView?.value?.let {
+                String(it)
+            }
+        } catch (e: Exception) {
+            Log.e(TAG, "Unable to populate url view", e)
+            null
+        }
+    }
+
     protected open fun populateEntryInfoWithViews(
         templateFieldNotEmpty: Boolean,
         retrieveDefaultValues: Boolean
@@ -482,13 +494,8 @@ abstract class TemplateAbstractView<
             Log.e(TAG, "Unable to populate password view", e)
         }
 
-        try {
-            val urlView: TEntryFieldView? = findViewWithTag(FIELD_URL_TAG)
-            urlView?.value?.let {
-                mEntryInfo?.url = String(it)
-            }
-        } catch (e: Exception) {
-            Log.e(TAG, "Unable to populate url view", e)
+        getUrlFromView()?.let { url ->
+            mEntryInfo?.url = url
         }
 
         try {

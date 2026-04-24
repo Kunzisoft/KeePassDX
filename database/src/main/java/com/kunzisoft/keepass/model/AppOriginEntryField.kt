@@ -33,7 +33,7 @@ object AppOriginEntryField {
     /**
      * Parse the fields of an entry to retrieve an AppOrigin
      */
-    fun parseFields(getField: (id: String) -> CharArray?): AppOrigin {
+    fun parseFields(url: String?, getField: (id: String) -> CharArray?): AppOrigin {
         val appOrigin = AppOrigin(verified = true)
         // Get Application identifiers
         generateSequence(0) { it + 1 }
@@ -56,11 +56,16 @@ object AppOriginEntryField {
                 )
             }
         // Get Domains
-        var domainFieldPosition = 0
+        // Add URL from standard field
+        if (!url.isNullOrEmpty()) {
+            appOrigin.addWebOrigin(WebOrigin(origin = url))
+        }
+        // Add URLs from custom fields
+        var domainFieldPosition = 1
         while (true) {
             val domainKey = WEB_DOMAIN_FIELD_NAME + suffixFieldNamePosition(domainFieldPosition)
             val domainValue = getField(domainKey)
-            if (domainValue != null) {
+            if (domainValue != null && domainValue.isNotEmpty()) {
                 appOrigin.addWebOrigin(WebOrigin(origin = String(domainValue)))
                 domainFieldPosition++
             } else {
@@ -85,8 +90,8 @@ object AppOriginEntryField {
     fun EntryInfo.setWebDomain(webDomain: String?, scheme: String?, customFieldsAllowed: Boolean) {
         // If unable to save web domain in custom field or URL not populated, save in URL
         webDomain?.let {
-            val webOrigin = WebOrigin.fromDomain(webDomain, scheme).toOriginValue()
-            if (!containsDomainOrApplicationId(webDomain)) {
+            val webOrigin = WebOrigin.fromDomain(webDomain, scheme)?.toOriginValue()
+            if (webOrigin != null && !containsDomainOrApplicationId(webDomain)) {
                 if (!customFieldsAllowed || url.isEmpty()) {
                     url = webOrigin
                 } else {

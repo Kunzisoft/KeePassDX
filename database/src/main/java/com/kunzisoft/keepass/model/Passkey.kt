@@ -34,6 +34,16 @@ data class Passkey(
     val backupState: Boolean?
 ): Parcelable {
 
+    constructor(passkey: Passkey) : this(
+        passkey.username,
+        passkey.privateKeyPem.copyOf(),
+        passkey.credentialId,
+        passkey.userHandle,
+        passkey.relyingParty,
+        passkey.backupEligibility,
+        passkey.backupState
+    )
+
     fun clear() {
         privateKeyPem.clear()
     }

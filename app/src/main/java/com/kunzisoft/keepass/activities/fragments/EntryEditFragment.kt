@@ -86,8 +86,10 @@ class EntryEditFragment: DatabaseFragment() {
         return inflater.inflate(R.layout.fragment_entry_edit, container, false)
     }
 
-    override fun onViewCreated(view: View,
-                               savedInstanceState: Bundle?) {
+    override fun onViewCreated(
+        view: View,
+        savedInstanceState: Bundle?
+    ) {
         super.onViewCreated(view, savedInstanceState)
 
         rootView = view
@@ -271,6 +273,9 @@ class EntryEditFragment: DatabaseFragment() {
                 else -> {}
             }
         }
+
+        // Retrieves the entry upon validation to check for changes
+        mEntryEditViewModel.entryInfoProvider = { retrieveEntryInfo() }
 
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {

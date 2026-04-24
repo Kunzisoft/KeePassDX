@@ -103,6 +103,19 @@ class Tags: Parcelable {
         mTags.clear()
     }
 
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is Tags) return false
+
+        if (mTags != other.mTags) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        return mTags.hashCode()
+    }
+
     fun toStringList(): List<String> {
         return mTags.map { it.name }
     }
