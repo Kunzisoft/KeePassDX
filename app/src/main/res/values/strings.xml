@@ -579,7 +579,7 @@
     <string name="keyboard_previous_fill_in_summary">Automatically switch back to the previous keyboard after executing \"Auto key action\"</string>
     <string name="keyboard_previous_lock_title">Lock database</string>
     <string name="keyboard_previous_lock_summary">Automatically switch back to the previous keyboard after locking the database</string>
-    <string name="keyboard_share_browser">Share the URL from your browser to KeePassDX</string>
+    <string name="keyboard_share_browser">Share from %1$s to KeePassDX</string>
     <string name="custom_fields">Custom fields</string>
     <string name="back_to_previous_keyboard">Back to previous keyboard</string>
     <string name="select_entry">Select entry</string>

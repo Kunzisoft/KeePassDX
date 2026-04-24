@@ -55,6 +55,7 @@ import com.kunzisoft.keepass.adapters.KeyboardEntriesAdapter
 import com.kunzisoft.keepass.adapters.KeyboardFieldsAdapter
 import com.kunzisoft.keepass.credentialprovider.TypeMode
 import com.kunzisoft.keepass.credentialprovider.activity.EntrySelectionLauncherActivity
+import com.kunzisoft.keepass.credentialprovider.autofill.KeeAutofillService.Companion.isKeeAutofillActivated
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.DatabaseTaskProvider
 import com.kunzisoft.keepass.database.element.Field
@@ -67,6 +68,7 @@ import com.kunzisoft.keepass.services.ClipboardEntryNotificationService
 import com.kunzisoft.keepass.services.KeyboardEntryNotificationService
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.utils.AppUtil
+import com.kunzisoft.keepass.utils.AppUtil.isElementAllowed
 import com.kunzisoft.keepass.utils.AppUtil.withoutBrowserOrAppBlocked
 import com.kunzisoft.keepass.utils.KeyboardUtil.showKeyboardPicker
 import com.kunzisoft.keepass.utils.KeyboardUtil.switchToPreviousKeyboard
@@ -91,6 +93,7 @@ class MagikeyboardService : InputMethodService(),
     private var databaseColorView: ImageView? = null
     private var containerPackageText: View? = null
     private var containerShareText: View? = null
+    private var shareBrowserText: TextView? = null
     private var packageText: TextView? = null
     private var appIdIcon: ImageView? = null
     private var webDomainIcon: ImageView? = null
@@ -202,6 +205,7 @@ class MagikeyboardService : InputMethodService(),
         databaseColorView = rootKeyboardView.findViewById(R.id.magikeyboard_database_color)
         containerPackageText = rootKeyboardView.findViewById(R.id.magikeyboard_container_package)
         containerShareText = rootKeyboardView.findViewById(R.id.magikeyboard_share_browser)
+        shareBrowserText = rootKeyboardView.findViewById(R.id.magikeyboard_share_browser_text)
         packageText = rootKeyboardView.findViewById(R.id.magikeyboard_package_text)
         appIdIcon = rootKeyboardView.findViewById(R.id.magikeyboard_app_id_icon)
         webDomainIcon = rootKeyboardView.findViewById(R.id.magikeyboard_web_domain_icon)
@@ -286,7 +290,11 @@ class MagikeyboardService : InputMethodService(),
             containerShareText?.visibility = GONE
         } else {
             containerPackageText?.visibility = GONE
-            containerShareText?.visibility = if (entryListEmpty) VISIBLE else GONE
+            shareBrowserText?.text = shareBrowser.value?.let {
+                getString(R.string.keyboard_share_browser, it)
+            } ?: ""
+            containerShareText?.visibility = if (entryListEmpty && shareBrowser.value != null)
+                VISIBLE else GONE
         }
         dismissCustomKeys()
         if (keyboardView != null) {
@@ -328,7 +336,7 @@ class MagikeyboardService : InputMethodService(),
 
     override fun onStartInputView(info: EditorInfo, restarting: Boolean) {
         super.onStartInputView(info, restarting)
-        addSearchInfo(this, SearchInfo().apply {
+        addSearchInfo(application, SearchInfo().apply {
             applicationId = info.packageName
         }, TypeMode.MAGIKEYBOARD)
         assignKeyboardView()
@@ -339,7 +347,8 @@ class MagikeyboardService : InputMethodService(),
         super.onUnbindInput()
         // Do not clear the search context when the bound client
         // is no longer associated with the input method #2394
-        if (!PreferencesUtil.isAutofillSharedToMagikeyboardEnable(application))
+        if (!application.isKeeAutofillActivated()
+            || !PreferencesUtil.isAutofillSharedToMagikeyboardEnable(application))
             removeSearchInfo()
     }
 
@@ -573,6 +582,7 @@ class MagikeyboardService : InputMethodService(),
         const val KEY_FIELDS = 530
 
         private val searchInfo = MutableLiveData<SearchInfo?>()
+        private val shareBrowser = MutableLiveData<String?>()
         private val entryUUIDList = MutableLiveData<List<UUID>?>()
         private var onlyAllowedFromMagikeyboard: Boolean = false
 
@@ -594,7 +604,8 @@ class MagikeyboardService : InputMethodService(),
         fun addSearchInfo(context: Context, value: SearchInfo, from: TypeMode) {
             val newSearchInfo = value.withoutBrowserOrAppBlocked(context)
             // With Autofill sharing, keep the autofill search context
-            if (PreferencesUtil.isAutofillSharedToMagikeyboardEnable(context)) {
+            if (context.isKeeAutofillActivated()
+                && PreferencesUtil.isAutofillSharedToMagikeyboardEnable(context)) {
                 when (from) {
                     TypeMode.AUTOFILL -> {
                         newSearchInfo?.let {
@@ -617,6 +628,10 @@ class MagikeyboardService : InputMethodService(),
                 // Without context sharing, Magikeyboard manages itself and filter browsers
                 this.onlyAllowedFromMagikeyboard = false
                 this.searchInfo.value = newSearchInfo
+                this.shareBrowser.value = if (isElementAllowed(
+                        value.applicationId,
+                        PreferencesUtil.applicationIdBlocklist(context)))
+                    value.applicationId else null
             }
         }
 

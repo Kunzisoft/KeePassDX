@@ -129,7 +129,11 @@ class KeeAutofillService : AutofillService() {
                 webDomain = parseResult.webDomain
             }
             // Add the search info to the magikeyboard service
-            MagikeyboardService.addSearchInfo(this, searchInfo, TypeMode.AUTOFILL)
+            MagikeyboardService.addSearchInfo(
+                context = application,
+                value = searchInfo,
+                from = TypeMode.AUTOFILL
+            )
 
             // Build search info only if applicationId or webDomain are not blocked
             if (autofillAllowedFor(

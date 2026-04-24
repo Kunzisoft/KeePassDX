@@ -168,7 +168,7 @@ object AppUtil {
     /**
      * Indicates whether the [element] is allowed according to the [blockList]
      */
-    private fun isElementAllowed(element: String?, blockList: Set<String>?): Boolean {
+    fun isElementAllowed(element: String?, blockList: Set<String>?): Boolean {
         element?.let { elementNotNull ->
             if (blockList?.any { blocked ->
                     elementNotNull.contains(blocked)
