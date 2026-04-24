@@ -126,7 +126,7 @@ abstract class NotificationServiceParam<T> : Service() {
         type: NotificationServiceType,
         timeoutMilliseconds: Long,
         timerData: T? = null,
-        actionAfterASecond: (() -> Unit)? = null,
+        actionAfterASecond: ((progress: Int) -> Unit)? = null,
         actionEnd: () -> Unit
     ) {
         mTimerJob?.cancel()
@@ -142,10 +142,11 @@ abstract class NotificationServiceParam<T> : Service() {
                         currentTime = timeoutMilliseconds
                     }
                     // Update every second
-                    actionAfterASecond?.invoke()
+                    val progress = (currentTime * 100 / timeoutMilliseconds).toInt()
+                    actionAfterASecond?.invoke(progress)
                     builder.apply {
                         setProgress(100,
-                            (currentTime * 100 / timeoutMilliseconds).toInt(),
+                            progress,
                             false
                         )
                         timerContentText(timerData)?.let {

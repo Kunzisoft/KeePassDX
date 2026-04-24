@@ -130,8 +130,21 @@
                 tools:text="Database A"
                 android:maxLines="1"
                 android:ellipsize="end"
-                android:textColor="@color/grey_blue_slighter"/>
+                android:textColor="@color/green_white"/>
         </LinearLayout>
+        <ProgressBar
+            android:id="@+id/magikeyboard_timeout_progress"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginBottom="4dp"
+            android:progress="0"
+            android:max="100"
+            android:visibility="gone"
+            android:progressBackgroundTint="@color/grey_blue_deep"
+            android:progressTint="@color/white"
+            tools:visibility="visible"
+            tools:progress="50"/>
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/magikeyboard_entry_list"
             android:layout_width="wrap_content"

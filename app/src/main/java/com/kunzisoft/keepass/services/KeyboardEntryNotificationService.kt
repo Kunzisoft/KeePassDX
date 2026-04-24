@@ -32,7 +32,9 @@ import com.kunzisoft.keepass.credentialprovider.magikeyboard.MagikeyboardService
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.timeout.TimeoutHelper
 import com.kunzisoft.keepass.timeout.TimeoutHelper.NEVER
+import com.kunzisoft.keepass.utils.EXTRA_PROGRESS
 import com.kunzisoft.keepass.utils.LOCK_ACTION
+import com.kunzisoft.keepass.utils.UPDATE_TIMEOUT_PROGRESS_ACTION
 
 class KeyboardEntryNotificationService : LockNotificationService() {
 
@@ -111,10 +113,18 @@ class KeyboardEntryNotificationService : LockNotificationService() {
         if (PreferencesUtil.isClearKeyboardNotificationEnable(this)) {
             if (mNotificationTimeoutMilliSecs > NEVER) {
                 defineTimerJob(
-                    builder,
+                    builder = builder,
                     type = NotificationServiceType.KEYBOARD,
-                    timeoutMilliseconds = mNotificationTimeoutMilliSecs
+                    timeoutMilliseconds = mNotificationTimeoutMilliSecs,
+                    actionAfterASecond = { progress ->
+                        sendBroadcast(Intent(UPDATE_TIMEOUT_PROGRESS_ACTION).apply {
+                            putExtra(EXTRA_PROGRESS, progress)
+                        })
+                    }
                 ) {
+                    sendBroadcast(Intent(UPDATE_TIMEOUT_PROGRESS_ACTION).apply {
+                        putExtra(EXTRA_PROGRESS, 0)
+                    })
                     stopNotificationAndSendLockIfNeeded()
                 }
             }

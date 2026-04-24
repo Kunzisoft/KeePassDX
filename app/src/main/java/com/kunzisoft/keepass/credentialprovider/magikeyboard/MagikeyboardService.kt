@@ -39,6 +39,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.PopupWindow
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.BlendModeColorFilterCompat
@@ -70,11 +71,13 @@ import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.utils.AppUtil
 import com.kunzisoft.keepass.utils.AppUtil.isElementAllowed
 import com.kunzisoft.keepass.utils.AppUtil.withoutBrowserOrAppBlocked
+import com.kunzisoft.keepass.utils.EXTRA_PROGRESS
 import com.kunzisoft.keepass.utils.KeyboardUtil.showKeyboardPicker
 import com.kunzisoft.keepass.utils.KeyboardUtil.switchToPreviousKeyboard
 import com.kunzisoft.keepass.utils.LOCK_ACTION
 import com.kunzisoft.keepass.utils.LockReceiver
 import com.kunzisoft.keepass.utils.REMOVE_ENTRY_MAGIKEYBOARD_ACTION
+import com.kunzisoft.keepass.utils.UPDATE_TIMEOUT_PROGRESS_ACTION
 import com.kunzisoft.keepass.utils.clear
 import com.kunzisoft.keepass.utils.registerLockReceiver
 import com.kunzisoft.keepass.utils.unregisterLockReceiver
@@ -102,6 +105,7 @@ class MagikeyboardService : InputMethodService(),
     private var entryListView: RecyclerView? = null
     private var popupCustomKeys: PopupWindow? = null
     private var screenshotModeView: View? = null
+    private var timeoutProgressBar: ProgressBar? = null
     private var entriesAdapter: KeyboardEntriesAdapter? = null
     private var fieldsAdapter: KeyboardFieldsAdapter? = null
     private var playSoundDuringCLick: Boolean = false
@@ -130,10 +134,19 @@ class MagikeyboardService : InputMethodService(),
             assignKeyboardView()
         }
         // Remove the entry and lock the keyboard when the lock signal is receive
-        lockReceiver = LockReceiver {
+        lockReceiver = object : LockReceiver({
             removeSearchInfo()
             removeEntryInfo()
             assignKeyboardView()
+        }) {
+            override fun onReceive(context: Context, intent: Intent) {
+                super.onReceive(context, intent)
+                if (intent.action == UPDATE_TIMEOUT_PROGRESS_ACTION) {
+                    val progress = intent.getIntExtra(EXTRA_PROGRESS, 0)
+                    timeoutProgressBar?.progress = progress
+                    timeoutProgressBar?.visibility = if (progress > 0) VISIBLE else GONE
+                }
+            }
         }
         lockReceiver?.backToPreviousKeyboardAction = {
             switchToPreviousKeyboard()
@@ -188,7 +201,11 @@ class MagikeyboardService : InputMethodService(),
         PreferenceManager.getDefaultSharedPreferences(this)
             .registerOnSharedPreferenceChangeListener(onScreenshotModePrefListener)
 
-        registerLockReceiver(lockReceiver, true)
+        registerLockReceiver(
+            lockReceiver = lockReceiver,
+            registerKeyboardAction = true,
+            registerTimeoutProgress = true
+        )
     }
 
     override fun onBindInput() {
@@ -211,6 +228,7 @@ class MagikeyboardService : InputMethodService(),
         webDomainIcon = rootKeyboardView.findViewById(R.id.magikeyboard_web_domain_icon)
         keyboardView = rootKeyboardView.findViewById(R.id.magikeyboard_view)
         screenshotModeView = rootKeyboardView.findViewById(R.id.screenshot_mode_banner)
+        timeoutProgressBar = rootKeyboardView.findViewById(R.id.magikeyboard_timeout_progress)
 
         if (keyboardView != null) {
             keyboard = Keyboard(this, R.xml.keyboard_password)

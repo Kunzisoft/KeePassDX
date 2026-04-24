@@ -118,10 +118,11 @@ class ClipboardEntryNotificationService : LockNotificationServiceParam<OtpElemen
         }
         if (otpElement.type == OtpType.TOTP) {
             defineTimerJob(
-                builder,
+                builder = builder,
                 type = NotificationServiceType.CLIPBOARD,
                 timeoutMilliseconds = otpElement.period * 1000L,
-                timerData = otpElement
+                timerData = otpElement,
+                actionAfterASecond = null
             ) {
                 stopService()
             }

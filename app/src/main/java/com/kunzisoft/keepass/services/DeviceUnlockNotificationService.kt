@@ -92,9 +92,10 @@ class DeviceUnlockNotificationService : NotificationService() {
         // Not necessarily a foreground service
         if (mTimerJob == null && notificationTimeoutMilliSecs > NEVER) {
             defineTimerJob(
-                notificationBuilder,
-                NotificationServiceType.DEVICE_UNLOCK,
-                notificationTimeoutMilliSecs
+                builder = notificationBuilder,
+                type = NotificationServiceType.DEVICE_UNLOCK,
+                timeoutMilliseconds = notificationTimeoutMilliSecs,
+                actionAfterASecond = null
             ) {
                 sendBroadcast(Intent(REMOVE_DEVICE_UNLOCK_KEY_ACTION))
             }
