@@ -321,19 +321,16 @@ class MagikeyboardService : InputMethodService(),
 
     override fun onStartInputView(info: EditorInfo, restarting: Boolean) {
         super.onStartInputView(info, restarting)
-        val newSearchInfo = SearchInfo().apply {
+        addSearchInfo(this, SearchInfo().apply {
             applicationId = info.packageName
-        }.withoutBrowserOrAppBlocked(this)
-        newSearchInfo?.let {
-            searchInfo.value = it
-        }
+        })
         assignKeyboardView()
         setScreenshotMode()
     }
 
     override fun onUnbindInput() {
         super.onUnbindInput()
-        searchInfo.value = null
+        removeSearchInfo()
     }
 
     override fun onEvaluateFullscreenMode(): Boolean {
@@ -578,8 +575,13 @@ class MagikeyboardService : InputMethodService(),
             context.sendBroadcast(Intent(REMOVE_ENTRY_MAGIKEYBOARD_ACTION))
         }
 
-        fun addSearchInfo(value: SearchInfo) {
-            this.searchInfo.value = value
+        /**
+         *  Add the search info to the magikeyboard service if not browser ot app blocked
+         */
+        fun addSearchInfo(context: Context, value: SearchInfo) {
+            value.withoutBrowserOrAppBlocked(context)?.let {
+                this.searchInfo.value = value
+            }
         }
 
         fun removeSearchInfo() {

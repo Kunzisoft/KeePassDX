@@ -128,10 +128,8 @@ class KeeAutofillService : AutofillService() {
                 webScheme = parseResult.webScheme
                 webDomain = parseResult.webDomain
             }
-            // Add the search info to the magikeyboard service if not browser ot app blocked
-            searchInfo.withoutBrowserOrAppBlocked(this)?.let {
-                MagikeyboardService.addSearchInfo(searchInfo)
-            }
+            // Add the search info to the magikeyboard service
+            MagikeyboardService.addSearchInfo(this, searchInfo)
 
             // Build search info only if applicationId or webDomain are not blocked
             if (autofillAllowedFor(
