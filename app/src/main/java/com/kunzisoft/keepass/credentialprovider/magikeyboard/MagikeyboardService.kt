@@ -90,6 +90,7 @@ class MagikeyboardService : InputMethodService(),
     private var databaseText: TextView? = null
     private var databaseColorView: ImageView? = null
     private var containerPackageText: View? = null
+    private var containerShareText: View? = null
     private var packageText: TextView? = null
     private var appIdIcon: ImageView? = null
     private var webDomainIcon: ImageView? = null
@@ -200,6 +201,7 @@ class MagikeyboardService : InputMethodService(),
         databaseText = rootKeyboardView.findViewById(R.id.magikeyboard_database_text)
         databaseColorView = rootKeyboardView.findViewById(R.id.magikeyboard_database_color)
         containerPackageText = rootKeyboardView.findViewById(R.id.magikeyboard_container_package)
+        containerShareText = rootKeyboardView.findViewById(R.id.magikeyboard_share_browser)
         packageText = rootKeyboardView.findViewById(R.id.magikeyboard_package_text)
         appIdIcon = rootKeyboardView.findViewById(R.id.magikeyboard_app_id_icon)
         webDomainIcon = rootKeyboardView.findViewById(R.id.magikeyboard_web_domain_icon)
@@ -263,6 +265,7 @@ class MagikeyboardService : InputMethodService(),
     }
 
     private fun assignKeyboardView() {
+        val entryListEmpty = entryUUIDList.value.isNullOrEmpty()
         val searchInfo: SearchInfo? = searchInfo.value
         val searchString = searchInfo?.toString()
         if (searchInfo != null
@@ -280,12 +283,14 @@ class MagikeyboardService : InputMethodService(),
             }
             packageText?.text = searchString
             containerPackageText?.visibility = VISIBLE
+            containerShareText?.visibility = GONE
         } else {
             containerPackageText?.visibility = GONE
+            containerShareText?.visibility = if (entryListEmpty) VISIBLE else GONE
         }
         dismissCustomKeys()
         if (keyboardView != null) {
-            if (entriesAdapter?.isEmpty() != false) {
+            if (entryListEmpty) {
                 entryListView?.visibility = GONE
                 if (keyboard != null) {
                     keyboardView?.keyboard = keyboard

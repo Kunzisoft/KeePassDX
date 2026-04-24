@@ -69,6 +69,36 @@
             android:textColor="@color/white"/>
     </LinearLayout>
     <LinearLayout
+        android:id="@+id/magikeyboard_share_browser"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:minHeight="24dp"
+        android:background="@color/grey_black_slight"
+        android:orientation="horizontal">
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/magikeyboard_share_browser_icon"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:layout_gravity="center"
+            android:layout_marginHorizontal="4dp"
+            android:contentDescription="@string/content_description_share_url"
+            app:srcCompat="@drawable/ic_share_white_24dp"
+            app:tint="@color/white"/>
+        <TextView
+            android:layout_marginVertical="4dp"
+            android:id="@+id/magikeyboard_share_browser_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="4dp"
+            android:textSize="12sp"
+            android:text="@string/keyboard_share_browser"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:textColor="@color/white"/>
+    </LinearLayout>
+    <LinearLayout
         android:id="@+id/magikeyboard_entry_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

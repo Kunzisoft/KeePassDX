@@ -80,6 +80,7 @@
     <string name="content_description_update_from_list">Update</string>
     <string name="content_description_remove_from_list">Remove</string>
     <string name="content_description_keyboard_close_fields">Close fields</string>
+    <string name="content_description_share_url">Share URL</string>
     <string name="select_to_copy">Select to copy %1$s to clipboard</string>
     <string name="retrieving_db_key">Retrieving database key…</string>
     <string name="waiting_challenge_request">Waiting for the challenge request…</string>
@@ -578,6 +579,7 @@
     <string name="keyboard_previous_fill_in_summary">Automatically switch back to the previous keyboard after executing \"Auto key action\"</string>
     <string name="keyboard_previous_lock_title">Lock database</string>
     <string name="keyboard_previous_lock_summary">Automatically switch back to the previous keyboard after locking the database</string>
+    <string name="keyboard_share_browser">Share the URL from your browser to KeePassDX</string>
     <string name="custom_fields">Custom fields</string>
     <string name="back_to_previous_keyboard">Back to previous keyboard</string>
     <string name="select_entry">Select entry</string>
