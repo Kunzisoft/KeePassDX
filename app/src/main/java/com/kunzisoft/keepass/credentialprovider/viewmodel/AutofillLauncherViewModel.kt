@@ -170,7 +170,8 @@ class AutofillLauncherViewModel(application: Application): CredentialLauncherVie
                                 MagikeyboardService.addEntries(
                                     context = getApplication(),
                                     entryList = entries,
-                                    autoSwitchKeyboard = mSwitchToMagikeyboard
+                                    autoSwitchKeyboard = mSwitchToMagikeyboard,
+                                    from = TypeMode.AUTOFILL
                                 )
                             } else {
                                 ClipboardEntryNotificationService.launchOtpNotificationIfAllowed(

@@ -47,6 +47,7 @@ import androidx.autofill.inline.v1.InlineSuggestionUi
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import com.kunzisoft.keepass.R
+import com.kunzisoft.keepass.credentialprovider.TypeMode
 import com.kunzisoft.keepass.credentialprovider.activity.AutofillLauncherActivity
 import com.kunzisoft.keepass.credentialprovider.autofill.StructureParser.Companion.APPLICATION_ID_POPUP_WINDOW
 import com.kunzisoft.keepass.credentialprovider.magikeyboard.MagikeyboardService
@@ -61,7 +62,6 @@ import com.kunzisoft.keepass.services.ClipboardEntryNotificationService
 import com.kunzisoft.keepass.settings.AutofillSettingsActivity
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.utils.AppUtil.randomRequestCode
-import com.kunzisoft.keepass.utils.AppUtil.withoutBrowserOrAppBlocked
 import org.joda.time.DateTime
 import org.joda.time.Instant
 
@@ -129,7 +129,7 @@ class KeeAutofillService : AutofillService() {
                 webDomain = parseResult.webDomain
             }
             // Add the search info to the magikeyboard service
-            MagikeyboardService.addSearchInfo(this, searchInfo)
+            MagikeyboardService.addSearchInfo(this, searchInfo, TypeMode.AUTOFILL)
 
             // Build search info only if applicationId or webDomain are not blocked
             if (autofillAllowedFor(
@@ -162,7 +162,8 @@ class KeeAutofillService : AutofillService() {
                                 MagikeyboardService.addEntries(
                                     context = this,
                                     entryList = items,
-                                    autoSwitchKeyboard = switchToMagikeyboard
+                                    autoSwitchKeyboard = switchToMagikeyboard,
+                                    from = TypeMode.AUTOFILL
                                 )
                             } else {
                                 // Add OTP to clipboard notification #1347

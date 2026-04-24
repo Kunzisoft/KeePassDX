@@ -53,6 +53,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.adapters.KeyboardEntriesAdapter
 import com.kunzisoft.keepass.adapters.KeyboardFieldsAdapter
+import com.kunzisoft.keepass.credentialprovider.TypeMode
 import com.kunzisoft.keepass.credentialprovider.activity.EntrySelectionLauncherActivity
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.DatabaseTaskProvider
@@ -126,6 +127,7 @@ class MagikeyboardService : InputMethodService(),
         }
         // Remove the entry and lock the keyboard when the lock signal is receive
         lockReceiver = LockReceiver {
+            removeSearchInfo()
             removeEntryInfo()
             assignKeyboardView()
         }
@@ -323,7 +325,7 @@ class MagikeyboardService : InputMethodService(),
         super.onStartInputView(info, restarting)
         addSearchInfo(this, SearchInfo().apply {
             applicationId = info.packageName
-        })
+        }, TypeMode.MAGIKEYBOARD)
         assignKeyboardView()
         setScreenshotMode()
     }
@@ -332,7 +334,8 @@ class MagikeyboardService : InputMethodService(),
         super.onUnbindInput()
         // Do not clear the search context when the bound client
         // is no longer associated with the input method #2394
-        // removeSearchInfo()
+        if (!PreferencesUtil.isAutofillSharedToMagikeyboardEnable(application))
+            removeSearchInfo()
     }
 
     override fun onEvaluateFullscreenMode(): Boolean {
@@ -374,15 +377,13 @@ class MagikeyboardService : InputMethodService(),
             }
             KEY_ENTRY -> {
                 // Filter browser and app blocked to prevent unwanted auto save
-                actionKeyEntry(
-                    searchInfo.value?.withoutBrowserOrAppBlocked(this)
-                        ?: SearchInfo()
-                )
+                actionKeyEntry(searchInfo.value?.withoutBrowserOrAppBlocked(this) ?: SearchInfo())
             }
             KEY_ENTRY_ALT -> {
                 actionKeyEntry(SearchInfo())
             }
             KEY_LOCK -> {
+                removeSearchInfo()
                 removeEntryInfo()
                 sendBroadcast(Intent(LOCK_ACTION))
                 dismissCustomKeys()
@@ -450,6 +451,9 @@ class MagikeyboardService : InputMethodService(),
     }
 
     private fun actionKeyEntry(searchInfo: SearchInfo) {
+        // Prevent auto entries filling to correctly get manual entry selection
+        // when entries already populated
+        preventAutoFill()
         SearchHelper.checkAutoSearchInfo(
             context = this,
             database = mDatabase,
@@ -465,7 +469,8 @@ class MagikeyboardService : InputMethodService(),
                     addEntries(
                         context = this,
                         entryList = items,
-                        autoSwitchKeyboard = false
+                        autoSwitchKeyboard = false,
+                        from = TypeMode.MAGIKEYBOARD
                     )
                     assignKeyboardView()
                 }
@@ -564,6 +569,7 @@ class MagikeyboardService : InputMethodService(),
 
         private val searchInfo = MutableLiveData<SearchInfo?>()
         private val entryUUIDList = MutableLiveData<List<UUID>?>()
+        private var onlyAllowedFromMagikeyboard: Boolean = false
 
         private const val SWITCH_KEYBOARD_ACTION = "com.android.keyboard.SWITCH_KEYBOARD"
         private const val KEYBOARD_ID = "KEYBOARD_ID"
@@ -580,14 +586,43 @@ class MagikeyboardService : InputMethodService(),
         /**
          *  Add the search info to the magikeyboard service if not browser ot app blocked
          */
-        fun addSearchInfo(context: Context, value: SearchInfo) {
-            value.withoutBrowserOrAppBlocked(context)?.let {
-                this.searchInfo.value = value
+        fun addSearchInfo(context: Context, value: SearchInfo, from: TypeMode) {
+            val newSearchInfo = value.withoutBrowserOrAppBlocked(context)
+            // With Autofill sharing, keep the autofill search context
+            if (PreferencesUtil.isAutofillSharedToMagikeyboardEnable(context)) {
+                when (from) {
+                    TypeMode.AUTOFILL -> {
+                        newSearchInfo?.let {
+                            // Condition to manually select another entry
+                            if (this.searchInfo.value != newSearchInfo) {
+                                this.onlyAllowedFromMagikeyboard = false
+                                this.searchInfo.value = newSearchInfo
+                            }
+                        }
+                    }
+                    TypeMode.MAGIKEYBOARD -> {
+                        newSearchInfo?.let {
+                            this.onlyAllowedFromMagikeyboard = false
+                            this.searchInfo.value = newSearchInfo
+                        }
+                    }
+                    else -> {}
+                }
+            } else {
+                // Without context sharing, Magikeyboard manages itself and filter browsers
+                this.onlyAllowedFromMagikeyboard = false
+                this.searchInfo.value = newSearchInfo
             }
         }
 
         fun removeSearchInfo() {
+            this.onlyAllowedFromMagikeyboard = false
             this.searchInfo.value = null
+        }
+
+        private fun preventAutoFill() {
+            if (this.searchInfo.value != null && !entryUUIDList.value.isNullOrEmpty())
+                this.onlyAllowedFromMagikeyboard = true
         }
 
         private fun entriesAlreadyRetrieved(entries: List<UUID>): Boolean {
@@ -604,35 +639,39 @@ class MagikeyboardService : InputMethodService(),
             addEntries(
                 context = context,
                 entryList = listOf(entry),
-                autoSwitchKeyboard = autoSwitchKeyboard
+                autoSwitchKeyboard = autoSwitchKeyboard,
+                from = TypeMode.MAGIKEYBOARD
             )
         }
 
         fun addEntries(
             context: Context,
             entryList: List<EntryInfo>,
-            autoSwitchKeyboard: Boolean
+            autoSwitchKeyboard: Boolean,
+            from: TypeMode
         ) {
-            // Open OTP notification
-            ClipboardEntryNotificationService.launchOtpNotificationIfAllowed(
-                context = context,
-                entries = entryList
-            )
-            // Add a new entry if keyboard activated
-            if (context.isMagikeyboardActivated()) {
-                val newList = entryList.map { it.id }
-                if (entriesAlreadyRetrieved(newList).not()) {
-                    this.entryUUIDList.value = newList
-                    // Auto switch to the Magikeyboard
-                    if (autoSwitchKeyboard
-                        && isAutoSwitchMagikeyboardAllowed(context)
-                        && currentDefaultKeyboard(context) != getMagikeyboardId(context)
-                    ) {
-                        context.startActivity(getSwitchMagikeyboardIntent(context))
+            if (!onlyAllowedFromMagikeyboard || from == TypeMode.MAGIKEYBOARD) {
+                // Open OTP notification
+                ClipboardEntryNotificationService.launchOtpNotificationIfAllowed(
+                    context = context,
+                    entries = entryList
+                )
+                // Add a new entry if keyboard activated
+                if (context.isMagikeyboardActivated()) {
+                    val newList = entryList.map { it.id }
+                    if (entriesAlreadyRetrieved(newList).not()) {
+                        this.entryUUIDList.value = newList
+                        // Auto switch to the Magikeyboard
+                        if (autoSwitchKeyboard
+                            && isAutoSwitchMagikeyboardAllowed(context)
+                            && currentDefaultKeyboard(context) != getMagikeyboardId(context)
+                        ) {
+                            context.startActivity(getSwitchMagikeyboardIntent(context))
+                        }
                     }
+                } else {
+                    removeEntryInfo()
                 }
-            } else {
-                removeEntryInfo()
             }
         }
 

@@ -31,6 +31,7 @@ import com.kunzisoft.keepass.activities.GroupActivity
 import com.kunzisoft.keepass.activities.legacy.DatabaseModeActivity
 import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper.addSearchInfo
 import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper.setActivityResult
+import com.kunzisoft.keepass.credentialprovider.TypeMode
 import com.kunzisoft.keepass.credentialprovider.magikeyboard.MagikeyboardService
 import com.kunzisoft.keepass.credentialprovider.viewmodel.CredentialLauncherViewModel
 import com.kunzisoft.keepass.credentialprovider.viewmodel.EntrySelectionViewModel
@@ -70,7 +71,8 @@ class EntrySelectionLauncherActivity : DatabaseModeActivity() {
                         MagikeyboardService.addEntries(
                             context = this@EntrySelectionLauncherActivity,
                             entryList = uiState.entryInfoList,
-                            autoSwitchKeyboard = true
+                            autoSwitchKeyboard = true,
+                            from = TypeMode.MAGIKEYBOARD
                         )
                     }
                     is EntrySelectionViewModel.UIState.LaunchFileDatabaseSelectForSearch -> {
