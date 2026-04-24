@@ -330,7 +330,9 @@ class MagikeyboardService : InputMethodService(),
 
     override fun onUnbindInput() {
         super.onUnbindInput()
-        removeSearchInfo()
+        // Do not clear the search context when the bound client
+        // is no longer associated with the input method #2394
+        // removeSearchInfo()
     }
 
     override fun onEvaluateFullscreenMode(): Boolean {
