@@ -84,21 +84,11 @@ object AppUtil {
                 )
     }
 
-    /**
-     * Indicates whether the [packageName] is a web browser if at least Android P
-     */
-    fun Context.isWebBrowserPackage(packageName: String?): Boolean {
-        if (packageName.isNullOrEmpty())
-            return false
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.P)
-            return false
-        return getInstalledBrowsersWithSignatures(this).any {
-            it.packageName == packageName
-        }
-    }
-
     @RequiresApi(Build.VERSION_CODES.P)
-    fun getInstalledBrowsersWithSignatures(context: Context): List<AndroidPrivilegedApp> {
+    fun getInstalledBrowsersWithSignatures(
+        context: Context,
+        withGServices: Boolean = true
+    ): List<AndroidPrivilegedApp> {
         val packageManager = context.packageManager
         val browserList = mutableListOf<AndroidPrivilegedApp>()
 
@@ -128,11 +118,13 @@ object AppUtil {
             }
         }
 
-        // Add the Play Service
-        val gServices = "com.google.android.gms"
-        buildAndroidPrivilegedApp(packageManager, gServices)?.let { privilegedApp ->
-            browserList.add(privilegedApp)
-            processedPackageNames.add(gServices)
+        // Add the Play Service if needed
+        if (withGServices) {
+            val gServices = "com.google.android.gms"
+            buildAndroidPrivilegedApp(packageManager, gServices)?.let { privilegedApp ->
+                browserList.add(privilegedApp)
+                processedPackageNames.add(gServices)
+            }
         }
 
         return browserList.distinctBy { it.packageName } // Ensure uniqueness just in case
@@ -193,9 +185,16 @@ object AppUtil {
      */
     fun SearchInfo.withoutBrowserOrAppBlocked(context: Context): SearchInfo? {
         val searchInfo = SearchInfo(this)
-        if (context.isWebBrowserPackage(searchInfo.applicationId)
+        val applicationId = searchInfo.applicationId
+        val isWebBrowser = if (!applicationId.isNullOrEmpty() && Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            getInstalledBrowsersWithSignatures(context, withGServices = false).any {
+                it.packageName == applicationId
+            }
+        } else false
+
+        if (isWebBrowser
             || !isElementAllowed(
-                searchInfo.applicationId,
+                applicationId,
                 PreferencesUtil.applicationIdBlocklist(context))) {
             searchInfo.applicationId = null
         }
