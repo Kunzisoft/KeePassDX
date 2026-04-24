@@ -158,7 +158,7 @@ class SearchInfo : ObjectNameResource, Parcelable {
     }
 
     override fun toString(): String {
-        return otpString ?: webDomain ?: applicationId ?: relyingParty ?: tags.toString()
+        return otpString ?: webDomain ?: applicationId ?: relyingParty ?: if (tags.isEmpty()) "" else tags.toString()
     }
 
     fun optionsString(): List<String> {

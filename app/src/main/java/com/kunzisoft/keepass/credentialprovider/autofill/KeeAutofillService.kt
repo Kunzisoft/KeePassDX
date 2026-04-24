@@ -61,6 +61,7 @@ import com.kunzisoft.keepass.services.ClipboardEntryNotificationService
 import com.kunzisoft.keepass.settings.AutofillSettingsActivity
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.utils.AppUtil.randomRequestCode
+import com.kunzisoft.keepass.utils.AppUtil.withoutBrowserOrAppBlocked
 import org.joda.time.DateTime
 import org.joda.time.Instant
 
@@ -127,8 +128,10 @@ class KeeAutofillService : AutofillService() {
                 webScheme = parseResult.webScheme
                 webDomain = parseResult.webDomain
             }
-            // Add the search info to the magikeyboard service
-            MagikeyboardService.addSearchInfo(searchInfo)
+            // Add the search info to the magikeyboard service if not browser ot app blocked
+            searchInfo.withoutBrowserOrAppBlocked(this)?.let {
+                MagikeyboardService.addSearchInfo(searchInfo)
+            }
 
             // Build search info only if applicationId or webDomain are not blocked
             if (autofillAllowedFor(

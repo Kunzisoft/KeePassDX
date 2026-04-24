@@ -15,6 +15,8 @@ import com.kunzisoft.keepass.BuildConfig
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.credentialprovider.passkey.data.AndroidPrivilegedApp
 import com.kunzisoft.keepass.education.Education
+import com.kunzisoft.keepass.model.SearchInfo
+import com.kunzisoft.keepass.settings.PreferencesUtil
 import java.security.SecureRandom
 
 object AppUtil {
@@ -86,7 +88,7 @@ object AppUtil {
      * Indicates whether the [packageName] is a web browser if at least Android P
      */
     fun Context.isWebBrowserPackage(packageName: String?): Boolean {
-        if (packageName == null || packageName.isEmpty())
+        if (packageName.isNullOrEmpty())
             return false
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.P)
             return false
@@ -169,5 +171,40 @@ object AppUtil {
                 it.setFlags(FLAG_SECURE, FLAG_SECURE)
             }
         }
+    }
+
+    /**
+     * Indicates whether the [element] is allowed according to the [blockList]
+     */
+    private fun isElementAllowed(element: String?, blockList: Set<String>?): Boolean {
+        element?.let { elementNotNull ->
+            if (blockList?.any { blocked ->
+                    elementNotNull.contains(blocked)
+                } == true
+            ) {
+                return false
+            }
+        }
+        return true
+    }
+
+    /**
+     * Create a new SearchInfo according to the browser package and blocklists
+     */
+    fun SearchInfo.withoutBrowserOrAppBlocked(context: Context): SearchInfo? {
+        val searchInfo = SearchInfo(this)
+        if (context.isWebBrowserPackage(searchInfo.applicationId)
+            || !isElementAllowed(
+                searchInfo.applicationId,
+                PreferencesUtil.applicationIdBlocklist(context))) {
+            searchInfo.applicationId = null
+        }
+        if (!isElementAllowed(
+                searchInfo.webDomain,
+                PreferencesUtil.webDomainBlocklist(context))) {
+            searchInfo.webDomain = null
+        }
+        return if (searchInfo.applicationId == null && searchInfo.webDomain == null) null
+        else searchInfo
     }
 }

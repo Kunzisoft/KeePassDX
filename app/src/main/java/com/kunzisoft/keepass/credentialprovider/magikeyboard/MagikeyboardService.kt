@@ -66,7 +66,7 @@ import com.kunzisoft.keepass.services.ClipboardEntryNotificationService
 import com.kunzisoft.keepass.services.KeyboardEntryNotificationService
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.utils.AppUtil
-import com.kunzisoft.keepass.utils.AppUtil.isWebBrowserPackage
+import com.kunzisoft.keepass.utils.AppUtil.withoutBrowserOrAppBlocked
 import com.kunzisoft.keepass.utils.KeyboardUtil.showKeyboardPicker
 import com.kunzisoft.keepass.utils.KeyboardUtil.switchToPreviousKeyboard
 import com.kunzisoft.keepass.utils.LOCK_ACTION
@@ -102,7 +102,6 @@ class MagikeyboardService : InputMethodService(),
     private var playSoundDuringCLick: Boolean = false
 
     private var lockReceiver: LockReceiver? = null
-    private var mSearchInfo: SearchInfo? = null
 
     private val onScreenshotModePrefListener = OnSharedPreferenceChangeListener { _, key ->
         if (key != getString(R.string.enable_screenshot_mode_key))
@@ -176,8 +175,7 @@ class MagikeyboardService : InputMethodService(),
             assignKeyboardView()
         }
 
-        searchInfo.observe(this) { searchInfo ->
-            mSearchInfo = searchInfo
+        searchInfo.observe(this) { _ ->
             assignKeyboardView()
         }
 
@@ -263,7 +261,7 @@ class MagikeyboardService : InputMethodService(),
     }
 
     private fun assignKeyboardView() {
-        val searchInfo: SearchInfo? = mSearchInfo
+        val searchInfo: SearchInfo? = searchInfo.value
         val searchString = searchInfo?.toString()
         if (searchInfo != null
             && searchString.isNullOrEmpty().not()
@@ -323,8 +321,11 @@ class MagikeyboardService : InputMethodService(),
 
     override fun onStartInputView(info: EditorInfo, restarting: Boolean) {
         super.onStartInputView(info, restarting)
-        mSearchInfo = searchInfo.value ?: SearchInfo().apply {
+        val newSearchInfo = SearchInfo().apply {
             applicationId = info.packageName
+        }.withoutBrowserOrAppBlocked(this)
+        newSearchInfo?.let {
+            searchInfo.value = it
         }
         assignKeyboardView()
         setScreenshotMode()
@@ -333,7 +334,6 @@ class MagikeyboardService : InputMethodService(),
     override fun onUnbindInput() {
         super.onUnbindInput()
         searchInfo.value = null
-        mSearchInfo = null
     }
 
     override fun onEvaluateFullscreenMode(): Boolean {
@@ -374,12 +374,11 @@ class MagikeyboardService : InputMethodService(),
                 showKeyboardPicker()
             }
             KEY_ENTRY -> {
-                // Filter browser to prevent unwanted auto save
-                var searchInfo: SearchInfo = mSearchInfo ?: SearchInfo()
-                if (isWebBrowserPackage(searchInfo.applicationId)) {
-                    searchInfo = SearchInfo()
-                }
-                actionKeyEntry(searchInfo)
+                // Filter browser and app blocked to prevent unwanted auto save
+                actionKeyEntry(
+                    searchInfo.value?.withoutBrowserOrAppBlocked(this)
+                        ?: SearchInfo()
+                )
             }
             KEY_ENTRY_ALT -> {
                 actionKeyEntry(SearchInfo())
