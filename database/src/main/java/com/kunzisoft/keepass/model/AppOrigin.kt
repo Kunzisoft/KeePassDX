@@ -111,18 +111,9 @@ data class AppOrigin(
 
         other as AppOrigin
 
-        if (containsAndroidOriginSignature().not()
-            && other.containsAndroidOriginSignature().not()) {
-            if (androidOrigins != other.androidOrigins) return false
-            if (webOrigins != other.webOrigins) return false
-        } else {
-            // TODO Change equals by manual call of checkAppOrigin()
-            try {
-                checkAppOrigin(other)
-            } catch (_: Exception) {
-                return false
-            }
-        }
+        // Don't check verified here
+        if (androidOrigins != other.androidOrigins) return false
+        if (webOrigins != other.webOrigins) return false
 
         return true
     }
