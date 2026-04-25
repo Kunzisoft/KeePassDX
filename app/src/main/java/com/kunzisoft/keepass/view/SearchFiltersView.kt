@@ -312,7 +312,7 @@ class SearchFiltersView @JvmOverloads constructor(context: Context,
     }
 
     fun showSearchExpandButton(show: Boolean) {
-        searchExpandButton.isVisible = show
+        searchExpandButton.visibility = if (show) VISIBLE else INVISIBLE
     }
 
     override fun setVisibility(visibility: Int) {
