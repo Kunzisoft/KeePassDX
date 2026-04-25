@@ -7,6 +7,7 @@ import com.kunzisoft.keepass.database.exception.InvalidCredentialsDatabaseExcept
 import com.kunzisoft.keepass.utils.clear
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 
 /**
  * ViewModel for the User Verification
@@ -14,7 +15,7 @@ import kotlinx.coroutines.flow.StateFlow
 class UserVerificationViewModel: ViewModel() {
 
     private val mUVState = MutableStateFlow<UVState>(UVState.Loading)
-    val userVerificationState: StateFlow<UVState> = mUVState
+    val userVerificationState: StateFlow<UVState> = mUVState.asStateFlow()
 
     var dataToVerify: UserVerificationData? = null
 

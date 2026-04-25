@@ -39,6 +39,7 @@ import com.kunzisoft.keepass.timeout.ClipboardHelper
 import com.kunzisoft.keepass.utils.IOActionTask
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import java.util.UUID
 
 
@@ -78,7 +79,7 @@ class EntryViewModel(application: Application): AndroidViewModel(application) {
     private val _historySelected = SingleLiveEvent<EntryHistory>()
 
     private val mEntryState = MutableStateFlow<EntryState>(EntryState.Loading)
-    val entryState: StateFlow<EntryState> = mEntryState
+    val entryState: StateFlow<EntryState> = mEntryState.asStateFlow()
 
     fun loadDatabase(database: ContextualDatabase?) {
         loadEntry(database, mainEntryId, historyPosition)

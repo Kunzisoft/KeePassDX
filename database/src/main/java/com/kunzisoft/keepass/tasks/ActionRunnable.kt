@@ -78,10 +78,19 @@ abstract class ActionRunnable: Runnable {
     /**
      * Class to manage result from ActionRunnable
      */
-    data class Result(var isSuccess: Boolean = true,
-                      var message: String? = null,
-                      var exception: DatabaseException? = null,
-                      var data: Bundle? = null)
+    data class Result(
+        var isSuccess: Boolean = true,
+        var message: String? = null,
+        var exception: DatabaseException? = null,
+        var data: Bundle? = null
+    ) {
+        fun clear() {
+            message = null
+            exception = null
+            data?.clear()
+            data = null
+        }
+    }
 
     companion object {
         private const val TAG = "ActionRunnable"

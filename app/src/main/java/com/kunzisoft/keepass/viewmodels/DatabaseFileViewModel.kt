@@ -7,10 +7,15 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.kunzisoft.keepass.app.App
 import com.kunzisoft.keepass.app.database.FileDatabaseHistoryAction
+import com.kunzisoft.keepass.database.MainCredential
+import com.kunzisoft.keepass.model.CipherEncryptDatabase
 import com.kunzisoft.keepass.model.DatabaseFile
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.utils.IOActionTask
 import com.kunzisoft.keepass.utils.parseUri
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 
 class DatabaseFileViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -22,6 +27,9 @@ class DatabaseFileViewModel(application: Application) : AndroidViewModel(applica
 
     private val mIsDefaultDatabase = MutableLiveData<Boolean>()
     val isDefaultDatabase: LiveData<Boolean> = mIsDefaultDatabase
+
+    private val mDatabaseFileState = MutableStateFlow<DatabaseFileState>(DatabaseFileState.Loading)
+    val databaseFileState: StateFlow<DatabaseFileState> = mDatabaseFileState.asStateFlow()
 
     fun checkIfIsDefaultDatabase(databaseUri: Uri) {
         IOActionTask(
@@ -46,6 +54,26 @@ class DatabaseFileViewModel(application: Application) : AndroidViewModel(applica
         ).execute()
     }
 
+    fun showLoadDatabaseDuplicateUuidMessage(
+        databaseUri: Uri?,
+        mainCredential: MainCredential,
+        readOnly: Boolean,
+        allowUserVerification: Boolean,
+        cipherEncryptDatabase: CipherEncryptDatabase?
+    ) {
+        mDatabaseFileState.value = DatabaseFileState.ShowLoadDatabaseDuplicateUuidMessage(
+            databaseUri = databaseUri,
+            mainCredential = mainCredential,
+            readOnly = readOnly,
+            allowUserVerification = allowUserVerification,
+            cipherEncryptDatabase = cipherEncryptDatabase
+        )
+    }
+
+    fun actionPerformed() {
+        mDatabaseFileState.value = DatabaseFileState.Loading
+    }
+
     private val mDatabaseFileLoaded = MutableLiveData<DatabaseFile>()
     val databaseFileLoaded: LiveData<DatabaseFile> = mDatabaseFileLoaded
 
@@ -55,5 +83,16 @@ class DatabaseFileViewModel(application: Application) : AndroidViewModel(applica
                 mDatabaseFileLoaded.value = it
             }
         }
+    }
+
+    sealed class DatabaseFileState {
+        object Loading : DatabaseFileState()
+        data class ShowLoadDatabaseDuplicateUuidMessage(
+            var databaseUri: Uri? = null,
+            var mainCredential: MainCredential = MainCredential(),
+            var readOnly: Boolean = true,
+            var allowUserVerification: Boolean = true,
+            var cipherEncryptDatabase: CipherEncryptDatabase? = null
+        ) : DatabaseFileState()
     }
 }

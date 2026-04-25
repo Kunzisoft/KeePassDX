@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import com.kunzisoft.keepass.database.MainCredential
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 
 /**
  * ViewModel for the Main Credential Dialog
@@ -13,7 +14,7 @@ import kotlinx.coroutines.flow.StateFlow
 class MainCredentialViewModel: ViewModel() {
 
     private val mUiState = MutableStateFlow<UIState>(UIState.Loading)
-    val uiState: StateFlow<UIState> = mUiState
+    val uiState: StateFlow<UIState> = mUiState.asStateFlow()
 
     fun validateMainCredential(
         databaseUri: Uri,

@@ -12,11 +12,12 @@ import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.hardware.HardwareKey
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 
 class HardwareKeyLauncherViewModel(application: Application): CredentialLauncherViewModel(application) {
 
     private val mUiState = MutableStateFlow<UIState>(UIState.Loading)
-    val uiState: StateFlow<UIState> = mUiState
+    val uiState: StateFlow<UIState> = mUiState.asStateFlow()
 
     override suspend fun launchAction(
         intent: Intent,

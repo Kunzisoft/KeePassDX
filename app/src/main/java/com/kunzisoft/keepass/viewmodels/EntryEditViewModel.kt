@@ -23,6 +23,7 @@ import com.kunzisoft.keepass.otp.OtpElement
 import com.kunzisoft.keepass.utils.IOActionTask
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import java.util.UUID
 
 
@@ -92,7 +93,7 @@ class EntryEditViewModel: NodeEditViewModel() {
     private val _onBinaryPreviewLoaded = SingleLiveEvent<AttachmentPosition>()
 
     private val mEntryEditState = MutableStateFlow<EntryEditState>(EntryEditState.Loading)
-    val entryEditState: StateFlow<EntryEditState> = mEntryEditState
+    val entryEditState: StateFlow<EntryEditState> = mEntryEditState.asStateFlow()
 
     val entryLoaded: Boolean
         get() = templatesEntry.value != null

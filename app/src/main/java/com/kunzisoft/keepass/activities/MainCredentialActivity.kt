@@ -36,6 +36,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.viewModels
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
 import androidx.biometric.BiometricManager
 import androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -46,7 +47,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.google.android.material.snackbar.Snackbar
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.activities.dialogs.DuplicateUuidDialog
 import com.kunzisoft.keepass.activities.helpers.ExternalFileHelper
 import com.kunzisoft.keepass.activities.legacy.DatabaseModeActivity
 import com.kunzisoft.keepass.app.database.FileDatabaseHistoryAction
@@ -260,6 +260,38 @@ class MainCredentialActivity : DatabaseModeActivity() {
 
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
+                mDatabaseFileViewModel.databaseFileState.collect { databaseFileState ->
+                    when (databaseFileState) {
+                        is DatabaseFileViewModel.DatabaseFileState.Loading -> {}
+                        is DatabaseFileViewModel.DatabaseFileState.ShowLoadDatabaseDuplicateUuidMessage -> {
+                            AlertDialog.Builder(this@MainCredentialActivity).apply {
+                                val message = getString(R.string.contains_duplicate_uuid) +
+                                        "\n\n" + getString(R.string.contains_duplicate_uuid_procedure)
+                                setMessage(message)
+                                setPositiveButton(getString(android.R.string.ok)) { _, _ ->
+                                    databaseFileState.databaseUri?.let { databaseFileUri ->
+                                        mDatabaseViewModel.loadDatabase(
+                                            databaseUri = databaseFileUri,
+                                            mainCredential = databaseFileState.mainCredential,
+                                            readOnly = databaseFileState.readOnly,
+                                            allowUserVerification = databaseFileState.allowUserVerification,
+                                            cipherEncryptDatabase = databaseFileState.cipherEncryptDatabase,
+                                            fixDuplicateUuid = true
+                                        )
+                                    }
+                                }
+                                setNegativeButton(getString(android.R.string.cancel)) { _, _ -> }
+                                create().show()
+                            }
+                            mDatabaseFileViewModel.actionPerformed()
+                        }
+                    }
+                }
+            }
+        }
+
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     mDeviceUnlockViewModel?.let { deviceUnlockViewModel ->
                         deviceUnlockViewModel.uiState.collect { uiState ->
@@ -357,35 +389,14 @@ class MainCredentialActivity : DatabaseModeActivity() {
                     when (result.exception) {
                         is DuplicateUuidDatabaseException -> {
                             // Relaunch loading if we need to fix UUID
-                            showLoadDatabaseDuplicateUuidMessage {
-
-                                var databaseUri: Uri? = null
-                                var mainCredential = MainCredential()
-                                var readOnly = true
-                                var allowUserVerification = true
-                                var cipherEncryptDatabase: CipherEncryptDatabase? = null
-
-                                result.data?.let { resultData ->
-                                    databaseUri = resultData.getParcelableCompat(DATABASE_URI_KEY)
-                                    mainCredential =
-                                        resultData.getParcelableCompat(MAIN_CREDENTIAL_KEY)
-                                            ?: mainCredential
-                                    readOnly = resultData.getBoolean(READ_ONLY_KEY)
-                                    allowUserVerification = resultData.getBoolean(USER_VERIFICATION_KEY)
-                                    cipherEncryptDatabase =
-                                        resultData.getParcelableCompat(CIPHER_DATABASE_KEY)
-                                }
-
-                                databaseUri?.let { databaseFileUri ->
-                                    showProgressDialogAndLoadDatabase(
-                                        databaseFileUri,
-                                        mainCredential,
-                                        readOnly,
-                                        allowUserVerification,
-                                        cipherEncryptDatabase,
-                                        true
-                                    )
-                                }
+                            result.data?.let { resultData ->
+                                mDatabaseFileViewModel.showLoadDatabaseDuplicateUuidMessage(
+                                    databaseUri = resultData.getParcelableCompat(DATABASE_URI_KEY),
+                                    mainCredential = resultData.getParcelableCompat(MAIN_CREDENTIAL_KEY) ?: MainCredential(),
+                                    readOnly = resultData.getBoolean(READ_ONLY_KEY),
+                                    allowUserVerification = resultData.getBoolean(USER_VERIFICATION_KEY),
+                                    cipherEncryptDatabase = resultData.getParcelableCompat(CIPHER_DATABASE_KEY)
+                                )
                             }
                         }
                         is FileNotFoundDatabaseException -> {
@@ -399,7 +410,7 @@ class MainCredentialActivity : DatabaseModeActivity() {
             }
         }
         coordinatorLayout.showActionErrorIfNeeded(result)
-        result.data?.clear()
+        result.clear()
     }
 
     private fun getUriFromIntent(intent: Intent?) {
@@ -577,8 +588,10 @@ class MainCredentialActivity : DatabaseModeActivity() {
         }
     }
 
-    private fun clearCredentialsViews(clearKeyFile: Boolean = !mRememberKeyFile,
-                                      clearHardwareKey: Boolean = !mRememberHardwareKey) {
+    private fun clearCredentialsViews(
+        clearKeyFile: Boolean = !mRememberKeyFile,
+        clearHardwareKey: Boolean = !mRememberHardwareKey
+    ) {
         mainCredentialView?.populatePasswordTextView(null)
         if (clearKeyFile) {
             mainCredentialView?.populateKeyFileView(null)
@@ -619,40 +632,15 @@ class MainCredentialActivity : DatabaseModeActivity() {
         } else {
             databaseFileUri?.let { databaseUri ->
                 // Show the progress dialog and load the database
-                showProgressDialogAndLoadDatabase(
-                    databaseUri,
-                    mainCredential ?: MainCredential(),
-                    mReadOnly,
-                    mUserVerificationAllowed,
-                    cipherEncryptDatabase,
-                    false
+                mDatabaseViewModel.loadDatabase(
+                    databaseUri = databaseUri,
+                    mainCredential = mainCredential ?: MainCredential(),
+                    readOnly = mReadOnly,
+                    allowUserVerification = mUserVerificationAllowed,
+                    cipherEncryptDatabase = cipherEncryptDatabase
                 )
             }
         }
-    }
-
-    private fun showProgressDialogAndLoadDatabase(
-        databaseUri: Uri,
-        mainCredential: MainCredential,
-        readOnly: Boolean,
-        allowUserVerification: Boolean,
-        cipherEncryptDatabase: CipherEncryptDatabase?,
-        fixDuplicateUUID: Boolean
-    ) {
-        mDatabaseViewModel.loadDatabase(
-            databaseUri,
-            mainCredential,
-            readOnly,
-            allowUserVerification,
-            cipherEncryptDatabase,
-            fixDuplicateUUID
-        )
-    }
-
-    private fun showLoadDatabaseDuplicateUuidMessage(loadDatabaseWithFix: (() -> Unit)? = null) {
-        DuplicateUuidDialog().apply {
-            positiveAction = loadDatabaseWithFix
-        }.show(supportFragmentManager, "duplicateUUIDDialog")
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

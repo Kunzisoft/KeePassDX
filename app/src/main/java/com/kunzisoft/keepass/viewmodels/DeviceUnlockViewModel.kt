@@ -24,6 +24,7 @@ import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
@@ -88,7 +89,7 @@ class DeviceUnlockViewModel(application: Application): AndroidViewModel(applicat
     }
 
     private val _uiState = MutableStateFlow(DeviceUnlockState())
-    val uiState: StateFlow<DeviceUnlockState> = _uiState
+    val uiState: StateFlow<DeviceUnlockState> = _uiState.asStateFlow()
 
     init {
         AppLifecycleObserver.appJustLaunched
