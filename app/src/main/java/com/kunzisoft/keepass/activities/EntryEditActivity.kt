@@ -421,6 +421,30 @@ class EntryEditActivity : DatabaseLockActivity(),
                             }
                         }
                         is EntryEditViewModel.EntryEditState.OnFieldProtectionUpdated -> {}
+                        is EntryEditViewModel.EntryEditState.CloseEntry -> {
+                            when(entryEditState.closeType) {
+                                EntryEditViewModel.CloseType.DATABASE_BACK_PRESSED -> {
+                                    super@EntryEditActivity.onDatabaseBackPressed()
+                                }
+                                EntryEditViewModel.CloseType.CANCEL_SPECIAL_MODE -> {
+                                    super@EntryEditActivity.onCancelSpecialMode()
+                                    finish()
+                                }
+                            }
+                        }
+                        is EntryEditViewModel.EntryEditState.RetrieveEntryInfoForClosing -> {
+                            // Entry info retrieved in dedicated fragment
+                        }
+                        is EntryEditViewModel.EntryEditState.AskToDiscardChanges -> {
+                            AlertDialog.Builder(this@EntryEditActivity)
+                                .setMessage(R.string.discard_changes)
+                                .setNegativeButton(android.R.string.cancel) { _, _ -> }
+                                .setPositiveButton(R.string.discard) { _, _ ->
+                                    mAttachmentFileBinderManager?.stopUploadAllAttachments()
+                                    mEntryEditViewModel.approveDiscardChanges(entryEditState.closeType)
+                                }.create().show()
+                            mEntryEditViewModel.actionPerformed()
+                        }
                     }
                 }
             }
@@ -792,35 +816,15 @@ class EntryEditActivity : DatabaseLockActivity(),
     }
 
     override fun onDatabaseBackPressed() {
-        onApprovedBackPressed {
-            super@EntryEditActivity.onDatabaseBackPressed()
-        }
+        mEntryEditViewModel.askToClose(
+            EntryEditViewModel.CloseType.DATABASE_BACK_PRESSED
+        )
     }
 
     override fun onCancelSpecialMode() {
-        onApprovedBackPressed {
-            super@EntryEditActivity.onCancelSpecialMode()
-            finish()
-        }
-    }
-
-    private fun onApprovedBackPressed(approved: () -> Unit) {
-        if (mEntryEditViewModel.backPressedAlreadyApproved.not()) {
-            if (mEntryEditViewModel.hasChanges()) {
-                AlertDialog.Builder(this)
-                    .setMessage(R.string.discard_changes)
-                    .setNegativeButton(android.R.string.cancel, null)
-                    .setPositiveButton(R.string.discard) { _, _ ->
-                        mAttachmentFileBinderManager?.stopUploadAllAttachments()
-                        mEntryEditViewModel.backPressedAlreadyApproved = true
-                        approved.invoke()
-                    }.create().show()
-            } else {
-                approved.invoke()
-            }
-        } else {
-            approved.invoke()
-        }
+        mEntryEditViewModel.askToClose(
+            EntryEditViewModel.CloseType.CANCEL_SPECIAL_MODE
+        )
     }
 
     private fun buildEntryResult(entry: Entry): Bundle {

@@ -52,11 +52,6 @@ class EntryEditViewModel: NodeEditViewModel() {
 
     private var mInitialEntryInfo: EntryInfo? = null
 
-    /**
-     * Provider to retrieve the current entry info from the view
-     */
-    var entryInfoProvider: (() -> EntryInfo)? = null
-
     val templatesEntry : LiveData<TemplatesEntry?> get() = _templatesEntry
     private val _templatesEntry = MutableLiveData<TemplatesEntry?>()
 
@@ -394,10 +389,25 @@ class EntryEditViewModel: NodeEditViewModel() {
         mEntryEditState.value = EntryEditState.Loading
     }
 
-    fun hasChanges(): Boolean {
-        return entryInfoProvider?.invoke()?.let { currentEntryInfo ->
-            mInitialEntryInfo != currentEntryInfo
-        } ?: false
+    fun askToClose(closeType: CloseType) {
+        mEntryEditState.value = EntryEditState.RetrieveEntryInfoForClosing(closeType)
+    }
+
+    fun askToCloseEntry(currentEntryInfo: EntryInfo?, closeType: CloseType) {
+        if (backPressedAlreadyApproved.not()) {
+            if (mInitialEntryInfo != currentEntryInfo) {
+                mEntryEditState.value = EntryEditState.AskToDiscardChanges(closeType)
+            } else {
+                mEntryEditState.value = EntryEditState.CloseEntry(closeType)
+            }
+        } else {
+            mEntryEditState.value = EntryEditState.CloseEntry(closeType)
+        }
+    }
+
+    fun approveDiscardChanges(closeType: CloseType) {
+        backPressedAlreadyApproved = true
+        mEntryEditState.value = EntryEditState.CloseEntry(closeType)
     }
 
     data class TemplatesEntry(
@@ -407,7 +417,6 @@ class EntryEditViewModel: NodeEditViewModel() {
         val entryInfo: EntryInfo?,
         val overwrittenData: Boolean = false
     )
-    object EntryUpdate // TODO Change
     data class EntrySave(val oldEntry: Entry, val newEntry: Entry, val parent: Group?)
     data class FieldEdition(val oldField: Field?, val newField: Field?)
     data class AttachmentBuild(val attachmentToUploadUri: Uri, val fileName: String)
@@ -423,6 +432,20 @@ class EntryEditViewModel: NodeEditViewModel() {
         data class OnFieldProtectionUpdated(
             val fieldProtection: FieldProtection
         ): EntryEditState()
+        data class CloseEntry(
+            val closeType: CloseType
+        ): EntryEditState()
+        data class RetrieveEntryInfoForClosing(
+            val closeType: CloseType
+        ): EntryEditState()
+        data class AskToDiscardChanges(
+            val closeType: CloseType
+        ): EntryEditState()
+    }
+
+    enum class CloseType {
+        DATABASE_BACK_PRESSED,
+        CANCEL_SPECIAL_MODE
     }
 
     companion object {

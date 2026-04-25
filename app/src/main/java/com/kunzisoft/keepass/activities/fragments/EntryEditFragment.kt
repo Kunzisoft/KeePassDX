@@ -274,9 +274,6 @@ class EntryEditFragment: DatabaseFragment() {
             }
         }
 
-        // Retrieves the entry upon validation to check for changes
-        mEntryEditViewModel.entryInfoProvider = { retrieveEntryInfo() }
-
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 mEntryEditViewModel.entryEditState.collect { entryEditState ->
@@ -287,6 +284,18 @@ class EntryEditFragment: DatabaseFragment() {
                         is EntryEditViewModel.EntryEditState.OnFieldProtectionUpdated -> {
                             updateFieldProtection(entryEditState.fieldProtection)
                             mEntryEditViewModel.actionPerformed()
+                        }
+                        is EntryEditViewModel.EntryEditState.CloseEntry -> {
+                            // Managed in entry edit activity
+                        }
+                        is EntryEditViewModel.EntryEditState.RetrieveEntryInfoForClosing -> {
+                            mEntryEditViewModel.askToCloseEntry(
+                                currentEntryInfo = retrieveEntryInfo(),
+                                closeType = entryEditState.closeType
+                            )
+                        }
+                        is EntryEditViewModel.EntryEditState.AskToDiscardChanges -> {
+                            // Dialog in activity
                         }
                     }
                 }
