@@ -93,6 +93,11 @@ class EntryViewModel(application: Application): AndroidViewModel(application) {
             IOActionTask(
                 {
                     val mainEntry = database.getEntryById(mainEntryId)
+                    // To sort by access
+                    mainEntry?.let {
+                        it.touch(modified = false, touchParents = false)
+                        database.updateEntry(entry = it, dataModified = false)
+                    }
                     val currentEntry = if (historyPosition > -1) {
                         mainEntry?.getHistory()?.get(historyPosition)
                     } else {
