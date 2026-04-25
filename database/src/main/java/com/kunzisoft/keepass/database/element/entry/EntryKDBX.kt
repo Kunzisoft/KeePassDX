@@ -378,7 +378,7 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
         } else null
     }
 
-    fun removeAllHistory() {
+    fun clearHistory() {
         history.clear()
     }
 

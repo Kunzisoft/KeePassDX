@@ -450,8 +450,8 @@ class Entry : Node, EntryVersionedInterface<Group> {
         return null
     }
 
-    fun removeAllHistory() {
-        entryKDBX?.removeAllHistory()
+    fun clearHistory() {
+        entryKDBX?.clearHistory()
     }
 
     fun getSize(attachmentPool: AttachmentPool): Long {

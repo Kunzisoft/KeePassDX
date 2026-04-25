@@ -42,6 +42,8 @@ class UpdateEntryRunnable(
             mNewEntry.addParentFrom(mOldEntry)
 
             // Re-attribute history removed to save memory in Bundle creation
+            // Clear to be sure
+            mNewEntry.clearHistory()
             mOldEntry.getHistory().forEach {
                 mNewEntry.addEntryToHistory(it)
             }
