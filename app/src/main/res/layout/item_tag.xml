@@ -17,17 +17,18 @@
   You should have received a copy of the GNU General Public License
   along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<TextView
+<androidx.appcompat.widget.AppCompatTextView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/tag_name"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:minHeight="24dp"
     android:gravity="center_vertical"
-    android:layout_gravity="center"
+    android:layout_gravity="center_vertical"
     android:background="@drawable/background_tag"
-    android:backgroundTint="?attr/colorSecondary"
+    app:backgroundTint="?attr/colorSecondary"
     tools:text="text"
     android:textColor="?attr/colorSecondary"
     android:textSize="12sp"

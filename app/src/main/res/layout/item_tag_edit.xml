@@ -17,24 +17,27 @@
   You should have received a copy of the GNU General Public License
   along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<LinearLayout
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_marginHorizontal="6dp"
-    android:background="@drawable/background_tag"
+    android:gravity="center_vertical"
+    android:layout_gravity="center_vertical"
     android:orientation="horizontal">
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tag_name"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="24dp"
+        android:background="@drawable/background_tag"
         android:gravity="center_vertical"
         android:layout_gravity="center_vertical"
         tools:text="text"
         android:textSize="12sp"
-        android:paddingHorizontal="4dp" />
+        android:paddingStart="6dp"
+        android:paddingEnd="22dp" />
     <ImageView
         android:id="@+id/tag_remove"
         android:layout_width="24dp"
@@ -42,7 +45,6 @@
         android:padding="4dp"
         android:src="@drawable/ic_close_white_24dp"
         app:tint="?attr/colorSecondary"
-        android:gravity="center_vertical"
-        android:layout_gravity="center"
+        android:layout_gravity="end|center_vertical"
         android:contentDescription="@string/menu_delete" />
-</LinearLayout>
+</FrameLayout>

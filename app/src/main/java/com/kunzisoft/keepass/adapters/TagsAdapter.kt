@@ -28,6 +28,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.annotation.ColorInt
 import androidx.core.view.ViewCompat
+import androidx.core.widget.TextViewCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.kunzisoft.keepass.R
@@ -80,35 +81,19 @@ class TagsAdapter(
         }
         when (globalViewType) {
             TagViewType.SMALL -> {
-                // Tint text depending on selection
-                holder.name.setTextColor(if (tagIsSelected) mColorOnSecondary else mColorSecondary)
-                // Tint background depending on selection
-                ViewCompat.setBackgroundTintList(
-                    holder.name,
-                    ColorStateList.valueOf(
-                        (if (tagIsSelected) mColorOnSecondary else mColorSecondary)
-                    )
-                )
+                val color = if (tagIsSelected) mColorOnSecondary else mColorSecondary
+                // Tint depending on selection
+                holder.name.setTextColor(color)
+                ViewCompat.setBackgroundTintList(holder.name, ColorStateList.valueOf(color))
             }
             TagViewType.CHIP -> {
-                holder.container?.let {
-                    ViewCompat.setBackgroundTintList(
-                        it,
-                        ColorStateList.valueOf(
-                            (if (tagIsSelected) mColorSecondary else mTextColor)
-                        )
-                    )
-                }
-                holder.check?.let { checkView ->
-                    checkView.visibility = if (tagIsSelected) View.VISIBLE else View.GONE
-                    ViewCompat.setBackgroundTintList(
-                        checkView,
-                        ColorStateList.valueOf(
-                            (if (tagIsSelected) mColorSecondary else mTextColor)
-                        )
-                    )
-                }
-                holder.name.setTextColor(if (tagIsSelected) mColorSecondary else mTextColor)
+                val color = if (tagIsSelected) mColorSecondary else mTextColor
+                ViewCompat.setBackgroundTintList(holder.name, ColorStateList.valueOf(color))
+                holder.name.setTextColor(color)
+                holder.name.setCompoundDrawablesRelativeWithIntrinsicBounds(
+                    if (tagIsSelected) R.drawable.ic_check_white_14dp else 0, 0, 0, 0
+                )
+                TextViewCompat.setCompoundDrawableTintList(holder.name, ColorStateList.valueOf(color))
             }
             else -> {
                 // No text color change in standard mode
@@ -186,9 +171,6 @@ class TagsAdapter(
     }
 
     class TagViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-
-        var container: View? = itemView.findViewById(R.id.tag_container)
-        var check: View? = itemView.findViewById(R.id.tag_check)
         var name: TextView = itemView.findViewById(R.id.tag_name)
 
         fun bind(item: Tag, listener: OnItemClickListener?) {
