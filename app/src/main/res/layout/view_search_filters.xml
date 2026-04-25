@@ -67,27 +67,32 @@
             app:layout_constraintTop_toBottomOf="@+id/search_expand"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent">
-            <com.google.android.material.chip.Chip
-                android:id="@+id/search_chip_tag"
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/search_chip_tag_group"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:checked="false"
-                android:enabled="false"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 android:layout_marginStart="8dp"
-                android:layout_marginBottom="8dp"
-                style="@style/KeepassDXStyle.Chip.Filter.Icon"
-                app:chipIcon="@drawable/ic_bookmark_white_12dp"
-                android:text="@string/tags"/>
+                android:layout_marginBottom="8dp">
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/search_chip_tag"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="false"
+                    android:enabled="false"
+                    style="@style/KeepassDXStyle.Chip.Filter.Icon"
+                    app:chipIcon="@drawable/ic_bookmark_white_12dp"
+                    android:text="@string/tags"/>
+            </com.google.android.material.chip.ChipGroup>
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/search_tags_list"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                app:layout_constraintTop_toTopOf="@+id/search_chip_tag"
-                app:layout_constraintBottom_toBottomOf="@+id/search_chip_tag"
-                app:layout_constraintStart_toEndOf="@+id/search_chip_tag"
+                app:layout_constraintTop_toTopOf="@+id/search_chip_tag_group"
+                app:layout_constraintBottom_toBottomOf="@+id/search_chip_tag_group"
+                app:layout_constraintStart_toEndOf="@+id/search_chip_tag_group"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_gravity="center_vertical"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"

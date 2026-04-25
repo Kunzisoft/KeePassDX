@@ -31,6 +31,7 @@ class SearchFiltersView @JvmOverloads constructor(context: Context,
     private var searchNumbers: TextView
     private var searchTags: RecyclerView
     private var searchTagsContainer: View
+    private var searchTagGroup: ViewGroup
     private var searchTag: CompoundButton
     private var tagsAdapter: TagsAdapter = TagsAdapter(
         context,
@@ -142,6 +143,7 @@ class SearchFiltersView @JvmOverloads constructor(context: Context,
         searchNumbers = findViewById(R.id.search_numbers)
         searchCurrentGroup = findViewById(R.id.search_chip_current_group)
         searchTagsContainer = findViewById(R.id.search_tags_container)
+        searchTagGroup = findViewById(R.id.search_chip_tag_group)
         searchTag = findViewById(R.id.search_chip_tag)
         searchTags = findViewById(R.id.search_tags_list)
         searchCaseSensitive = findViewById(R.id.search_chip_case_sensitive)
@@ -265,10 +267,10 @@ class SearchFiltersView @JvmOverloads constructor(context: Context,
 
     fun setSelectableTags(tags: Tags?) {
         if (tags == null || tags.isEmpty()) {
-            searchTagsContainer.isVisible = false
+            searchTagGroup.isVisible = false
             searchParameters.searchInTags = false
         } else {
-            searchTagsContainer.isVisible = true
+            searchTagGroup.isVisible = true
             tagsAdapter.setTags(tags)
         }
     }
@@ -311,8 +313,9 @@ class SearchFiltersView @JvmOverloads constructor(context: Context,
         )
     }
 
-    fun showSearchExpandButton(show: Boolean) {
+    fun allowAdvancedSearch(show: Boolean) {
         searchExpandButton.visibility = if (show) VISIBLE else INVISIBLE
+        searchTagsContainer.visibility = if (show) VISIBLE else GONE
     }
 
     override fun setVisibility(visibility: Int) {

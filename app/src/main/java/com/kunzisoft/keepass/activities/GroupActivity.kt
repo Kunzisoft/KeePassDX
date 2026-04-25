@@ -227,7 +227,7 @@ class GroupActivity : DatabaseLockActivity(),
     private val mOnSearchActionExpandListener = object : MenuItem.OnActionExpandListener {
         override fun onMenuItemActionExpand(p0: MenuItem): Boolean {
             searchFiltersView?.visibility = View.VISIBLE
-            searchFiltersView?.showSearchExpandButton(!mTempSearchInfo)
+            searchFiltersView?.allowAdvancedSearch(!mTempSearchInfo)
             searchView?.setOnQueryTextListener(mOnSearchQueryTextListener)
             searchFiltersView?.onParametersChangeListener = mOnSearchFiltersChangeListener
 
