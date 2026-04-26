@@ -717,8 +717,6 @@
     <string name="error_passkey_credential_id">Pääsuvõtit ei leidu edastava osapoole „%1$s“ ja tuvastustunnuse (credentialId) „%2$s“ jaoks</string>
     <string name="user_verification_required_description_precise">%1$s eeldab tuvastamist, et tõesti on tegemist sinuga.</string>
     <string name="user_verification">Kasutaja verifitseerimine</string>
-    <string name="user_verification_mode_title">Kasutaja verifitseerimise režiim</string>
-    <string name="user_verification_mode_summary">Andmebaasi avamisel käivitab vaikimisi kasutaja verifitseerimise režiimi</string>
     <string name="menu_user_verification_enabled">Kasutaja verifitseerimine on lülitatud sisse</string>
     <string name="menu_user_verification_disabled">Kasutaja verifitseerimine on lülitatud välja</string>
     <string name="education_user_verification_title">Verifitseerimine turvatundlike toimingute puhul</string>

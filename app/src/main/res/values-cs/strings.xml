@@ -760,8 +760,6 @@
     <string name="check">Zkontrolovat</string>
     <string name="user_verification_required_description_precise">%1$s chce ověřit, že jste to opravdu vy.</string>
     <string name="user_verification">Ověření uživatele</string>
-    <string name="user_verification_mode_title">Režim ověření uživatele</string>
-    <string name="user_verification_mode_summary">Povolí automatický režim Ověření uživatele po otevření databáze</string>
     <string name="menu_user_verification_enabled">Ověření uživatele povoleno</string>
     <string name="menu_user_verification_disabled">Ověření uživatele zakázáno</string>
     <string name="education_user_verification_title">Ověření u citlivých akcí</string>

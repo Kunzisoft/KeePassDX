@@ -211,7 +211,7 @@ class MainCredentialActivity : DatabaseModeActivity() {
         // Observe database file change
         mDatabaseFileViewModel.databaseFileLoaded.observe(this) { databaseFile ->
 
-            // Force read only if the file does not exists
+            // Force read only if the file does not exist
             val databaseFileNotExists = databaseFile?.let {
                 !it.databaseFileExists
             } ?: true
@@ -227,6 +227,12 @@ class MainCredentialActivity : DatabaseModeActivity() {
             if (!mForceReadOnly) {
                 databaseFile?.readOnly?.let { savedReadOnlyState ->
                     mReadOnly = savedReadOnlyState
+                }
+            }
+            // Restore User Verification state
+            if (!mForceUserVerificationAllowed) {
+                databaseFile?.userVerification?.let { savedUserVerificationState ->
+                    mUserVerificationAllowed = savedUserVerificationState
                 }
             }
 
@@ -786,13 +792,25 @@ class MainCredentialActivity : DatabaseModeActivity() {
                 // Save the read-only state to database
                 mDatabaseFileUri?.let { databaseUri ->
                     FileDatabaseHistoryAction.getInstance(applicationContext).addOrUpdateDatabaseFile(
-                        DatabaseFile(databaseUri = databaseUri, readOnly = mReadOnly)
+                        DatabaseFile(
+                            databaseUri = databaseUri,
+                            readOnly = mReadOnly
+                        )
                     )
                 }
             }
             R.id.menu_open_file_user_verification_mode_key -> {
                 mUserVerificationAllowed = !mUserVerificationAllowed
                 changeUserVerificationModeIcon(item)
+                // Save the user verification state to database
+                mDatabaseFileUri?.let { databaseUri ->
+                    FileDatabaseHistoryAction.getInstance(applicationContext).addOrUpdateDatabaseFile(
+                        DatabaseFile(
+                            databaseUri = databaseUri,
+                            userVerification = mUserVerificationAllowed
+                        )
+                    )
+                }
             }
             else -> MenuUtil.onDefaultMenuOptionsItemSelected(this, item)
         }

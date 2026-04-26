@@ -752,8 +752,6 @@
     <string name="autofill_share_magikeyboard_summary">Einträge an Magikeyboard weitergeben, die automatisch ausgefüllt wurden</string>
     <string name="user_verification_required_description">Der Zugriff auf diese Daten erfordert eine Überprüfung, ob Sie es wirklich sind.</string>
     <string name="user_verification_required_description_precise">%1$s erfordert die Überprüfung, ob es sich wirklich um Sie handelt.</string>
-    <string name="user_verification_mode_title">Benutzerüberprüfungsmodus</string>
-    <string name="user_verification_mode_summary">Aktiviert standardmäßig den Benutzerüberprüfungsmodus beim Öffnen einer Datenbank</string>
     <string name="menu_user_verification_enabled">Benutzerüberprüfung aktiviert</string>
     <string name="menu_user_verification_disabled">Benutzerüberprüfung deaktiviert</string>
     <string name="user_verification_preferred_summary">Eine Benutzerüberprüfung durchführen, wenn die vertrauende Stelle „bevorzugt“ anfordert</string>

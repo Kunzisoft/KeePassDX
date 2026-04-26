@@ -734,8 +734,6 @@
     <string name="user_verification">Kullanıcı Doğrulaması</string>
     <string name="user_verification_device_credential_title">Kullanıcı Doğrulama kimlik bilgisi</string>
     <string name="user_verification_device_credential_summary">Eğer varsa kimlik bilgilerini kullanıcı doğrulaması için kullan</string>
-    <string name="user_verification_mode_title">Kullanıcı Doğrulama Modu</string>
-    <string name="user_verification_mode_summary">Veritabanı açarken varsayılan olarak Kullanıcı Doğrulama modunu etkinleştirir</string>
     <string name="menu_user_verification_enabled">Kullanıcı Doğrulama etkinleştirildi</string>
     <string name="menu_user_verification_disabled">Kullanıcı Doğrulama devre dışı bırakıldı</string>
     <string name="user_verification_preferred_summary">Güvenilen taraf \"tercih edilen\" yöntemi talep ettiğinde kullanıcı doğrulamasını gerçekleştir</string>

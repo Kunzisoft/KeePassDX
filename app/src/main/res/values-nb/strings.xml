@@ -730,10 +730,8 @@
     <string name="clipboard_otp_notifications_summary">Åpne et varsel for å kopiere engangskoden fra oppføringer som har autofill eller magikeyboard</string>
     <string name="user_verification">Brukerverifisering</string>
     <string name="user_verification_device_credential_title">Brukerverifiseringsdata</string>
-    <string name="user_verification_mode_title">Brukerverifiseringsmodus</string>
     <string name="menu_user_verification_enabled">Brukerverifisering aktivert</string>
     <string name="menu_user_verification_disabled">Brukerverifisering deaktivert</string>
-    <string name="user_verification_mode_summary">Bruker brukerverifiseringsmodusen som standard når en database åpnes</string>
     <string name="user_verification_preferred_title">Foretrukket brukerverifisering</string>
     <string name="keyboard_auto_switch_title">Automatisk bytting til magikeyboard</string>
     <string name="keyboard_auto_switch_summary">Prøv å bytte automatisk til magikeyboard når oppføringene fylles ut</string>

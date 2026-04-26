@@ -8,7 +8,7 @@ KeePassDX(4.4.0)
  * Filter browser appId in Magikeyboard #2466 #2394 #2400 #2317
  * Fix history save #2471
  * Fix screenshot mode #2407
- * Small fixes #2476 #2369 #1911
+ * Small fixes #2476 #2369 #1911 #2469
 
 KeePassDX(4.3.3)
  * Fix 16 KB ELF alignment #2074

@@ -761,8 +761,6 @@
     <string name="first_chars">Primi caratteri</string>
     <string name="check">Controlla</string>
     <string name="user_verification">Verifica utente</string>
-    <string name="user_verification_mode_title">Modalità verifica utente</string>
-    <string name="user_verification_mode_summary">Attiva la modalità di verifica dell\'utente in modo predefinito all\'apertura del database</string>
     <string name="menu_user_verification_enabled">Verifica utente attivata</string>
     <string name="menu_user_verification_disabled">Verifica utente disattivata</string>
     <string name="user_verification_required_description_precise">%1$s richiede di verificare che sei effettivamente tu.</string>

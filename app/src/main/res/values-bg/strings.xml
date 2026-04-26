@@ -736,8 +736,6 @@
     <string name="check">Проверяване</string>
     <string name="user_verification_required_description_precise">%1$s изисква установяване на самоличността.</string>
     <string name="user_verification">Проверка на потребител</string>
-    <string name="user_verification_mode_title">Режим на проверка на потребител</string>
-    <string name="user_verification_mode_summary">Режимът за проверка на потребителя да е включен по подразбиране при отваряне на хранилището</string>
     <string name="menu_user_verification_enabled">Проверката на потребителя е включена</string>
     <string name="menu_user_verification_disabled">Проверката на потребителя е изключена</string>
     <string name="education_user_verification_title">Проверяване при чувствителни действия</string>

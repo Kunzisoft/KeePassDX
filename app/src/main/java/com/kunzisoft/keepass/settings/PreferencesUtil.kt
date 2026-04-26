@@ -701,6 +701,7 @@ object PreferencesUtil {
             context.resources.getBoolean(R.bool.passkeys_close_database_default))
     }
 
+    // Deprecated, only used to avoid confusing users who have already enabled the setting
     fun isUserVerificationModeEnabledByDefault(context: Context): Boolean {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
         return prefs.getBoolean(context.getString(R.string.user_verification_mode_key),

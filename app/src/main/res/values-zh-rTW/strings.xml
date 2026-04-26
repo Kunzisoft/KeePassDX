@@ -714,8 +714,6 @@
     <string name="user_verification">用戶驗證</string>
     <string name="user_verification_device_credential_title">用戶驗證憑證</string>
     <string name="user_verification_device_credential_summary">如果可用，使用裝置憑證進行使用者驗證</string>
-    <string name="user_verification_mode_title">用户驗證模式</string>
-    <string name="user_verification_mode_summary">打開資料庫時預設啟用用户驗證模式</string>
     <string name="menu_user_verification_enabled">用戶驗證已啟用</string>
     <string name="menu_user_verification_disabled">用戶驗證已禁用</string>
     <string name="user_verification_preferred_title">首選用戶驗證</string>

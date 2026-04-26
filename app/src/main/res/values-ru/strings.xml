@@ -758,8 +758,6 @@
     <string name="first_chars">Первые символы</string>
     <string name="check">Проверка</string>
     <string name="user_verification_required_description_precise">%1$s требует подтверждения вашей личности</string>
-    <string name="user_verification_mode_summary">Использовать режим проверки пользователя по умолчанию при открытии базы</string>
-    <string name="user_verification_mode_title">Режим проверки пользователя</string>
     <string name="user_verification">Проверка пользователя</string>
     <string name="menu_user_verification_enabled">Проверка пользователя включена</string>
     <string name="menu_user_verification_disabled">Проверка пользователя отключена</string>

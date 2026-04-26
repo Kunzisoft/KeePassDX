@@ -58,11 +58,6 @@
         android:title="@string/user_verification">
 
         <SwitchPreferenceCompat
-            android:key="@string/user_verification_mode_key"
-            android:title="@string/user_verification_mode_title"
-            android:summary="@string/user_verification_mode_summary"
-            android:defaultValue="@bool/user_verification_mode_default"/>
-        <SwitchPreferenceCompat
             android:key="@string/user_verification_device_credential_key"
             android:title="@string/user_verification_device_credential_title"
             android:summary="@string/user_verification_device_credential_summary"

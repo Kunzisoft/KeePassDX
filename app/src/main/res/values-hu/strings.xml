@@ -753,8 +753,6 @@
     <string name="check">Ellenőrzés</string>
     <string name="user_verification_required_description_precise">A(z) %1$s ellenőrzést kér annak megerősítésére, hogy valóban Ön az.</string>
     <string name="user_verification">Felhasználó-ellenőrzés</string>
-    <string name="user_verification_mode_title">Felhasználó-ellenőrzési mód</string>
-    <string name="user_verification_mode_summary">Alapértelmezés szerint engedélyezi a felhasználó-ellenőrzés módot az adatbázis megnyitásakor</string>
     <string name="menu_user_verification_enabled">Felhasználó-ellenőrzés engedélyezve</string>
     <string name="menu_user_verification_disabled">Felhasználó-ellenőrzés letiltva</string>
     <string name="education_user_verification_title">Érzékeny műveletek ellenőrzése</string>

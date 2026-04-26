@@ -740,8 +740,6 @@
     <string name="check">تحقق</string>
     <string name="user_verification_required_description_precise">%1$s يتطلب التحقق من أنك أنت بالفعل.</string>
     <string name="user_verification">تحقق المستخدم</string>
-    <string name="user_verification_mode_title">وضع تحقق المستخدم</string>
-    <string name="user_verification_mode_summary">يُفعّل وضع التحقق من المستخدم افتراضيًا عند فتح قاعدة البيانات</string>
     <string name="menu_user_verification_enabled">تحقق المستخدم مُفعّل</string>
     <string name="menu_user_verification_disabled">تحقق المستخدم مُعطّل</string>
     <string name="education_user_verification_title">التحقق للإجراءات الحساسة</string>

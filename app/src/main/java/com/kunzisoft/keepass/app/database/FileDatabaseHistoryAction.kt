@@ -36,8 +36,10 @@ class FileDatabaseHistoryAction(private val applicationContext: Context) {
     private val databaseFileHistoryDao =
             AppDatabase.getDatabase(applicationContext).fileDatabaseHistoryDao()
 
-    fun getDatabaseFile(databaseUri: Uri,
-                        databaseFileResult: (DatabaseFile?) -> Unit) {
+    fun getDatabaseFile(
+        databaseUri: Uri,
+        databaseFileResult: (DatabaseFile?) -> Unit
+    ) {
         IOActionTask(
             {
                 val fileDatabaseHistoryEntity =
@@ -46,16 +48,16 @@ class FileDatabaseHistoryAction(private val applicationContext: Context) {
                     applicationContext,
                     databaseUri)
                 DatabaseFile(
-                    databaseUri,
-                    fileDatabaseHistoryEntity?.keyFileUri?.parseUri(),
-                    HardwareKey.getHardwareKeyFromString(fileDatabaseHistoryEntity?.hardwareKey),
-                    fileDatabaseHistoryEntity?.readOnly,
-                    fileDatabaseHistoryEntity?.databaseUri?.decodeUri(),
-                    fileDatabaseInfo.retrieveDatabaseAlias(fileDatabaseHistoryEntity?.databaseAlias
-                        ?: ""),
-                    fileDatabaseInfo.exists,
-                    fileDatabaseInfo.getLastModificationString(),
-                    fileDatabaseInfo.getSizeString()
+                    databaseUri = databaseUri,
+                    keyFileUri = fileDatabaseHistoryEntity?.keyFileUri?.parseUri(),
+                    hardwareKey = HardwareKey.getHardwareKeyFromString(fileDatabaseHistoryEntity?.hardwareKey),
+                    readOnly = fileDatabaseHistoryEntity?.readOnly,
+                    userVerification = fileDatabaseHistoryEntity?.userVerification,
+                    databaseDecodedPath = fileDatabaseHistoryEntity?.databaseUri?.decodeUri(),
+                    databaseAlias = fileDatabaseInfo.retrieveDatabaseAlias(fileDatabaseHistoryEntity?.databaseAlias ?: ""),
+                    databaseFileExists = fileDatabaseInfo.exists,
+                    databaseLastModified = fileDatabaseInfo.getLastModificationString(),
+                    databaseSize = fileDatabaseInfo.getSizeString()
                 )
             },
             {
@@ -64,8 +66,10 @@ class FileDatabaseHistoryAction(private val applicationContext: Context) {
         ).execute()
     }
 
-    fun getKeyFileUriByDatabaseUri(databaseUri: Uri,
-                                   keyFileUriResultListener: (Uri?) -> Unit) {
+    fun getKeyFileUriByDatabaseUri(
+        databaseUri: Uri,
+        keyFileUriResultListener: (Uri?) -> Unit
+    ) {
         IOActionTask(
             {
                 databaseFileHistoryDao.getByDatabaseUri(databaseUri.toString())
@@ -97,15 +101,16 @@ class FileDatabaseHistoryAction(private val applicationContext: Context) {
                     ) {
                         databaseFileListLoaded.add(
                             DatabaseFile(
-                                fileDatabaseHistoryEntity.databaseUri.parseUri(),
-                                fileDatabaseHistoryEntity.keyFileUri?.parseUri(),
-                                HardwareKey.getHardwareKeyFromString(fileDatabaseHistoryEntity.hardwareKey),
-                                fileDatabaseHistoryEntity.readOnly,
-                                fileDatabaseHistoryEntity.databaseUri.decodeUri(),
-                                fileDatabaseInfo.retrieveDatabaseAlias(fileDatabaseHistoryEntity.databaseAlias),
-                                fileDatabaseInfo.exists,
-                                fileDatabaseInfo.getLastModificationString(),
-                                fileDatabaseInfo.getSizeString()
+                                databaseUri = fileDatabaseHistoryEntity.databaseUri.parseUri(),
+                                keyFileUri = fileDatabaseHistoryEntity.keyFileUri?.parseUri(),
+                                hardwareKey = HardwareKey.getHardwareKeyFromString(fileDatabaseHistoryEntity.hardwareKey),
+                                readOnly = fileDatabaseHistoryEntity.readOnly,
+                                userVerification = fileDatabaseHistoryEntity.userVerification,
+                                databaseDecodedPath = fileDatabaseHistoryEntity.databaseUri.decodeUri(),
+                                databaseAlias = fileDatabaseInfo.retrieveDatabaseAlias(fileDatabaseHistoryEntity.databaseAlias),
+                                databaseFileExists = fileDatabaseInfo.exists,
+                                databaseLastModified = fileDatabaseInfo.getLastModificationString(),
+                                databaseSize = fileDatabaseInfo.getSizeString()
                             )
                         )
                     }
@@ -120,10 +125,12 @@ class FileDatabaseHistoryAction(private val applicationContext: Context) {
         ).execute()
     }
 
-    fun addOrUpdateDatabaseUri(databaseUri: Uri,
-                               keyFileUri: Uri? = null,
-                               hardwareKey: HardwareKey? = null,
-                               databaseFileAddedOrUpdatedResult: ((DatabaseFile?) -> Unit)? = null) {
+    fun addOrUpdateDatabaseUri(
+        databaseUri: Uri,
+        keyFileUri: Uri? = null,
+        hardwareKey: HardwareKey? = null,
+        databaseFileAddedOrUpdatedResult: ((DatabaseFile?) -> Unit)? = null
+    ) {
         addOrUpdateDatabaseFile(DatabaseFile(
             databaseUri,
             keyFileUri,
@@ -131,8 +138,10 @@ class FileDatabaseHistoryAction(private val applicationContext: Context) {
         ), databaseFileAddedOrUpdatedResult)
     }
 
-    fun addOrUpdateDatabaseFile(databaseFileToAddOrUpdate: DatabaseFile,
-                                databaseFileAddedOrUpdatedResult: ((DatabaseFile?) -> Unit)? = null) {
+    fun addOrUpdateDatabaseFile(
+        databaseFileToAddOrUpdate: DatabaseFile,
+        databaseFileAddedOrUpdatedResult: ((DatabaseFile?) -> Unit)? = null
+    ) {
         IOActionTask(
             {
                 databaseFileToAddOrUpdate.databaseUri?.let { databaseUri ->
@@ -144,14 +153,17 @@ class FileDatabaseHistoryAction(private val applicationContext: Context) {
                     val fileDatabaseHistory =
                         FileDatabaseHistoryEntity(
                             databaseUri.toString(),
-                            databaseFileToAddOrUpdate.databaseAlias
+                            databaseAlias = databaseFileToAddOrUpdate.databaseAlias
                                 ?: fileDatabaseHistoryRetrieve?.databaseAlias
                                 ?: "",
-                            databaseFileToAddOrUpdate.keyFileUri?.toString(),
-                            databaseFileToAddOrUpdate.hardwareKey?.value,
-                            databaseFileToAddOrUpdate.readOnly
+                            keyFileUri = databaseFileToAddOrUpdate.keyFileUri?.toString(),
+                            hardwareKey = databaseFileToAddOrUpdate.hardwareKey?.value,
+                            readOnly = databaseFileToAddOrUpdate.readOnly
                                 ?: fileDatabaseHistoryRetrieve?.readOnly,
-                            System.currentTimeMillis()
+                            userVerification = databaseFileToAddOrUpdate.userVerification
+                                ?: fileDatabaseHistoryRetrieve?.userVerification
+                                ?: PreferencesUtil.isUserVerificationModeEnabledByDefault(applicationContext),
+                            updated = System.currentTimeMillis()
                         )
 
                     // Update values if history element not yet in the database
@@ -169,15 +181,16 @@ class FileDatabaseHistoryAction(private val applicationContext: Context) {
                         FileDatabaseInfo(applicationContext,
                             fileDatabaseHistory.databaseUri)
                     DatabaseFile(
-                        fileDatabaseHistory.databaseUri.parseUri(),
-                        fileDatabaseHistory.keyFileUri?.parseUri(),
-                        HardwareKey.getHardwareKeyFromString(fileDatabaseHistory.hardwareKey),
-                        fileDatabaseHistory.readOnly,
-                        fileDatabaseHistory.databaseUri.decodeUri(),
-                        fileDatabaseInfo.retrieveDatabaseAlias(fileDatabaseHistory.databaseAlias),
-                        fileDatabaseInfo.exists,
-                        fileDatabaseInfo.getLastModificationString(),
-                        fileDatabaseInfo.getSizeString()
+                        databaseUri = fileDatabaseHistory.databaseUri.parseUri(),
+                        keyFileUri = fileDatabaseHistory.keyFileUri?.parseUri(),
+                        hardwareKey = HardwareKey.getHardwareKeyFromString(fileDatabaseHistory.hardwareKey),
+                        readOnly = fileDatabaseHistory.readOnly,
+                        userVerification = fileDatabaseHistory.userVerification,
+                        databaseDecodedPath = fileDatabaseHistory.databaseUri.decodeUri(),
+                        databaseAlias =  fileDatabaseInfo.retrieveDatabaseAlias(fileDatabaseHistory.databaseAlias),
+                        databaseFileExists = fileDatabaseInfo.exists,
+                        databaseLastModified = fileDatabaseInfo.getLastModificationString(),
+                        databaseSize =  fileDatabaseInfo.getSizeString()
                     )
                 }
             },
@@ -187,8 +200,10 @@ class FileDatabaseHistoryAction(private val applicationContext: Context) {
         ).execute()
     }
 
-    fun deleteDatabaseFile(databaseFileToDelete: DatabaseFile,
-                           databaseFileDeletedResult: (DatabaseFile?) -> Unit) {
+    fun deleteDatabaseFile(
+        databaseFileToDelete: DatabaseFile,
+        databaseFileDeletedResult: (DatabaseFile?) -> Unit
+    ) {
         IOActionTask(
             {
                 databaseFileToDelete.databaseUri?.let { databaseUri ->
@@ -197,12 +212,13 @@ class FileDatabaseHistoryAction(private val applicationContext: Context) {
                             val returnValue = databaseFileHistoryDao.delete(fileDatabaseHistory)
                             if (returnValue > 0) {
                                 DatabaseFile(
-                                    fileDatabaseHistory.databaseUri.parseUri(),
-                                    fileDatabaseHistory.keyFileUri?.parseUri(),
-                                    HardwareKey.getHardwareKeyFromString(fileDatabaseHistory.hardwareKey),
-                                    fileDatabaseHistory.readOnly,
-                                    fileDatabaseHistory.databaseUri.decodeUri(),
-                                    databaseFileToDelete.databaseAlias
+                                    databaseUri = fileDatabaseHistory.databaseUri.parseUri(),
+                                    keyFileUri =  fileDatabaseHistory.keyFileUri?.parseUri(),
+                                    hardwareKey = HardwareKey.getHardwareKeyFromString(fileDatabaseHistory.hardwareKey),
+                                    readOnly = fileDatabaseHistory.readOnly,
+                                    userVerification = fileDatabaseHistory.userVerification,
+                                    databaseDecodedPath = fileDatabaseHistory.databaseUri.decodeUri(),
+                                    databaseAlias = databaseFileToDelete.databaseAlias
                                 )
                             } else {
                                 null
@@ -216,8 +232,10 @@ class FileDatabaseHistoryAction(private val applicationContext: Context) {
         ).execute()
     }
 
-    fun deleteKeyFileByDatabaseUri(databaseUri: Uri,
-                                   result: (() ->Unit)? = null) {
+    fun deleteKeyFileByDatabaseUri(
+        databaseUri: Uri,
+        result: (() ->Unit)? = null
+    ) {
         IOActionTask(
             {
                 databaseFileHistoryDao.deleteKeyFileByDatabaseUri(databaseUri.toString())

@@ -758,8 +758,6 @@
     <string name="check">检查</string>
     <string name="user_verification_required_description_precise">%1$s 需要验证您的身份。</string>
     <string name="user_verification">用户验证</string>
-    <string name="user_verification_mode_title">用户验证模式</string>
-    <string name="user_verification_mode_summary">打开数据库时默认启用用户验证模式</string>
     <string name="menu_user_verification_enabled">用户验证已启用</string>
     <string name="menu_user_verification_disabled">用户验证已禁用</string>
     <string name="education_user_verification_title">敏感操作验证</string>

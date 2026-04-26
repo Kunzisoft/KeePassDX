@@ -684,8 +684,6 @@
     <string name="user_verification">பயனர் சரிபார்ப்பு</string>
     <string name="user_verification_device_credential_title">பயனர் சரிபார்ப்புச் சான்று</string>
     <string name="user_verification_device_credential_summary">சாதன நற்சான்றிதழ் இருந்தால், பயனர் சரிபார்ப்பாக பயன்படுத்தவும்</string>
-    <string name="user_verification_mode_title">பயனர் சரிபார்ப்பு முறை</string>
-    <string name="user_verification_mode_summary">தரவுத்தளத்தைத் திறக்கும்போது இயல்பாக பயனர் சரிபார்ப்பு பயன்முறையை இயக்குகிறது</string>
     <string name="menu_user_verification_enabled">பயனர் சரிபார்ப்பு இயக்கப்பட்டது</string>
     <string name="menu_user_verification_disabled">பயனர் சரிபார்ப்பு முடக்கப்பட்டுள்ளது</string>
     <string name="user_verification_preferred_title">விருப்பமான பயனர் சரிபார்ப்பு</string>

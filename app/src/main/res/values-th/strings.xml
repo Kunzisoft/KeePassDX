@@ -718,8 +718,6 @@
     <string name="check">ตรวจสอบ</string>
     <string name="menu_user_verification_disabled">ปิดใช้งานการตรวจสอบผู้ใช้</string>
     <string name="menu_user_verification_enabled">เปิดใช้งานการตรวจสอบผู้ใช้</string>
-    <string name="user_verification_mode_summary">เปิดใช้งานโหมดการตรวจสอบผู้ใช้โดยค่าเริ่มต้นเมื่อเปิดฐานข้อมูล</string>
-    <string name="user_verification_mode_title">โหมดการตรวจสอบผู้ใช้</string>
     <string name="user_verification">การตรวจสอบผู้ใช้</string>
     <string name="education_user_verification_title">การยืนยันสำหรับการกระทำที่ละเอียดอ่อน</string>
     <string name="education_user_verification_summary">การสลับโหมดการยืนยันผู้ใช้สำหรับเซสชั่นนี้. \n \n\"เปิดใช้งานการยืนยันผู้ใช้\" สำหรับการกระทำกับเขตข้อมูลที่ถูกป้องกันไว้และการตั้งค่าฐานข้อมูลต่างๆ\n\"เปิดใช้งานการยืนยันผู้ใช้\" ให้คุณเปลื่ยนแปลงข้อมูลต่างๆในฐานข้อมูลได้โดยไม่ต้องยืนยัน</string>

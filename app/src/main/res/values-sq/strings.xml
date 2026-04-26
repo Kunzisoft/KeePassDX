@@ -702,8 +702,6 @@
     <string name="credential_provider_service_subtitle">Kyçkalime, Shërbim furnizimi kredencialesh për vetëplotësim</string>
     <string name="menu_user_verification_disabled">Verifikimi i Përdoruesve është i çaktivizuar</string>
     <string name="menu_user_verification_enabled">Verifikim Përdoruesish është i aktivizuar</string>
-    <string name="user_verification_mode_summary">Aktivizon, si parazgjedhje, mënyrën Verifikim Përdoruesish, kur hapet një bazë të dhënash</string>
-    <string name="user_verification_mode_title">Mënyra Verifikim Përdoruesish</string>
     <string name="user_verification">Verifikim Përdoruesish</string>
     <string name="education_user_verification_summary">Ndrysho për sesionin mënyrë verifikimi përdoruesi. \n \n“Verifikim Përdoruesi i Aktivizuar” verifikon veprim në fusha të mbrojtura dhe rregullime baze të dhënash. \n“Verifikim Përdoruesi i Çaktivizuar” ju lejon të ndryshoni pa verifikim çfarëdo të dhënash në bazën tuaj të të dhënave.</string>
     <string name="education_user_verification_title">Verifikim për veprime me spec</string>

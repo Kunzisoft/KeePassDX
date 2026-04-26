@@ -750,8 +750,6 @@
     <string name="check">チェック</string>
     <string name="user_verification_required_description_precise">%1$s は実際に本人であると確認する必要があります。</string>
     <string name="user_verification">ユーザー検証</string>
-    <string name="user_verification_mode_title">ユーザー検証モード</string>
-    <string name="user_verification_mode_summary">デフォルトでデータベースを開く際のユーザー検証モードを有効にします</string>
     <string name="menu_user_verification_enabled">ユーザー検証を有効化</string>
     <string name="menu_user_verification_disabled">ユーザー検証を無効化</string>
     <string name="education_user_verification_title">高機密性操作の検証</string>

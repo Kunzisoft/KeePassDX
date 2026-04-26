@@ -704,8 +704,6 @@
     <string name="user_verification">Verifikasi pengguna</string>
     <string name="user_verification_device_credential_title">Kredensial verifikasi pengguna</string>
     <string name="user_verification_device_credential_summary">Gunakan kredensial perangkat sebagai verifikasi pengguna jika tersedia</string>
-    <string name="user_verification_mode_title">Mode verifikasi pengguna</string>
-    <string name="user_verification_mode_summary">Mengaktifkan mode Verifikasi Pengguna secara default saat membuka basis data</string>
     <string name="menu_user_verification_enabled">Verifikasi pengguna diaktifkan</string>
     <string name="menu_user_verification_disabled">Verifikasi pengguna dinonaktifkan</string>
     <string name="user_verification_preferred_title">Verifikasi pengguna yang dipilih</string>

@@ -742,8 +742,6 @@
     <string name="user_verification">Verificação do usuário</string>
     <string name="user_verification_device_credential_title">Credencial de verificação do usuário</string>
     <string name="user_verification_device_credential_summary">Use a credencial do dispositivo como verificação do usuário, se disponível</string>
-    <string name="user_verification_mode_title">Modo de Verificação do Usuário</string>
-    <string name="user_verification_mode_summary">Ativa o modo de verificação do usuário por padrão ao abrir um banco de dados</string>
     <string name="menu_user_verification_enabled">Verificação do usuário ativada</string>
     <string name="menu_user_verification_disabled">Verificação do usuário desativada</string>
     <string name="user_verification_preferred_title">Verificação de usuário preferencial</string>

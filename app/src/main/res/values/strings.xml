@@ -452,8 +452,6 @@
     <string name="user_verification">User Verification</string>
     <string name="user_verification_device_credential_title">User Verification credential</string>
     <string name="user_verification_device_credential_summary">Use the device credential as user verification if available</string>
-    <string name="user_verification_mode_title">User Verification Mode</string>
-    <string name="user_verification_mode_summary">Enables User Verification mode by default when opening a database</string>
     <string name="menu_user_verification_enabled">User Verification enabled</string>
     <string name="menu_user_verification_disabled">User Verification disabled</string>
     <string name="user_verification_preferred_title">Preferred User Verification</string>

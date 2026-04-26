@@ -749,8 +749,6 @@
     <string name="check">Sprawdź</string>
     <string name="user_verification_required_description_precise">%1$s wymaga weryfikacji, że to rzeczywiście Ty.</string>
     <string name="user_verification">Weryfikacja użytkownika</string>
-    <string name="user_verification_mode_title">Tryb weryfikacji użytkownika</string>
-    <string name="user_verification_mode_summary">Domyślnie włącza tryb weryfikacji użytkownika podczas otwierania bazy danych</string>
     <string name="menu_user_verification_enabled">Weryfikacja użytkownika włączona</string>
     <string name="menu_user_verification_disabled">Weryfikacja użytkownika wyłączona</string>
     <string name="education_user_verification_title">Weryfikacja działań wrażliwych</string>

@@ -682,8 +682,6 @@
     <string name="user_verification">Праверка карыстальніка</string>
     <string name="user_verification_device_credential_title">Уліковыя даныя для праверкі карыстальніка</string>
     <string name="user_verification_device_credential_summary">Выкарыстоўваць уліковыя даныя прылады для праверкі карыстальніка, калі магчыма</string>
-    <string name="user_verification_mode_title">Рэжым праверкі карыстальніка</string>
-    <string name="user_verification_mode_summary">Дазваляе прадвызначаную праверку карыстальніка падчас адкрыцця базы даных</string>
     <string name="menu_user_verification_enabled">Праверка карыстальніка ўключаная</string>
     <string name="menu_user_verification_disabled">Праверка карыстальніка выключаная</string>
     <string name="user_verification_preferred_title">Пераважная праверка карыстальніка</string>

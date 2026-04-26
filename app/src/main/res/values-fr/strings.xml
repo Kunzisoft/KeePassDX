@@ -757,8 +757,6 @@
     <string name="check">Vérifier</string>
     <string name="user_verification_required_description_precise">%1$s doit s\'assurer qu\'il s\'agit bien de vous.</string>
     <string name="user_verification">Vérification Utilisateur</string>
-    <string name="user_verification_mode_title">Mode de Vérification Utilisateur</string>
-    <string name="user_verification_mode_summary">Activer le mode de Vérification Utilisateur par défaut lors de l\'ouverture d\'une base de données</string>
     <string name="menu_user_verification_enabled">Vérification Utilisateur activé</string>
     <string name="menu_user_verification_disabled">Vérification Utilisateur désactivé</string>
     <string name="education_user_verification_title">Vérification pour les actions sensibles</string>

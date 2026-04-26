@@ -741,10 +741,8 @@
     <string name="error_passkey_credential_id">לא נמצא מפתח גישה עבור גורם %1$s ופרטי אימות %2$s</string>
     <string name="user_verification_required_description_precise">%1$s דורש לוודא שזה אכן אתה.</string>
     <string name="user_verification">אימות משתמש</string>
-    <string name="user_verification_mode_title">מצב אימות משתמש</string>
     <string name="menu_user_verification_enabled">אימות משתמש מופעל</string>
     <string name="menu_user_verification_disabled">אימות משתמש מכובה</string>
     <string name="education_user_verification_title">אימות עבור פעולות רגישות</string>
-    <string name="user_verification_mode_summary">הגדרה זו מאפשרת מצב אימות משתמש כברירת מחדל כאשר פותחים מסד נתונים</string>
     <string name="education_user_verification_summary">שינוי מצב אימות משתמש עבור ההפעלה.\n\n\"אימות משתמש מופעל\" מאמת פעולה על שדות מוגנים והגדרות מסד נתונים.\n\"אימות משתמש מושבת\" מאפשר לך לשנות את כל הנתונים במסד הנתונים שלך ללא אימות.</string>
 </resources>
