@@ -726,7 +726,6 @@
     <string name="passkeys_close_database_title">Đóng dữ liệu</string>
     <string name="passkeys_close_database_summary">Đóng dữ liệu sau khi chọn một khóa kĩ thuật số</string>
     <string name="passkeys_auto_select_summary">Tự động chọn nếu chỉ có một đề mục và dữ liệu đang mở, chỉ khi ứng dụng đang yêu cầu tương thích</string>
-    <string name="user_verification_mode_summary">Mặc định bật chế độ xác thực người dùng khi mở dữ liệu</string>
     <string name="credential_provider_database_username">Dữ liệu KeePassDX</string>
     <string name="credential_provider_locked_database_description">Chọn để mở khóa</string>
     <string name="user_verification_database_credential">Nhập 4 ký tự đầu tiên trong mật khẩu dữ liệu của bạn</string>

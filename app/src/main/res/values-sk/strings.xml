@@ -725,8 +725,6 @@
     <string name="user_verification">Overenie používateľa</string>
     <string name="user_verification_device_credential_title">Údaje pre overenie používateľa</string>
     <string name="user_verification_device_credential_summary">Použiť prihlasovacie údaje zariadenia pre overenie používateľa, ak sú k dispozícii</string>
-    <string name="user_verification_mode_title">Režim overenia používateľa</string>
-    <string name="user_verification_mode_summary">Povolí automatický režim Overenia používateľa pri otvorení databázy</string>
     <string name="menu_user_verification_enabled">Overenie používateľa povolené</string>
     <string name="menu_user_verification_disabled">Overenie používateľa zakázané</string>
     <string name="user_verification_preferred_title">Preferovaný spôsob overenia používateľa</string>
