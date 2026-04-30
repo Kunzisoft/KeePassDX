@@ -22,6 +22,7 @@ package com.kunzisoft.keepass.database.element
 import android.util.Log
 import com.kunzisoft.keepass.database.crypto.EncryptionAlgorithm
 import com.kunzisoft.keepass.database.crypto.kdf.KdfEngine
+import com.kunzisoft.keepass.database.crypto.kdf.KdfParameters
 import com.kunzisoft.keepass.database.element.binary.AttachmentPool
 import com.kunzisoft.keepass.database.element.binary.BinaryCache
 import com.kunzisoft.keepass.database.element.binary.BinaryData
@@ -398,6 +399,9 @@ open class Database {
 
     val transformSeed: ByteArray?
         get() = mDatabaseKDB?.transformSeed ?: mDatabaseKDBX?.transformSeed
+
+    val kdfParameters: KdfParameters?
+        get() = mDatabaseKDBX?.kdfParameters
 
     private val checkKey: ByteArray
         get() = mDatabaseKDB?.checkKey ?: mDatabaseKDBX?.checkKey ?: ByteArray(32)

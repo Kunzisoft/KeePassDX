@@ -497,6 +497,8 @@
     <string name="file_name">Filename</string>
     <string name="path">Path</string>
     <string name="assign_master_key">Assign a master key</string>
+    <string name="benchmark_calculation">Calculate for %1$s s</string>
+    <string name="benchmarking">Benchmarking…</string>
     <string name="data">Data</string>
     <string name="database_data_compression_title">Data compression</string>
     <string name="database_data_compression_summary">Data compression reduces the size of the database</string>

@@ -66,6 +66,7 @@ import com.kunzisoft.keepass.model.CipherEncryptDatabase
 import com.kunzisoft.keepass.model.SnapFileDatabaseInfo
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.tasks.ActionRunnable
+import com.kunzisoft.keepass.tasks.BenchmarkKdfRunnable
 import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
 import com.kunzisoft.keepass.timeout.TimeoutHelper
 import com.kunzisoft.keepass.utils.DATABASE_START_TASK_ACTION
@@ -371,6 +372,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
             ACTION_DATABASE_UPDATE_MEMORY_USAGE_TASK,
             ACTION_DATABASE_UPDATE_PARALLELISM_TASK,
             ACTION_DATABASE_UPDATE_ITERATIONS_TASK -> buildDatabaseUpdateElementActionTask(intent, database)
+            ACTION_DATABASE_BENCHMARK_KDF -> buildDatabaseBenchmarkKdfActionTask(database)
             ACTION_DATABASE_SAVE -> buildDatabaseSaveActionTask(intent, database)
             ACTION_CHALLENGE_RESPONDED -> buildChallengeRespondedActionTask(intent)
             else -> null
@@ -1212,7 +1214,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
             val newElement: CompressionAlgorithm? = intent.getParcelableExtraCompat(NEW_ELEMENT_KEY)
             if (oldElement == null || newElement == null) return null
             val saveDatabase = intent.getBooleanExtra(SAVE_DATABASE_KEY, false)
-            return UpdateCompressionBinariesDatabaseRunnable(this,
+            UpdateCompressionBinariesDatabaseRunnable(this,
                 database,
                 oldElement,
                 newElement,
@@ -1235,7 +1237,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
     ): ActionRunnable? {
         return if (intent.hasExtra(SAVE_DATABASE_KEY)) {
             val saveDatabase = intent.getBooleanExtra(SAVE_DATABASE_KEY, false)
-            return RemoveUnlinkedDataDatabaseRunnable(this,
+            RemoveUnlinkedDataDatabaseRunnable(this,
                 database,
                 !database.isReadOnly && saveDatabase
             ) { hardwareKey, seed ->
@@ -1256,7 +1258,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
     ): ActionRunnable? {
         return if (intent.hasExtra(SAVE_DATABASE_KEY)) {
             val saveDatabase = intent.getBooleanExtra(SAVE_DATABASE_KEY, false)
-            return SaveDatabaseRunnable(this,
+            SaveDatabaseRunnable(this,
                 database,
                 !database.isReadOnly && saveDatabase,
                 null,
@@ -1296,6 +1298,14 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                 databaseCopyUri)
         } else {
             null
+        }
+    }
+
+    private fun buildDatabaseBenchmarkKdfActionTask(database: ContextualDatabase): ActionRunnable {
+        return object : BenchmarkKdfRunnable(database) {
+            override fun onStartRun() {
+                updateMessage(R.string.benchmarking)
+            }
         }
     }
 
@@ -1352,6 +1362,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         const val ACTION_DATABASE_UPDATE_MEMORY_USAGE_TASK ="ACTION_DATABASE_UPDATE_MEMORY_USAGE_TASK"
         const val ACTION_DATABASE_UPDATE_PARALLELISM_TASK ="ACTION_DATABASE_UPDATE_PARALLELISM_TASK"
         const val ACTION_DATABASE_UPDATE_ITERATIONS_TASK = "ACTION_DATABASE_UPDATE_ITERATIONS_TASK"
+        const val ACTION_DATABASE_BENCHMARK_KDF = "ACTION_DATABASE_BENCHMARK_KDF"
         const val ACTION_DATABASE_SAVE = "ACTION_DATABASE_SAVE"
         const val ACTION_CHALLENGE_RESPONDED = "ACTION_CHALLENGE_RESPONDED"
 

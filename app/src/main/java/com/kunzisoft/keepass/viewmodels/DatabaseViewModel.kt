@@ -461,6 +461,10 @@ class DatabaseViewModel(application: Application): AndroidViewModel(application)
         )
     }
 
+    fun benchmarkKdf() {
+        mDatabaseTaskProvider.startDatabaseBenchmarkKdf()
+    }
+
     /*
      * Hardware Key
      */

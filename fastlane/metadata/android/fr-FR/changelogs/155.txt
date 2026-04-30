@@ -1,6 +1,7 @@
  * Tags dans la vue liste #1539 #2144
  * Recherche par Tags #1338 #2280
  * Historique des Tags caché #2374 #1405
+ * Benchmark de KDF #784
  * Accessibilité améliorée #2475
  * Sécurité améliorée #2481 #2482 #2483 #2484 #2485 #2487 #2488 #2489 #2480
  * Génération de fichier de clé V2 #1934

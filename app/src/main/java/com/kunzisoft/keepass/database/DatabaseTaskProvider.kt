@@ -48,6 +48,7 @@ import com.kunzisoft.keepass.model.CipherEncryptDatabase
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_CHALLENGE_RESPONDED
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_ASSIGN_CREDENTIAL_TASK
+import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_BENCHMARK_KDF
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_COPY_NODES_TASK
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_CREATE_ENTRY_TASK
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_CREATE_GROUP_TASK
@@ -635,6 +636,12 @@ class DatabaseTaskProvider(
             putLong(DatabaseTaskNotificationService.NEW_ELEMENT_KEY, newParallelism)
             putBoolean(DatabaseTaskNotificationService.SAVE_DATABASE_KEY, save)
         }, ACTION_DATABASE_UPDATE_PARALLELISM_TASK)
+    }
+
+    fun startDatabaseBenchmarkKdf() {
+        start(Bundle().apply {
+            // TODO Time for benchmark
+        }, ACTION_DATABASE_BENCHMARK_KDF)
     }
 
     /**
