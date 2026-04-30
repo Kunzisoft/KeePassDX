@@ -1,5 +1,4 @@
 KeePassDX(4.4.0)
- * Fix breadcrumb Group view refresh #2477
  * Tags in list view #1539 #2144
  * Search by Tags #1338 #2280
  * Hidden tag history #2374 #1405
@@ -9,7 +8,7 @@ KeePassDX(4.4.0)
  * Filter browser appId in Magikeyboard #2466 #2394 #2400 #2317
  * Fix history save #2471
  * Fix screenshot mode #2407
- * Small fixes #2476 #2369 #1911 #2469
+ * Small fixes #2476 #2369 #1911 #2469 #2477
 
 KeePassDX(4.3.3)
  * Fix 16 KB ELF alignment #2074

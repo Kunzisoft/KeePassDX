@@ -1,4 +1,3 @@
- * Correction du Groupe rafraichie du fil d'ariane #2477
  * Tags dans la vue liste #1539 #2144
  * Recherche par Tags #1338 #2280
  * Historique des Tags caché #2374 #1405
@@ -8,4 +7,4 @@
  * Filtre les id de navigateurs dans le Magiclavier #2466 #2394 #2400 #2317
  * Correction de la sauvegarde de l'historique #2471
  * Correction du mode capture d'écran #2407
- * Petites corrections #2476 #2369 #1911 #2469
+ * Petites corrections #2476 #2369 #1911 #2469 #2477
