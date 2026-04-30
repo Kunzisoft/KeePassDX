@@ -27,6 +27,7 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.SpannableStringBuilder
 import android.text.TextWatcher
+import android.util.Log
 import android.view.View
 import android.widget.CompoundButton
 import android.widget.EditText
@@ -37,6 +38,7 @@ import com.kunzisoft.keepass.activities.helpers.ExternalFileHelper
 import com.kunzisoft.keepass.activities.helpers.setOpenDocumentClickListener
 import com.kunzisoft.keepass.credentialprovider.activity.HardwareKeyActivity
 import com.kunzisoft.keepass.database.MainCredential
+import com.kunzisoft.keepass.database.element.MasterCredential
 import com.kunzisoft.keepass.hardware.HardwareKey
 import com.kunzisoft.keepass.password.PasswordEntropy
 import com.kunzisoft.keepass.utils.UriUtil.getDocumentFile
@@ -49,7 +51,7 @@ import com.kunzisoft.keepass.view.applyFontVisibility
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.security.SecureRandom
+import java.io.IOException
 
 
 class SetMainCredentialDialogFragment : DatabaseDialogFragment() {
@@ -221,10 +223,12 @@ class SetMainCredentialDialogFragment : DatabaseDialogFragment() {
 
     private fun createKeyFile(uri: Uri) {
         CoroutineScope(Dispatchers.IO).launch {
-            activity?.contentResolver?.openOutputStream(uri)?.use { outputStream ->
-                val randomBytes = ByteArray(DEFAULT_KEYFILE_SIZE)
-                SecureRandom().nextBytes(randomBytes)
-                outputStream.write(randomBytes)
+            try {
+                activity?.contentResolver?.openOutputStream(uri)?.use { outputStream ->
+                    MasterCredential.createKeyFile(outputStream)
+                }
+            } catch (e: IOException) {
+                Log.e(TAG, "Unable  to create the KeyFile.", e)
             }
         }
     }
@@ -398,10 +402,11 @@ class SetMainCredentialDialogFragment : DatabaseDialogFragment() {
     }
 
     companion object {
+        private val TAG = SetMainCredentialDialogFragment::class.simpleName
 
         private const val ALLOW_NO_MASTER_KEY_ARG = "ALLOW_NO_MASTER_KEY_ARG"
-        private const val DEFAULT_KEYFILE_NAME = "keyfile.bin"
-        private const val DEFAULT_KEYFILE_SIZE = 128
+        private val DEFAULT_KEYFILE_FORMAT = MasterCredential.CREATOR.KeyFileFormat.XML_2_0
+        private val DEFAULT_KEYFILE_NAME = "keyfile.${DEFAULT_KEYFILE_FORMAT.defaultFileExtension}"
 
         fun getInstance(allowNoMasterKey: Boolean): SetMainCredentialDialogFragment {
             val fragment = SetMainCredentialDialogFragment()

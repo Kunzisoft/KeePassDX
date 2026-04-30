@@ -5,6 +5,7 @@ KeePassDX(4.4.0)
  * Hidden tag history #2374 #1405
  * Improved accessibility #2475
  * Improved security #2481 #2482 #2483 #2484 #2485 #2487 #2488 #2489 #2480
+ * V2 KeyFile generation #1934
  * Filter browser appId in Magikeyboard #2466 #2394 #2400 #2317
  * Fix history save #2471
  * Fix screenshot mode #2407

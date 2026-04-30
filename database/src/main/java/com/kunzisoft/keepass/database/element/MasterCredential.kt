@@ -22,6 +22,7 @@ import android.os.Parcel
 import android.os.Parcelable
 import android.util.Base64
 import android.util.Log
+import android.util.Xml
 import com.kunzisoft.encrypt.HashManager
 import com.kunzisoft.keepass.database.element.binary.BinaryData.Companion.BASE64_FLAG
 import com.kunzisoft.keepass.hardware.HardwareKey
@@ -39,8 +40,10 @@ import org.w3c.dom.Node
 import java.io.ByteArrayInputStream
 import java.io.IOException
 import java.io.InputStream
+import java.io.OutputStream
 import java.nio.CharBuffer
 import java.nio.charset.Charset
+import java.security.SecureRandom
 import javax.xml.XMLConstants
 import javax.xml.parsers.DocumentBuilderFactory
 import javax.xml.parsers.ParserConfigurationException
@@ -138,6 +141,13 @@ data class MasterCredential(
 
         private val TAG = MasterCredential::class.java.simpleName
 
+        /**
+         * Get a check key for the given password.
+         * Only the first few characters of the password are used.
+         * @param password The password.
+         * @param encoding The character encoding.
+         * @return A hash of the first few characters.
+         */
         fun getCheckKey(password: CharArray?, encoding: Charset): ByteArray {
             val shortPass = password?.copyOfRange(0, min(password.size, CHECK_KEY_PASSWORD_LENGTH))
                     ?: charArrayOf()
@@ -146,6 +156,13 @@ data class MasterCredential(
             return res
         }
 
+        /**
+         * Retrieve the key from a password.
+         * @param key The password to hash.
+         * @param encoding The character encoding to use.
+         * @return The SHA-256 hash of the password.
+         * @throws IOException If the encoding or hashing fails.
+         */
         @Throws(IOException::class)
         fun retrievePasswordKey(
             key: CharArray,
@@ -163,6 +180,14 @@ data class MasterCredential(
             return hash
         }
 
+        /**
+         * Retrieve the key from key file data.
+         * Supports raw 32-byte binary keys, 64-byte hex-encoded keys, and KeePass XML key files (v1 and v2).
+         * @param keyFileData The raw bytes of the key file.
+         * @param allowXML Whether to attempt parsing the data as XML.
+         * @return The decoded 32-byte key.
+         * @throws IOException If the key file is invalid or cannot be decoded.
+         */
         @Throws(IOException::class)
         fun retrieveKeyFileDecodedKey(
             keyFileData: ByteArray,
@@ -194,6 +219,11 @@ data class MasterCredential(
             }
         }
 
+        /**
+         * Retrieve the key from hardware key data.
+         * @param keyData The data provided by the hardware key.
+         * @return The SHA-256 hash of the key data.
+         */
         @Throws(IOException::class)
         fun retrieveHardwareKey(keyData: ByteArray): ByteArray {
             return HashManager.hashSha256(keyData)
@@ -309,6 +339,72 @@ data class MasterCredential(
             return success
         }
 
+        /**
+         * Create a key file.
+         * @param outputStream The output stream to write the key file to
+         * @param keySize The size of the random key to generate
+         * @param format The format of the key file
+         */
+        @Throws(IOException::class)
+        fun createKeyFile(
+            outputStream: OutputStream,
+            keySize: Int = DEFAULT_KEYFILE_SIZE,
+            format: KeyFileFormat = KeyFileFormat.XML_2_0
+        ) {
+            val randomBytes = ByteArray(keySize)
+            SecureRandom().nextBytes(randomBytes)
+
+            when (format) {
+                KeyFileFormat.RANDOM_BYTES -> {
+                    outputStream.write(randomBytes)
+                }
+                KeyFileFormat.XML_2_0 -> {
+                    val hexData = randomBytes.toHexString()
+                    val hash = HashManager.hashSha256(randomBytes)
+                        .copyOfRange(0, 4).toHexString()
+
+                    val xmlSerializer = Xml.newSerializer()
+                    xmlSerializer.setOutput(outputStream, DEFAULT_KEYFILE_ENCODING)
+                    xmlSerializer.startDocument(DEFAULT_KEYFILE_ENCODING, true)
+                    xmlSerializer.startTag(null, XML_NODE_ROOT_NAME)
+
+                    xmlSerializer.startTag(null, XML_NODE_META_NAME)
+                    xmlSerializer.startTag(null, XML_NODE_VERSION_NAME)
+                    xmlSerializer.text("2.0")
+                    xmlSerializer.endTag(null, XML_NODE_VERSION_NAME)
+                    xmlSerializer.endTag(null, XML_NODE_META_NAME)
+
+                    xmlSerializer.startTag(null, XML_NODE_KEY_NAME)
+                    xmlSerializer.startTag(null, XML_NODE_DATA_NAME)
+                    xmlSerializer.attribute(null, XML_ATTRIBUTE_DATA_HASH, hash)
+                    xmlSerializer.text(hexData)
+                    xmlSerializer.endTag(null, XML_NODE_DATA_NAME)
+                    xmlSerializer.endTag(null, XML_NODE_KEY_NAME)
+
+                    xmlSerializer.endTag(null, XML_NODE_ROOT_NAME)
+                    xmlSerializer.endDocument()
+                }
+            }
+        }
+
+        /**
+         * Supported formats for KeePass key files.
+         * @property defaultFileExtension The default file extension for this format
+         */
+        enum class KeyFileFormat(
+            val defaultFileExtension: String,
+        ) {
+            /**
+             * Raw random bytes.
+             */
+            RANDOM_BYTES("bin"),
+
+            /**
+             * KeePass v2 XML format.
+             */
+            XML_2_0("key")
+        }
+
         private const val XML_NODE_ROOT_NAME = "KeyFile"
         private const val XML_NODE_META_NAME = "Meta"
         private const val XML_NODE_VERSION_NAME = "Version"
@@ -316,6 +412,8 @@ data class MasterCredential(
         private const val XML_NODE_DATA_NAME = "Data"
         private const val XML_ATTRIBUTE_DATA_HASH = "Hash"
 
+        private const val DEFAULT_KEYFILE_SIZE = 128
+        private const val DEFAULT_KEYFILE_ENCODING = "UTF-8"
         const val CHECK_KEY_PASSWORD_LENGTH = 4
     }
 }
