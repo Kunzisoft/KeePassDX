@@ -148,6 +148,10 @@ class DatabaseViewModel(application: Application): AndroidViewModel(application)
         mDatabaseTaskProvider.startDatabaseMerge(save, fromDatabaseUri, mainCredential)
     }
 
+    fun syncKeeShare(save: Boolean) {
+        mDatabaseTaskProvider.startKeeShareSync(save)
+    }
+
     fun reloadDatabase(fixDuplicateUuid: Boolean, forceReload: Boolean = false) {
         if (!forceReload && database?.dataModifiedSinceLastLoading == true) {
             mActionState.value = ActionState.ShowDatabaseInfoReloadedDialog(fixDuplicateUuid)

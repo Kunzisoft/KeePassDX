@@ -107,6 +107,13 @@ class MainPreferenceFragment : PreferenceFragmentCompat() {
             }
         }
 
+        findPreference<Preference>(getString(R.string.settings_keeshare_key))?.apply {
+            onPreferenceClickListener = Preference.OnPreferenceClickListener {
+                mCallback?.onNestedPreferenceSelected(NestedSettingsFragment.Screen.KEESHARE)
+                false
+            }
+        }
+
         findPreference<Preference>(getString(R.string.settings_database_key))?.apply {
             onPreferenceClickListener = Preference.OnPreferenceClickListener {
                 mCallback?.onNestedPreferenceSelected(NestedSettingsFragment.Screen.DATABASE)

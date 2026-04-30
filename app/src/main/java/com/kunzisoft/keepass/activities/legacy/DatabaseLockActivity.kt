@@ -43,6 +43,7 @@ import com.kunzisoft.keepass.database.element.Group
 import com.kunzisoft.keepass.database.element.node.Node
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.model.GroupInfo
+import com.kunzisoft.keepass.database.action.KeeShareSyncRunnable
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.tasks.ActionRunnable
@@ -159,6 +160,31 @@ abstract class DatabaseLockActivity : DatabaseModeActivity(),
                     finish()
                 }
             }
+            DatabaseTaskNotificationService.ACTION_DATABASE_KEESHARE_SYNC_TASK -> {
+                if (result.isSuccess) {
+                    val data = result.data
+                    if (data != null) {
+                        val imported = data.getInt(
+                            KeeShareSyncRunnable.RESULT_IMPORTED_ENTRIES, 0)
+                        val devices = data.getInt(
+                            KeeShareSyncRunnable.RESULT_IMPORTED_DEVICES, 0)
+                        val exported = data.getInt(
+                            KeeShareSyncRunnable.RESULT_EXPORTED_ENTRIES, 0)
+                        Toast.makeText(
+                            this,
+                            getString(R.string.keeshare_sync_result, imported, devices, exported),
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
+                    reloadActivity()
+                } else {
+                    Toast.makeText(
+                        this,
+                        getString(R.string.keeshare_sync_error, result.message ?: "Unknown error"),
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+            }
         }
     }
 
@@ -200,6 +226,10 @@ abstract class DatabaseLockActivity : DatabaseModeActivity(),
 
     fun mergeDatabaseFrom(uri: Uri, mainCredential: MainCredential) {
         mDatabaseViewModel.mergeDatabase(mAutoSaveEnable, uri, mainCredential)
+    }
+
+    fun syncKeeShare() {
+        mDatabaseViewModel.syncKeeShare(save = mAutoSaveEnable)
     }
 
     fun reloadDatabase() {

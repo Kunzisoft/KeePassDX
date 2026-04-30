@@ -81,10 +81,13 @@ import com.kunzisoft.keepass.credentialprovider.UserVerificationHelper.Companion
 import com.kunzisoft.keepass.credentialprovider.passkey.util.PasskeyHelper.buildPasskeyResponseAndSetResult
 import com.kunzisoft.keepass.credentialprovider.passkey.util.PasswordHelper.buildPasswordResponseAndSetResult
 import com.kunzisoft.keepass.database.ContextualDatabase
+import com.kunzisoft.keepass.database.element.CustomDataItem
 import com.kunzisoft.keepass.database.element.DateInstant
 import com.kunzisoft.keepass.database.element.Entry
 import com.kunzisoft.keepass.database.element.Group
 import com.kunzisoft.keepass.database.element.SortNodeEnum
+import com.kunzisoft.keepass.database.keeshare.KeeShareReference
+import com.kunzisoft.keepass.database.keeshare.PerDeviceSyncConfig
 import com.kunzisoft.keepass.database.element.node.Node
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.node.NodeIdUUID
@@ -109,6 +112,7 @@ import com.kunzisoft.keepass.utils.BACK_PREVIOUS_KEYBOARD_ACTION
 import com.kunzisoft.keepass.utils.KeyboardUtil.showKeyboard
 import com.kunzisoft.keepass.utils.TimeUtil.datePickerToDataDate
 import com.kunzisoft.keepass.utils.UriUtil.openUrl
+import com.kunzisoft.keepass.utils.UriUtil.takeUriPermission
 import com.kunzisoft.keepass.utils.getParcelableCompat
 import com.kunzisoft.keepass.utils.getParcelableExtraCompat
 import com.kunzisoft.keepass.utils.getParcelableList
@@ -283,6 +287,55 @@ class GroupActivity : DatabaseLockActivity(),
     private var mIconSelectionActivityResultLauncher = IconPickerActivity.registerIconSelectionForResult(this) { icon ->
         // To create tree dialog for icon
         mGroupEditViewModel.selectIcon(icon)
+    }
+
+    /**
+     * Groups that have a classic KeeShare/Reference with per-device mode path
+     * but no KeeShare/PerDeviceSync custom data yet. The user needs to pick
+     * a local SAF directory for these.
+     */
+    private var mPendingKeeShareGroups: List<Group> = emptyList()
+
+    /**
+     * Launcher for ACTION_OPEN_DOCUMENT_TREE to let the user pick the
+     * local sync folder for KeeShare per-device sync.
+     */
+    private val mKeeShareFolderPickerLauncher = registerForActivityResult(
+        androidx.activity.result.contract.ActivityResultContracts.OpenDocumentTree()
+    ) { treeUri ->
+        if (treeUri != null) {
+            contentResolver.takeUriPermission(treeUri)
+
+            // Write PerDeviceSync custom data to each pending group
+            for (group in mPendingKeeShareGroups) {
+                val classicData = group.customData.get(
+                    KeeShareReference.CLASSIC_KEY
+                ) ?: continue
+                val ref = KeeShareReference
+                    .fromClassicCustomData(classicData.value) ?: continue
+
+                val config = PerDeviceSyncConfig(
+                    syncDir = treeUri.toString(),
+                    password = ref.password,
+                    keepGroups = ref.keepGroups
+                )
+                val encoded = PerDeviceSyncConfig.toCustomData(config)
+                group.customData.put(
+                    CustomDataItem(
+                        KeeShareReference.PER_DEVICE_KEY,
+                        encoded,
+                        DateInstant()
+                    )
+                )
+                Log.i(TAG, "Set KeeShare sync dir for group '${group.title}': $treeUri")
+            }
+            mPendingKeeShareGroups = emptyList()
+
+            // Now run the actual sync
+            super.syncKeeShare()
+        } else {
+            mPendingKeeShareGroups = emptyList()
+        }
     }
 
     override fun manageDatabaseInfo(): Boolean = true
@@ -1312,7 +1365,13 @@ class GroupActivity : DatabaseLockActivity(),
         if (mSpecialMode != SpecialMode.DEFAULT) {
             menu.findItem(R.id.menu_merge_database)?.isVisible = false
             menu.findItem(R.id.menu_reload_database)?.isVisible = false
+            menu.findItem(R.id.menu_keeshare_sync)?.isVisible = false
         }
+        // Hide KeeShare sync for read-only, non-KDBX, or non-default mode
+        menu.findItem(R.id.menu_keeshare_sync)?.isVisible =
+            !mDatabaseReadOnly
+            && mSpecialMode == SpecialMode.DEFAULT
+            && mDatabase?.allowDataCompression == true
         // Menu for recycle bin
         if (mRecyclingBinEnabled && mRecyclingBinIsCurrentGroup) {
             inflater.inflate(R.menu.recycle_bin, menu)
@@ -1426,6 +1485,62 @@ class GroupActivity : DatabaseLockActivity(),
         return false
     }
 
+    /**
+     * Check if any groups need a local sync directory configured before syncing.
+     *
+     * Groups that have a KeeShare/Reference (classic, from KeePassXC) with a
+     * per-device mode path but no KeeShare/PerDeviceSync custom data need the
+     * user to pick a local SAF directory first.
+     */
+    private fun syncKeeShareWithFolderCheck() {
+        val database = mDatabase ?: run {
+            syncKeeShare()
+            return
+        }
+
+        // If sync folder is already configured in preferences, provisioning
+        // will happen automatically in KeeShareSyncRunnable — just sync directly
+        val prefSyncFolder = PreferencesUtil.getKeeShareSyncFolderUri(this)
+        if (!prefSyncFolder.isNullOrEmpty()) {
+            syncKeeShare()
+            return
+        }
+
+        val unconfiguredGroups = mutableListOf<Group>()
+
+        val allGroups = mutableListOf<Group>()
+        database.rootGroup?.let { allGroups.add(it) }
+        allGroups.addAll(database.getAllGroupsWithoutRoot())
+
+        for (group in allGroups) {
+            val hasPerDevice = group.customData.get(
+                KeeShareReference.PER_DEVICE_KEY
+            ) != null
+            if (hasPerDevice) continue
+
+            val classicData = group.customData.get(
+                KeeShareReference.CLASSIC_KEY
+            ) ?: continue
+            val ref = KeeShareReference
+                .fromClassicCustomData(classicData.value) ?: continue
+
+            if (ref.isPerDeviceMode()
+                && (ref.type == KeeShareReference.Type.SYNCHRONIZE
+                    || ref.type == KeeShareReference.Type.IMPORT)) {
+                unconfiguredGroups.add(group)
+            }
+        }
+
+        if (unconfiguredGroups.isNotEmpty()) {
+            mPendingKeeShareGroups = unconfiguredGroups
+            val groupNames = unconfiguredGroups.joinToString(", ") { it.title }
+            Log.i(TAG, "KeeShare: ${unconfiguredGroups.size} group(s) need sync folder: $groupNames")
+            mKeeShareFolderPickerLauncher.launch(null)
+        } else {
+            syncKeeShare()
+        }
+    }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> {
@@ -1437,6 +1552,10 @@ class GroupActivity : DatabaseLockActivity(),
             }
             R.id.menu_save_database -> {
                 saveDatabase()
+                return true
+            }
+            R.id.menu_keeshare_sync -> {
+                syncKeeShareWithFolderCheck()
                 return true
             }
             R.id.menu_merge_database -> {

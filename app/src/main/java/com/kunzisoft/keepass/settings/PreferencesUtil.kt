@@ -859,6 +859,63 @@ object PreferencesUtil {
         }
     }
 
+    // KeeShare preferences
+
+    fun getKeeShareDeviceId(context: Context): String? {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        return prefs.getString(context.getString(R.string.keeshare_device_id_key), null)
+    }
+
+    fun setKeeShareDeviceId(context: Context, deviceId: String) {
+        PreferenceManager.getDefaultSharedPreferences(context).edit().apply {
+            putString(context.getString(R.string.keeshare_device_id_key), deviceId)
+            apply()
+        }
+    }
+
+    fun getKeeShareLastSyncTime(context: Context): Long {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        return prefs.getLong(context.getString(R.string.keeshare_last_sync_time_key), 0L)
+    }
+
+    fun setKeeShareLastSyncTime(context: Context, timestamp: Long) {
+        PreferenceManager.getDefaultSharedPreferences(context).edit().apply {
+            putLong(context.getString(R.string.keeshare_last_sync_time_key), timestamp)
+            apply()
+        }
+    }
+
+    fun getKeeShareSyncFolderUri(context: Context): String? {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        return prefs.getString(context.getString(R.string.keeshare_sync_folder_key), null)
+    }
+
+    fun setKeeShareSyncFolderUri(context: Context, uri: String?) {
+        PreferenceManager.getDefaultSharedPreferences(context).edit().apply {
+            putString(context.getString(R.string.keeshare_sync_folder_key), uri)
+            apply()
+        }
+    }
+
+    fun getKeeShareStaleDays(context: Context): Int {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        return prefs.getInt(context.getString(R.string.keeshare_stale_days_key), 90)
+    }
+
+    private const val KEESHARE_FILE_MTIME_PREFIX = "keeshare_file_mtime_"
+
+    fun getKeeShareFileMtime(context: Context, fileName: String): Long {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        return prefs.getLong(KEESHARE_FILE_MTIME_PREFIX + fileName, 0L)
+    }
+
+    fun setKeeShareFileMtime(context: Context, fileName: String, mtime: Long) {
+        PreferenceManager.getDefaultSharedPreferences(context).edit().apply {
+            putLong(KEESHARE_FILE_MTIME_PREFIX + fileName, mtime)
+            apply()
+        }
+    }
+
     fun setAppProperties(context: Context, properties: Properties) {
         putPropertiesInPreferences(properties,
             PreferenceManager.getDefaultSharedPreferences(context)) { editor, name, value ->

@@ -543,6 +543,8 @@ class EntryActivity : DatabaseLockActivity() {
         if (!mMergeDataAllowed) {
             menu?.findItem(R.id.menu_merge_database)?.isVisible = false
         }
+        // KeeShare sync not available from entry view
+        menu?.findItem(R.id.menu_keeshare_sync)?.isVisible = false
         if (mSpecialMode != SpecialMode.DEFAULT) {
             menu?.findItem(R.id.menu_merge_database)?.isVisible = false
             menu?.findItem(R.id.menu_reload_database)?.isVisible = false

@@ -182,6 +182,172 @@ class DatabaseKDBXMerger(private var database: DatabaseKDBX) {
     }
 
     /**
+     * Merge entries and subgroups from [sourceDatabase]'s root group into
+     * [targetGroup] within this merger's database. This is a scoped merge
+     * used by KeeShare per-device sync: it only merges content into the
+     * specified group without touching database-level settings.
+     *
+     * @param sourceDatabase The container database whose root group content
+     *        will be merged into [targetGroup]
+     * @param targetGroup The group in this database to merge content into
+     * @param skipDatabaseCustomData If true, skip merging database-level
+     *        custom data (default: true, matching KeePassXC behavior)
+     */
+    fun mergeIntoGroup(
+        sourceDatabase: DatabaseKDBX,
+        targetGroup: GroupKDBX,
+        skipDatabaseCustomData: Boolean = true
+    ) {
+        val rootGroupToMerge = sourceDatabase.rootGroup
+            ?: throw IOException("Source database has no root group")
+
+        // Merge entries from source root into target group
+        rootGroupToMerge.doForEachChild(
+            object : NodeHandler<EntryKDBX>() {
+                override fun operate(node: EntryKDBX): Boolean {
+                    mergeEntryIntoGroup(node, sourceDatabase, targetGroup)
+                    return true
+                }
+            },
+            object : NodeHandler<GroupKDBX>() {
+                override fun operate(node: GroupKDBX): Boolean {
+                    mergeGroupIntoGroup(node, sourceDatabase, targetGroup)
+                    return true
+                }
+            }
+        )
+
+        // Merge custom icons from source
+        sourceDatabase.iconsManager.doForEachCustomIcon { iconImageCustom, binaryData ->
+            val customIconUuid = iconImageCustom.uuid
+            val customIcon = database.iconsManager.getIcon(customIconUuid)
+            if (customIcon == null) {
+                database.addCustomIcon(
+                    customIconUuid,
+                    iconImageCustom.name,
+                    iconImageCustom.lastModificationTime,
+                    false
+                ) { _, newBinaryData ->
+                    binaryData.getInputDataStream(sourceDatabase.binaryCache).use { inputStream ->
+                        newBinaryData?.getOutputDataStream(database.binaryCache).use { outputStream ->
+                            inputStream.readAllBytes { buffer ->
+                                outputStream?.write(buffer)
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        // Handle deleted objects from source
+        sourceDatabase.deletedObjects.forEach { deletedObject ->
+            deleteEntry(deletedObject)
+            deleteGroup(deletedObject, sourceDatabase.deletedObjects)
+            deleteIcon(deletedObject)
+        }
+
+        // Optionally merge database-level custom data
+        if (!skipDatabaseCustomData) {
+            mergeCustomData(database.customData, sourceDatabase.customData)
+        }
+    }
+
+    /**
+     * Merge a single entry from a source database into [targetGroup].
+     * If the entry already exists in this database (by UUID), use timestamp
+     * conflict resolution. Otherwise add it under [targetGroup].
+     */
+    private fun mergeEntryIntoGroup(
+        nodeToMerge: EntryKDBX,
+        sourceDatabase: DatabaseKDBX,
+        targetGroup: GroupKDBX
+    ) {
+        val entryId = nodeToMerge.nodeId
+        val entry = database.getEntryById(entryId)
+        val deletedObject = database.getDeletedObject(entryId)
+
+        sourceDatabase.getEntryById(entryId)?.let { srcEntryToMerge ->
+            val entryToMerge = EntryKDBX().apply {
+                updateWith(srcEntryToMerge, copyHistory = true, updateParents = false)
+            }
+
+            // Copy attachments into main pool
+            val newAttachments = mutableListOf<Attachment>()
+            entryToMerge.getAttachments(sourceDatabase.attachmentPool).forEach { attachment ->
+                val binarySize = attachment.binaryData.getSize()
+                val binaryData = database.buildNewBinaryAttachment(
+                    isRAMSufficient.invoke(binarySize),
+                    attachment.binaryData.isCompressed,
+                    attachment.binaryData.isProtected
+                )
+                attachment.binaryData.getInputDataStream(sourceDatabase.binaryCache).use { inputStream ->
+                    binaryData.getOutputDataStream(database.binaryCache).use { outputStream ->
+                        inputStream.readAllBytes { buffer ->
+                            outputStream.write(buffer)
+                        }
+                    }
+                }
+                newAttachments.add(Attachment(attachment.name, binaryData))
+            }
+            entryToMerge.removeAttachments()
+            newAttachments.forEach { newAttachment ->
+                entryToMerge.putAttachment(newAttachment, database.attachmentPool)
+            }
+
+            if (entry == null) {
+                if (deletedObject == null
+                    || deletedObject.deletionTime.isBefore(entryToMerge.lastModificationTime)
+                ) {
+                    database.addEntryTo(entryToMerge, targetGroup)
+                }
+            } else {
+                mergeCustomData(entry.customData, entryToMerge.customData)
+                if (entry.lastModificationTime.isBefore(entryToMerge.lastModificationTime)) {
+                    entryToMerge.addHistoryFrom(entry)
+                    entry.updateWith(entryToMerge, copyHistory = true, updateParents = false)
+                } else if (entry.lastModificationTime.isAfter(entryToMerge.lastModificationTime)) {
+                    entry.addHistoryFrom(entryToMerge)
+                }
+                // Equal timestamps: no action needed
+            }
+        }
+    }
+
+    /**
+     * Merge a single group from a source database into [targetGroup].
+     * If the group already exists in this database (by UUID), use timestamp
+     * conflict resolution. Otherwise add it under [targetGroup].
+     */
+    private fun mergeGroupIntoGroup(
+        nodeToMerge: GroupKDBX,
+        sourceDatabase: DatabaseKDBX,
+        targetGroup: GroupKDBX
+    ) {
+        val groupId = nodeToMerge.nodeId
+        val group = database.getGroupById(groupId)
+        val deletedObject = database.getDeletedObject(groupId)
+
+        sourceDatabase.getGroupById(groupId)?.let { srcGroupToMerge ->
+            val groupToMerge = GroupKDBX().apply {
+                updateWith(srcGroupToMerge, updateParents = false)
+            }
+
+            if (group == null) {
+                if (deletedObject == null
+                    || deletedObject.deletionTime.isBefore(groupToMerge.lastModificationTime)
+                ) {
+                    database.addGroupTo(groupToMerge, targetGroup)
+                }
+            } else {
+                mergeCustomData(group.customData, groupToMerge.customData)
+                if (group.lastModificationTime.isBefore(groupToMerge.lastModificationTime)) {
+                    group.updateWith(groupToMerge, updateParents = false)
+                }
+            }
+        }
+    }
+
+    /**
      * Merge a KDBX database in a KDBX database,
      * Try to take into account the modification date of each element
      * To make a merge as accurate as possible

@@ -69,6 +69,9 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
             Screen.APPEARANCE -> {
                 onCreateAppearancePreferences(rootKey)
             }
+            Screen.KEESHARE -> {
+                onCreateKeeSharePreferences(rootKey)
+            }
             else -> {}
         }
     }
@@ -362,6 +365,39 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
             ) { _, _ ->}
             .create()
         warningAlertDialog?.show()
+    }
+
+    private val keeShareFolderPickerLauncher = registerForActivityResult(
+        androidx.activity.result.contract.ActivityResultContracts.OpenDocumentTree()
+    ) { treeUri ->
+        if (treeUri != null) {
+            val takeFlags = Intent.FLAG_GRANT_READ_URI_PERMISSION or
+                Intent.FLAG_GRANT_WRITE_URI_PERMISSION
+            requireContext().contentResolver.takePersistableUriPermission(treeUri, takeFlags)
+
+            PreferencesUtil.setKeeShareSyncFolderUri(requireContext(), treeUri.toString())
+
+            // Update the preference summary to show the selected path
+            findPreference<Preference>(getString(R.string.keeshare_sync_folder_key))?.summary =
+                treeUri.lastPathSegment ?: treeUri.toString()
+        }
+    }
+
+    private fun onCreateKeeSharePreferences(rootKey: String?) {
+        setPreferencesFromResource(R.xml.preferences_keeshare, rootKey)
+
+        // Show current sync folder URI in summary
+        val syncFolderPref = findPreference<Preference>(getString(R.string.keeshare_sync_folder_key))
+        val savedUri = PreferencesUtil.getKeeShareSyncFolderUri(requireContext())
+        if (!savedUri.isNullOrEmpty()) {
+            val uri = android.net.Uri.parse(savedUri)
+            syncFolderPref?.summary = uri.lastPathSegment ?: savedUri
+        }
+
+        syncFolderPref?.setOnPreferenceClickListener {
+            keeShareFolderPickerLauncher.launch(null)
+            true
+        }
     }
 
     private fun onCreateAppearancePreferences(rootKey: String?) {
