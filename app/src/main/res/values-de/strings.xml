@@ -744,7 +744,7 @@
     <string name="user_verification_database_credential">Die ersten vier Zeichen des Datenbankpassworts eingeben</string>
     <string name="clipboard_otp_notifications_title">OTP-Benachrichtigung</string>
     <string name="clipboard_otp_notifications_summary">Eine Benachrichtigung öffnen, um das OTP aus den durch automatisches Ausfüllen oder mit Magikeyboard ausgefüllten Einträgen zu kopieren</string>
-    <string name="user_verification_device_credential_summary">Geräteanmeldedaten als Benutzerverifikation verwenden, sofern verfügbar</string>
+    <string name="user_verification_device_credential_summary">Geräteanmeldedaten als Benutzerüberprüfung verwenden, sofern verfügbar</string>
     <string name="user_verification_preferred_title">Bevorzugte Benutzerüberprüfung</string>
     <string name="keyboard_auto_switch_title">Automatisches Umschalten für Magikeyboard</string>
     <string name="keyboard_auto_switch_summary">Versuchen, automatisch zum Magikeyboard zu wechseln, wenn Einträge ausgefüllt werden</string>
@@ -761,6 +761,6 @@
     <string name="education_user_verification_title">Überprüfung für sensible Aktionen</string>
     <string name="education_user_verification_summary">Den Benutzerüberprüfungsmodus für die Sitzung ändern.\n \n„Benutzerüberprüfung aktiviert“ überprüft Aktionen in geschützten Feldern und Datenbankeinstellungen.\n„Benutzerüberprüfung deaktiviert“ ermöglicht ohne Überprüfung beliebige Datenänderungen in der Datenbank.</string>
     <string name="user_verification_device_credential_title">Benutzerüberprüfungsdaten</string>
-    <string name="content_description_user_verification_information">Benutzer-Verifikationsinfo</string>
+    <string name="content_description_user_verification_information">Informationen zur Benutzerüberprüfung</string>
     <string name="error_passkey_credential_id">Kein Passkey für Vertrauensstelle %1$s und Anmeldeinformationen %2$s gefunden</string>
 </resources>
