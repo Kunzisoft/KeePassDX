@@ -8,10 +8,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.Group
+import com.kunzisoft.keepass.database.element.Tag
 import com.kunzisoft.keepass.database.element.node.Node
 import com.kunzisoft.keepass.database.element.node.Type
 import com.kunzisoft.keepass.icons.IconDrawableFactory
@@ -35,11 +37,13 @@ class BreadcrumbAdapter(val context: Context, val database: Database?)
     private var mNodeFilter: NodeFilter = NodeFilter(context, database)
 
     private var mShowNumberEntries = false
+    private var mShowTags = false
     private var mShowUUID = false
     private var mIconColor: Int = 0
 
     init {
         mShowNumberEntries = PreferencesUtil.showNumberEntries(context)
+        mShowTags = PreferencesUtil.showTags(context)
         mShowUUID = PreferencesUtil.showUUID(context)
 
         // Retrieve the color to tint the icon
@@ -125,6 +129,31 @@ class BreadcrumbAdapter(val context: Context, val database: Database?)
                     }
                 }
 
+                holder.tagsListView.apply {
+                    val tags = group.tags
+                    if (mShowTags) {
+                        val tagsAdapter = TagsAdapter(context, TagsAdapter.TagViewType.SMALL)
+                        layoutManager = LinearLayoutManager(
+                            context,
+                            LinearLayoutManager.HORIZONTAL,
+                            false
+                        )
+                        adapter = tagsAdapter
+                        tagsAdapter.setTags(tags)
+                        tagsAdapter.onItemClickListener = object : TagsAdapter.OnItemClickListener {
+                            override fun onItemClick(item: Tag) {
+                                onItemClickListener?.invoke(node, position)
+                            }
+
+                            override fun onItemLongClick(item: Tag): Boolean {
+                                onLongItemClickListener?.invoke(node, position)
+                                return true
+                            }
+                        }
+                    }
+                    visibility = if (tags.isNotEmpty()) View.VISIBLE else View.GONE
+                }
+
                 holder.groupMetaView?.apply {
                     val meta = group.nodeId.toVisualString()
                     visibility = if (meta != null
@@ -146,10 +175,11 @@ class BreadcrumbAdapter(val context: Context, val database: Database?)
         return mNodeBreadcrumb.size
     }
 
-    inner class BreadcrumbGroupViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    class BreadcrumbGroupViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var groupIconView: ImageView? = itemView.findViewById(R.id.group_icon)
         var groupNumbersView: TextView? = itemView.findViewById(R.id.group_numbers)
         var groupNameView: TextView = itemView.findViewById(R.id.group_name)
         var groupMetaView: TextView? = itemView.findViewById(R.id.group_meta)
+        var tagsListView: RecyclerView = itemView.findViewById(R.id.group_tags_list_view)
     }
 }

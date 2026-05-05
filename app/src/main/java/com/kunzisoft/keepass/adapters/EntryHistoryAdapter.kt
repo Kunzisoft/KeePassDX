@@ -32,7 +32,7 @@ import com.kunzisoft.keepass.utils.TimeUtil.getDateTimeString
 class EntryHistoryAdapter(val context: Context) : RecyclerView.Adapter<EntryHistoryAdapter.EntryHistoryViewHolder>() {
 
     private val inflater: LayoutInflater = LayoutInflater.from(context)
-    var entryHistoryList: MutableList<EntryInfo> = ArrayList()
+    var entryHistoryList: MutableList<EntryInfo> = mutableListOf()
     var onItemClickListener: ((item: EntryInfo, position: Int)->Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EntryHistoryViewHolder {

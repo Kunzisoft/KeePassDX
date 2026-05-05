@@ -36,6 +36,7 @@ import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.password.PasswordGenerator
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.timeout.ClipboardHelper
+import com.kunzisoft.keepass.utils.clear
 import com.kunzisoft.keepass.view.PasswordEditView
 import com.kunzisoft.keepass.viewmodels.KeyGeneratorViewModel
 
@@ -101,7 +102,7 @@ class PasswordGeneratorFragment : DatabaseFragment() {
             passwordCopyView?.setOnClickListener {
                 clipboardHelper.timeoutCopyToClipboard(
                     getString(R.string.password),
-                    passwordEditView.passwordString,
+                    passwordEditView.passwordCharArray,
                     true
                 )
             }
@@ -195,7 +196,7 @@ class PasswordGeneratorFragment : DatabaseFragment() {
         generatePassword()
 
         mKeyGeneratorViewModel.passwordGeneratedValidated.observe(viewLifecycleOwner) {
-            mKeyGeneratorViewModel.setKeyGenerated(passwordEditView.passwordString)
+            mKeyGeneratorViewModel.setKeyGenerated(passwordEditView.passwordCharArray)
         }
 
         mKeyGeneratorViewModel.requirePasswordGeneration.observe(viewLifecycleOwner) {
@@ -208,7 +209,7 @@ class PasswordGeneratorFragment : DatabaseFragment() {
     private fun getPasswordLength(): Int {
         return try {
             Integer.valueOf(lengthEditView.text.toString())
-        } catch (numberException: NumberFormatException) {
+        } catch (_: NumberFormatException) {
             minLengthSlider
         }
     }
@@ -291,9 +292,8 @@ class PasswordGeneratorFragment : DatabaseFragment() {
     }
 
     private fun generatePassword() {
-        var password = ""
         try {
-            password = PasswordGenerator(resources).generatePassword(
+            val password = PasswordGenerator(resources).generatePassword(
                 length = getPasswordLength(),
                 upperCase = uppercaseCompound.isChecked,
                 lowerCase = lowercaseCompound.isChecked,
@@ -309,10 +309,11 @@ class PasswordGeneratorFragment : DatabaseFragment() {
                 atLeastOneFromEach = atLeastOneCompound.isChecked,
                 excludeAmbiguousChar = excludeAmbiguousCompound.isChecked
             )
+            passwordEditView.passwordCharArray = password
+            password.clear()
         } catch (e: Exception) {
             Log.e(TAG, "Unable to generate a password", e)
         }
-        passwordEditView.passwordString = password
     }
 
     override fun onDestroy() {

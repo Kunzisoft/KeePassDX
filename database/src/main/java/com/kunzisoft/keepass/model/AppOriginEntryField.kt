@@ -22,6 +22,7 @@ package com.kunzisoft.keepass.model
 import com.kunzisoft.keepass.database.element.Field
 import com.kunzisoft.keepass.database.element.security.ProtectedString
 import com.kunzisoft.keepass.model.EntryInfo.Companion.suffixFieldNamePosition
+import com.kunzisoft.keepass.utils.contains
 
 object AppOriginEntryField {
 
@@ -30,9 +31,9 @@ object AppOriginEntryField {
     const val APPLICATION_SIGNATURE_FIELD_NAME = "AndroidApp Signature"
 
     /**
-     * Parse fields of an entry to retrieve a an AppOrigin
+     * Parse the fields of an entry to retrieve an AppOrigin
      */
-    fun parseFields(getField: (id: String) -> String?): AppOrigin {
+    fun parseFields(url: String?, getField: (id: String) -> CharArray?): AppOrigin {
         val appOrigin = AppOrigin(verified = true)
         // Get Application identifiers
         generateSequence(0) { it + 1 }
@@ -41,7 +42,7 @@ object AppOriginEntryField {
                 val appSignature = getField(APPLICATION_SIGNATURE_FIELD_NAME + suffixFieldNamePosition(position))
                 // Pair them up, if appId is null, we stop
                 if (appId != null) {
-                    appId to (appSignature ?: "")
+                    appId to (appSignature ?: charArrayOf())
                 } else {
                     // Stop
                     null
@@ -49,16 +50,23 @@ object AppOriginEntryField {
             }.takeWhile { it != null }
             .forEach { pair ->
                 appOrigin.addAndroidOrigin(
-                    AndroidOrigin(pair!!.first, pair.second)
+                    AndroidOrigin(
+                        packageName = String(pair!!.first),
+                        fingerprint = if (pair.second.isNotEmpty()) String(pair.second) else null)
                 )
             }
         // Get Domains
-        var domainFieldPosition = 0
+        // Add URL from standard field
+        if (!url.isNullOrEmpty()) {
+            appOrigin.addWebOrigin(WebOrigin(origin = url))
+        }
+        // Add URLs from custom fields
+        var domainFieldPosition = 1
         while (true) {
             val domainKey = WEB_DOMAIN_FIELD_NAME + suffixFieldNamePosition(domainFieldPosition)
             val domainValue = getField(domainKey)
-            if (domainValue != null) {
-                appOrigin.addWebOrigin(WebOrigin(origin = domainValue))
+            if (domainValue != null && domainValue.isNotEmpty()) {
+                appOrigin.addWebOrigin(WebOrigin(origin = String(domainValue)))
                 domainFieldPosition++
             } else {
                 break // No more domain found
@@ -69,21 +77,21 @@ object AppOriginEntryField {
     }
 
     /**
-     * Useful to detect if an other KeePass compatibility app already add a web domain or an app id
+     * Useful for checking whether another KeePass-compatible app has already added a website or an app ID
      */
     fun EntryInfo.containsDomainOrApplicationId(search: String): Boolean {
         if (url.contains(search))
             return true
         return customFields.find {
-            it.protectedValue.stringValue.contains(search)
+            it.protectedValue.charArrayValue.contains(search)
         } != null
     }
 
     fun EntryInfo.setWebDomain(webDomain: String?, scheme: String?, customFieldsAllowed: Boolean) {
         // If unable to save web domain in custom field or URL not populated, save in URL
         webDomain?.let {
-            val webOrigin = WebOrigin.fromDomain(webDomain, scheme).toOriginValue()
-            if (!containsDomainOrApplicationId(webDomain)) {
+            val webOrigin = WebOrigin.fromDomain(webDomain, scheme)?.toOriginValue()
+            if (webOrigin != null && !containsDomainOrApplicationId(webDomain)) {
                 if (!customFieldsAllowed || url.isEmpty()) {
                     url = webOrigin
                 } else {

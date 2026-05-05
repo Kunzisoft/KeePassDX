@@ -25,8 +25,7 @@ import com.kunzisoft.keepass.database.element.database.DatabaseVersioned
 import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.utils.readListCompat
 import com.kunzisoft.keepass.utils.readParcelableCompat
-import java.util.*
-import kotlin.collections.ArrayList
+import java.util.UUID
 
 class Template : Parcelable {
 
@@ -36,32 +35,34 @@ class Template : Parcelable {
     var icon = IconImage()
     var backgroundColor: Int? = null
     var foregroundColor: Int? = null
-    var sections: MutableList<TemplateSection> = ArrayList()
+    var sections: MutableList<TemplateSection> = mutableListOf()
         private set
 
-    constructor(uuid: UUID,
-                title: String,
-                icon: IconImage,
-                section: TemplateSection,
-                version: Int = 1)
-            : this(uuid, title, icon, ArrayList<TemplateSection>().apply {
-        add(section)
-    }, version)
+    constructor(
+        uuid: UUID,
+        title: String,
+        icon: IconImage,
+        section: TemplateSection,
+        version: Int = 1
+    ) : this(uuid, title, icon, mutableListOf<TemplateSection>(section), version)
 
-    constructor(uuid: UUID,
-                title: String,
-                icon: IconImage,
-                sections: List<TemplateSection>,
-                version: Int = 1)
-            : this(uuid, title, icon, null, null, sections, version)
+    constructor(
+        uuid: UUID,
+        title: String,
+        icon: IconImage,
+        sections: List<TemplateSection>,
+        version: Int = 1
+    ) : this(uuid, title, icon, null, null, sections, version)
 
-    constructor(uuid: UUID,
-                title: String,
-                icon: IconImage,
-                backgroundColor: Int?,
-                foregroundColor: Int?,
-                sections: List<TemplateSection>,
-                version: Int = 1) {
+    constructor(
+        uuid: UUID,
+        title: String,
+        icon: IconImage,
+        backgroundColor: Int?,
+        foregroundColor: Int?,
+        sections: List<TemplateSection>,
+        version: Int = 1
+    ) {
         this.version = version
         this.uuid = uuid
         this.title = title

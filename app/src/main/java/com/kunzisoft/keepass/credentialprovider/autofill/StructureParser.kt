@@ -34,12 +34,22 @@ import java.util.Locale
  * Parse AssistStructure and guess username and password fields.
  */
 @RequiresApi(api = Build.VERSION_CODES.O)
-class StructureParser(private val structure: AssistStructure) {
+class StructureParser(
+    private val structure: AssistStructure,
+    private val webViewDenied: Boolean = false
+) {
     private var result: Result? = null
     private var usernameIdCandidate: AutofillId? = null
     private var usernameValueCandidate: AutofillValue? = null
 
-    fun parse(saveValue: Boolean = false): Result? {
+    fun parseOrNull(saveValue: Boolean = false): Result? {
+        val result = parse(saveValue)
+        if (result != null && result.isValid())
+            return result
+        return null
+    }
+
+    fun parse(saveValue: Boolean): Result? {
         try {
             result = Result()
             result?.apply {
@@ -59,25 +69,26 @@ class StructureParser(private val structure: AssistStructure) {
                 // If not explicit username field found, add the field just before password field.
                 if (usernameId == null && passwordId != null && usernameIdCandidate != null) {
                     usernameId = usernameIdCandidate
-                    if (allowSaveValues) {
-                        usernameValue = usernameValueCandidate
-                    }
+                    usernameValue = usernameValueCandidate
                 }
             }
-
-            return if (result?.passwordId != null || result?.creditCardNumberId != null)
-                    result
-                else
-                    null
+            return result
         } catch (e: Exception) {
+            Log.e(TAG, "Autofill error", e)
             return null
         }
     }
 
     private fun parseViewNode(node: AssistStructure.ViewNode): Boolean {
-        // remember this
-        if (node.className == "android.webkit.WebView") {
+        // WebView filter
+        if (node.className?.contains("webview", ignoreCase = true) == true) {
             result?.isWebView = true
+            if (webViewDenied) {
+                Log.w(TAG, "Blocking webview Autofill for ${node.className}")
+                return false
+            } else {
+                Log.d(TAG, "Enabling webview Autofill for ${node.className}")
+            }
         }
 
         // Get the domain of a web app
@@ -129,6 +140,15 @@ class StructureParser(private val structure: AssistStructure) {
         val autofillId = node.autofillId
         node.autofillHints?.forEach {
             when {
+                // OTP recognition at first to prevent HINT_PASSWORD contained in name
+                // https://developer.android.com/reference/androidx/autofill/HintConstants#AUTOFILL_HINT_2FA_APP_OTP()
+                it.contains("2faAppOTPCode", true)
+                        || it.contains("one-time-code", true)
+                        || it.contains("one-time-password", true) -> {
+                    Log.d(TAG, "Autofill OTP token")
+                    result?.otpTokenId = autofillId
+                    result?.otpTokenValue = node.autofillValue
+                }
                 it.contains(View.AUTOFILL_HINT_USERNAME, true)
                         || it.contains(View.AUTOFILL_HINT_EMAIL_ADDRESS, true)
                         || it.contains("email", true)
@@ -167,13 +187,13 @@ class StructureParser(private val structure: AssistStructure) {
                 it.equals("cc-name", true) -> {
                     Log.d(TAG, "Autofill credit card name hint")
                     result?.creditCardHolderId = autofillId
-                    result?.creditCardHolder = node.autofillValue?.textValue?.toString()
+                    result?.creditCardHolder = node.autofillValue
                 }
                 it.contains(View.AUTOFILL_HINT_CREDIT_CARD_NUMBER, true)
                         || it.equals("cc-number", true) -> {
                     Log.d(TAG, "Autofill credit card number hint")
                     result?.creditCardNumberId = autofillId
-                    result?.creditCardNumber = node.autofillValue?.textValue?.toString()
+                    result?.creditCardNumber = node.autofillValue
                 }
                 // expect date string as defined in https://html.spec.whatwg.org, e.g. 2014-12
                 it.equals("cc-exp", true) -> {
@@ -273,7 +293,7 @@ class StructureParser(private val structure: AssistStructure) {
                         || it.contains("cc-csc", true) -> {
                     Log.d(TAG, "Autofill card security code hint")
                     result?.cardVerificationValueId = autofillId
-                    result?.cardVerificationValue = node.autofillValue?.textValue?.toString()
+                    result?.cardVerificationValue = node.autofillValue
                 }
                 // Ignore autocomplete="off"
                 // https://developer.mozilla.org/en-US/docs/Web/Security/Securing_your_site/Turning_off_form_autocompletion
@@ -295,6 +315,34 @@ class StructureParser(private val structure: AssistStructure) {
             "input" -> {
                 nodHtml.attributes?.forEach { pairAttribute ->
                     when (pairAttribute.first.lowercase(Locale.ENGLISH)) {
+                        "id", "name" -> {
+                            when (pairAttribute.second.lowercase(Locale.ENGLISH)) {
+                                "2fa",
+                                "2fpin",
+                                "app_otp",
+                                "app_totp",
+                                "auth",
+                                "challenge",
+                                "code",
+                                "idvpin",
+                                "mfa",
+                                "mfacode",
+                                "otp",
+                                "otpcode",
+                                "token",
+                                "totp",
+                                "totppin",
+                                "two-factor",
+                                "twofa",
+                                "twofactor",
+                                "verification_pin" -> {
+                                    result?.otpTokenId = autofillId
+                                    result?.otpTokenValue = node.autofillValue
+                                    Log.d(TAG, "Autofill OTP token web id: ${node.htmlInfo?.tag} ${node.htmlInfo?.attributes}")
+                                    return true
+                                }
+                            }
+                        }
                         "type" -> {
                             when (pairAttribute.second.lowercase(Locale.ENGLISH)) {
                                 "tel", "email" -> {
@@ -497,9 +545,14 @@ class StructureParser(private val structure: AssistStructure) {
         var creditCardExpirationMonthId: AutofillId? = null
         var creditCardExpirationDayId: AutofillId? = null
         var cardVerificationValueId: AutofillId? = null
+        var otpTokenId: AutofillId? = null
+
+        fun isValid(): Boolean {
+            return passwordId != null || creditCardNumberId != null || otpTokenId != null
+        }
 
         fun allAutofillIds(): Array<AutofillId> {
-            val all = ArrayList<AutofillId>()
+            val all = mutableListOf<AutofillId>()
             usernameId?.let {
                 all.add(it)
             }
@@ -513,6 +566,9 @@ class StructureParser(private val structure: AssistStructure) {
                 all.add(it)
             }
             cardVerificationValueId?.let {
+                all.add(it)
+            }
+            otpTokenId?.let {
                 all.add(it)
             }
             return all.toTypedArray()
@@ -533,13 +589,13 @@ class StructureParser(private val structure: AssistStructure) {
                     field = value
             }
 
-        var creditCardHolder: String? = null
+        var creditCardHolder: AutofillValue? = null
             set(value) {
                 if (allowSaveValues)
                     field = value
             }
 
-        var creditCardNumber: String? = null
+        var creditCardNumber: AutofillValue? = null
             set(value) {
                 if (allowSaveValues)
                     field = value
@@ -573,7 +629,14 @@ class StructureParser(private val structure: AssistStructure) {
             }
 
         // the security code for the credit card (also called CVV)
-        var cardVerificationValue: String? = null
+        var cardVerificationValue: AutofillValue? = null
+            set(value) {
+                if (allowSaveValues)
+                    field = value
+            }
+
+        // OTP Token
+        var otpTokenValue: AutofillValue? = null
             set(value) {
                 if (allowSaveValues)
                     field = value

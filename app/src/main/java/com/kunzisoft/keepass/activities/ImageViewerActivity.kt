@@ -94,14 +94,10 @@ class ImageViewerActivity : DatabaseLockActivity() {
         }
     }
 
-    override fun viewToInvalidateTimeout(): View? {
-        // Null to manually manage events
-        return null
-    }
+    // Null to manually manage events
+    override fun viewToInvalidateTimeout(): View? = null
 
-    override fun finishActivityIfReloadRequested(): Boolean {
-        return true
-    }
+    override fun finishActivityIfReloadRequested(): Boolean = true
 
     override fun onDatabaseRetrieved(database: ContextualDatabase) {
         super.onDatabaseRetrieved(database)

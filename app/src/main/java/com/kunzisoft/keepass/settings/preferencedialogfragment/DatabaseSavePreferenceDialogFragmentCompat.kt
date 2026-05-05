@@ -41,7 +41,7 @@ abstract class DatabaseSavePreferenceDialogFragmentCompat
     : InputPreferenceDialogFragmentCompat(), DatabaseRetrieval {
 
     private var mDatabaseAutoSaveEnable = true
-    private val mDatabaseViewModel: DatabaseViewModel by activityViewModels()
+    protected val mDatabaseViewModel: DatabaseViewModel by activityViewModels()
     protected val mDatabase: ContextualDatabase?
         get() = mDatabaseViewModel.database
 

@@ -23,10 +23,9 @@ import android.content.Context
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.element.Entry
 import com.kunzisoft.keepass.database.element.Group
-import com.kunzisoft.keepass.database.element.node.Node
 import com.kunzisoft.keepass.hardware.HardwareKey
 
-class AddEntryRunnable constructor(
+class AddEntryRunnable(
     context: Context,
     database: ContextualDatabase,
     private val mNewEntry: Entry,
@@ -48,10 +47,6 @@ class AddEntryRunnable constructor(
                 database.removeEntryFrom(mNewEntry, it)
             }
         }
-
-        val oldNodesReturn = ArrayList<Node>()
-        val newNodesReturn = ArrayList<Node>()
-        newNodesReturn.add(mNewEntry)
-        return ActionNodesValues(oldNodesReturn, newNodesReturn)
+        return ActionNodesValues(listOf(), listOf(mNewEntry))
     }
 }

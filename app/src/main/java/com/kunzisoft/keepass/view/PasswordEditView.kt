@@ -138,18 +138,29 @@ class PasswordEditView @JvmOverloads constructor(context: Context,
         mPasswordTextWatchers.remove(textWatcher)
     }
 
-    private fun spannableValue(value: String): Spannable {
+    private fun spannableValue(value: CharArray): Spannable {
         return if (PreferencesUtil.colorizePassword(context))
             PasswordGenerator.getColorizedPassword(value)
         else
-            SpannableString(value)
+            SpannableString(String(value))
     }
 
-    var passwordString: String
+    var passwordCharArray: CharArray?
         get() {
-            return passwordText.text.toString()
+            if (passwordText.length() == 0) return null
+            val password = CharArray(passwordText.length())
+            passwordText.text.getChars(0, passwordText.length(), password, 0)
+            return password
         }
         set(value) {
-            passwordText.setText(spannableValue(value))
+            if (value == null) {
+                passwordText.setText("")
+            } else {
+                passwordText.setText(spannableValue(value))
+            }
         }
+
+    fun clear() {
+        passwordText.text.clear()
+    }
 }

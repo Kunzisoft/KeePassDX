@@ -31,10 +31,11 @@ import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.element.DateInstant
 import com.kunzisoft.keepass.utils.TimeUtil.getDateTimeString
 
-class DateTimeEditFieldView @JvmOverloads constructor(context: Context,
-                                                      attrs: AttributeSet? = null,
-                                                      defStyle: Int = 0)
-    : FrameLayout(context, attrs, defStyle), GenericDateTimeFieldView {
+class DateTimeEditFieldView @JvmOverloads constructor(
+    context: Context,
+    attrs: AttributeSet? = null,
+    defStyle: Int = 0
+) : FrameLayout(context, attrs, defStyle), GenericDateTimeFieldView {
 
     private var entryExpiresLabelView: TextInputLayout
     private var entryExpiresTextView: TextView
@@ -101,7 +102,7 @@ class DateTimeEditFieldView @JvmOverloads constructor(context: Context,
         }
 
     /**
-     * Warning dateTime.type is ignore, use type instead
+     * Warning [DateInstant.type] is ignore, use [type] instead
      */
     override var dateTime: DateInstant
         get() {
@@ -119,24 +120,24 @@ class DateTimeEditFieldView @JvmOverloads constructor(context: Context,
             }
         }
 
-    override var value: String
+    override var value: CharArray
         get() {
-            return if (activation) dateTime.toString() else ""
+            return if (activation) dateTime.toCharArray() else CharArray(0)
         }
         set(value) {
             mDateTime = try {
                 DateInstant(value)
-            } catch (e: Exception) {
+            } catch (_: Exception) {
                 mDefault
             }
         }
 
-    override var default: String
-        get() = mDefault.toString()
+    override var default: CharArray
+        get() = mDefault.toCharArray()
         set(value) {
             mDefault = try {
                 DateInstant(value)
-            } catch (e: Exception) {
+            } catch (_: Exception) {
                 mDefault
             }
         }

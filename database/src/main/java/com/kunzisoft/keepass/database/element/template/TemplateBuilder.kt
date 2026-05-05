@@ -20,7 +20,7 @@ package com.kunzisoft.keepass.database.element.template
 
 import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.database.element.icon.IconImageStandard
-import java.util.*
+import java.util.UUID
 
 class TemplateBuilder {
 

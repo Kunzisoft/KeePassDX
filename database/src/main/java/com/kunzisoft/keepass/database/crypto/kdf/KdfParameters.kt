@@ -19,11 +19,11 @@
  */
 package com.kunzisoft.keepass.database.crypto.kdf
 
+import com.kunzisoft.keepass.database.crypto.VariantDictionary
 import com.kunzisoft.keepass.utils.bytes16ToUuid
 import com.kunzisoft.keepass.utils.uuidTo16Bytes
-import com.kunzisoft.keepass.database.crypto.VariantDictionary
 import java.io.IOException
-import java.util.*
+import java.util.UUID
 
 class KdfParameters: VariantDictionary {
 

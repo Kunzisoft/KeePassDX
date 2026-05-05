@@ -43,7 +43,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.util.LinkedList
 import java.util.concurrent.CopyOnWriteArrayList
 
 
@@ -57,7 +56,7 @@ class AttachmentFileNotificationService: LockNotificationService() {
     private val attachmentNotificationList = CopyOnWriteArrayList<AttachmentNotification>()
 
     private var mActionTaskBinder = ActionTaskBinder()
-    private var mActionTaskListeners = LinkedList<ActionTaskListener>()
+    private var mActionTaskListeners = mutableListOf<ActionTaskListener>()
 
     private val mainScope = CoroutineScope(Dispatchers.Main)
 

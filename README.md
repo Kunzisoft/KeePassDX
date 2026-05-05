@@ -28,7 +28,7 @@ KeePassDX is **open source** and **ad-free**.
 
 An alternative to remembering an endless list of passwords manually. This is made more difficult by **using different passwords for each account**. If you use one password everywhere and security fails only one of those places, it grants access to your e-mail account, website, etc, and you may not know about it or notice, before bad things happen.
 
-KeePassDX is a **password manager for Android**, which helps you **manage your passwords in a secure way**. You can put all your passwords in one database, locked with a **master key** and/or a **keyfile**. You **only have to remember one single master password and/or select the keyfile** to unlock the whole database. The databases are encrypted using the best and **most secure encryption algorithms** currently known.
+KeePassDX is a **local password and passkey manager for Android**, which helps you **manage your passwords in a secure way**. You can put all your passwords in one database, locked with a **master key** and/or a **keyfile**. You **only have to remember one single master password and/or select the keyfile** to unlock the whole database. The databases are encrypted using the best and **most secure encryption algorithms** currently known.
 
 ## Small print?
 
@@ -36,17 +36,19 @@ KeePassDX is under **open source GPL3 license**, meaning you can use, study, cha
 From the full source, anyone can build, fork, and check whether for example the encryption algorithms are implemented correctly.
 There is **no advertising**.
 
-Do not worry, **the main features remain completely free**.
+Do not worry, **the main features remain completely free**, no security features are reserved for a specific version; encryption and data protection are strictly the same for all users.
 
-Optional visual styles are accessible after a contribution (and a congratulatory message (Ո‿Ո) ) or the purchase of an extended version to encourage contribution to the work of open source projects!
-*If you contribute to the project and do not have access to the styles, do not hesitate to contact the author at [contact@kunzisoft.com](contact@kunzisoft.com).*
+KeePassDX is developed and maintained on a volunteer basis, so if you find the application useful and would like to support its development, there are several options available.
 
-## Contributions
+## Contribution
 
 * Add features by making a **[pull request](https://help.github.com/articles/about-pull-requests/)**.
-* Help to **[translate](https://hosted.weblate.org/projects/keepass-dx/strings/)** KeePassDX to your language (on [Weblate](https://hosted.weblate.org/projects/keepass-dx/) or by sending a [pull request](https://help.github.com/articles/about-pull-requests/)).
-* **[Donate](https://www.keepassdx.com/#donation)**  人◕ ‿‿ ◕人Y for a better service and a quick development of your features.
-* Buy the **[Pro version](https://play.google.com/store/apps/details?id=com.kunzisoft.keepass.pro)** of KeePassDX.
+* Help to **[translate](https://hosted.weblate.org/projects/keepass-dx/strings/)** KeePassDX to your language on [Weblate](https://hosted.weblate.org/projects/keepass-dx/).
+* **[Donate](https://www.keepassdx.com/#donation)** to encourage and finance design, deployment, ticket tracking, bug fixing, addition of new features, development and maintenance. You will then have access to a support version, KeePassDX Pro. (づ•ᴗ•)づ♡
+
+*Note : The support version provides access to optional visual styles that are accessible after a contribution (and a thank-you message ≽^•⩊•^≼) to encourage the work of this open source project!
+It does not improve safety and provides no functional advantage.
+If you contribute and do not have access to the styles, do not hesitate to contact the author at [contact@keepassdx.com](contact@keepassdx.com).*
 
 ## Download
 
@@ -98,7 +100,7 @@ Other questions? You can read the [FAQ](https://github.com/Kunzisoft/KeePassDX/w
 
 ## License
 
-  Copyright © 2025 Jeremy Jamet / [Kunzisoft](https://www.kunzisoft.com).
+  Copyright © 2026 Jeremy Jamet / [Kunzisoft](https://www.kunzisoft.com).
 
   This file is part of KeePassDX.
 

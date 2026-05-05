@@ -34,6 +34,7 @@ import com.kunzisoft.keepass.database.element.node.NodeIdUUID
 import com.kunzisoft.keepass.database.element.node.NodeVersioned
 import com.kunzisoft.keepass.database.exception.EmptyKeyDatabaseException
 import com.kunzisoft.keepass.database.exception.HardwareKeyDatabaseException
+import com.kunzisoft.keepass.utils.clear
 import java.io.IOException
 import java.nio.charset.Charset
 import java.util.UUID
@@ -125,6 +126,7 @@ class DatabaseKDB : DatabaseVersioned<Int, UUID, GroupKDB, EntryKDB>() {
         val transformedKey = AESTransformer.transformKey(transformSeed, masterKey, numRounds) ?: ByteArray(0)
         // Write checksum Checksum
         finalKey = HashManager.hashSha256(masterSeed, transformedKey)
+        transformedKey.clear()
     }
 
     fun deriveMasterKey(
@@ -160,7 +162,7 @@ class DatabaseKDB : DatabaseVersioned<Int, UUID, GroupKDB, EntryKDB>() {
         }
 
         // Build check key
-        this.checkKey = masterCredential.getCheckKey()
+        this.checkKey = masterCredential.getCheckKey(passwordEncoding)
     }
 
     override fun createGroup(): GroupKDB {
@@ -221,9 +223,9 @@ class DatabaseKDB : DatabaseVersioned<Int, UUID, GroupKDB, EntryKDB>() {
     }
 
     /**
-     * Define if a Node must be delete or recycle when remove action is called
+     * Define if a Node must be deleted or recycle when remove action is called
      * @param node Node to remove
-     * @return true if node can be recycle, false elsewhere
+     * @return true if node can be recycled, false elsewhere
      */
     fun canRecycle(node: NodeVersioned<*, GroupKDB, EntryKDB>): Boolean {
         if (backupGroup == null)
@@ -238,15 +240,13 @@ class DatabaseKDB : DatabaseVersioned<Int, UUID, GroupKDB, EntryKDB>() {
     }
 
     fun buildNewBinaryAttachment(): BinaryData {
-        // Generate an unique new file
+        // Generate a unique new file
         return attachmentPool.put { uniqueBinaryId ->
             binaryCache.getBinaryData(uniqueBinaryId, false)
         }.binary
     }
 
     companion object {
-        val TYPE = DatabaseKDB::class.java
-
         const val BACKUP_FOLDER_TITLE = "Backup"
     }
 }

@@ -2,7 +2,6 @@ package com.kunzisoft.keepass.activities.dialogs
 
 import android.os.Bundle
 import android.view.View
-import android.view.WindowManager.LayoutParams.FLAG_SECURE
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
@@ -14,6 +13,7 @@ import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.timeout.TimeoutHelper
+import com.kunzisoft.keepass.utils.AppUtil
 import com.kunzisoft.keepass.viewmodels.DatabaseViewModel
 import kotlinx.coroutines.launch
 
@@ -56,11 +56,7 @@ abstract class DatabaseDialogFragment : DialogFragment(), DatabaseRetrieval {
         super.onViewCreated(view, savedInstanceState)
         // Screenshot mode or hide views
         context?.let {
-            if (PreferencesUtil.isScreenshotModeEnabled(it)) {
-                dialog?.window?.clearFlags(FLAG_SECURE)
-            } else {
-                dialog?.window?.setFlags(FLAG_SECURE, FLAG_SECURE)
-            }
+            AppUtil.setScreenshotMode(dialog?.window, PreferencesUtil.isScreenshotModeEnabled(it))
         }
     }
 

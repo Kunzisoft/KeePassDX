@@ -24,7 +24,7 @@ import android.os.ParcelUuid
 import android.os.Parcelable
 import com.kunzisoft.keepass.database.element.database.DatabaseVersioned
 import com.kunzisoft.keepass.utils.readParcelableCompat
-import java.util.*
+import java.util.UUID
 
 class DeletedObject : Parcelable {
 

@@ -84,6 +84,33 @@ class PasswordActivityEducation(activity: Activity)
                 R.string.education_read_only_key)
     }
 
+    fun checkAndPerformedUserVerificationEducation(educationView: View,
+                                                   onEducationViewClick: ((TapTargetView?) -> Unit)? = null,
+                                                   onOuterViewClick: ((TapTargetView?) -> Unit)? = null): Boolean {
+        return checkAndPerformedEducation(isEducationUserVerificationPerformed(activity),
+            TapTarget.forView(educationView,
+                activity.getString(R.string.education_user_verification_title),
+                activity.getString(R.string.education_user_verification_summary))
+                .outerCircleColorInt(getCircleColor())
+                .outerCircleAlpha(getCircleAlpha())
+                .textColorInt(getTextColor())
+                .tintTarget(true)
+                .cancelable(true),
+            object : TapTargetView.Listener() {
+                override fun onTargetClick(view: TapTargetView) {
+                    super.onTargetClick(view)
+                    onEducationViewClick?.invoke(view)
+                }
+
+                override fun onOuterCircleClick(view: TapTargetView?) {
+                    super.onOuterCircleClick(view)
+                    view?.dismiss(false)
+                    onOuterViewClick?.invoke(view)
+                }
+            },
+            R.string.education_user_verification_key)
+    }
+
     fun checkAndPerformedBiometricEducation(educationView: View,
                                             onEducationViewClick: ((TapTargetView?) -> Unit)? = null,
                                             onOuterViewClick: ((TapTargetView?) -> Unit)? = null): Boolean {

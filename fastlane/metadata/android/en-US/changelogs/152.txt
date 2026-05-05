@@ -1,0 +1,8 @@
+ * Select User Verification mode at database opening #2321
+ * Fix reloading changed database #2334
+ * Fix selectable protected field #2345
+ * Fix password credential provider workflow #2353
+ * Fix infinite loading #2277
+ * Fix webview recognition #2348 #2343 #2349 #1716
+ * Fix Magikeyboard #2356 #2357
+ * Fix display of protected field #2350

@@ -3,6 +3,7 @@ package com.kunzisoft.keepass.services
 import android.Manifest
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.app.PendingIntent
 import android.app.Service
 import android.content.Context
 import android.content.Intent
@@ -21,6 +22,7 @@ import androidx.core.app.ServiceCompat
 import androidx.core.content.ContextCompat
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.stylish.Stylish
+import com.kunzisoft.keepass.utils.AppUtil.randomRequestCode
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -30,7 +32,9 @@ import kotlinx.coroutines.launch
 import org.joda.time.Instant
 
 
-abstract class NotificationService : Service() {
+typealias NotificationService = NotificationServiceParam<Unit>
+
+abstract class NotificationServiceParam<T> : Service() {
 
     protected var notificationManager: NotificationManagerCompat? = null
     private var colorNotificationAccent: Int = 0
@@ -85,12 +89,6 @@ abstract class NotificationService : Service() {
                 .setVisibility(NotificationCompat.VISIBILITY_SECRET)
     }
 
-    protected fun buildSummaryNotification(): NotificationCompat.Builder {
-        return buildNewNotification().apply {
-            setGroupSummary(true)
-        }
-    }
-
     protected fun startForegroundCompat(notificationId: Int,
                                         builder: NotificationCompat.Builder,
                                         type: NotificationServiceType
@@ -121,11 +119,16 @@ abstract class NotificationService : Service() {
         stopSelf()
     }
 
-    protected fun defineTimerJob(builder: NotificationCompat.Builder,
-                                 type: NotificationServiceType,
-                                 timeoutMilliseconds: Long,
-                                 actionAfterASecond: (() -> Unit)? = null,
-                                 actionEnd: () -> Unit) {
+    protected open fun timerContentText(data: T?): String? = null
+
+    protected fun defineTimerJob(
+        builder: NotificationCompat.Builder,
+        type: NotificationServiceType,
+        timeoutMilliseconds: Long,
+        timerData: T? = null,
+        actionAfterASecond: ((progress: Int) -> Unit)? = null,
+        actionEnd: () -> Unit
+    ) {
         mTimerJob?.cancel()
         mTimerJob = CoroutineScope(Dispatchers.Main).launch {
             if (timeoutMilliseconds > 0) {
@@ -139,10 +142,17 @@ abstract class NotificationService : Service() {
                         currentTime = timeoutMilliseconds
                     }
                     // Update every second
-                    actionAfterASecond?.invoke()
-                    builder.setProgress(100,
-                        (currentTime * 100 / timeoutMilliseconds).toInt(),
-                        false)
+                    val progress = (currentTime * 100 / timeoutMilliseconds).toInt()
+                    actionAfterASecond?.invoke(progress)
+                    builder.apply {
+                        setProgress(100,
+                            progress,
+                            false
+                        )
+                        timerContentText(timerData)?.let {
+                            setContentText(it)
+                        }
+                    }
                     startForegroundCompat(notificationId, builder, type)
                     delay(1000)
                     currentTime = timeoutMilliseconds - (Instant.now().millis - startInstant)
@@ -169,6 +179,36 @@ abstract class NotificationService : Service() {
         Log.e(javaClass::class.simpleName, "The service took too long to execute")
         cancelNotification()
         stopSelf()
+    }
+
+    protected open fun buildServicePendingIntent(
+        intent: Intent
+    ): PendingIntent {
+        return PendingIntent.getService(
+            this,
+            randomRequestCode(),
+            intent,
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+            } else {
+                PendingIntent.FLAG_UPDATE_CURRENT
+            }
+        )
+    }
+
+    protected open fun buildActivityPendingIntent(
+        intent: Intent
+    ): PendingIntent {
+        return PendingIntent.getActivity(
+            this,
+            randomRequestCode(),
+            intent,
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+            } else {
+                PendingIntent.FLAG_UPDATE_CURRENT
+            }
+        )
     }
 
     protected fun cancelNotification() {
@@ -199,7 +239,7 @@ abstract class NotificationService : Service() {
                 if (showError) {
                     Toast.makeText(
                         context,
-                        R.string.warning_copy_permission,
+                        R.string.warning_permission,
                         Toast.LENGTH_LONG
                     ).show()
                 }

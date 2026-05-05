@@ -21,13 +21,15 @@ package com.kunzisoft.keepass.model
 
 import android.os.Parcel
 import android.os.Parcelable
-import com.kunzisoft.keepass.otp.OtpElement
 import com.kunzisoft.keepass.otp.OtpTokenType
 import com.kunzisoft.keepass.otp.OtpType
 import com.kunzisoft.keepass.otp.TokenCalculator
 import com.kunzisoft.keepass.otp.TokenCalculator.OTP_DEFAULT_ALGORITHM
+import com.kunzisoft.keepass.utils.clear
+import com.kunzisoft.keepass.utils.readEnum
+import com.kunzisoft.keepass.utils.writeEnum
 
-class OtpModel() : Parcelable {
+class OtpModel : Parcelable {
 
     var type: OtpType = OtpType.TOTP // ie : HOTP or TOTP
     var tokenType: OtpTokenType = OtpTokenType.RFC6238
@@ -39,17 +41,30 @@ class OtpModel() : Parcelable {
     var digits: Int = TokenCalculator.OTP_DEFAULT_DIGITS
     var algorithm: TokenCalculator.HashAlgorithm = OTP_DEFAULT_ALGORITHM
 
+    constructor()
+
+    constructor(otpModel: OtpModel) : this() {
+        type = otpModel.type
+        tokenType = otpModel.tokenType
+        name = otpModel.name
+        issuer = otpModel.issuer
+        secret = otpModel.secret?.copyOf()
+        counter = otpModel.counter
+        period = otpModel.period
+        digits = otpModel.digits
+        algorithm = otpModel.algorithm
+    }
+
     constructor(parcel: Parcel) : this() {
-        val typeRead = parcel.readInt()
-        type = OtpType.values()[typeRead]
-        tokenType = OtpTokenType.values()[parcel.readInt()]
+        type = parcel.readEnum<OtpType>() ?: type
+        tokenType = parcel.readEnum<OtpTokenType>() ?: tokenType
         name = parcel.readString() ?: name
         issuer = parcel.readString() ?: issuer
         secret = parcel.createByteArray() ?: secret
         counter = parcel.readLong()
         period = parcel.readInt()
         digits = parcel.readInt()
-        algorithm = TokenCalculator.HashAlgorithm.values()[parcel.readInt()]
+        algorithm = parcel.readEnum<TokenCalculator.HashAlgorithm>() ?: algorithm
     }
 
     override fun equals(other: Any?): Boolean {
@@ -61,8 +76,9 @@ class OtpModel() : Parcelable {
         if (type != other.type) return false
         // Token type is important only if it's a TOTP
         if (type == OtpType.TOTP && tokenType != other.tokenType) return false
-        if (secret == null || other.secret == null) return false
-        if (!secret!!.contentEquals(other.secret!!)) return false
+        if (secret == null && other.secret != null) return false
+        if (secret != null && other.secret == null) return false
+        if (secret != null && other.secret != null && !secret!!.contentEquals(other.secret!!)) return false
         // Counter only for HOTP
         if (type == OtpType.HOTP && counter != other.counter) return false
         // Step only for TOTP
@@ -91,15 +107,24 @@ class OtpModel() : Parcelable {
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
-        parcel.writeInt(type.ordinal)
-        parcel.writeInt(tokenType.ordinal)
+        parcel.writeEnum(type)
+        parcel.writeEnum(tokenType)
         parcel.writeString(name)
         parcel.writeString(issuer)
         parcel.writeByteArray(secret)
         parcel.writeLong(counter)
         parcel.writeInt(period)
         parcel.writeInt(digits)
-        parcel.writeInt(algorithm.ordinal)
+        parcel.writeEnum(algorithm)
+    }
+
+    override fun toString(): String {
+        return "$type ($name)"
+    }
+    
+    fun clear() {
+        secret?.clear()
+        secret = null
     }
 
     companion object CREATOR : Parcelable.Creator<OtpModel> {

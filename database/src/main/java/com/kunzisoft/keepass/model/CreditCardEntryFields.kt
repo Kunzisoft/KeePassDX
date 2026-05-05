@@ -19,13 +19,11 @@
  */
 package com.kunzisoft.keepass.model
 
-import com.kunzisoft.keepass.database.element.DateInstant
 import com.kunzisoft.keepass.database.element.Field
 import com.kunzisoft.keepass.database.element.security.ProtectedString
 import com.kunzisoft.keepass.database.element.template.TemplateField.LABEL_CVV
 import com.kunzisoft.keepass.database.element.template.TemplateField.LABEL_HOLDER
 import com.kunzisoft.keepass.database.element.template.TemplateField.LABEL_NUMBER
-import org.joda.time.DateTime
 
 object CreditCardEntryFields {
 
@@ -34,18 +32,16 @@ object CreditCardEntryFields {
     /**
      * Parse fields of an entry to retrieve a Passkey
      */
-    fun parseFields(getField: (id: String) -> String?): CreditCard? {
+    fun parseFields(getField: (id: String) -> CharArray?): CreditCard? {
         val cardHolderField = getField(LABEL_HOLDER)
         val cardNumberField = getField(LABEL_NUMBER)
-        val cardExpiration = DateTime() // TODO Expiration
         val cardCVVField = getField(LABEL_CVV)
         if (cardHolderField == null
             || cardNumberField == null)
             return null
         return CreditCard(
-            cardholder = cardHolderField,
+            cardholder = String(cardHolderField),
             number = cardNumberField,
-            expiration = cardExpiration,
             cvv = cardCVVField
         )
     }
@@ -69,10 +65,6 @@ object CreditCardEntryFields {
                     )
                 )
             }
-            creditCard.expiration?.let {
-                expires = true
-                expiryTime = DateInstant(creditCard.expiration.toInstant())
-            }
             creditCard.cvv?.let {
                 addOrReplaceField(
                     Field(
@@ -81,6 +73,19 @@ object CreditCardEntryFields {
                     )
                 )
             }
+        }
+    }
+
+    /**
+     * Detect if the current field is a Credit Card field
+     */
+    fun Field.isCreditCard(): Boolean {
+        return when(name) {
+            CREDIT_CARD_TAG -> true
+            LABEL_HOLDER -> true
+            LABEL_NUMBER -> true
+            LABEL_CVV -> true
+            else -> false
         }
     }
 }

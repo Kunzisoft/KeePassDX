@@ -11,8 +11,8 @@ android {
         applicationId "com.kunzisoft.keepass"
         minSdkVersion 19
         targetSdkVersion 35
-        versionCode = 150
-        versionName = "4.3.0"
+        versionCode = 44005
+        versionName = "4.4.0"
         multiDexEnabled true
 
         testApplicationId = "com.kunzisoft.keepass.tests"
@@ -116,10 +116,21 @@ android {
     }
 }
 
-def room_version = "2.5.1"
+def room_version = "2.6.1"
+
+repositories {
+    maven {
+        url "https://jitpack.io"
+        content {
+            includeGroup "com.github.Kunzisoft"
+        }
+    }
+}
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlin_coroutines_version"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$kotlin_coroutines_version"
     implementation "com.android.support:multidex:1.0.3"
     implementation "androidx.appcompat:appcompat:$android_appcompat_version"
     implementation 'androidx.preference:preference-ktx:1.2.0'
@@ -131,7 +142,8 @@ dependencies {
     implementation 'androidx.media:media:1.6.0'
     // Lifecycle - LiveData - ViewModel - Coroutines
     implementation "androidx.core:core-ktx:$android_core_version"
-    implementation "androidx.lifecycle:lifecycle-process:2.6.2"
+    implementation "androidx.lifecycle:lifecycle-process:$android_lifecycle"
+    implementation "androidx.lifecycle:lifecycle-service:$android_lifecycle"
     implementation 'androidx.fragment:fragment-ktx:1.6.0'
     implementation "com.google.android.material:material:$android_material_version"
     // Token auto complete
@@ -143,16 +155,15 @@ dependencies {
     // Autofill
     implementation "androidx.autofill:autofill:1.1.0"
     // Time
-    implementation 'joda-time:joda-time:2.13.0'
+    implementation "joda-time:joda-time:$joda_time_version"
     // Color
     implementation 'com.github.Kunzisoft:AndroidClearChroma:2.6'
     // Education
     implementation 'com.getkeepsafe.taptargetview:taptargetview:1.13.3'
     // Apache Commons
-    implementation 'commons-io:commons-io:2.8.0'
-    implementation 'commons-codec:commons-codec:1.15'
+    implementation "commons-io:commons-io:$commons_io_version"
     // Password generator
-    implementation 'me.gosimple:nbvcxz:1.5.0'
+    implementation 'me.gosimple:nbvcxz:1.5.1'
 
     // Credentials Provider
     implementation "androidx.credentials:credentials:1.2.2"

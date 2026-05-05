@@ -452,7 +452,6 @@
     <string name="keyboard">Teclado</string>
     <string name="keyboard_appearance_category">Aparencia</string>
     <string name="keyboard_key_sound_title">Son ao presionar teclas</string>
-    <string name="keyboard_notification_entry_content_text">%1$s</string>
     <string name="keyboard_change">Mudar de teclado</string>
     <string name="backspace">Retroceder</string>
     <string name="keyboard_previous_fill_in_title">Acción da tecla automática</string>

@@ -22,8 +22,10 @@ package com.kunzisoft.keepass.activities.dialogs
 import android.app.Dialog
 import android.os.Bundle
 import android.text.InputFilter
+import android.view.KeyEvent
 import android.view.View
-import android.widget.TextView
+import android.view.inputmethod.EditorInfo
+import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.activityViewModels
 import com.kunzisoft.keepass.R
@@ -41,15 +43,22 @@ class CheckDatabaseCredentialDialogFragment : DatabaseDialogFragment() {
             val builder = AlertDialog.Builder(activity)
             val inflater = activity.layoutInflater
             val rootView = inflater.inflate(R.layout.fragment_check_database_credential, null)
-            val editText = rootView.findViewById<TextView>(R.id.setup_check_password_edit_text)
+            val editText = rootView.findViewById<EditText>(R.id.setup_check_password_edit_text)
             editText.filters = arrayOf<InputFilter>(InputFilter.LengthFilter(
                 MasterCredential.CHECK_KEY_PASSWORD_LENGTH)
             )
+            editText.setOnEditorActionListener { _, actionId, event ->
+                if (actionId == EditorInfo.IME_ACTION_DONE || actionId == EditorInfo.IME_ACTION_GO ||
+                    (event != null && event.keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_DOWN)) {
+                    validate(editText)
+                    true
+                } else {
+                    false
+                }
+            }
             builder.setView(rootView)
                     .setPositiveButton(R.string.check) { _, _ ->
-                        userVerificationViewModel.checkMainCredential(
-                            editText.text.toString()
-                        )
+                        validate(editText)
                     }
                     .setNegativeButton(android.R.string.cancel) { _, _ ->
                         userVerificationViewModel.onUserVerificationFailed()
@@ -62,6 +71,14 @@ class CheckDatabaseCredentialDialogFragment : DatabaseDialogFragment() {
         }
 
         return super.onCreateDialog(savedInstanceState)
+    }
+
+    private fun validate(editText: EditText) {
+        val password = CharArray(editText.length())
+        editText.text.getChars(0, editText.length(), password, 0)
+        userVerificationViewModel.checkMainCredential(password)
+        editText.text.clear()
+        dismiss()
     }
 
     companion object {

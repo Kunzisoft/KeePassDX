@@ -15,7 +15,7 @@ class TemplateAttributeOptionTest: TestCase() {
         }
 
         val strings = TemplateAttributeOption.getStringFromOptions(options)
-        val optionsAfterSerialization = TemplateAttributeOption.getOptionsFromString(strings)
+        val optionsAfterSerialization = TemplateAttributeOption.getOptionsFrom(strings.toCharArray())
         val otherString = TemplateAttributeOption.getStringFromOptions(optionsAfterSerialization)
 
         Assert.assertEquals("Output not equal to input", strings, otherString)

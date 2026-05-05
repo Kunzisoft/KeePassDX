@@ -27,7 +27,7 @@
     <string name="clipboard_error_clear">Не може да се исчисти clipboard</string>
     <string name="clipboard_timeout">Clipboard тајмаут</string>
     <string name="clipboard_timeout_summary">Времетраење на складирањето во clipboard (доколку е поддржано од вашиот уред)</string>
-    <string name="content_description_background">Позадина</string>
+    <string name="content_description_background">позадина</string>
     <string name="content_description_open_file">Отвори датотека</string>
     <string name="content_description_node_children">Поддеца</string>
     <string name="content_description_add_node">Додај јазол</string>
@@ -35,4 +35,8 @@
     <string name="content_description_add_group">Додади група</string>
     <string name="content_description_add_item">Додај ставка</string>
     <string name="content_description_file_information">Информации за датотеката</string>
+    <string name="add_entry">Додај запис</string>
+    <string name="clipboard_otp_notifications_title">еднократно известување</string>
+    <string name="clipboard_otp_notifications_summary">Отворете известување за да го копирате OTP од записи пополнети со autofill пополнување или magikeyboard</string>
+    <string name="content_description_credentials_information">Информации за акредитиви</string>
 </resources>

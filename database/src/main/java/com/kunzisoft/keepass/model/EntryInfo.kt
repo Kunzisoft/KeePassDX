@@ -38,10 +38,13 @@ import com.kunzisoft.keepass.otp.OtpElement
 import com.kunzisoft.keepass.otp.OtpEntryFields.OTP_TOKEN_FIELD
 import com.kunzisoft.keepass.otp.OtpEntryFields.isOTP
 import com.kunzisoft.keepass.otp.OtpEntryFields.setOtp
+import com.kunzisoft.keepass.utils.CharArrayUtil.clear
 import com.kunzisoft.keepass.utils.readBooleanCompat
+import com.kunzisoft.keepass.utils.readCharArrayCompat
 import com.kunzisoft.keepass.utils.readListCompat
 import com.kunzisoft.keepass.utils.readParcelableCompat
 import com.kunzisoft.keepass.utils.writeBooleanCompat
+import com.kunzisoft.keepass.utils.writeCharArrayCompat
 import java.util.Locale
 import java.util.UUID
 
@@ -49,7 +52,7 @@ class EntryInfo : NodeInfo {
 
     var id: UUID = UUID.randomUUID()
     var username: String = ""
-    var password: String = ""
+    var password: CharArray = charArrayOf()
     var url: String = ""
     var notes: String = ""
     var tags: Tags = Tags()
@@ -59,16 +62,36 @@ class EntryInfo : NodeInfo {
     var attachments: MutableList<Attachment> = mutableListOf()
     var autoType: AutoType = AutoType()
     var otpModel: OtpModel? = null
+    var creditCard: CreditCard? = null
     var passkey: Passkey? = null
     var appOrigin: AppOrigin? = null
     var isTemplate: Boolean = false
 
     constructor() : super()
 
+    constructor(entryToCopy: EntryInfo) : super(entryToCopy) {
+        this.id = entryToCopy.id
+        this.username = entryToCopy.username
+        this.password = entryToCopy.password.copyOf()
+        this.url = entryToCopy.url
+        this.notes = entryToCopy.notes
+        this.tags = Tags(entryToCopy.tags)
+        this.backgroundColor = entryToCopy.backgroundColor
+        this.foregroundColor = entryToCopy.foregroundColor
+        this.customFields = entryToCopy.customFields.map { Field(it) }.toMutableList()
+        this.attachments = entryToCopy.attachments.toMutableList()
+        this.autoType = AutoType(entryToCopy.autoType)
+        this.otpModel = entryToCopy.otpModel?.let { OtpModel(it) }
+        this.creditCard = entryToCopy.creditCard?.let { CreditCard(it) }
+        this.passkey = entryToCopy.passkey?.let { Passkey(it) }
+        this.appOrigin = entryToCopy.appOrigin?.let { AppOrigin(it) }
+        this.isTemplate = entryToCopy.isTemplate
+    }
+
     constructor(parcel: Parcel) : super(parcel) {
         id = parcel.readParcelableCompat<ParcelUuid>()?.uuid ?: id
         username = parcel.readString() ?: username
-        password = parcel.readString() ?: password
+        password = parcel.readCharArrayCompat() ?: password
         url = parcel.readString() ?: url
         notes = parcel.readString() ?: notes
         tags = parcel.readParcelableCompat() ?: tags
@@ -80,6 +103,7 @@ class EntryInfo : NodeInfo {
         parcel.readListCompat(attachments)
         autoType = parcel.readParcelableCompat() ?: autoType
         otpModel = parcel.readParcelableCompat() ?: otpModel
+        creditCard = parcel.readParcelableCompat() ?: creditCard
         passkey = parcel.readParcelableCompat() ?: passkey
         appOrigin = parcel.readParcelableCompat() ?: appOrigin
         isTemplate = parcel.readBooleanCompat()
@@ -93,7 +117,7 @@ class EntryInfo : NodeInfo {
         super.writeToParcel(parcel, flags)
         parcel.writeParcelable(ParcelUuid(id), flags)
         parcel.writeString(username)
-        parcel.writeString(password)
+        parcel.writeCharArrayCompat(password)
         parcel.writeString(url)
         parcel.writeString(notes)
         parcel.writeParcelable(tags, flags)
@@ -103,9 +127,28 @@ class EntryInfo : NodeInfo {
         parcel.writeList(attachments)
         parcel.writeParcelable(autoType, flags)
         parcel.writeParcelable(otpModel, flags)
+        parcel.writeParcelable(creditCard, flags)
         parcel.writeParcelable(passkey, flags)
         parcel.writeParcelable(appOrigin, flags)
         parcel.writeBooleanCompat(isTemplate)
+    }
+
+    fun clear() {
+        password.clear()
+        customFields.forEach { it.clear() }
+        otpModel?.clear()
+        creditCard?.clear()
+        passkey?.clear()
+    }
+
+    fun containsOtpToken(): Boolean {
+        return containsCustomField(OTP_TOKEN_FIELD)
+    }
+
+    fun getOtpToken(): CharArray? {
+        return otpModel?.let {
+            OtpElement(it).token
+        }
     }
 
     fun getCustomFieldsForFilling(): List<Field> {
@@ -118,13 +161,11 @@ class EntryInfo : NodeInfo {
         return customFields.lastOrNull { it.name == label } != null
     }
 
-    fun getGeneratedFieldValue(label: String): String {
+    fun getGeneratedFieldValue(label: String): CharArray? {
         if (label == OTP_TOKEN_FIELD) {
-            otpModel?.let {
-                return OtpElement(it).token
-            }
+            return getOtpToken()
         }
-        return customFields.lastOrNull { it.name == label }?.protectedValue?.toString() ?: ""
+        return customFields.lastOrNull { it.name == label }?.protectedValue?.charArrayValue
     }
 
     /**
@@ -150,7 +191,7 @@ class EntryInfo : NodeInfo {
     }
 
     /**
-     * Add an unique field to the custom fields list with a suffix
+     * Add a unique field to the list of custom fields with a suffix
      * if name already exists and value not the same
      * @param field the field to add
      * @param position the number to add to the suffix
@@ -161,7 +202,8 @@ class EntryInfo : NodeInfo {
         if (customFields.any { currentField -> currentField.name == field.name + suffix }) {
             val fieldFound = customFields.find {
                 it.name == field.name + suffix
-                        && it.protectedValue.stringValue == field.protectedValue.stringValue
+                        && it.protectedValue.charArrayValue
+                            .contentEquals(field.protectedValue.charArrayValue)
             }
             return if (fieldFound != null) {
                 Pair(position, fieldFound)
@@ -218,12 +260,16 @@ class EntryInfo : NodeInfo {
 
     /**
      * Add registerInfo to current EntryInfo,
-     * return true if data has been overwrite
+     * return true if data has been overwritten
      */
     fun saveRegisterInfo(database: Database?, registerInfo: RegisterInfo): Boolean {
         saveSearchInfo(database, registerInfo.searchInfo)
         registerInfo.username?.let { username = it }
         registerInfo.password?.let { password = it }
+        registerInfo.expiration?.let {
+            expires = true
+            expiryTime = it
+        }
         setCreditCard(registerInfo.creditCard)
         val dataOverwrite: Boolean = setPasskey(registerInfo.passkey)
         saveAppOrigin(database, registerInfo.appOrigin)
@@ -255,7 +301,7 @@ class EntryInfo : NodeInfo {
 
         if (id != other.id) return false
         if (username != other.username) return false
-        if (password != other.password) return false
+        if (!password.contentEquals(other.password)) return false
         if (url != other.url) return false
         if (notes != other.notes) return false
         if (tags != other.tags) return false
@@ -265,6 +311,7 @@ class EntryInfo : NodeInfo {
         if (attachments != other.attachments) return false
         if (autoType != other.autoType) return false
         if (otpModel != other.otpModel) return false
+        if (creditCard != other.creditCard) return false
         if (passkey != other.passkey) return false
         if (appOrigin != other.appOrigin) return false
         if (isTemplate != other.isTemplate) return false
@@ -276,7 +323,7 @@ class EntryInfo : NodeInfo {
         var result = super.hashCode()
         result = 31 * result + id.hashCode()
         result = 31 * result + username.hashCode()
-        result = 31 * result + password.hashCode()
+        result = 31 * result + password.contentHashCode()
         result = 31 * result + url.hashCode()
         result = 31 * result + notes.hashCode()
         result = 31 * result + tags.hashCode()
@@ -286,6 +333,7 @@ class EntryInfo : NodeInfo {
         result = 31 * result + attachments.hashCode()
         result = 31 * result + autoType.hashCode()
         result = 31 * result + (otpModel?.hashCode() ?: 0)
+        result = 31 * result + (creditCard?.hashCode() ?: 0)
         result = 31 * result + (passkey?.hashCode() ?: 0)
         result = 31 * result + (appOrigin?.hashCode() ?: 0)
         result = 31 * result + isTemplate.hashCode()

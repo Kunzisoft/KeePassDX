@@ -16,8 +16,11 @@
 
 package com.kunzisoft.keepass.credentialprovider.passkey.data
 
+import android.util.Log
 import com.kunzisoft.encrypt.Base64Helper
+import org.json.JSONException
 import org.json.JSONObject
+import kotlin.jvm.java
 
 data class PublicKeyCredentialRpEntity(
     val name: String,
@@ -125,22 +128,30 @@ data class PublicKeyCredentialDescriptor(
         fun JSONObject.getPublicKeyCredentialDescriptorList(
             parameterName: String
         ): List<PublicKeyCredentialDescriptor> {
-            val credentialsJson = this.getJSONArray(parameterName)
             val credentialsTmp: MutableList<PublicKeyCredentialDescriptor> = mutableListOf()
-            for (i in 0 until credentialsJson.length()) {
-                val credentialJson = credentialsJson.getJSONObject(i)
+            try {
+                val credentialsJson = this.getJSONArray(parameterName)
+                for (i in 0 until credentialsJson.length()) {
+                    val credentialJson = credentialsJson.getJSONObject(i)
 
-                val transports: MutableList<String> = mutableListOf()
-                val transportsJson = credentialJson.getJSONArray("transports")
-                for (j in 0 until transportsJson.length()) {
-                    transports.add(transportsJson.getString(j))
-                }
-                credentialsTmp.add(
-                    PublicKeyCredentialDescriptor(
-                        type = credentialJson.getString("type"),
-                        id = Base64Helper.b64Decode(credentialJson.getString("id")),
-                        transports = transports
+                    val transports: MutableList<String> = mutableListOf()
+                    val transportsJson = credentialJson.getJSONArray("transports")
+                    for (j in 0 until transportsJson.length()) {
+                        transports.add(transportsJson.getString(j))
+                    }
+                    credentialsTmp.add(
+                        PublicKeyCredentialDescriptor(
+                            type = credentialJson.getString("type"),
+                            id = Base64Helper.b64Decode(credentialJson.getString("id")),
+                            transports = transports
+                        )
                     )
+                }
+            } catch (e: JSONException) {
+                Log.w(
+                    PublicKeyCredentialDescriptor::class.java.simpleName,
+                    "Unable to parse PublicKeyCredentialDescriptor",
+                    e
                 )
             }
             return credentialsTmp.toList()

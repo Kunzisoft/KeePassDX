@@ -321,7 +321,6 @@
     <string name="notification">ਨੋਟੀਫਿਕੇਸ਼ਨ</string>
     <string name="keyboard_keys_category">ਸਵਿੱਚਾਂ</string>
     <string name="keyboard_theme_title">ਕੀਬੋਰਡ ਥੀਮ</string>
-    <string name="keyboard_notification_entry_content_text">%1$s</string>
     <string name="keyboard_notification_entry_content_title_text">ਐਂਟਰੀ</string>
     <string name="keyboard_entry_category">ਐਂਟਰੀ</string>
     <string name="autofill_close_database_title">ਡਾਟਾਬੇਸ ਬੰਦ ਕਰੋ</string>

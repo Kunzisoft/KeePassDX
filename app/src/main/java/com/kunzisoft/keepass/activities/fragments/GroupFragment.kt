@@ -48,7 +48,6 @@ import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.utils.KeyboardUtil.hideKeyboard
 import com.kunzisoft.keepass.viewmodels.GroupViewModel
-import java.util.LinkedList
 
 class GroupFragment : DatabaseFragment(), SortDialogFragment.SortSelectionListener {
 
@@ -68,8 +67,8 @@ class GroupFragment : DatabaseFragment(), SortDialogFragment.SortSelectionListen
         private set
     var nodeActionPasteMode: PasteMode = PasteMode.UNDEFINED
         private set
-    private val listActionNodes = LinkedList<Node>()
-    private val listPasteNodes = LinkedList<Node>()
+    private val listActionNodes = mutableListOf<Node>()
+    private val listPasteNodes = mutableListOf<Node>()
 
     private var notFoundView: View? = null
     private var isASearchResult: Boolean = false

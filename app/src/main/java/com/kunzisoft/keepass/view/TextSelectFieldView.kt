@@ -97,7 +97,7 @@ class TextSelectFieldView @JvmOverloads constructor(context: Context,
             it.addRule(ALIGN_PARENT_RIGHT)
             it.addRule(ALIGN_PARENT_END)
         }
-        visibility = View.GONE
+        visibility = GONE
         contentDescription = context.getString(R.string.menu_edit)
     }
 
@@ -173,22 +173,22 @@ class TextSelectFieldView @JvmOverloads constructor(context: Context,
     }
 
     // To define default value and retrieve selected one
-    override var value: String
+    override var value: CharArray
         get() {
             var selectedItemString = valueSpinnerView.selectedItem?.toString()
             if (selectedItemString.isNullOrEmpty()) {
                 selectedItemString = valueSpinnerAdapter.getItem(0)
             }
-            return selectedItemString
+            return selectedItemString.toCharArray()
         }
         set(value) {
-            valueSpinnerView.setSelection(valueSpinnerAdapter.getPosition(value))
+            valueSpinnerView.setSelection(valueSpinnerAdapter.getPosition(String(value)))
         }
 
-    override var default: String
-        get() = valueSpinnerAdapter.getItem(mDefaultPosition)
+    override var default: CharArray
+        get() = valueSpinnerAdapter.getItem(mDefaultPosition).toCharArray()
         set(value) {
-            mDefaultPosition = valueSpinnerAdapter.getPosition(value)
+            mDefaultPosition = valueSpinnerAdapter.getPosition(String(value))
             valueSpinnerAdapter.notifyDataSetChanged()
         }
 
@@ -198,7 +198,7 @@ class TextSelectFieldView @JvmOverloads constructor(context: Context,
             actionImageButton.setImageDrawable(ContextCompat.getDrawable(context, it))
         }
         actionImageButton.setOnClickListener(onActionClickListener)
-        actionImageButton.visibility = if (onActionClickListener == null) View.GONE else View.VISIBLE
+        actionImageButton.visibility = if (onActionClickListener == null) GONE else VISIBLE
     }
 
     override var isFieldVisible: Boolean
@@ -268,7 +268,7 @@ class TextSelectFieldView @JvmOverloads constructor(context: Context,
             return valueView!!
         }
 
-        inner class ValueSelectorViewHolder {
+        class ValueSelectorViewHolder {
             var valueText: TextView? = null
         }
     }

@@ -60,11 +60,9 @@ class UpdateGroupRunnable constructor(
             }
             database.updateGroup(mOldGroup)
         }
-
-        val oldNodesReturn = ArrayList<Node>()
-        oldNodesReturn.add(mOldGroup)
-        val newNodesReturn = ArrayList<Node>()
-        newNodesReturn.add(mNewGroup)
-        return ActionNodesValues(oldNodesReturn, newNodesReturn)
+        return ActionNodesValues(
+            listOf<Node>(mOldGroup),
+            listOf<Node>(mNewGroup)
+        )
     }
 }

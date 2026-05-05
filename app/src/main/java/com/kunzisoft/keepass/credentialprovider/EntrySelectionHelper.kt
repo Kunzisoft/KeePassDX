@@ -288,9 +288,18 @@ object EntrySelectionHelper {
      */
     fun isIntentSenderMode(specialMode: SpecialMode, typeMode: TypeMode): Boolean {
         return (specialMode == SpecialMode.SELECTION
-                && (typeMode == TypeMode.MAGIKEYBOARD || typeMode == TypeMode.AUTOFILL || typeMode == TypeMode.PASSKEY))
+                && (typeMode == TypeMode.MAGIKEYBOARD
+                    || typeMode == TypeMode.AUTOFILL
+                    || typeMode == TypeMode.PASSWORD
+                    || typeMode == TypeMode.PASSKEY
+                    )
+                )
                 || (specialMode == SpecialMode.REGISTRATION
-                && (typeMode == TypeMode.AUTOFILL || typeMode == TypeMode.PASSKEY))
+                && (typeMode == TypeMode.AUTOFILL
+                    || typeMode == TypeMode.PASSWORD
+                    || typeMode == TypeMode.PASSKEY
+                    )
+                )
     }
 
     fun doSpecialAction(
@@ -340,15 +349,6 @@ object EntrySelectionHelper {
                             typeMode,
                             searchInfo
                         )
-                        TypeMode.PASSKEY ->
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
-                                selectionAction.invoke(
-                                    isIntentSenderMode(specialMode, typeMode),
-                                    typeMode,
-                                    searchInfo
-                                )
-                            } else
-                                defaultAction.invoke()
                         TypeMode.AUTOFILL -> {
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                                 selectionAction.invoke(
@@ -359,6 +359,16 @@ object EntrySelectionHelper {
                             } else
                                 defaultAction.invoke()
                         }
+                        TypeMode.PASSWORD,
+                        TypeMode.PASSKEY ->
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+                                selectionAction.invoke(
+                                    isIntentSenderMode(specialMode, typeMode),
+                                    typeMode,
+                                    searchInfo
+                                )
+                            } else
+                                defaultAction.invoke()
                     }
                 } else {
                     if (searchInfo != null)

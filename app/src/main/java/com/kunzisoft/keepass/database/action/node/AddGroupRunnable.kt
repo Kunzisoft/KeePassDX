@@ -22,10 +22,9 @@ package com.kunzisoft.keepass.database.action.node
 import android.content.Context
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.element.Group
-import com.kunzisoft.keepass.database.element.node.Node
 import com.kunzisoft.keepass.hardware.HardwareKey
 
-class AddGroupRunnable constructor(
+class AddGroupRunnable(
     context: Context,
     database: ContextualDatabase,
     private val mNewGroup: Group,
@@ -45,10 +44,6 @@ class AddGroupRunnable constructor(
         if (!result.isSuccess) {
             database.removeGroupFrom(mNewGroup, mParent)
         }
-
-        val oldNodesReturn = ArrayList<Node>()
-        val newNodesReturn = ArrayList<Node>()
-        newNodesReturn.add(mNewGroup)
-        return ActionNodesValues(oldNodesReturn, newNodesReturn)
+        return ActionNodesValues(listOf(), listOf(mNewGroup))
     }
 }

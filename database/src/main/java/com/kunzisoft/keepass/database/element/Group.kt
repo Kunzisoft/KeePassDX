@@ -127,7 +127,7 @@ class Group : Node, GroupVersionedInterface<Group, Entry> {
             groupKDBX?.icon = value
         }
 
-    var tags: Tags
+    override var tags: Tags
         get() = groupKDBX?.tags ?: Tags()
         set(value) {
             groupKDBX?.tags = value
@@ -269,7 +269,7 @@ class Group : Node, GroupVersionedInterface<Group, Entry> {
         groupKDBX?.getChildGroups()?.map {
             Group(it)
         } ?:
-        ArrayList()
+        listOf()
     }
 
     override fun getChildEntries(): List<Entry> {
@@ -279,11 +279,11 @@ class Group : Node, GroupVersionedInterface<Group, Entry> {
         groupKDBX?.getChildEntries()?.map {
             Entry(it)
         } ?:
-        ArrayList()
+        listOf()
     }
 
     fun getChildEntriesInfo(database: Database): List<EntryInfo> {
-        val entriesInfo = ArrayList<EntryInfo>()
+        val entriesInfo = mutableListOf<EntryInfo>()
         getChildEntries().forEach { entry ->
             entriesInfo.add(entry.getEntryInfo(database))
         }

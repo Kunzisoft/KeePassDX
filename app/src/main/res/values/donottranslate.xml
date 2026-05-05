@@ -69,8 +69,6 @@
     <bool name="allow_no_password_default" translatable="false">false</bool>
     <string name="delete_entered_password_key" translatable="false">delete_entered_password_key</string>
     <bool name="delete_entered_password_default" translatable="false">true</bool>
-    <string name="user_verification_device_credential_key" translatable="false">user_verification_device_credential_key</string>
-    <bool name="user_verification_device_credential_default" translatable="false">true</bool>
     <string name="enable_auto_save_database_key" translatable="false">enable_auto_save_database_key</string>
     <bool name="enable_auto_save_database_default" translatable="false">true</bool>
     <string name="enable_keep_screen_on_key" translatable="false">enable_keep_screen_on_key</string>
@@ -86,6 +84,10 @@
     <bool name="lock_database_back_root_default" translatable="false">false</bool>
     <string name="lock_database_show_button_key" translatable="false">lock_database_show_button_key</string>
     <bool name="lock_database_show_button_default" translatable="false">true</bool>
+    <string name="user_verification_mode_key" translatable="false">user_verification_mode_key</string>
+    <bool name="user_verification_mode_default" translatable="false">true</bool>
+    <string name="user_verification_device_credential_key" translatable="false">user_verification_device_credential_key</string>
+    <bool name="user_verification_device_credential_default" translatable="false">true</bool>
     <string name="allow_copy_password_key" translatable="false">allow_copy_password_key</string>
     <bool name="allow_copy_password_default" translatable="false">false</bool>
     <string name="remember_database_locations_key" translatable="false">remember_database_locations_key</string>
@@ -124,6 +126,8 @@
     <string name="clipboard_explanation_key" translatable="false">clipboard_explanation_key</string>
     <string name="clipboard_timeout_key" translatable="false">clip_timeout_key</string>
     <string name="clipboard_timeout_default" translatable="false">20000</string>
+    <string name="clipboard_otp_notifications_key" translatable="false">clipboard_otp_notifications_key</string>
+    <bool name="clipboard_otp_notifications_default" translatable="false">false</bool>
     <string name="credential_provider_key" translatable="false">credential_provider_key</string>
     <string name="settings_credential_provider_enable_key" translatable="false">settings_credential_provider_enable_key</string>
     <bool name="settings_credential_provider_enable_default" translatable="false">false</bool>
@@ -141,7 +145,7 @@
     <string name="passkeys_backup_state_key" translatable="false">passkeys_backup_state_key</string>
     <bool name="passkeys_backup_state_default" translatable="false">true</bool>
     <string name="user_verification_preferred_key" translatable="false">user_verification_preferred_key</string>
-    <bool name="user_verification_preferred_default" translatable="false">false</bool>
+    <bool name="user_verification_preferred_default" translatable="false">true</bool>
     <string name="subdomain_search_key" translatable="false">subdomain_search_key</string>
     <bool name="subdomain_search_default" translatable="false">false</bool>
     <string name="keyboard_notification_entry_key" translatable="false">keyboard_notification_entry_key</string>
@@ -153,13 +157,15 @@
     <string name="keyboard_selection_entry_key" translatable="false">keyboard_selection_entry_key</string>
     <bool name="keyboard_selection_entry_default" translatable="false">false</bool>
     <string name="keyboard_save_search_info_key" translatable="false">keyboard_save_search_info_key</string>
-    <bool name="keyboard_save_search_info_default" translatable="false">false</bool>
+    <bool name="keyboard_save_search_info_default" translatable="false">true</bool>
     <string name="keyboard_auto_go_action_key" translatable="false">keyboard_auto_go_action_key</string>
     <bool name="keyboard_auto_go_action_default" translatable="false">false</bool>
     <string name="keyboard_key_vibrate_key" translatable="false">keyboard_key_vibrate_key</string>
     <bool name="keyboard_key_vibrate_default" translatable="false">true</bool>
     <string name="keyboard_key_sound_key" translatable="false">keyboard_key_sound_key</string>
     <bool name="keyboard_key_sound_default" translatable="false">false</bool>
+    <string name="keyboard_auto_switch_key" translatable="false">keyboard_auto_switch_key</string>
+    <bool name="keyboard_auto_switch_default" translatable="false">true</bool>
     <string name="keyboard_previous_database_credentials_key" translatable="false">keyboard_previous_database_credentials_key</string>
     <bool name="keyboard_previous_database_credentials_default" translatable="false">false</bool>
     <string name="keyboard_previous_search_key" translatable="false">keyboard_previous_search_key</string>
@@ -174,6 +180,8 @@
     <bool name="autofill_inline_suggestions_default" translatable="false">false</bool>
     <string name="autofill_manual_selection_key" translatable="false">autofill_manual_selection_key</string>
     <bool name="autofill_manual_selection_default" translatable="false">true</bool>
+    <string name="autofill_share_magikeyboard_key" translatable="false">autofill_share_magikeyboard_key</string>
+    <bool name="autofill_share_magikeyboard_default" translatable="false">true</bool>
     <string name="autofill_save_search_info_key" translatable="false">autofill_save_search_info_key</string>
     <bool name="autofill_save_search_info_default" translatable="false">true</bool>
     <string name="autofill_ask_to_save_data_key" translatable="false">autofill_ask_to_save_data_key</string>
@@ -183,6 +191,7 @@
     </string-array>
     <string name="autofill_web_domain_blocklist_key" translatable="false">autofill_web_domain_blocklist_key</string>
     <string-array name="autofill_web_domain_blocklist_default">
+        <item>localhost</item>
     </string-array>
 
     <!-- Device Unlock Settings -->
@@ -208,6 +217,8 @@
     <bool name="list_groups_show_number_entries_default" translatable="false">true</bool>
     <string name="recursive_number_entries_key" translatable="false">recursive_number_entries_key</string>
     <bool name="recursive_number_entries_default" translatable="false">true</bool>
+    <string name="show_tags_key" translatable="false">show_tags_key</string>
+    <bool name="show_tags_default" translatable="false">true</bool>
     <string name="show_otp_token_key" translatable="false">show_otp_token_key</string>
     <bool name="show_otp_token_default" translatable="false">true</bool>
     <string name="show_uuid_key" translatable="false">show_uuid_key</string>
@@ -264,6 +275,7 @@
     <bool name="search_option_uuid_default" translatable="false">false</bool>
     <string name="search_option_tag_key" translatable="false">search_option_tag_key</string>
     <bool name="search_option_tag_default" translatable="false">false</bool>
+    <string name="search_option_selected_tags_key" translatable="false">search_option_selected_tags_key</string>
     <string name="search_option_current_group_key" translatable="false">search_option_current_group_key</string>
     <bool name="search_option_current_group_default" translatable="false">false</bool>
     <string name="search_option_searchable_group_key" translatable="false">search_option_searchable_group_key</string>
@@ -343,6 +355,8 @@
     <bool name="education_unlock_default" translatable="false">false</bool>
     <string name="education_read_only_key" translatable="false">education_read_only_key</string>
     <bool name="education_read_only_default" translatable="false">false</bool>
+    <string name="education_user_verification_key" translatable="false">education_user_verification_key</string>
+    <bool name="education_user_verification_default" translatable="false">false</bool>
     <string name="education_biometric_key" translatable="false">education_biometric_key</string>
     <bool name="education_biometric_default" translatable="false">false</bool>
     <string name="education_search_key" translatable="false">education_search_key</string>

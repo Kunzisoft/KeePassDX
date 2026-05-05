@@ -19,14 +19,14 @@
  */
 package com.kunzisoft.keepass.stream
 
+import com.kunzisoft.keepass.database.crypto.HmacBlock
 import com.kunzisoft.keepass.utils.UnsignedLong
 import com.kunzisoft.keepass.utils.bytes4ToUInt
+import com.kunzisoft.keepass.utils.clear
 import com.kunzisoft.keepass.utils.readBytesLength
 import com.kunzisoft.keepass.utils.uLongTo8Bytes
-import com.kunzisoft.keepass.database.crypto.HmacBlock
 import java.io.IOException
 import java.io.InputStream
-import java.util.*
 import javax.crypto.Mac
 
 class HmacBlockInputStream(private val baseStream: InputStream, private val verify: Boolean, private val key: ByteArray) : InputStream() {
@@ -113,7 +113,7 @@ class HmacBlockInputStream(private val baseStream: InputStream, private val veri
             }
 
             val cmpHmac: ByteArray = hmac.doFinal()
-            Arrays.fill(blockKey, 0.toByte())
+            blockKey.clear()
 
             if (!cmpHmac.contentEquals(storedHmac)) {
                 throw IOException("Invalid Hmac")

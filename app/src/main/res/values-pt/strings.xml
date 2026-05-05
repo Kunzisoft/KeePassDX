@@ -368,7 +368,6 @@
     <string name="keyboard_appearance_category">Aparência</string>
     <string name="keyboard_notification_entry_clear_close_summary">Fecha a base de dados ao fechar a notificação</string>
     <string name="keyboard_notification_entry_clear_close_title">Limpar ao fechar</string>
-    <string name="keyboard_notification_entry_content_text">%1$s</string>
     <string name="keyboard_notification_entry_content_title">%1$s disponível no Magikeyboard</string>
     <string name="keyboard_notification_entry_content_title_text">Entrada</string>
     <string name="keyboard_notification_entry_summary">Mostrar uma notificação quando uma entrada estiver disponível</string>
@@ -641,7 +640,7 @@
     <string name="menu_database_settings_summary">Metadados, reciclagem, modelos, histórico</string>
     <string name="menu_security_settings_summary">Encriptação, função de derivação de chaves</string>
     <string name="master_key_settings_summary">Mudança, renovação</string>
-    <string name="warning_copy_permission">A permissão de notificação é necessária para utilizar a funcionalidade de notificação da área de transferência.</string>
+    <string name="warning_permission">A permissão de notificação é necessária para utilizar a funcionalidade de notificação da área de transferência.</string>
     <string name="later">Mais tarde</string>
     <string name="ask">Perguntar</string>
     <string name="configure">Configurar</string>

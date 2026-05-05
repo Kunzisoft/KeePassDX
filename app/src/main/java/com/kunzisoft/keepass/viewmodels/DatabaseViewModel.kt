@@ -22,18 +22,19 @@ import com.kunzisoft.keepass.services.DatabaseTaskNotificationService
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import java.util.UUID
 
 class DatabaseViewModel(application: Application): AndroidViewModel(application) {
 
     private val mDatabaseState = MutableStateFlow<ContextualDatabase?>(null)
-    val databaseState: StateFlow<ContextualDatabase?> = mDatabaseState
+    val databaseState: StateFlow<ContextualDatabase?> = mDatabaseState.asStateFlow()
 
     val database: ContextualDatabase?
         get() = databaseState.value
 
     private val mActionState = MutableStateFlow<ActionState>(ActionState.Wait)
-    val actionState: StateFlow<ActionState> = mActionState
+    val actionState: StateFlow<ActionState> = mActionState.asStateFlow()
 
     private var mDatabaseTaskProvider: DatabaseTaskProvider = DatabaseTaskProvider(
         context = application
@@ -105,13 +106,15 @@ class DatabaseViewModel(application: Application): AndroidViewModel(application)
         databaseUri: Uri,
         mainCredential: MainCredential,
         readOnly: Boolean,
+        allowUserVerification: Boolean,
         cipherEncryptDatabase: CipherEncryptDatabase?,
-        fixDuplicateUuid: Boolean
+        fixDuplicateUuid: Boolean = false
     ) {
         mDatabaseTaskProvider.startDatabaseLoad(
             databaseUri,
             mainCredential,
             readOnly,
+            allowUserVerification,
             cipherEncryptDatabase,
             fixDuplicateUuid
         )
@@ -145,16 +148,20 @@ class DatabaseViewModel(application: Application): AndroidViewModel(application)
         mDatabaseTaskProvider.startDatabaseMerge(save, fromDatabaseUri, mainCredential)
     }
 
-    fun reloadDatabase(fixDuplicateUuid: Boolean) {
-        mDatabaseTaskProvider.askToStartDatabaseReload(
-            conditionToAsk = database?.dataModifiedSinceLastLoading != false
-        ) {
+    fun reloadDatabase(fixDuplicateUuid: Boolean, forceReload: Boolean = false) {
+        if (!forceReload && database?.dataModifiedSinceLastLoading == true) {
+            mActionState.value = ActionState.ShowDatabaseInfoReloadedDialog(fixDuplicateUuid)
+        } else {
             mDatabaseTaskProvider.startDatabaseReload(fixDuplicateUuid)
         }
     }
 
     fun onDatabaseChangeValidated() {
         mDatabaseTaskProvider.onDatabaseChangeValidated()
+    }
+
+    fun cancelAction() {
+        mActionState.value = ActionState.Wait
     }
 
     /*
@@ -178,6 +185,8 @@ class DatabaseViewModel(application: Application): AndroidViewModel(application)
         entryToUpdate: Entry,
         save: Boolean
     ) {
+        // Remove the history to keep memory
+        entryToUpdate.clearHistory()
         mDatabaseTaskProvider.startDatabaseUpdateEntry(
             oldEntry,
             entryToUpdate,
@@ -452,6 +461,10 @@ class DatabaseViewModel(application: Application): AndroidViewModel(application)
         )
     }
 
+    fun benchmarkKdf() {
+        mDatabaseTaskProvider.startDatabaseBenchmarkKdf()
+    }
+
     /*
      * Hardware Key
      */
@@ -479,6 +492,9 @@ class DatabaseViewModel(application: Application): AndroidViewModel(application)
             val previousDatabaseInfo: SnapFileDatabaseInfo,
             val newDatabaseInfo: SnapFileDatabaseInfo,
             val readOnlyDatabase: Boolean
+        ): ActionState()
+        data class ShowDatabaseInfoReloadedDialog(
+            var fixDuplicateUuid: Boolean
         ): ActionState()
         data class OnDatabaseActionStarted(
             var database: ContextualDatabase,

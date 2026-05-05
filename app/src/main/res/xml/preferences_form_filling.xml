@@ -66,6 +66,11 @@
             android:title="@string/subdomain_search_title"
             android:summary="@string/subdomain_search_summary"
             android:defaultValue="@bool/subdomain_search_default"/>
+        <SwitchPreferenceCompat
+            android:key="@string/clipboard_otp_notifications_key"
+            android:title="@string/clipboard_otp_notifications_title"
+            android:defaultValue="@bool/clipboard_otp_notifications_default"
+            android:summary="@string/clipboard_otp_notifications_summary" />
     </PreferenceCategory>
 
     <PreferenceCategory

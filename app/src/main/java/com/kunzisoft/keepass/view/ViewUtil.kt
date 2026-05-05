@@ -226,16 +226,21 @@ fun View.showByFading() {
     }
 }
 
-fun View.updateLockPaddingStart() {
+fun View.updateButtonPaddingStart() {
     resources.getDimensionPixelSize(
         if (PreferencesUtil.showLockDatabaseButton(context)) {
-            R.dimen.lock_button_size
+            R.dimen.actionbar_button_size
         } else {
-            R.dimen.hidden_lock_button_size
+            R.dimen.hidden_actionbar_button_size
         }
     ).let { lockPadding ->
-        updatePaddingRelative(lockPadding)
+        updatePaddingRelative(start = lockPadding)
     }
+}
+
+fun View.updateButtonPaddingEnd() {
+    updatePaddingRelative(end = resources.getDimensionPixelSize(
+        R.dimen.actionbar_button_big_size))
 }
 
 fun Context.toastError(e: Throwable?) {
@@ -257,12 +262,15 @@ fun Context.showActionErrorIfNeeded(result: ActionRunnable.Result) {
     }
 }
 
-fun CoordinatorLayout.showError(error: Throwable?) {
+fun CoordinatorLayout.showError(error: Throwable?, anchorViewId: Int? = null) {
     val message = if (error is LocalizedException) {
         error.getLocalizedMessage(resources) ?: error.message
     } else error?.message
     message?.let {
-        Snackbar.make(this, message, Snackbar.LENGTH_LONG).asError().show()
+        Snackbar.make(this, message, Snackbar.LENGTH_LONG).asError()
+            .apply {
+                anchorViewId?.let { setAnchorView(it) }
+            }.show()
     }
 }
 

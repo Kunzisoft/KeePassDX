@@ -21,7 +21,7 @@ package com.kunzisoft.keepass.database.crypto
 
 import com.kunzisoft.keepass.utils.bytes16ToUuid
 import java.security.NoSuchAlgorithmException
-import java.util.*
+import java.util.UUID
 
 enum class EncryptionAlgorithm {
 

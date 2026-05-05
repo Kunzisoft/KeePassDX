@@ -19,16 +19,19 @@ import com.kunzisoft.keepass.credentialprovider.autofill.AutofillComponent
 import com.kunzisoft.keepass.credentialprovider.autofill.AutofillHelper
 import com.kunzisoft.keepass.credentialprovider.autofill.AutofillHelper.retrieveAutofillComponent
 import com.kunzisoft.keepass.credentialprovider.autofill.KeeAutofillService
+import com.kunzisoft.keepass.credentialprovider.magikeyboard.MagikeyboardService
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.exception.RegisterInReadOnlyDatabaseException
 import com.kunzisoft.keepass.database.helper.SearchHelper
 import com.kunzisoft.keepass.model.RegisterInfo
 import com.kunzisoft.keepass.model.SearchInfo
+import com.kunzisoft.keepass.services.ClipboardEntryNotificationService
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.IOException
@@ -39,12 +42,16 @@ class AutofillLauncherViewModel(application: Application): CredentialLauncherVie
     private var mAutofillComponent: AutofillComponent? = null
 
     private var mLockDatabaseAfterSelection: Boolean = false
+    private var mAutofillSharedToMagikeyboard: Boolean = false
+    private var mSwitchToMagikeyboard: Boolean = false
 
     private val mUiState = MutableStateFlow<UIState>(UIState.Loading)
-    val uiState: StateFlow<UIState> = mUiState
+    val uiState: StateFlow<UIState> = mUiState.asStateFlow()
 
     fun initialize() {
         mLockDatabaseAfterSelection = PreferencesUtil.isAutofillCloseDatabaseEnable(getApplication())
+        mAutofillSharedToMagikeyboard = PreferencesUtil.isAutofillSharedToMagikeyboardEnable(getApplication())
+        mSwitchToMagikeyboard = PreferencesUtil.isAutoSwitchToMagikeyboardEnable(getApplication())
     }
 
     override fun onResult() {
@@ -159,12 +166,20 @@ class AutofillLauncherViewModel(application: Application): CredentialLauncherVie
                         val autofillComponent = mAutofillComponent
                                 ?: throw IOException("Autofill component is null")
                         withContext(Dispatchers.Main) {
-                            /* TODO Share context
-                            MagikeyboardService.addEntries(
-                                context = getApplication(),
-                                entryList = entries,
-                                toast = true
-                            )*/
+                            // Add Autofill entries to Magic Keyboard #2024 #995
+                            if (mAutofillSharedToMagikeyboard) {
+                                MagikeyboardService.addEntries(
+                                    context = getApplication(),
+                                    entryList = entries,
+                                    autoSwitchKeyboard = mSwitchToMagikeyboard,
+                                    from = TypeMode.AUTOFILL
+                                )
+                            } else {
+                                ClipboardEntryNotificationService.launchOtpNotificationIfAllowed(
+                                    context = getApplication(),
+                                    entries = entries
+                                )
+                            }
                             AutofillHelper.buildResponse(
                                 context = getApplication(),
                                 autofillComponent = autofillComponent,
@@ -249,7 +264,6 @@ class AutofillLauncherViewModel(application: Application): CredentialLauncherVie
     }
 
     override fun manageRegistrationResult(activityResult: ActivityResult) {
-        isResultLauncherRegistered = false
         viewModelScope.launch(CoroutineExceptionHandler { _, e ->
             Log.e(TAG, "Unable to create registration response for autofill", e)
             showError(e)
@@ -269,7 +283,6 @@ class AutofillLauncherViewModel(application: Application): CredentialLauncherVie
                 }
             }
         }
-
     }
 
     sealed class UIState {

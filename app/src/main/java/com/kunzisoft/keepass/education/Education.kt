@@ -231,6 +231,18 @@ open class Education(val activity: Activity) {
         }
 
         /**
+         * Determines whether the explanatory view of the user verification has already been displayed.
+         *
+         * @param context The context to open the SharedPreferences
+         * @return boolean value of education_read_only_key key
+         */
+        fun isEducationUserVerificationPerformed(context: Context): Boolean {
+            val prefs = getEducationSharedPreferences(context)
+            return prefs.getBoolean(context.getString(R.string.education_user_verification_key),
+                context.resources.getBoolean(R.bool.education_user_verification_default))
+        }
+
+        /**
          * Determines whether the explanatory view of the biometric unlock has already been displayed.
          *
          * @param context The context to open the SharedPreferences

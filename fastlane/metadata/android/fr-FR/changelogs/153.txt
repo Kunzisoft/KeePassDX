@@ -1,0 +1,5 @@
+ * Correction de la boîte de dialogue pour l'entrée disponible sur le Magiclavier #2367
+ * Correction les liens auto URL et ApplicationId #2373
+ * Correction des champs non protégés selectionnables #2368
+ * Correction de l'éucation de la vérification utilisateur #2365
+ * Mise à jour des icônes #2361

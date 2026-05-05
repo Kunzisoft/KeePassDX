@@ -17,166 +17,172 @@
   You should have received a copy of the GNU General Public License
   along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<androidx.constraintlayout.widget.ConstraintLayout
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:fitsSystemWindows="true"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="?attr/colorSurface"
     android:filterTouchesWhenObscured="true"
     android:importantForAutofill="noExcludeDescendants"
     tools:targetApi="o">
-
-    <com.kunzisoft.keepass.view.ToolbarSpecial
-        android:id="@+id/special_mode_view"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_height="match_parent"
+        android:background="?android:attr/windowBackground">
 
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
-        android:id="@+id/activity_file_selection_coordinator_layout"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:background="@drawable/background_repeat"
-        android:backgroundTint="?android:attr/textColor"
-        app:layout_constraintTop_toBottomOf="@+id/special_mode_view"
-        app:layout_constraintBottom_toTopOf="@+id/file_selection_buttons_container">
-
-        <com.google.android.material.appbar.AppBarLayout
-            android:id="@+id/app_bar"
+        <com.kunzisoft.keepass.view.ToolbarSpecial
+            android:id="@+id/special_mode_view"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent" />
 
-            <com.google.android.material.appbar.CollapsingToolbarLayout
-                android:id="@+id/toolbar_layout"
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:id="@+id/activity_file_selection_coordinator_layout"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="@drawable/background_repeat"
+            android:backgroundTint="?android:attr/textColor"
+            app:layout_constraintTop_toBottomOf="@+id/special_mode_view"
+            app:layout_constraintBottom_toTopOf="@+id/file_selection_buttons_container">
+
+            <com.google.android.material.appbar.AppBarLayout
+                android:id="@+id/app_bar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.google.android.material.appbar.CollapsingToolbarLayout
+                    android:id="@+id/toolbar_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
+
+                    <LinearLayout
+                        android:id="@+id/file_selection_title_container"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layout_collapseMode="parallax"
+                        android:layoutDirection="ltr"
+                        android:layout_gravity="center_horizontal|bottom"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:paddingBottom="36dp">
+                        <TextView
+                            android:id="@+id/file_selection_title_part_1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="32sp"
+                            android:textStyle="bold"
+                            android:shadowColor="#AD000000"
+                            android:shadowDx="0"
+                            android:shadowDy="2"
+                            android:shadowRadius="2"
+                            android:paddingTop="?attr/actionBarSize"
+                            android:textColor="?attr/colorPrimaryContainer"
+                            android:gravity="center"
+                            android:text="@string/app_name_part1"/>
+                        <TextView
+                            android:id="@+id/file_selection_title_part_2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="2dp"
+                            android:layout_marginLeft="2dp"
+                            android:textSize="32sp"
+                            android:textStyle="bold"
+                            android:shadowColor="#AD000000"
+                            android:shadowDx="0"
+                            android:shadowDy="2"
+                            android:shadowRadius="2"
+                            android:paddingTop="?attr/actionBarSize"
+                            android:textColor="?attr/colorSecondary"
+                            android:gravity="center"
+                            android:text="@string/app_name_part2"/>
+                        <TextView
+                            android:id="@+id/file_selection_title_part_3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginLeft="8dp"
+                            android:paddingHorizontal="4dp"
+                            android:textSize="32sp"
+                            android:textStyle="bold"
+                            android:visibility="gone"
+                            android:shadowColor="#AD000000"
+                            android:shadowDx="0"
+                            android:shadowDy="2"
+                            android:shadowRadius="2"
+                            android:paddingTop="?attr/actionBarSize"
+                            android:textColor="?attr/colorSecondaryContainer"
+                            android:gravity="center"
+                            android:text="@string/app_name_part3"/>
+                    </LinearLayout>
+
+                    <com.google.android.material.appbar.MaterialToolbar
+                        android:id="@+id/toolbar"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:navigationIcon="@drawable/ic_info_white_24dp"
+                        app:navigationContentDescription="@string/about"
+                        app:layout_collapseMode="pin"/>
+
+                </com.google.android.material.appbar.CollapsingToolbarLayout>
+            </com.google.android.material.appbar.AppBarLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/file_list"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
+                android:scrollbarStyle="insideOverlay"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
-                <LinearLayout
-                    android:id="@+id/file_selection_title_container"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:layout_collapseMode="parallax"
-                    android:layoutDirection="ltr"
-                    android:layout_gravity="center_horizontal|bottom"
-                    android:gravity="center"
-                    android:orientation="horizontal"
-                    android:paddingBottom="36dp">
-                    <TextView
-                        android:id="@+id/file_selection_title_part_1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="32sp"
-                        android:textStyle="bold"
-                        android:shadowColor="#AD000000"
-                        android:shadowDx="0"
-                        android:shadowDy="2"
-                        android:shadowRadius="2"
-                        android:paddingTop="?attr/actionBarSize"
-                        android:textColor="?attr/colorPrimaryContainer"
-                        android:gravity="center"
-                        android:text="@string/app_name_part1"/>
-                    <TextView
-                        android:id="@+id/file_selection_title_part_2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="2dp"
-                        android:layout_marginLeft="2dp"
-                        android:textSize="32sp"
-                        android:textStyle="bold"
-                        android:shadowColor="#AD000000"
-                        android:shadowDx="0"
-                        android:shadowDy="2"
-                        android:shadowRadius="2"
-                        android:paddingTop="?attr/actionBarSize"
-                        android:textColor="?attr/colorSecondary"
-                        android:gravity="center"
-                        android:text="@string/app_name_part2"/>
-                    <TextView
-                        android:id="@+id/file_selection_title_part_3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginLeft="8dp"
-                        android:paddingHorizontal="4dp"
-                        android:textSize="32sp"
-                        android:textStyle="bold"
-                        android:visibility="gone"
-                        android:shadowColor="#AD000000"
-                        android:shadowDx="0"
-                        android:shadowDy="2"
-                        android:shadowRadius="2"
-                        android:paddingTop="?attr/actionBarSize"
-                        android:textColor="?attr/colorSecondaryContainer"
-                        android:gravity="center"
-                        android:text="@string/app_name_part3"/>
-                </LinearLayout>
-
-                <com.google.android.material.appbar.MaterialToolbar
-                    android:id="@+id/toolbar"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:navigationIcon="@drawable/ic_info_white_24dp"
-                    app:navigationContentDescription="@string/about"
-                    app:layout_collapseMode="pin"/>
-
-            </com.google.android.material.appbar.CollapsingToolbarLayout>
-        </com.google.android.material.appbar.AppBarLayout>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/file_list"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/file_selection_buttons_container"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scrollbarStyle="insideOverlay"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/file_selection_buttons_container"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@+id/screenshot_mode_banner"
-        android:background="?attr/colorSurface">
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline_buttons"
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.5" />
+            app:layout_constraintBottom_toTopOf="@+id/screenshot_mode_banner"
+            android:background="?attr/colorSurface">
 
-        <Button
-            android:id="@+id/create_database_button"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:icon="@drawable/ic_database_plus_white_24dp"
-            app:iconGravity="start"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/guideline_buttons"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:focusable="true"
-            style="@style/KeepassDXStyle.Button.Secondary"
-            android:text="@string/create_keepass_file"/>
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline_buttons"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.5" />
 
-        <Button
-            android:id="@+id/open_database_button"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="@string/select_database_file"
-            app:icon="@drawable/ic_folder_white_24dp"
-            app:iconGravity="start"
-            app:layout_constraintStart_toEndOf="@+id/create_database_button"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:focusable="true"
-            style="@style/KeepassDXStyle.Button.Primary"/>
+            <Button
+                android:id="@+id/create_database_button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:icon="@drawable/ic_database_plus_white_24dp"
+                app:iconGravity="start"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/guideline_buttons"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:focusable="true"
+                style="@style/KeepassDXStyle.Button.Secondary"
+                android:text="@string/create_keepass_file"/>
+
+            <Button
+                android:id="@+id/open_database_button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/select_database_file"
+                app:icon="@drawable/ic_folder_white_24dp"
+                app:iconGravity="start"
+                app:layout_constraintStart_toEndOf="@+id/create_database_button"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:focusable="true"
+                style="@style/KeepassDXStyle.Button.Primary"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <include layout="@layout/view_screenshot_mode_banner" />
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <include layout="@layout/view_screenshot_mode_banner" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+</FrameLayout>

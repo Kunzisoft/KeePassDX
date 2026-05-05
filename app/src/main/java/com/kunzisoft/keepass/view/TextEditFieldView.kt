@@ -4,8 +4,6 @@ import android.content.Context
 import android.os.Build
 import android.text.InputFilter
 import android.text.InputType
-import android.text.Spannable
-import android.text.SpannableString
 import android.text.method.PasswordTransformationMethod
 import android.text.method.SingleLineTransformationMethod
 import android.util.AttributeSet
@@ -23,10 +21,11 @@ import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.kunzisoft.keepass.R
 
-open class TextEditFieldView @JvmOverloads constructor(context: Context,
-                                                  attrs: AttributeSet? = null,
-                                                  defStyle: Int = 0)
-    : ProtectedTextFieldView(context, attrs, defStyle) {
+open class TextEditFieldView @JvmOverloads constructor(
+    context: Context,
+    attrs: AttributeSet? = null,
+    defStyle: Int = 0
+) : ProtectedTextFieldView(context, attrs, defStyle) {
 
     private var labelViewId = ViewCompat.generateViewId()
     private var valueViewId = ViewCompat.generateViewId()
@@ -120,19 +119,17 @@ open class TextEditFieldView @JvmOverloads constructor(context: Context,
             buildViews()
         }
 
-    protected open fun spannableValue(value: String?): Spannable? {
-        return SpannableString(value)
-    }
-
-    override var value: String
+    override var value: CharArray
         get() {
-            return valueView.text?.toString() ?: ""
+            val charArray = CharArray(valueView.length())
+            valueView.text?.getChars(0, valueView.length(), charArray, 0)
+            return charArray
         }
         set(value) {
-            valueView.setText(spannableValue(value))
+            valueView.setText(value, 0, value.size)
         }
 
-    override var default: String = ""
+    override var default: CharArray = CharArray(0)
 
     fun setMaxChars(numberChars: Int) {
         when {

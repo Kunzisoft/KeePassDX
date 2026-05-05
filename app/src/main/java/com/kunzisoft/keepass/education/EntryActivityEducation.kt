@@ -29,9 +29,11 @@ import com.kunzisoft.keepass.R
 class EntryActivityEducation(activity: Activity)
     : Education(activity) {
 
-    fun checkAndPerformedEntryCopyEducation(educationView: View,
-                                            onEducationViewClick: ((TapTargetView?) -> Unit)? = null,
-                                            onOuterViewClick: ((TapTargetView?) -> Unit)? = null): Boolean {
+    fun checkAndPerformedEntryCopyEducation(
+        educationView: View,
+        onEducationViewClick: ((TapTargetView?) -> Unit)? = null,
+        onOuterViewClick: ((TapTargetView?) -> Unit)? = null
+    ): Boolean {
         return checkAndPerformedEducation(isEducationCopyUsernamePerformed(activity),
                 TapTarget.forView(educationView,
                         activity.getString(R.string.education_field_copy_title),
@@ -60,9 +62,11 @@ class EntryActivityEducation(activity: Activity)
      * Check and display learning views
      * Displays the explanation for copying a field and editing an entry
      */
-    fun checkAndPerformedEntryEditEducation(educationView: View,
-                                            onEducationViewClick: ((TapTargetView?) -> Unit)? = null,
-                                            onOuterViewClick: ((TapTargetView?) -> Unit)? = null): Boolean {
+    fun checkAndPerformedEntryEditEducation(
+        educationView: View,
+        onEducationViewClick: ((TapTargetView?) -> Unit)? = null,
+        onOuterViewClick: ((TapTargetView?) -> Unit)? = null
+    ): Boolean {
         return checkAndPerformedEducation(isEducationEntryEditPerformed(activity),
                 TapTarget.forView(educationView,
                         activity.getString(R.string.education_entry_edit_title),
@@ -70,7 +74,7 @@ class EntryActivityEducation(activity: Activity)
                         .outerCircleColorInt(getCircleColor())
                         .outerCircleAlpha(getCircleAlpha())
                         .textColorInt(getTextColor())
-                        .tintTarget(true)
+                        .tintTarget(false)
                         .cancelable(true),
                 object : TapTargetView.Listener() {
                     override fun onTargetClick(view: TapTargetView) {

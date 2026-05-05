@@ -25,19 +25,15 @@ import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
-import android.view.View
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.FileDatabaseSelectActivity
 import com.kunzisoft.keepass.activities.GroupActivity
-import com.kunzisoft.keepass.activities.legacy.DatabaseLockActivity
 import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper.addNodeId
 import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper.addSearchInfo
 import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper.addSpecialMode
@@ -45,35 +41,28 @@ import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper.addTypeMode
 import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper.setActivityResult
 import com.kunzisoft.keepass.credentialprovider.SpecialMode
 import com.kunzisoft.keepass.credentialprovider.TypeMode
-import com.kunzisoft.keepass.credentialprovider.UserVerificationActionType
-import com.kunzisoft.keepass.credentialprovider.UserVerificationData
 import com.kunzisoft.keepass.credentialprovider.UserVerificationHelper.Companion.addUserVerification
-import com.kunzisoft.keepass.credentialprovider.UserVerificationHelper.Companion.checkUserVerification
 import com.kunzisoft.keepass.credentialprovider.UserVerificationHelper.Companion.getUserVerifiedWithAuth
-import com.kunzisoft.keepass.credentialprovider.UserVerificationHelper.Companion.isUserVerificationNeeded
 import com.kunzisoft.keepass.credentialprovider.passkey.data.AndroidPrivilegedApp
 import com.kunzisoft.keepass.credentialprovider.passkey.data.UserVerificationRequirement
-import com.kunzisoft.keepass.credentialprovider.passkey.util.PasskeyHelper.addAppOrigin
-import com.kunzisoft.keepass.credentialprovider.passkey.util.PasskeyHelper.addAuthCode
+import com.kunzisoft.keepass.credentialprovider.passkey.util.PassHelper.addAppOrigin
+import com.kunzisoft.keepass.credentialprovider.passkey.util.PassHelper.addAuthCode
 import com.kunzisoft.keepass.credentialprovider.viewmodel.CredentialLauncherViewModel
 import com.kunzisoft.keepass.credentialprovider.viewmodel.PasskeyLauncherViewModel
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.model.AppOrigin
 import com.kunzisoft.keepass.model.SearchInfo
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_ENTRY_TASK
-import com.kunzisoft.keepass.settings.PreferencesUtil.isUserVerificationPreferred
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.utils.AppUtil.randomRequestCode
 import com.kunzisoft.keepass.view.toastError
-import com.kunzisoft.keepass.viewmodels.UserVerificationViewModel
 import kotlinx.coroutines.launch
 import java.util.UUID
 
 @RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
-class PasskeyLauncherActivity : DatabaseLockActivity() {
+class PasskeyLauncherActivity : AuthenticationLauncherActivity() {
 
     private val passkeyLauncherViewModel: PasskeyLauncherViewModel by viewModels()
-    private val userVerificationViewModel: UserVerificationViewModel by viewModels()
 
     private var mPasskeySelectionActivityResultLauncher: ActivityResultLauncher<Intent>? =
         this.registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
@@ -85,13 +74,9 @@ class PasskeyLauncherActivity : DatabaseLockActivity() {
             passkeyLauncherViewModel.manageRegistrationResult(it)
         }
 
-    override fun applyCustomStyle(): Boolean {
-        return false
-    }
+    override fun applyCustomStyle(): Boolean = false
 
-    override fun finishActivityIfReloadRequested(): Boolean {
-        return false
-    }
+    override fun finishActivityIfReloadRequested(): Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -174,58 +159,26 @@ class PasskeyLauncherActivity : DatabaseLockActivity() {
                 }
             }
         }
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.RESUMED) {
-                userVerificationViewModel.userVerificationState.collect { uiState ->
-                    when (uiState) {
-                        is UserVerificationViewModel.UVState.Loading -> {}
-                        is UserVerificationViewModel.UVState.OnUserVerificationSucceeded -> {
-                            val data = uiState.dataToVerify
-                            when (data.actionType) {
-                                UserVerificationActionType.LAUNCH_PASSKEY_CEREMONY -> {
-                                    passkeyLauncherViewModel.launchActionIfNeeded(
-                                        userVerified = true,
-                                        intent = intent,
-                                        specialMode = mSpecialMode,
-                                        database = uiState.dataToVerify.database
-                                    )
-                                }
-                                else -> {}
-                            }
-                            userVerificationViewModel.onUserVerificationReceived()
-                        }
-                        is UserVerificationViewModel.UVState.OnUserVerificationCanceled -> {
-                            toastError(uiState.error)
-                            passkeyLauncherViewModel.cancelResult()
-                            userVerificationViewModel.onUserVerificationReceived()
-                        }
-                    }
-                }
-            }
-        }
     }
 
-    override fun onUnknownDatabaseRetrieved(database: ContextualDatabase?) {
-        super.onUnknownDatabaseRetrieved(database)
-        // To manage https://github.com/Kunzisoft/KeePassDX/issues/2283
-        val userVerificationNeeded = intent.isUserVerificationNeeded(
-            userVerificationPreferred = isUserVerificationPreferred(this)
-        ) && intent.getUserVerifiedWithAuth().not()
-        if (userVerificationNeeded) {
-            checkUserVerification(
-                userVerificationViewModel = userVerificationViewModel,
-                dataToVerify = UserVerificationData(
-                    actionType = UserVerificationActionType.LAUNCH_PASSKEY_CEREMONY,
-                    database = database
-                )
-            )
-        } else {
-            passkeyLauncherViewModel.launchActionIfNeeded(
-                intent = intent,
-                specialMode = mSpecialMode,
-                database = database
-            )
-        }
+    override fun setUserVerified() {
+        passkeyLauncherViewModel.setUserVerified()
+    }
+
+    override fun launchActionIfNeeded(
+        intent: Intent,
+        specialMode: SpecialMode,
+        database: ContextualDatabase?
+    ) {
+        passkeyLauncherViewModel.launchActionIfNeeded(
+            intent = intent,
+            specialMode = specialMode,
+            database = database
+        )
+    }
+
+    override fun cancelResult() {
+        passkeyLauncherViewModel.cancelResult()
     }
 
     override fun onDatabaseActionFinished(
@@ -240,10 +193,6 @@ class PasskeyLauncherActivity : DatabaseLockActivity() {
                 // passkeyLauncherViewModel.autoSelectPasskey(result, database)
             }
         }
-    }
-
-    override fun viewToInvalidateTimeout(): View? {
-        return null
     }
 
     /**

@@ -35,6 +35,11 @@
             android:title="@string/autofill_manual_selection_title"
             android:summary="@string/autofill_manual_selection_summary"
             android:defaultValue="@bool/autofill_manual_selection_default"/>
+        <SwitchPreferenceCompat
+            android:key="@string/autofill_share_magikeyboard_key"
+            android:title="@string/autofill_share_magikeyboard_title"
+            android:summary="@string/autofill_share_magikeyboard_summary"
+            android:defaultValue="@bool/autofill_share_magikeyboard_default"/>
     </PreferenceCategory>
     <PreferenceCategory
         android:title="@string/save">

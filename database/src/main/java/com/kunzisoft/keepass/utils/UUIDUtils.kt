@@ -20,50 +20,56 @@
 package com.kunzisoft.keepass.utils
 
 import java.nio.ByteBuffer
-import java.util.Locale
 import java.util.UUID
 
 object UUIDUtils {
 
     /**
-     * Specific UUID string format for KeePass database
+     * Specific UUID CharArray format for KeePass database
      */
-    fun UUID.asHexString(): String? {
+    fun UUID.asHexCharArray(): CharArray? {
         try {
             val buf = uuidTo16Bytes(this)
 
             val len = buf.size
             if (len == 0) {
-                return ""
+                return charArrayOf()
             }
 
-            val sb = StringBuilder()
+            val result = CharArray(len * 2)
 
             var bt: Short
             var high: Char
             var low: Char
-            for (b in buf) {
-                bt = (b.toInt() and 0xFF).toShort()
+            for (i in buf.indices) {
+                bt = (buf[i].toInt() and 0xFF).toShort()
                 high = (bt.toInt() ushr 4).toChar()
                 low = (bt.toInt() and 0x0F).toChar()
-                sb.append(byteToChar(high))
-                sb.append(byteToChar(low))
+                result[i * 2] = byteToChar(high)
+                result[i * 2 + 1] = byteToChar(low)
             }
 
-            return sb.toString()
-        } catch (e: Exception) {
+            return result
+        } catch (_: Exception) {
             return null
         }
     }
 
     /**
-     * From a specific UUID KeePass database string format,
+     * Specific UUID string format for KeePass database
+     */
+    fun UUID.asHexString(): String? {
+        return asHexCharArray()?.let { String(it) }
+    }
+
+    /**
+     * From a specific UUID KeePass database format,
      * Note : For a standard UUID string format, use UUID.fromString()
      */
-    fun String.asUUID(): UUID? {
-        if (this.length != 32) return null
+    fun CharArray.asUUID(): UUID? {
+        if (this.size != 32) return null
 
-        val charArray = this.lowercase(Locale.getDefault()).toCharArray()
+        val charArray = this.map { it.lowercaseChar() }
         val leastSignificantChars = CharArray(16)
         val mostSignificantChars = CharArray(16)
 
@@ -76,7 +82,7 @@ object UUIDUtils {
                 leastSignificantChars[16 - i] = charArray[i]
                 leastSignificantChars[15 - i] = charArray[i - 1]
             }
-            i = i - 2
+            i -= 2
         }
         val standardUUIDString = StringBuilder()
         standardUUIDString.append(leastSignificantChars)
@@ -87,9 +93,17 @@ object UUIDUtils {
         standardUUIDString.insert(23, '-')
         return try {
             UUID.fromString(standardUUIDString.toString())
-        } catch (e: Exception) {
+        } catch (_: Exception) {
             null
         }
+    }
+
+    /**
+     * From a specific UUID KeePass database string format,
+     * Note : For a standard UUID string format, use UUID.fromString()
+     */
+    fun String.asUUID(): UUID? {
+        return this.toCharArray().asUUID()
     }
 
     fun ByteArray.asUUID(): UUID {

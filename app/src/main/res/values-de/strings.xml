@@ -73,14 +73,14 @@
     <string name="error_no_name">Namen eingeben.</string>
     <string name="error_nokeyfile">Schlüsseldatei auswählen.</string>
     <string name="error_out_of_memory">Zu wenig Speicher, um die gesamte Datenbank zu laden.</string>
-    <string name="error_pass_gen_type">Mindestens eine Art der Passwortgenerierung muss ausgewählt sein.</string>
+    <string name="error_pass_gen_type">Mindestens eine Art der Passwortgenerierung muss ausgewählt werden.</string>
     <string name="error_pass_match">Die Passwörter stimmen nicht überein.</string>
     <string name="error_rounds_too_large">Zu viele „Verschlüsselungsrunden“. Wird auf 2147483648 eingestellt.</string>
     <string name="error_string_key">Jeder Text braucht einen Feldnamen.</string>
     <string name="error_wrong_length">Gib eine positive ganze Zahl in das Feld „Länge“ ein.</string>
     <string name="field_name">Feldname</string>
     <string name="field_value">Feldwert</string>
-    <string name="file_not_found_content">Datei nicht gefunden. Bitte versuchen, sie über den Dateimanager zu öffnen.</string>
+    <string name="file_not_found_content">Datei nicht gefunden</string>
     <string name="file_browser">Dateimanager</string>
     <string name="generate_password">Passwort generieren</string>
     <string name="hint_conf_pass">Passwort bestätigen</string>
@@ -135,7 +135,7 @@
     <string name="unsupported_db_version">Nicht unterstützte Datenbankversion.</string>
     <string name="uppercase">Großbuchstaben</string>
     <string name="warning">Warnung</string>
-    <string name="warning_password_encoding">Passwortzeichen in der Datenbank vermeiden, die kein Textkodierungsformat besitzen (nicht erkannte Zeichen werden in denselben Buchstaben umgewandelt).</string>
+    <string name="warning_password_encoding">Passwortzeichen in der Datenbank vermeiden, die kein Textcodierungsformat besitzen (nicht erkannte Zeichen werden in denselben Buchstaben umgewandelt).</string>
     <string name="version_label">Version %1$s</string>
     <string name="education_unlock_summary">Das Passwort bzw. die Schlüsseldatei eingeben, um die Datenbank zu öffnen.
 \n
@@ -191,7 +191,7 @@
     <string name="sort_last_access_time">Zugriffsdatum</string>
     <string name="autofill">Automatisches Ausfüllen</string>
     <string name="autofill_sign_in_prompt">Mit KeePassDX anmelden</string>
-    <string name="set_credential_provider_service_title">Standard-Autofill-Service festlegen</string>
+    <string name="set_credential_provider_service_title">Anbieterdienst für Anmeldeinformationen</string>
     <string name="autofill_explanation_summary">Automatisches Ausfüllen konfigurieren, um Formulare in anderen Apps schnell auszufüllen</string>
     <string name="autofill_select_entry">Eintrag auswählen …</string>
     <string name="clipboard">Zwischenablage</string>
@@ -220,17 +220,15 @@
     <string name="education_create_database_title">Datenbankdatei erstellen</string>
     <string name="education_create_database_summary">Eine erste Datei zur Passwortverwaltung erstellen.</string>
     <string name="education_select_database_title">Vorhandene Datenbank öffnen</string>
-    <string name="education_select_database_summary">Öffnet über den Dateimanager eine früher erstellte Datenbankdatei, um sie weiterzuverwenden.</string>
-    <string name="education_new_node_title">Datenbankelemente hinzufügen</string>
-    <string name="education_new_node_summary">Einträge helfen, digitale Konten zu verwalten.
-\n
-\nGruppen/Ordner gliedern Einträge in der Datenbank.</string>
+    <string name="education_select_database_summary">Öffnet über den Dateimanager eine frühere Datenbankdatei, um sie weiterhin zu verwenden.</string>
+    <string name="education_new_node_title">Datenbankeinträge hinzufügen</string>
+    <string name="education_new_node_summary">Einträge helfen dabei, die digitalen Identitäten zu verwalten.\n\nGruppen/Ordner gliedern die Einträge innerhalb der Datenbank.</string>
     <string name="education_search_title">Einträge durchsuchen</string>
     <string name="education_search_summary">Titel, Benutzernamen oder Inhalt anderer Felder eingeben, um Passwörter zu finden.</string>
     <string name="education_entry_edit_title">Eintrag bearbeiten</string>
     <string name="education_entry_edit_summary">Dem Eintrag eigene Felder hinzufügen. Die Felder können mit Querverweisen aus anderen Einträgen ergänzt werden.</string>
     <string name="education_generate_password_title">Ein starkes Passwort erstellen</string>
-    <string name="education_generate_password_summary">Ein starkes Passwort, das mit dem Eintrag verbunden wird, kann einfach anhand von Formularkriterien festgelegt werden und bitte nicht vergessen dieses Passwort zu sichern.</string>
+    <string name="education_generate_password_summary">Ein starkes Passwort, das mit dem Eintrag verbunden wird, kann einfach anhand von Formularkriterien festgelegt werden und bitte nicht vergessen, dieses Passwort zu sichern.</string>
     <string name="education_entry_new_field_title">Eigene Felder hinzufügen</string>
     <string name="education_entry_new_field_summary">Ein zusätzliches Feld einfügen, einen Wert hinzufügen und diesen optional schützen.</string>
     <string name="education_unlock_title">Datenbank entsperren</string>
@@ -289,7 +287,6 @@
     <string name="keyboard_notification_entry_summary">Benachrichtigung anzeigen, wenn ein Eintrag abrufbar ist</string>
     <string name="keyboard_notification_entry_content_title_text">Eintrag</string>
     <string name="keyboard_notification_entry_content_title">%1$s über Magikeyboard abrufbar</string>
-    <string name="keyboard_notification_entry_content_text">%1$s</string>
     <string name="keyboard_notification_entry_clear_close_title">Beim Schließen löschen</string>
     <string name="keyboard_notification_entry_clear_close_summary">Datenbank schließen, wenn die Benachrichtigung geschlossen wird</string>
     <string name="keyboard_appearance_category">Erscheinungsbild</string>
@@ -342,7 +339,7 @@
     <string name="enable">Aktivieren</string>
     <string name="disable">Deaktivieren</string>
     <string name="biometric_auto_open_prompt_title">Abfrage automatisch öffnen</string>
-    <string name="biometric_auto_open_prompt_summary">Die Geräteentsperrung automatisch abfragen, falls die Datenbank dafür eingerichtet ist</string>
+    <string name="biometric_auto_open_prompt_summary">Die Geräteentsperrung automatisch anfordern, wenn die Datenbank dafür eingerichtet ist</string>
     <string name="master_key">Hauptschlüssel</string>
     <string name="security">Sicherheit</string>
     <string name="entry_history">Verlauf</string>
@@ -491,7 +488,7 @@
     <string name="keyboard_save_search_info_title">Geteilte Informationen speichern</string>
     <string name="warning_empty_recycle_bin">Alle Knoten unwiderruflich aus dem Papierkorb löschen\?</string>
     <string name="error_field_name_already_exists">Der Feldname existiert bereits.</string>
-    <string name="device_unlock_prompt_store_credential_message">Falls die Geräteentsperrung verwendet wird, ist es immer noch notwendig, sich die Hauptzugangsdaten für den Tresor zu merken.</string>
+    <string name="device_unlock_prompt_store_credential_message">WARNUNG: Es ist immer noch notwendig, sich die Hauptzugangsdaten für den Tresor zu merken</string>
     <string name="menu_keystore_remove_key">Schlüssel für Geräteentsperrung löschen</string>
     <string name="device_unlock_prompt_store_credential_title">Verknüpfung mit Geräteentsperrung</string>
     <string name="education_device_unlock_summary">Eigenes Passwort mit Biometrie- oder Geräteanmeldedaten verknüpfen, um die Datenbank schnell zu entsperren.</string>
@@ -502,9 +499,9 @@
     <string name="temp_device_unlock_enable_summary">Bei Nutzung der Geräteentsperrung keine verschlüsselten Inhalte speichern</string>
     <string name="temp_device_unlock_enable_title">Zeitlich begrenzte Geräteentsperrung</string>
     <string name="device_credential_unlock_enable_summary">Ermöglicht das Öffnen der Datenbank mit den persönlichen Geräteanmeldedaten</string>
-    <string name="device_unlock_tap_delete">Drücken, um alle Geräteentsperrschlüssel zu löschen</string>
+    <string name="device_unlock_tap_delete">Tippen, um alle Geräteentsperrschlüssel zu löschen</string>
     <string name="content">Inhalt</string>
-    <string name="device_unlock_prompt_extract_credential_title">Datenbank mit Geräteentsperrdaten öffnen</string>
+    <string name="device_unlock_prompt_extract_credential_title">Geräteentsperrung</string>
     <string name="enter">Eingabetaste</string>
     <string name="backspace">Rücktaste</string>
     <string name="select_entry">Eintrag auswählen</string>
@@ -517,7 +514,7 @@
     <string name="device_unlock_prompt_not_initialized">Geräteentsperrungsabfrage konnte nicht gestartet werden.</string>
     <string name="device_unlock_not_recognized">Fingerabdruck für Geräteentsperrung wurde nicht erkannt</string>
     <string name="device_unlock_invalid_key">Der Geräteentsperrschlüssel ist nicht lesbar. Bitte diesen löschen und den Vorgang zur Entsperr-Erkennung wiederholen.</string>
-    <string name="device_unlock_prompt_extract_credential_message">Datenbankanmeldedaten aus Geräteentsperrdaten gewinnen</string>
+    <string name="device_unlock_prompt_extract_credential_message">Datenbank mit Geräteanmeldedaten öffnen</string>
     <string name="error_rebuild_list">Die Liste kann nicht ordnungsgemäß neu erstellt werden.</string>
     <string name="error_database_uri_null">Datenbank-URI kann nicht abgerufen werden.</string>
     <string name="menu_reload_database">Daten neu laden</string>
@@ -529,7 +526,7 @@
     <string name="error_upload_file">Beim Hochladen der Datei ist ein Fehler aufgetreten.</string>
     <string name="import_app_properties_title">App-Einstellungen importieren</string>
     <string name="error_start_database_action">Beim Ausführen einer Aktion in der Datenbank ist ein Fehler aufgetreten.</string>
-    <string name="error_otp_type">Der vorhandene OTP-Typ wird von diesem Formular nicht erkannt, und seine Validierung kann Token möglicherweise nicht mehr korrekt erzeugen.</string>
+    <string name="error_otp_type">Der vorhandene OTP-Typ wird von diesem Formular nicht erkannt und seine Validierung kann Token möglicherweise nicht mehr korrekt erzeugen.</string>
     <string name="content_description_otp_information">Informationen zu Einmalpasswörtern</string>
     <string name="warning_database_revoked">Auf die Datei kann nicht zugegriffen werden. Bitte die Datenbank schließen und von ihrem Speicherort aus erneut öffnen.</string>
     <string name="error_export_app_properties">Fehler beim Exportieren der App-Einstellungen.</string>
@@ -552,7 +549,7 @@
     <string name="unit_byte">B</string>
     <string name="download_canceled">Abgebrochen!</string>
     <string name="autofill_inline_suggestions_keyboard">Vorschläge zum automatischen Ausfüllen hinzugefügt.</string>
-    <string name="autofill_inline_suggestions_summary">Falls möglich, Vorschläge zum automatischen Ausfüllen direkt auf kompatibler Tastatur anzeigen</string>
+    <string name="autofill_inline_suggestions_summary">Wenn möglich, Vorschläge zum automatischen Ausfüllen direkt auf kompatibler Tastatur anzeigen</string>
     <string name="properties">Eigenschaften</string>
     <string name="description_app_properties">KeePassDX-Eigenschaften zur Verwaltung der App-Einstellungen</string>
     <string name="secure_note">Sicherer Hinweis</string>
@@ -679,7 +676,7 @@
     <string name="warning_database_notification_permission">Die Benachrichtigungsberechtigung ermöglicht es, den Status der Datenbank anzuzeigen und sie mit einer leicht zugänglichen Taste zu sperren.
 \n
 \nWird diese Berechtigung nicht aktiviert, ist die im Hintergrund geöffnete Datenbank nicht sichtbar, wenn eine Anwendung im Vordergrund läuft.</string>
-    <string name="warning_copy_permission">Die Benachrichtigungsberechtigung ist erforderlich, um die Benachrichtigungsfunktion der Zwischenablage zu nutzen.</string>
+    <string name="warning_permission">Die Berechtigung ist erforderlich, um die Benachrichtigung anzuzeigen</string>
     <string name="unlock">Entsperren</string>
     <string name="education_validate_entry_title">Eintrag überprüfen</string>
     <string name="education_validate_entry_summary">Bitte daran denken, den Eintrag zu überprüfen und die Datenbank zu speichern.
@@ -714,11 +711,11 @@
     <string name="passkey_creation_description">Passkey in neuem Eintrag speichern</string>
     <string name="passkey_update_description">Passkey in %1$s aktualisieren</string>
     <string name="passkey_selection_description">Vorhandenen Passkey auswählen</string>
-    <string name="passkey_database_username">KeePassDX-Datenbank</string>
+    <string name="credential_provider_database_username">KeePassDX-Datenbank</string>
     <string name="passkey_username">Passkey-Benutzername</string>
     <string name="passkey_backup_state">Passkey-Backup-Status</string>
     <string name="passkey_backup_eligibility">Passkey-Backup-Erlaubnis</string>
-    <string name="passkeys_close_database_summary">Datenbank nach der Passwortauswahl schließen</string>
+    <string name="passkeys_close_database_summary">Datenbank nach der Passkey-Auswahl schließen</string>
     <string name="credential_provider">Anmeldeinformationsanbieter</string>
     <string name="passkeys_explanation_summary">Passkeys für eine schnelle und sichere Anmeldung ohne Passwort konfigurieren</string>
     <string name="passkeys_privileged_apps_summary">Browser in der benutzerdefinierten Liste privilegierter Apps verwalten</string>
@@ -727,15 +724,47 @@
     <string name="passkeys_missing_signature_app_ask_explanation">WARNUNG: Der Passkey wurde von einem anderen Client erstellt oder die Signatur wurde gelöscht. Um Sicherheitsrisiken zu vermeiden, sollte die zu authentifizierende App zum selben Dienst gehören und legitimiert sein.\nWenn es sich bei der App um einen Browser handelt, dann die Signatur nicht zum Eintrag, sondern zur Liste der privilegierten Apps in den Einstellungen hinzufügen.</string>
     <string name="passkeys_missing_signature_app_ask_message">%1$s wird nicht erkannt und versucht, sich mit einem vorhandenen Passkey zu authentifizieren.</string>
     <string name="passkeys_missing_signature_app_ask_question">App-Signatur zum Passkey-Eintrag hinzufügen?</string>
-    <string name="passkeys_auto_select_summary">Automatische Auswahl, wenn nur ein Eintrag vorhanden und die Datenbank geöffnet ist, und nur, wenn die anfragende App kompatibel ist</string>
+    <string name="passkeys_auto_select_summary">Automatische Auswahl, wenn nur ein Eintrag vorhanden und die Datenbank geöffnet ist, jedoch nur, wenn die anfragende App kompatibel ist</string>
     <string name="passkeys_backup_eligibility_summary">Bei der Erstellung festlegen, ob die Quelle für öffentliche Schlüssel-Anmeldeinformationen gesichert werden darf</string>
     <string name="passkeys_backup_state_summary">Anzeigen, dass Anmeldedaten gesichert und gegen den Verlust eines einzelnen Geräts geschützt sind</string>
     <string name="credential_provider_service_subtitle">Passkeys, Anbieter für das automatische Ausfüllen von Anmeldedaten</string>
-    <string name="passkey_service_name">KeePassDX-Anmeldeungsdatenanbieter</string>
-    <string name="passkey_locked_database_description">Zum Entsperren auswählen</string>
-    <string name="passkey_private_key">Passkey Privater Schlüssel</string>
+    <string name="credential_provider_service_name">KeePassDX-Anmeldedatenanbieter</string>
+    <string name="credential_provider_locked_database_description">Zum Entsperren auswählen</string>
+    <string name="passkey_private_key">Privater Schlüssel für Passkey</string>
     <string name="passkey_credential_id">Passkey-Anmeldeinformation</string>
     <string name="error_passkey_result">Passkey kann nicht zurückgegeben werden</string>
     <string name="passkey_user_handle">Passkey-Benutzerkennung</string>
     <string name="passkey_relying_party">Passkey-Vertrauensstelle</string>
+    <string name="password_creation_description">Passwort in neuem Eintrag speichern</string>
+    <string name="password_selection_description">Ein vorhandenes Passwort auswählen</string>
+    <string name="error_password_result">Passwort kann nicht zurückgegeben werden</string>
+    <string name="user_verification_required_title">Benutzerüberprüfung</string>
+    <string name="first_chars">Erste Zeichen</string>
+    <string name="check">Überprüfen</string>
+    <string name="user_verification_database_credential">Die ersten vier Zeichen des Datenbankpassworts eingeben</string>
+    <string name="clipboard_otp_notifications_title">OTP-Benachrichtigung</string>
+    <string name="clipboard_otp_notifications_summary">Eine Benachrichtigung öffnen, um das OTP aus den durch automatisches Ausfüllen oder mit Magikeyboard ausgefüllten Einträgen zu kopieren</string>
+    <string name="user_verification_device_credential_summary">Geräteanmeldedaten als Benutzerüberprüfung verwenden, sofern verfügbar</string>
+    <string name="user_verification_preferred_title">Bevorzugte Benutzerüberprüfung</string>
+    <string name="keyboard_auto_switch_title">Automatisches Umschalten für Magikeyboard</string>
+    <string name="keyboard_auto_switch_summary">Versuchen, automatisch zum Magikeyboard zu wechseln, wenn Einträge ausgefüllt werden</string>
+    <string name="autofill_share_magikeyboard_title">Mit Magikeyboard teilen</string>
+    <string name="autofill_share_magikeyboard_summary">Einträge an Magikeyboard weitergeben, die automatisch ausgefüllt wurden</string>
+    <string name="user_verification_required_description">Der Zugriff auf diese Daten erfordert eine Überprüfung, ob Sie es wirklich sind.</string>
+    <string name="user_verification_required_description_precise">%1$s erfordert die Überprüfung, ob es sich wirklich um Sie handelt.</string>
+    <string name="menu_user_verification_enabled">Benutzerüberprüfung aktiviert</string>
+    <string name="menu_user_verification_disabled">Benutzerüberprüfung deaktiviert</string>
+    <string name="user_verification_preferred_summary">Eine Benutzerüberprüfung durchführen, wenn die vertrauende Stelle „bevorzugt“ anfordert</string>
+    <string name="user_verification">Benutzerüberprüfung</string>
+    <string name="education_user_verification_title">Überprüfung für sensible Aktionen</string>
+    <string name="education_user_verification_summary">Den Benutzerüberprüfungsmodus für die Sitzung ändern.\n \n„Benutzerüberprüfung aktiviert“ überprüft Aktionen in geschützten Feldern und Datenbankeinstellungen.\n„Benutzerüberprüfung deaktiviert“ ermöglicht ohne Überprüfung beliebige Datenänderungen in der Datenbank.</string>
+    <string name="user_verification_device_credential_title">Benutzerüberprüfungsdaten</string>
+    <string name="content_description_user_verification_information">Informationen zur Benutzerüberprüfung</string>
+    <string name="error_passkey_credential_id">Kein Passkey für Vertrauensstelle %1$s und Anmeldeinformationen %2$s gefunden</string>
+    <string name="content_description_share_url">URL teilen</string>
+    <string name="show_tags_summary">Tags in der Liste der Einträge anzeigen</string>
+    <string name="show_tags_title">Tags anzeigen</string>
+    <string name="benchmark_calculation">Für %1$s s berechnen</string>
+    <string name="benchmarking">Wird berechnet …</string>
+    <string name="keyboard_share_browser">Von %1$s mit KeePassDX teilen</string>
 </resources>

@@ -31,7 +31,7 @@ import com.kunzisoft.keepass.utils.LOCK_ACTION
 object TimeoutHelper {
 
     const val DEFAULT_TIMEOUT = (5 * 60 * 1000).toLong()  // 5 minutes
-    const val NEVER: Long = -1  // Infinite
+    const val NEVER: Long = 0L // Infinite
 
     private const val REQUEST_ID = 140
 
@@ -60,7 +60,7 @@ object TimeoutHelper {
     private fun startLockTimer(context: Context, databaseLoaded: Boolean) {
         if (databaseLoaded) {
             val timeout = PreferencesUtil.getAppTimeout(context)
-            if (timeout != NEVER) {
+            if (timeout > NEVER) {
                 // No timeout don't start timeout service
                 (context.applicationContext.getSystemService(Context.ALARM_SERVICE) as AlarmManager?)?.let { alarmManager ->
                     val triggerTime = System.currentTimeMillis() + timeout
@@ -110,8 +110,8 @@ object TimeoutHelper {
     }
 
     /**
-     * Check the time previously record with recordTime and do the [timeoutAction] if timeout
-     * if temporarilyDisableTimeout() is called, the function as no effect until releaseTemporarilyDisableTimeoutAndCheckTime() is called
+     * Check the time previously record with recordTime and do the [timeoutAction] if timeout.
+     * If temporarilyDisableTimeout() is called, the function as no effect until releaseTemporarilyDisableTimeoutAndCheckTime() is called
      * return 'false' and send broadcast lock action if timeout, 'true' if in time
      */
     fun checkTime(context: Context, timeoutAction: (() -> Unit)? = null): Boolean {
@@ -125,14 +125,14 @@ object TimeoutHelper {
         // Retrieve the timeout programmatically backup
         val timeoutBackup = PreferencesUtil.getTimeSaved(context)
         // The timeout never started
-        if (timeoutBackup == NEVER) {
+        if (timeoutBackup <= NEVER) {
             return true
         }
 
         // Retrieve the app timeout in settings
         val appTimeout = PreferencesUtil.getAppTimeout((context))
         // We are set to never timeout
-        if (appTimeout == NEVER) {
+        if (appTimeout <= NEVER) {
             return true
         }
 

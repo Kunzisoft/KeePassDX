@@ -53,13 +53,14 @@ import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX.Companion.FILE_VER
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX.Companion.FILE_VERSION_40
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX.Companion.FILE_VERSION_41
 import com.kunzisoft.keepass.hardware.HardwareKey
+import com.kunzisoft.keepass.utils.CharArrayUtil.contentEquals
 import com.kunzisoft.keepass.utils.UnsignedInt
+import com.kunzisoft.keepass.utils.clear
 import com.kunzisoft.keepass.utils.longTo8Bytes
 import java.io.IOException
 import java.nio.charset.Charset
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
-import java.util.Arrays
 import java.util.UUID
 import javax.crypto.Mac
 import kotlin.math.min
@@ -145,7 +146,7 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
     var color = ""
 
     /**
-     * Determine if RecycleBin is enable or not
+     * Determine if RecycleBin is enabled or not
      * @return true if RecycleBin enable, false if is not available or not enable
      */
     var isRecycleBinEnabled = true
@@ -214,7 +215,7 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
         }
     }
 
-    private inner class EntryOperationHandler : NodeOperationHandler<EntryKDBX>() {
+    private class EntryOperationHandler : NodeOperationHandler<EntryKDBX>() {
         var passwordQualityEstimationDisabled = false
         override fun operate(node: EntryKDBX): Boolean {
             if (!node.qualityCheck) {
@@ -224,7 +225,7 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
         }
     }
 
-    private inner class GroupOperationHandler : NodeOperationHandler<GroupKDBX>() {
+    private class GroupOperationHandler : NodeOperationHandler<GroupKDBX>() {
         var containsTags = false
         override fun operate(node: GroupKDBX): Boolean {
             if (node.tags.isNotEmpty())
@@ -254,6 +255,7 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
         ) else null
 
         // Save to rebuild master password with new seed later
+        mCompositeKey.clear()
         mCompositeKey = CompositeKey(passwordBytes, keyFileBytes, hardwareKey)
 
         // Build the master key
@@ -264,7 +266,7 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
         )
 
         // Build check key
-        this.checkKey = masterCredential.getCheckKey()
+        this.checkKey = masterCredential.getCheckKey(passwordEncoding)
     }
 
     @Throws(DatabaseOutputException::class)
@@ -306,7 +308,7 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
 
     fun copyMasterKeyFrom(databaseVersioned: DatabaseKDBX) {
         super.copyMasterKeyFrom(databaseVersioned)
-        this.mCompositeKey = databaseVersioned.mCompositeKey
+        this.mCompositeKey = databaseVersioned.mCompositeKey.copyOf()
     }
 
     fun getMinKdbxVersion(): UnsignedInt {
@@ -476,7 +478,7 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
         customIconId: UUID? = null,
         result: (IconImageCustom, BinaryData?) -> Unit,
     ) {
-        // Create a binary file for a brand new custom icon
+        // Create a binary file for a brand-new custom icon
         addCustomIcon(customIconId, "", null, false, result)
     }
 
@@ -583,31 +585,31 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
 
     fun getEntryByTitle(title: String, recursionLevel: Int): EntryKDBX? {
         return findEntry { entry ->
-            entry.decodeTitleKey(recursionLevel).equals(title, true)
+            entry.decodeTitleKey(recursionLevel).contentEquals(title.toCharArray(), true)
         }
     }
 
     fun getEntryByUsername(username: String, recursionLevel: Int): EntryKDBX? {
         return findEntry { entry ->
-            entry.decodeUsernameKey(recursionLevel).equals(username, true)
+            entry.decodeUsernameKey(recursionLevel).contentEquals(username.toCharArray(), true)
         }
     }
 
     fun getEntryByURL(url: String, recursionLevel: Int): EntryKDBX? {
         return findEntry { entry ->
-            entry.decodeUrlKey(recursionLevel).equals(url, true)
+            entry.decodeUrlKey(recursionLevel).contentEquals(url.toCharArray(), true)
         }
     }
 
-    fun getEntryByPassword(password: String, recursionLevel: Int): EntryKDBX? {
+    fun getEntryByPassword(password: CharArray, recursionLevel: Int): EntryKDBX? {
         return findEntry { entry ->
-            entry.decodePasswordKey(recursionLevel).equals(password, true)
+            entry.decodePasswordKey(recursionLevel).contentEquals(password, true)
         }
     }
 
     fun getEntryByNotes(notes: String, recursionLevel: Int): EntryKDBX? {
         return findEntry { entry ->
-            entry.decodeNotesKey(recursionLevel).equals(notes, true)
+            entry.decodeNotesKey(recursionLevel).contentEquals(notes.toCharArray(), true)
         }
     }
 
@@ -620,8 +622,8 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
     /**
      * Retrieve the value of a field reference
      */
-    fun getFieldReferenceValue(textReference: String, recursionLevel: Int): String {
-        return mFieldReferenceEngine.compile(textReference, recursionLevel)
+    fun getFieldReferenceValue(entry: EntryKDBX, textReference: CharArray, recursionLevel: Int): CharArray {
+        return mFieldReferenceEngine.compile(entry, textReference, recursionLevel)
     }
 
     @Throws(IOException::class)
@@ -650,7 +652,8 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
             } catch (_: NoSuchAlgorithmException) {
                 throw IOException("No SHA-512 implementation")
             } finally {
-                Arrays.fill(cmpKey, 0.toByte())
+                cmpKey.clear()
+                transformedMasterKey.clear()
             }
         }
     }
@@ -688,11 +691,11 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
                 pos += copy
                 r++
 
-                Arrays.fill(part, 0.toByte())
+                part.clear()
             }
         }
 
-        Arrays.fill(hash, 0.toByte())
+        hash.clear()
         return ret
     }
 
@@ -781,9 +784,9 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
     }
 
     /**
-     * Define if a Node must be delete or recycle when remove action is called
+     * Define if a Node must be deleted or recycle when remove action is called
      * @param node Node to remove
-     * @return true if node can be recycle, false elsewhere
+     * @return true if node can be recycled, false elsewhere
      */
     fun canRecycle(node: NodeVersioned<*, GroupKDBX, EntryKDBX>): Boolean {
         if (!isRecycleBinEnabled)
@@ -811,6 +814,16 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
         addDeletedObject(DeletedObject(objectId))
     }
 
+    override fun addGroupTo(newGroup: GroupKDBX, parent: GroupKDBX?) {
+        super.addGroupTo(newGroup, parent)
+        tagPool.put(newGroup.tags)
+    }
+
+    override fun updateGroup(group: GroupKDBX) {
+        super.updateGroup(group)
+        tagPool.put(group.tags)
+    }
+
     override fun addEntryTo(newEntry: EntryKDBX, parent: GroupKDBX?) {
         super.addEntryTo(newEntry, parent)
         tagPool.put(newEntry.tags)
@@ -829,6 +842,17 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
         mFieldReferenceEngine.clear()
     }
 
+    fun getTagPoolWithoutHistory(): Tags {
+        val activeTags = Tags()
+        getGroupIndexes().forEach { group ->
+            activeTags.put(group.tags)
+        }
+        getEntryIndexes().forEach { entry ->
+            activeTags.put(entry.tags)
+        }
+        return activeTags
+    }
+
     fun buildNewBinaryAttachment(
         smallSize: Boolean,
         compression: Boolean,
@@ -841,7 +865,7 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
     }
 
     fun removeUnlinkedAttachment(binary: BinaryData, clear: Boolean) {
-        val listBinaries = ArrayList<BinaryData>()
+        val listBinaries = mutableListOf<BinaryData>()
         listBinaries.add(binary)
         removeUnlinkedAttachments(listBinaries, clear)
     }
@@ -853,7 +877,7 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
     private fun removeUnlinkedAttachments(binaries: List<BinaryData>, clear: Boolean) {
         // TODO check in icon pool
         // Build binaries to remove with all binaries known
-        val binariesToRemove = ArrayList<BinaryData>()
+        val binariesToRemove = mutableListOf<BinaryData>()
         if (binaries.isEmpty()) {
             attachmentPool.doForEachBinary { _, binary ->
                 binariesToRemove.add(binary)
@@ -882,7 +906,7 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
         }
     }
 
-    override fun isValidCredential(password: String?, containsKeyFile: Boolean): Boolean {
+    override fun isValidCredential(password: CharArray?, containsKeyFile: Boolean): Boolean {
         if (password == null)
             return true
         return super.isValidCredential(password, containsKeyFile)
@@ -897,8 +921,13 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
         }
     }
 
+    override fun clearSensitiveData() {
+        super.clearSensitiveData()
+        hmacKey?.clear()
+        mCompositeKey.clear()
+    }
+
     companion object {
-        val TYPE = DatabaseKDBX::class.java
         private val TAG = DatabaseKDBX::class.java.name
 
         private const val DEFAULT_HISTORY_MAX_ITEMS = 10 // -1 unlimited

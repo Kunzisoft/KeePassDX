@@ -19,6 +19,16 @@ open class NodeInfo() : Parcelable {
     var expiryTime: DateInstant = DateInstant.IN_ONE_MONTH_DATE_TIME
     var customData: CustomData = CustomData()
 
+    constructor(nodeToCopy: NodeInfo) : this() {
+        this.title = nodeToCopy.title
+        this.icon = IconImage(nodeToCopy.icon)
+        this.creationTime = DateInstant(nodeToCopy.creationTime)
+        this.lastModificationTime = DateInstant(nodeToCopy.lastModificationTime)
+        this.expires = nodeToCopy.expires
+        this.expiryTime = DateInstant(nodeToCopy.expiryTime)
+        this.customData = CustomData(nodeToCopy.customData)
+    }
+
     constructor(parcel: Parcel) : this() {
         title = parcel.readString() ?: title
         icon = parcel.readParcelableCompat() ?: icon

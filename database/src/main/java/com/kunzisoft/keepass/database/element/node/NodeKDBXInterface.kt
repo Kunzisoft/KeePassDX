@@ -23,7 +23,7 @@ import com.kunzisoft.keepass.database.element.CustomData
 import com.kunzisoft.keepass.database.element.DateInstant
 import com.kunzisoft.keepass.database.element.Tags
 import com.kunzisoft.keepass.utils.UnsignedLong
-import java.util.*
+import java.util.UUID
 
 interface NodeKDBXInterface : NodeTimeInterface {
 

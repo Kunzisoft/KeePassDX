@@ -10,7 +10,7 @@ abstract class AnimatedItemsAdapter<Item, T: RecyclerView.ViewHolder>(val contex
     : RecyclerView.Adapter<T>() {
 
     protected val inflater: LayoutInflater = LayoutInflater.from(context)
-    var itemsList: MutableList<Item> = ArrayList()
+    var itemsList: MutableList<Item> = mutableListOf()
         private set
 
     var onDeleteButtonClickListener: ((item: Item)->Unit)? = null

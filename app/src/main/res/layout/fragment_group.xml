@@ -48,16 +48,26 @@
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:layout_gravity="center"
-					android:layout_margin="@dimen/default_margin"
+					android:layout_margin="4dp"
 					android:src="@drawable/ic_blank_32dp"
 					style="@style/KeepassDXStyle.Icon"/>
+
+				<!-- Tags -->
+				<androidx.recyclerview.widget.RecyclerView
+					android:id="@+id/group_tags_list_view"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_gravity="center"
+					app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+					android:orientation="horizontal"/>
 
 				<!-- Name -->
 				<androidx.appcompat.widget.AppCompatTextView
 					android:id="@+id/group_name"
-					android:layout_width="match_parent"
+					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:gravity="center"
+					tools:text="Title"
 					style="@style/KeepassDXStyle.Title.Large.OnSurface" />
 			</LinearLayout>
 		</FrameLayout>
@@ -68,20 +78,6 @@
 			android:layout_height="wrap_content"
 			android:padding="@dimen/default_margin"
 			tools:targetApi="o">
-
-			<!-- Tags -->
-			<androidx.recyclerview.widget.RecyclerView
-				android:id="@+id/group_tags_list_view"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:paddingStart="5dp"
-				android:paddingLeft="5dp"
-				android:paddingEnd="5dp"
-				android:paddingRight="5dp"
-				android:paddingBottom="@dimen/default_margin"
-				android:layout_gravity="center"
-				app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-				android:orientation="horizontal"/>
 
 			<!-- Note -->
 			<androidx.appcompat.widget.AppCompatTextView

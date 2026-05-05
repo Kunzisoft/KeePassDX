@@ -1,0 +1,25 @@
+KeePassDX është një <b>kasafortë dhe përgjegjës kyçkalimesh dhe fjalëkalimesh</b>, me burim të hapët që lejon përpunim <b>të dhënash të fshehtëzuara në një kartelë njëshe</b> në formatin e hapët KeePass dhe <b>plotëson formularët në një mënyrë të siguruar</b>, s’ka nevojë <b>për lidhje në Internet</b> dhe integron standarde dizajni Android. Aplikacioni është <b>me burim të hapët, pa reklama</b>.
+
+<b>Veçori</b>
+
+- Kyçkalime për mirëfilltësim dhe depozitim vendor kyçesh private.
+- Njohje biometrike për shkyçje të shpejtë (shenjë gishti / shkyçje me fytyrë / …).
+- Administrim fjalëkalimesh njëpërdorimsh (HOTP / TOTP) për mirëfilltësim dyfaktorësh (2FA).
+- Vetëplotësim për plotësim të kollajtë formularësh me fjalëkalime.
+- Magikeyboard për plotësi efikas të çfarëdo fushe.
+- Krijoni kartela të fshehtëzuara bazë të dhënash.
+- Sistemim i kredencialeve sipas zërash dhe në pemë grupesh.
+- Lejon hapje dhe kopjim të shpejtë fushash URI / URL.
+- Gjedhe dinamike për çdo lloj zërash.
+- Historik për çdo zë.
+- Administrim preciz i rregullimeve.
+- Hartim grafik Material përmes temash.
+- Mbulim për kartela .kdb dhe .kdbx (version 1 deri 4) me algoritëm AES - Twofish - ChaCha20 - Argon2.
+- I përputhshëm me shumicën e programeve të ngjashëm (KeePass, KeePassXC, KeeWeb, …).
+- Kod i shkruar në gjuhë native (Kotlin / Java / JNI / C).
+
+Mund të dhuroni ose të blini versionin pro, për shërbim më të mirë dhe zhvillim të shpejtë veçorish që dëshironi: <a href="https://play.google.com/store/apps/details?id=com.kunzisoft.keepass.pro">https://play.google.com/store/apps/details?id=com.kunzisoft.keepass.pro</a>
+
+Projekti evoluon në mënyrë konstante. Mos ngurroni të shihni gjendjen e zhvillimit të përditësimeve pasuese: <a href="https://github.com/Kunzisoft/KeePassDX/projects">https://github.com/Kunzisoft/KeePassDX/projects</a>
+
+Problemet dërgojini te: <a href="https://github.com/Kunzisoft/KeePassDX/issues">https://github.com/Kunzisoft/KeePassDX/issues</a>

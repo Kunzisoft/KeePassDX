@@ -33,13 +33,17 @@ import androidx.credentials.exceptions.GetCredentialException
 import androidx.credentials.exceptions.GetCredentialUnknownException
 import androidx.credentials.provider.BeginCreateCredentialRequest
 import androidx.credentials.provider.BeginCreateCredentialResponse
+import androidx.credentials.provider.BeginCreatePasswordCredentialRequest
 import androidx.credentials.provider.BeginCreatePublicKeyCredentialRequest
 import androidx.credentials.provider.BeginGetCredentialRequest
 import androidx.credentials.provider.BeginGetCredentialResponse
+import androidx.credentials.provider.BeginGetPasswordOption
 import androidx.credentials.provider.BeginGetPublicKeyCredentialOption
+import androidx.credentials.provider.CallingAppInfo
 import androidx.credentials.provider.CreateEntry
 import androidx.credentials.provider.CredentialEntry
 import androidx.credentials.provider.CredentialProviderService
+import androidx.credentials.provider.PasswordCredentialEntry
 import androidx.credentials.provider.ProviderClearCredentialStateRequest
 import androidx.credentials.provider.PublicKeyCredentialEntry
 import com.kunzisoft.encrypt.Base64Helper.Companion.b64Encode
@@ -47,9 +51,11 @@ import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper.buildIcon
 import com.kunzisoft.keepass.credentialprovider.SpecialMode
 import com.kunzisoft.keepass.credentialprovider.activity.PasskeyLauncherActivity
+import com.kunzisoft.keepass.credentialprovider.activity.PasswordLauncherActivity
 import com.kunzisoft.keepass.credentialprovider.passkey.data.PublicKeyCredentialCreationOptions
 import com.kunzisoft.keepass.credentialprovider.passkey.data.PublicKeyCredentialRequestOptions
 import com.kunzisoft.keepass.credentialprovider.passkey.data.UserVerificationRequirement
+import com.kunzisoft.keepass.credentialprovider.passkey.util.PassHelper.getOrigin
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.DatabaseTaskProvider
 import com.kunzisoft.keepass.database.exception.RegisterInReadOnlyDatabaseException
@@ -57,11 +63,19 @@ import com.kunzisoft.keepass.database.helper.SearchHelper
 import com.kunzisoft.keepass.model.SearchInfo
 import com.kunzisoft.keepass.settings.PreferencesUtil.isPasskeyAutoSelectEnable
 import com.kunzisoft.keepass.view.toastError
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.io.IOException
 import java.time.Instant
 
 @RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
 class PasskeyProviderService : CredentialProviderService() {
+
+    private val job = SupervisorJob()
+    private val lifecycleScope = CoroutineScope(Dispatchers.Main + job)
 
     private var mDatabaseTaskProvider: DatabaseTaskProvider? = null
     private var mDatabase: ContextualDatabase? = null
@@ -90,16 +104,7 @@ class PasskeyProviderService : CredentialProviderService() {
     override fun onDestroy() {
         mDatabaseTaskProvider?.unregisterProgressTask()
         super.onDestroy()
-    }
-
-    private fun buildPasskeySearchInfo(
-        relyingParty: String,
-        credentialIds: List<String> = listOf()
-    ): SearchInfo {
-        return SearchInfo().apply {
-            this.relyingParty = relyingParty
-            this.credentialIds = credentialIds
-        }
+        job.cancel()
     }
 
     override fun onBeginGetCredentialRequest(
@@ -126,6 +131,12 @@ class PasskeyProviderService : CredentialProviderService() {
         var knownOption = false
         for (option in request.beginGetCredentialOptions) {
             when (option) {
+                is BeginGetPasswordOption -> {
+                    knownOption = true
+                    populatePasswordData(option, request.callingAppInfo) { listCredentials ->
+                        callback(BeginGetCredentialResponse(listCredentials))
+                    }
+                }
                 is BeginGetPublicKeyCredentialOption -> {
                     knownOption = true
                     populatePasskeyData(option) { listCredentials ->
@@ -136,6 +147,274 @@ class PasskeyProviderService : CredentialProviderService() {
         }
         if (knownOption.not()) {
             throw IOException("unknown type of beginGetCredentialOption")
+        }
+    }
+
+    override fun onBeginCreateCredentialRequest(
+        request: BeginCreateCredentialRequest,
+        cancellationSignal: CancellationSignal,
+        callback: OutcomeReceiver<BeginCreateCredentialResponse, CreateCredentialException>,
+    ) {
+        Log.d(javaClass.simpleName, "onBeginCreateCredentialRequest called")
+        try {
+            processCreateCredentialRequest(request) {
+                callback.onResult(BeginCreateCredentialResponse(it))
+            }
+        } catch (e: Exception) {
+            Log.e(javaClass.simpleName, "onBeginCreateCredentialRequest error", e)
+            toastError(e)
+            callback.onError(CreateCredentialUnknownException(e.localizedMessage))
+        }
+    }
+
+    private fun processCreateCredentialRequest(
+        request: BeginCreateCredentialRequest,
+        callback: (List<CreateEntry>) -> Unit
+    ) {
+        when (request) {
+            is BeginCreatePasswordCredentialRequest -> {
+                // Request is password type
+                handleCreatePasswordQuery(request, callback)
+            }
+            is BeginCreatePublicKeyCredentialRequest -> {
+                // Request is passkey type
+                handleCreatePasskeyQuery(request, callback)
+            }
+            else -> {
+                // request type not supported
+                throw IOException("unknown type of BeginCreateCredentialRequest")
+            }
+        }
+    }
+
+    override fun onClearCredentialStateRequest(
+        request: ProviderClearCredentialStateRequest,
+        cancellationSignal: CancellationSignal,
+        callback: OutcomeReceiver<Void?, ClearCredentialException>
+    ) {
+        // nothing to do
+    }
+
+    /*
+     * * * * PASSWORD * * * *
+     */
+
+    private fun buildPasswordSearchInfo(
+        callingAppInfo: CallingAppInfo?,
+        callback: (SearchInfo) -> Unit
+    ) {
+        lifecycleScope.launch {
+            withContext(Dispatchers.IO) {
+                getOrigin(
+                    callingAppInfo = callingAppInfo,
+                    context = applicationContext
+                ) { appOrigin ->
+                    withContext(Dispatchers.Main) {
+                        callback.invoke(SearchInfo().apply {
+                            this.applicationId = appOrigin.androidOrigins.firstOrNull()?.packageName
+                            this.webDomain = appOrigin.webOrigins.firstOrNull()?.origin
+                        })
+                    }
+                }
+            }
+        }
+    }
+
+    private fun populatePasswordData(
+        option: BeginGetPasswordOption,
+        callingAppInfo: CallingAppInfo?,
+        callback: (List<CredentialEntry>) -> Unit
+    ) {
+        buildPasswordSearchInfo(
+            callingAppInfo = callingAppInfo
+        ) { searchInfo ->
+            val passwordEntries: MutableList<CredentialEntry> = mutableListOf()
+            SearchHelper.checkAutoSearchInfo(
+                context = this,
+                database = mDatabase,
+                searchInfo = searchInfo,
+                onItemsFound = { database, items ->
+                    Log.d(TAG, "Add pending intent for password selection with found items")
+                    for (passwordEntry in items) {
+                        PasswordLauncherActivity.getPendingIntent(
+                            context = applicationContext,
+                            specialMode = SpecialMode.SELECTION,
+                            nodeId = passwordEntry.id,
+                            searchInfo = searchInfo,
+                            userVerifiedWithAuth = false
+                        )?.let { usagePendingIntent ->
+                            passwordEntries.add(
+                                PasswordCredentialEntry(
+                                    context = applicationContext,
+                                    username = passwordEntry.username.ifEmpty {
+                                        getString(R.string.credential_provider_database_username)
+                                    },
+                                    icon = passwordEntry.buildIcon(
+                                        this@PasskeyProviderService,
+                                        database
+                                    )?.apply {
+                                        setTintBlendMode(BlendMode.DST)
+                                    } ?: defaultIcon,
+                                    pendingIntent = usagePendingIntent,
+                                    beginGetPasswordOption = option,
+                                    displayName = passwordEntry.getVisualTitle(),
+                                    isAutoSelectAllowed = isAutoSelectAllowed
+                                )
+                            )
+                        }
+                    }
+                    callback(passwordEntries)
+                },
+                onItemNotFound = { _ ->
+                    Log.w(TAG, "No password found in the database for : $searchInfo")
+                    Log.d(TAG, "Add pending intent for password selection in opened database")
+                    PasswordLauncherActivity.getPendingIntent(
+                        context = applicationContext,
+                        specialMode = SpecialMode.SELECTION,
+                        searchInfo = searchInfo,
+                        userVerifiedWithAuth = false
+                    )?.let { pendingIntent ->
+                        passwordEntries.add(
+                            PasswordCredentialEntry(
+                                context = applicationContext,
+                                username = getString(R.string.credential_provider_database_username),
+                                displayName = getString(R.string.password_selection_description),
+                                icon = defaultIcon,
+                                pendingIntent = pendingIntent,
+                                beginGetPasswordOption = option,
+                                lastUsedTime = Instant.now(),
+                                isAutoSelectAllowed = isAutoSelectAllowed
+                            )
+                        )
+                    }
+                    callback(passwordEntries)
+                },
+                onDatabaseClosed = {
+                    Log.d(TAG, "Add pending intent for password selection in closed database")
+                    // Database is locked, a public key credential entry is shown to unlock it
+                    PasswordLauncherActivity.getPendingIntent(
+                        context = applicationContext,
+                        specialMode = SpecialMode.SELECTION,
+                        searchInfo = searchInfo,
+                        userVerifiedWithAuth = true
+                    )?.let { pendingIntent ->
+                        passwordEntries.add(
+                            PasswordCredentialEntry(
+                                context = applicationContext,
+                                username = getString(R.string.credential_provider_database_username),
+                                displayName = getString(R.string.credential_provider_locked_database_description),
+                                icon = defaultIcon,
+                                pendingIntent = pendingIntent,
+                                beginGetPasswordOption = option,
+                                lastUsedTime = Instant.now(),
+                                isAutoSelectAllowed = isAutoSelectAllowed
+                            )
+                        )
+                    }
+                    callback(passwordEntries)
+                }
+            )
+        }
+    }
+
+    private fun MutableList<CreateEntry>.addPendingIntentPasswordCreationNewEntry(
+        accountName: String,
+        searchInfo: SearchInfo?
+    ) {
+        Log.d(TAG, "Add pending intent for registration in opened database to create new item")
+        PasswordLauncherActivity.getPendingIntent(
+            context = applicationContext,
+            specialMode = SpecialMode.REGISTRATION,
+            searchInfo = searchInfo,
+            userVerifiedWithAuth = false
+        )?.let { pendingIntent ->
+            this.add(
+                CreateEntry(
+                    accountName = accountName,
+                    icon = defaultIcon,
+                    pendingIntent = pendingIntent,
+                    description = getString(R.string.password_creation_description)
+                )
+            )
+        }
+    }
+
+    private fun handleCreatePasswordQuery(
+        request: BeginCreatePasswordCredentialRequest,
+        callback: (List<CreateEntry>) -> Unit
+    ) {
+        val createEntries: MutableList<CreateEntry> = mutableListOf()
+        val appInfo = request.callingAppInfo
+        buildPasswordSearchInfo(
+            callingAppInfo = appInfo
+        ) { searchInfo ->
+            Log.d(TAG, "Build password search for $searchInfo")
+
+            val databaseName = mDatabase?.name
+            val accountName =
+                if (databaseName?.isBlank() != false)
+                    getString(R.string.credential_provider_database_username)
+                else databaseName
+            SearchHelper.checkAutoSearchInfo(
+                context = this,
+                database = mDatabase,
+                searchInfo = searchInfo,
+                onItemsFound = { database, _ ->
+                    if (database.isReadOnly) {
+                        throw RegisterInReadOnlyDatabaseException()
+                    } else {
+                        createEntries.addPendingIntentPasswordCreationNewEntry(
+                            accountName = accountName,
+                            searchInfo = searchInfo
+                        )
+                    }
+                    callback(createEntries)
+                },
+                onItemNotFound = { database ->
+                    if (database.isReadOnly) {
+                        throw RegisterInReadOnlyDatabaseException()
+                    } else {
+                        createEntries.addPendingIntentPasswordCreationNewEntry(
+                            accountName = accountName,
+                            searchInfo = searchInfo
+                        )
+                    }
+                    callback(createEntries)
+                },
+                onDatabaseClosed = {
+                    Log.d(TAG, "Add pending intent for password registration in closed database")
+                    PasswordLauncherActivity.getPendingIntent(
+                        context = applicationContext,
+                        specialMode = SpecialMode.REGISTRATION,
+                        searchInfo = searchInfo,
+                        userVerifiedWithAuth = true
+                    )?.let { pendingIntent ->
+                        createEntries.add(
+                            CreateEntry(
+                                accountName = accountName,
+                                icon = defaultIcon,
+                                pendingIntent = pendingIntent,
+                                description = getString(R.string.credential_provider_locked_database_description)
+                            )
+                        )
+                    }
+                    callback(createEntries)
+                }
+            )
+        }
+    }
+
+    /*
+     * * * * PASSKEY * * * *
+     */
+
+    private fun buildPasskeySearchInfo(
+        relyingParty: String,
+        credentialIds: List<String> = listOf()
+    ): SearchInfo {
+        return SearchInfo().apply {
+            this.relyingParty = relyingParty
+            this.credentialIds = credentialIds
         }
     }
 
@@ -164,6 +443,7 @@ class PasskeyProviderService : CredentialProviderService() {
                         context = applicationContext,
                         specialMode = SpecialMode.SELECTION,
                         nodeId = passkeyEntry.id,
+                        searchInfo = searchInfo,
                         appOrigin = passkeyEntry.appOrigin,
                         userVerification = userVerification,
                         userVerifiedWithAuth = false
@@ -203,7 +483,7 @@ class PasskeyProviderService : CredentialProviderService() {
                         passkeyEntries.add(
                             PublicKeyCredentialEntry(
                                 context = applicationContext,
-                                username = getString(R.string.passkey_database_username),
+                                username = getString(R.string.credential_provider_database_username),
                                 displayName = getString(R.string.passkey_selection_description),
                                 icon = defaultIcon,
                                 pendingIntent = pendingIntent,
@@ -236,8 +516,8 @@ class PasskeyProviderService : CredentialProviderService() {
                     passkeyEntries.add(
                         PublicKeyCredentialEntry(
                             context = applicationContext,
-                            username = getString(R.string.passkey_database_username),
-                            displayName = getString(R.string.passkey_locked_database_description),
+                            username = getString(R.string.credential_provider_database_username),
+                            displayName = getString(R.string.credential_provider_locked_database_description),
                             icon = defaultIcon,
                             pendingIntent = pendingIntent,
                             beginGetPublicKeyCredentialOption = option,
@@ -251,40 +531,7 @@ class PasskeyProviderService : CredentialProviderService() {
         )
     }
 
-    override fun onBeginCreateCredentialRequest(
-        request: BeginCreateCredentialRequest,
-        cancellationSignal: CancellationSignal,
-        callback: OutcomeReceiver<BeginCreateCredentialResponse, CreateCredentialException>,
-    ) {
-        Log.d(javaClass.simpleName, "onBeginCreateCredentialRequest called")
-        try {
-            processCreateCredentialRequest(request) {
-                callback.onResult(BeginCreateCredentialResponse(it))
-            }
-        } catch (e: Exception) {
-            Log.e(javaClass.simpleName, "onBeginCreateCredentialRequest error", e)
-            toastError(e)
-            callback.onError(CreateCredentialUnknownException(e.localizedMessage))
-        }
-    }
-
-    private fun processCreateCredentialRequest(
-        request: BeginCreateCredentialRequest,
-        callback: (List<CreateEntry>) -> Unit
-    ) {
-        when (request) {
-            is BeginCreatePublicKeyCredentialRequest -> {
-                // Request is passkey type
-                handleCreatePasskeyQuery(request, callback)
-            }
-            else -> {
-                // request type not supported
-                throw IOException("unknown type of BeginCreateCredentialRequest")
-            }
-        }
-    }
-
-    private fun MutableList<CreateEntry>.addPendingIntentCreationNewEntry(
+    private fun MutableList<CreateEntry>.addPendingIntentPasskeyCreationNewEntry(
         accountName: String,
         searchInfo: SearchInfo?,
         userVerification: UserVerificationRequirement
@@ -316,7 +563,7 @@ class PasskeyProviderService : CredentialProviderService() {
         val databaseName = mDatabase?.name
         val accountName =
             if (databaseName?.isBlank() != false)
-                getString(R.string.passkey_database_username)
+                getString(R.string.credential_provider_database_username)
             else databaseName
         val createEntries: MutableList<CreateEntry> = mutableListOf()
         val publicKeyCredentialCreationOptions = PublicKeyCredentialCreationOptions(
@@ -331,38 +578,16 @@ class PasskeyProviderService : CredentialProviderService() {
             context = this,
             database = mDatabase,
             searchInfo = searchInfo,
-            onItemsFound = { database, items ->
+            onItemsFound = { database, _ ->
                 if (database.isReadOnly) {
                     throw RegisterInReadOnlyDatabaseException()
                 } else {
                     // To create a new entry
-                    createEntries.addPendingIntentCreationNewEntry(
+                    createEntries.addPendingIntentPasskeyCreationNewEntry(
                         accountName = accountName,
                         searchInfo = searchInfo,
                         userVerification = userVerification
                     )
-                    /* TODO Overwrite
-                    // To select an existing entry and permit an overwrite
-                    Log.w(TAG, "Passkey already registered")
-                    for (entryInfo in items) {
-                        PasskeyHelper.getPendingIntent(
-                            context = applicationContext,
-                            specialMode = SpecialMode.REGISTRATION,
-                            searchInfo = searchInfo,
-                            passkeyEntryNodeId = entryInfo.id
-                        )?.let { createPendingIntent ->
-                            createEntries.add(
-                                CreateEntry(
-                                    accountName = accountName,
-                                    pendingIntent = createPendingIntent,
-                                    description = getString(
-                                        R.string.passkey_update_description,
-                                        entryInfo.passkey?.displayName
-                                    )
-                                )
-                            )
-                        }
-                    }*/
                 }
                 callback(createEntries)
             },
@@ -371,7 +596,7 @@ class PasskeyProviderService : CredentialProviderService() {
                 if (database.isReadOnly) {
                     throw RegisterInReadOnlyDatabaseException()
                 } else {
-                    createEntries.addPendingIntentCreationNewEntry(
+                    createEntries.addPendingIntentPasskeyCreationNewEntry(
                         accountName = accountName,
                         searchInfo = searchInfo,
                         userVerification = userVerification
@@ -385,6 +610,7 @@ class PasskeyProviderService : CredentialProviderService() {
                 PasskeyLauncherActivity.getPendingIntent(
                     context = applicationContext,
                     specialMode = SpecialMode.REGISTRATION,
+                    searchInfo = searchInfo,
                     userVerifiedWithAuth = true
                 )?.let { pendingIntent ->
                     createEntries.add(
@@ -392,21 +618,13 @@ class PasskeyProviderService : CredentialProviderService() {
                             accountName = accountName,
                             icon = defaultIcon,
                             pendingIntent = pendingIntent,
-                            description = getString(R.string.passkey_locked_database_description)
+                            description = getString(R.string.credential_provider_locked_database_description)
                         )
                     )
                 }
                 callback(createEntries)
             }
         )
-    }
-
-    override fun onClearCredentialStateRequest(
-        request: ProviderClearCredentialStateRequest,
-        cancellationSignal: CancellationSignal,
-        callback: OutcomeReceiver<Void?, ClearCredentialException>
-    ) {
-        // nothing to do
     }
 
     companion object {

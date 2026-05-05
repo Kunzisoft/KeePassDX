@@ -9,6 +9,9 @@ import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
@@ -18,6 +21,7 @@ import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.element.Attachment
 import com.kunzisoft.keepass.model.EntryAttachmentState
 import com.kunzisoft.keepass.model.EntryInfo
+import com.kunzisoft.keepass.model.FieldProtection
 import com.kunzisoft.keepass.model.StreamDirection
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.utils.TimeUtil.getDateTimeString
@@ -26,6 +30,7 @@ import com.kunzisoft.keepass.view.TemplateView
 import com.kunzisoft.keepass.view.hideByFading
 import com.kunzisoft.keepass.view.showByFading
 import com.kunzisoft.keepass.viewmodels.EntryViewModel
+import kotlinx.coroutines.launch
 
 class EntryFragment: DatabaseFragment() {
 
@@ -122,6 +127,22 @@ class EntryFragment: DatabaseFragment() {
                 }
             }
         }
+
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.RESUMED) {
+                mEntryViewModel.entryState.collect { entryState ->
+                    when (entryState) {
+                        is EntryViewModel.EntryState.Loading -> {}
+                        is EntryViewModel.EntryState.RequestCopyProtectedField -> {}
+                        is EntryViewModel.EntryState.OnFieldProtectionUpdated -> {
+                            updateField(entryState.fieldProtection)
+                            mEntryViewModel.actionPerformed()
+                        }
+                        is EntryViewModel.EntryState.OnChangeFieldProtectionRequested -> {}
+                    }
+                }
+            }
+        }
     }
 
     override fun onDatabaseRetrieved(database: ContextualDatabase) {
@@ -143,14 +164,14 @@ class EntryFragment: DatabaseFragment() {
     private fun assignEntryInfo(entryInfo: EntryInfo?) {
         // Set copy buttons
         templateView.apply {
-            setOnUnprotectClickListener { protectedFieldView ->
-                mEntryViewModel.requestUnprotectField(protectedFieldView)
+            setOnChangeFieldProtectionClickListener { fieldProtection ->
+                mEntryViewModel.requestChangeFieldProtection(fieldProtection)
             }
             setOnAskCopySafeClickListener {
                 showClipboardDialog()
             }
-            setOnCopyActionClickListener { field, protectedFieldView ->
-                mEntryViewModel.requestCopyField(field, protectedFieldView)
+            setOnCopyActionClickListener { fieldProtection ->
+                mEntryViewModel.requestCopyField(fieldProtection)
             }
         }
 
@@ -174,6 +195,10 @@ class EntryFragment: DatabaseFragment() {
 
         // Assign special data
         uuidReferenceView.text = entryInfo?.id?.asHexString()
+    }
+
+    fun updateField(field: FieldProtection) {
+        templateView.setFieldProtection(field)
     }
 
     private fun showClipboardDialog() {

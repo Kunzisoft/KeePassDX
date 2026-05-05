@@ -64,7 +64,7 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
     override var previousParentGroup: UUID = DatabaseVersioned.UUID_ZERO
     var qualityCheck = true
     var autoType = AutoType()
-    var history = ArrayList<EntryKDBX>()
+    var history = mutableListOf<EntryKDBX>()
     var additional = ""
 
     override var expires: Boolean = false
@@ -162,75 +162,76 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
 
     /**
      * Decode a reference key with the FieldReferencesEngine
-     * @param decodeRef
-     * @param key
-     * @return
      */
-    private fun decodeRefKey(decodeRef: Boolean, key: String, recursionLevel: Int): String {
-        return fields[key]?.toString()?.let { text ->
+    private fun decodeRefKey(decodeRef: Boolean, key: String, recursionLevel: Int): CharArray {
+        return fields[key]?.charArrayValue?.let { charArray ->
             return if (decodeRef) {
-                mDatabase?.getFieldReferenceValue(text, recursionLevel) ?: text
-            } else text
-        } ?: ""
+                mDatabase?.getFieldReferenceValue(
+                    entry = this,
+                    textReference = charArray,
+                    recursionLevel = recursionLevel
+                ) ?: charArray
+            } else charArray
+        } ?: charArrayOf()
     }
 
-    fun decodeTitleKey(recursionLevel: Int): String {
+    fun decodeTitleKey(recursionLevel: Int): CharArray {
         return decodeRefKey(mDecodeRef, STR_TITLE, recursionLevel)
     }
 
     override var title: String
-        get() = decodeTitleKey(0)
+        get() = String(decodeTitleKey(0))
         set(value) {
             val protect = mDatabase != null && mDatabase!!.memoryProtection.protectTitle
             fields[STR_TITLE] = ProtectedString(protect, value)
         }
 
-    fun decodeUsernameKey(recursionLevel: Int): String {
+    fun decodeUsernameKey(recursionLevel: Int): CharArray {
         return decodeRefKey(mDecodeRef, STR_USERNAME, recursionLevel)
     }
 
     override var username: String
-        get() = decodeUsernameKey(0)
+        get() = String(decodeUsernameKey(0))
         set(value) {
             val protect = mDatabase != null && mDatabase!!.memoryProtection.protectUserName
             fields[STR_USERNAME] = ProtectedString(protect, value)
         }
 
-    fun decodePasswordKey(recursionLevel: Int): String {
+    fun decodePasswordKey(recursionLevel: Int): CharArray {
         return decodeRefKey(mDecodeRef, STR_PASSWORD, recursionLevel)
     }
 
-    override var password: String
+    override var password: CharArray
         get() = decodePasswordKey(0)
         set(value) {
             val protect = mDatabase != null && mDatabase!!.memoryProtection.protectPassword
             fields[STR_PASSWORD] = ProtectedString(protect, value)
         }
 
-    fun decodeUrlKey(recursionLevel: Int): String {
+    fun decodeUrlKey(recursionLevel: Int): CharArray {
         return decodeRefKey(mDecodeRef, STR_URL, recursionLevel)
     }
 
     override var url
-        get() = decodeUrlKey(0)
+        get() = String(decodeUrlKey(0))
         set(value) {
             val protect = mDatabase != null && mDatabase!!.memoryProtection.protectUrl
             fields[STR_URL] = ProtectedString(protect, value)
         }
 
-    fun decodeNotesKey(recursionLevel: Int): String {
+    fun decodeNotesKey(recursionLevel: Int): CharArray {
         return decodeRefKey(mDecodeRef, STR_NOTES, recursionLevel)
     }
 
     override var notes: String
-        get() = decodeNotesKey(0)
+        get() = String(decodeNotesKey(0))
         set(value) {
             val protect = mDatabase != null && mDatabase!!.memoryProtection.protectNotes
             fields[STR_NOTES] = ProtectedString(protect, value)
         }
 
-    fun getCustomFieldValue(label: String): String {
-        return decodeRefKey(mDecodeRef, label, 0)
+    fun getCustomFieldValue(label: String, recursionLevel: Int = 0): CharArray {
+        return decodeRefKey(mDecodeRef, label, recursionLevel)
     }
 
     fun getSize(attachmentPool: AttachmentPool): Long {
@@ -314,7 +315,7 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
      * It's a list because history labels can be defined multiple times
      */
     fun getAttachments(attachmentPool: AttachmentPool, inHistory: Boolean = false): List<Attachment> {
-        val entryAttachmentList = ArrayList<Attachment>()
+        val entryAttachmentList = mutableListOf<Attachment>()
         for ((label, poolId) in binaries) {
             attachmentPool[poolId]?.let { binary ->
                 entryAttachmentList.add(Attachment(label, binary))
@@ -375,6 +376,10 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
         return if (index != -1) {
             history.removeAt(index)
         } else null
+    }
+
+    fun clearHistory() {
+        history.clear()
     }
 
     override fun touch(modified: Boolean, touchParents: Boolean) {

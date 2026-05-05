@@ -36,8 +36,8 @@ import com.kunzisoft.keepass.activities.dialogs.UnavailableFeatureDialogFragment
 import com.kunzisoft.keepass.activities.stylish.Stylish
 import com.kunzisoft.keepass.app.database.FileDatabaseHistoryAction
 import com.kunzisoft.keepass.biometric.DeviceUnlockManager
-import com.kunzisoft.keepass.credentialprovider.autofill.KeeAutofillService.Companion.isKeeAutofillActivated
 import com.kunzisoft.keepass.credentialprovider.autofill.KeeAutofillService.Companion.showAutofillDeviceSettings
+import com.kunzisoft.keepass.credentialprovider.autofill.isKeeAutofillActivated
 import com.kunzisoft.keepass.credentialprovider.magikeyboard.MagikeyboardService.Companion.isMagikeyboardActivated
 import com.kunzisoft.keepass.credentialprovider.magikeyboard.MagikeyboardService.Companion.showKeyboardDeviceSettings
 import com.kunzisoft.keepass.education.Education
@@ -448,6 +448,7 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
             getString(R.string.list_entries_show_username_key),
             getString(R.string.list_groups_show_number_entries_key),
             getString(R.string.recursive_number_entries_key),
+            getString(R.string.show_tags_key),
             getString(R.string.show_otp_token_key),
             getString(R.string.show_uuid_key),
             getString(R.string.list_size_key),

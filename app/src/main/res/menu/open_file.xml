@@ -25,4 +25,10 @@
         android:orderInCategory="61"
         app:iconTint="?attr/colorControlNormal"
         app:showAsAction="ifRoom" />
+    <item android:id="@+id/menu_open_file_user_verification_mode_key"
+        android:icon="@drawable/ic_user_verification_enabled_white_24dp"
+        android:title="@string/menu_user_verification_enabled"
+        android:orderInCategory="62"
+        app:iconTint="?attr/colorControlNormal"
+        app:showAsAction="ifRoom" />
 </menu>

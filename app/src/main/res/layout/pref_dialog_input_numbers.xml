@@ -37,6 +37,7 @@
 		app:layout_constraintStart_toStartOf="parent"
 		app:layout_constraintEnd_toEndOf="parent"
         style="@style/KeepassDXStyle.Text.Preferences.Explanation"/>
+
 	<com.google.android.material.materialswitch.MaterialSwitch
 		android:id="@+id/switch_element"
 		android:layout_marginTop="12dp"
@@ -73,6 +74,15 @@
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			tools:text="MiB" />
+
+		<Button
+			android:id="@+id/explanation_button"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginHorizontal="4dp"
+			android:visibility="gone"
+			tools:visibility="visible"
+			tools:text="Benchmark"/>
 	</LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

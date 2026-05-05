@@ -33,8 +33,9 @@
     <dimen name="card_view_margin_vertical">5dp</dimen>
     <dimen name="card_view_padding">14dp</dimen>
     <dimen name="item_file_info_height">148dp</dimen>
-    <dimen name="lock_button_size">48dp</dimen>
-    <dimen name="hidden_lock_button_size">0dp</dimen>
+    <dimen name="actionbar_button_size">48dp</dimen>
+    <dimen name="actionbar_button_big_size">72dp</dimen>
+    <dimen name="hidden_actionbar_button_size">0dp</dimen>
     <dimen name="content_percent">1</dimen>
     <dimen name="dialog_radius">24dp</dimen>
     <dimen name="card_radius">12dp</dimen>

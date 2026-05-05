@@ -24,6 +24,7 @@ import android.text.SpannableString
 import android.text.Spanned
 import android.text.style.StrikethroughSpan
 import android.util.AttributeSet
+import android.util.Log
 import android.view.LayoutInflater
 import android.widget.FrameLayout
 import android.widget.ImageView
@@ -33,10 +34,11 @@ import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.element.DateInstant
 import com.kunzisoft.keepass.utils.TimeUtil.getDateTimeString
 
-class DateTimeFieldView @JvmOverloads constructor(context: Context,
-                                                  attrs: AttributeSet? = null,
-                                                  defStyle: Int = 0)
-    : FrameLayout(context, attrs, defStyle), GenericDateTimeFieldView {
+class DateTimeFieldView @JvmOverloads constructor(
+    context: Context,
+    attrs: AttributeSet? = null,
+    defStyle: Int = 0
+) : FrameLayout(context, attrs, defStyle), GenericDateTimeFieldView {
 
     private var dateTimeLabelView: TextView
     private var dateTimeValueView: TextView
@@ -137,24 +139,34 @@ class DateTimeFieldView @JvmOverloads constructor(context: Context,
             assignExpiresDateText()
         }
 
-    override var value: String
+    override var value: CharArray
         get() {
-            return if (activation) dateTime.toString() else ""
+            return if (activation) dateTime.toCharArray() else CharArray(0)
         }
         set(value) {
             mDateTime = try {
                 DateInstant(value)
             } catch (e: Exception) {
+                Log.e(
+                    DateTimeFieldView::class.simpleName,
+                    "Unable to parse date $value",
+                    e
+                )
                 mDefault
             }
         }
 
-    override var default: String
-        get() = mDefault.toString()
+    override var default: CharArray
+        get() = mDefault.toCharArray()
         set(value) {
             mDefault = try {
                 DateInstant(value)
             } catch (e: Exception) {
+                Log.e(
+                    DateTimeFieldView::class.simpleName,
+                    "Unable to parse date $value",
+                    e
+                )
                 mDefault
             }
         }

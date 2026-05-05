@@ -194,7 +194,6 @@
     <string name="delete_entered_password_title">പാസ്സ്‌വേഡ് ഇല്ലാതാക്കുക</string>
     <string name="autofill_block">ഓട്ടോഫിൽ തടയുക</string>
     <string name="keyboard_theme_title">കീബോർഡ് തീം</string>
-    <string name="keyboard_notification_entry_content_text">%1$s</string>
     <string name="keyboard_notification_entry_clear_close_title">അടയ്‌ക്കുമ്പോൾ മായ്ക്കുക</string>
     <string name="keyboard_setting_label">Magikeyboard ക്രമീകരണങ്ങൾ</string>
     <string name="keyboard_name">Magikeyboard</string>

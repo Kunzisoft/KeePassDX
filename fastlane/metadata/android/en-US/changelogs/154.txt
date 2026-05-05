@@ -1,0 +1,4 @@
+ * Fix 16 KB ELF alignment #2074
+ * Fix image viewer toolbar #2431
+ * Fix OTP display in notification #2457
+ * Fix Timeout settings #2427

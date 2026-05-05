@@ -78,9 +78,8 @@ import com.kunzisoft.keepass.credentialprovider.TypeMode
 import com.kunzisoft.keepass.credentialprovider.UserVerificationActionType
 import com.kunzisoft.keepass.credentialprovider.UserVerificationData
 import com.kunzisoft.keepass.credentialprovider.UserVerificationHelper.Companion.checkUserVerification
-import com.kunzisoft.keepass.credentialprovider.UserVerificationHelper.Companion.isUserVerificationNeeded
-import com.kunzisoft.keepass.credentialprovider.magikeyboard.MagikeyboardService
 import com.kunzisoft.keepass.credentialprovider.passkey.util.PasskeyHelper.buildPasskeyResponseAndSetResult
+import com.kunzisoft.keepass.credentialprovider.passkey.util.PasswordHelper.buildPasswordResponseAndSetResult
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.element.DateInstant
 import com.kunzisoft.keepass.database.element.Entry
@@ -100,6 +99,7 @@ import com.kunzisoft.keepass.model.GroupInfo
 import com.kunzisoft.keepass.model.RegisterInfo
 import com.kunzisoft.keepass.model.SearchInfo
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_ENTRY_TASK
+import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_GROUP_TASK
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.getNewEntry
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.settings.SettingsActivity
@@ -125,7 +125,7 @@ import com.kunzisoft.keepass.view.setTransparentNavigationBar
 import com.kunzisoft.keepass.view.showActionErrorIfNeeded
 import com.kunzisoft.keepass.view.showError
 import com.kunzisoft.keepass.view.toastError
-import com.kunzisoft.keepass.view.updateLockPaddingStart
+import com.kunzisoft.keepass.view.updateButtonPaddingStart
 import com.kunzisoft.keepass.viewmodels.GroupEditViewModel
 import com.kunzisoft.keepass.viewmodels.GroupViewModel
 import com.kunzisoft.keepass.viewmodels.MainCredentialViewModel
@@ -227,7 +227,7 @@ class GroupActivity : DatabaseLockActivity(),
     private val mOnSearchActionExpandListener = object : MenuItem.OnActionExpandListener {
         override fun onMenuItemActionExpand(p0: MenuItem): Boolean {
             searchFiltersView?.visibility = View.VISIBLE
-            searchFiltersView?.showSearchExpandButton(!mTempSearchInfo)
+            searchFiltersView?.allowAdvancedSearch(!mTempSearchInfo)
             searchView?.setOnQueryTextListener(mOnSearchQueryTextListener)
             searchFiltersView?.onParametersChangeListener = mOnSearchFiltersChangeListener
 
@@ -367,22 +367,37 @@ class GroupActivity : DatabaseLockActivity(),
                         SettingsActivity.launch(this@GroupActivity, true)
                     }
                     R.id.menu_merge_from -> {
-                        checkUserVerification(
-                            userVerificationViewModel = mUserVerificationViewModel,
-                            dataToVerify = UserVerificationData(
-                                actionType = UserVerificationActionType.MERGE_FROM_DATABASE,
-                                database = mDatabase
+                        if (mDatabaseAllowUserVerification) {
+                            checkUserVerification(
+                                userVerificationViewModel = mUserVerificationViewModel,
+                                dataToVerify = UserVerificationData(
+                                    actionType = UserVerificationActionType.MERGE_FROM_DATABASE,
+                                    database = mDatabase
+                                )
                             )
-                        )
+                        } else {
+                            // Open document picker directly without verification
+                            mExternalFileHelper?.openDocument()
+                        }
                     }
                     R.id.menu_save_copy_to -> {
-                        checkUserVerification(
-                            userVerificationViewModel = mUserVerificationViewModel,
-                            dataToVerify = UserVerificationData(
-                                actionType = UserVerificationActionType.SAVE_DATABASE_COPY_TO,
-                                database = mDatabase
+                        if (mDatabaseAllowUserVerification) {
+                            checkUserVerification(
+                                userVerificationViewModel = mUserVerificationViewModel,
+                                dataToVerify = UserVerificationData(
+                                    actionType = UserVerificationActionType.SAVE_DATABASE_COPY_TO,
+                                    database = mDatabase
+                                )
                             )
-                        )
+                        } else {
+                            // Create document directly without verification
+                            mExternalFileHelper?.createDocument(
+                                getString(R.string.database_file_name_default) +
+                                        "_" +
+                                        LocalDateTime.now().toString() +
+                                        mDatabase?.defaultFileExtension
+                            )
+                        }
                     }
                     R.id.menu_lock_all -> {
                         lockAndExit()
@@ -760,13 +775,16 @@ class GroupActivity : DatabaseLockActivity(),
                             when (typeMode) {
                                 TypeMode.DEFAULT -> {}
                                 TypeMode.MAGIKEYBOARD -> entry?.let {
-                                    entrySelectedForKeyboardSelection(database, it)
+                                    entrySelectedForSelection(database, it)
+                                }
+                                TypeMode.AUTOFILL -> entry?.let {
+                                    entrySelectedForSelection(database, it)
                                 }
                                 TypeMode.PASSKEY -> entry?.let {
                                     entrySelectedForPasskeySelection(database, it)
                                 }
-                                TypeMode.AUTOFILL -> entry?.let {
-                                    entrySelectedForAutofillSelection(database, it)
+                                TypeMode.PASSWORD -> entry?.let {
+                                    entrySelectedForPasswordSelection(database, it)
                                 }
                             }
                         },
@@ -775,6 +793,11 @@ class GroupActivity : DatabaseLockActivity(),
                         }
                     )
                 }
+            }
+        }
+        if (actionTask == ACTION_DATABASE_UPDATE_GROUP_TASK
+            || actionTask == ACTION_DATABASE_UPDATE_ENTRY_TASK) {
+            if (result.isSuccess) {
                 coordinatorError?.showActionErrorIfNeeded(result)
                 // Reload the group
                 loadGroup()
@@ -843,15 +866,19 @@ class GroupActivity : DatabaseLockActivity(),
         val group = mCurrentGroup
         // Assign title
         if (group?.isVirtual == true) {
-            searchFiltersView?.setNumbers(group.numberOfChildEntries)
-            searchFiltersView?.setCurrentGroupText(mMainGroup?.title ?: getString(R.string.search))
-            searchFiltersView?.availableOther(mDatabase?.allowEntryCustomFields() ?: false)
-            searchFiltersView?.availableApplicationIds(mDatabase?.allowEntryCustomFields() ?: false)
-            searchFiltersView?.availableTags(mDatabase?.allowTags() ?: false)
-            searchFiltersView?.enableTags(mDatabase?.tagPool?.isNotEmpty() ?: false)
-            searchFiltersView?.availableSearchableGroup(mDatabase?.allowCustomSearchableGroup() ?: false)
-            searchFiltersView?.availableTemplates(mDatabase?.allowTemplatesGroup ?: false)
-            searchFiltersView?.enableTemplates(mDatabase?.templatesGroup != null)
+            val tags = mDatabase?.tagPoolWithoutHistory
+            searchFiltersView?.apply {
+                setNumbers(group.numberOfChildEntries)
+                setSelectableTags(tags)
+                setCurrentGroupText(mMainGroup?.title ?: getString(R.string.search))
+                availableOther(mDatabase?.allowEntryCustomFields() ?: false)
+                availableApplicationIds(mDatabase?.allowEntryCustomFields() ?: false)
+                availableTags(mDatabase?.allowTags() ?: false)
+                enableTags(tags?.isNotEmpty() ?: false)
+                availableSearchableGroup(mDatabase?.allowCustomSearchableGroup() ?: false)
+                availableTemplates(mDatabase?.allowTemplatesGroup ?: false)
+                enableTemplates(mDatabase?.templatesGroup != null)
+            }
         } else {
             // Add breadcrumb
             setBreadcrumbNode(group)
@@ -931,37 +958,36 @@ class GroupActivity : DatabaseLockActivity(),
                         when (typeMode) {
                             TypeMode.DEFAULT -> {}
                             TypeMode.MAGIKEYBOARD -> {
-                                if (!database.isReadOnly
-                                    && searchInfo != null
+                                if (entryVersioned.allowedToSaveSearchInfo(database, searchInfo)
                                     && PreferencesUtil.isKeyboardSaveSearchInfoEnable(this@GroupActivity)
-                                    && entryVersioned.containsSearchInfo(database, searchInfo).not()
                                 ) {
                                     updateEntryWithRegisterInfo(
                                         database,
                                         entryVersioned,
-                                        searchInfo.toRegisterInfo()
+                                        searchInfo!!.toRegisterInfo()
                                     )
                                 } else {
-                                    entrySelectedForKeyboardSelection(database, entryVersioned)
+                                    entrySelectedForSelection(database, entryVersioned)
                                 }
+                            }
+                            TypeMode.AUTOFILL -> {
+                                if (entryVersioned.allowedToSaveSearchInfo(database, searchInfo)
+                                    && PreferencesUtil.isAutofillSaveSearchInfoEnable(this@GroupActivity)
+                                ) {
+                                    updateEntryWithRegisterInfo(
+                                        database,
+                                        entryVersioned,
+                                        searchInfo!!.toRegisterInfo()
+                                    )
+                                } else {
+                                    entrySelectedForSelection(database, entryVersioned)
+                                }
+                            }
+                            TypeMode.PASSWORD -> {
+                                entrySelectedForPasswordSelection(database, entryVersioned)
                             }
                             TypeMode.PASSKEY -> {
                                 entrySelectedForPasskeySelection(database, entryVersioned)
-                            }
-                            TypeMode.AUTOFILL -> {
-                                if (!database.isReadOnly
-                                    && searchInfo != null
-                                    && PreferencesUtil.isAutofillSaveSearchInfoEnable(this@GroupActivity)
-                                    && entryVersioned.containsSearchInfo(database, searchInfo).not()
-                                ) {
-                                    updateEntryWithRegisterInfo(
-                                        database,
-                                        entryVersioned,
-                                        searchInfo.toRegisterInfo()
-                                    )
-                                } else {
-                                    entrySelectedForAutofillSelection(database, entryVersioned)
-                                }
                             }
                         }
                         loadGroup()
@@ -986,18 +1012,20 @@ class GroupActivity : DatabaseLockActivity(),
         }
     }
 
-    private fun entrySelectedForKeyboardSelection(database: ContextualDatabase, entry: Entry) {
+    private fun entrySelectedForSelection(database: ContextualDatabase, entry: Entry) {
         removeSearch()
         // Build response with the entry selected
         this.buildSpecialModeResponseAndSetResult(entry.getEntryInfo(database))
         onValidateSpecialMode()
     }
 
-    private fun entrySelectedForAutofillSelection(database: ContextualDatabase, entry: Entry) {
+    private fun entrySelectedForPasswordSelection(database: ContextualDatabase, entry: Entry) {
         removeSearch()
         // Build response with the entry selected
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            this.buildSpecialModeResponseAndSetResult(entry.getEntryInfo(database))
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+            buildPasswordResponseAndSetResult(
+                entryInfo = entry.getEntryInfo(database)
+            )
         }
         onValidateSpecialMode()
     }
@@ -1050,15 +1078,19 @@ class GroupActivity : DatabaseLockActivity(),
         updateEntry(entry, newEntry)
     }
 
-    private fun Entry.containsSearchInfo(
+    private fun Entry.allowedToSaveSearchInfo(
         database: ContextualDatabase,
-        searchInfo: SearchInfo
+        searchInfo: SearchInfo?
     ): Boolean {
-        return getEntryInfo(
+        if (database.isReadOnly)
+            return false
+        if (searchInfo == null || searchInfo.toString().isEmpty())
+            return false
+        return !(getEntryInfo(
             database,
             raw = true,
             removeTemplateConfiguration = false
-        ).containsSearchInfo(searchInfo)
+        ).containsSearchInfo(searchInfo))
     }
 
     private fun editEntry(database: ContextualDatabase?, entryId: NodeId<*>?) {
@@ -1124,7 +1156,7 @@ class GroupActivity : DatabaseLockActivity(),
                 launchDialogForGroupUpdate(node as Group)
             }
             Type.ENTRY -> {
-                if ((node as Entry).getEntryInfo(database).isUserVerificationNeeded()) {
+                if (mDatabaseAllowUserVerification) {
                     checkUserVerification(
                         userVerificationViewModel = mUserVerificationViewModel,
                         dataToVerify = UserVerificationData(
@@ -1229,7 +1261,7 @@ class GroupActivity : DatabaseLockActivity(),
             View.GONE
         }
         // Padding if lock button visible
-        toolbarAction?.updateLockPaddingStart()
+        toolbarAction?.updateButtonPaddingStart()
 
         loadGroup()
     }
@@ -1720,20 +1752,31 @@ class GroupActivity : DatabaseLockActivity(),
                             when (typeMode) {
                                 TypeMode.DEFAULT -> {}
                                 TypeMode.MAGIKEYBOARD -> {
-                                    MagikeyboardService.performSelection(
+                                    activity.buildSpecialModeResponseAndSetResult(items)
+                                    onValidateSpecialMode()
+                                }
+                                TypeMode.AUTOFILL -> {
+                                    // Response is build
+                                    activity.buildSpecialModeResponseAndSetResult(items)
+                                    onValidateSpecialMode()
+                                }
+                                TypeMode.PASSWORD -> {
+                                    EntrySelectionHelper.performSelection(
                                         items = items,
-                                        actionPopulateKeyboard = { _ ->
-                                            activity.buildSpecialModeResponseAndSetResult(items)
+                                        actionPopulateCredentialProvider = { entryInfo ->
+                                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+                                                activity.buildPasswordResponseAndSetResult(entryInfo)
+                                            }
                                             onValidateSpecialMode()
                                         },
-                                        actionEntrySelection = { autoSearch ->
+                                        actionEntrySelection = {
                                             launchForSelection(
                                                 context = activity,
                                                 database = database,
-                                                typeMode = TypeMode.MAGIKEYBOARD,
+                                                typeMode = TypeMode.PASSWORD,
                                                 searchInfo = searchInfo,
                                                 activityResultLauncher = activityResultLauncher,
-                                                autoSearch = autoSearch
+                                                autoSearch = true
                                             )
                                             onLaunchActivitySpecialMode()
                                         }
@@ -1761,11 +1804,6 @@ class GroupActivity : DatabaseLockActivity(),
                                             onLaunchActivitySpecialMode()
                                         }
                                     )
-                                }
-                                TypeMode.AUTOFILL -> {
-                                    // Response is build
-                                    activity.buildSpecialModeResponseAndSetResult(items)
-                                    onValidateSpecialMode()
                                 }
                             }
                         },

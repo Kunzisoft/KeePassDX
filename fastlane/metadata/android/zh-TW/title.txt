@@ -1,1 +1,1 @@
-KeePassDX Pass(key/word) Vault
+KeePassDX 密碼（金鑰/單字）保險庫

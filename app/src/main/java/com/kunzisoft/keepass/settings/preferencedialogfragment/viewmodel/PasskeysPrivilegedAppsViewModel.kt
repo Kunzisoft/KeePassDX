@@ -13,13 +13,14 @@ import com.kunzisoft.keepass.credentialprovider.passkey.util.PrivilegedAllowList
 import com.kunzisoft.keepass.utils.AppUtil.getInstalledBrowsersWithSignatures
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 @RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
 class PasskeysPrivilegedAppsViewModel(application: Application): AndroidViewModel(application) {
 
     private val _uiState = MutableStateFlow<UiState>(UiState.Loading)
-    val uiState: StateFlow<UiState> = _uiState
+    val uiState: StateFlow<UiState> = _uiState.asStateFlow()
 
     fun retrievePrivilegedAppsToSelect() {
         viewModelScope.launch {

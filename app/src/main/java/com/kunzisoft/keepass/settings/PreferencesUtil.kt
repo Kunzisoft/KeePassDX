@@ -25,6 +25,7 @@ import android.content.SharedPreferences
 import android.content.res.Resources
 import android.net.Uri
 import android.util.Log
+import androidx.core.content.edit
 import androidx.preference.PreferenceManager
 import com.kunzisoft.keepass.BuildConfig
 import com.kunzisoft.keepass.R
@@ -35,6 +36,7 @@ import com.kunzisoft.keepass.database.search.SearchParameters
 import com.kunzisoft.keepass.education.Education
 import com.kunzisoft.keepass.password.PassphraseGenerator
 import com.kunzisoft.keepass.timeout.TimeoutHelper
+import com.kunzisoft.keepass.timeout.TimeoutHelper.NEVER
 import com.kunzisoft.keepass.utils.AppUtil.isContributingUser
 import com.kunzisoft.keepass.utils.KeyboardUtil.isKeyboardActivatedInSettings
 import java.util.Properties
@@ -156,6 +158,12 @@ object PreferencesUtil {
             context.resources.getBoolean(R.bool.recursive_number_entries_default))
     }
 
+    fun showTags(context: Context): Boolean {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        return prefs.getBoolean(context.getString(R.string.show_tags_key),
+            context.resources.getBoolean(R.bool.show_tags_default))
+    }
+
     fun showOTPToken(context: Context): Boolean {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
         return prefs.getBoolean(context.getString(R.string.show_otp_token_key),
@@ -186,10 +194,9 @@ object PreferencesUtil {
         }
         // Store light style to show selection in array list
         tempThemeString = Stylish.retrieveEquivalentLightStyle(context, tempThemeString)
-        PreferenceManager.getDefaultSharedPreferences(context)
-            .edit()
-            .putString(context.getString(R.string.setting_style_key), tempThemeString)
-            .apply()
+        PreferenceManager.getDefaultSharedPreferences(context).edit {
+            putString(context.getString(R.string.setting_style_key), tempThemeString)
+        }
         Stylish.load(context)
     }
 
@@ -362,6 +369,8 @@ object PreferencesUtil {
                 context.resources.getBoolean(R.bool.search_option_uuid_default))
             searchInTags = prefs.getBoolean(context.getString(R.string.search_option_tag_key),
                 context.resources.getBoolean(R.bool.search_option_tag_default))
+            tagsToSearch = prefs.getStringSet(context.getString(R.string.search_option_selected_tags_key),
+                HashSet())?.toList() ?: emptyList()
             searchInCurrentGroup = prefs.getBoolean(context.getString(R.string.search_option_current_group_key),
                 context.resources.getBoolean(R.bool.search_option_current_group_default))
             searchInSearchableGroup = prefs.getBoolean(context.getString(R.string.search_option_searchable_group_key),
@@ -401,6 +410,8 @@ object PreferencesUtil {
                 searchParameters.searchInUUIDs)
             putBoolean(context.getString(R.string.search_option_tag_key),
                 searchParameters.searchInTags)
+            putStringSet(context.getString(R.string.search_option_selected_tags_key),
+                searchParameters.tagsToSearch.toSet())
             putBoolean(context.getString(R.string.search_option_current_group_key),
                 searchParameters.searchInCurrentGroup)
             putBoolean(context.getString(R.string.search_option_searchable_group_key),
@@ -414,7 +425,7 @@ object PreferencesUtil {
     }
 
     /**
-     * Save current time, can be retrieve with `getTimeSaved()`
+     * Save current time, can be retrieved with `getTimeSaved()`
      */
     fun saveCurrentTime(context: Context) {
         PreferenceManager.getDefaultSharedPreferences(context).edit().apply {
@@ -428,8 +439,7 @@ object PreferencesUtil {
      */
     fun getTimeSaved(context: Context): Long {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
-        return prefs.getLong(context.getString(R.string.timeout_backup_key),
-            TimeoutHelper.NEVER)
+        return prefs.getLong(context.getString(R.string.timeout_backup_key), NEVER)
     }
 
     /**
@@ -437,9 +447,11 @@ object PreferencesUtil {
      */
     fun getAppTimeout(context: Context): Long {
         return try {
-            val prefs = PreferenceManager.getDefaultSharedPreferences(context)
-            (prefs.getString(context.getString(R.string.app_timeout_key),
-                context.getString(R.string.timeout_default)) ?: "300000").toLong()
+            val timeout = PreferenceManager.getDefaultSharedPreferences(context)
+                .getString(context.getString(R.string.app_timeout_key),
+                context.getString(R.string.timeout_default)
+                )?.toLong() ?: TimeoutHelper.DEFAULT_TIMEOUT
+            if (timeout <= NEVER) NEVER else timeout
         } catch (_: NumberFormatException) {
             TimeoutHelper.DEFAULT_TIMEOUT
         }
@@ -450,6 +462,12 @@ object PreferencesUtil {
         return prefs.getString(context.getString(R.string.clipboard_timeout_key),
             context.getString(R.string.clipboard_timeout_default))?.toLong()
             ?: TimeoutHelper.DEFAULT_TIMEOUT
+    }
+
+    fun isOtpNotificationEnable(context: Context): Boolean {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        return prefs.getBoolean(context.getString(R.string.clipboard_otp_notifications_key),
+            context.resources.getBoolean(R.bool.clipboard_otp_notifications_default))
     }
 
     fun getDeviceUnlockTimeout(context: Context): Long {
@@ -584,11 +602,10 @@ object PreferencesUtil {
     }
 
     fun setAllowCopyPasswordAndProtectedFields(context: Context, allowCopy: Boolean) {
-        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
-        prefs.edit()
-            .putBoolean(context.getString(R.string.allow_copy_password_first_time_key), false)
-            .putBoolean(context.getString(R.string.allow_copy_password_key), allowCopy)
-            .apply()
+        PreferenceManager.getDefaultSharedPreferences(context).edit {
+            putBoolean(context.getString(R.string.allow_copy_password_first_time_key), false)
+                .putBoolean(context.getString(R.string.allow_copy_password_key), allowCopy)
+        }
     }
 
     fun getIconPackSelectedId(context: Context): String? {
@@ -648,6 +665,12 @@ object PreferencesUtil {
             context.resources.getBoolean(R.bool.keyboard_key_sound_default))
     }
 
+    fun isAutoSwitchToMagikeyboardEnable(context: Context): Boolean {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        return prefs.getBoolean(context.getString(R.string.keyboard_auto_switch_key),
+            context.resources.getBoolean(R.bool.keyboard_auto_switch_default))
+    }
+
     fun isKeyboardPreviousDatabaseCredentialsEnable(context: Context): Boolean {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
         return prefs.getBoolean(context.getString(R.string.keyboard_previous_database_credentials_key),
@@ -678,13 +701,20 @@ object PreferencesUtil {
             context.resources.getBoolean(R.bool.passkeys_close_database_default))
     }
 
+    // Deprecated, only used to avoid confusing users who have already enabled the setting
+    fun isUserVerificationModeEnabledByDefault(context: Context): Boolean {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        return prefs.getBoolean(context.getString(R.string.user_verification_mode_key),
+            context.resources.getBoolean(R.bool.user_verification_mode_default))
+    }
+
     fun isUserVerificationDeviceCredential(context: Context): Boolean {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
         return prefs.getBoolean(context.getString(R.string.user_verification_device_credential_key),
             context.resources.getBoolean(R.bool.user_verification_device_credential_default))
     }
 
-    fun isUserVerificationPreferred(context: Context): Boolean {
+    fun isUserVerificationForcedWhenPreferred(context: Context): Boolean {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
         return prefs.getBoolean(context.getString(R.string.user_verification_preferred_key),
             context.resources.getBoolean(R.bool.user_verification_preferred_default))
@@ -728,6 +758,12 @@ object PreferencesUtil {
             context.resources.getBoolean(R.bool.autofill_manual_selection_default))
     }
 
+    fun isAutofillSharedToMagikeyboardEnable(context: Context): Boolean {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        return prefs.getBoolean(context.getString(R.string.autofill_share_magikeyboard_key),
+            context.resources.getBoolean(R.bool.autofill_share_magikeyboard_default))
+    }
+
     fun isAutofillSaveSearchInfoEnable(context: Context): Boolean {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
         return prefs.getBoolean(context.getString(R.string.autofill_save_search_info_key),
@@ -757,10 +793,18 @@ object PreferencesUtil {
             ?: emptySet()
     }
 
+    /**
+     * Retrieve the default Blocklist for web domain, including localhost
+     */
+    fun getDefaultWebDomainBlocklist(resources: Resources?): Set<String> {
+        return resources?.getStringArray(R.array.autofill_web_domain_blocklist_default)
+            ?.toMutableSet() ?: emptySet()
+    }
+
     fun webDomainBlocklist(context: Context): Set<String> {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
         return prefs.getStringSet(context.getString(R.string.autofill_web_domain_blocklist_key),
-            context.resources.getStringArray(R.array.autofill_web_domain_blocklist_default).toMutableSet())
+            getDefaultWebDomainBlocklist(context.resources))
             ?: emptySet()
     }
 
@@ -768,18 +812,21 @@ object PreferencesUtil {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
         val setItems: MutableSet<String> = applicationIdBlocklist(context).toMutableSet()
         setItems.add(applicationId)
-        prefs.edit()
-            .putStringSet(context.getString(R.string.autofill_application_id_blocklist_key), setItems)
-            .apply()
+        prefs.edit {
+            putStringSet(
+                context.getString(R.string.autofill_application_id_blocklist_key),
+                setItems
+            )
+        }
     }
 
     fun addWebDomainToBlocklist(context: Context, webDomain: String) {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
         val setItems: MutableSet<String> = webDomainBlocklist(context).toMutableSet()
         setItems.add(webDomain)
-        prefs.edit()
-            .putStringSet(context.getString(R.string.autofill_web_domain_blocklist_key), setItems)
-            .apply()
+        prefs.edit {
+            putStringSet(context.getString(R.string.autofill_web_domain_blocklist_key), setItems)
+        }
     }
 
     fun getAppProperties(context: Context): Properties {
@@ -805,15 +852,19 @@ object PreferencesUtil {
                                            putProperty: (editor: SharedPreferences.Editor,
                                                          name: String,
                                                          value: String) -> Unit) {
-        preferences.edit().apply {
+        preferences.edit {
             for ((name, value) in properties) {
                 try {
                     putProperty(this, name as String, value as String)
-                } catch (e:Exception) {
-                    Log.e("PreferencesUtil", "Error when trying to parse app property $name=$value", e)
+                } catch (e: Exception) {
+                    Log.e(
+                        "PreferencesUtil",
+                        "Error when trying to parse app property $name=$value",
+                        e
+                    )
                 }
             }
-        }.apply()
+        }
     }
 
     fun setAppProperties(context: Context, properties: Properties) {
@@ -822,6 +873,7 @@ object PreferencesUtil {
             when (name) {
                 context.getString(R.string.allow_no_password_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.delete_entered_password_key) -> editor.putBoolean(name, value.toBoolean())
+                context.getString(R.string.user_verification_mode_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.user_verification_device_credential_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.enable_auto_save_database_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.enable_keep_screen_on_key) -> editor.putBoolean(name, value.toBoolean())
@@ -832,6 +884,7 @@ object PreferencesUtil {
                 context.getString(R.string.lock_database_back_root_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.lock_database_show_button_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.allow_copy_password_key) -> editor.putBoolean(name, value.toBoolean())
+                context.getString(R.string.clipboard_otp_notifications_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.remember_database_locations_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.show_recent_files_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.hide_broken_locations_key) -> editor.putBoolean(name, value.toBoolean())
@@ -852,6 +905,7 @@ object PreferencesUtil {
                 context.getString(R.string.keyboard_auto_go_action_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.keyboard_key_vibrate_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.keyboard_key_sound_key) -> editor.putBoolean(name, value.toBoolean())
+                context.getString(R.string.keyboard_auto_switch_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.keyboard_previous_database_credentials_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.keyboard_previous_search_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.keyboard_previous_fill_in_key) -> editor.putBoolean(name, value.toBoolean())
@@ -864,6 +918,7 @@ object PreferencesUtil {
                 context.getString(R.string.autofill_close_database_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.autofill_inline_suggestions_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.autofill_manual_selection_key) -> editor.putBoolean(name, value.toBoolean())
+                context.getString(R.string.autofill_share_magikeyboard_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.autofill_save_search_info_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.autofill_ask_to_save_data_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.autofill_application_id_blocklist_key) -> editor.putStringSet(name, getStringSetFromProperties(value))
@@ -879,6 +934,7 @@ object PreferencesUtil {
                 context.getString(R.string.list_entries_show_username_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.list_groups_show_number_entries_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.recursive_number_entries_key) -> editor.putBoolean(name, value.toBoolean())
+                context.getString(R.string.show_tags_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.show_otp_token_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.show_uuid_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.list_size_key) -> editor.putString(name, value)

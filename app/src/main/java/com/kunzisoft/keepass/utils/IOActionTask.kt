@@ -45,7 +45,7 @@ class IOActionTask<T>(
                         action.invoke()
                     } ?: try {
                         action.invoke()
-                    } catch (e: Exception) {
+                    } catch (e: Throwable) {
                         e.printStackTrace()
                         null
                     }

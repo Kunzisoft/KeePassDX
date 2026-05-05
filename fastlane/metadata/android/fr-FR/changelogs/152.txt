@@ -1,0 +1,8 @@
+ * Selection du mode de Vérification Utilisateur lors de l'ouverture de la base de données #2321
+ * Correction du rechargement de la base de données #2334
+ * Correction des champs protégés selectionnables #2345
+ * Correction du flux de travail du fournisseur d'informations par mot de passe #2353
+ * Correction du chargement infini #2277
+ * Correction de la reconnaissance des webview #2348 #2343 #2349 #1716
+ * Correction du Magiclavier #2356 #2357
+ * Correction d'affichage du champ protégé #2350

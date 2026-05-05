@@ -22,7 +22,11 @@ package com.kunzisoft.keepass.database.element.entry
 import android.util.Log
 import com.kunzisoft.keepass.database.element.database.DatabaseKDBX
 import com.kunzisoft.keepass.database.element.node.NodeIdUUID
-import com.kunzisoft.keepass.utils.UUIDUtils.asHexString
+import com.kunzisoft.keepass.utils.CharArrayUtil.clear
+import com.kunzisoft.keepass.utils.CharArrayUtil.contains
+import com.kunzisoft.keepass.utils.CharArrayUtil.indexOf
+import com.kunzisoft.keepass.utils.CharArrayUtil.replace
+import com.kunzisoft.keepass.utils.UUIDUtils.asHexCharArray
 import com.kunzisoft.keepass.utils.UUIDUtils.asUUID
 import java.util.concurrent.ConcurrentHashMap
 
@@ -30,78 +34,119 @@ class FieldReferencesEngine(private val mDatabase: DatabaseKDBX) {
 
     // Key : <WantedField>@<SearchIn>:<Text>
     // Value : content
-    private var refsCache = ConcurrentHashMap<String, String?>()
+    private var refsCache = ConcurrentHashMap<String, CharArray>()
 
     fun clear() {
+        refsCache.values.forEach { it.clear() }
         refsCache.clear()
     }
 
-    fun compile(textReference: String, recursionLevel: Int): String {
+    fun compile(entry: EntryKDBX, textReference: CharArray, recursionLevel: Int): CharArray {
         return if (recursionLevel >= MAX_RECURSION_DEPTH) {
-            ""
-        } else
-            fillReferencesPlaceholders(textReference, recursionLevel)
+            CharArray(0)
+        } else {
+            fillReferencesPlaceholders(entry, textReference, recursionLevel)
+        }
     }
 
     /**
      * Manage placeholders with {REF:<WantedField>@<SearchIn>:<Text>}
      */
-    private fun fillReferencesPlaceholders(textReference: String, recursionLevel: Int): String {
+    private fun fillReferencesPlaceholders(
+        currentEntry: EntryKDBX,
+        textReference: CharArray,
+        recursionLevel: Int
+    ): CharArray {
         var textValue = textReference
 
         var offset = 0
         var numberInlineRef = 0
-        while (textValue.contains(STR_REF_START)
-                && numberInlineRef <= MAX_INLINE_REF) {
+        while ((textValue.contains(STR_SELF_REF_START) || textValue.contains(STR_REF_START))
+            && numberInlineRef <= MAX_INLINE_REF
+        ) {
+            val selfReference = textValue.contains(STR_SELF_REF_START)
             numberInlineRef++
 
             try {
-                textValue = fillReferencesUsingCache(textValue)
+                val nextTextValue = fillReferencesUsingCache(currentEntry, textValue)
+                if (textValue !== textReference) {
+                    textValue.clear()
+                }
+                textValue = nextTextValue
 
-                val start = textValue.indexOf(STR_REF_START, offset, true)
+                val startingDelimiter = if (selfReference) STR_SELF_REF_START else STR_REF_START
+                val endingDelimiter = STR_REF_END
+
+                val start = textValue.indexOf(startingDelimiter, offset, ignoreCase = true)
                 if (start < 0) {
                     break
                 }
-                val end = textValue.indexOf(STR_REF_END, offset, true)
+                val end = textValue.indexOf(endingDelimiter, offset, ignoreCase = true)
                 if (end <= start) {
                     break
                 }
 
-                val reference = textValue.substring(start + STR_REF_START.length, end)
-                val fullReference = "$STR_REF_START$reference$STR_REF_END"
+                val reference = String(textValue, start + startingDelimiter.length, end - (start + startingDelimiter.length))
+                val fullReference = "$startingDelimiter$reference$endingDelimiter".let {
+                    if (selfReference) it + "@I:${currentEntry.id}"
+                    else it
+                }
 
                 if (!refsCache.containsKey(fullReference)) {
                     val newRecursionLevel = recursionLevel + 1
-                    val result = findReferenceTarget(reference, newRecursionLevel)
-                    val entryFound = result.entry
-                    val data: String? = when (result.wanted) {
-                        'T' -> entryFound?.decodeTitleKey(newRecursionLevel)
-                        'U' -> entryFound?.decodeUsernameKey(newRecursionLevel)
-                        'A' -> entryFound?.decodeUrlKey(newRecursionLevel)
-                        'P' -> entryFound?.decodePasswordKey(newRecursionLevel)
-                        'N' -> entryFound?.decodeNotesKey(newRecursionLevel)
-                        'I' -> entryFound?.nodeId?.id?.asHexString()
-                        else -> null
+                    val data: CharArray? = if (selfReference) {
+                        reference.split(":")
+                            .let { currentEntry
+                                .getCustomFieldValue(it.last(), newRecursionLevel)
+                            }
+                    } else {
+                        with(findReferenceTarget(reference, newRecursionLevel)) {
+                            when (wanted) {
+                                'T' -> entry?.decodeTitleKey(newRecursionLevel)
+                                'U' -> entry?.decodeUsernameKey(newRecursionLevel)
+                                'A' -> entry?.decodeUrlKey(newRecursionLevel)
+                                'P' -> entry?.decodePasswordKey(newRecursionLevel)
+                                'N' -> entry?.decodeNotesKey(newRecursionLevel)
+                                'I' -> entry?.nodeId?.id?.asHexCharArray()
+                                else -> null
+                            }
+                        }
                     }
-                    refsCache[fullReference] = data
-                    textValue = fillReferencesUsingCache(textValue)
+                    refsCache[fullReference] = data?.copyOf() ?: CharArray(0)
+                    
+                    val updatedTextValue = fillReferencesUsingCache(currentEntry, textValue)
+                    if (textValue !== textReference) {
+                        textValue.clear()
+                    }
+                    textValue = updatedTextValue
                 }
 
                 offset = end
             } catch (e: Exception) {
                 Log.e(TAG, "Error when fill placeholders by reference", e)
+                break
             }
         }
         return textValue
     }
 
-    private fun fillReferencesUsingCache(text: String): String {
-        var newText = text
+    private fun fillReferencesUsingCache(entry: EntryKDBX, text: CharArray): CharArray {
+        var result = text
         refsCache.keys.forEach { key ->
-            // Replace by key if value not found
-            newText = newText.replace(key, refsCache[key] ?: key, true)
+            val placeholder = key.takeIf { it.startsWith(STR_SELF_REF_START, true) }
+                ?.split("@")?.takeIf { it.last() == "I:${entry.id}" }?.first()
+                ?: key
+
+            val replacement = refsCache[key]
+            if (replacement != null) {
+                val nextResult = result.replace(placeholder, replacement, ignoreCase = true)
+                if (nextResult !== result && result !== text) {
+                    result.clear()
+                }
+                result = nextResult
+            }
         }
-        return newText
+        return result
     }
 
     private fun findReferenceTarget(reference: String, recursionLevel: Int): TargetResult {
@@ -125,7 +170,7 @@ class FieldReferencesEngine(private val mDatabase: DatabaseKDBX) {
             'T' -> mDatabase.getEntryByTitle(searchQuery, recursionLevel)
             'U' -> mDatabase.getEntryByUsername(searchQuery, recursionLevel)
             'A' -> mDatabase.getEntryByURL(searchQuery, recursionLevel)
-            'P' -> mDatabase.getEntryByPassword(searchQuery, recursionLevel)
+            'P' -> mDatabase.getEntryByPassword(searchQuery.toCharArray(), recursionLevel)
             'N' -> mDatabase.getEntryByNotes(searchQuery, recursionLevel)
             'I' -> {
                 searchQuery.asUUID()?.let { uuid ->
@@ -144,6 +189,7 @@ class FieldReferencesEngine(private val mDatabase: DatabaseKDBX) {
         private const val MAX_RECURSION_DEPTH = 10
         private const val MAX_INLINE_REF = 10
         private const val STR_REF_START = "{REF:"
+        private const val STR_SELF_REF_START = "{S:"
         private const val STR_REF_END = "}"
 
         private val TAG = FieldReferencesEngine::class.java.name

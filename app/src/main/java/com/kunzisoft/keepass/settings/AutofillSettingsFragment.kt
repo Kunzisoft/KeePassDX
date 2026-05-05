@@ -27,6 +27,7 @@ import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.TwoStatePreference
 import com.kunzisoft.keepass.R
+import com.kunzisoft.keepass.credentialprovider.magikeyboard.MagikeyboardService.Companion.isMagikeyboardActivated
 import com.kunzisoft.keepass.settings.preferencedialogfragment.AutofillBlocklistAppIdPreferenceDialogFragmentCompat
 import com.kunzisoft.keepass.settings.preferencedialogfragment.AutofillBlocklistWebDomainPreferenceDialogFragmentCompat
 
@@ -46,6 +47,10 @@ class AutofillSettingsFragment : PreferenceFragmentCompat() {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.P) {
             autofillAskSaveDataPreference?.isVisible = false
         }
+
+        // Disable autofill share if magikeyboard not activated
+        val autofillShareMagikeyboardPreference: TwoStatePreference? = findPreference(getString(R.string.autofill_share_magikeyboard_key))
+        autofillShareMagikeyboardPreference?.isEnabled = context?.isMagikeyboardActivated() == true
     }
 
     override fun onDisplayPreferenceDialog(preference: Preference) {

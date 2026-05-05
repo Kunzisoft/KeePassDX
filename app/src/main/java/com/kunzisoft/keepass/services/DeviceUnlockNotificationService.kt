@@ -13,11 +13,11 @@ import android.os.IBinder
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.app.database.CipherDatabaseEntity
 import com.kunzisoft.keepass.settings.PreferencesUtil
-import com.kunzisoft.keepass.timeout.TimeoutHelper
+import com.kunzisoft.keepass.timeout.TimeoutHelper.NEVER
 
 class DeviceUnlockNotificationService : NotificationService() {
 
-    private lateinit var mTempCipherDao: ArrayList<CipherDatabaseEntity>
+    private lateinit var mTempCipherDao: MutableList<CipherDatabaseEntity>
 
     private var mActionTaskBinder = DeviceUnlockBinder()
 
@@ -57,7 +57,7 @@ class DeviceUnlockNotificationService : NotificationService() {
 
     override fun onCreate() {
         super.onCreate()
-        mTempCipherDao = ArrayList()
+        mTempCipherDao = mutableListOf()
     }
 
     // It's simpler to use pendingIntent to perform REMOVE_DEVICE_UNLOCK_KEY_ACTION
@@ -90,11 +90,12 @@ class DeviceUnlockNotificationService : NotificationService() {
 
         val notificationTimeoutMilliSecs = PreferencesUtil.getDeviceUnlockTimeout(this)
         // Not necessarily a foreground service
-        if (mTimerJob == null && notificationTimeoutMilliSecs != TimeoutHelper.NEVER) {
+        if (mTimerJob == null && notificationTimeoutMilliSecs > NEVER) {
             defineTimerJob(
-                notificationBuilder,
-                NotificationServiceType.DEVICE_UNLOCK,
-                notificationTimeoutMilliSecs
+                builder = notificationBuilder,
+                type = NotificationServiceType.DEVICE_UNLOCK,
+                timeoutMilliseconds = notificationTimeoutMilliSecs,
+                actionAfterASecond = null
             ) {
                 sendBroadcast(Intent(REMOVE_DEVICE_UNLOCK_KEY_ACTION))
             }

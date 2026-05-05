@@ -32,10 +32,11 @@ import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.password.PasswordEntropy
 
 
-class PasskeyTextFieldView @JvmOverloads constructor(context: Context,
-                                                     attrs: AttributeSet? = null,
-                                                     defStyle: Int = 0)
-    : PasswordTextFieldView(context, attrs, defStyle) {
+class PasskeyTextFieldView @JvmOverloads constructor(
+    context: Context,
+    attrs: AttributeSet? = null,
+    defStyle: Int = 0
+) : PasswordTextFieldView(context, attrs, defStyle) {
 
     private var relyingPartyViewId = ViewCompat.generateViewId()
     private var usernameViewId = ViewCompat.generateViewId()
@@ -144,7 +145,7 @@ class PasskeyTextFieldView @JvmOverloads constructor(context: Context,
         addView(usernameView)
     }
 
-    override var default: String = ""
+    override var default: CharArray = CharArray(0)
     override var isFieldVisible: Boolean = true
 
     var relyingParty: String

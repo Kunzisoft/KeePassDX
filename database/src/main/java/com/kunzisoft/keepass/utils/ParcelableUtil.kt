@@ -254,6 +254,26 @@ fun Parcel.writeByteArrayCompat(data: ByteArray?) {
     }
 }
 
+fun Parcel.readCharArrayCompat(): CharArray? {
+    val dataLength = readInt()
+    return if (dataLength >= 0) {
+        val data = CharArray(dataLength)
+        readCharArray(data)
+        data
+    } else {
+        null
+    }
+}
+
+fun Parcel.writeCharArrayCompat(data: CharArray?) {
+    if (data != null) {
+        writeInt(data.size)
+        writeCharArray(data)
+    } else {
+        writeInt(-1)
+    }
+}
+
 inline fun <reified T : Enum<T>> Parcel.readEnum() =
     readString()?.let { enumValueOf<T>(it) }
 

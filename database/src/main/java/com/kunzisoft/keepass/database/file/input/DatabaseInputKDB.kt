@@ -23,20 +23,35 @@ package com.kunzisoft.keepass.database.file.input
 import android.graphics.Color
 import com.kunzisoft.encrypt.HashManager
 import com.kunzisoft.keepass.database.crypto.EncryptionAlgorithm
-import com.kunzisoft.keepass.database.element.DateInstant
 import com.kunzisoft.keepass.database.element.database.DatabaseKDB
 import com.kunzisoft.keepass.database.element.entry.EntryKDB
 import com.kunzisoft.keepass.database.element.group.GroupKDB
 import com.kunzisoft.keepass.database.element.node.NodeIdInt
 import com.kunzisoft.keepass.database.element.node.NodeIdUUID
-import com.kunzisoft.keepass.database.exception.*
+import com.kunzisoft.keepass.database.exception.DatabaseInputException
+import com.kunzisoft.keepass.database.exception.InvalidAlgorithmDatabaseException
+import com.kunzisoft.keepass.database.exception.InvalidCredentialsDatabaseException
+import com.kunzisoft.keepass.database.exception.NoMemoryDatabaseException
+import com.kunzisoft.keepass.database.exception.SignatureDatabaseException
+import com.kunzisoft.keepass.database.exception.VersionDatabaseException
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDB
 import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
-import com.kunzisoft.keepass.utils.*
-import java.io.*
+import com.kunzisoft.keepass.utils.UnsignedInt
+import com.kunzisoft.keepass.utils.readBytes
+import com.kunzisoft.keepass.utils.readBytes16ToUuid
+import com.kunzisoft.keepass.utils.readBytes2ToUShort
+import com.kunzisoft.keepass.utils.readBytes4ToUInt
+import com.kunzisoft.keepass.utils.readBytes5ToDate
+import com.kunzisoft.keepass.utils.readBytesLength
+import com.kunzisoft.keepass.utils.readBytesToCharArray
+import com.kunzisoft.keepass.utils.readBytesToString
+import java.io.BufferedInputStream
+import java.io.BufferedOutputStream
+import java.io.IOException
+import java.io.InputStream
+import java.io.UnsupportedEncodingException
 import java.security.DigestInputStream
 import java.security.MessageDigest
-import java.util.*
 import javax.crypto.Cipher
 import javax.crypto.CipherInputStream
 
@@ -205,7 +220,7 @@ class DatabaseInputKDB(database: DatabaseKDB)
                             group.icon.standard = mDatabase.getStandardIcon(cipherInputStream.readBytes4ToUInt().toKotlinInt())
                         } ?:
                         newEntry?.let { entry ->
-                            entry.password = cipherInputStream.readBytesToString(fieldSize,false)
+                            entry.password = cipherInputStream.readBytesToCharArray(fieldSize, false)
                         }
                     }
                     0x0008 -> {
@@ -304,7 +319,7 @@ class DatabaseInputKDB(database: DatabaseKDB)
                 }
             }
             // Check sum
-            if (!Arrays.equals(messageDigest.digest(), header.contentsHash)) {
+            if (!messageDigest.digest().contentEquals(header.contentsHash)) {
                 throw InvalidCredentialsDatabaseException()
             }
             constructTreeFromIndex(groupLevelList)

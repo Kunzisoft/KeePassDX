@@ -30,7 +30,7 @@ import com.kunzisoft.keepass.database.exception.CopyEntryDatabaseException
 import com.kunzisoft.keepass.database.exception.CopyGroupDatabaseException
 import com.kunzisoft.keepass.hardware.HardwareKey
 
-class CopyNodesRunnable constructor(
+class CopyNodesRunnable(
     context: Context,
     database: ContextualDatabase,
     private val mNodesToCopy: List<Node>,
@@ -40,7 +40,7 @@ class CopyNodesRunnable constructor(
     challengeResponseRetriever: (HardwareKey, ByteArray?) -> ByteArray
 ) : ActionNodeDatabaseRunnable(context, database, afterActionNodesFinish, save, challengeResponseRetriever) {
 
-    private var mEntriesCopied = ArrayList<Entry>()
+    private var mEntriesCopied = mutableListOf<Entry>()
 
     override fun nodeAction() {
 

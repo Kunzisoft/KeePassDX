@@ -50,21 +50,26 @@ class ClipboardHelper(context: Context) {
         return mClipboardManager
     }
 
-    fun timeoutCopyToClipboard(label: String, text: String, sensitive: Boolean = false) {
+    fun timeoutCopyToClipboard(label: String, value: CharSequence, sensitive: Boolean = false) {
         try {
-            copyToClipboard(label, text, sensitive)
-        } catch (e: Exception) {
+            copyToClipboard(label, value, sensitive)
+        } catch (_: Exception) {
             showClipboardErrorDialog()
             return
         }
 
         val clipboardTimeout = PreferencesUtil.getClipboardTimeout(mAppContext)
         if (clipboardTimeout > 0) {
-            mTimer.schedule(ClearClipboardTask(text), clipboardTimeout)
+            mTimer.schedule(ClearClipboardTask(value), clipboardTimeout)
         }
     }
 
-    fun copyToClipboard(label: String, value: String, sensitive: Boolean = false) {
+    fun timeoutCopyToClipboard(label: String, value: CharArray?, sensitive: Boolean = false) {
+        if (value == null) return
+        timeoutCopyToClipboard(label, String(value), sensitive)
+    }
+
+    fun copyToClipboard(label: String, value: CharSequence, sensitive: Boolean = false) {
         getClipboardManager()?.setPrimaryClip(ClipData.newPlainText(DEFAULT_LABEL, value).apply {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                 description.extras = PersistableBundle().apply {
@@ -84,6 +89,11 @@ class ClipboardHelper(context: Context) {
         }
     }
 
+    fun copyToClipboard(label: String, value: CharArray?, sensitive: Boolean = false) {
+        if (value == null) return
+        copyToClipboard(label, String(value), sensitive)
+    }
+
     fun cleanClipboard() {
         try {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
@@ -97,7 +107,7 @@ class ClipboardHelper(context: Context) {
     }
 
     // Task which clears the clipboard, and sends a toast to the foreground.
-    private inner class ClearClipboardTask (private val mClearText: String) : TimerTask() {
+    private inner class ClearClipboardTask (private val mClearText: CharSequence) : TimerTask() {
         override fun run() {
             if (getClipboard(mAppContext).toString() == mClearText) {
                 cleanClipboard()

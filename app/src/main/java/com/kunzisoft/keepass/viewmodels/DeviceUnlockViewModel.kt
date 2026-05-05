@@ -24,6 +24,7 @@ import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
@@ -88,7 +89,7 @@ class DeviceUnlockViewModel(application: Application): AndroidViewModel(applicat
     }
 
     private val _uiState = MutableStateFlow(DeviceUnlockState())
-    val uiState: StateFlow<DeviceUnlockState> = _uiState
+    val uiState: StateFlow<DeviceUnlockState> = _uiState.asStateFlow()
 
     init {
         AppLifecycleObserver.appJustLaunched
@@ -118,7 +119,7 @@ class DeviceUnlockViewModel(application: Application): AndroidViewModel(applicat
     }
 
     /**
-     * Check unlock availability and change the current mode depending of device's state
+     * Check unlock availability and change the current mode depending on device's state
      */
     fun checkUnlockAvailability() {
         if (PreferencesUtil.isBiometricUnlockEnable(getApplication())) {
@@ -289,10 +290,11 @@ class DeviceUnlockViewModel(application: Application): AndroidViewModel(applicat
         // retrieve the encrypted value from preferences
         cancelAndLaunchCipherJob {
             databaseUri?.let { databaseUri ->
-                cipherDatabase?.encryptedValue?.let { encryptedCredential ->
+                cipherDatabase?.let { cipherDb ->
                     deviceUnlockManager?.decryptData(
-                        encryptedValue = encryptedCredential,
+                        encryptedValue = cipherDb.encryptedValue,
                         cipher = cipher,
+                        ivSpecValue = cipherDb.specParameters,
                         handleDecryptedResult = { decryptedValue ->
                             // Load database directly with password retrieve
                             onCredentialDecrypted(

@@ -90,3 +90,6 @@ releases/*
 .directory
 */.directory
 .idea
+
+# Local scripts
+scripts/*

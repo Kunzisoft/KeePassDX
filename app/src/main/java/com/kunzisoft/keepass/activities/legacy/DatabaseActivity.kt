@@ -134,6 +134,13 @@ abstract class DatabaseActivity : StylishActivity(), DatabaseRetrieval {
                                     )
                                 }
                             }
+                            is DatabaseViewModel.ActionState.ShowDatabaseInfoReloadedDialog -> {
+                                if (manageDatabaseInfo()) {
+                                    showDatabaseInfoReloadedDialog(
+                                        uiState.fixDuplicateUuid
+                                    )
+                                }
+                            }
                             is DatabaseViewModel.ActionState.OnDatabaseActionRequested -> {
                                 startDatabasePermissionService(
                                     uiState.bundle,
@@ -271,6 +278,19 @@ abstract class DatabaseActivity : StylishActivity(), DatabaseRetrieval {
                     DATABASE_CHANGED_DIALOG_TAG
                 )
             }
+        }
+    }
+
+    private fun showDatabaseInfoReloadedDialog(fixDuplicateUuid: Boolean) {
+        lifecycleScope.launch {
+            AlertDialog.Builder(this@DatabaseActivity)
+                .setMessage(R.string.warning_database_info_reloaded)
+                .setNegativeButton(android.R.string.cancel) { _, _ ->
+                    mDatabaseViewModel.cancelAction()
+                }
+                .setPositiveButton(android.R.string.ok) { _, _ ->
+                    mDatabaseViewModel.reloadDatabase(fixDuplicateUuid, forceReload = true)
+                }.create().show()
         }
     }
 

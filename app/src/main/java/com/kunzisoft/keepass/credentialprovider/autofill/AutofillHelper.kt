@@ -48,7 +48,6 @@ import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper.buildIcon
 import com.kunzisoft.keepass.credentialprovider.activity.AutofillLauncherActivity
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.element.icon.IconImage
-import com.kunzisoft.keepass.database.element.template.TemplateField
 import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.model.SearchInfo
 import com.kunzisoft.keepass.settings.AutofillSettingsActivity
@@ -209,16 +208,38 @@ object AutofillHelper {
         struct.passwordId?.let { passwordId ->
             datasetBuilder.addValueToDatasetBuilder(
                 passwordId,
-                AutofillValue.forText(entryInfo.password)
+                AutofillValue.forText(String(entryInfo.password))
+            )
+        }
+
+        // Credit Card
+        val creditCard = entryInfo.creditCard
+        struct.creditCardHolderId?.let { ccNameId ->
+            datasetBuilder.addValueToDatasetBuilder(
+                ccNameId,
+                AutofillValue.forText(creditCard?.cardholder)
+            )
+        }
+        struct.creditCardNumberId?.let { ccnId ->
+            datasetBuilder.addValueToDatasetBuilder(
+                ccnId,
+                AutofillValue.forText(creditCard?.number?.let { String(it) })
+            )
+        }
+        struct.cardVerificationValueId?.let { ccnId ->
+            datasetBuilder.addValueToDatasetBuilder(
+                ccnId,
+                AutofillValue.forText(creditCard?.cvv?.let { String(it) })
             )
         }
 
         if (entryInfo.expires) {
-            val year = entryInfo.expiryTime.getYear()
-            val month = entryInfo.expiryTime.getMonth()
+            val expiration = entryInfo.expiryTime
+            val year = expiration.getYear()
+            val month = expiration.getMonth()
             val monthString = month.toString().padStart(2, '0')
-            val day = entryInfo.expiryTime.getDay()
-            val dayString = day.toString().padStart(2, '0')
+            val day = expiration.getDay()
+            val dayString = day.toString().padEnd(2, '0')
 
             struct.creditCardExpirationDateId?.let {
                 if (struct.isWebView) {
@@ -301,32 +322,17 @@ object AutofillHelper {
                 }
             }
         }
-        for (field in entryInfo.getCustomFieldsForFilling()) {
-            if (field.name == TemplateField.LABEL_HOLDER) {
-                struct.creditCardHolderId?.let { ccNameId ->
-                    datasetBuilder.addValueToDatasetBuilder(
-                        ccNameId,
-                        AutofillValue.forText(field.protectedValue.stringValue)
-                    )
-                }
-            }
-            if (field.name == TemplateField.LABEL_NUMBER) {
-                struct.creditCardNumberId?.let { ccnId ->
-                    datasetBuilder.addValueToDatasetBuilder(
-                        ccnId,
-                        AutofillValue.forText(field.protectedValue.stringValue)
-                    )
-                }
-            }
-            if (field.name == TemplateField.LABEL_CVV) {
-                struct.cardVerificationValueId?.let { cvvId ->
-                    datasetBuilder.addValueToDatasetBuilder(
-                        cvvId,
-                        AutofillValue.forText(field.protectedValue.stringValue)
-                    )
-                }
+
+        // OTP
+        struct.otpTokenId?.let { otpTokenId ->
+            entryInfo.getOtpToken()?.let {
+                datasetBuilder.addValueToDatasetBuilder(
+                    otpTokenId,
+                    AutofillValue.forText(String(it))
+                )
             }
         }
+
         val dataset = datasetBuilder.build()
         Log.d(TAG, "Autofill Dataset $dataset created")
         return dataset
@@ -561,7 +567,7 @@ object AutofillHelper {
         if (entriesInfo.isEmpty()) {
             throw IOException("No entries found")
         } else {
-            StructureParser(autofillComponent.assistStructure).parse()?.let { result ->
+            StructureParser(autofillComponent.assistStructure).parseOrNull()?.let { result ->
                 // New Response
                 onIntentCreated(Intent().putExtra(
                     AutofillManager.EXTRA_AUTHENTICATION_RESULT,

@@ -17,8 +17,8 @@
   You should have received a copy of the GNU General Public License
   along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/breadcrumb_group"
     android:layout_width="wrap_content"
@@ -46,19 +46,28 @@
             android:contentDescription="@string/hint_icon_name"
             app:tint="?attr/colorOnSurface"
             android:scaleType="fitXY" />
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/group_name"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="start|center_vertical"
-            android:text="@string/root"
-            android:maxLines="2"
-            android:ellipsize="end"
-            style="@style/KeepassDXStyle.Title.Group"
-            android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"/>
+            android:layout_marginHorizontal="8dp"
+            android:orientation="vertical">
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/group_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start|center_vertical"
+                android:text="@string/root"
+                android:maxLines="2"
+                android:ellipsize="end"
+                style="@style/KeepassDXStyle.Title.Group"/>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/group_tags_list_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                android:orientation="horizontal"/>
+        </LinearLayout>
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/group_separator"
             android:layout_width="wrap_content"

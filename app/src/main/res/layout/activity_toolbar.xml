@@ -17,47 +17,53 @@
   You should have received a copy of the GNU General Public License
   along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:fitsSystemWindows="true"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:filterTouchesWhenObscured="true"
-    android:background="?android:attr/windowBackground">
-
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
-        android:id="@+id/toolbar_coordinator"
+    android:background="?attr/colorSurface"
+    android:filterTouchesWhenObscured="true">
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/screenshot_mode_banner" >
+        android:layout_height="match_parent"
+        android:background="?android:attr/windowBackground">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:id="@+id/toolbar_coordinator"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="0dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/screenshot_mode_banner" >
 
-            <include layout="@layout/toolbar_default"
-                app:layout_constraintTop_toTopOf="parent"/>
-
-            <FrameLayout
-                android:id="@+id/fragment_container"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                app:layout_constraintTop_toBottomOf="@+id/toolbar"
-                app:layout_constraintBottom_toBottomOf="parent"/>
+                android:layout_height="match_parent">
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                <include layout="@layout/toolbar_default"
+                    app:layout_constraintTop_toTopOf="parent"/>
 
-        <include
-            layout="@layout/view_button_lock"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|start"
-            app:layout_anchorGravity="bottom|start"
-            app:layout_dodgeInsetEdges="bottom" />
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+                <FrameLayout
+                    android:id="@+id/fragment_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    app:layout_constraintTop_toBottomOf="@+id/toolbar"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
 
-    <include layout="@layout/view_screenshot_mode_banner"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+            <include
+                layout="@layout/view_button_lock"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|start"
+                app:layout_anchorGravity="bottom|start"
+                app:layout_dodgeInsetEdges="bottom" />
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+        <include layout="@layout/view_screenshot_mode_banner"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</FrameLayout>

@@ -12,6 +12,7 @@ import com.kunzisoft.keepass.database.element.template.TemplateField
 import com.kunzisoft.keepass.database.helper.getLocalizedName
 import com.kunzisoft.keepass.database.helper.isPasskeyLabel
 import com.kunzisoft.keepass.database.helper.isStandardPasswordName
+import com.kunzisoft.keepass.model.FieldProtection
 import com.kunzisoft.keepass.model.OtpModel
 import com.kunzisoft.keepass.model.Passkey
 import com.kunzisoft.keepass.model.PasskeyEntryFields.PASSKEY_FIELD
@@ -19,23 +20,24 @@ import com.kunzisoft.keepass.otp.OtpElement
 import com.kunzisoft.keepass.otp.OtpEntryFields.OTP_TOKEN_FIELD
 
 
-class TemplateView @JvmOverloads constructor(context: Context,
-                                                 attrs: AttributeSet? = null,
-                                                 defStyle: Int = 0)
-    : TemplateAbstractView<TextFieldView, TextFieldView, DateTimeFieldView>
+class TemplateView @JvmOverloads constructor(
+    context: Context,
+    attrs: AttributeSet? = null,
+    defStyle: Int = 0
+) : TemplateAbstractView<TextFieldView, TextFieldView, DateTimeFieldView>
         (context, attrs, defStyle) {
 
-    private var mOnUnprotectClickListener: ((ProtectedFieldView) -> Unit)? = null
-    fun setOnUnprotectClickListener(listener: ((ProtectedFieldView) -> Unit)?) {
-        this.mOnUnprotectClickListener = listener
+    private var mOnChangeFieldProtectionClickListener: ((FieldProtection) -> Unit)? = null
+    fun setOnChangeFieldProtectionClickListener(listener: ((FieldProtection) -> Unit)?) {
+        this.mOnChangeFieldProtectionClickListener = listener
     }
 
     private var mOnAskCopySafeClickListener: (() -> Unit)? = null
     fun setOnAskCopySafeClickListener(listener: (() -> Unit)? = null) {
         this.mOnAskCopySafeClickListener = listener
     }
-    private var mOnCopyActionClickListener: ((Field, ProtectedFieldView) -> Unit)? = null
-    fun setOnCopyActionClickListener(listener: ((Field, ProtectedFieldView) -> Unit)? = null) {
+    private var mOnCopyActionClickListener: ((FieldProtection) -> Unit)? = null
+    fun setOnCopyActionClickListener(listener: ((FieldProtection) -> Unit)? = null) {
         this.mOnCopyActionClickListener = listener
     }
 
@@ -53,8 +55,10 @@ class TemplateView @JvmOverloads constructor(context: Context,
         headerContainerView.isVisible = false
     }
 
-    override fun buildLinearTextView(templateAttribute: TemplateAttribute,
-                                     field: Field): TextFieldView? {
+    override fun buildLinearTextView(
+        templateAttribute: TemplateAttribute,
+        field: Field
+    ): TextFieldView? {
         // Add an action icon if needed
         return context?.let {
             (if (TemplateField.isStandardPasswordName(context, templateAttribute.label))
@@ -67,7 +71,9 @@ class TemplateView @JvmOverloads constructor(context: Context,
                     protection = field.protectedValue.isProtected,
                     isCurrentlyProtected = mUnprotectedFields.contains(field).not()
                 ) {
-                    mOnUnprotectClickListener?.invoke(this)
+                    mOnChangeFieldProtectionClickListener?.invoke(
+                        FieldProtection(field, isCurrentlyProtected())
+                    )
                 }
                 // Trick to bypass the onSaveInstanceState in rebuild child
                 onSaveInstanceState = {
@@ -77,7 +83,7 @@ class TemplateView @JvmOverloads constructor(context: Context,
                         ?: TemplateField.getLocalizedName(context, field.name)
                 setMaxChars(templateAttribute.options.getNumberChars())
                 // TODO Linkify
-                value = field.protectedValue.stringValue
+                value = field.protectedValue.charArrayValue
                 // Here the value is often empty
 
                 if (field.protectedValue.isProtected) {
@@ -91,16 +97,18 @@ class TemplateView @JvmOverloads constructor(context: Context,
                         if (mAllowCopyProtectedFields) {
                             setCopyButtonState(TextFieldView.ButtonState.ACTIVATE)
                             setCopyButtonClickListener { label, value ->
-                                mOnCopyActionClickListener
-                                    ?.invoke(
-                                        Field(
+                                mOnCopyActionClickListener?.invoke(
+                                    FieldProtection(
+                                        field = Field(
                                             name = label,
                                             value = ProtectedString(
                                                 enableProtection = true,
-                                                string = value
+                                                value = value
                                             )
-                                        ), this
+                                        ),
+                                        isCurrentlyProtected = isCurrentlyProtected()
                                     )
+                                )
                             }
                         } else {
                             setCopyButtonState(TextFieldView.ButtonState.GONE)
@@ -110,18 +118,21 @@ class TemplateView @JvmOverloads constructor(context: Context,
                 } else {
                     setCopyButtonState(TextFieldView.ButtonState.ACTIVATE)
                     setCopyButtonClickListener { label, value ->
-                        mOnCopyActionClickListener
-                            ?.invoke(
-                                Field(
+                        mOnCopyActionClickListener?.invoke(
+                            FieldProtection(
+                                field = Field(
                                     name = label,
                                     value = ProtectedString(
                                         enableProtection = false,
-                                        string = value
+                                        value = value
                                     )
-                                ), this
+                                ),
+                                isCurrentlyProtected = isCurrentlyProtected()
                             )
+                        )
                     }
                 }
+                mFields[field] = this
             }
         }
     }
@@ -204,24 +215,27 @@ class TemplateView @JvmOverloads constructor(context: Context,
                 setCopyButtonState(TextFieldView.ButtonState.GONE)
             } else {
                 label = otpElement.type.name
-                value = otpElement.tokenString
+                value = otpElement.tokenFormatted
                 setCopyButtonState(TextFieldView.ButtonState.ACTIVATE)
                 setCopyButtonClickListener { _, _ ->
                     mOnCopyActionClickListener?.invoke(
-                        Field(
-                            name = otpElement.type.name,
-                            value = ProtectedString(
-                                enableProtection = false,
-                                string = otpElement.token
-                            )
-                        ), this
+                        FieldProtection(
+                            field = Field(
+                                name = otpElement.type.name,
+                                value = ProtectedString(
+                                    enableProtection = false,
+                                    value = otpElement.token
+                                )
+                            ),
+                            isCurrentlyProtected = false
+                        )
                     )
                 }
                 textDirection = TEXT_DIRECTION_LTR
                 mLastOtpTokenView = this
                 mOtpRunnable = Runnable {
                     if (otpElement.shouldRefreshToken()) {
-                        value = otpElement.tokenString
+                        value = otpElement.tokenFormatted
                     }
                     if (mLastOtpTokenView == null) {
                         mOnOtpElementUpdated?.invoke(null)

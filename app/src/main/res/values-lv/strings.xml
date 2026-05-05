@@ -19,7 +19,7 @@
 --><resources>
     <string name="feedback">Atsauksmes</string>
     <string name="homepage">Mājaslapa</string>
-    <string name="about_description">KeePassDX ir KeePass paroļu menedžera Android implementācija</string>
+    <string name="about_description">KeePassDX – KeePass paroļu pārvaldnieka Android realizācija.</string>
     <string name="accept">Pieņemt</string>
     <string name="add_entry">Jauns ieraksts</string>
     <string name="add_group">Jauna grupa</string>
@@ -42,7 +42,7 @@
     <string name="decrypting_db">Atšifrē datubāzes saturu…</string>
     <string name="default_checkbox">Izmantot šo kā manu noklusējuma datu bāzi</string>
     <string name="digits">Cipari</string>
-    <string name="select_database_file">Ievadiet datu bāzes nosaukumu</string>
+    <string name="select_database_file">Atvērt esošu seifglabātavu</string>
     <string name="entry_accessed">Piekļuve</string>
     <string name="entry_cancel">Atcelt</string>
     <string name="entry_notes">Komentāri</string>
@@ -58,7 +58,7 @@
     <string name="entry_user_name">Lietotājvārds</string>
     <string name="error_arc4">Arcfour plūsmas šifrs netiek atbalstīts.</string>
     <string name="error_can_not_handle_uri">Neizdevās pātiet uz norādīto adresi.</string>
-    <string name="error_file_not_create">Neizdevās izveidot failu</string>
+    <string name="error_file_not_create">Nevarēja izveidot datni.</string>
     <string name="error_invalid_db">Nevarēja nolasīt datubāzi.</string>
     <string name="error_invalid_path">Nederīgs ceļš.</string>
     <string name="error_no_name">Ievadiet nosaukumu.</string>
@@ -196,4 +196,33 @@
     <string name="style_name_moon">Mēness</string>
     <string name="style_name_sun">Saule</string>
     <string name="style_name_reply">Atbilde</string>
+    <string name="create_keepass_file">Izveidot jaunu seifglabātavu</string>
+    <string name="device_unlock_prompt_store_credential_message">Jums joprojām ir jāiegaumē jūsu seifglabātavas galvenie piekļuves dati, ja izmantojat ierīces atpazīšanas atbloķēšanu.</string>
+    <string name="read_only">Aizsargāts pret rakstīšanu (tikai lasāms)</string>
+    <string name="path">Ceļš</string>
+    <string name="contribute">Dot savu artavu</string>
+    <string name="menu_file_selection_read_only">Aizsargāts pret rakstīšanu (tikai lasāms)</string>
+    <string name="general">Vispārīgie</string>
+    <string name="passkeys">Piekļuves atslēgas</string>
+    <string name="passkeys_explanation_summary">Iestatīt piekļuves atslēgas, lai ātri un droši autorizēties bez parolēm</string>
+    <string name="passkeys_preference_title">Piekļuves atslēgu iestatījumi</string>
+    <string name="passkeys_close_database_title">Aizvērt datubāzi</string>
+    <string name="passkeys_close_database_summary">Aizvērt datubāzi pēc piekļuves atslēgas atlases</string>
+    <string name="passkeys_missing_signature_app_ask_title">Trūkst paraksta</string>
+    <string name="content_description_background">Fons</string>
+    <string name="content_description_open_file">Atvērt datni</string>
+    <string name="content_description_add_node">Pievienot mezglu</string>
+    <string name="content_description_add_entry">Pievienot ierakstu</string>
+    <string name="content_description_add_group">Pievienot grupu</string>
+    <string name="content_description_file_information">Informācija par datni</string>
+    <string name="content_description_entry_icon">Ieraksta ikona</string>
+    <string name="content_description_database_color">Datubāzes krāsa</string>
+    <string name="content_description_entry_foreground_color">Ieraksta teksta (priekšplāna) krāsa</string>
+    <string name="content_description_entry_background_color">Ieraksta fona krāsa</string>
+    <string name="discard_changes">Vai tiešām atmest izmaiņas?</string>
+    <string name="content_description_password_length">Paroles garums</string>
+    <string name="entry_add_field">Pievienot lauku</string>
+    <string name="entry_add_attachment">Pievienot pielikumu</string>
+    <string name="content_description_remove_field">Noņemt lauku</string>
+    <string name="content_description_keyboard_close_fields">Aizvērt laukus</string>
 </resources>

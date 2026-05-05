@@ -451,7 +451,6 @@
     <string name="keyboard_entry_timeout_title">Itxarote-denbora</string>
     <string name="keyboard_entry_timeout_summary">Teklatuaren sarrera hustutzeko itxarote-denbora</string>
     <string name="keyboard_notification_entry_content_title_text">Sarrera</string>
-    <string name="keyboard_notification_entry_content_text">%1$s</string>
     <string name="keyboard_appearance_category">Itxura</string>
     <string name="keyboard_theme_title">Teklatuaren itxura</string>
     <string name="keyboard_keys_category">Teklak</string>
@@ -663,7 +662,7 @@
     <string name="menu_database_settings_summary">Metadatuak, zakarrontzia, txantilioiak, historiala</string>
     <string name="menu_security_settings_summary">Zifraketa, gakoen deribazio funtzioa</string>
     <string name="master_key_settings_summary">Aldaketa,berriztapena</string>
-    <string name="warning_copy_permission">Jakinarazpen baimena behar da arbelaren jakinarazpen funtziorako.</string>
+    <string name="warning_permission">Jakinarazpen baimena behar da arbelaren jakinarazpen funtziorako.</string>
     <string name="unlock_and_link_biometric">Gailua desblokeatzeko esteka</string>
     <string name="menu_appearance_settings_summary">Gaiak,koloreak,atributuak</string>
     <string name="warning_database_info_changed_options_read_only">Birkargatu datu-basea azken aldaketekin.</string>

@@ -22,23 +22,26 @@ package com.kunzisoft.keepass.services
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
-import android.os.Build
 import android.util.Log
 import androidx.preference.PreferenceManager
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.credentialprovider.magikeyboard.MagikeyboardService
+import com.kunzisoft.keepass.credentialprovider.magikeyboard.MagikeyboardService.Companion.getSwitchMagikeyboardIntent
+import com.kunzisoft.keepass.credentialprovider.magikeyboard.MagikeyboardService.Companion.isAutoSwitchMagikeyboardAllowed
 import com.kunzisoft.keepass.credentialprovider.magikeyboard.MagikeyboardService.Companion.isMagikeyboardActivated
-import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.timeout.TimeoutHelper
+import com.kunzisoft.keepass.timeout.TimeoutHelper.NEVER
+import com.kunzisoft.keepass.utils.EXTRA_PROGRESS
 import com.kunzisoft.keepass.utils.LOCK_ACTION
-import com.kunzisoft.keepass.utils.getParcelableExtraCompat
+import com.kunzisoft.keepass.utils.UPDATE_TIMEOUT_PROGRESS_ACTION
 
 class KeyboardEntryNotificationService : LockNotificationService() {
 
     override val notificationId = 486
     private var mNotificationTimeoutMilliSecs: Long = 0
 
+    private var mainPendingIntent: PendingIntent? = null
     private var pendingDeleteIntent: PendingIntent? = null
 
     override fun retrieveChannelId(): String {
@@ -69,81 +72,83 @@ class KeyboardEntryNotificationService : LockNotificationService() {
                 .getString(getString(R.string.keyboard_entry_timeout_key),
                 getString(R.string.timeout_default))?.toLong() ?: TimeoutHelper.DEFAULT_TIMEOUT
 
-        when {
-            intent == null -> Log.w(TAG, "null intent")
-            ACTION_CLEAN_KEYBOARD_ENTRY == intent.action -> {
+        when (intent?.action) {
+            null -> Log.w(TAG, "null intent")
+            ACTION_CLEAN_KEYBOARD_ENTRY -> {
                 stopNotificationAndSendLockIfNeeded()
             }
-            else -> {
+            ACTION_NEW_NOTIFICATION -> {
                 notificationManager?.cancel(notificationId)
-                if (intent.hasExtra(ENTRY_INFO_KEY)) {
-                    intent.getParcelableExtraCompat<EntryInfo>(ENTRY_INFO_KEY)?.let {
-                        newNotification(it)
-                    }
-                }
+                newNotification(intent.getStringExtra(TITLE_INFO_KEY))
             }
+            else -> {}
         }
         return START_NOT_STICKY
     }
 
-    private fun newNotification(entryInfo: EntryInfo) {
+    private fun newNotification(title: String?) {
 
-        var entryTitle = getString(R.string.keyboard_notification_entry_content_title_text)
-        var entryUsername = ""
-        if (entryInfo.title.isNotEmpty())
-            entryTitle = entryInfo.title
-        if (entryInfo.username.isNotEmpty())
-            entryUsername = entryInfo.username
-
-        val deleteIntent = Intent(this, KeyboardEntryNotificationService::class.java).apply {
-            action = ACTION_CLEAN_KEYBOARD_ENTRY
-        }
-        pendingDeleteIntent = PendingIntent.getService(this, 0, deleteIntent,
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
-            } else {
-                PendingIntent.FLAG_UPDATE_CURRENT
+        mainPendingIntent =
+            if (isAutoSwitchMagikeyboardAllowed(this)) {
+                buildActivityPendingIntent(getSwitchMagikeyboardIntent(this))
+            } else null
+        pendingDeleteIntent = buildServicePendingIntent(
+            Intent(this, KeyboardEntryNotificationService::class.java).apply {
+                action = ACTION_CLEAN_KEYBOARD_ENTRY
             }
         )
 
+        val entryTitle = title ?: getString(R.string.keyboard_notification_entry_content_title_text)
         val builder = buildNewNotification()
-                .setSmallIcon(R.drawable.notification_ic_keyboard_key_24dp)
-                .setContentTitle(getString(R.string.keyboard_notification_entry_content_title, entryTitle))
-                .setContentText(getString(R.string.keyboard_notification_entry_content_text, entryUsername))
-                .setAutoCancel(false)
-                .setContentIntent(null)
-                .setDeleteIntent(pendingDeleteIntent)
-
-        checkNotificationsPermission(this, PreferencesUtil.isKeyboardNotificationEntryEnable(this)) {
-            notificationManager?.notify(notificationId, builder.build())
+        builder.run {
+            setSmallIcon(R.drawable.notification_ic_keyboard_key_24dp)
+            setContentTitle(getString(R.string.keyboard_notification_entry_content_title, entryTitle))
+            setAutoCancel(false)
+            mainPendingIntent?.let {
+                setContentIntent(it)
+            }
+            setDeleteIntent(pendingDeleteIntent)
         }
-
         // Timeout only if notification clear is available
         if (PreferencesUtil.isClearKeyboardNotificationEnable(this)) {
-            if (mNotificationTimeoutMilliSecs != TimeoutHelper.NEVER) {
+            if (mNotificationTimeoutMilliSecs > NEVER) {
                 defineTimerJob(
-                    builder,
-                    NotificationServiceType.KEYBOARD,
-                    mNotificationTimeoutMilliSecs
+                    builder = builder,
+                    type = NotificationServiceType.KEYBOARD,
+                    timeoutMilliseconds = mNotificationTimeoutMilliSecs,
+                    actionAfterASecond = { progress ->
+                        sendBroadcast(Intent(UPDATE_TIMEOUT_PROGRESS_ACTION).apply {
+                            putExtra(EXTRA_PROGRESS, progress)
+                        })
+                    }
                 ) {
+                    sendBroadcast(Intent(UPDATE_TIMEOUT_PROGRESS_ACTION).apply {
+                        putExtra(EXTRA_PROGRESS, 0)
+                    })
                     stopNotificationAndSendLockIfNeeded()
                 }
             }
+        }
+        try {
+            checkNotificationsPermission(this) {
+                notificationManager?.notify(notificationId, builder.build())
+            }
+        } catch (e: SecurityException) {
+            Log.e(TAG, "Unable to notify the entry in keyboard", e)
+            stopService()
         }
     }
 
     override fun onTaskRemoved(rootIntent: Intent?) {
         MagikeyboardService.removeEntry(this)
-
         super.onTaskRemoved(rootIntent)
     }
 
     override fun onDestroy() {
         // Remove the entry from the keyboard
         MagikeyboardService.removeEntry(this)
-
+        mainPendingIntent?.cancel()
         pendingDeleteIntent?.cancel()
-
         super.onDestroy()
     }
 
@@ -152,11 +157,11 @@ class KeyboardEntryNotificationService : LockNotificationService() {
         private const val TAG = "KeyboardEntryNotifSrv"
 
         private const val CHANNEL_MAGIKEYBOARD_ID = "com.kunzisoft.keepass.notification.channel.magikeyboard"
+        private const val TITLE_INFO_KEY = "com.kunzisoft.keepass.TITLE_INFO_KEY"
+        const val ACTION_NEW_NOTIFICATION = "com.kunzisoft.keepass.ACTION_NEW_NOTIFICATION"
+        private const val ACTION_CLEAN_KEYBOARD_ENTRY = "com.kunzisoft.keepass.ACTION_CLEAN_KEYBOARD_ENTRY"
 
-        private const val ENTRY_INFO_KEY = "ENTRY_INFO_KEY"
-        private const val ACTION_CLEAN_KEYBOARD_ENTRY = "ACTION_CLEAN_KEYBOARD_ENTRY"
-
-        fun launchNotificationIfAllowed(context: Context, entry: EntryInfo) {
+        fun launchNotificationIfAllowed(context: Context, title: String) {
 
             var startService = false
             val intent = Intent(context, KeyboardEntryNotificationService::class.java)
@@ -164,10 +169,13 @@ class KeyboardEntryNotificationService : LockNotificationService() {
             // Show the notification if allowed in Preferences
             if (PreferencesUtil.isKeyboardNotificationEntryEnable(context)
                 && context.isMagikeyboardActivated()) {
-                startService = true
-                context.startService(intent.apply {
-                    putExtra(ENTRY_INFO_KEY, entry)
-                })
+                checkNotificationsPermission(context, showError = false) {
+                    startService = true
+                    context.startService(intent.apply {
+                        putExtra(TITLE_INFO_KEY, title)
+                        action = ACTION_NEW_NOTIFICATION
+                    })
+                }
             }
 
             if (!startService)

@@ -1,1 +1,1 @@
-KeePassDX: sinu salasõnalaegas
+KeePassDX salasõnahoidla

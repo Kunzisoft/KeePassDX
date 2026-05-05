@@ -16,21 +16,21 @@ import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper.removeInfo
 import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper.removeNodeId
 import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper.retrieveNodeId
 import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper.retrieveSearchInfo
+import com.kunzisoft.keepass.credentialprovider.passkey.util.PasskeyHelper.buildCreatePublicKeyCredentialResponse
+import com.kunzisoft.keepass.credentialprovider.passkey.util.PasskeyHelper.buildPasskeyPublicKeyCredential
+import com.kunzisoft.keepass.credentialprovider.passkey.util.PasskeyHelper.getVerifiedGETClientDataResponse
+import com.kunzisoft.keepass.credentialprovider.passkey.util.PasskeyHelper.removePasskey
+import com.kunzisoft.keepass.credentialprovider.passkey.util.PasskeyHelper.retrievePasskey
+import com.kunzisoft.keepass.credentialprovider.passkey.util.PasskeyHelper.retrievePasskeyCreationRequestParameters
+import com.kunzisoft.keepass.credentialprovider.passkey.util.PasskeyHelper.retrievePasskeyUsageRequestParameters
 import com.kunzisoft.keepass.credentialprovider.SpecialMode
 import com.kunzisoft.keepass.credentialprovider.TypeMode
 import com.kunzisoft.keepass.credentialprovider.passkey.data.AndroidPrivilegedApp
 import com.kunzisoft.keepass.credentialprovider.passkey.data.PublicKeyCredentialCreationParameters
 import com.kunzisoft.keepass.credentialprovider.passkey.data.PublicKeyCredentialUsageParameters
-import com.kunzisoft.keepass.credentialprovider.passkey.util.PasskeyHelper.buildCreatePublicKeyCredentialResponse
-import com.kunzisoft.keepass.credentialprovider.passkey.util.PasskeyHelper.buildPasskeyPublicKeyCredential
-import com.kunzisoft.keepass.credentialprovider.passkey.util.PasskeyHelper.checkSecurity
-import com.kunzisoft.keepass.credentialprovider.passkey.util.PasskeyHelper.getVerifiedGETClientDataResponse
-import com.kunzisoft.keepass.credentialprovider.passkey.util.PasskeyHelper.removeAppOrigin
-import com.kunzisoft.keepass.credentialprovider.passkey.util.PasskeyHelper.removePasskey
-import com.kunzisoft.keepass.credentialprovider.passkey.util.PasskeyHelper.retrieveAppOrigin
-import com.kunzisoft.keepass.credentialprovider.passkey.util.PasskeyHelper.retrievePasskey
-import com.kunzisoft.keepass.credentialprovider.passkey.util.PasskeyHelper.retrievePasskeyCreationRequestParameters
-import com.kunzisoft.keepass.credentialprovider.passkey.util.PasskeyHelper.retrievePasskeyUsageRequestParameters
+import com.kunzisoft.keepass.credentialprovider.passkey.util.PassHelper.checkSecurity
+import com.kunzisoft.keepass.credentialprovider.passkey.util.PassHelper.removeAppOrigin
+import com.kunzisoft.keepass.credentialprovider.passkey.util.PassHelper.retrieveAppOrigin
 import com.kunzisoft.keepass.credentialprovider.passkey.util.PrivilegedAllowLists
 import com.kunzisoft.keepass.credentialprovider.passkey.util.PrivilegedAllowLists.saveCustomPrivilegedApps
 import com.kunzisoft.keepass.database.ContextualDatabase
@@ -50,6 +50,7 @@ import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.IOException
@@ -69,7 +70,7 @@ class PasskeyLauncherViewModel(application: Application): CredentialLauncherView
     private var mBackupState: Boolean = false
 
     private val mUiState = MutableStateFlow<UIState>(UIState.Loading)
-    val uiState: StateFlow<UIState> = mUiState
+    val uiState: StateFlow<UIState> = mUiState.asStateFlow()
 
     fun initialize(userVerified: Boolean) {
         mLockDatabaseAfterSelection = PreferencesUtil.isPasskeyCloseDatabaseEnable(getApplication())
@@ -151,14 +152,8 @@ class PasskeyLauncherViewModel(application: Application): CredentialLauncherView
         }
     }
 
-    fun launchActionIfNeeded(
-        userVerified: Boolean,
-        intent: Intent,
-        specialMode: SpecialMode,
-        database: ContextualDatabase?
-    ) {
-        this.mUserVerified = userVerified
-        launchActionIfNeeded(intent, specialMode, database)
+    fun setUserVerified() {
+        this.mUserVerified = true
     }
 
     override fun launchActionIfNeeded(

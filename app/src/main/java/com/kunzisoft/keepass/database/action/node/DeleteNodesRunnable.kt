@@ -40,7 +40,7 @@ class DeleteNodesRunnable(
     private var mOldParent: Group? = null
     private var mCanRecycle: Boolean = false
 
-    private var mNodesToDeleteBackup = ArrayList<Node>()
+    private var mNodesToDeleteBackup = mutableListOf<Node>()
 
     override fun nodeAction() {
 

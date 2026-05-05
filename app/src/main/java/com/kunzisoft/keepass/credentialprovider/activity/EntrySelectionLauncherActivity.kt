@@ -31,6 +31,7 @@ import com.kunzisoft.keepass.activities.GroupActivity
 import com.kunzisoft.keepass.activities.legacy.DatabaseModeActivity
 import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper.addSearchInfo
 import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper.setActivityResult
+import com.kunzisoft.keepass.credentialprovider.TypeMode
 import com.kunzisoft.keepass.credentialprovider.magikeyboard.MagikeyboardService
 import com.kunzisoft.keepass.credentialprovider.viewmodel.CredentialLauncherViewModel
 import com.kunzisoft.keepass.credentialprovider.viewmodel.EntrySelectionViewModel
@@ -52,9 +53,9 @@ class EntrySelectionLauncherActivity : DatabaseModeActivity() {
             entrySelectionViewModel.manageSelectionResult(it)
         }
 
-    override fun applyCustomStyle() = false
+    override fun applyCustomStyle(): Boolean = false
 
-    override fun finishActivityIfReloadRequested() = false
+    override fun finishActivityIfReloadRequested(): Boolean = false
 
     override fun manageDatabaseInfo(): Boolean = false
 
@@ -67,10 +68,11 @@ class EntrySelectionLauncherActivity : DatabaseModeActivity() {
                 when (uiState) {
                     is EntrySelectionViewModel.UIState.Loading -> {}
                     is EntrySelectionViewModel.UIState.PopulateKeyboard -> {
-                        MagikeyboardService.addEntry(
+                        MagikeyboardService.addEntries(
                             context = this@EntrySelectionLauncherActivity,
-                            entry = uiState.entryInfo,
-                            toast = true
+                            entryList = uiState.entryInfoList,
+                            autoSwitchKeyboard = true,
+                            from = TypeMode.MAGIKEYBOARD
                         )
                     }
                     is EntrySelectionViewModel.UIState.LaunchFileDatabaseSelectForSearch -> {

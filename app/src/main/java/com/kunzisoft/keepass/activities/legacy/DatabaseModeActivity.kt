@@ -137,6 +137,7 @@ abstract class DatabaseModeActivity : DatabaseActivity() {
                 TypeMode.DEFAULT, // Not important because hidden
                 TypeMode.MAGIKEYBOARD -> R.string.magic_keyboard_title
                 TypeMode.AUTOFILL -> R.string.autofill
+                TypeMode.PASSWORD -> R.string.password
                 TypeMode.PASSKEY -> R.string.passkey
             }
             title = getString(selectionModeStringId)

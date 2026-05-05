@@ -1,0 +1,10 @@
+ * Tags dans la vue liste #1539 #2144
+ * Recherche par Tags #1338 #2280
+ * Historique des Tags caché #2374 #1405
+ * Benchmark de KDF #784
+ * Accessibilité améliorée #2475
+ * Sécurité améliorée #2480-#2489
+ * Génération de fichier de clé V2 #1934
+ * Filtre les IDs navigateurs (Magiclavier) #2466 #2394 #2400 #2317
+ * Correctif capture d'écran et historique #2407 #2471
+ * Petites corrections #2476 #2369 #1911 #2469 #2477 #2512 #2511 #2515 #2277 #2520 #2522

@@ -281,7 +281,9 @@
     <style name="KeepassDXStyle.Chip.Filter.Icon" parent="Widget.Material3.Chip.Filter">
         <item name="chipCornerRadius">8dp</item>
         <item name="chipIconVisible">true</item>
-        <item name="closeIconVisible">true</item>
+        <item name="chipIconTint">@color/text_secondary_color</item>
+        <item name="android:textColor">@color/text_secondary_color</item>
+        <item name="checkedIconVisible">false</item>
         <item name="closeIconSize">24dp</item>
         <item name="ensureMinTouchTargetSize">false</item>
     </style>

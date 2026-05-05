@@ -1,0 +1,25 @@
+KeePassDX is an open source <b>passkey, password safe and manager</b> allows editing <b>encrypted data in a single file</b> in the open KeePass format and <b>fill in the forms in a secure way</b>, requires <b>no Internet connection</b> and integrates Android design standards. The app is <b>open source, with no advertising</b>.
+
+<b>Features</b>
+
+- Passkeys for authentication and local storage of private keys.
+- Biometric recognition for fast unlocking (fingerprint / face unlock / …).
+- One-time password management (HOTP / TOTP) for two-factor authentication (2FA).
+- Autofill for easy form filling with passwords.
+- Magikeyboard to efficiently fill in any field.
+- Create encrypted database files.
+- Organisation of credentials by entry and in group trees.
+- Allows opening and copying URI / URL fields quickly.
+- Dynamic templates for each type of entry.
+- History of each entry.
+- Precise management of settings.
+- Material design with themes.
+- Support for .kdb and .kdbx files (version 1 to 4) with AES - Twofish - ChaCha20 - Argon2 algorithm.
+- Compatible with the majority of alternative programs (KeePass, KeePassXC, KeeWeb, …).
+- Code written in native languages (Kotlin / Java / JNI / C).
+
+You can donate or buy the pro version for better service and a quick development of features you want: <a href="https://play.google.com/store/apps/details?id=com.kunzisoft.keepass.pro">https://play.google.com/store/apps/details?id=com.kunzisoft.keepass.pro</a>
+
+The project is constantly evolving. Do not hesitate to check the development status of the next updates: <a href="https://github.com/Kunzisoft/KeePassDX/projects">https://github.com/Kunzisoft/KeePassDX/projects</a>
+
+Send issues to: <a href="https://github.com/Kunzisoft/KeePassDX/issues">https://github.com/Kunzisoft/KeePassDX/issues</a>

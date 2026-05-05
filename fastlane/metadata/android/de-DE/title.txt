@@ -1,1 +1,1 @@
-KeePassDX Pass(key/wort)-Tresor
+KeePassDX Passkey-Tresor

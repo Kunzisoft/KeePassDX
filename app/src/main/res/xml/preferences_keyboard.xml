@@ -74,6 +74,11 @@
     <PreferenceCategory
         android:title="@string/keyboard_change">
         <SwitchPreferenceCompat
+            android:key="@string/keyboard_auto_switch_key"
+            android:title="@string/keyboard_auto_switch_title"
+            android:summary="@string/keyboard_auto_switch_summary"
+            android:defaultValue="@bool/keyboard_auto_switch_default"/>
+        <SwitchPreferenceCompat
             android:key="@string/keyboard_previous_database_credentials_key"
             android:title="@string/keyboard_previous_database_credentials_title"
             android:summary="@string/keyboard_previous_database_credentials_summary"

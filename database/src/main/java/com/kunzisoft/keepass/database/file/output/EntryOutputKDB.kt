@@ -22,19 +22,28 @@ package com.kunzisoft.keepass.database.file.output
 import com.kunzisoft.keepass.database.element.database.DatabaseKDB
 import com.kunzisoft.keepass.database.element.entry.EntryKDB
 import com.kunzisoft.keepass.database.exception.DatabaseOutputException
-import com.kunzisoft.keepass.utils.*
+import com.kunzisoft.keepass.utils.CharArrayUtil.toUtf8ByteArray
+import com.kunzisoft.keepass.utils.UnsignedInt
+import com.kunzisoft.keepass.utils.clear
+import com.kunzisoft.keepass.utils.dateTo5Bytes
+import com.kunzisoft.keepass.utils.readAllBytes
+import com.kunzisoft.keepass.utils.uIntTo4Bytes
+import com.kunzisoft.keepass.utils.uShortTo2Bytes
+import com.kunzisoft.keepass.utils.uuidTo16Bytes
+import com.kunzisoft.keepass.utils.writeStringToStream
 import java.io.IOException
 import java.io.OutputStream
-import java.nio.charset.Charset
 
 /**
  * Output the GroupKDB to the stream
  */
-class EntryOutputKDB(private val mDatabase: DatabaseKDB,
-                     private val mEntry: EntryKDB,
-                     private val mOutputStream: OutputStream) {
+class EntryOutputKDB(
+    private val mDatabase: DatabaseKDB,
+    private val mEntry: EntryKDB,
+    private val mOutputStream: OutputStream
+) {
 
-    //NOTE: Need be to careful about using ints.  The actual type written to file is a unsigned int
+    //NOTE: Need to be careful about using ints. The actual type written to file is an unsigned int
     @Throws(DatabaseOutputException::class)
     fun output() {
         try {
@@ -126,12 +135,13 @@ class EntryOutputKDB(private val mDatabase: DatabaseKDB,
     }
 
     @Throws(IOException::class)
-    private fun writePassword(str: String, os: OutputStream): Int {
-        val initial = str.toByteArray(Charset.forName("UTF-8"))
+    private fun writePassword(password: CharArray, os: OutputStream): Int {
+        val initial = password.toUtf8ByteArray()
         val length = initial.size + 1
         os.write(uIntTo4Bytes(UnsignedInt(length)))
         os.write(initial)
         os.write(0x00)
+        initial.clear()
         return length
     }
 

@@ -24,16 +24,43 @@ import android.view.View
 import android.widget.Toast
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.ContextualDatabase
+import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_BENCHMARK_KDF
+import com.kunzisoft.keepass.tasks.ActionRunnable
+import com.kunzisoft.keepass.tasks.BenchmarkKdfRunnable
+import com.kunzisoft.keepass.tasks.BenchmarkKdfRunnable.Companion.DEFAULT_BENCHMARK_TIME
 
 class DatabaseRoundsPreferenceDialogFragmentCompat : DatabaseSavePreferenceDialogFragmentCompat() {
+
+    private var calculateRounds: String? = null
 
     override fun onBindDialogView(view: View) {
         super.onBindDialogView(view)
         explanationText = getString(R.string.rounds_explanation)
+        setExplanationButton(getString(
+            R.string.benchmark_calculation,
+            "%.1f".format(DEFAULT_BENCHMARK_TIME / 1000.0)
+        )) {
+            mDatabaseViewModel.benchmarkKdf()
+        }
     }
 
     override fun onDatabaseRetrieved(database: ContextualDatabase) {
-        inputText = database.numberKeyEncryptionRounds.toString()
+        inputText = calculateRounds ?: database.numberKeyEncryptionRounds.toString()
+    }
+
+    override fun onDatabaseActionFinished(
+        database: ContextualDatabase,
+        actionTask: String,
+        result: ActionRunnable.Result
+    ) {
+        super.onDatabaseActionFinished(database, actionTask, result)
+        if (actionTask == ACTION_DATABASE_BENCHMARK_KDF) {
+            result.data?.getLong(BenchmarkKdfRunnable.EXTRA_NEW_ROUNDS)?.let { newRounds ->
+                val stringRound = newRounds.toString()
+                calculateRounds = stringRound
+                inputText = stringRound
+            }
+        }
     }
 
     override fun onDialogClosed(database: ContextualDatabase?, positiveResult: Boolean) {
@@ -41,7 +68,7 @@ class DatabaseRoundsPreferenceDialogFragmentCompat : DatabaseSavePreferenceDialo
             database?.let {
                 var rounds: Long = try {
                     inputText.toLong()
-                } catch (e: NumberFormatException) {
+                } catch (_: NumberFormatException) {
                     MIN_ITERATIONS
                 }
                 if (rounds < MIN_ITERATIONS) {
@@ -52,7 +79,7 @@ class DatabaseRoundsPreferenceDialogFragmentCompat : DatabaseSavePreferenceDialo
                 val oldRounds = database.numberKeyEncryptionRounds
                 try {
                     database.numberKeyEncryptionRounds = rounds
-                } catch (e: NumberFormatException) {
+                } catch (_: NumberFormatException) {
                     Toast.makeText(context, R.string.error_rounds_too_large, Toast.LENGTH_LONG).show()
                     database.numberKeyEncryptionRounds = Long.MAX_VALUE
                 }

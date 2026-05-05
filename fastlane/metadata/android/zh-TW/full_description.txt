@@ -1,23 +1,25 @@
-KeePassDX 是一款<b>密碼保險箱和管理器</b>，允許以開放的 KeePass 格式編輯<b>單一檔案中的加密資料</b>，並<b>以安全的方式填寫表單</b>，無需<b>網路連線</b>，並整合了 Android 設計標準。該應用程式<b>開源，無廣告</b>。
+KeePassDX 是一款開源的 <b>密碼金鑰、密碼保險箱和密碼管理器</b>，它允許以開放的 KeePass 格式在單一檔案中編輯 <b>加密資料</b>，並以安全的方式填寫表單，無需 <b>網路連線</b>，並符合 Android 設計標準。該應用程式 <b>開源</b>、<b>無廣告</b>。
 
 <b>功能</b>
 
-- 建立資料庫檔案/條目和群組。
-- 支援 .kdb 和 .kdbx 檔案（版本 1 至 4），並採用 AES - Twofish - ChaCha20 - Argon2 演算法。
-- 與大多數替代方案（KeePass、KeePassXC、KeeWeb 等）相容。
-- 允許快速開啟和複製 URI/URL 欄位。
-- 生物辨識技術，可快速解鎖（指紋/人臉解鎖等）。
-- 一次性密碼管理 (HOTP / TOTP)，用於雙重認證 (2FA)。
-- 帶主題的 Material Design 設計。
-- 自動填充和整合。
-- 字段填充鍵盤。
-- 動態模板。
-- 每次輸入的歷史記錄。
-- 精確的設定管理。
-- 使用原生語言編寫程式碼 (Kotlin / Java / JNI / C)。
+- 用於身分驗證與本機儲存私鑰的密碼金鑰
+- 用於快速解鎖的生物辨識（指紋/臉部解鎖/…）
+- 雙重認證（2FA）的一次性密碼管理（HOTP/TOTP）
+- 自動填入功能，方便使用密碼填寫表單
+- 魔法鍵盤，可有效率地填寫任何欄位
+- 建立加密資料庫檔案
+- 依條目與群組樹狀結構組織憑證
+- 允許快速開啟與複製 URI/URL 欄位
+- 為每種類型的條目提供動態範本
+- 記錄每個條目的歷史紀錄
+- 精細的設定管理
+- 採用 Material Design 設計語言，並提供多種主題
+- 支援 .kdb 與 .kdbx 檔案（版本 1 至 4），並支援 AES、Twofish、ChaCha20 與 Argon2 演算法
+- 相容於多數替代程式（KeePass、KeePassXC、KeeWeb 等）
+- 使用原生語言（Kotlin/Java/JNI/C）編寫程式碼
 
-您可以捐款或購買專業版，以獲得更好的服務並快速開發您想要的功能：<a href="https://play.google.com/store/apps/details?id=com.kunzisoft.keepass.pro">https://play.google.com/store/apps/details?id=com.kunzisoft.keepass.pro</a>
+您可以透過捐款或購買專業版，以獲得更完善的服務與更快速的功能開發：<a href="https://play.google.com/store/apps/details?id=com.kunzisoft.keepass.pro">https://play.google.com/store/apps/details?id=com.kunzisoft.keepass.pro</a>
 
-該項目正在不斷發展。請隨時查看後續更新的開發狀態：<a href="https://github.com/Kunzisoft/KeePassDX/projects">https://github.com/Kunzisoft/KeePassDX/projects</a>
+本專案持續開發與完善中，歡迎關注後續更新進度：<a href="https://play.google.com/store/apps/details?id=com.kunzisoft.keepass.pro">https://play.google.com/store/apps/details?id=com.kunzisoft.keepass.pro</a>
 
-請將問題寄至：<a href="https://github.com/Kunzisoft/KeePassDX/issues">https://github.com/Kunzisoft/KeePassDX/issues</a>
+如有任何問題，請至以下頁面回報：<a href="https://github.com/Kunzisoft/KeePassDX/issues">https://github.com/Kunzisoft/KeePassDX/issues</a>

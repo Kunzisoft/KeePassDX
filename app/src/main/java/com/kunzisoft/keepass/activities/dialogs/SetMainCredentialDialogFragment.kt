@@ -27,9 +27,10 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.SpannableStringBuilder
 import android.text.TextWatcher
+import android.util.Log
 import android.view.View
 import android.widget.CompoundButton
-import android.widget.TextView
+import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
 import com.google.android.material.textfield.TextInputLayout
 import com.kunzisoft.keepass.R
@@ -37,10 +38,12 @@ import com.kunzisoft.keepass.activities.helpers.ExternalFileHelper
 import com.kunzisoft.keepass.activities.helpers.setOpenDocumentClickListener
 import com.kunzisoft.keepass.credentialprovider.activity.HardwareKeyActivity
 import com.kunzisoft.keepass.database.MainCredential
+import com.kunzisoft.keepass.database.element.MasterCredential
 import com.kunzisoft.keepass.hardware.HardwareKey
 import com.kunzisoft.keepass.password.PasswordEntropy
 import com.kunzisoft.keepass.utils.UriUtil.getDocumentFile
 import com.kunzisoft.keepass.utils.UriUtil.openUrl
+import com.kunzisoft.keepass.utils.clear
 import com.kunzisoft.keepass.view.HardwareKeySelectionView
 import com.kunzisoft.keepass.view.KeyFileSelectionView
 import com.kunzisoft.keepass.view.PasswordEditView
@@ -48,12 +51,12 @@ import com.kunzisoft.keepass.view.applyFontVisibility
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.security.SecureRandom
+import java.io.IOException
 
 
 class SetMainCredentialDialogFragment : DatabaseDialogFragment() {
 
-    private var mMasterPassword: String? = null
+    private var mMasterPassword: CharArray? = null
     private var mKeyFileUri: Uri? = null
     private var mHardwareKey: HardwareKey? = null
 
@@ -62,7 +65,7 @@ class SetMainCredentialDialogFragment : DatabaseDialogFragment() {
     private lateinit var passwordCheckBox: CompoundButton
     private lateinit var passwordEditView: PasswordEditView
     private lateinit var passwordRepeatTextInputLayout: TextInputLayout
-    private lateinit var passwordRepeatView: TextView
+    private lateinit var passwordRepeatView: EditText
 
     private lateinit var keyFileCheckBox: CompoundButton
     private lateinit var keyFileGenerateButton: View
@@ -101,7 +104,7 @@ class SetMainCredentialDialogFragment : DatabaseDialogFragment() {
         super.onAttach(activity)
         try {
             mListener = activity as AssignMainCredentialDialogListener
-        } catch (e: ClassCastException) {
+        } catch (_: ClassCastException) {
             throw ClassCastException(activity.toString()
                     + " must implement " + AssignMainCredentialDialogListener::class.java.name)
         }
@@ -199,7 +202,7 @@ class SetMainCredentialDialogFragment : DatabaseDialogFragment() {
                 val positiveButton = (dialog1 as AlertDialog).getButton(DialogInterface.BUTTON_POSITIVE)
                 positiveButton.setOnClickListener {
 
-                    mMasterPassword = ""
+                    mMasterPassword = null
                     mKeyFileUri = null
                     mHardwareKey = null
 
@@ -220,10 +223,12 @@ class SetMainCredentialDialogFragment : DatabaseDialogFragment() {
 
     private fun createKeyFile(uri: Uri) {
         CoroutineScope(Dispatchers.IO).launch {
-            activity?.contentResolver?.openOutputStream(uri)?.use { outputStream ->
-                val randomBytes = ByteArray(DEFAULT_KEYFILE_SIZE)
-                SecureRandom().nextBytes(randomBytes)
-                outputStream.write(randomBytes)
+            try {
+                activity?.contentResolver?.openOutputStream(uri)?.use { outputStream ->
+                    MasterCredential.createKeyFile(outputStream)
+                }
+            } catch (e: IOException) {
+                Log.e(TAG, "Unable  to create the KeyFile.", e)
             }
         }
     }
@@ -249,7 +254,7 @@ class SetMainCredentialDialogFragment : DatabaseDialogFragment() {
                     getString(R.string.error_disallow_no_credentials)
             }
         } else if (!error
-            && mMasterPassword.isNullOrEmpty()
+            && (mMasterPassword == null || mMasterPassword!!.isEmpty())
             && !keyFileCheckBox.isChecked
             && !hardwareKeyCheckBox.isChecked
         ) {
@@ -275,15 +280,18 @@ class SetMainCredentialDialogFragment : DatabaseDialogFragment() {
         var error = false
         passwordRepeatTextInputLayout.error = null
         if (passwordCheckBox.isChecked) {
-            mMasterPassword = passwordEditView.passwordString
-            val confPassword = passwordRepeatView.text.toString()
+            mMasterPassword = passwordEditView.passwordCharArray
+            val confPassword = CharArray(passwordRepeatView.length())
+            passwordRepeatView.text.getChars(0, passwordRepeatView.length(), confPassword, 0)
 
             // Verify that passwords match
-            if (mMasterPassword != confPassword) {
+            val passwordsMatch = mMasterPassword?.contentEquals(confPassword) ?: confPassword.isEmpty()
+            if (!passwordsMatch) {
                 error = true
                 // Passwords do not match
                 passwordRepeatTextInputLayout.error = getString(R.string.error_pass_match)
             }
+            confPassword.clear()
         }
         return error
     }
@@ -395,10 +403,11 @@ class SetMainCredentialDialogFragment : DatabaseDialogFragment() {
     }
 
     companion object {
+        private val TAG = SetMainCredentialDialogFragment::class.simpleName
 
         private const val ALLOW_NO_MASTER_KEY_ARG = "ALLOW_NO_MASTER_KEY_ARG"
-        private const val DEFAULT_KEYFILE_NAME = "keyfile.bin"
-        private const val DEFAULT_KEYFILE_SIZE = 128
+        private val DEFAULT_KEYFILE_FORMAT = MasterCredential.CREATOR.KeyFileFormat.XML_2_0
+        private val DEFAULT_KEYFILE_NAME = "keyfile.${DEFAULT_KEYFILE_FORMAT.defaultFileExtension}"
 
         fun getInstance(allowNoMasterKey: Boolean): SetMainCredentialDialogFragment {
             val fragment = SetMainCredentialDialogFragment()

@@ -30,6 +30,7 @@ import android.view.View
 import android.widget.NumberPicker
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.settings.preference.DurationDialogPreference
+import com.kunzisoft.keepass.timeout.TimeoutHelper.NEVER
 
 
 class DurationDialogFragmentCompat : InputPreferenceDialogFragmentCompat() {
@@ -93,7 +94,7 @@ class DurationDialogFragmentCompat : InputPreferenceDialogFragmentCompat() {
     }
 
     private fun durationToDaysHoursMinutesSeconds(duration: Long) {
-        if (duration < 0) {
+        if (duration <= NEVER) {
             mEnabled = false
             mDays = 0
             mHours = 0
@@ -126,7 +127,7 @@ class DurationDialogFragmentCompat : InputPreferenceDialogFragmentCompat() {
             maxValue = 364
             setOnValueChangedListener { _, _, newVal ->
                 mDays = newVal
-                activateSwitch()
+                toggleSwitch()
             }
         }
 
@@ -135,7 +136,7 @@ class DurationDialogFragmentCompat : InputPreferenceDialogFragmentCompat() {
             maxValue = 23
             setOnValueChangedListener { _, _, newVal ->
                 mHours = newVal
-                activateSwitch()
+                toggleSwitch()
             }
         }
 
@@ -144,7 +145,7 @@ class DurationDialogFragmentCompat : InputPreferenceDialogFragmentCompat() {
             maxValue = 59
             setOnValueChangedListener { _, _, newVal ->
                 mMinutes = newVal
-                activateSwitch()
+                toggleSwitch()
             }
         }
 
@@ -153,7 +154,7 @@ class DurationDialogFragmentCompat : InputPreferenceDialogFragmentCompat() {
             maxValue = 59
             setOnValueChangedListener { _, _, newVal ->
                 mSeconds = newVal
-                activateSwitch()
+                toggleSwitch()
             }
         }
 
@@ -164,14 +165,25 @@ class DurationDialogFragmentCompat : InputPreferenceDialogFragmentCompat() {
         assignValuesInViews()
     }
 
+    private fun toggleSwitch() {
+        if (daysNumberPicker?.value == 0
+            && hoursNumberPicker?.value == 0
+            && minutesNumberPicker?.value == 0
+            && secondsNumberPicker?.value == 0
+        )
+            deactivateSwitch()
+        else
+            activateSwitch()
+    }
+
     private fun buildDuration(): Long {
         return if (mEnabled) {
             mDays * 24L * 60L * 60L * 1000L +
-                    mHours * 60L * 60L * 1000L +
-                    mMinutes * 60L * 1000L +
-                    mSeconds * 1000L
+            mHours * 60L * 60L * 1000L +
+            mMinutes * 60L * 1000L +
+            mSeconds * 1000L
         } else {
-            -1
+            NEVER
         }
     }
 

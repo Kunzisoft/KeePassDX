@@ -40,6 +40,7 @@ import com.kunzisoft.keepass.database.MainCredential
 import com.kunzisoft.keepass.hardware.HardwareKey
 import com.kunzisoft.keepass.model.CredentialStorage
 import com.kunzisoft.keepass.utils.KeyboardUtil.showKeyboard
+import com.kunzisoft.keepass.utils.clear
 
 class MainCredentialView @JvmOverloads constructor(context: Context,
                                                    attrs: AttributeSet? = null,
@@ -139,13 +140,13 @@ class MainCredentialView @JvmOverloads constructor(context: Context,
         onValidateListener?.invoke()
     }
 
-    fun populatePasswordTextView(text: String?) {
+    fun populatePasswordTextView(text: CharArray?) {
         if (text == null || text.isEmpty()) {
             passwordTextView.setText("")
             if (checkboxPasswordView.isChecked)
                 checkboxPasswordView.isChecked = false
         } else {
-            passwordTextView.setText(text)
+            passwordTextView.setText(text, 0, text.size)
             if (checkboxPasswordView.isChecked)
                 checkboxPasswordView.isChecked = true
         }
@@ -187,17 +188,16 @@ class MainCredentialView @JvmOverloads constructor(context: Context,
 
     fun getMainCredential(): MainCredential {
         return MainCredential().apply {
-            this.password = if (checkboxPasswordView.isChecked)
-                passwordTextView.text?.toString() else null
+            this.password = if (checkboxPasswordView.isChecked) {
+                val charArray = CharArray(passwordTextView.length())
+                passwordTextView.text.getChars(0, passwordTextView.length(), charArray, 0)
+                charArray
+            } else null
             this.keyFileUri = if (checkboxKeyFileView.isChecked)
                 keyFileSelectionView.uri else null
             this.hardwareKey = if (checkboxHardwareView.isChecked)
                 hardwareKeySelectionView.hardwareKey else null
         }
-    }
-
-    fun changeConditionToStoreCredential(credentialStorage: CredentialStorage) {
-        this.mCredentialStorage = credentialStorage
     }
 
     fun conditionToStoreCredential(): Boolean {
@@ -210,26 +210,34 @@ class MainCredentialView @JvmOverloads constructor(context: Context,
     }
 
     /**
-     * Return content of the store credential view allowed,
-     * String? for password
-     *
+     * Return content of the store credential view allowed
      */
     fun retrieveCredentialForStorage(listener: CredentialStorageListener): ByteArray? {
         return when (mCredentialStorage) {
-            CredentialStorage.PASSWORD -> listener.passwordToStore(passwordTextView.text?.toString())
+            CredentialStorage.PASSWORD -> {
+                val password = CharArray(passwordTextView.length())
+                passwordTextView.text.getChars(0, passwordTextView.length(), password, 0)
+                val res = listener.passwordToStore(password)
+                password.clear()
+                res
+            }
             CredentialStorage.KEY_FILE -> listener.keyfileToStore(keyFileSelectionView.uri)
             CredentialStorage.HARDWARE_KEY -> listener.hardwareKeyToStore()
         }
     }
 
     interface CredentialStorageListener {
-        fun passwordToStore(password: String?): ByteArray?
+        fun passwordToStore(password: CharArray?): ByteArray?
         fun keyfileToStore(keyfile: Uri?): ByteArray?
         fun hardwareKeyToStore(): ByteArray?
     }
 
     fun requestPasswordFocus() {
         passwordTextView.requestFocusFromTouch()
+        onConditionToStoreCredentialChanged?.invoke(
+            mCredentialStorage,
+            conditionToStoreCredential()
+        )
     }
 
     // Auto select the password field and open keyboard

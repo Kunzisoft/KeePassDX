@@ -292,7 +292,6 @@
     <string name="keyboard_notification_entry_clear_close_summary">Zatvori bazu podataka nakon zatvaranja obavijesti</string>
     <string name="keyboard_notification_entry_content_title_text">Unos</string>
     <string name="keyboard_notification_entry_content_title">%1$s je na Magikeyboard</string>
-    <string name="keyboard_notification_entry_content_text">%1$s</string>
     <string name="keyboard_appearance_category">Izgled</string>
     <string name="keyboard_theme_title">Tema tipkovnice</string>
     <string name="keyboard_keys_category">Tipke</string>
@@ -655,7 +654,7 @@
     <string name="menu_form_filling_settings_summary">Tipkovnica, automatsko ispunjavanje, međuspremnik</string>
     <string name="menu_database_settings_summary">Metapodaci, koš za smeće, predlošci, povijest</string>
     <string name="menu_security_settings_summary">Šifriranje, funkcija derivacije ključa</string>
-    <string name="warning_copy_permission">Dozvola za obavijesti je potrebna za korištenje funkcije obavijesti međuspremnika.</string>
+    <string name="warning_permission">Dozvola za obavijesti je potrebna za korištenje funkcije obavijesti međuspremnika.</string>
     <string name="later">Kasnije</string>
     <string name="ask">Pitaj</string>
     <string name="warning_database_notification_permission">Dozvola za obavijesti omogućuje prikaz stanja baze podataka i zaključavanje pomoću lako dostupnog gumba.

@@ -175,21 +175,23 @@ open class TextFieldView @JvmOverloads constructor(context: Context,
         labelView.setText(labelId)
     }
 
-    override var value: String
+    override var value: CharArray
         get() {
-            return valueView.text.toString()
+            val sequence = valueView.text
+            val valueChars = CharArray(sequence.length)
+            android.text.TextUtils.getChars(sequence, 0, sequence.length, valueChars, 0)
+            return valueChars
         }
         set(value) {
-            valueView.text = value
+            valueView.setText(value, 0, value.size)
             changeProtectedValueParameters()
         }
 
     open fun setValue(@StringRes valueId: Int) {
-        value = resources.getString(valueId)
-        changeProtectedValueParameters()
+        value = resources.getString(valueId).toCharArray()
     }
 
-    override var default: String = ""
+    override var default: CharArray = CharArray(0)
 
     fun setMaxChars(numberChars: Int) {
         when {
@@ -223,8 +225,11 @@ open class TextFieldView @JvmOverloads constructor(context: Context,
         valueView.apply {
             if (showButton.isVisible) {
                 applyHiddenStyle(isCurrentlyProtected)
+                setCopyButtonState(mButtonState)
             } else {
                 linkify()
+                isFocusable = true
+                setTextIsSelectable(true)
             }
         }
         invalidate()
@@ -253,7 +258,11 @@ open class TextFieldView @JvmOverloads constructor(context: Context,
         return null
     }
 
+    private var mButtonState: ButtonState = ButtonState.DEACTIVATE
+
     fun setCopyButtonState(buttonState: ButtonState) {
+        val isCurrentlyProtected = isCurrentlyProtected()
+        mButtonState = buttonState
         when (buttonState) {
             ButtonState.ACTIVATE -> {
                 copyButton.apply {
@@ -261,8 +270,8 @@ open class TextFieldView @JvmOverloads constructor(context: Context,
                     isActivated = false
                 }
                 valueView.apply {
-                    isFocusable = true
-                    setTextIsSelectable(true)
+                    isFocusable = !showButton.isVisible || !isCurrentlyProtected
+                    setTextIsSelectable(!showButton.isVisible || !isCurrentlyProtected)
                 }
             }
             ButtonState.DEACTIVATE -> {
@@ -290,7 +299,7 @@ open class TextFieldView @JvmOverloads constructor(context: Context,
         invalidate()
     }
 
-    fun setCopyButtonClickListener(onActionClickListener: ((label: String, value: String) -> Unit)?) {
+    fun setCopyButtonClickListener(onActionClickListener: ((label: String, value: CharArray) -> Unit)?) {
         val clickListener = if (onActionClickListener != null)
             OnClickListener { onActionClickListener.invoke(label, value) }
         else

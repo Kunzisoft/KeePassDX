@@ -14,12 +14,9 @@ import androidx.fragment.app.FragmentActivity
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.CheckDatabaseCredentialDialogFragment
 import com.kunzisoft.keepass.credentialprovider.passkey.data.UserVerificationRequirement
-import com.kunzisoft.keepass.database.ContextualDatabase
-import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.settings.PreferencesUtil.isUserVerificationDeviceCredential
 import com.kunzisoft.keepass.utils.getEnumExtra
 import com.kunzisoft.keepass.utils.putEnumExtra
-import com.kunzisoft.keepass.view.ProtectedFieldView
 import com.kunzisoft.keepass.view.toastError
 import com.kunzisoft.keepass.viewmodels.UserVerificationViewModel
 
@@ -78,23 +75,9 @@ class UserVerificationHelper {
         /**
          * Get the User Verification from the intent
          */
-        fun Intent.isUserVerificationNeeded(userVerificationPreferred: Boolean): Boolean {
-            val userVerification: UserVerificationRequirement =
-                getEnumExtra<UserVerificationRequirement>(EXTRA_USER_VERIFICATION)
+        fun Intent.retrieveUserVerificationRequirement(): UserVerificationRequirement {
+            return getEnumExtra<UserVerificationRequirement>(EXTRA_USER_VERIFICATION)
                 ?: UserVerificationRequirement.PREFERRED
-            return (userVerification == UserVerificationRequirement.REQUIRED
-                    || (userVerificationPreferred
-                        && userVerification == UserVerificationRequirement.PREFERRED)
-                    )
-        }
-
-        /**
-         * Check if the User needs to be verified for this entry
-         */
-        fun EntryInfo.isUserVerificationNeeded(): Boolean {
-            // Apply to any entry with protected content
-            // Not only this.passkey != null
-            return true
         }
 
         fun Fragment.checkUserVerification(
@@ -102,25 +85,6 @@ class UserVerificationHelper {
             dataToVerify: UserVerificationData
         ) {
             activity?.checkUserVerification(userVerificationViewModel, dataToVerify)
-        }
-
-        fun FragmentActivity.requestShowUnprotectField(
-            userVerificationViewModel: UserVerificationViewModel,
-            database: ContextualDatabase,
-            protectedFieldView: ProtectedFieldView
-        ) {
-            if (protectedFieldView.isCurrentlyProtected()) {
-                checkUserVerification(
-                    userVerificationViewModel = userVerificationViewModel,
-                    dataToVerify = UserVerificationData(
-                        actionType = UserVerificationActionType.SHOW_PROTECTED_FIELD,
-                        database = database,
-                        protectedFieldView = protectedFieldView
-                    )
-                )
-            } else {
-                protectedFieldView.protect()
-            }
         }
 
         /**
@@ -160,7 +124,7 @@ class UserVerificationHelper {
                                 Log.i("UserVerification", "$errString")
                             }
                             else -> {
-                                toastError(SecurityException("Authentication error: $errString"))
+                                toastError(SecurityException("$errString"))
                             }
                         }
                         userVerificationViewModel.onUserVerificationFailed(dataToVerify)
@@ -179,12 +143,17 @@ class UserVerificationHelper {
                         userVerificationViewModel.onUserVerificationFailed(dataToVerify)
                     }
                 }).authenticate(
-                BiometricPrompt.PromptInfo.Builder()
-                    .setTitle(getString(R.string.user_verification_required_title))
-                    .setSubtitle(getString(R.string.user_verification_required_description))
-                    .setAllowedAuthenticators(ALLOWED_AUTHENTICATORS)
-                    .setConfirmationRequired(false)
-                    .build()
+                BiometricPrompt.PromptInfo.Builder().run {
+                    setTitle(getString(R.string.user_verification_required_title))
+                    setSubtitle(
+                        dataToVerify.originName?.let {
+                            getString(R.string.user_verification_required_description_precise, it)
+                        } ?: getString(R.string.user_verification_required_description)
+                    )
+                    setAllowedAuthenticators(ALLOWED_AUTHENTICATORS)
+                    setConfirmationRequired(false)
+                    build()
+                }
             )
         }
 

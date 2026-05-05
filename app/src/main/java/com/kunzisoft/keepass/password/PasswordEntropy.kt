@@ -23,11 +23,17 @@ import android.content.res.Resources
 import android.graphics.Color
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.utils.IOActionTask
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Deferred
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import me.gosimple.nbvcxz.Nbvcxz
 import me.gosimple.nbvcxz.resources.Configuration
 import me.gosimple.nbvcxz.resources.ConfigurationBuilder
-import java.util.*
+import java.util.Locale
 import kotlin.math.min
 
 class PasswordEntropy(actionOnInitFinished: (() -> Unit)? = null) {

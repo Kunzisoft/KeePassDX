@@ -30,7 +30,7 @@ import com.kunzisoft.keepass.database.exception.MoveEntryDatabaseException
 import com.kunzisoft.keepass.database.exception.MoveGroupDatabaseException
 import com.kunzisoft.keepass.hardware.HardwareKey
 
-class MoveNodesRunnable constructor(
+class MoveNodesRunnable(
     context: Context,
     database: ContextualDatabase,
     private val mNodesToMove: List<Node>,
@@ -98,11 +98,11 @@ class MoveNodesRunnable constructor(
                         }
                     }
                 }
-            } catch (e: Exception) {
+            } catch (_: Exception) {
                 Log.i(TAG, "Unable to replace the node")
             }
         }
-        return ActionNodesValues(ArrayList(), mNodesToMove)
+        return ActionNodesValues(emptyList(), mNodesToMove)
     }
 
     companion object {

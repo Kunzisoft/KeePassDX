@@ -19,8 +19,10 @@ import com.kunzisoft.keepass.database.element.template.TemplateField
 import com.kunzisoft.keepass.database.helper.getLocalizedName
 import com.kunzisoft.keepass.database.helper.isStandardPasswordName
 import com.kunzisoft.keepass.model.AppOriginEntryField
+import com.kunzisoft.keepass.model.CreditCardEntryFields
 import com.kunzisoft.keepass.model.DataDate
 import com.kunzisoft.keepass.model.DataTime
+import com.kunzisoft.keepass.model.FieldProtection
 import com.kunzisoft.keepass.model.PasskeyEntryFields
 import com.kunzisoft.keepass.otp.OtpEntryFields
 
@@ -35,9 +37,9 @@ class TemplateEditView @JvmOverloads constructor(context: Context,
     @IdRes
     private var mTempDateTimeViewId: Int? = null
 
-    private var mOnUnprotectClickListener: ((Field, ProtectedFieldView) -> Unit)? = null
-    fun setOnUnprotectClickListener(listener: ((Field, ProtectedFieldView) -> Unit)?) {
-        this.mOnUnprotectClickListener = listener
+    private var mOnChangeFieldProtectionClickListener: ((FieldProtection) -> Unit)? = null
+    fun setOnChangeFieldProtectionClickListener(listener: ((FieldProtection) -> Unit)?) {
+        this.mOnChangeFieldProtectionClickListener = listener
     }
 
     private var mOnCustomEditionActionClickListener: ((Field) -> Unit)? = null
@@ -131,13 +133,15 @@ class TemplateEditView @JvmOverloads constructor(context: Context,
                     protection = field.protectedValue.isProtected,
                     isCurrentlyProtected = mUnprotectedFields.contains(field).not()
                 ) {
-                    mOnUnprotectClickListener?.invoke(field, this)
+                    mOnChangeFieldProtectionClickListener?.invoke(
+                        FieldProtection(field, isCurrentlyProtected())
+                    )
                 }
                 // Trick to bypass the onSaveInstanceState in rebuild child
                 onSaveInstanceState = {
                     saveUnprotectedFieldState(field, isCurrentlyProtected())
                 }
-                default = templateAttribute.default
+                default = templateAttribute.default.toCharArray()
                 setMaxChars(templateAttribute.options.getNumberChars())
                 setMaxLines(templateAttribute.options.getNumberLines())
                 setActionClick(templateAttribute, field, this)
@@ -147,6 +151,7 @@ class TemplateEditView @JvmOverloads constructor(context: Context,
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                     importantForAutofill = IMPORTANT_FOR_AUTOFILL_NO
                 }
+                mFields[field] = this
             }
         }
     }
@@ -156,7 +161,7 @@ class TemplateEditView @JvmOverloads constructor(context: Context,
         return context?.let {
             TextSelectFieldView(it).apply {
                 setItems(templateAttribute.options.getListItems())
-                default = templateAttribute.default
+                default = templateAttribute.default.toCharArray()
                 setActionClick(templateAttribute, field, this)
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                     importantForAutofill = IMPORTANT_FOR_AUTOFILL_NO
@@ -172,8 +177,11 @@ class TemplateEditView @JvmOverloads constructor(context: Context,
             applyFontVisibility(mFontInVisibility)
             label = templateAttribute.alias
                 ?: TemplateField.getLocalizedName(context, field.name)
-            val fieldValue = field.protectedValue.stringValue
-            value = fieldValue.ifEmpty { templateAttribute.default }
+            val fieldValue = field.protectedValue.charArrayValue
+            value = if (fieldValue.isEmpty())
+                templateAttribute.default.toCharArray()
+            else
+                fieldValue
             // TODO edition and password generator at same time
             when (templateAttribute.action) {
                 TemplateAttributeAction.NONE -> {
@@ -222,13 +230,16 @@ class TemplateEditView @JvmOverloads constructor(context: Context,
     fun setPasswordField(passwordField: Field) {
         val passwordView = getFieldViewById(passwordField.name.hashCode())
         if (passwordView is TextEditFieldView?) {
-                passwordView?.value = passwordField.protectedValue.stringValue
+            passwordView?.value = passwordField.protectedValue.charArrayValue
         }
     }
 
     fun getPasswordField(): Field {
         val passwordView: TextEditFieldView? = templateContainerView.findViewWithTag(FIELD_PASSWORD_TAG)
-        return Field(TemplateField.LABEL_PASSWORD, ProtectedString(true, passwordView?.value ?: ""))
+        return Field(
+            name = TemplateField.LABEL_PASSWORD,
+            value = ProtectedString(true, passwordView?.value)
+        )
     }
 
     private fun setCurrentDateTimeSelection(action: (dateInstant: DateInstant) -> DateInstant) {
@@ -271,15 +282,18 @@ class TemplateEditView @JvmOverloads constructor(context: Context,
         return super.populateViewsWithEntryInfo(showEmptyFields)
     }
 
-    override fun populateEntryInfoWithViews(templateFieldNotEmpty: Boolean,
-                                            retrieveDefaultValues: Boolean) {
+    override fun populateEntryInfoWithViews(
+        templateFieldNotEmpty: Boolean,
+        retrieveDefaultValues: Boolean
+    ) {
         super.populateEntryInfoWithViews(templateFieldNotEmpty, retrieveDefaultValues)
-        val getField: (id: String) -> String? = { key ->
-            getCustomFieldOrNull(key)?.protectedValue?.stringValue
+        val getField: (id: String) -> CharArray? = { key ->
+            getCustomFieldOrNull(key)?.protectedValue?.charArrayValue
         }
         mEntryInfo?.otpModel = OtpEntryFields.parseFields(getField)?.otpModel
+        mEntryInfo?.creditCard = CreditCardEntryFields.parseFields(getField)
         mEntryInfo?.passkey = PasskeyEntryFields.parseFields(getField)
-        mEntryInfo?.appOrigin = AppOriginEntryField.parseFields(getField)
+        mEntryInfo?.appOrigin = AppOriginEntryField.parseFields(getUrlFromView(), getField)
     }
 
     override fun onRestoreEntryInstanceState(state: SavedState) {

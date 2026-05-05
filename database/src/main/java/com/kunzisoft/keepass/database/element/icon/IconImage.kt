@@ -28,6 +28,11 @@ class IconImage() : IconImageDraw() {
     var standard: IconImageStandard = IconImageStandard()
     var custom: IconImageCustom = IconImageCustom()
 
+    constructor(iconImage: IconImage) : this() {
+        this.standard = IconImageStandard(iconImage.standard)
+        this.custom = IconImageCustom(iconImage.custom)
+    }
+
     constructor(iconImageStandard: IconImageStandard) : this() {
         this.standard = iconImageStandard
     }

@@ -26,13 +26,13 @@ import com.kunzisoft.encrypt.Base64Helper.Companion.b64Encode
 import org.json.JSONObject
 
 class AuthenticatorAssertionResponse(
-    private val requestOptions: PublicKeyCredentialRequestOptions,
+    requestOptions: PublicKeyCredentialRequestOptions,
     private val userPresent: Boolean,
     private val userVerified: Boolean,
     private val backupEligibility: Boolean,
     private val backupState: Boolean,
     private var userHandle: String,
-    privateKey: String,
+    privateKey: CharArray,
     private val clientDataResponse: ClientDataResponse,
 ) : AuthenticatorResponse {
 

@@ -209,6 +209,13 @@
             </intent-filter>
         </activity>
         <activity
+            android:name="com.kunzisoft.keepass.credentialprovider.activity.PasswordLauncherActivity"
+            android:theme="@style/Theme.Transparent"
+            android:configChanges="keyboardHidden"
+            android:exported="false"
+            android:excludeFromRecents="true"
+            tools:targetApi="upside_down_cake" />
+        <activity
             android:name="com.kunzisoft.keepass.credentialprovider.activity.PasskeyLauncherActivity"
             android:theme="@style/Theme.Transparent"
             android:configChanges="keyboardHidden"
@@ -223,6 +230,11 @@
         <service
             android:name="com.kunzisoft.keepass.services.AttachmentFileNotificationService"
             android:foregroundServiceType="dataSync"
+            android:enabled="true"
+            android:exported="false" />
+        <service
+            android:name="com.kunzisoft.keepass.services.ClipboardEntryNotificationService"
+            android:foregroundServiceType="specialUse"
             android:enabled="true"
             android:exported="false" />
         <service
@@ -263,7 +275,7 @@
             android:name="com.kunzisoft.keepass.credentialprovider.passkey.PasskeyProviderService"
             android:enabled="true"
             android:exported="true"
-            android:label="@string/passkey_service_name"
+            android:label="@string/credential_provider_service_name"
             android:icon="@mipmap/ic_launcher"
             android:permission="android.permission.BIND_CREDENTIAL_PROVIDER_SERVICE"
             tools:targetApi="upside_down_cake">

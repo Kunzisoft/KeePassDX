@@ -42,14 +42,14 @@ android {
 
 dependencies {
     // Time
-    implementation 'joda-time:joda-time:2.13.0'
+    implementation "joda-time:joda-time:$joda_time_version"
     // Apache Commons
-    implementation 'commons-io:commons-io:2.8.0'
-    implementation 'commons-codec:commons-codec:1.15'
+    implementation "commons-io:commons-io:$commons_io_version"
 
     api project(path: ':crypto')
 
     // Tests
     androidTestImplementation "androidx.test:runner:$android_test_version"
-    testImplementation "androidx.test:runner:$android_test_version"
+    testImplementation "junit:junit:4.13.2"
+    testImplementation "org.robolectric:robolectric:4.11.1"
 }

@@ -275,7 +275,6 @@
     <string name="keyboard_notification_entry_summary">Εμφάνιση ειδοποίησης όταν είναι διαθέσιμη μια καταχώρηση</string>
     <string name="keyboard_notification_entry_content_title_text">Καταχώριση</string>
     <string name="keyboard_notification_entry_content_title">%1$s είναι διαθέσιμο στο Magikeyboard</string>
-    <string name="keyboard_notification_entry_content_text">%1$s</string>
     <string name="keyboard_notification_entry_clear_close_title">Καθαρισμός στο κλείσιμο</string>
     <string name="keyboard_notification_entry_clear_close_summary">Κλείσιμο της βάση δεδομένων κατά το κλείσιμο της ειδοποίησης</string>
     <string name="keyboard_appearance_category">Εμφάνιση</string>
@@ -663,7 +662,7 @@
     <string name="menu_database_settings_summary">Μεταδεδομένα, κάδος ανακύκλωσης, πρότυπα, ιστορικό</string>
     <string name="menu_security_settings_summary">Κρυπτογράφηση, λειτουργία παραγωγής κλειδιού</string>
     <string name="master_key_settings_summary">Αλλαγή, ανανέωση</string>
-    <string name="warning_copy_permission">Η άδεια ειδοποίησης απαιτείται για τη χρήση της δυνατότητας ειδοποίησης του προχείρου.</string>
+    <string name="warning_permission">Η άδεια ειδοποίησης απαιτείται για τη χρήση της δυνατότητας ειδοποίησης του προχείρου.</string>
     <string name="unlock_and_link_biometric">Σύνδεσμος ξεκλειδώματος συσκευής</string>
     <string name="menu_appearance_settings_summary">Θέματα, χρώματα, ιδιότητες</string>
     <string name="ask">Ερώτηση</string>

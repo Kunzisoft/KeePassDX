@@ -19,7 +19,6 @@
  */
 package com.kunzisoft.keepass.activities
 
-import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -46,12 +45,12 @@ import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.database.element.icon.IconImageCustom
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.tasks.BinaryDatabaseManager
-import com.kunzisoft.keepass.utils.getParcelableCompat
-import com.kunzisoft.keepass.utils.getParcelableExtraCompat
 import com.kunzisoft.keepass.utils.UriUtil.getDocumentFile
 import com.kunzisoft.keepass.utils.UriUtil.openUrl
+import com.kunzisoft.keepass.utils.getParcelableCompat
+import com.kunzisoft.keepass.utils.getParcelableExtraCompat
 import com.kunzisoft.keepass.view.asError
-import com.kunzisoft.keepass.view.updateLockPaddingStart
+import com.kunzisoft.keepass.view.updateButtonPaddingStart
 import com.kunzisoft.keepass.viewmodels.IconPickerViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Deferred
@@ -74,7 +73,7 @@ class IconPickerActivity : DatabaseLockActivity() {
 
     private val iconPickerViewModel: IconPickerViewModel by viewModels()
     private var mCustomIconsSelectionMode = false
-    private var mIconsSelected: List<IconImageCustom> = ArrayList()
+    private var mIconsSelected: List<IconImageCustom> = emptyList()
 
     private var mExternalFileHelper: ExternalFileHelper? = null
 
@@ -172,9 +171,7 @@ class IconPickerActivity : DatabaseLockActivity() {
         return findViewById<ViewGroup>(R.id.icon_picker_container)
     }
 
-    override fun finishActivityIfReloadRequested(): Boolean {
-        return true
-    }
+    override fun finishActivityIfReloadRequested(): Boolean = true
 
     override fun onDatabaseRetrieved(database: ContextualDatabase) {
         super.onDatabaseRetrieved(database)
@@ -214,7 +211,7 @@ class IconPickerActivity : DatabaseLockActivity() {
         }
 
         // Padding if lock button visible
-        toolbar.updateLockPaddingStart()
+        toolbar.updateButtonPaddingStart()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -326,7 +323,7 @@ class IconPickerActivity : DatabaseLockActivity() {
     }
 
     private fun setResult() {
-        setResult(Activity.RESULT_OK, Intent().apply {
+        setResult(RESULT_OK, Intent().apply {
             putExtra(EXTRA_ICON, mIconImage)
         })
     }
@@ -345,7 +342,7 @@ class IconPickerActivity : DatabaseLockActivity() {
         fun registerIconSelectionForResult(context: FragmentActivity,
                                            listener: (icon: IconImage) -> Unit): ActivityResultLauncher<Intent> {
             return context.registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-                if (result.resultCode == Activity.RESULT_OK) {
+                if (result.resultCode == RESULT_OK) {
                     listener.invoke(result.data?.getParcelableExtraCompat(EXTRA_ICON) ?: IconImage())
                 }
             }

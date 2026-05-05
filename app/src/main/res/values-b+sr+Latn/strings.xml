@@ -122,7 +122,6 @@
     <string name="keyboard_theme_title">Tema tastature</string>
     <string name="keyboard_appearance_category">Izgled</string>
     <string name="keyboard_notification_entry_content_title">%1$s je na Magikeyboard-u</string>
-    <string name="keyboard_notification_entry_content_text">%1$s</string>
     <string name="keyboard_notification_entry_content_title_text">Unos</string>
     <string name="keyboard_entry_timeout_summary">Vremenski period nakon koga se briše unos sa tastature</string>
     <string name="keyboard_entry_timeout_title">Vreme isteka</string>

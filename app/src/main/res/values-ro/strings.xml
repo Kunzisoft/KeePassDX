@@ -316,7 +316,6 @@
     <string name="keyboard_entry_timeout_summary">Timpul de așteptare pentru a șterge intrarea de la tastatură</string>
     <string name="keyboard_notification_entry_content_title_text">Intrare</string>
     <string name="keyboard_notification_entry_content_title">%1$s disponibil pe Tastatura magică</string>
-    <string name="keyboard_notification_entry_content_text">%1$s</string>
     <string name="keyboard_appearance_category">Aspect</string>
     <string name="keyboard_theme_title">Tema tastaturii</string>
     <string name="keyboard_keys_category">Chei</string>
@@ -583,7 +582,7 @@
     <string name="warning_database_notification_permission">Permisiunea de notificare vă permite să afișați starea bazei de date și să o blocați cu un buton ușor accesibil.
 \n
 \nDacă nu activați această permisiune, baza de date deschisă în fundal nu va fi vizibilă dacă o altă aplicație se află în prim-plan.</string>
-    <string name="warning_copy_permission">Permisiunea de notificare este necesară pentru a utiliza funcția de notificare a clipboardului.</string>
+    <string name="warning_permission">Permisiunea de notificare este necesară pentru a utiliza funcția de notificare a clipboardului.</string>
     <string name="device_unlock_prompt_store_credential_title">Legătură la deblocarea dispozitivului</string>
     <string name="device_unlock_prompt_extract_credential_title">Recunoașterea deblocării dispozitivului</string>
     <string name="unlock_and_link_biometric">Legătură de deblocare a dispozitivului</string>
@@ -703,5 +702,5 @@
     <string name="passkeys_auto_select_title">Selectare automată</string>
     <string name="passkeys_auto_select_summary">Selectare automată dacă există o singură intrare și baza de date este deschisă, doar dacă aplicația solicitantă este compatibilă</string>
     <string name="passkeys_backup_eligibility_title">Eligibilitate pentru copia de siguranță</string>
-    <string name="passkey_locked_database_description">Selectează ca să deblochezi</string>
+    <string name="credential_provider_locked_database_description">Selectează ca să deblochezi</string>
 </resources>

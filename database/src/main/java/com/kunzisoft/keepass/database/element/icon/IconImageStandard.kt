@@ -37,6 +37,10 @@ class IconImageStandard : IconImageDraw {
             this.id = iconId
     }
 
+    constructor(iconImageStandard: IconImageStandard) {
+        this.id = iconImageStandard.id
+    }
+
     constructor(parcel: Parcel) {
         id = parcel.readInt()
     }

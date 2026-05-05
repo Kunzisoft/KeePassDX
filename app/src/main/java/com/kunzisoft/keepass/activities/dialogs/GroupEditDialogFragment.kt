@@ -76,7 +76,7 @@ class GroupEditDialogFragment : DatabaseDialogFragment() {
 
         companion object {
             fun getActionFromOrdinal(ordinal: Int): EditGroupDialogAction {
-                return values()[ordinal]
+                return EditGroupDialogAction.entries[ordinal]
             }
         }
     }
@@ -132,7 +132,10 @@ class GroupEditDialogFragment : DatabaseDialogFragment() {
             autoTypeContainerView.visibility = View.GONE
         }
 
-        tagsAdapter = TagsProposalAdapter(requireContext(), database.tagPool)
+        tagsAdapter = TagsProposalAdapter(
+            requireContext(),
+            database.tagPoolWithoutHistory
+        )
         tagsCompletionView.apply {
             threshold = 1
             setAdapter(tagsAdapter)
@@ -241,7 +244,7 @@ class GroupEditDialogFragment : DatabaseDialogFragment() {
         groupInfo.tags.let { tags ->
             tagsCompletionView.setText("")
             for (i in 0 until tags.size()) {
-                tagsCompletionView.addObjectSync(tags.get(i))
+                tagsCompletionView.addObjectSync(tags.get(i).name)
             }
         }
     }

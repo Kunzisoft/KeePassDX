@@ -32,7 +32,9 @@ import com.kunzisoft.keepass.database.element.node.NodeIdUUID
 import com.kunzisoft.keepass.database.element.node.NodeKDBInterface
 import com.kunzisoft.keepass.database.element.node.Type
 import com.kunzisoft.keepass.utils.readParcelableCompat
-import java.util.*
+import com.kunzisoft.keepass.utils.readCharArrayCompat
+import com.kunzisoft.keepass.utils.writeCharArrayCompat
+import java.util.UUID
 
 /**
  * Structure containing information about one entry.
@@ -113,7 +115,7 @@ class EntryKDB : EntryVersioned<Int, UUID, GroupKDB, EntryKDB>, NodeKDBInterface
     constructor(parcel: Parcel) : super(parcel) {
         title = parcel.readString() ?: title
         username = parcel.readString() ?: username
-        password = parcel.readString() ?: password
+        password = parcel.readCharArrayCompat() ?: password
         url = parcel.readString() ?: url
         notes = parcel.readString() ?: notes
         binaryDescription = parcel.readString() ?: binaryDescription
@@ -133,7 +135,7 @@ class EntryKDB : EntryVersioned<Int, UUID, GroupKDB, EntryKDB>, NodeKDBInterface
         super.writeToParcel(dest, flags)
         dest.writeString(title)
         dest.writeString(username)
-        dest.writeString(password)
+        dest.writeCharArrayCompat(password)
         dest.writeString(url)
         dest.writeString(notes)
         dest.writeString(binaryDescription)
@@ -154,10 +156,7 @@ class EntryKDB : EntryVersioned<Int, UUID, GroupKDB, EntryKDB>, NodeKDBInterface
 
     override var username = ""
 
-    /**
-     * @return the actual password byte array.
-     */
-    override var password = ""
+    override var password = charArrayOf()
 
     override var url = ""
 

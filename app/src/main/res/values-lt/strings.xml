@@ -25,7 +25,7 @@
     <string name="accept">Priimti</string>
     <string name="add_entry">Pridėti įrašą</string>
     <string name="add_group">Pridėti grupę</string>
-    <string name="encryption_algorithm">Šifravimo algortimas</string>
+    <string name="encryption_algorithm">Šifravimo algoritmas</string>
     <string name="app_timeout_summary">Neveiklumo trukmė prieš duomenų bazės užrakinimą</string>
     <string name="application">Programėlė</string>
     <string name="menu_app_settings">Programėlės nustatymai</string>
@@ -41,9 +41,9 @@
     <string name="save">Išsaugoti</string>
     <string name="entry_title">Pavadinimas</string>
     <string name="entry_url">URL</string>
-    <string name="entry_user_name">Slapyvardis</string>
+    <string name="entry_user_name">Naudotojo vardas</string>
     <string name="error_invalid_db">Nepavyko perskaityti duomenų bazės.</string>
-    <string name="field_name">Lauko Pavadinimas</string>
+    <string name="field_name">Lauko pavadinimas</string>
     <string name="field_value">Lauko reikšmė</string>
     <string name="file_browser">Failų naršyklė</string>
     <string name="generate_password">Generuoti slaptažodį</string>
@@ -99,7 +99,7 @@
     <string name="underline">Pabraukimas</string>
     <string name="default_checkbox">Naudoti šią duomenų bazę kaip numatytąją</string>
     <string name="invalid_algorithm">Neteisingas algoritmas.</string>
-    <string name="error_invalid_path">Pasirūpininkite, kad kelias būtų teisingas.</string>
+    <string name="error_invalid_path">Įsitikinkite, kad kelias yra teisingas.</string>
     <string name="education_unlock_summary">Įveskite slaptažodį ir/ar rakto failą, kad atrakintumėte savo duomenų bazę.
 \n
 \nSukurkite atsarginę duomenų bazės failo kopiją saugioje vietoje po kiekvieno pakeitimo.</string>
@@ -130,7 +130,7 @@
     <string name="file_manager_install_description">Failų naršyklė, kuri priima „ACTION_CREATE_DOCUMENT“ ir „ACTION_OPEN_DOCUMENT“ veiksmus reikalinga sukurti, atverti ir išsaugoti duomenų bazės failus.</string>
     <string name="version">Versija</string>
     <string name="bank">Bankas</string>
-    <string name="seed">Sėkla</string>
+    <string name="seed">Pradinė reikšmė (seed)</string>
     <string name="account">Paskyra</string>
     <string name="bank_name">Banko pavadinimas</string>
     <string name="secure_note">Saugi pastaba</string>
@@ -138,7 +138,7 @@
     <string name="error_create_database">Nepavyko sukurti duomenų bazės failo.</string>
     <string name="error_no_name">Įveskite pavadinimą.</string>
     <string name="error_word_reserved">Šis žodis yra rezervuotas ir negali būti naudojamas.</string>
-    <string name="error_nokeyfile">Pasirinkti rakto failą.</string>
+    <string name="error_nokeyfile">Pasirinkite rakto failą.</string>
     <string name="error_load_database">Nepavyko užkrauti duomenų bazės.</string>
     <string name="error_pass_gen_type">Turi būti pasirinktas bent vienas slaptažodžio generavimo tipas.</string>
     <string name="create_keepass_file">Sukurti naują saugyklą</string>
@@ -152,20 +152,20 @@
     <string name="entry_password_generator">Slaptažodžių generatorius</string>
     <string name="autofill_select_entry">Pasirinkti įrašą…</string>
     <string name="error_save_database">Nepavyko įrašyti duomenų bazės.</string>
-    <string name="error_create_database_file">Nepavyko sukurti duomenų bazes su šiuo slaptažodžiu ir rakto failu.</string>
+    <string name="error_create_database_file">Nepavyko sukurti duomenų bazės su šiuo slaptažodžiu ir rakto failu.</string>
     <string name="error_out_of_memory">Nėra atminties kad užkrauti visą jūsų duomenų bazę.</string>
     <string name="lock">Užrakinti</string>
     <string name="education_unlock_title">Atrakinkite savo duomenų bazę</string>
     <string name="menu_lock">Užrakinti duomenų bazę</string>
     <string name="expired">Nebegalioja</string>
-    <string name="select_to_copy">Pasirinkite kad kopijuoti %1$s į iškarpinę</string>
+    <string name="select_to_copy">Pasirinkite, kad nukopijuotumėte %1$s į iškarpinę</string>
     <string name="otp_period">Laikotarpis (sekundėmis)</string>
     <string name="otp_type">OTP tipas</string>
     <string name="error_otp_secret_key">Slaptasis raktas turi būti Base32 formato.</string>
     <string name="error_otp_period">Laikotarpis turi būti nuo %1$d iki %2$d sekundžių.</string>
     <string name="error_move_group_here">Čia negalima perkelti grupės.</string>
     <string name="otp_secret">Paslaptis</string>
-    <string name="list_entries_show_username_summary">Rodo vartotojų vardus įrašų sąrašuose</string>
+    <string name="list_entries_show_username_summary">Rodo naudotojų vardus įrašų sąrašuose</string>
     <string name="warning_database_revoked">Failų tvarkyklė panaikino prieigą prie failo, uždarykite duomenų bazę ir vėl ją atidarykite iš jos vietos.</string>
     <string name="discard">Atmesti</string>
     <string name="entry_setup_otp">Nustatyti vienkartinį slaptažodį</string>
@@ -197,7 +197,7 @@
     <string name="error_autofill_enable_service">Nepavyko įjungti automatinio pildymo paslaugos.</string>
     <string name="error_otp_counter">Skaitiklis turi būti nuo %1$d iki %2$d.</string>
     <string name="invalid_db_same_uuid">%1$s su tuo pačiu UUID %2$s jau egzistuoja.</string>
-    <string name="list_entries_show_username_title">Rodyti vartotojų vardus</string>
+    <string name="list_entries_show_username_title">Rodyti naudotojų vardus</string>
     <string name="list_groups_show_number_entries_title">Rodyti įrašų skaičių</string>
     <string name="list_groups_show_number_entries_summary">Rodo grupės įrašų skaičių</string>
     <string name="loading_database">Įkeliama duomenų bazė…</string>
@@ -235,8 +235,8 @@
     <string name="error_file_to_big">Failas, kurį bandote įkelti, yra per didelis.</string>
     <string name="error_otp_type">Ši forma neatpažįsta esamo OTP tipo, jos patvirtinimas gali nebegeneruoti teisingo žetono.</string>
     <string name="html_about_privacy">&lt;strong&gt;Jokie naudotojo duomenys nerenkami&lt;/strong&gt;, ši programa neprisijungia prie jokio serverio, veikia tik vietoje ir visiškai nepažeidžia naudotojų privatumo.</string>
-    <string name="debit_credit_card">Debit / Kreditinė kortelė</string>
-    <string name="holder">Turėtojas</string>
+    <string name="debit_credit_card">Debeto / Kreditinė kortelė</string>
+    <string name="holder">Savininkas</string>
     <string name="email">El. paštas</string>
     <string name="membership">Narystė</string>
     <string name="error_arc4">Srautinis šifras Arcfour nepalaikomas.</string>
@@ -297,7 +297,7 @@
     <string name="menu_open_file_read_and_write">Modifikuojama</string>
     <string name="menu_empty_recycle_bin">Ištuštinti šiukšliadėžę</string>
     <string name="no_results">Nėra paieškos rezultatų</string>
-    <string name="no_url_handler">Įdiekite žiniatinklio naršyklę, kad atidaryti šį URL adresą.</string>
+    <string name="no_url_handler">Įdiekite žiniatinklio naršyklę, kad atidarytumėte šį URL adresą.</string>
     <string name="auto_focus_search_title">Greita paieška</string>
     <string name="auto_focus_search_summary">Paieškos užklausa atidarant duomenų bazę</string>
     <string name="subdomain_search_title">Subdomeno paieška</string>
@@ -314,7 +314,7 @@
     <string name="sort_title">Pavadinimas</string>
     <string name="warning_password_encoding">Duomenų bazės faile venkite slaptažodžio simbolių, neatitinkančių teksto kodavimo formato (neatpažinti simboliai konvertuojami į tą pačią raidę).</string>
     <string name="warning_database_read_only">Suteikite failo įrašymo prieigą, duomenų bazės pakeitimų išsaugojimui</string>
-    <string name="warning_database_already_opened">Viena duomenų bazė jau atidaryta, pirmiausia ją uždarykite, kad atidaryti naują</string>
+    <string name="warning_database_already_opened">Viena duomenų bazė jau atidaryta, pirmiausia ją uždarykite, kad atidarytumėte naują</string>
     <string name="warning_no_encryption_key">Tęsti be šifravimo rakto\?</string>
     <string name="hide_expired_entries_summary">Nebegaliojantys įrašai nėra rodomi</string>
     <string name="import_app_properties_title">Importuoti programėlės nustatymus</string>
@@ -347,7 +347,7 @@
     <string name="menu_master_key_settings">Pagrindinio rakto nustatymai</string>
     <string name="permission">Leidimas</string>
     <string name="credential_before_click_device_unlock_button">Įveskite slaptažodį ir spustelėkite šį mygtuką.</string>
-    <string name="warning_sure_add_file">Ar vis tiek įkelti failą?</string>
+    <string name="warning_sure_add_file">Ar tikrai įkelti failą?</string>
     <string name="file_name">Failo pavadinimas</string>
     <string name="hint_icon_name">Ikonos pavadinimas</string>
     <string name="data">Duomenys</string>
@@ -377,7 +377,7 @@
     <string name="menu_app_settings_summary">Paieška, užraktas, istorija, savybės</string>
     <string name="master_key_settings_summary">Keisti, atnaujinti</string>
     <string name="parallelism">Lygiagretumas</string>
-    <string name="warning_sure_remove_data">Ar pašalinti šiuos duomenis?</string>
+    <string name="warning_sure_remove_data">Ar tikrai norite pašalinti šiuos duomenis?</string>
     <string name="warning_empty_keyfile">Nerekomenduojama pridėti tuščią raktų failą.</string>
     <string name="warning_database_info_changed_options">Sujunkite duomenis, perrašykite išorinius pakeitimus išsaugodami saugyklą arba iš naujo įkelkite ją su naujausiais pakeitimais.</string>
     <string name="warning_database_info_reloaded">Perkrovus saugyklą, bus ištrinti vietoje pakeisti duomenys.</string>
@@ -396,12 +396,12 @@
     <string name="menu_appearance_settings_summary">Temos, spalvos, atributai</string>
     <string name="general">Bendri</string>
     <string name="autofill">Automatinis pildymas</string>
-    <string name="autofill_sign_in_prompt">Prisijunkti naudojant \"KeePassDX</string>
+    <string name="autofill_sign_in_prompt">Prisijungti naudojant \"KeePassDX\"</string>
     <string name="password_size_summary">Nustato numatytąjį generuojamų slaptažodžių ilgį</string>
     <string name="password_size_title">Generuojamo slaptažodžio ilgis</string>
     <string name="list_password_generator_options_title">Slaptažodžio simboliai</string>
     <string name="list_password_generator_options_summary">Nustatyti leistinus slaptažodžių generatoriaus simbolius</string>
-    <string name="database_opened">Saugykla ayidaryta</string>
+    <string name="database_opened">Saugykla atidaryta</string>
     <string name="assign_master_key">Priskirti pagrindinį raktą</string>
     <string name="database_data_compression_summary">Duomenų suspaudimas sumažina saugyklos dydį</string>
     <string name="database_data_remove_unlinked_attachments_title">Pašalinti nesusietus duomenis</string>
@@ -441,7 +441,7 @@
     <string name="kdf_explanation">Norint sugeneruoti raktą šifravimo algoritmui, pagrindinis raktas yra transformuojamas naudojant atsitiktinai su druska užpildytą rakto išvedimo funkciją.</string>
     <string name="warning_large_keyfile">Nerekomenduojama pridėti didelio rakto failo, tai gali sutrukdyti atidaryti duomenų bazę.</string>
     <string name="warning_database_notification_permission">Pranešimo leidimas leidžia rodyti duomenų bazės būseną ir užrakinti ją lengvai prieinamu mygtuku.\n\nJei neaktyvuosite šio leidimo, duomenų bazė, atidaryta fone, nebus matoma, jei priekyje yra kita programa.</string>
-    <string name="warning_copy_permission">Reikalingas pranešimo leidimas iškarpinės pranešimo funkcijos naudojimui.</string>
+    <string name="warning_permission">Reikalingas pranešimo leidimas iškarpinės pranešimo funkcijos naudojimui.</string>
     <string name="warning_overwrite_data_title">Perrašyti esamus duomenis?</string>
     <string name="warning_overwrite_data_description">Šis veiksmas pakeis esamus duomenis įraše, senus duomenis galite atgauti jei įjungta istorija.</string>
     <string name="build_label">Sukurta %1$s</string>
@@ -522,7 +522,7 @@
     <string name="notification">Pranešimas</string>
     <string name="database_name_title">Duomenų bazės pavadinimas</string>
     <string name="database_description_title">Duomenų bazės aprašymas</string>
-    <string name="database_default_username_title">Numatytasis vartotojo vardas</string>
+    <string name="database_default_username_title">Numatytasis naudotojo vardas</string>
     <string name="database_custom_color_title">Tinkinta duomenų bazės spalva</string>
     <string name="database_version_title">Duomenų bazės versija</string>
     <string name="text_appearance">Tekstas</string>
@@ -553,7 +553,6 @@
     <string name="keyboard_entry_timeout_summary">Laukimo laikas klaviatūros įrašui išvalyti</string>
     <string name="keyboard_notification_entry_content_title_text">Įrašas</string>
     <string name="keyboard_notification_entry_content_title">%1$s prieinamas Magikeyboard</string>
-    <string name="keyboard_notification_entry_content_text">%1$s</string>
     <string name="keyboard_appearance_category">Išvaizda</string>
     <string name="keyboard_theme_title">Klaviatūros tema</string>
     <string name="keyboard_keys_category">Klavišai</string>
@@ -615,7 +614,7 @@
     <string name="education_new_node_title">Pridėti elementus į savo duomenų bazę</string>
     <string name="education_new_node_summary">Įrašai padeda valdyti jūsų skaitmenines tapatybes.\n\nGrupės (~aplankai) organizuoja įrašus jūsų duomenų bazėje.</string>
     <string name="education_search_title">Ieškoti per įrašus</string>
-    <string name="education_search_summary">Įveskite pavadinimą, vartotojo vardą arba kitų laukelių turinį, kad gautumėte savo slaptažodžius.</string>
+    <string name="education_search_summary">Įveskite pavadinimą, naudotojo vardą arba kitų laukelių turinį, kad gautumėte savo slaptažodžius.</string>
     <string name="education_device_unlock_title">Įrenginio duomenų bazės atrakinimas</string>
     <string name="education_device_unlock_summary">Susiekite savo slaptažodį su nuskaitytu biometriniu arba įrenginio kredencialu, kad greitai atrakintumėte savo duomenų bazę.</string>
     <string name="education_entry_edit_title">Redaguoti įrašą</string>
@@ -678,7 +677,7 @@
     <string name="style_name_sun">Saulė</string>
     <string name="style_name_reply">Atsakymas</string>
     <string name="style_name_kunzite">Kunzitas</string>
-    <string name="style_name_follow_system">Sekti sistemą</string>
+    <string name="style_name_follow_system">Sistemos numatytoji</string>
     <string name="style_brightness_title">Temos ryškumas</string>
     <string name="style_brightness_summary">Pasirinkti šviesias arba tamsias temas</string>
     <string name="style_name_light">Šviesi</string>
@@ -693,14 +692,14 @@
     <string name="hide_templates_title">Slėpti šablonus</string>
     <string name="hide_templates_summary">Šablonai nėra rodomi</string>
     <string name="passkey">Prieigos raktas</string>
-    <string name="passkey_service_name">KeePassDX kredencialų teikėjas</string>
+    <string name="credential_provider_service_name">KeePassDX kredencialų teikėjas</string>
     <string name="passkey_creation_description">Išsaugoti prieigos raktą naujame įraše</string>
     <string name="passkey_update_description">Atnaujinti prieigos raktą %1$s</string>
     <string name="passkey_selection_username">Prieigos raktas nerastas</string>
     <string name="passkey_selection_description">Pasirinkti esamą prieigos raktą</string>
-    <string name="passkey_database_username">KeePassDX duomenų bazė</string>
-    <string name="passkey_locked_database_description">Pasirinkti atrakinti</string>
-    <string name="passkey_username">Prieigos rakto vartotojo vardas</string>
+    <string name="credential_provider_database_username">KeePassDX duomenų bazė</string>
+    <string name="credential_provider_locked_database_description">Pasirinkti atrakinti</string>
+    <string name="passkey_username">Prieigos rakto naudotojo vardas</string>
     <string name="passkey_private_key">Prieigos rakto privatus raktas</string>
     <string name="passkey_credential_id">Prieigos rakto kredencialo ID</string>
     <string name="passkey_user_handle">Prieigos rakto naudotojo rankena</string>
@@ -709,7 +708,7 @@
     <string name="passkey_backup_state">Prieigos rakto atsarginės kopijos būsena</string>
     <string name="error_passkey_result">Nepavyko grąžinti prieigos rakto</string>
     <string name="html_about_contribution">Kad &lt;strong&gt;išlaikytume savo laisvę&lt;/strong&gt;, &lt;strong&gt;ištaisytume klaidas&lt;/strong&gt;, &lt;strong&gt;pridėtume funkcijų&lt;/strong&gt; ir &lt;strong&gt;būtume visada aktyvūs&lt;/strong&gt;, mes pasikliaujame jūsų &lt;strong&gt;indėliu&lt;/strong&gt;.</string>
-    <string name="education_read_only_summary">Pakeiskite atidarymo režimą sesijai.\n\n\"Raišymo apsauga\" apsaugo nuo netyčinių duomenų bazės pakeitimų.\n\"Modifikuojamas\" leidžia pridėti, ištrinti arba modifikuoti visus elementus kaip norite.</string>
+    <string name="education_read_only_summary">Pakeiskite atidarymo režimą sesijai.\n\n\"Rašymo apsauga\" apsaugo duomenų bazę nuo atsitiktinių pakeitimų.\n\"Modifikuojamas\" leidžia pridėti, ištrinti arba modifikuoti visus elementus kaip norite.</string>
     <string name="html_text_ad_free">Skirtingai nuo daugelio slaptažodžių valdymo programų, ši yra &lt;strong&gt;be reklamų&lt;/strong&gt;, &lt;strong&gt;copylefted libre programinė įranga&lt;/strong&gt; ir nerenka asmeninių duomenų savo serveriuose, nesvarbu kokią versiją naudojate.</string>
     <string name="html_text_buy_pro">Perkant pro versiją, turėsite prieigą prie šio &lt;strong&gt;vizualinio stiliaus&lt;/strong&gt; ir ypač padėsite &lt;strong&gt;bendruomenės projektų realizacijai.&lt;/strong&gt;</string>
     <string name="html_text_feature_generosity">Šis &lt;strong&gt;vizualinis stilius&lt;/strong&gt; yra prieinamas dėka jūsų dosnumo.</string>

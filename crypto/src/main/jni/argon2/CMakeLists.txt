@@ -15,3 +15,5 @@ add_library(
     src/blake2/blake2b.c
     argon2_jni.c
 )
+
+target_link_options(argon2 PRIVATE "-Wl,-z,max-page-size=16384")

@@ -1,1 +1,1 @@
-KeePassDX Pass(key/word) Vault
+KeePassDX Passkey Vault

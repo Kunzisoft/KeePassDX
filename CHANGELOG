@@ -1,10 +1,48 @@
+KeePassDX(4.4.0)
+ * Tags in list view #1539 #2144
+ * Search by Tags #1338 #2280
+ * Hidden Tags history #2374 #1405
+ * KDF Benchmark #784
+ * Improved accessibility #2475
+ * Improved security #2480-#2489
+ * Key file generation V2 #1934
+ * Filter browser IDs (Magikeyboard) #2466 #2394 #2400 #2317
+ * Fix for screenshot and history #2407 #2471
+ * Small fixes #2476 #2369 #1911 #2469 #2477 #2512 #2511 #2515 #2277 #2520 #2522
+
+KeePassDX(4.3.3)
+ * Fix 16 KB ELF alignment #2074
+ * Fix image viewer toolbar #2431
+ * Fix OTP display in notification #2457
+ * Fix Timeout settings #2427
+
+KeePassDX(4.3.2)
+ * Fix dialog for entry available on magikeyboard #2367
+ * Fix automatic URL and ApplicationId links #2373
+ * Fix selectable non protected field #2368
+ * Fix user verification education #2365
+ * Update icons #2361
+
+KeePassDX(4.3.1)
+ * Select User Verification mode at database opening #2321
+ * Fix reloading changed database #2334
+ * Fix selectable protected field #2345
+ * Fix password credential provider workflow #2353
+ * Fix infinite loading #2277
+ * Fix webview recognition #2348 #2343 #2349 #1716
+ * Fix Magikeyboard #2356 #2357
+ * Fix display of protected field #2350
+
 KeePassDX(4.3.0)
  * Manual change of app language #1884 #1990
  * Add Passkey User Verification #2283
- * Remove Clipboard notifications #2301
- * Fix autofill username detection #2276
- * Fix Passkey in passwordless mode #2282
- * Fix Magikeyboard notification #2288
+ * Share URL/Entry from Autofill to Magikeyboard #920 #995 #2024 #1465
+ * Improve keyboard switch #311 #643 #2305
+ * OTP notification #2301 #1347 #1558 #2316
+ * Field reference placeholders S: #2270 (@thegards)
+ * Password Credential Provider API #2139
+ * Improve Autofill recognition #553
+ * Small fixes #2289 #2277 #2068 #2288 #2276 #1793 #2282
 
 KeePassDX(4.2.4)
  * Fix remembering database location #2262

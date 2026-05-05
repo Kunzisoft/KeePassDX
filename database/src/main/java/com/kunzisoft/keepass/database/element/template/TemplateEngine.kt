@@ -17,7 +17,6 @@ package com.kunzisoft.keepass.database.element.template
  *  You should have received a copy of the GNU General Public License
  *  along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
  */
-import android.content.res.Resources
 import android.graphics.Color
 import android.util.Log
 import com.kunzisoft.keepass.database.element.Field
@@ -28,8 +27,9 @@ import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.database.element.icon.IconImageStandard
 import com.kunzisoft.keepass.database.element.node.NodeIdUUID
 import com.kunzisoft.keepass.database.element.security.ProtectedString
-import java.util.*
-import kotlin.collections.HashMap
+import com.kunzisoft.keepass.utils.clear
+import com.kunzisoft.keepass.utils.contains
+import java.util.UUID
 
 abstract class TemplateEngine(private val mDatabase: DatabaseKDBX) {
 
@@ -122,10 +122,9 @@ abstract class TemplateEngine(private val mDatabase: DatabaseKDBX) {
                 section.attributes.forEach { attribute ->
                     if (index > 0) {
                         // Label is not important with section => [Section_X]: Divider
-                        val sectionName = if (section.name.isEmpty())
+                        val sectionName = section.name.ifEmpty {
                             "$SECTION_DECODED_TEMPLATE_PREFIX${index-1}"
-                        else
-                            section.name
+                        }
                         putField(Field(addTemplateDecorator(sectionName),
                             ProtectedString(false, TemplateAttributeType.DIVIDER.typeString))
                         )
@@ -141,12 +140,14 @@ abstract class TemplateEngine(private val mDatabase: DatabaseKDBX) {
     private fun buildTemplateSectionFromFields(fields: List<Field>): TemplateSection {
         val sectionAttributes = mutableListOf<TemplateAttribute>()
         fields.forEach { field ->
+            val protectedValue = field.protectedValue.charArrayValue.copyOf()
             sectionAttributes.add(TemplateAttribute(
                 removeTemplateDecorator(field.name),
-                TemplateAttributeType.getFromString(field.protectedValue.stringValue),
+                TemplateAttributeType.getFrom(protectedValue),
                 field.protectedValue.isProtected,
-                TemplateAttributeOption.getOptionsFromString(field.protectedValue.stringValue))
+                TemplateAttributeOption.getOptionsFrom(protectedValue))
             )
+            protectedValue.clear()
         }
         return TemplateSection(sectionAttributes)
     }
@@ -157,7 +158,7 @@ abstract class TemplateEngine(private val mDatabase: DatabaseKDBX) {
         val templateSections = mutableListOf<TemplateSection>()
         val sectionFields = mutableListOf<Field>()
         templateEntryDecoded.doForEachDecodedCustomField { field ->
-            if (field.protectedValue.stringValue.contains(TemplateAttributeType.DIVIDER.typeString)) {
+            if (field.protectedValue.charArrayValue.contains(TemplateAttributeType.DIVIDER.typeString)) {
                 templateSections.add(buildTemplateSectionFromFields(sectionFields))
                 sectionFields.clear()
             } else {
@@ -170,13 +171,13 @@ abstract class TemplateEngine(private val mDatabase: DatabaseKDBX) {
         templateEntry.backgroundColor.let {
             try {
                 backgroundColor = Color.parseColor(it)
-            } catch (e: Exception) {}
+            } catch (_: Exception) {}
         }
         var foregroundColor: Int? = null
         templateEntry.foregroundColor.let {
             try {
                 foregroundColor = Color.parseColor(it)
-            } catch (e: Exception) {}
+            } catch (_: Exception) {}
         }
 
         return Template(

@@ -112,7 +112,7 @@ class OtpDisplayView @JvmOverloads constructor(
                 }
             }
             otpToken.apply {
-                val token = otpElement.tokenString
+                val token = String(otpElement.token)
                 if (mProtected && token != text) {
                     mCurrentlyProtected = true
                     applyHiddenStyle(isCurrentlyProtected())

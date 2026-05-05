@@ -45,6 +45,8 @@
     <string name="clipboard_error_clear">Could not clear clipboard</string>
     <string name="clipboard_timeout">Clipboard timeout</string>
     <string name="clipboard_timeout_summary">Duration of storage in the clipboard (if supported by your device)</string>
+    <string name="clipboard_otp_notifications_title">OTP notification</string>
+    <string name="clipboard_otp_notifications_summary">Open a notification to copy the OTP from entries populated with autofill or magikeyboard</string>
     <string name="content_description_background">Background</string>
     <string name="content_description_open_file">Open file</string>
     <string name="content_description_node_children">Node children</string>
@@ -78,6 +80,7 @@
     <string name="content_description_update_from_list">Update</string>
     <string name="content_description_remove_from_list">Remove</string>
     <string name="content_description_keyboard_close_fields">Close fields</string>
+    <string name="content_description_share_url">Share URL</string>
     <string name="select_to_copy">Select to copy %1$s to clipboard</string>
     <string name="retrieving_db_key">Retrieving database key…</string>
     <string name="waiting_challenge_request">Waiting for the challenge request…</string>
@@ -243,6 +246,8 @@
     <string name="list_groups_show_number_entries_summary">Displays the number of entries in a group</string>
     <string name="recursive_number_entries_title">Recursive number of entries</string>
     <string name="recursive_number_entries_summary">Recursively calculates the number of entries in a group</string>
+    <string name="show_tags_title">Show Tags</string>
+    <string name="show_tags_summary">Displays Tags in the list of entries</string>
     <string name="show_otp_token_title">Show OTP Token</string>
     <string name="show_otp_token_summary">Displays OTP tokens in the list of entries</string>
     <string name="show_uuid_title">Show UUID</string>
@@ -385,7 +390,7 @@
     <string name="warning_exact_alarm">You have not allowed the app to use an exact alarm. As a result, the features requiring a timer will not be done with an exact time.</string>
     <string name="warning_keyfile_integrity">The hash of the file is not guaranteed because Android can change its data on the fly. Change the file extension to .bin for correct integrity.</string>
     <string name="warning_database_notification_permission">The notification permission allows you to display the status of the database and lock it with an easily accessible button.\n\nIf you do not activate this permission, the database open in the background will not be visible if another application is in the foreground.</string>
-    <string name="warning_copy_permission">The notification permission is needed to use the clipboard notification feature.</string>
+    <string name="warning_permission">The permission is needed to show the notification</string>
     <string name="warning_overwrite_data_title">Overwrite existing data?</string>
     <string name="warning_overwrite_data_description">This action will replace the existing data in the entry, you can retrieve the old data if the history is enabled.</string>
     <string name="later">Later</string>
@@ -400,9 +405,9 @@
     <string name="keystore_not_accessible">The keystore is not properly initialized.</string>
     <string name="unlock_and_link_biometric">Device unlock link</string>
     <string name="device_unlock_prompt_store_credential_title">Link to device unlocking</string>
-    <string name="device_unlock_prompt_store_credential_message">You still need to remember your vault main credential if you use device unlock recognition.</string>
-    <string name="device_unlock_prompt_extract_credential_title">Device unlock recognition</string>
-    <string name="device_unlock_prompt_extract_credential_message">Extract database credential with device unlock data</string>
+    <string name="device_unlock_prompt_store_credential_message">WARNING: You still need to remember your vault main credential</string>
+    <string name="device_unlock_prompt_extract_credential_title">Device unlocking</string>
+    <string name="device_unlock_prompt_extract_credential_message">Open database with device credential</string>
     <string name="encrypted_value_stored">Encrypted password stored</string>
     <string name="device_unlock_invalid_key">Cannot read the device unlock key. Please delete it and repeat the unlock recognition procedure.</string>
     <string name="device_unlock_not_recognized">Could not recognize device unlock print</string>
@@ -444,8 +449,11 @@
     <string name="autofill_explanation_summary">Configure autofilling to quickly fill out forms in other apps</string>
     <string name="autofill_select_entry">Select entry…</string>
     <string name="autofill_preference_title">Autofill settings</string>
+    <string name="user_verification">User Verification</string>
     <string name="user_verification_device_credential_title">User Verification credential</string>
     <string name="user_verification_device_credential_summary">Use the device credential as user verification if available</string>
+    <string name="menu_user_verification_enabled">User Verification enabled</string>
+    <string name="menu_user_verification_disabled">User Verification disabled</string>
     <string name="user_verification_preferred_title">Preferred User Verification</string>
     <string name="user_verification_preferred_summary">Perform a user verification when the relying party requests \"preferred\"</string>
     <string name="password_size_title">Generated password size</string>
@@ -489,6 +497,8 @@
     <string name="file_name">Filename</string>
     <string name="path">Path</string>
     <string name="assign_master_key">Assign a master key</string>
+    <string name="benchmark_calculation">Calculate for %1$s s</string>
+    <string name="benchmarking">Benchmarking…</string>
     <string name="data">Data</string>
     <string name="database_data_compression_title">Data compression</string>
     <string name="database_data_compression_summary">Data compression reduces the size of the database</string>
@@ -551,7 +561,6 @@
     <string name="keyboard_entry_timeout_summary">Timeout to clear the keyboard entry</string>
     <string name="keyboard_notification_entry_content_title_text">Entry</string>
     <string name="keyboard_notification_entry_content_title">%1$s available on Magikeyboard</string>
-    <string name="keyboard_notification_entry_content_text">%1$s</string>
     <string name="keyboard_appearance_category">Appearance</string>
     <string name="keyboard_theme_title">Keyboard theme</string>
     <string name="keyboard_keys_category">Keys</string>
@@ -560,6 +569,8 @@
     <string name="keyboard_key_vibrate_title">Vibratory keypresses</string>
     <string name="keyboard_key_sound_title">Audible keypresses</string>
     <string name="keyboard_change">Switch keyboard</string>
+    <string name="keyboard_auto_switch_title">Auto Magikeyboard switch</string>
+    <string name="keyboard_auto_switch_summary">Try to automatically switch to the Magikeyboard when entries are populated</string>
     <string name="keyboard_previous_database_credentials_title">Database credentials screen</string>
     <string name="keyboard_previous_database_credentials_summary">Automatically switch back to the previous keyboard on the database credentials screen</string>
     <string name="keyboard_previous_search_title">Search screen</string>
@@ -568,6 +579,7 @@
     <string name="keyboard_previous_fill_in_summary">Automatically switch back to the previous keyboard after executing \"Auto key action\"</string>
     <string name="keyboard_previous_lock_title">Lock database</string>
     <string name="keyboard_previous_lock_summary">Automatically switch back to the previous keyboard after locking the database</string>
+    <string name="keyboard_share_browser">Share from %1$s to KeePassDX</string>
     <string name="custom_fields">Custom fields</string>
     <string name="back_to_previous_keyboard">Back to previous keyboard</string>
     <string name="select_entry">Select entry</string>
@@ -579,6 +591,8 @@
     <string name="autofill_inline_suggestions_summary">Attempt to display autofill suggestions directly from a compatible keyboard</string>
     <string name="autofill_manual_selection_title">Manual selection</string>
     <string name="autofill_manual_selection_summary">Display option to let the user select database entry</string>
+    <string name="autofill_share_magikeyboard_title">Share to Magikeyboard</string>
+    <string name="autofill_share_magikeyboard_summary">Share entries retrieved from autofill to Magikeyboard</string>
     <string name="autofill_save_search_info_title">Save search info</string>
     <string name="autofill_save_search_info_summary">Try to save search information when making a manual entry selection for easier future uses</string>
     <string name="autofill_ask_to_save_data_title">Ask to save data</string>
@@ -635,6 +649,11 @@
 \n
 \n\"Write-protected\" prevents unintended changes to the database.
 \n\"Modifiable\" lets you add, delete, or modify all the elements as you wish.</string>
+    <string name="education_user_verification_title">Verification for sensitive actions</string>
+    <string name="education_user_verification_summary">Change user verification mode for the session.
+\n
+\n\"User Verification Enabled\" verifies action on protected fields and database settings.
+\n\"User Verification Disabled\" lets you change any data in your database without verification.</string>
     <string name="education_field_copy_title">Copy a field</string>
     <string name="education_field_copy_summary">Copied fields can be pasted anywhere.\n\nUse the form filling method you prefer.</string>
     <string name="education_lock_title">Lock the database</string>
@@ -757,13 +776,13 @@
     <string name="hide_templates_title">Hide templates</string>
     <string name="hide_templates_summary">Templates are not shown</string>
     <string name="passkey">Passkey</string>
-    <string name="passkey_service_name">KeePassDX Credential Provider</string>
+    <string name="credential_provider_service_name">KeePassDX Credential Provider</string>
+    <string name="credential_provider_database_username">KeePassDX Database</string>
+    <string name="credential_provider_locked_database_description">Select to unlock</string>
     <string name="passkey_creation_description">Save passkey in new entry</string>
     <string name="passkey_update_description">Update passkey in "%1$s"</string>
     <string name="passkey_selection_username">No passkey found</string>
     <string name="passkey_selection_description">Select an existing passkey</string>
-    <string name="passkey_database_username">KeePassDX Database</string>
-    <string name="passkey_locked_database_description">Select to unlock</string>
     <string name="passkey_username">Passkey Username</string>
     <string name="passkey_private_key">Passkey Private Key</string>
     <string name="passkey_credential_id">Passkey Credential Id</string>
@@ -773,9 +792,13 @@
     <string name="passkey_backup_state">Passkey Backup State</string>
     <string name="error_passkey_result">Unable to return the passkey</string>
     <string name="error_passkey_credential_id">No passkey found with relying party %1$s and credentialIds %2$s</string>
+    <string name="password_creation_description">Save password in new entry</string>
+    <string name="password_selection_description">Select an existing password</string>
+    <string name="error_password_result">Unable to return the password</string>
     <string name="content_description_user_verification_information">User verification info</string>
     <string name="user_verification_required_title">User Verification</string>
-    <string name="user_verification_required_description">Access to this data requires verification</string>
+    <string name="user_verification_required_description">Access to this data requires verification that it is indeed you.</string>
+    <string name="user_verification_required_description_precise">%1$s requires verification that it is indeed you.</string>
     <string name="user_verification_database_credential">Enter the first four characters of your database password</string>
     <string name="first_chars">First chars</string>
     <string name="check">Check</string>

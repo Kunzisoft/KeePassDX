@@ -22,7 +22,6 @@ package com.kunzisoft.keepass.database.element.group
 import android.os.Parcel
 import com.kunzisoft.keepass.database.element.entry.EntryVersioned
 import com.kunzisoft.keepass.database.element.node.NodeVersioned
-import java.util.*
 
 abstract class GroupVersioned
         <
@@ -35,9 +34,9 @@ abstract class GroupVersioned
 
     private var titleGroup = ""
     @Transient
-    private val childGroups = LinkedList<Group>()
+    private val childGroups = mutableListOf<Group>()
     @Transient
-    private val childEntries = LinkedList<Entry>()
+    private val childEntries = mutableListOf<Entry>()
     private var positionIndexChildren = 0
 
     constructor() : super()
@@ -51,8 +50,10 @@ abstract class GroupVersioned
         dest.writeString(titleGroup)
     }
 
-    protected fun updateWith(source: GroupVersioned<GroupId, EntryId, Group, Entry>,
-                             updateParents: Boolean = true) {
+    protected fun updateWith(
+        source: GroupVersioned<GroupId, EntryId, Group, Entry>,
+        updateParents: Boolean = true
+    ) {
         super.updateWith(source, updateParents)
         titleGroup = source.titleGroup
         if (updateParents) {

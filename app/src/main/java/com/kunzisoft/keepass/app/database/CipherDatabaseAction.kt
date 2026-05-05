@@ -35,7 +35,6 @@ import com.kunzisoft.keepass.services.DeviceUnlockNotificationService
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.utils.IOActionTask
 import com.kunzisoft.keepass.utils.SingletonHolderParameter
-import java.util.LinkedList
 
 class CipherDatabaseAction(context: Context) {
 
@@ -49,7 +48,7 @@ class CipherDatabaseAction(context: Context) {
     private var mBinder: DeviceUnlockNotificationService.DeviceUnlockBinder? = null
     private var mServiceConnection: ServiceConnection? = null
 
-    private var mDatabaseListeners = LinkedList<CipherDatabaseListener>()
+    private var mDatabaseListeners = mutableListOf<CipherDatabaseListener>()
     private var mDeviceUnlockBroadcastReceiver = DeviceUnlockNotificationService.DeviceUnlockReceiver {
         deleteAll()
         removeAllDataAndDetach()

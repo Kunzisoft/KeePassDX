@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<selector xmlns:android="http://schemas.android.com/apk/res/android" >
-    <item android:alpha="0.60" android:color="?attr/colorSurface"/>
+<selector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item android:alpha="0.60" app:alpha="0.60" android:color="?attr/colorSurface"/>
 </selector>

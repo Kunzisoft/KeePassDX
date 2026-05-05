@@ -2,7 +2,7 @@ package com.kunzisoft.keepass.database.element.binary
 
 import com.kunzisoft.keepass.database.element.DateInstant
 import com.kunzisoft.keepass.database.element.icon.IconImageCustom
-import java.util.*
+import java.util.UUID
 
 class CustomIconPool : BinaryPool<UUID>() {
 

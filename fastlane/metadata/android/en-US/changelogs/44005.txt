@@ -1,0 +1,10 @@
+ * Tags in list view #1539 #2144
+ * Search by Tags #1338 #2280
+ * Hidden Tags history #2374 #1405
+ * KDF Benchmark #784
+ * Improved accessibility #2475
+ * Improved security #2480-#2489
+ * Key file generation V2 #1934
+ * Filter browser IDs (Magikeyboard) #2466 #2394 #2400 #2317
+ * Fix for screenshot and history #2407 #2471
+ * Small fixes #2476 #2369 #1911 #2469 #2477 #2512 #2511 #2515 #2277 #2520 #2522

@@ -22,15 +22,21 @@ package com.kunzisoft.keepass.icons
 import android.content.Context
 import android.content.res.ColorStateList
 import android.content.res.Resources
-import android.graphics.*
-import android.graphics.drawable.BitmapDrawable
-import android.graphics.drawable.ColorDrawable
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.Paint
+import android.graphics.PorterDuff
+import android.graphics.PorterDuffColorFilter
 import android.graphics.drawable.Drawable
 import android.util.Log
 import android.widget.ImageView
 import android.widget.RemoteViews
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.drawable.toBitmap
+import androidx.core.graphics.drawable.toDrawable
+import androidx.core.graphics.scale
 import androidx.core.widget.ImageViewCompat
 import com.kunzisoft.keepass.database.element.binary.BinaryCache
 import com.kunzisoft.keepass.database.element.binary.BinaryData
@@ -42,7 +48,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.lang.ref.WeakReference
-import java.util.*
+import java.util.UUID
 
 /**
  * Factory class who build database icons dynamically, can assign an icon of IconPack, or a custom icon to an ImageView with a tint
@@ -56,13 +62,13 @@ class IconDrawableFactory(
      * Cache for icon drawable.
      * Keys: UUID, Values: Drawables
      */
-    private val customIconMap = HashMap<UUID, WeakReference<Drawable>>()
+    private val customIconMap = mutableMapOf<UUID, WeakReference<Drawable>>()
 
     /** standardIconMap
      * Cache for icon drawable.
      * Keys: Integer, Values: Drawables
      */
-    private val standardIconMap = HashMap<CacheKey, WeakReference<Drawable>>()
+    private val standardIconMap = mutableMapOf<CacheKey, WeakReference<Drawable>>()
 
     /**
      * To load an icon pack only if current one is different
@@ -117,7 +123,7 @@ class IconDrawableFactory(
                             BitmapFactory.decodeStream(binaryFile.getInputDataStream(binaryCache))
                         bitmap?.let { bitmapIcon ->
                             bitmap = resize(bitmapIcon, patternIcon)
-                            val createdDraw = BitmapDrawable(resources, bitmap)
+                            val createdDraw = bitmap.toDrawable(resources)
                             customIconMap[icon.uuid] = WeakReference(createdDraw)
                             return createdDraw
                         }
@@ -178,10 +184,7 @@ class IconDrawableFactory(
 
         return if (width == dimensionPattern.width && height == dimensionPattern.height) {
             bitmap
-        } else Bitmap.createScaledBitmap(bitmap,
-            dimensionPattern.width,
-            dimensionPattern.height,
-            true)
+        } else bitmap.scale(dimensionPattern.width, dimensionPattern.height)
 
     }
 
@@ -277,7 +280,7 @@ class IconDrawableFactory(
      */
     private class PatternIcon(defaultIconSize : Int) {
 
-        var blankDrawable: Drawable = ColorDrawable(Color.TRANSPARENT)
+        var blankDrawable: Drawable = Color.TRANSPARENT.toDrawable()
         var width = -1
         var height = -1
 
@@ -289,7 +292,7 @@ class IconDrawableFactory(
     }
 
     /**
-     * Utility class to prevent a custom icon to be tint
+     * Utility class to prevent a custom icon to be tinted
      */
     class SuperDrawable(var drawable: Drawable, var tintable: Boolean = false)
 

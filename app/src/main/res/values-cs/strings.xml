@@ -139,7 +139,7 @@
     <string name="error_load_database">Databázi se nepodařilo načíst.</string>
     <string name="error_load_database_KDF_memory">Klíč se nepodařilo načíst, zkuste snížit \"využití paměti\" pro KDF.</string>
     <string name="error_autofill_enable_service">Službu samovyplnění se nepodařilo zapnout.</string>
-    <string name="file_not_found_content">Soubor nenalezen. Zkuste jej otevřít ze správce souborů.</string>
+    <string name="file_not_found_content">Soubor nenalezen</string>
     <string name="list_entries_show_username_title">Zobrazit uživatelská jména</string>
     <string name="list_entries_show_username_summary">Zobrazí uživatelská jména v seznamech záznamů</string>
     <string name="copy_field">Kopie %1$s</string>
@@ -283,7 +283,6 @@
     <string name="keyboard_notification_entry_summary">Zobrazit oznámení, když je záznam dostupný</string>
     <string name="keyboard_notification_entry_content_title_text">Záznam</string>
     <string name="keyboard_notification_entry_content_title">%1$s dostupné v Magikeyboardu</string>
-    <string name="keyboard_notification_entry_content_text">%1$s</string>
     <string name="keyboard_notification_entry_clear_close_title">Vymazat při zavření</string>
     <string name="keyboard_notification_entry_clear_close_summary">Zavřít databázi při zavření oznámení</string>
     <string name="keyboard_appearance_category">Vzhled</string>
@@ -490,9 +489,9 @@
     <string name="device_unlock_prompt_not_initialized">Nepodařilo se inicializovat nabídku pro odemykání zařízení.</string>
     <string name="device_unlock_not_recognized">Otisk pro odemykání zařízení nebyl rozpoznán</string>
     <string name="device_unlock_invalid_key">Nepodařilo se načíst klíč odemykání zařízení. Odstraňte ho a opakujte proces rozpoznání odemknutí.</string>
-    <string name="device_unlock_prompt_extract_credential_message">Načíst údaj z databáze pomocí dat odemykání zařízení</string>
-    <string name="device_unlock_prompt_extract_credential_title">Rozpoznání odemykání zařízení</string>
-    <string name="device_unlock_prompt_store_credential_message">Pokud použijete rozpoznání odemykání zařízení, musíte si i nadále pamatovat hlavní heslo trezoru.</string>
+    <string name="device_unlock_prompt_extract_credential_message">Otevřít databázi pomocí přihlašovacích údajů zařízení</string>
+    <string name="device_unlock_prompt_extract_credential_title">Odemykání zařízení</string>
+    <string name="device_unlock_prompt_store_credential_message">VAROVÁNÍ: Musíte si i nadále pamatovat hlavní heslo trezoru</string>
     <string name="device_unlock_prompt_store_credential_title">Propojit s odemykáním zařízení</string>
     <string name="menu_keystore_remove_key">Smazat klíč odemknutí zařízení</string>
     <string name="education_device_unlock_title">Odemykání databáze zařízením</string>
@@ -667,7 +666,7 @@
     <string name="warning_database_notification_permission">Oprávnění k oznámením umožňuje zobrazit stav databáze a uzamknout ji snadno přístupným tlačítkem.
 \n
 \nPokud toto oprávnění neaktivujete, nebude databáze otevřená na pozadí viditelná, pokud je v popředí jiná aplikace.</string>
-    <string name="warning_copy_permission">Oprávnění k oznámením je potřeba pro použití funkce oznámení o schránce.</string>
+    <string name="warning_permission">Oprávnění je potřeba pro zobrazení oznámení</string>
     <string name="later">Později</string>
     <string name="ask">Zeptat se</string>
     <string name="configure">Nastavit</string>
@@ -724,13 +723,13 @@
     <string name="passkeys_backup_state_summary">Uvést, že přihlašovací údaje jsou zálohovány a chráněny proti ztrátě jednoho zařízení</string>
     <string name="credential_provider_service_subtitle">Přístupové klíče, poskytovatel automatického vyplnění</string>
     <string name="passkey">Přístupový klíč</string>
-    <string name="passkey_service_name">Poskytovatel údajů KeePassDX</string>
+    <string name="credential_provider_service_name">Poskytovatel údajů KeePassDX</string>
     <string name="passkey_creation_description">Uložit přístupový klíč do nového záznamu</string>
     <string name="passkey_update_description">Aktualizovat přístupový klíč v %1$s</string>
     <string name="passkey_selection_username">Nenalezeny žádné přístupové klíče</string>
     <string name="passkey_selection_description">Vyberte existující přístupový klíč</string>
-    <string name="passkey_database_username">Databáze KeePassDX</string>
-    <string name="passkey_locked_database_description">Vyberte k odemčení</string>
+    <string name="credential_provider_database_username">Databáze KeePassDX</string>
+    <string name="credential_provider_locked_database_description">Vyberte k odemčení</string>
     <string name="passkey_username">Uživatelské jméno přístupového klíče</string>
     <string name="passkey_private_key">Soukromý klíč přístupového klíče</string>
     <string name="passkey_credential_id">ID údaje přístupového klíče</string>
@@ -739,4 +738,36 @@
     <string name="passkey_backup_eligibility">Způsobilost přístupového klíče k zálohování</string>
     <string name="passkey_backup_state">Stav zálohy přístupového klíče</string>
     <string name="error_passkey_result">Nepodařilo se vrátit přístupový klíč</string>
+    <string name="clipboard_otp_notifications_title">Oznámení OTP</string>
+    <string name="clipboard_otp_notifications_summary">Otevřete oznámení pro zkopírování OTP z položek obsahujících automatické vyplnění nebo Magikeyboard</string>
+    <string name="user_verification_device_credential_title">Ověřovací údaje uživatele</string>
+    <string name="user_verification_device_credential_summary">Použít přihlašovací údaje zařízení jako ověření uživatele, jsou-li k dispozici</string>
+    <string name="user_verification_preferred_title">Preferované ověření uživatele</string>
+    <string name="user_verification_preferred_summary">Provést ověření uživatele, když se spoléhající strana dotazuje na „preferované“</string>
+    <string name="keyboard_auto_switch_title">Automatické přepnutí na Magikeyboard</string>
+    <string name="keyboard_auto_switch_summary">Pokusit se automaticky přepnout na Magikeyboard, pokud jsou vyplněná pole</string>
+    <string name="autofill_share_magikeyboard_title">Sdílet do Magikeyboard</string>
+    <string name="autofill_share_magikeyboard_summary">Sdílet položky získané z automatického vyplnění Magikeyboard</string>
+    <string name="error_passkey_credential_id">Nenalezen žádný přístupový klíč se spoléhající stranou %1$s a credentialIds %2$s</string>
+    <string name="password_creation_description">Uložit heslo do nové položky</string>
+    <string name="password_selection_description">Vybrat existující heslo</string>
+    <string name="error_password_result">Nepodařilo se vrátit heslo</string>
+    <string name="content_description_user_verification_information">Ověřovací informace uživatele</string>
+    <string name="user_verification_required_title">Ověření uživatele</string>
+    <string name="user_verification_required_description">Přístup k těmto datům vyžaduje ověření, abychom se ujistili, že jste to opravdu vy.</string>
+    <string name="user_verification_database_credential">Zadejte první čtyři znaky vašeho hesla k databázi</string>
+    <string name="first_chars">První znaky</string>
+    <string name="check">Zkontrolovat</string>
+    <string name="user_verification_required_description_precise">%1$s chce ověřit, že jste to opravdu vy.</string>
+    <string name="user_verification">Ověření uživatele</string>
+    <string name="menu_user_verification_enabled">Ověření uživatele povoleno</string>
+    <string name="menu_user_verification_disabled">Ověření uživatele zakázáno</string>
+    <string name="education_user_verification_title">Ověření u citlivých akcí</string>
+    <string name="education_user_verification_summary">Změnit režim ověření uživatele pro relaci.\n\n„Ověření uživatele povoleno“ ověří akci u chráněných polí a nastavení databáze.\n„Ověření uživatele zakázáno“ vám umožní změnit jakákoli data ve vaší databázi bez ověření.</string>
+    <string name="content_description_share_url">Sdílet adresu URL</string>
+    <string name="show_tags_title">Zobrazit štítky</string>
+    <string name="show_tags_summary">Zobrazit štítky v seznamu položek</string>
+    <string name="benchmark_calculation">Vypočítat po dobu %1$s s</string>
+    <string name="benchmarking">Měření…</string>
+    <string name="keyboard_share_browser">Sdílet z aplikace %1$s do KeePassDX</string>
 </resources>

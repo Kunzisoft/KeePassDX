@@ -34,7 +34,7 @@ object IconPackChooser {
 
     private val TAG = IconPackChooser::class.java.name
 
-    private val iconPackList = ArrayList<IconPack>()
+    private val iconPackList = mutableListOf<IconPack>()
     private var iconPackSelected: IconPack? = null
     var defaultIconSize: Int = 0
 

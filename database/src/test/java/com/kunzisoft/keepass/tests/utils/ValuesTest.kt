@@ -20,13 +20,24 @@
 package com.kunzisoft.keepass.tests.utils
 
 import com.kunzisoft.keepass.database.element.DateInstant
-import com.kunzisoft.keepass.utils.*
+import com.kunzisoft.keepass.utils.UnsignedInt
+import com.kunzisoft.keepass.utils.UnsignedLong
+import com.kunzisoft.keepass.utils.bytes16ToUuid
+import com.kunzisoft.keepass.utils.bytes2ToUShort
+import com.kunzisoft.keepass.utils.bytes4ToUInt
+import com.kunzisoft.keepass.utils.bytes5ToDate
+import com.kunzisoft.keepass.utils.bytes64ToULong
+import com.kunzisoft.keepass.utils.dateTo5Bytes
+import com.kunzisoft.keepass.utils.uIntTo4Bytes
+import com.kunzisoft.keepass.utils.uLongTo8Bytes
+import com.kunzisoft.keepass.utils.uShortTo2Bytes
+import com.kunzisoft.keepass.utils.uuidTo16Bytes
 import junit.framework.TestCase
 import org.joda.time.DateTime
 import org.joda.time.Instant
 import org.junit.Assert.assertArrayEquals
 import java.io.ByteArrayOutputStream
-import java.util.*
+import java.util.Random
 
 class ValuesTest : TestCase() {
 

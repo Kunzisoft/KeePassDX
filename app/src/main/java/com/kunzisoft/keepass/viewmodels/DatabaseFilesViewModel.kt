@@ -159,7 +159,7 @@ class DatabaseFilesViewModel(application: Application) : AndroidViewModel(applic
     }
 
     class DatabaseFileData {
-        val databaseFileList = ArrayList<DatabaseFile>()
+        val databaseFileList = mutableListOf<DatabaseFile>()
 
         var databaseFileToActivate: DatabaseFile? = null
         var databaseFileAction: DatabaseFileAction = DatabaseFileAction.NONE

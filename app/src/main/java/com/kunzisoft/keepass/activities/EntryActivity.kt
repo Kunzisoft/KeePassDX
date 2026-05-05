@@ -21,7 +21,6 @@ package com.kunzisoft.keepass.activities
 import android.app.Activity
 import android.content.Intent
 import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
@@ -30,7 +29,6 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.ProgressBar
 import androidx.activity.result.ActivityResultLauncher
@@ -40,6 +38,7 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.graphics.BlendModeColorFilterCompat
 import androidx.core.graphics.BlendModeCompat
 import androidx.core.graphics.ColorUtils
+import androidx.core.graphics.drawable.toDrawable
 import androidx.core.view.ViewCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -48,6 +47,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.appbar.CollapsingToolbarLayout
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.progressindicator.LinearProgressIndicator
 import com.google.android.material.tabs.TabLayout
 import com.kunzisoft.keepass.R
@@ -59,8 +59,6 @@ import com.kunzisoft.keepass.credentialprovider.SpecialMode
 import com.kunzisoft.keepass.credentialprovider.UserVerificationActionType
 import com.kunzisoft.keepass.credentialprovider.UserVerificationData
 import com.kunzisoft.keepass.credentialprovider.UserVerificationHelper.Companion.checkUserVerification
-import com.kunzisoft.keepass.credentialprovider.UserVerificationHelper.Companion.isUserVerificationNeeded
-import com.kunzisoft.keepass.credentialprovider.UserVerificationHelper.Companion.requestShowUnprotectField
 import com.kunzisoft.keepass.credentialprovider.magikeyboard.MagikeyboardService
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.element.Attachment
@@ -94,7 +92,6 @@ import java.util.UUID
 
 class EntryActivity : DatabaseLockActivity() {
 
-    private var footer: ViewGroup? = null
     private var container: View? = null
     private var coordinatorLayout: CoordinatorLayout? = null
     private var collapsingToolbarLayout: CollapsingToolbarLayout? = null
@@ -108,6 +105,7 @@ class EntryActivity : DatabaseLockActivity() {
     private var lockView: View? = null
     private var toolbar: Toolbar? = null
     private var loadingView: ProgressBar? = null
+    private var editFab: FloatingActionButton? = null
 
     private val mEntryViewModel: EntryViewModel by viewModels()
     private val mUserVerificationViewModel: UserVerificationViewModel by viewModels()
@@ -117,6 +115,8 @@ class EntryActivity : DatabaseLockActivity() {
     private var mAttachmentFileBinderManager: AttachmentFileBinderManager? = null
     private var mExternalFileHelper: ExternalFileHelper? = null
     private var mAttachmentSelected: Attachment? = null
+
+    private var mSwitchToMagikeyboard: Boolean = false
 
     private var mEntryActivityResultLauncher = EntryEditActivity.registerForEntryResult(this) {
         // Reload the current id from database
@@ -144,7 +144,6 @@ class EntryActivity : DatabaseLockActivity() {
         supportActionBar?.setDisplayShowHomeEnabled(true)
 
         // Get views
-        footer = findViewById(R.id.activity_entry_footer)
         container = findViewById(R.id.activity_entry_container)
         coordinatorLayout = findViewById(R.id.toolbar_coordinator)
         collapsingToolbarLayout = findViewById(R.id.toolbar_layout)
@@ -156,6 +155,7 @@ class EntryActivity : DatabaseLockActivity() {
         entryProgress = findViewById(R.id.entry_progress)
         lockView = findViewById(R.id.lock_button)
         loadingView = findViewById(R.id.loading)
+        editFab = findViewById(R.id.entry_edit_fab)
 
         // To apply fit window with transparency
         setTransparentNavigationBar {
@@ -192,7 +192,11 @@ class EntryActivity : DatabaseLockActivity() {
         tagsListView?.apply {
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
             adapter = tagsAdapter
+            isFocusable = false
         }
+
+        // Init preferences
+        mSwitchToMagikeyboard = PreferencesUtil.isAutoSwitchToMagikeyboardEnable(this)
 
         // Init content tab
         entryContentTab?.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
@@ -238,6 +242,10 @@ class EntryActivity : DatabaseLockActivity() {
             lockAndExit()
         }
 
+        editFab?.setOnClickListener {
+            requestEdition()
+        }
+
         mEntryViewModel.sectionSelected.observe(this) { entrySection ->
             entryContentTab?.getTabAt(entrySection.position)?.select()
         }
@@ -247,6 +255,10 @@ class EntryActivity : DatabaseLockActivity() {
                 // Manage history position
                 val historyPosition = entryInfoHistory.historyPosition
                 val entryIsHistory = historyPosition > -1
+
+                // Manage FAB visibility
+                editFab?.visibility = if (!mDatabaseReadOnly && !entryIsHistory) View.VISIBLE else View.GONE
+
                 // Assign history dedicated view
                 historyView?.visibility = if (entryIsHistory) View.VISIBLE else View.GONE
                 // TODO History badge
@@ -259,7 +271,11 @@ class EntryActivity : DatabaseLockActivity() {
                 if (savedInstanceState == null) {
                     // Manage entry to populate Magikeyboard and launch keyboard notification if allowed
                     if (PreferencesUtil.isKeyboardEntrySelectionEnable(this)) {
-                        MagikeyboardService.addEntry(this, entryInfo)
+                        MagikeyboardService.addEntry(
+                            context = this,
+                            entry = entryInfo,
+                            autoSwitchKeyboard = mSwitchToMagikeyboard
+                        )
                     }
                 }
                 // Assign title icon
@@ -327,26 +343,53 @@ class EntryActivity : DatabaseLockActivity() {
                 mEntryViewModel.entryState.collect { entryState ->
                     when (entryState) {
                         is EntryViewModel.EntryState.Loading -> {}
-                        is EntryViewModel.EntryState.RequestUnprotectField -> {
+                        is EntryViewModel.EntryState.OnChangeFieldProtectionRequested -> {
                             mDatabase?.let { database ->
-                                requestShowUnprotectField(
-                                    userVerificationViewModel = mUserVerificationViewModel,
-                                    database = database,
-                                    protectedFieldView = entryState.protectedFieldView
-                                )
-                            }
-                            mEntryViewModel.actionPerformed()
-                        }
-                        is EntryViewModel.EntryState.RequestCopyProtectedField -> {
-                            mDatabase?.let { database ->
-                                checkUserVerification(
-                                    userVerificationViewModel = mUserVerificationViewModel,
-                                    dataToVerify = UserVerificationData(
-                                        actionType = UserVerificationActionType.COPY_PROTECTED_FIELD,
-                                        database = database,
-                                        field = entryState.field,
+                                val fieldProtection = entryState.fieldProtection
+                                if (mDatabaseAllowUserVerification) {
+                                    if (fieldProtection.isCurrentlyProtected) {
+                                        checkUserVerification(
+                                            userVerificationViewModel = mUserVerificationViewModel,
+                                            dataToVerify = UserVerificationData(
+                                                actionType = UserVerificationActionType.SHOW_PROTECTED_FIELD,
+                                                database = database,
+                                                fieldProtection = fieldProtection
+                                            )
+                                        )
+                                        mEntryViewModel.actionPerformed()
+                                    } else {
+                                        mEntryViewModel.updateProtectionField(
+                                            fieldProtection = fieldProtection,
+                                            value = true
+                                        )
+                                    }
+                                } else {
+                                    // Toggle field protection directly without user verification
+                                    mEntryViewModel.updateProtectionField(
+                                        fieldProtection = fieldProtection,
+                                        value = !fieldProtection.isCurrentlyProtected
                                     )
-                                )
+                                }
+                            }
+                        }
+                        is EntryViewModel.EntryState.OnFieldProtectionUpdated -> {}
+                        is EntryViewModel.EntryState.RequestCopyProtectedField -> {
+                            if (mDatabaseAllowUserVerification) {
+                                mDatabase?.let { database ->
+                                    checkUserVerification(
+                                        userVerificationViewModel = mUserVerificationViewModel,
+                                        dataToVerify = UserVerificationData(
+                                            actionType = UserVerificationActionType.COPY_PROTECTED_FIELD,
+                                            database = database,
+                                            fieldProtection = entryState.fieldProtection,
+                                        )
+                                    )
+                                }
+                            } else {
+                                // Copy field value directly without user verification
+                                entryState.fieldProtection.field.let {
+                                    mEntryViewModel.copyToClipboard(it)
+                                }
                             }
                             mEntryViewModel.actionPerformed()
                         }
@@ -360,7 +403,7 @@ class EntryActivity : DatabaseLockActivity() {
                     when (uVState) {
                         is UserVerificationViewModel.UVState.Loading -> {}
                         is UserVerificationViewModel.UVState.OnUserVerificationCanceled -> {
-                            coordinatorLayout?.showError(uVState.error)
+                            coordinatorLayout?.showError(uVState.error, R.id.entry_content_tab)
                             mUserVerificationViewModel.onUserVerificationReceived()
                         }
                         is UserVerificationViewModel.UVState.OnUserVerificationSucceeded -> {
@@ -368,11 +411,16 @@ class EntryActivity : DatabaseLockActivity() {
                             when (data.actionType) {
                                 UserVerificationActionType.SHOW_PROTECTED_FIELD -> {
                                     // Unprotect field by its view
-                                    data.protectedFieldView?.unprotect()
+                                    data.fieldProtection?.let { field ->
+                                        mEntryViewModel.updateProtectionField(
+                                            fieldProtection = field,
+                                            value = false
+                                        )
+                                    }
                                 }
                                 UserVerificationActionType.COPY_PROTECTED_FIELD -> {
                                     // Copy field value
-                                    data.field?.let {
+                                    data.fieldProtection?.field?.let {
                                         mEntryViewModel.copyToClipboard(it)
                                     }
                                 }
@@ -390,9 +438,7 @@ class EntryActivity : DatabaseLockActivity() {
         }
     }
 
-    override fun finishActivityIfReloadRequested(): Boolean {
-        return true
-    }
+    override fun finishActivityIfReloadRequested(): Boolean = true
 
     override fun viewToInvalidateTimeout(): View? {
         return coordinatorLayout
@@ -412,7 +458,7 @@ class EntryActivity : DatabaseLockActivity() {
         when (actionTask) {
             ACTION_DATABASE_RESTORE_ENTRY_HISTORY,
             ACTION_DATABASE_DELETE_ENTRY_HISTORY -> {
-                // Close the current activity after an history action
+                // Close the current activity after a history action
                 if (result.isSuccess)
                     finish()
             }
@@ -453,7 +499,7 @@ class EntryActivity : DatabaseLockActivity() {
 
     private fun applyToolbarColors() {
         collapsingToolbarLayout?.setBackgroundColor(mBackgroundColor ?: mColorSurface)
-        collapsingToolbarLayout?.contentScrim = ColorDrawable(mBackgroundColor ?: mColorSurface)
+        collapsingToolbarLayout?.contentScrim = (mBackgroundColor ?: mColorSurface).toDrawable()
         val backgroundDarker = if (mBackgroundColor != null) {
             ColorUtils.blendARGB(mBackgroundColor!!, Color.WHITE, 0.1f)
         } else {
@@ -478,8 +524,6 @@ class EntryActivity : DatabaseLockActivity() {
         super.onCreateOptionsMenu(menu)
         if (mEntryViewModel.entryLoaded) {
             val inflater = menuInflater
-
-            inflater.inflate(R.menu.entry, menu)
             inflater.inflate(R.menu.database, menu)
 
             if (mEntryViewModel.entryIsHistory && !mDatabaseReadOnly) {
@@ -498,7 +542,6 @@ class EntryActivity : DatabaseLockActivity() {
         if (mEntryViewModel.entryIsHistory || mDatabaseReadOnly) {
             menu?.findItem(R.id.menu_save_database)?.isVisible = false
             menu?.findItem(R.id.menu_merge_database)?.isVisible = false
-            menu?.findItem(R.id.menu_edit)?.isVisible = false
         }
         if (!mMergeDataAllowed) {
             menu?.findItem(R.id.menu_merge_database)?.isVisible = false
@@ -526,17 +569,34 @@ class EntryActivity : DatabaseLockActivity() {
                 })
 
         if (!entryCopyEducationPerformed) {
-            val menuEditView = toolbar?.findViewById<View>(R.id.menu_edit)
+            val menuEditView = editFab
             // entryEditEducationPerformed
             menuEditView != null && mEntryActivityEducation.checkAndPerformedEntryEditEducation(
                     menuEditView,
                     {
-                        onOptionsItemSelected(menu.findItem(R.id.menu_edit))
+                        requestEdition()
                     },
                     {
                         performedNextEducation(menu)
                     }
             )
+        }
+    }
+
+    private fun requestEdition() {
+        if (mDatabaseAllowUserVerification) {
+            mDatabase?.let { database ->
+                checkUserVerification(
+                    userVerificationViewModel = mUserVerificationViewModel,
+                    dataToVerify = UserVerificationData(
+                        actionType = UserVerificationActionType.EDIT_ENTRY,
+                        database = database,
+                        entryId = mEntryViewModel.mainEntryId
+                    )
+                )
+            }
+        } else {
+            editEntry(mDatabase, mEntryViewModel.mainEntryId)
         }
     }
 
@@ -556,23 +616,6 @@ class EntryActivity : DatabaseLockActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.menu_edit -> {
-                if (mEntryViewModel.entryInfo?.isUserVerificationNeeded() == true) {
-                    mDatabase?.let { database ->
-                        checkUserVerification(
-                            userVerificationViewModel = mUserVerificationViewModel,
-                            dataToVerify = UserVerificationData(
-                                actionType = UserVerificationActionType.EDIT_ENTRY,
-                                database = database,
-                                entryId = mEntryViewModel.mainEntryId
-                            )
-                        )
-                    }
-                } else {
-                    editEntry(mDatabase, mEntryViewModel.mainEntryId)
-                }
-                return true
-            }
             R.id.menu_restore_entry_history -> {
                 mEntryViewModel.mainEntryId?.let { mainEntryId ->
                     restoreEntryHistory(

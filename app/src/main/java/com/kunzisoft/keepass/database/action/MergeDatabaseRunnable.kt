@@ -23,6 +23,7 @@ import android.content.Context
 import android.net.Uri
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.MainCredential
+import com.kunzisoft.keepass.database.element.MasterCredential
 import com.kunzisoft.keepass.database.element.binary.BinaryData
 import com.kunzisoft.keepass.database.exception.DatabaseException
 import com.kunzisoft.keepass.database.exception.UnknownDatabaseLocationException
@@ -46,6 +47,9 @@ class MergeDatabaseRunnable(
     null,
     challengeResponseRetriever
 ) {
+
+    private var mMergeMasterCredential: MasterCredential? = null
+
     override fun onStartRun() {
         database.wasReloaded = true
         super.onStartRun()
@@ -54,21 +58,27 @@ class MergeDatabaseRunnable(
     override fun onActionRun() {
         try {
             val contentResolver = context.contentResolver
+            mMergeMasterCredential = mDatabaseToMergeMainCredential?.toMasterCredential(contentResolver)
             database.mergeData(
-                context.contentResolver.getUriInputStream(
+                databaseToMergeStream = contentResolver.getUriInputStream(
                     mDatabaseToMergeUri ?: database.fileUri
                 ) ?: throw UnknownDatabaseLocationException(),
-                mDatabaseToMergeMainCredential?.toMasterCredential(contentResolver),
-                mDatabaseToMergeChallengeResponseRetriever,
-                { memoryWanted ->
+                databaseToMergeMasterCredential = mMergeMasterCredential,
+                databaseToMergeChallengeResponseRetriever = mDatabaseToMergeChallengeResponseRetriever,
+                isRAMSufficient = { memoryWanted ->
                     BinaryData.canMemoryBeAllocatedInRAM(context, memoryWanted)
                 },
-                progressTaskUpdater
+                progressTaskUpdater = progressTaskUpdater
             )
         } catch (e: DatabaseException) {
             setError(e)
         }
 
         super.onActionRun()
+    }
+
+    override fun onFinishRun() {
+        mMergeMasterCredential?.clear()
+        super.onFinishRun()
     }
 }

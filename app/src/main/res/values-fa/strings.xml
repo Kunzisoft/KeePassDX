@@ -4,7 +4,7 @@
     <string name="database_history">تاریخچه</string>
     <string name="unavailable">در این پایگاه داده هنوز اعتبار نامه ذخیره نشده است.</string>
     <string name="encrypted_value_stored">رمز رمزگذاری شده ذخیره شده است</string>
-    <string name="keystore_not_accessible">فروشگاه اصلی به درستی تنظیم نشده است.</string>
+    <string name="keystore_not_accessible">کلید اصلی به طور صحیح مقدار دهی نشده.</string>
     <string name="build_label">%1$s را بسازید</string>
     <string name="version_label">نسخه %1$s</string>
     <string name="warning_permanently_delete_nodes">گره های انتخاب شده برای همیشه حذف شوند؟</string>
@@ -232,7 +232,7 @@
     <string name="edit_entry">ویرایش ورودی</string>
     <string name="add_entry">افزودن ورودی</string>
     <string name="accept">قبول</string>
-    <string name="about_description">پیاده سازی آندروید از مدیر رمز عبور KeePass</string>
+    <string name="about_description">نسخه اندروید مدیریت رمز عبور KeePass.</string>
     <string name="homepage">صفحه اصلی</string>
     <string name="feedback">بازخورد</string>
     <string name="contribution">سهم</string>
@@ -241,8 +241,8 @@
     <string name="allow_no_password_summary">در صورت عدم انتخاب اعتبار نامه ، ضربه زدن روی دکمه \"باز کردن\" امکان پذیر است</string>
     <string name="keyboard_previous_database_credentials_summary">به طور خودکار به صفحه کلید قبلی در صفحه اعتبار نامه پایگاه داده برگردید</string>
     <string name="keyboard_previous_database_credentials_title">صفحه اعتبار نامه پایگاه داده</string>
-    <string name="biometric_security_update_required">به روز رسانی امنیتی بیومتریک مورد نیاز است.</string>
-    <string name="configure_biometric">هیچ بیومتریک یا اعتبار دستگاه ثبت نشده است.</string>
+    <string name="biometric_security_update_required">به روز رسانی امنیتی در احراز هویت زیستی مورد نیاز است.</string>
+    <string name="configure_biometric">هیچ احراز هویت زیستی یا اعتباری در دستگاه ثبت نشده است.</string>
     <string name="device_unlock_tap_delete">برای حذف کلیدهای پیشرفته باز کردن قفل ضربه بزنید</string>
     <string name="device_unlock">باز کردن قفل پیشرفته</string>
     <string name="content">محتوا</string>
@@ -314,4 +314,22 @@
     <string name="template_group_name">الگو ها</string>
     <string name="content_description_otp_information">اطلاعات رمز یکبار مصرف</string>
     <string name="content_description_credentials_information">اطلاعات اعتبار نامه</string>
+    <string name="info">اطلاعات</string>
+    <string name="content_description_database_color">رنگ دیتابیس</string>
+    <string name="compression">فشرده سازی</string>
+    <string name="clipboard_explanation_summary">فیلد های ورودی را با استفاده از کلیپ بورد دستگاه خود پرکنید</string>
+    <string name="biometric_unlock_enable_title">بازکردن با احراز هویت زیستی</string>
+    <string name="autofill_close_database_title">بستن پایگاه داده</string>
+    <string name="application_appearance">رابط کاربری</string>
+    <string name="allow_copy_password_summary">اجازه کپی کردن رمز و فیلد های محافظت شده در کلیپ بورد</string>
+    <string name="assign_master_key">یک رمز اصلی اختصاص بدهید</string>
+    <string name="autofill">تکمیل خودکار</string>
+    <string name="autofill_application_id_blocklist_title">لیست سیاه برنامه</string>
+    <string name="ask">پرسش</string>
+    <string name="merge_success">یکپارچه سازی با موفقیت به اتمام رسید</string>
+    <string name="permission">اجازه دسترسی</string>
+    <string name="configure">پیکربندی</string>
+    <string name="unlock_and_link_biometric">لینک بازکردن قفل دستگاه</string>
+    <string name="device_unlock_prompt_store_credential_title">اتصال به بازکردن دستگاه</string>
+    <string name="device_unlock_prompt_extract_credential_title">تشخیص باز کردن قفل دستگاه</string>
 </resources>

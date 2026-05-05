@@ -33,11 +33,6 @@
             android:summary="@string/delete_entered_password_summary"
             android:defaultValue="@bool/delete_entered_password_default"/>
         <SwitchPreferenceCompat
-            android:key="@string/user_verification_device_credential_key"
-            android:title="@string/user_verification_device_credential_title"
-            android:summary="@string/user_verification_device_credential_summary"
-            android:defaultValue="@bool/user_verification_device_credential_default"/>
-        <SwitchPreferenceCompat
             android:key="@string/enable_auto_save_database_key"
             android:title="@string/enable_auto_save_database_title"
             android:summary="@string/enable_auto_save_database_summary"
@@ -57,6 +52,17 @@
             android:title="@string/enable_screenshot_mode_title"
             android:summary="@string/enable_screenshot_mode_summary"
             android:defaultValue="@bool/enable_screenshot_mode_key_default"/>
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/user_verification">
+
+        <SwitchPreferenceCompat
+            android:key="@string/user_verification_device_credential_key"
+            android:title="@string/user_verification_device_credential_title"
+            android:summary="@string/user_verification_device_credential_summary"
+            android:defaultValue="@bool/user_verification_device_credential_default"/>
+
     </PreferenceCategory>
 
     <PreferenceCategory

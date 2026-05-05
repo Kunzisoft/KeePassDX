@@ -16,25 +16,34 @@ import com.kunzisoft.keepass.database.element.template.Template
 import com.kunzisoft.keepass.model.AttachmentState
 import com.kunzisoft.keepass.model.EntryAttachmentState
 import com.kunzisoft.keepass.model.EntryInfo
+import com.kunzisoft.keepass.model.FieldProtection
 import com.kunzisoft.keepass.model.RegisterInfo
 import com.kunzisoft.keepass.model.StreamDirection
 import com.kunzisoft.keepass.otp.OtpElement
 import com.kunzisoft.keepass.utils.IOActionTask
-import com.kunzisoft.keepass.view.ProtectedFieldView
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import java.util.UUID
 
 
 class EntryEditViewModel: NodeEditViewModel() {
 
+    private var mDatabase: ContextualDatabase? = null
     private var mEntryId: NodeId<UUID>? = null
     private var mParentId: NodeId<*>? = null
     private var mRegisterInfo: RegisterInfo? = null
     private var mParent: Group? = null
     private var mEntry: Entry? = null
-    private var mIsTemplate: Boolean = false
+    var isTemplate: Boolean = false
+        private set
+    var allowCustomFields: Boolean = false
+        private set
+    var allowOTP: Boolean = false
+        private set
     private val mTempAttachments = mutableListOf<EntryAttachmentState>()
+
+    var passwordField: Field? = null
 
     // To show dialog only one time
     var backPressedAlreadyApproved = false
@@ -42,19 +51,21 @@ class EntryEditViewModel: NodeEditViewModel() {
     // Useful to not relaunch a current action
     private var actionLocked: Boolean = false
 
+    private var mInitialEntryInfo: EntryInfo? = null
+
     val templatesEntry : LiveData<TemplatesEntry?> get() = _templatesEntry
     private val _templatesEntry = MutableLiveData<TemplatesEntry?>()
 
-    val requestEntryInfoUpdate : LiveData<EntryUpdate> get() = _requestEntryInfoUpdate
-    private val _requestEntryInfoUpdate = SingleLiveEvent<EntryUpdate>()
+    val requestEntryInfoUpdate : LiveData<Void?> get() = _requestEntryInfoUpdate
+    private val _requestEntryInfoUpdate = SingleLiveEvent<Void?>()
     val onEntrySaved : LiveData<EntrySave> get() = _onEntrySaved
     private val _onEntrySaved = SingleLiveEvent<EntrySave>()
 
     val onTemplateChanged : LiveData<Template> get() = _onTemplateChanged
     private val _onTemplateChanged = MutableLiveData<Template>()
 
-    val requestPasswordSelection : LiveData<Field> get() = _requestPasswordSelection
-    private val _requestPasswordSelection = SingleLiveEvent<Field>()
+    val requestPasswordSelection : LiveData<Void?> get() = _requestPasswordSelection
+    private val _requestPasswordSelection = SingleLiveEvent<Void?>()
     val onPasswordSelected : LiveData<Field> get() = _onPasswordSelected
     private val _onPasswordSelected = SingleLiveEvent<Field>()
 
@@ -82,9 +93,15 @@ class EntryEditViewModel: NodeEditViewModel() {
     private val _onBinaryPreviewLoaded = SingleLiveEvent<AttachmentPosition>()
 
     private val mEntryEditState = MutableStateFlow<EntryEditState>(EntryEditState.Loading)
-    val entryEditState: StateFlow<EntryEditState> = mEntryEditState
+    val entryEditState: StateFlow<EntryEditState> = mEntryEditState.asStateFlow()
 
-    fun loadTemplateEntry(database: ContextualDatabase?) {
+    val entryLoaded: Boolean
+        get() = templatesEntry.value != null
+
+    fun loadTemplateEntry(database: ContextualDatabase) {
+        mDatabase = database
+        allowCustomFields = database.allowEntryCustomFields() == true
+        allowOTP = database.allowOTP == true
         loadTemplateEntry(database, mEntryId, mParentId, mRegisterInfo)
     }
 
@@ -112,17 +129,20 @@ class EntryEditViewModel: NodeEditViewModel() {
                                 entry.parent = database.rootGroup
                             }
                             // Define if current entry is a template (in direct template group)
-                            mIsTemplate = database.entryIsTemplate(mEntry)
+                            isTemplate = database.entryIsTemplate(mEntry)
                             decodeTemplateEntry(
                                 database,
                                 entry,
-                                mIsTemplate,
+                                isTemplate,
                                 registerInfo
                             )
                         }
                     },
                     onActionComplete = { templatesEntry ->
                         mEntryId = null
+                        mInitialEntryInfo = templatesEntry?.entryInfo?.let { entryInfo ->
+                            EntryInfo(entryInfo)
+                        }
                         _templatesEntry.value = templatesEntry
                         if (templatesEntry?.overwrittenData == true) {
                             mEntryEditState.value = EntryEditState.ShowOverwriteMessage
@@ -155,17 +175,20 @@ class EntryEditViewModel: NodeEditViewModel() {
                                 // Useful to recognize child state (ie: entry is a template)
                                 parent = parentGroup
                             }
-                            mIsTemplate = database.entryIsTemplate(mEntry)
+                            isTemplate = database.entryIsTemplate(mEntry)
                             decodeTemplateEntry(
                                 database,
                                 mEntry,
-                                mIsTemplate,
+                                isTemplate,
                                 registerInfo
                             )
                         }
                     },
                     onActionComplete = { templatesEntry ->
                         mParentId = null
+                        mInitialEntryInfo = templatesEntry?.entryInfo?.let { entryInfo ->
+                            EntryInfo(entryInfo)
+                        }
                         _templatesEntry.value = templatesEntry
                     }
                 ).execute()
@@ -198,11 +221,11 @@ class EntryEditViewModel: NodeEditViewModel() {
             }
         }
         return TemplatesEntry(
-            isTemplate,
-            templates,
-            entryTemplate,
-            entryInfo,
-            overwrittenData
+            template = onTemplateChanged.value,
+            templates = templates,
+            defaultTemplate = entryTemplate,
+            entryInfo = entryInfo,
+            overwrittenData = overwrittenData
         )
     }
 
@@ -212,47 +235,52 @@ class EntryEditViewModel: NodeEditViewModel() {
         }
     }
 
-    fun requestEntryInfoUpdate(database: ContextualDatabase?) {
-        _requestEntryInfoUpdate.value = EntryUpdate(database, mEntry, mParent)
+    fun requestEntryInfoUpdate() {
+        _requestEntryInfoUpdate.call()
     }
 
     fun unlockAction() {
         actionLocked = false
     }
 
-    fun saveEntryInfo(database: ContextualDatabase?, entry: Entry?, parent: Group?, entryInfo: EntryInfo) {
+    fun saveEntryInfo(entryInfo: EntryInfo) {
         if (actionLocked.not()) {
             actionLocked = true
             IOActionTask(
                 scope = viewModelScope,
                 action = {
                     removeTempAttachmentsNotCompleted(entryInfo)
-                    entry?.let { oldEntry ->
-                        // Create a clone
-                        var newEntry = Entry(oldEntry)
+                    mDatabase?.let { database ->
+                        mEntry?.let { oldEntry ->
+                            // Create a clone
+                            var newEntry = Entry(oldEntry)
 
-                        // Build info
-                        newEntry.setEntryInfo(database, entryInfo)
+                            // Build info
+                            newEntry.setEntryInfo(database, entryInfo)
 
-                        // Encode entry properties for template
-                        _onTemplateChanged.value?.let { template ->
-                            newEntry =
-                                database?.encodeEntryWithTemplateConfiguration(newEntry, template)
-                                    ?: newEntry
-                        }
+                            // Encode entry properties for template
+                            _onTemplateChanged.value?.let { template ->
+                                newEntry = database.encodeEntryWithTemplateConfiguration(
+                                        newEntry,
+                                        template
+                                    )
+                            }
 
-                        // Delete temp attachment if not used
-                        mTempAttachments.forEach { tempAttachmentState ->
-                            val tempAttachment = tempAttachmentState.attachment
-                            database?.attachmentPool?.let { binaryPool ->
-                                if (!newEntry.getAttachments(binaryPool).contains(tempAttachment)) {
-                                    database.removeAttachmentIfNotUsed(tempAttachment)
+                            // Delete temp attachment if not used
+                            mTempAttachments.forEach { tempAttachmentState ->
+                                val tempAttachment = tempAttachmentState.attachment
+                                database.attachmentPool.let { binaryPool ->
+                                    if (!newEntry.getAttachments(binaryPool)
+                                            .contains(tempAttachment)
+                                    ) {
+                                        database.removeAttachmentIfNotUsed(tempAttachment)
+                                    }
                                 }
                             }
-                        }
 
-                        // Return entry to save
-                        EntrySave(oldEntry, newEntry, parent)
+                            // Return entry to save
+                            EntrySave(oldEntry, newEntry, mParent)
+                        }
                     }
                 },
                 onActionComplete = { entrySave ->
@@ -286,15 +314,16 @@ class EntryEditViewModel: NodeEditViewModel() {
     }
 
     fun requestPasswordSelection(passwordField: Field) {
-        _requestPasswordSelection.value = passwordField
+        this.passwordField = passwordField
+        _requestPasswordSelection.call()
     }
 
     fun selectPassword(passwordField: Field) {
         _onPasswordSelected.value = passwordField
     }
 
-    fun requestUnprotectField(fieldView: ProtectedFieldView) {
-        mEntryEditState.value = EntryEditState.RequestUnprotectField(fieldView)
+    fun requestChangeFieldProtection(fieldProtection: FieldProtection) {
+        mEntryEditState.value = EntryEditState.OnChangeFieldProtectionRequested(fieldProtection)
     }
 
     fun requestCustomFieldEdition(customField: Field) {
@@ -352,18 +381,43 @@ class EntryEditViewModel: NodeEditViewModel() {
         _onBinaryPreviewLoaded.value = AttachmentPosition(entryAttachmentState, viewPosition)
     }
 
+    fun updateFieldProtection(fieldProtection: FieldProtection, value: Boolean) {
+        fieldProtection.isCurrentlyProtected = value
+        mEntryEditState.value = EntryEditState.OnFieldProtectionUpdated(fieldProtection)
+    }
+
     fun actionPerformed() {
         mEntryEditState.value = EntryEditState.Loading
     }
 
+    fun askToClose(closeType: CloseType) {
+        mEntryEditState.value = EntryEditState.RetrieveEntryInfoForClosing(closeType)
+    }
+
+    fun askToCloseEntry(currentEntryInfo: EntryInfo?, closeType: CloseType) {
+        if (backPressedAlreadyApproved.not()) {
+            if (mInitialEntryInfo != currentEntryInfo) {
+                mEntryEditState.value = EntryEditState.AskToDiscardChanges(closeType)
+            } else {
+                mEntryEditState.value = EntryEditState.CloseEntry(closeType)
+            }
+        } else {
+            mEntryEditState.value = EntryEditState.CloseEntry(closeType)
+        }
+    }
+
+    fun approveDiscardChanges(closeType: CloseType) {
+        backPressedAlreadyApproved = true
+        mEntryEditState.value = EntryEditState.CloseEntry(closeType)
+    }
+
     data class TemplatesEntry(
-        val isTemplate: Boolean,
+        val template: Template?,
         val templates: List<Template>,
         val defaultTemplate: Template,
         val entryInfo: EntryInfo?,
         val overwrittenData: Boolean = false
     )
-    data class EntryUpdate(val database: ContextualDatabase?, val entry: Entry?, val parent: Group?)
     data class EntrySave(val oldEntry: Entry, val newEntry: Entry, val parent: Group?)
     data class FieldEdition(val oldField: Field?, val newField: Field?)
     data class AttachmentBuild(val attachmentToUploadUri: Uri, val fileName: String)
@@ -373,9 +427,26 @@ class EntryEditViewModel: NodeEditViewModel() {
     sealed class EntryEditState {
         object Loading: EntryEditState()
         object ShowOverwriteMessage: EntryEditState()
-        data class RequestUnprotectField(
-            val protectedFieldView: ProtectedFieldView
+        data class OnChangeFieldProtectionRequested(
+            val fieldProtection: FieldProtection
         ): EntryEditState()
+        data class OnFieldProtectionUpdated(
+            val fieldProtection: FieldProtection
+        ): EntryEditState()
+        data class CloseEntry(
+            val closeType: CloseType
+        ): EntryEditState()
+        data class RetrieveEntryInfoForClosing(
+            val closeType: CloseType
+        ): EntryEditState()
+        data class AskToDiscardChanges(
+            val closeType: CloseType
+        ): EntryEditState()
+    }
+
+    enum class CloseType {
+        DATABASE_BACK_PRESSED,
+        CANCEL_SPECIAL_MODE
     }
 
     companion object {
