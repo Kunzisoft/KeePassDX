@@ -766,4 +766,10 @@
     <string name="user_verification_required_description_precise">%1$s richiede di verificare che sei effettivamente tu.</string>
     <string name="education_user_verification_title">Verifica delle azioni sensibili</string>
     <string name="education_user_verification_summary">Modifica la modalità di verifica dell\'utente per la sessione.\n\n\"User Verification Enabled\" verifica l\'azione su campi protetti e impostazioni del database.\n\"User Verification disabilitato\" consente di modificare i dati nel database senza verifica.</string>
+    <string name="content_description_share_url">Condividi URL</string>
+    <string name="show_tags_title">Mostra etichette</string>
+    <string name="show_tags_summary">Mostra le etichette nell\'elenco delle voci</string>
+    <string name="benchmark_calculation">Calcola per %1$s s</string>
+    <string name="benchmarking">Analisi comparativa…</string>
+    <string name="keyboard_share_browser">Condividi da %1$s a KeePassDX</string>
 </resources>
