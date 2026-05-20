@@ -16,13 +16,6 @@ import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper.removeInfo
 import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper.removeNodeId
 import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper.retrieveNodeId
 import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper.retrieveSearchInfo
-import com.kunzisoft.keepass.credentialprovider.passkey.util.PasskeyHelper.buildCreatePublicKeyCredentialResponse
-import com.kunzisoft.keepass.credentialprovider.passkey.util.PasskeyHelper.buildPasskeyPublicKeyCredential
-import com.kunzisoft.keepass.credentialprovider.passkey.util.PasskeyHelper.getVerifiedGETClientDataResponse
-import com.kunzisoft.keepass.credentialprovider.passkey.util.PasskeyHelper.removePasskey
-import com.kunzisoft.keepass.credentialprovider.passkey.util.PasskeyHelper.retrievePasskey
-import com.kunzisoft.keepass.credentialprovider.passkey.util.PasskeyHelper.retrievePasskeyCreationRequestParameters
-import com.kunzisoft.keepass.credentialprovider.passkey.util.PasskeyHelper.retrievePasskeyUsageRequestParameters
 import com.kunzisoft.keepass.credentialprovider.SpecialMode
 import com.kunzisoft.keepass.credentialprovider.TypeMode
 import com.kunzisoft.keepass.credentialprovider.passkey.data.AndroidPrivilegedApp
@@ -31,14 +24,23 @@ import com.kunzisoft.keepass.credentialprovider.passkey.data.PublicKeyCredential
 import com.kunzisoft.keepass.credentialprovider.passkey.util.PassHelper.checkSecurity
 import com.kunzisoft.keepass.credentialprovider.passkey.util.PassHelper.removeAppOrigin
 import com.kunzisoft.keepass.credentialprovider.passkey.util.PassHelper.retrieveAppOrigin
+import com.kunzisoft.keepass.credentialprovider.passkey.util.PasskeyHelper.buildCreatePublicKeyCredentialResponse
+import com.kunzisoft.keepass.credentialprovider.passkey.util.PasskeyHelper.buildPasskeyPublicKeyCredential
+import com.kunzisoft.keepass.credentialprovider.passkey.util.PasskeyHelper.getVerifiedGETClientDataResponse
+import com.kunzisoft.keepass.credentialprovider.passkey.util.PasskeyHelper.removePasskey
+import com.kunzisoft.keepass.credentialprovider.passkey.util.PasskeyHelper.retrievePasskey
+import com.kunzisoft.keepass.credentialprovider.passkey.util.PasskeyHelper.retrievePasskeyCreationRequestParameters
+import com.kunzisoft.keepass.credentialprovider.passkey.util.PasskeyHelper.retrievePasskeyUsageRequestParameters
 import com.kunzisoft.keepass.credentialprovider.passkey.util.PrivilegedAllowLists
 import com.kunzisoft.keepass.credentialprovider.passkey.util.PrivilegedAllowLists.saveCustomPrivilegedApps
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.element.Entry
+import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.node.NodeIdUUID
 import com.kunzisoft.keepass.database.exception.RegisterInReadOnlyDatabaseException
 import com.kunzisoft.keepass.database.helper.SearchHelper
 import com.kunzisoft.keepass.model.AppOrigin
+import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.model.Passkey
 import com.kunzisoft.keepass.model.RegisterInfo
 import com.kunzisoft.keepass.model.SearchInfo
@@ -122,24 +124,23 @@ class PasskeyLauncherViewModel(application: Application): CredentialLauncherView
             showError(e)
         }) {
             // Update the entry with app signature
+            val oldEntryId = NodeIdUUID(nodeId)
             val entry = database
-                ?.getEntryById(NodeIdUUID(nodeId))
+                ?.getEntryById(oldEntryId)
                 ?: throw GetCredentialUnknownException(
-                    "No passkey with nodeId $nodeId found"
+                    "No passkey with nodeId $oldEntryId found"
                 )
             if (database.isReadOnly)
                 throw RegisterInReadOnlyDatabaseException()
             val newEntry = Entry(entry)
             val entryInfo = newEntry.getEntryInfo(
                 database,
-                raw = true,
-                removeTemplateConfiguration = false
+                raw = true
             )
             entryInfo.saveAppOrigin(database, temptingApp)
-            newEntry.setEntryInfo(database, entryInfo)
             mUiState.value = UIState.UpdateEntry(
-                oldEntry = entry,
-                newEntry = newEntry
+                oldEntryId = oldEntryId,
+                newEntry = entryInfo
             )
         }
     }
@@ -549,8 +550,8 @@ class PasskeyLauncherViewModel(application: Application): CredentialLauncherView
             val nodeId: UUID
         ): UIState()
         data class UpdateEntry(
-            val oldEntry: Entry,
-            val newEntry: Entry
+            val oldEntryId: NodeId<UUID>,
+            val newEntry: EntryInfo
         ): UIState()
     }
 

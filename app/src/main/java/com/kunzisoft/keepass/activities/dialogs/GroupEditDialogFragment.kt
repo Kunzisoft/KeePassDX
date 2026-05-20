@@ -53,7 +53,6 @@ class GroupEditDialogFragment : DatabaseDialogFragment() {
     private var mPopulateIconMethod: ((ImageView, IconImage) -> Unit)? = null
     private var mEditGroupDialogAction = NONE
     private var mGroupInfo = GroupInfo()
-    private var mGroupNamesNotAllowed: List<String>? = null
 
     private lateinit var iconButtonView: ImageView
     private var mIconColor: Int = 0
@@ -105,10 +104,6 @@ class GroupEditDialogFragment : DatabaseDialogFragment() {
             // Save the time
             mGroupInfo.expiryTime.setTime(viewModelTime.hour, viewModelTime.minute)
             expirationView.dateTime = mGroupInfo.expiryTime
-        }
-
-        mGroupEditViewModel.groupNamesNotAllowed.observe(this) { namesNotAllowed ->
-            this.mGroupNamesNotAllowed = namesNotAllowed
         }
     }
 
@@ -273,10 +268,10 @@ class GroupEditDialogFragment : DatabaseDialogFragment() {
             name.isEmpty() -> {
                 Error(true, R.string.error_no_name)
             }
-            mGroupNamesNotAllowed == null -> {
+            mGroupEditViewModel.groupNamesNotAllowed == null -> {
                 Error(true, R.string.error_word_reserved)
             }
-            mGroupNamesNotAllowed?.find { it.equals(name, ignoreCase = true) } != null -> {
+            mGroupEditViewModel.groupNamesNotAllowed?.find { it.equals(name, ignoreCase = true) } != null -> {
                 Error(true, R.string.error_word_reserved)
             }
             else -> {

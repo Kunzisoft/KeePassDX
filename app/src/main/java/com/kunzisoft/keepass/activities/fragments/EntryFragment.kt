@@ -19,6 +19,7 @@ import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.adapters.EntryAttachmentsItemsAdapter
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.element.Attachment
+import com.kunzisoft.keepass.database.element.template.Template
 import com.kunzisoft.keepass.model.EntryAttachmentState
 import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.model.FieldProtection
@@ -99,7 +100,6 @@ class EntryFragment: DatabaseFragment() {
 
         mEntryViewModel.entryInfoHistory.observe(viewLifecycleOwner) { entryInfoHistory ->
             if (entryInfoHistory != null) {
-                templateView.setTemplate(entryInfoHistory.template)
                 assignEntryInfo(entryInfoHistory.entryInfo)
                 // Smooth appearing
                 rootView.showByFading()
@@ -174,6 +174,9 @@ class EntryFragment: DatabaseFragment() {
                 mEntryViewModel.requestCopyField(fieldProtection)
             }
         }
+
+        // Set template
+        templateView.setTemplate(entryInfo?.template ?: Template.STANDARD)
 
         // Populate entry views
         templateView.setEntryInfo(entryInfo)

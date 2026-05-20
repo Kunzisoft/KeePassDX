@@ -77,17 +77,6 @@ class PasswordLauncherActivity : AuthenticationLauncherActivity() {
         lifecycleScope.launch {
             // Initialize the parameters
             passwordLauncherViewModel.initialize()
-            // Retrieve the UI
-            passwordLauncherViewModel.uiState.collect { uiState ->
-                when (uiState) {
-                    is PasswordLauncherViewModel.UIState.Loading -> {
-                        // Nothing to do
-                    }
-                    is PasswordLauncherViewModel.UIState.UpdateEntry -> {
-                        updateEntry(uiState.oldEntry, uiState.newEntry)
-                    }
-                }
-            }
         }
         lifecycleScope.launch {
             passwordLauncherViewModel.credentialUiState.collect { uiState ->

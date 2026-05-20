@@ -520,6 +520,10 @@ abstract class TemplateAbstractView<
         }
 
         retrieveCustomFieldsFromView(templateFieldNotEmpty, retrieveDefaultValues)
+
+        mTemplate?.let {
+            mEntryInfo?.template = it
+        }
     }
 
     fun getEntryInfo(): EntryInfo {

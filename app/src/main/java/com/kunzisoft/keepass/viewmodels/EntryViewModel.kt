@@ -27,8 +27,6 @@ import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.element.Attachment
 import com.kunzisoft.keepass.database.element.Field
 import com.kunzisoft.keepass.database.element.node.NodeId
-import com.kunzisoft.keepass.database.element.node.NodeIdUUID
-import com.kunzisoft.keepass.database.element.template.Template
 import com.kunzisoft.keepass.database.element.template.TemplateField
 import com.kunzisoft.keepass.database.helper.getLocalizedName
 import com.kunzisoft.keepass.model.EntryAttachmentState
@@ -92,45 +90,22 @@ class EntryViewModel(application: Application): AndroidViewModel(application) {
         if (database != null && mainEntryId != null) {
             IOActionTask(
                 {
-                    val mainEntry = database.getEntryById(mainEntryId)
-                    // To sort by access
-                    /* TODO Sort by access #1911, revert because of #2527
-                    if (database.isReadOnly) {
-                        mainEntry?.let {
-                            it.touch(modified = false, touchParents = false)
-                            database.updateEntry(entry = it)
+                    database.getEntryById(mainEntryId)?.let { mainEntry ->
+                        val isHistory = historyPosition > -1
+                        val currentEntry = if (isHistory) {
+                            mainEntry.getHistory()[historyPosition]
+                        } else {
+                            mainEntry
                         }
-                    }*/
-                    val currentEntry = if (historyPosition > -1) {
-                        mainEntry?.getHistory()?.get(historyPosition)
-                    } else {
-                        mainEntry
-                    }
-
-                    val entryTemplate = currentEntry?.let {
-                        database.getTemplate(it)
-                    } ?: Template.STANDARD
-
-                    // To simplify template field visibility
-                    currentEntry?.let { entry ->
-                        // Add mainEntry to check the parent and define the template state
-                        database.decodeEntryWithTemplateConfiguration(entry, mainEntry).let {
-                            // To update current modification time
-                            it.touch(modified = false, touchParents = false)
-
-                            // Build history info
-                            val entryInfoHistory = it.getHistory().map { entryHistory ->
-                                entryHistory.getEntryInfo(database)
-                            }
-
-                            EntryInfoHistory(
-                                mainEntry!!.nodeId,
-                                historyPosition,
-                                entryTemplate,
-                                it.getEntryInfo(database),
-                                entryInfoHistory
-                            )
-                        }
+                        // To simplify template field visibility
+                        EntryInfoHistory(
+                            mainEntryId = mainEntry.nodeId,
+                            historyPosition = historyPosition,
+                            entryInfo = database.getEntryInfoFrom(currentEntry),
+                            entryHistory = if (!isHistory)
+                                database.getHistoryEntryInfoFrom(mainEntry)
+                            else listOf()
+                        )
                     }
                 },
                 { entryInfoHistory ->
@@ -179,7 +154,7 @@ class EntryViewModel(application: Application): AndroidViewModel(application) {
     }
 
     fun onHistorySelected(item: EntryInfo, position: Int) {
-        _historySelected.value = EntryHistory(NodeIdUUID(item.id), null, item, position)
+        _historySelected.value = EntryHistory(item.nodeId, item, position)
     }
 
     fun selectSection(section: EntrySection) {
@@ -202,16 +177,18 @@ class EntryViewModel(application: Application): AndroidViewModel(application) {
         mEntryState.value = EntryState.Loading
     }
 
-    data class EntryInfoHistory(var mainEntryId: NodeId<UUID>,
-                                var historyPosition: Int,
-                                val template: Template,
-                                val entryInfo: EntryInfo,
-                                val entryHistory: List<EntryInfo>)
+    data class EntryInfoHistory(
+        var mainEntryId: NodeId<UUID>,
+        var historyPosition: Int,
+        val entryInfo: EntryInfo,
+        val entryHistory: List<EntryInfo>
+    )
     // Custom data class to manage entry to retrieve and define is it's an history item (!= -1)
-    data class EntryHistory(var nodeId: NodeId<UUID>,
-                            var template: Template?,
-                            var entryInfo: EntryInfo,
-                            var historyPosition: Int = -1)
+    data class EntryHistory(
+        var nodeId: NodeId<UUID>,
+        var entryInfo: EntryInfo,
+        var historyPosition: Int = -1
+    )
 
     enum class EntrySection(var position: Int) {
         MAIN(0), ADVANCED(1);

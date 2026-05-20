@@ -45,6 +45,7 @@ import com.kunzisoft.keepass.otp.OtpEntryFields
 import com.kunzisoft.keepass.utils.StringUtil.toFormattedColorInt
 import com.kunzisoft.keepass.utils.StringUtil.toFormattedColorString
 import com.kunzisoft.keepass.utils.readParcelableCompat
+import java.io.IOException
 import java.util.UUID
 
 class Entry : Node, EntryVersionedInterface<Group> {
@@ -422,12 +423,22 @@ class Entry : Node, EntryVersionedInterface<Group> {
     }
 
     fun getHistory(): List<Entry> {
+        if (isHistoric())
+            throw IOException("Cannot get history from a historical entry")
         val history = mutableListOf<Entry>()
         val entryKDBXHistory = entryKDBX?.history ?: listOf()
         for (entryHistory in entryKDBXHistory) {
             history.add(Entry(entryHistory))
         }
         return history
+    }
+
+    fun getMainEntryHistoryId(): NodeId<UUID> {
+        return entryKDBX?.historyMainEntryId?.let { NodeIdUUID(it) } ?: nodeId
+    }
+
+    fun isHistoric(): Boolean {
+        return entryKDBX?.isHistoric() ?: false
     }
 
     fun addEntryToHistory(entry: Entry) {
@@ -468,15 +479,16 @@ class Entry : Node, EntryVersionedInterface<Group> {
      * Retrieve generated entry info.
      * If are not [raw] data, remove parameter fields and add auto generated elements in auto custom fields
      */
-    fun getEntryInfo(database: Database?,
-                     raw: Boolean = false,
-                     removeTemplateConfiguration: Boolean = true): EntryInfo {
+    fun getEntryInfo(
+        database: Database?,
+        raw: Boolean = false
+    ): EntryInfo {
         val entryInfo = EntryInfo()
-        // Remove unwanted template fields
-        val baseInfo = if (removeTemplateConfiguration)
-            database?.removeTemplateConfiguration(this) ?: this
-        else
-            this
+        // Fetch template and remove unwanted template fields
+        database?.getTemplate(this)?.let {
+            entryInfo.template = it
+        }
+        val baseInfo = database?.decodeEntryWithTemplateConfiguration(entry = this) ?: this
         baseInfo.apply {
             if (raw)
                 database?.stopManageEntry(this)
@@ -554,6 +566,12 @@ class Entry : Node, EntryVersionedInterface<Group> {
         }
 
         database?.stopManageEntry(this)
+
+        // Encode entry properties for template
+        entryKDBX = database?.encodeEntryWithTemplateConfiguration(
+            entry = this,
+            template = newEntryInfo.template
+        )?.entryKDBX
     }
 
     override fun equals(other: Any?): Boolean {

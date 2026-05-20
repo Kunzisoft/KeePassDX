@@ -529,7 +529,7 @@ class DatabaseKDBXMerger(private var database: DatabaseKDBX) {
     }
 
     /**
-     * Utility method to merge an history from an [entryA]
+     * Utility method to merge a history from an [entryA]
      */
     private fun EntryKDBX.addHistoryFrom(entryA: EntryKDBX) {
         // Keep entry as history if already not present

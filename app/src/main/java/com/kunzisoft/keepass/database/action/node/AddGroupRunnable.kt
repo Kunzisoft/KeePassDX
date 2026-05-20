@@ -20,30 +20,61 @@
 package com.kunzisoft.keepass.database.action.node
 
 import android.content.Context
+import android.util.Log
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.element.Group
+import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.hardware.HardwareKey
+import com.kunzisoft.keepass.model.GroupInfo
 
 class AddGroupRunnable(
     context: Context,
     database: ContextualDatabase,
-    private val mNewGroup: Group,
-    private val mParent: Group,
+    parentId: NodeId<*>,
+    newGroup: GroupInfo,
     save: Boolean,
     afterActionNodesFinish: AfterActionNodesFinish?,
     challengeResponseRetriever: (HardwareKey, ByteArray?) -> ByteArray
 ) : ActionNodeDatabaseRunnable(context, database, afterActionNodesFinish, save, challengeResponseRetriever) {
 
+    private var mParent: Group? = null
+    private var mNewGroup: Group? = null
+
+    init {
+        database.getGroupById(parentId)?.let { parent ->
+            mParent = parent
+        }
+        if (mParent == null) {
+            Log.w(TAG, "Unable to retrieve the parent to create the group")
+            mParent = database.rootGroup
+        }
+        mNewGroup = database.getGroupFrom(newGroup)
+    }
+
     override fun nodeAction() {
-        mNewGroup.touch(modified = true, touchParents = true)
-        mParent.touch(modified = true, touchParents = true)
-        database.addGroupTo(mNewGroup, mParent)
+        mNewGroup?.let { newGroup ->
+            newGroup.touch(modified = true, touchParents = true)
+            mParent?.let { parent ->
+                parent.touch(modified = true, touchParents = true)
+                database.addGroupTo(newGroup, parent)
+            }
+        }
     }
 
     override fun nodeFinish(): ActionNodesValues {
         if (!result.isSuccess) {
-            database.removeGroupFrom(mNewGroup, mParent)
+            mNewGroup?.let { newGroup ->
+                newGroup.parent?.let { parent ->
+                    database.removeGroupFrom(newGroup, parent)
+                }
+            }
         }
-        return ActionNodesValues(listOf(), listOf(mNewGroup))
+        return ActionNodesValues(
+            oldNodes = listOf(),
+            newNodes = mNewGroup?.let { listOf(it) } ?: listOf())
+    }
+
+    companion object {
+        private val TAG = AddGroupRunnable::class.simpleName
     }
 }

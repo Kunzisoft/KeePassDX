@@ -285,6 +285,12 @@ class EntryEditFragment: DatabaseFragment() {
                             updateFieldProtection(entryEditState.fieldProtection)
                             mEntryEditViewModel.actionPerformed()
                         }
+                        is EntryEditViewModel.EntryEditState.CreateEntry -> {
+                            // Managed in entry edit activity
+                        }
+                        is EntryEditViewModel.EntryEditState.UpdateEntry -> {
+                            // Managed in entry edit activity
+                        }
                         is EntryEditViewModel.EntryEditState.CloseEntry -> {
                             // Managed in entry edit activity
                         }

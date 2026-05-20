@@ -294,6 +294,9 @@ class EntryActivity : DatabaseLockActivity() {
                 mBackgroundColor = if (showEntryColors) entryInfo.backgroundColor else null
                 mForegroundColor = if (showEntryColors) entryInfo.foregroundColor else null
 
+                // To sort by access
+                touchEntry(entryInfo)
+
                 loadingView?.hideByFading()
             } else {
                 finish()

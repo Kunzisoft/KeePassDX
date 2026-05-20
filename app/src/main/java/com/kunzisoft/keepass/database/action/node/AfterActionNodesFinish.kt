@@ -29,6 +29,7 @@ import com.kunzisoft.keepass.tasks.ActionRunnable
  * - Delete : @param oldNodes NodesToDelete, @param newNodes empty
  * - Move : @param oldNodes empty, @param newNodes NodesToMove
  * - Update : @param oldNodes NodesToUpdate, @param newNodes NodesUpdated
+ * - Touch : @param olNodes TouchedNodes, @param newNodes empty
  */
 class ActionNodesValues(val oldNodes: List<Node>, val newNodes: List<Node>)
 

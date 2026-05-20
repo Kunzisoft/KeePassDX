@@ -43,6 +43,7 @@ import com.kunzisoft.keepass.database.element.Entry
 import com.kunzisoft.keepass.database.element.Group
 import com.kunzisoft.keepass.database.element.node.Node
 import com.kunzisoft.keepass.database.element.node.NodeId
+import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.model.GroupInfo
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService
 import com.kunzisoft.keepass.settings.PreferencesUtil
@@ -184,6 +185,7 @@ abstract class DatabaseLockActivity : DatabaseModeActivity(),
     }
 
     fun assignMainCredential(mainCredential: MainCredential) {
+        // TODO Move in ViewModel
         mDatabase?.let { database ->
             database.fileUri?.let { databaseUri ->
                 // Show the progress dialog now or after dialog confirmation
@@ -221,17 +223,23 @@ abstract class DatabaseLockActivity : DatabaseModeActivity(),
     }
 
     fun createEntry(
-        newEntry: Entry,
-        parent: Group
+        parentId: NodeId<*>,
+        entryInfo: EntryInfo
     ) {
-        mDatabaseViewModel.createEntry(newEntry, parent, mAutoSaveEnable)
+        mDatabaseViewModel.createEntry(parentId, entryInfo, mAutoSaveEnable)
     }
 
     fun updateEntry(
-        oldEntry: Entry,
-        entryToUpdate: Entry
+        oldEntryId: NodeId<UUID>,
+        entryInfo: EntryInfo
     ) {
-        mDatabaseViewModel.updateEntry(oldEntry, entryToUpdate, mAutoSaveEnable)
+        mDatabaseViewModel.updateEntry(oldEntryId, entryInfo, mAutoSaveEnable)
+    }
+
+    fun touchEntry(
+        entryInfo: EntryInfo
+    ) {
+        mDatabaseViewModel.touchEntry(entryInfo)
     }
 
     fun copyNodes(
@@ -286,36 +294,17 @@ abstract class DatabaseLockActivity : DatabaseModeActivity(),
     }
 
     fun createGroup(
-        parent: Group,
-        groupInfo: GroupInfo?
+        parentId: NodeId<*>,
+        groupInfo: GroupInfo
     ) {
-        // TODO Move in ViewModel
-        // Build the group
-        mDatabase?.createGroup()?.let { newGroup ->
-            groupInfo?.let { info ->
-                newGroup.setGroupInfo(info)
-            }
-            // Not really needed here because added in runnable but safe
-            newGroup.parent = parent
-            mDatabaseViewModel.createGroup(newGroup, parent, mAutoSaveEnable)
-        }
+        mDatabaseViewModel.createGroup(parentId, groupInfo, mAutoSaveEnable)
     }
 
     fun updateGroup(
-        oldGroup: Group,
+        oldGroupId: NodeId<*>,
         groupInfo: GroupInfo
     ) {
-        // TODO Move in ViewModel
-        // If group updated save it in the database
-        val updateGroup = Group(oldGroup).let { updateGroup ->
-            updateGroup.apply {
-                // WARNING remove parent and children to keep memory
-                removeParent()
-                removeChildren()
-                this.setGroupInfo(groupInfo)
-            }
-        }
-        mDatabaseViewModel.updateGroup(oldGroup, updateGroup, mAutoSaveEnable)
+        mDatabaseViewModel.updateGroup(oldGroupId, groupInfo, mAutoSaveEnable)
     }
 
     fun restoreEntryHistory(

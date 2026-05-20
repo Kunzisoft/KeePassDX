@@ -363,16 +363,6 @@ class EntryEditActivity : DatabaseLockActivity(),
             mAttachmentFileBinderManager?.removeBinaryAttachment(it)
         }
 
-        // Build new entry from the entry info retrieved
-        mEntryEditViewModel.onEntrySaved.observe(this) { entrySave ->
-            // Open a progress dialog and save entry
-            entrySave.parent?.let { parent ->
-                createEntry(entrySave.newEntry, parent)
-            } ?: run {
-                updateEntry(entrySave.oldEntry, entrySave.newEntry)
-            }
-        }
-
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 mEntryEditViewModel.entryEditState.collect { entryEditState ->
@@ -420,6 +410,21 @@ class EntryEditActivity : DatabaseLockActivity(),
                             }
                         }
                         is EntryEditViewModel.EntryEditState.OnFieldProtectionUpdated -> {}
+                        is EntryEditViewModel.EntryEditState.CreateEntry -> {
+                            // Build new entry from the entry info retrieved
+                            createEntry(
+                                parentId = entryEditState.parentId,
+                                entryInfo = entryEditState.newEntry
+                            )
+                            mEntryEditViewModel.actionPerformed()
+                        }
+                        is EntryEditViewModel.EntryEditState.UpdateEntry -> {
+                            updateEntry(
+                                oldEntryId = entryEditState.oldEntryId,
+                                entryInfo = entryEditState.updateEntry
+                            )
+                            mEntryEditViewModel.actionPerformed()
+                        }
                         is EntryEditViewModel.EntryEditState.CloseEntry -> {
                             when(entryEditState.closeType) {
                                 EntryEditViewModel.CloseType.DATABASE_BACK_PRESSED -> {

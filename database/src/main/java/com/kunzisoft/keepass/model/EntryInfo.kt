@@ -27,6 +27,9 @@ import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.Field
 import com.kunzisoft.keepass.database.element.Tags
 import com.kunzisoft.keepass.database.element.entry.AutoType
+import com.kunzisoft.keepass.database.element.node.NodeId
+import com.kunzisoft.keepass.database.element.node.NodeIdUUID
+import com.kunzisoft.keepass.database.element.template.Template
 import com.kunzisoft.keepass.model.AppOriginEntryField.containsDomainOrApplicationId
 import com.kunzisoft.keepass.model.AppOriginEntryField.setAppOrigin
 import com.kunzisoft.keepass.model.AppOriginEntryField.setApplicationId
@@ -39,11 +42,9 @@ import com.kunzisoft.keepass.otp.OtpEntryFields.OTP_TOKEN_FIELD
 import com.kunzisoft.keepass.otp.OtpEntryFields.isOTP
 import com.kunzisoft.keepass.otp.OtpEntryFields.setOtp
 import com.kunzisoft.keepass.utils.CharArrayUtil.clear
-import com.kunzisoft.keepass.utils.readBooleanCompat
 import com.kunzisoft.keepass.utils.readCharArrayCompat
 import com.kunzisoft.keepass.utils.readListCompat
 import com.kunzisoft.keepass.utils.readParcelableCompat
-import com.kunzisoft.keepass.utils.writeBooleanCompat
 import com.kunzisoft.keepass.utils.writeCharArrayCompat
 import java.util.Locale
 import java.util.UUID
@@ -65,7 +66,8 @@ class EntryInfo : NodeInfo {
     var creditCard: CreditCard? = null
     var passkey: Passkey? = null
     var appOrigin: AppOrigin? = null
-    var isTemplate: Boolean = false
+
+    var template: Template = Template.STANDARD
 
     constructor() : super()
 
@@ -85,7 +87,7 @@ class EntryInfo : NodeInfo {
         this.creditCard = entryToCopy.creditCard?.let { CreditCard(it) }
         this.passkey = entryToCopy.passkey?.let { Passkey(it) }
         this.appOrigin = entryToCopy.appOrigin?.let { AppOrigin(it) }
-        this.isTemplate = entryToCopy.isTemplate
+        this.template = entryToCopy.template
     }
 
     constructor(parcel: Parcel) : super(parcel) {
@@ -106,7 +108,7 @@ class EntryInfo : NodeInfo {
         creditCard = parcel.readParcelableCompat() ?: creditCard
         passkey = parcel.readParcelableCompat() ?: passkey
         appOrigin = parcel.readParcelableCompat() ?: appOrigin
-        isTemplate = parcel.readBooleanCompat()
+        template = parcel.readParcelableCompat() ?: template
     }
 
     override fun describeContents(): Int {
@@ -130,8 +132,11 @@ class EntryInfo : NodeInfo {
         parcel.writeParcelable(creditCard, flags)
         parcel.writeParcelable(passkey, flags)
         parcel.writeParcelable(appOrigin, flags)
-        parcel.writeBooleanCompat(isTemplate)
+        parcel.writeParcelable(template, flags)
     }
+
+    val nodeId: NodeId<UUID>
+        get() = NodeIdUUID(id)
 
     fun clear() {
         password.clear()
@@ -314,7 +319,7 @@ class EntryInfo : NodeInfo {
         if (creditCard != other.creditCard) return false
         if (passkey != other.passkey) return false
         if (appOrigin != other.appOrigin) return false
-        if (isTemplate != other.isTemplate) return false
+        if (template != other.template) return false
 
         return true
     }
@@ -336,7 +341,7 @@ class EntryInfo : NodeInfo {
         result = 31 * result + (creditCard?.hashCode() ?: 0)
         result = 31 * result + (passkey?.hashCode() ?: 0)
         result = 31 * result + (appOrigin?.hashCode() ?: 0)
-        result = 31 * result + isTemplate.hashCode()
+        result = 31 * result + template.hashCode()
         return result
     }
 

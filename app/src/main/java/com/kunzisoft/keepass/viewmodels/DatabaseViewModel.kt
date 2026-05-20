@@ -10,13 +10,15 @@ import com.kunzisoft.keepass.database.MainCredential
 import com.kunzisoft.keepass.database.ProgressMessage
 import com.kunzisoft.keepass.database.crypto.EncryptionAlgorithm
 import com.kunzisoft.keepass.database.crypto.kdf.KdfEngine
-import com.kunzisoft.keepass.database.element.Entry
 import com.kunzisoft.keepass.database.element.Group
 import com.kunzisoft.keepass.database.element.binary.BinaryData
 import com.kunzisoft.keepass.database.element.database.CompressionAlgorithm
 import com.kunzisoft.keepass.database.element.node.Node
 import com.kunzisoft.keepass.database.element.node.NodeId
+import com.kunzisoft.keepass.database.element.node.NodeIdUUID
 import com.kunzisoft.keepass.model.CipherEncryptDatabase
+import com.kunzisoft.keepass.model.EntryInfo
+import com.kunzisoft.keepass.model.GroupInfo
 import com.kunzisoft.keepass.model.SnapFileDatabaseInfo
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService
 import com.kunzisoft.keepass.tasks.ActionRunnable
@@ -169,29 +171,31 @@ class DatabaseViewModel(application: Application): AndroidViewModel(application)
      */
 
     fun createEntry(
-        newEntry: Entry,
-        parent: Group,
+        parentId: NodeId<*>,
+        newEntry: EntryInfo,
         save: Boolean
     ) {
         mDatabaseTaskProvider.startDatabaseCreateEntry(
-            newEntry,
-            parent,
-            save
+            parentId = parentId,
+            newEntry = newEntry,
+            save = save
         )
     }
 
     fun updateEntry(
-        oldEntry: Entry,
-        entryToUpdate: Entry,
+        oldEntryId: NodeId<UUID>,
+        updateEntry: EntryInfo,
         save: Boolean
     ) {
-        // Remove the history to keep memory
-        entryToUpdate.clearHistory()
         mDatabaseTaskProvider.startDatabaseUpdateEntry(
-            oldEntry,
-            entryToUpdate,
-            save
+            oldEntryId = oldEntryId,
+            updateEntry = updateEntry,
+            save = save
         )
+    }
+
+    fun touchEntry(entryInfo: EntryInfo) {
+        mDatabaseTaskProvider.startDatabaseTouchEntry(entryId = entryInfo.nodeId)
     }
 
     fun restoreEntryHistory(
@@ -219,27 +223,40 @@ class DatabaseViewModel(application: Application): AndroidViewModel(application)
     }
 
     fun createGroup(
-        newGroup: Group,
-        parent: Group,
+        parentId: NodeId<*>,
+        newGroup: GroupInfo,
         save: Boolean
     ) {
-        mDatabaseTaskProvider.startDatabaseCreateGroup(
-            newGroup,
-            parent,
-            save
-        )
+        if (newGroup.title.isNotEmpty()) {
+            mDatabaseTaskProvider.startDatabaseCreateGroup(
+                parentId = parentId,
+                newGroup = newGroup,
+                save = save
+            )
+        }
     }
 
     fun updateGroup(
-        oldGroup: Group,
-        groupToUpdate: Group,
+        oldGroupId: NodeId<*>,
+        updateGroup: GroupInfo,
         save: Boolean
     ) {
-        mDatabaseTaskProvider.startDatabaseUpdateGroup(
-            oldGroup,
-            groupToUpdate,
-            save
-        )
+        if (updateGroup.title.isNotEmpty()) {
+            mDatabaseTaskProvider.startDatabaseUpdateGroup(
+                oldGroupId = oldGroupId,
+                updateGroup = updateGroup,
+                save = save
+            )
+        }
+    }
+
+    fun touchGroup(
+        groupInfo: GroupInfo
+    ) {
+        // Implicitly filters KDB databases
+        groupInfo.id?.let { groupId ->
+            mDatabaseTaskProvider.startDatabaseTouchGroup(groupId = NodeIdUUID(groupId))
+        }
     }
 
     fun copyNodes(

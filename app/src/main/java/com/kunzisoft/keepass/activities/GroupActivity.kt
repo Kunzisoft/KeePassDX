@@ -87,7 +87,6 @@ import com.kunzisoft.keepass.database.element.Group
 import com.kunzisoft.keepass.database.element.SortNodeEnum
 import com.kunzisoft.keepass.database.element.node.Node
 import com.kunzisoft.keepass.database.element.node.NodeId
-import com.kunzisoft.keepass.database.element.node.NodeIdUUID
 import com.kunzisoft.keepass.database.element.node.Type
 import com.kunzisoft.keepass.database.exception.RegisterInReadOnlyDatabaseException
 import com.kunzisoft.keepass.database.helper.SearchHelper
@@ -95,6 +94,7 @@ import com.kunzisoft.keepass.database.helper.SearchHelper.getSearchParametersFro
 import com.kunzisoft.keepass.database.search.SearchParameters
 import com.kunzisoft.keepass.education.GroupActivityEducation
 import com.kunzisoft.keepass.model.DataTime
+import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.model.GroupInfo
 import com.kunzisoft.keepass.model.RegisterInfo
 import com.kunzisoft.keepass.model.SearchInfo
@@ -344,7 +344,7 @@ class GroupActivity : DatabaseLockActivity(),
         drawerLayout?.addDrawerListener(toggle)
         toggle.syncState()
 
-        // Manage 'merge from" and "save to"
+        // Manage "merge from" and "save to"
         mExternalFileHelper = ExternalFileHelper(this)
         mExternalFileHelper?.buildOpenDocument { uri ->
             launchDialogToAskMainCredential(uri)
@@ -510,24 +510,6 @@ class GroupActivity : DatabaseLockActivity(),
             }
         }
 
-        mGroupEditViewModel.onGroupCreated.observe(this) { groupInfo ->
-            if (groupInfo.title.isNotEmpty()) {
-                mMainGroup?.let { parentGroup ->
-                    createGroup(parentGroup, groupInfo)
-                }
-            }
-        }
-
-        mGroupEditViewModel.onGroupUpdated.observe(this) { groupInfo ->
-            if (groupInfo.title.isNotEmpty()) {
-                groupInfo.id?.let { groupId ->
-                    mDatabase?.getGroupById(NodeIdUUID(groupId))?.let { oldGroupToUpdate ->
-                        updateGroup(oldGroupToUpdate, groupInfo)
-                    }
-                }
-            }
-        }
-
         // Add listeners to the add buttons
         addNodeButtonView?.setAddGroupClickListener {
             mMainGroup?.let { currentGroup ->
@@ -594,6 +576,26 @@ class GroupActivity : DatabaseLockActivity(),
                         }
                         is MainCredentialViewModel.UIState.OnMainCredentialCanceled -> {
                             mMainCredentialViewModel.onActionReceived()
+                        }
+                    }
+                }
+            }
+        }
+
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.RESUMED) {
+                mGroupEditViewModel.groupEditState.collect { groupEditState ->
+                    when (groupEditState) {
+                        is GroupEditViewModel.GroupEditState.Wait -> {}
+                        is GroupEditViewModel.GroupEditState.CreateGroup -> {
+                            mMainGroup?.nodeId?.let { parentId ->
+                                createGroup(parentId, groupEditState.groupInfo)
+                            }
+                            mGroupEditViewModel.actionPerformed()
+                        }
+                        is GroupEditViewModel.GroupEditState.UpdateGroup -> {
+                            updateGroup(groupEditState.oldGroupId, groupEditState.groupInfo)
+                            mGroupEditViewModel.actionPerformed()
                         }
                     }
                 }
@@ -710,7 +712,7 @@ class GroupActivity : DatabaseLockActivity(),
             adapter = mBreadcrumbAdapter
         }
 
-        mGroupEditViewModel.setGroupNamesNotAllowed(database.groupNamesNotAllowed)
+        mGroupEditViewModel.groupNamesNotAllowed = database.groupNamesNotAllowed
 
         mRecyclingBinEnabled = !mDatabaseReadOnly
                 && database.isRecycleBinEnabled == true
@@ -939,6 +941,7 @@ class GroupActivity : DatabaseLockActivity(),
             }
 
             Type.ENTRY -> try {
+                // TODO Manage EntryInfo
                 val entryVersioned = node as Entry
                 EntrySelectionHelper.doSpecialAction(
                     intent = intent,
@@ -1067,18 +1070,26 @@ class GroupActivity : DatabaseLockActivity(),
         entry: Entry,
         registerInfo: RegisterInfo
     ) {
-        val newEntry = Entry(entry)
-        val entryInfo = newEntry.getEntryInfo(
+        val entryInfo = Entry(entry).getEntryInfo(
             database,
-            raw = true,
-            removeTemplateConfiguration = false
+            raw = true
         )
         entryInfo.saveRegisterInfo(database, registerInfo)
-        newEntry.setEntryInfo(database, entryInfo)
-        updateEntry(entry, newEntry)
+        updateEntry(entry.nodeId, entryInfo)
     }
 
+    // TODO Remove
     private fun Entry.allowedToSaveSearchInfo(
+        database: ContextualDatabase,
+        searchInfo: SearchInfo?
+    ): Boolean {
+        return getEntryInfo(
+            database,
+            raw = true
+        ).allowedToSaveSearchInfo(database, searchInfo)
+    }
+
+    private fun EntryInfo.allowedToSaveSearchInfo(
         database: ContextualDatabase,
         searchInfo: SearchInfo?
     ): Boolean {
@@ -1086,11 +1097,7 @@ class GroupActivity : DatabaseLockActivity(),
             return false
         if (searchInfo == null || searchInfo.toString().isEmpty())
             return false
-        return !(getEntryInfo(
-            database,
-            raw = true,
-            removeTemplateConfiguration = false
-        ).containsSearchInfo(searchInfo))
+        return !(this.containsSearchInfo(searchInfo))
     }
 
     private fun editEntry(database: ContextualDatabase?, entryId: NodeId<*>?) {

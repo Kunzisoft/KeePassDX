@@ -165,6 +165,9 @@ class GroupDialogFragment : DatabaseDialogFragment() {
                 }
             }
 
+            // To sort by access
+            mDatabaseViewModel.touchGroup(mGroupInfo)
+
             val builder = AlertDialog.Builder(activity)
             builder.setView(root)
                     .setPositiveButton(android.R.string.ok){ _, _ ->

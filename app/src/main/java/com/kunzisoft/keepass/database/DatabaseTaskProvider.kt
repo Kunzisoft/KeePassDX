@@ -45,6 +45,8 @@ import com.kunzisoft.keepass.database.element.node.Node
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.node.Type
 import com.kunzisoft.keepass.model.CipherEncryptDatabase
+import com.kunzisoft.keepass.model.EntryInfo
+import com.kunzisoft.keepass.model.GroupInfo
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_CHALLENGE_RESPONDED
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_ASSIGN_CREDENTIAL_TASK
@@ -62,6 +64,8 @@ import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_REMOVE_UNLINKED_DATA_TASK
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_RESTORE_ENTRY_HISTORY
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_SAVE
+import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_TOUCH_ENTRY_TASK
+import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_TOUCH_GROUP_TASK
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_COLOR_TASK
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_COMPRESSION_TASK
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_DEFAULT_USERNAME_TASK
@@ -321,51 +325,67 @@ class DatabaseTaskProvider(
     */
 
     fun startDatabaseCreateGroup(
-        newGroup: Group,
-        parent: Group,
+        parentId: NodeId<*>,
+        newGroup: GroupInfo,
         save: Boolean
     ) {
         start(Bundle().apply {
+            putParcelable(DatabaseTaskNotificationService.PARENT_ID_KEY, parentId)
             putParcelable(DatabaseTaskNotificationService.GROUP_KEY, newGroup)
-            putParcelable(DatabaseTaskNotificationService.PARENT_ID_KEY, parent.nodeId)
             putBoolean(DatabaseTaskNotificationService.SAVE_DATABASE_KEY, save)
         }, ACTION_DATABASE_CREATE_GROUP_TASK)
     }
 
     fun startDatabaseUpdateGroup(
-        oldGroup: Group,
-        groupToUpdate: Group,
+        oldGroupId: NodeId<*>,
+        updateGroup: GroupInfo,
         save: Boolean
     ) {
         start(Bundle().apply {
-            putParcelable(DatabaseTaskNotificationService.GROUP_ID_KEY, oldGroup.nodeId)
-            putParcelable(DatabaseTaskNotificationService.GROUP_KEY, groupToUpdate)
+            putParcelable(DatabaseTaskNotificationService.GROUP_ID_KEY, oldGroupId)
+            putParcelable(DatabaseTaskNotificationService.GROUP_KEY, updateGroup)
             putBoolean(DatabaseTaskNotificationService.SAVE_DATABASE_KEY, save)
         }, ACTION_DATABASE_UPDATE_GROUP_TASK)
     }
 
+    fun startDatabaseTouchGroup(
+        groupId: NodeId<UUID>
+    ) {
+        start(Bundle().apply {
+            putParcelable(DatabaseTaskNotificationService.GROUP_ID_KEY, groupId)
+        }, ACTION_DATABASE_TOUCH_GROUP_TASK)
+    }
+
     fun startDatabaseCreateEntry(
-        newEntry: Entry,
-        parent: Group,
+        parentId: NodeId<*>,
+        newEntry: EntryInfo,
         save: Boolean
     ) {
         start(Bundle().apply {
+            putParcelable(DatabaseTaskNotificationService.PARENT_ID_KEY, parentId)
             putParcelable(DatabaseTaskNotificationService.ENTRY_KEY, newEntry)
-            putParcelable(DatabaseTaskNotificationService.PARENT_ID_KEY, parent.nodeId)
             putBoolean(DatabaseTaskNotificationService.SAVE_DATABASE_KEY, save)
         }, ACTION_DATABASE_CREATE_ENTRY_TASK)
     }
 
     fun startDatabaseUpdateEntry(
-        oldEntry: Entry,
-        entryToUpdate: Entry,
+        oldEntryId: NodeId<UUID>,
+        updateEntry: EntryInfo,
         save: Boolean
     ) {
         start(Bundle().apply {
-            putParcelable(DatabaseTaskNotificationService.ENTRY_ID_KEY, oldEntry.nodeId)
-            putParcelable(DatabaseTaskNotificationService.ENTRY_KEY, entryToUpdate)
+            putParcelable(DatabaseTaskNotificationService.ENTRY_ID_KEY, oldEntryId)
+            putParcelable(DatabaseTaskNotificationService.ENTRY_KEY, updateEntry)
             putBoolean(DatabaseTaskNotificationService.SAVE_DATABASE_KEY, save)
         }, ACTION_DATABASE_UPDATE_ENTRY_TASK)
+    }
+
+    fun startDatabaseTouchEntry(
+        entryId: NodeId<UUID>
+    ) {
+        start(Bundle().apply {
+            putParcelable(DatabaseTaskNotificationService.ENTRY_ID_KEY, entryId)
+        }, ACTION_DATABASE_TOUCH_ENTRY_TASK)
     }
 
     private fun startDatabaseActionListNodes(

@@ -25,7 +25,6 @@ import com.kunzisoft.keepass.credentialprovider.passkey.util.PasswordHelper.retr
 import com.kunzisoft.keepass.credentialprovider.passkey.util.PasswordHelper.retrievePasswordInfo
 import com.kunzisoft.keepass.credentialprovider.passkey.util.PasswordHelper.retrievePasswordUsageRequestParameters
 import com.kunzisoft.keepass.database.ContextualDatabase
-import com.kunzisoft.keepass.database.element.Entry
 import com.kunzisoft.keepass.database.element.node.NodeIdUUID
 import com.kunzisoft.keepass.database.helper.SearchHelper
 import com.kunzisoft.keepass.model.AppOrigin
@@ -35,9 +34,6 @@ import com.kunzisoft.keepass.model.SearchInfo
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.IOException
@@ -54,9 +50,6 @@ class PasswordLauncherViewModel(application: Application): CredentialLauncherVie
     private var mAppOrigin: AppOrigin? = null
 
     private var mLockDatabaseAfterSelection: Boolean = false
-
-    private val mUiState = MutableStateFlow<UIState>(UIState.Loading)
-    val uiState: StateFlow<UIState> = mUiState.asStateFlow()
 
     fun initialize() {
         mLockDatabaseAfterSelection = PreferencesUtil.isPasskeyCloseDatabaseEnable(getApplication())
@@ -337,14 +330,6 @@ class PasswordLauncherViewModel(application: Application): CredentialLauncherVie
                 }
             }
         }
-    }
-
-    sealed class UIState {
-        object Loading : UIState()
-        data class UpdateEntry(
-            val oldEntry: Entry,
-            val newEntry: Entry
-        ): UIState()
     }
 
     companion object {

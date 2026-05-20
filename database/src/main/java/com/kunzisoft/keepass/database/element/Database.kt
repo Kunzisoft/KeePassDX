@@ -173,37 +173,42 @@ open class Database {
     }
 
     fun entryIsTemplate(entry: Entry?): Boolean {
-        // Define is current entry is a template (in direct template group)
+        // Define if current entry is a template (in direct template group)
         if (entry == null || templatesGroup == null)
             return false
-        return templatesGroup == entry.parent
-    }
-
-    // Not the same as decode, here remove in all cases the template link in the entry data
-    fun removeTemplateConfiguration(entry: Entry): Entry {
-        entry.entryKDBX?.let {
-            mDatabaseKDBX?.decodeEntryWithTemplateConfiguration(it, false)?.let { decode ->
-                return Entry(decode)
-            }
-        }
-        return entry
+        // Retrieve the main historic entry to check if it's a template
+        val mainEntry = if (entry.isHistoric()) {
+            getEntryById(entry.getMainEntryHistoryId()) ?: entry
+        } else entry
+        return templatesGroup == mainEntry.parent
     }
 
     // Remove the template link in the entry data if it's a basic entry
     // or compress the template fields (as pseudo language) if it's a template entry
-    fun decodeEntryWithTemplateConfiguration(entry: Entry, lastEntryVersion: Entry? = null): Entry {
+    fun decodeEntryWithTemplateConfiguration(
+        entry: Entry
+    ): Entry {
         entry.entryKDBX?.let {
-            val lastEntry = lastEntryVersion ?: entry
-            mDatabaseKDBX?.decodeEntryWithTemplateConfiguration(it, entryIsTemplate(lastEntry))?.let { decode ->
+            mDatabaseKDBX?.decodeEntryWithTemplateConfiguration(
+                entryKDBX = it,
+                entryIsTemplate = entryIsTemplate(entry)
+            )?.let { decode ->
                 return Entry(decode)
             }
         }
         return entry
     }
 
-    fun encodeEntryWithTemplateConfiguration(entry: Entry, template: Template): Entry {
+    fun encodeEntryWithTemplateConfiguration(
+        entry: Entry,
+        template: Template
+    ): Entry {
         entry.entryKDBX?.let {
-            mDatabaseKDBX?.encodeEntryWithTemplateConfiguration(it, entryIsTemplate(entry), template)?.let { encode ->
+            mDatabaseKDBX?.encodeEntryWithTemplateConfiguration(
+                entryKDBX = it,
+                entryIsTemplate = entryIsTemplate(entry),
+                template = template
+            )?.let { encode ->
                 return Entry(encode)
             }
         }
@@ -1083,8 +1088,8 @@ open class Database {
         entry.afterAssignNewParent()
     }
 
-    fun updateEntry(entry: Entry) {
-        dataModifiedSinceLastLoading = true
+    fun updateEntry(entry: Entry, dataModified: Boolean = true) {
+        dataModifiedSinceLastLoading = dataModified
         entry.entryKDB?.let { entryKDB ->
             mDatabaseKDB?.updateEntry(entryKDB)
         }
@@ -1115,8 +1120,8 @@ open class Database {
         group.afterAssignNewParent()
     }
 
-    fun updateGroup(group: Group) {
-        dataModifiedSinceLastLoading = true
+    fun updateGroup(group: Group, dataModified: Boolean = true) {
+        dataModifiedSinceLastLoading = dataModified
         group.groupKDB?.let { entryKDB ->
             mDatabaseKDB?.updateGroup(entryKDB)
         }
@@ -1142,7 +1147,7 @@ open class Database {
      * @param newParent
      */
     fun copyEntryTo(entryToCopy: Entry, newParent: Group): Entry {
-        val entryCopied = Entry(entryToCopy, false)
+        val entryCopied = Entry(entryToCopy, copyHistory = false)
         entryCopied.nodeId = mDatabaseKDB?.newEntryId() ?: mDatabaseKDBX?.newEntryId() ?: NodeIdUUID()
         entryCopied.parent = newParent
         entryCopied.title += " (~)"
