@@ -187,6 +187,7 @@
     <string name="error_move_entry_here">You cannot move an entry here.</string>
     <string name="error_copy_entry_here">You cannot copy an entry here.</string>
     <string name="error_copy_group_here">You cannot copy a group here.</string>
+    <string name="error_missing_parent">YThis action cannot be performed without a parent.</string>
     <string name="error_create_database">Unable to create database file.</string>
     <string name="error_create_database_file">Unable to create database with this password and keyfile.</string>
     <string name="error_save_database">Could not save the database.</string>

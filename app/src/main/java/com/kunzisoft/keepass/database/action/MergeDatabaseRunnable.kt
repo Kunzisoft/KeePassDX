@@ -37,13 +37,13 @@ class MergeDatabaseRunnable(
     private val mDatabaseToMergeMainCredential: MainCredential?,
     private val mDatabaseToMergeChallengeResponseRetriever: (HardwareKey, ByteArray?) -> ByteArray,
     database: ContextualDatabase,
-    saveDatabase: Boolean,
+    save: Boolean,
     challengeResponseRetriever: (HardwareKey, ByteArray?) -> ByteArray,
     private val progressTaskUpdater: ProgressTaskUpdater?,
 ) : SaveDatabaseRunnable(
     context,
     database,
-    saveDatabase,
+    save,
     null,
     challengeResponseRetriever
 ) {

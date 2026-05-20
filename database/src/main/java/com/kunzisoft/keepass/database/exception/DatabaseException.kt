@@ -19,7 +19,6 @@
  */
 package com.kunzisoft.keepass.database.exception
 
-import android.content.res.Resources
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.node.Type
 import java.io.PrintStream
@@ -95,7 +94,6 @@ class VersionDatabaseException : DatabaseInputException()
 
 class InvalidCredentialsDatabaseException : DatabaseInputException {
     constructor() : super()
-    constructor(string: String) : super(string)
 }
 
 class KDFMemoryDatabaseException(exception: Throwable) : DatabaseInputException(exception)
@@ -125,6 +123,7 @@ class MoveGroupDatabaseException : DatabaseException()
 class CopyEntryDatabaseException : DatabaseException()
 
 class CopyGroupDatabaseException : DatabaseException()
+class MissingParentDatabaseException : DatabaseException()
 
 open class DatabaseInputException : DatabaseException {
     constructor() : super()

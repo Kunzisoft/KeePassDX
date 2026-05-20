@@ -33,7 +33,7 @@ import java.io.File
 open class SaveDatabaseRunnable(
     protected var context: Context,
     protected var database: ContextualDatabase,
-    private var saveDatabase: Boolean,
+    private var save: Boolean,
     private var mainCredential: MainCredential?, // If null, uses composite Key
     private var challengeResponseRetriever: (HardwareKey, ByteArray?) -> ByteArray,
     private var databaseCopyUri: Uri? = null
@@ -47,7 +47,7 @@ open class SaveDatabaseRunnable(
     override fun onActionRun() {
         database.checkVersion()
         // Save database in all cases if it's a copy
-        if ((databaseCopyUri != null || saveDatabase) && result.isSuccess) {
+        if ((databaseCopyUri != null || save) && result.isSuccess) {
             try {
                 val contentResolver = context.contentResolver
                 mMasterCredential = mainCredential?.toMasterCredential(contentResolver)

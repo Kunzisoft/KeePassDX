@@ -25,64 +25,81 @@ import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.element.Entry
 import com.kunzisoft.keepass.database.element.Group
 import com.kunzisoft.keepass.database.element.node.Node
+import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.node.Type
+import com.kunzisoft.keepass.database.exception.MissingParentDatabaseException
 import com.kunzisoft.keepass.database.exception.MoveEntryDatabaseException
 import com.kunzisoft.keepass.database.exception.MoveGroupDatabaseException
 import com.kunzisoft.keepass.hardware.HardwareKey
+import java.util.UUID
 
 class MoveNodesRunnable(
     context: Context,
     database: ContextualDatabase,
-    private val mNodesToMove: List<Node>,
-    private val mNewParent: Group,
+    parentId: NodeId<*>,
+    groupsIdsToMove: List<NodeId<*>>,
+    entriesIdsToMove: List<NodeId<UUID>>,
     save: Boolean,
     afterActionNodesFinish: AfterActionNodesFinish?,
     challengeResponseRetriever: (HardwareKey, ByteArray?) -> ByteArray
 ) : ActionNodeDatabaseRunnable(context, database, afterActionNodesFinish, save, challengeResponseRetriever) {
 
     private var mOldParent: Group? = null
+    private var mNewParent: Group? = null
+    private var mNodesToMove: List<Node> = listOf()
+
+    init {
+        database.getGroupById(parentId)?.let { newParent ->
+            mNewParent = newParent
+        }
+        mNodesToMove = getListNodesFromBundle(database, groupsIdsToMove, entriesIdsToMove)
+    }
 
     override fun nodeAction() {
+        mNewParent?.let { newParent ->
+            foreachNode@ for (nodeToMove in mNodesToMove) {
+                // Move node in new parent
+                mOldParent = nodeToMove.parent
+                nodeToMove.touch(modified = true, touchParents = true)
 
-        foreachNode@ for(nodeToMove in mNodesToMove) {
-            // Move node in new parent
-            mOldParent = nodeToMove.parent
-            nodeToMove.touch(modified = true, touchParents = true)
-
-            when (nodeToMove.type) {
-                Type.GROUP -> {
-                    val groupToMove = nodeToMove as Group
-                    // Move group if the parent change
-                    if (mOldParent != mNewParent
+                when (nodeToMove.type) {
+                    Type.GROUP -> {
+                        val groupToMove = nodeToMove as Group
+                        // Move group if the parent change
+                        if (mOldParent != newParent
                             // and if not in the current group
-                            && groupToMove != mNewParent
-                            && !mNewParent.isContainedIn(groupToMove)) {
-                        database.moveGroupTo(groupToMove, mNewParent)
-                        groupToMove.setPreviousParentGroup(mOldParent)
-                        groupToMove.touch(modified = true, touchParents = true)
-                    } else {
-                        // Only finish thread
-                        setError(MoveGroupDatabaseException())
-                        break@foreachNode
+                            && groupToMove != newParent
+                            && !newParent.isContainedIn(groupToMove)
+                        ) {
+                            database.moveGroupTo(groupToMove, newParent)
+                            groupToMove.setPreviousParentGroup(mOldParent)
+                            groupToMove.touch(modified = true, touchParents = true)
+                        } else {
+                            // Only finish thread
+                            setError(MoveGroupDatabaseException())
+                            break@foreachNode
+                        }
                     }
-                }
-                Type.ENTRY -> {
-                    val entryToMove = nodeToMove as Entry
-                    // Move only if the parent change
-                    if (mOldParent != mNewParent
-                            // and root can contains entry
-                            && (mNewParent != database.rootGroup || database.rootCanContainsEntry())) {
-                        database.moveEntryTo(entryToMove, mNewParent)
-                        entryToMove.setPreviousParentGroup(mOldParent)
-                        entryToMove.touch(modified = true, touchParents = true)
-                    } else {
-                        // Only finish thread
-                        setError(MoveEntryDatabaseException())
-                        break@foreachNode
+
+                    Type.ENTRY -> {
+                        val entryToMove = nodeToMove as Entry
+                        // Move only if the parent change
+                        if (mOldParent != newParent
+                            // and root can contain entry
+                            && (newParent != database.rootGroup || database.rootCanContainsEntry())
+                        ) {
+                            database.moveEntryTo(entryToMove, newParent)
+                            entryToMove.setPreviousParentGroup(mOldParent)
+                            entryToMove.touch(modified = true, touchParents = true)
+                        } else {
+                            // Only finish thread
+                            setError(MoveEntryDatabaseException())
+                            break@foreachNode
+                        }
                     }
                 }
             }
-        }
+        } ?: setError(MissingParentDatabaseException())
     }
 
     override fun nodeFinish(): ActionNodesValues {

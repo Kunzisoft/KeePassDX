@@ -29,12 +29,12 @@ class UpdateCompressionBinariesDatabaseRunnable (
     database: ContextualDatabase,
     private val oldCompressionAlgorithm: CompressionAlgorithm,
     private val newCompressionAlgorithm: CompressionAlgorithm,
-    saveDatabase: Boolean,
+    save: Boolean,
     challengeResponseRetriever: (HardwareKey, ByteArray?) -> ByteArray
 ) : SaveDatabaseRunnable(
     context,
     database,
-    saveDatabase,
+    save,
     null,
     challengeResponseRetriever
 ) {

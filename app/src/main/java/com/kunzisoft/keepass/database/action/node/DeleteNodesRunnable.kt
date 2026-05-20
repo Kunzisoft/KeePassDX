@@ -24,13 +24,16 @@ import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.element.Entry
 import com.kunzisoft.keepass.database.element.Group
 import com.kunzisoft.keepass.database.element.node.Node
+import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.node.Type
 import com.kunzisoft.keepass.hardware.HardwareKey
+import java.util.UUID
 
 class DeleteNodesRunnable(
     context: Context,
     database: ContextualDatabase,
-    private val mNodesToDelete: List<Node>,
+    groupsIdsToDelete: List<NodeId<*>>,
+    entriesIdsToDelete: List<NodeId<UUID>>,
     private val recyclerBinTitle: String,
     save: Boolean,
     afterActionNodesFinish: AfterActionNodesFinish,
@@ -40,7 +43,12 @@ class DeleteNodesRunnable(
     private var mOldParent: Group? = null
     private var mCanRecycle: Boolean = false
 
+    private var mNodesToDelete: List<Node> = listOf()
     private var mNodesToDeleteBackup = mutableListOf<Node>()
+
+    init {
+        mNodesToDelete = getListNodesFromBundle(database, groupsIdsToDelete, entriesIdsToDelete)
+    }
 
     override fun nodeAction() {
 
