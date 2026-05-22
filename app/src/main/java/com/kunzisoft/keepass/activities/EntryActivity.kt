@@ -74,7 +74,6 @@ import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.tasks.AttachmentFileBinderManager
 import com.kunzisoft.keepass.timeout.TimeoutHelper
-import com.kunzisoft.keepass.utils.UUIDUtils.asHexString
 import com.kunzisoft.keepass.utils.getParcelableExtraCompat
 import com.kunzisoft.keepass.view.WindowInsetPosition
 import com.kunzisoft.keepass.view.applyWindowInsets
@@ -281,8 +280,7 @@ class EntryActivity : DatabaseLockActivity() {
                 // Assign title icon
                 mIcon = entryInfo.icon
                 // Assign title text
-                val entryTitle =
-                    entryInfo.title.ifEmpty { entryInfo.id.asHexString() }
+                val entryTitle = entryInfo.title.ifEmpty { entryInfo.nodeId.toString() }
                 collapsingToolbarLayout?.title = entryTitle
                 toolbar?.title = entryTitle
                 // Assign tags

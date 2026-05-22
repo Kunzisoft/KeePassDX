@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 Jeremy Jamet / Kunzisoft.
+ * Copyright 2026 Jeremy Jamet / Kunzisoft.
  *
  * This file is part of KeePassDX.
  *
@@ -19,30 +19,6 @@
  */
 package com.kunzisoft.keepass.database.element.node
 
-import android.os.Parcelable
-import com.kunzisoft.keepass.database.element.icon.IconImage
-
-interface NodeVersionedInterface<ParentGroup> : NodeTimeInterface, Parcelable {
-
-    var title: String
-    var icon: IconImage
-    val type: NodeType
-
-    /**
-     * Retrieve the parent node
-     */
-    var parent: ParentGroup?
-
-    fun containsParent(): Boolean
-
-    fun afterAssignNewParent()
-
-    fun isContainedIn(container: ParentGroup): Boolean
-
-    /**
-     * Groups are always before in natural order (DB order)
-     */
-    fun nodeIndexInParentForNaturalOrder(): Int
-
-    fun touch(modified: Boolean, touchParents: Boolean)
+class EmptyNodeFilter: NodeFilter {
+    override val filter: (Node) -> Boolean = { true }
 }

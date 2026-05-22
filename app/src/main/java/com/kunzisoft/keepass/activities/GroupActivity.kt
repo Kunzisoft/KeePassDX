@@ -82,12 +82,11 @@ import com.kunzisoft.keepass.credentialprovider.passkey.util.PasskeyHelper.build
 import com.kunzisoft.keepass.credentialprovider.passkey.util.PasswordHelper.buildPasswordResponseAndSetResult
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.element.DateInstant
-import com.kunzisoft.keepass.database.element.Entry
-import com.kunzisoft.keepass.database.element.Group
 import com.kunzisoft.keepass.database.element.SortNodeEnum
-import com.kunzisoft.keepass.database.element.node.Node
+import com.kunzisoft.keepass.database.element.node.DefaultNodeFilter
+import com.kunzisoft.keepass.database.element.node.EmptyNodeFilter
+import com.kunzisoft.keepass.database.element.node.NodeFilter
 import com.kunzisoft.keepass.database.element.node.NodeId
-import com.kunzisoft.keepass.database.element.node.Type
 import com.kunzisoft.keepass.database.exception.RegisterInReadOnlyDatabaseException
 import com.kunzisoft.keepass.database.helper.SearchHelper
 import com.kunzisoft.keepass.database.helper.SearchHelper.getSearchParametersFromSearchInfo
@@ -96,7 +95,9 @@ import com.kunzisoft.keepass.education.GroupActivityEducation
 import com.kunzisoft.keepass.model.DataTime
 import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.model.GroupInfo
+import com.kunzisoft.keepass.model.NodeInfo
 import com.kunzisoft.keepass.model.RegisterInfo
+import com.kunzisoft.keepass.model.SearchGroupInfo
 import com.kunzisoft.keepass.model.SearchInfo
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_ENTRY_TASK
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_GROUP_TASK
@@ -187,13 +188,15 @@ class GroupActivity : DatabaseLockActivity(),
     private var mAutoSearch: Boolean = false // To mainly manage keyboard
     private var mTempSearchInfo: Boolean = false // To manage temp search
     private var mMainGroupState: GroupState? = null // Group state, not a search
-    private var mRootGroup: Group? = null // Root group in the tree
-    private var mMainGroup: Group? = null // Main group currently in memory
-    private var mCurrentGroup: Group? = null // Group currently visible (search or main group)
+    private var mMainGroup: GroupInfo? = null // Main group currently in memory
+    private var mCurrentGroup: GroupInfo? = null // Group currently visible (search or main group)
     private var mPreviousGroupsIds = mutableListOf<GroupState>()
-    private var mOldGroupToUpdate: Group? = null
+    private var mOldGroupToUpdate: GroupInfo? = null
 
     private var mLockSearchListeners = false
+
+    private var mNodeFilter: NodeFilter = EmptyNodeFilter()
+
     private val mOnSearchQueryTextListener = object : SearchView.OnQueryTextListener {
         override fun onQueryTextSubmit(query: String?): Boolean {
             onQueryTextChange(query)
@@ -441,6 +444,12 @@ class GroupActivity : DatabaseLockActivity(),
             savedInstanceState.remove(PREVIOUS_GROUPS_IDS_KEY)
         }
 
+        // Init the node filter
+        mNodeFilter = DefaultNodeFilter(
+            showExpired = PreferencesUtil.showExpiredEntries(this),
+            showTemplate = PreferencesUtil.showTemplates(this)
+        )
+
         // Initialize the fragment with the list
         mGroupFragment =
             supportFragmentManager.findFragmentByTag(GROUP_FRAGMENT_TAG) as GroupFragment?
@@ -461,15 +470,13 @@ class GroupActivity : DatabaseLockActivity(),
             mRecyclingBinIsCurrentGroup = it.isRecycleBin
             // Save group state
             mMainGroupState = GroupState(mainGroup.nodeId, it.showFromPosition)
-            // Update last access time.
-            mainGroup.touch(modified = false, touchParents = false)
         }
 
         // Observe current group (main or search group visible)
         mGroupViewModel.group.observe(this) {
             val currentGroup = it.group
             mCurrentGroup = currentGroup
-            if (currentGroup.isVirtual) {
+            if (currentGroup is SearchGroupInfo) {
                 mSearchState = SearchState(
                     it.searchParameters,
                     it.showFromPosition
@@ -522,15 +529,13 @@ class GroupActivity : DatabaseLockActivity(),
                     EntrySelectionHelper.doSpecialAction(
                         intent = intent,
                         defaultAction = {
-                            mMainGroup?.nodeId?.let { currentParentGroupId ->
-                                EntryEditActivity.launch(
-                                    activity = this@GroupActivity,
-                                    database = database,
-                                    registrationType = EntryEditActivity.RegistrationType.CREATE,
-                                    nodeId = currentParentGroupId,
-                                    activityResultLauncher = mEntryActivityResultLauncher
-                                )
-                            }
+                            EntryEditActivity.launch(
+                                activity = this@GroupActivity,
+                                database = database,
+                                registrationType = EntryEditActivity.RegistrationType.CREATE,
+                                nodeId = currentGroup.nodeId,
+                                activityResultLauncher = mEntryActivityResultLauncher
+                            )
                         },
                         searchAction = {
                             // Search not used
@@ -680,8 +685,8 @@ class GroupActivity : DatabaseLockActivity(),
             onItemClickListener = { node, _ ->
                 // If last item & not a virtual root group
                 val currentGroup = mMainGroup
-                if (currentGroup != null && node == currentGroup
-                    && (currentGroup != mDatabase?.rootGroup
+                if (currentGroup != null && node.nodeId == currentGroup.nodeId
+                    && (currentGroup.nodeId != mDatabase?.rootGroup?.nodeId
                             || mDatabase?.rootGroupIsVirtual == false)
                 ) {
                     finishNodeAction()
@@ -697,8 +702,8 @@ class GroupActivity : DatabaseLockActivity(),
             }
             onLongItemClickListener = { node, position ->
                 val currentGroup = mMainGroup
-                if (currentGroup != null && node == currentGroup
-                    && (currentGroup != mDatabase?.rootGroup
+                if (currentGroup != null && node.nodeId == currentGroup.nodeId
+                    && (currentGroup.nodeId != mDatabase?.rootGroup?.nodeId
                             || mDatabase?.rootGroupIsVirtual == false)
                 ) {
                     finishNodeAction()
@@ -717,7 +722,6 @@ class GroupActivity : DatabaseLockActivity(),
         mRecyclingBinEnabled = !mDatabaseReadOnly
                 && database.isRecycleBinEnabled == true
 
-        mRootGroup = database.rootGroup
         loadGroup()
 
         // Update view
@@ -768,26 +772,22 @@ class GroupActivity : DatabaseLockActivity(),
                             // Search not used
                         },
                         selectionAction = { _, typeMode, _ ->
-                            var entry: Entry? = null
                             try {
-                                entry = result.data?.getNewEntry(database)
+                                result.data?.getNewEntry(database)?.let { entry ->
+                                    when (typeMode) {
+                                        TypeMode.DEFAULT -> {}
+                                        TypeMode.MAGIKEYBOARD ->
+                                            entrySelectedForSelection(entry)
+                                        TypeMode.AUTOFILL ->
+                                            entrySelectedForSelection(entry)
+                                        TypeMode.PASSKEY ->
+                                            entrySelectedForPasskeySelection(entry)
+                                        TypeMode.PASSWORD ->
+                                            entrySelectedForPasswordSelection(entry)
+                                    }
+                                }
                             } catch (e: Exception) {
                                 Log.e(TAG, "Unable to retrieve entry action for selection", e)
-                            }
-                            when (typeMode) {
-                                TypeMode.DEFAULT -> {}
-                                TypeMode.MAGIKEYBOARD -> entry?.let {
-                                    entrySelectedForSelection(database, it)
-                                }
-                                TypeMode.AUTOFILL -> entry?.let {
-                                    entrySelectedForSelection(database, it)
-                                }
-                                TypeMode.PASSKEY -> entry?.let {
-                                    entrySelectedForPasskeySelection(database, it)
-                                }
-                                TypeMode.PASSWORD -> entry?.let {
-                                    entrySelectedForPasswordSelection(database, it)
-                                }
                             }
                         },
                         registrationAction = { _, _, _ ->
@@ -867,10 +867,10 @@ class GroupActivity : DatabaseLockActivity(),
     override fun onGroupRefreshed() {
         val group = mCurrentGroup
         // Assign title
-        if (group?.isVirtual == true) {
+        if (group is SearchGroupInfo) {
             val tags = mDatabase?.tagPoolWithoutHistory
             searchFiltersView?.apply {
-                setNumbers(group.numberOfChildEntries)
+                setNumbers(group.numberOfSearchResults())
                 setSelectableTags(tags)
                 setCurrentGroupText(mMainGroup?.title ?: getString(R.string.search))
                 availableOther(mDatabase?.allowEntryCustomFields() ?: false)
@@ -890,26 +890,33 @@ class GroupActivity : DatabaseLockActivity(),
         initAddButton(group)
     }
 
-    private fun setBreadcrumbNode(group: Group?) {
+    private fun setBreadcrumbNode(group: GroupInfo?) {
         mBreadcrumbAdapter?.apply {
-            setNode(group)
+            // TODO Call view model
+            group?.let {
+                database?.getBreadcrumb(it)?.let { breadcrumb ->
+                    setNode(breadcrumb)
+                }
+            }
             breadcrumbListView?.scrollToPosition(itemCount -1)
         }
     }
 
-    private fun initAddButton(group: Group?) {
+    private fun initAddButton(group: GroupInfo?) {
         addNodeButtonView?.apply {
             closeButtonIfOpen()
             // To enable add button
-            val addGroupEnabled = !mDatabaseReadOnly && group?.isVirtual != true
-            var addEntryEnabled = !mDatabaseReadOnly && group?.isVirtual != true
-            group?.let {
-                if (!it.allowAddEntryIfIsRoot)
-                    addEntryEnabled = it != mRootGroup && addEntryEnabled
-            }
+            val addGroupEnabled = mDatabase?.allowAddGroupIn(
+                group = group,
+                forceReadOnly = mDatabaseReadOnly
+            ) ?: false
+            val addEntryEnabled = mDatabase?.allowAddEntryIn(
+                group = group,
+                forceReadOnly = mDatabaseReadOnly
+            ) ?: false
             enableAddGroup(addGroupEnabled)
             enableAddEntry(addEntryEnabled)
-            if (group?.isVirtual == true)
+            if (addGroupEnabled.not() && addEntryEnabled.not())
                 hideButton()
             else if (actionNodeMode == null)
                 showButton()
@@ -923,33 +930,30 @@ class GroupActivity : DatabaseLockActivity(),
 
     override fun onNodeClick(
         database: ContextualDatabase,
-        node: Node
+        node: NodeInfo
     ) {
-        when (node.type) {
-            Type.GROUP -> try {
-                val group = node as Group
+        when (node) {
+            is GroupInfo -> try {
                 // Save the last not virtual group and it's position
-                if (mCurrentGroup?.isVirtual == false) {
+                if (mCurrentGroup !is SearchGroupInfo) {
                     mMainGroupState?.let {
                         mPreviousGroupsIds.add(it)
                     }
                 }
                 // Open child group
-                loadMainGroup(GroupState(group.nodeId, 0))
+                loadMainGroup(GroupState(node.nodeId, 0))
             } catch (e: ClassCastException) {
                 Log.e(TAG, "Node can't be cast in Group", e)
             }
 
-            Type.ENTRY -> try {
-                // TODO Manage EntryInfo
-                val entryVersioned = node as Entry
+            is EntryInfo -> try {
                 EntrySelectionHelper.doSpecialAction(
                     intent = intent,
                     defaultAction = {
                         EntryActivity.launch(
                             activity = this@GroupActivity,
                             database = database,
-                            entryId = entryVersioned.nodeId,
+                            entryId = node.nodeId,
                             activityResultLauncher = mEntryActivityResultLauncher
                         )
                         // Do not reload group here
@@ -961,36 +965,36 @@ class GroupActivity : DatabaseLockActivity(),
                         when (typeMode) {
                             TypeMode.DEFAULT -> {}
                             TypeMode.MAGIKEYBOARD -> {
-                                if (entryVersioned.allowedToSaveSearchInfo(database, searchInfo)
+                                if (node.allowedToSaveSearchInfo(database, searchInfo)
                                     && PreferencesUtil.isKeyboardSaveSearchInfoEnable(this@GroupActivity)
                                 ) {
                                     updateEntryWithRegisterInfo(
-                                        database,
-                                        entryVersioned,
-                                        searchInfo!!.toRegisterInfo()
+                                        database = database,
+                                        entry = node,
+                                        registerInfo = searchInfo!!.toRegisterInfo()
                                     )
                                 } else {
-                                    entrySelectedForSelection(database, entryVersioned)
+                                    entrySelectedForSelection(node)
                                 }
                             }
                             TypeMode.AUTOFILL -> {
-                                if (entryVersioned.allowedToSaveSearchInfo(database, searchInfo)
+                                if (node.allowedToSaveSearchInfo(database, searchInfo)
                                     && PreferencesUtil.isAutofillSaveSearchInfoEnable(this@GroupActivity)
                                 ) {
                                     updateEntryWithRegisterInfo(
-                                        database,
-                                        entryVersioned,
-                                        searchInfo!!.toRegisterInfo()
+                                        database = database,
+                                        entry = node,
+                                        registerInfo = searchInfo!!.toRegisterInfo()
                                     )
                                 } else {
-                                    entrySelectedForSelection(database, entryVersioned)
+                                    entrySelectedForSelection(node)
                                 }
                             }
                             TypeMode.PASSWORD -> {
-                                entrySelectedForPasswordSelection(database, entryVersioned)
+                                entrySelectedForPasswordSelection(node)
                             }
                             TypeMode.PASSKEY -> {
-                                entrySelectedForPasskeySelection(database, entryVersioned)
+                                entrySelectedForPasskeySelection(node)
                             }
                         }
                         loadGroup()
@@ -999,7 +1003,7 @@ class GroupActivity : DatabaseLockActivity(),
                         if (!database.isReadOnly) {
                             entrySelectedForRegistration(
                                 database = database,
-                                entry = entryVersioned,
+                                entry = node,
                                 registerInfo = registerInfo,
                                 typeMode = typeMode,
                                 activityResultLauncher = if (intentSenderMode)
@@ -1015,38 +1019,34 @@ class GroupActivity : DatabaseLockActivity(),
         }
     }
 
-    private fun entrySelectedForSelection(database: ContextualDatabase, entry: Entry) {
+    private fun entrySelectedForSelection(entry: EntryInfo) {
         removeSearch()
         // Build response with the entry selected
-        this.buildSpecialModeResponseAndSetResult(entry.getEntryInfo(database))
+        this.buildSpecialModeResponseAndSetResult(entry)
         onValidateSpecialMode()
     }
 
-    private fun entrySelectedForPasswordSelection(database: ContextualDatabase, entry: Entry) {
+    private fun entrySelectedForPasswordSelection(entry: EntryInfo) {
         removeSearch()
         // Build response with the entry selected
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
-            buildPasswordResponseAndSetResult(
-                entryInfo = entry.getEntryInfo(database)
-            )
+            buildPasswordResponseAndSetResult(entryInfo = entry)
         }
         onValidateSpecialMode()
     }
 
-    private fun entrySelectedForPasskeySelection(database: ContextualDatabase, entry: Entry) {
+    private fun entrySelectedForPasskeySelection(entry: EntryInfo) {
         removeSearch()
         // Build response with the entry selected
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
-            buildPasskeyResponseAndSetResult(
-                entryInfo = entry.getEntryInfo(database)
-            )
+            buildPasskeyResponseAndSetResult(entryInfo = entry)
         }
         onValidateSpecialMode()
     }
 
     private fun entrySelectedForRegistration(
         database: ContextualDatabase,
-        entry: Entry,
+        entry: EntryInfo,
         activityResultLauncher: ActivityResultLauncher<Intent>?,
         registerInfo: RegisterInfo?,
         typeMode: TypeMode
@@ -1067,26 +1067,12 @@ class GroupActivity : DatabaseLockActivity(),
 
     private fun updateEntryWithRegisterInfo(
         database: ContextualDatabase,
-        entry: Entry,
+        entry: EntryInfo,
         registerInfo: RegisterInfo
     ) {
-        val entryInfo = Entry(entry).getEntryInfo(
-            database,
-            raw = true
-        )
-        entryInfo.saveRegisterInfo(database, registerInfo)
-        updateEntry(entry.nodeId, entryInfo)
-    }
-
-    // TODO Remove
-    private fun Entry.allowedToSaveSearchInfo(
-        database: ContextualDatabase,
-        searchInfo: SearchInfo?
-    ): Boolean {
-        return getEntryInfo(
-            database,
-            raw = true
-        ).allowedToSaveSearchInfo(database, searchInfo)
+        entry.saveRegisterInfo(database, registerInfo)
+        // TODO Remove id parameter
+        updateEntry(entry.nodeId, entry)
     }
 
     private fun EntryInfo.allowedToSaveSearchInfo(
@@ -1120,7 +1106,7 @@ class GroupActivity : DatabaseLockActivity(),
 
     override fun onNodeSelected(
         database: ContextualDatabase,
-        nodes: List<Node>
+        nodes: List<NodeInfo>
     ): Boolean {
         if (nodes.isNotEmpty()) {
             if (actionNodeMode == null || toolbarAction?.getSupportActionModeCallback() == null) {
@@ -1146,7 +1132,7 @@ class GroupActivity : DatabaseLockActivity(),
 
     override fun onOpenMenuClick(
         database: ContextualDatabase,
-        node: Node
+        node: NodeInfo
     ): Boolean {
         finishNodeAction()
         onNodeClick(database, node)
@@ -1155,14 +1141,14 @@ class GroupActivity : DatabaseLockActivity(),
 
     override fun onEditMenuClick(
         database: ContextualDatabase,
-        node: Node
+        node: NodeInfo
     ): Boolean {
         finishNodeAction()
-        when (node.type) {
-            Type.GROUP -> {
-                launchDialogForGroupUpdate(node as Group)
+        when (node) {
+            is GroupInfo -> {
+                launchDialogForGroupUpdate(node)
             }
-            Type.ENTRY -> {
+            is EntryInfo -> {
                 if (mDatabaseAllowUserVerification) {
                     checkUserVerification(
                         userVerificationViewModel = mUserVerificationViewModel,
@@ -1180,22 +1166,21 @@ class GroupActivity : DatabaseLockActivity(),
         return true
     }
 
-    private fun launchDialogToShowGroupInfo(group: Group) {
-        GroupDialogFragment.launch(group.getGroupInfo())
+    private fun launchDialogToShowGroupInfo(group: GroupInfo) {
+        GroupDialogFragment.launch(group)
             .show(supportFragmentManager, GroupDialogFragment.TAG_SHOW_GROUP)
     }
 
-    private fun launchDialogForGroupCreation(group: Group) {
+    private fun launchDialogForGroupCreation(group: GroupInfo) {
         GroupEditDialogFragment.create(GroupInfo().apply {
-            if (group.allowAddNoteInGroup) {
-                notes = ""
-            }
+            // Init notes if available
+            if (mDatabase?.allowAddNoteInEachGroup == true) { notes = "" }
         }).show(supportFragmentManager, GroupEditDialogFragment.TAG_CREATE_GROUP)
     }
 
-    private fun launchDialogForGroupUpdate(group: Group) {
+    private fun launchDialogForGroupUpdate(group: GroupInfo) {
         mOldGroupToUpdate = group
-        GroupEditDialogFragment.update(group.getGroupInfo())
+        GroupEditDialogFragment.update(group)
             .show(supportFragmentManager, GroupEditDialogFragment.TAG_CREATE_GROUP)
     }
 
@@ -1206,7 +1191,7 @@ class GroupActivity : DatabaseLockActivity(),
 
     override fun onCopyMenuClick(
         database: ContextualDatabase,
-        nodes: List<Node>
+        nodes: List<NodeInfo>
     ): Boolean {
         actionNodeMode?.invalidate()
         removeSearch()
@@ -1216,7 +1201,7 @@ class GroupActivity : DatabaseLockActivity(),
 
     override fun onMoveMenuClick(
         database: ContextualDatabase,
-        nodes: List<Node>
+        nodes: List<NodeInfo>
     ): Boolean {
         actionNodeMode?.invalidate()
         removeSearch()
@@ -1227,19 +1212,19 @@ class GroupActivity : DatabaseLockActivity(),
     override fun onPasteMenuClick(
         database: ContextualDatabase,
         pasteMode: GroupFragment.PasteMode?,
-        nodes: List<Node>
+        nodes: List<NodeInfo>
     ): Boolean {
         when (pasteMode) {
             GroupFragment.PasteMode.PASTE_FROM_COPY -> {
                 // Copy
                 mMainGroup?.let { newParent ->
-                    copyNodes(nodes, newParent)
+                    copyNodes(newParent.nodeId, nodes)
                 }
             }
             GroupFragment.PasteMode.PASTE_FROM_MOVE -> {
                 // Move
                 mMainGroup?.let { newParent ->
-                    moveNodes(nodes, newParent)
+                    moveNodes(newParent.nodeId, nodes)
                 }
             }
             else -> {
@@ -1251,7 +1236,7 @@ class GroupActivity : DatabaseLockActivity(),
 
     override fun onDeleteMenuClick(
         database: ContextualDatabase,
-        nodes: List<Node>
+        nodes: List<NodeInfo>
     ): Boolean {
         deleteNodes(nodes)
         finishNodeAction()
@@ -1456,11 +1441,8 @@ class GroupActivity : DatabaseLockActivity(),
             }
             R.id.menu_empty_recycle_bin -> {
                 if (mRecyclingBinEnabled && mRecyclingBinIsCurrentGroup) {
-                    mMainGroup?.getChildren()?.let { listChildren ->
-                        // Automatically delete all elements
-                        deleteNodes(listChildren, true)
-                        finishNodeAction()
-                    }
+                    emptyRecycleBin()
+                    finishNodeAction()
                 }
                 return true
             }
@@ -1504,7 +1486,7 @@ class GroupActivity : DatabaseLockActivity(),
             finishNodeAction()
         } else {
             // Normal way when we are not in root
-            if (mRootGroup != null && mRootGroup != mCurrentGroup) {
+            if (mCurrentGroup?.isRoot(mDatabase) == true) {
                 when {
                     Intent.ACTION_SEARCH == intent.action -> {
                         removeSearch()

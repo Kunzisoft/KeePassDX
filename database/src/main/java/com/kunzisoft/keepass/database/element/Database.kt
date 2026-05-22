@@ -53,8 +53,6 @@ import com.kunzisoft.keepass.database.file.input.DatabaseInputKDBX
 import com.kunzisoft.keepass.database.file.output.DatabaseOutputKDB
 import com.kunzisoft.keepass.database.file.output.DatabaseOutputKDBX
 import com.kunzisoft.keepass.database.merge.DatabaseKDBXMerger
-import com.kunzisoft.keepass.database.search.SearchHelper
-import com.kunzisoft.keepass.database.search.SearchParameters
 import com.kunzisoft.keepass.hardware.HardwareKey
 import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
 import com.kunzisoft.keepass.utils.SingletonHolder
@@ -77,8 +75,6 @@ open class Database {
     // To keep a reference for specific methods provided by version
     private var mDatabaseKDB: DatabaseKDB? = null
     private var mDatabaseKDBX: DatabaseKDBX? = null
-
-    private var mSearchHelper: SearchHelper = SearchHelper()
 
     var isReadOnly = false
 
@@ -440,6 +436,12 @@ open class Database {
             }
             return true
         }
+
+    val allowAddEntryInRoot: Boolean
+        get() = mDatabaseKDBX != null
+
+    val allowAddNoteInEachGroup: Boolean
+        get() = mDatabaseKDBX != null
 
     /**
      * Do not modify groups here, used for read only
@@ -905,27 +907,6 @@ open class Database {
         return false
     }
 
-    fun createVirtualGroupFromSearch(
-        searchParameters: SearchParameters,
-        fromGroup: NodeId<*>? = null,
-        max: Int = Integer.MAX_VALUE
-    ): Group? {
-        return mSearchHelper.createVirtualGroupWithSearchResult(this,
-            searchParameters, fromGroup, max)
-    }
-
-    fun createVirtualGroupFromSearchInfo(
-        searchParameters: SearchParameters,
-        max: Int = Integer.MAX_VALUE
-    ): Group? {
-        return mSearchHelper.createVirtualGroupWithSearchResult(
-            database = this,
-            searchParameters = searchParameters,
-            fromGroup = null,
-            max = max
-        )
-    }
-
     val tagPool: Tags
         get() = mDatabaseKDBX?.tagPool ?: Tags()
 
@@ -1034,10 +1015,8 @@ open class Database {
         return null
     }
 
-    fun createGroup(virtual: Boolean = false): Group? {
-        if (!virtual) {
-            dataModifiedSinceLastLoading = true
-        }
+    fun createGroup(): Group? {
+        dataModifiedSinceLastLoading = true
         var group: Group? = null
         mDatabaseKDB?.let { database ->
             group = Group(database.createGroup()).apply {
@@ -1049,8 +1028,6 @@ open class Database {
                 setNodeId(database.newGroupId())
             }
         }
-        if (virtual)
-            group?.isVirtual = true
 
         return group
     }
@@ -1065,6 +1042,10 @@ open class Database {
         return null
     }
 
+    fun getEntriesByIds(entriesIds: List<NodeId<UUID>>): List<Entry> {
+        return entriesIds.mapNotNull { getEntryById(it) }
+    }
+
     fun getGroupById(id: NodeId<*>): Group? {
         if (id is NodeIdInt)
             mDatabaseKDB?.getGroupById(id)?.let {
@@ -1075,6 +1056,10 @@ open class Database {
                 return Group(it)
             }
         return null
+    }
+
+    fun getGroupsByIds(groupsIds: List<NodeId<*>>): List<Group> {
+        return groupsIds.mapNotNull { getGroupById(it) }
     }
 
     fun addEntryTo(entry: Entry, parent: Group) {

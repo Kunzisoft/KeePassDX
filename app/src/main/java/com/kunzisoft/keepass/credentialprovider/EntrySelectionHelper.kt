@@ -25,7 +25,6 @@ import android.content.Intent
 import android.graphics.drawable.Icon
 import android.os.Build
 import android.os.Bundle
-import android.os.ParcelUuid
 import android.util.Log
 import android.widget.RemoteViews
 import androidx.activity.result.ActivityResultLauncher
@@ -34,7 +33,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.IconCompat
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.ContextualDatabase
-import com.kunzisoft.keepass.database.element.node.NodeIdUUID
+import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.model.RegisterInfo
 import com.kunzisoft.keepass.model.SearchInfo
@@ -144,7 +143,7 @@ object EntrySelectionHelper {
         try {
             val mReplyIntent = Intent()
             Log.d(javaClass.name, "Success special mode manual selection")
-            mReplyIntent.addNodesIds(entriesInfo.map { it.id })
+            mReplyIntent.addNodesIds(entriesInfo.map { it.nodeId })
             extras?.let {
                 mReplyIntent.putExtras(it)
             }
@@ -236,13 +235,20 @@ object EntrySelectionHelper {
         removeExtra(KEY_TYPE_MODE)
     }
 
-    fun Intent.addNodesIds(nodesIds: List<UUID>): Intent {
-        this.putParcelableList(EXTRA_NODES_IDS, nodesIds.map { ParcelUuid(it) })
+    /**
+     * Add many nodes ids to the intent
+     * TODO Manage Groups
+     */
+    fun Intent.addNodesIds(nodesIds: List<NodeId<UUID>>): Intent {
+        this.putParcelableList(EXTRA_NODES_IDS, nodesIds.map { it })
         return this
     }
 
-    fun Intent.retrieveNodesIds(): List<UUID>? {
-        return getParcelableList<ParcelUuid>(EXTRA_NODES_IDS)?.map { it.uuid }
+    /**
+     * Retrieve the nodes ids from the intent
+     */
+    fun Intent.retrieveNodesIds(): List<NodeId<UUID>>? {
+        return getParcelableList<NodeId<UUID>>(EXTRA_NODES_IDS)?.map { it }
     }
 
     fun Intent.removeNodesIds() {
@@ -251,18 +257,19 @@ object EntrySelectionHelper {
 
     /**
      * Add the node id to the intent
+     * TODO Manage Group
      */
-    fun Intent.addNodeId(nodeId: UUID?) {
+    fun Intent.addNodeId(nodeId: NodeId<UUID>?) {
         nodeId?.let {
-            putExtra(EXTRA_NODE_ID, ParcelUuid(nodeId))
+            putExtra(EXTRA_NODE_ID, nodeId)
         }
     }
 
     /**
      * Retrieve the node id from the intent
      */
-    fun Intent.retrieveNodeId(): UUID? {
-        return getParcelableExtraCompat<ParcelUuid>(EXTRA_NODE_ID)?.uuid
+    fun Intent.retrieveNodeId(): NodeId<UUID>? {
+        return getParcelableExtraCompat<NodeId<UUID>>(EXTRA_NODE_ID)
     }
 
     fun Intent.removeNodeId() {
@@ -278,7 +285,7 @@ object EntrySelectionHelper {
         removeNodesIds()
         return nodesIds.mapNotNull { nodeId ->
             database
-                .getEntryById(NodeIdUUID(nodeId))
+                .getEntryById(nodeId)
                 ?.getEntryInfo(database)
         }
     }

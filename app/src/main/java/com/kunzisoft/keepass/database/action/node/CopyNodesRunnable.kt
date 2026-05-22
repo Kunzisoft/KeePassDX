@@ -24,9 +24,7 @@ import android.util.Log
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.element.Entry
 import com.kunzisoft.keepass.database.element.Group
-import com.kunzisoft.keepass.database.element.node.Node
 import com.kunzisoft.keepass.database.element.node.NodeId
-import com.kunzisoft.keepass.database.element.node.Type
 import com.kunzisoft.keepass.database.exception.CopyEntryDatabaseException
 import com.kunzisoft.keepass.database.exception.CopyGroupDatabaseException
 import com.kunzisoft.keepass.database.exception.MissingParentDatabaseException
@@ -37,8 +35,8 @@ class CopyNodesRunnable(
     context: Context,
     database: ContextualDatabase,
     newParentId: NodeId<*>,
-    groupsIdsToCopy: List<NodeId<*>>,
-    entriesIdsToCopy: List<NodeId<UUID>>,
+    val groupsIdsToCopy: List<NodeId<*>>,
+    val entriesIdsToCopy: List<NodeId<UUID>>,
     save: Boolean,
     afterActionNodesFinish: AfterActionNodesFinish?,
     challengeResponseRetriever: (HardwareKey, ByteArray?) -> ByteArray
@@ -52,41 +50,37 @@ class CopyNodesRunnable(
 
     private var mEntriesCopied = mutableListOf<Entry>()
     private var mNewParent: Group? = null
-    private var mNodesToCopy: List<Node> = listOf()
+    private var mGroupsToCopy: List<Group> = listOf()
+    private var mEntriesToCopy: List<Entry> = listOf()
 
     init {
         database.getGroupById(newParentId)?.let { newParent ->
             mNewParent = newParent
         }
-        mNodesToCopy = getListNodesFromBundle(database, groupsIdsToCopy, entriesIdsToCopy)
+        mGroupsToCopy = database.getGroupsByIds(groupsIdsToCopy)
+        mEntriesToCopy = database.getEntriesByIds(entriesIdsToCopy)
     }
 
     override fun nodeAction() {
-        mNewParent?.let { newParent ->
-            foreachNode@ for (currentNode in mNodesToCopy) {
-                when (currentNode.type) {
-                    Type.GROUP -> {
-                        setError(CopyGroupDatabaseException())
-                        break@foreachNode
-                    }
+        if (mGroupsToCopy.isNotEmpty())
+            setError(CopyGroupDatabaseException())
 
-                    Type.ENTRY -> {
-                        // Root can contains entry
-                        if (newParent != database.rootGroup || database.rootCanContainsEntry()) {
-                            // Update entry with new values
-                            newParent.touch(modified = false, touchParents = true)
-                            val entryCopied = database.copyEntryTo(
-                                entryToCopy = currentNode as Entry,
-                                newParent = newParent
-                            )
-                            entryCopied.touch(modified = true, touchParents = true)
-                            mEntriesCopied.add(entryCopied)
-                        } else {
-                            // Only finish thread
-                            setError(CopyEntryDatabaseException())
-                            break@foreachNode
-                        }
-                    }
+        mNewParent?.let { newParent ->
+            foreachNode@ for (currentNode in mEntriesToCopy) {
+                // Root can contains entry
+                if (newParent != database.rootGroup || database.rootCanContainsEntry()) {
+                    // Update entry with new values
+                    newParent.touch(modified = false, touchParents = true)
+                    val entryCopied = database.copyEntryTo(
+                        entryToCopy = currentNode,
+                        newParent = newParent
+                    )
+                    entryCopied.touch(modified = true, touchParents = true)
+                    mEntriesCopied.add(entryCopied)
+                } else {
+                    // Only finish thread
+                    setError(CopyEntryDatabaseException())
+                    break@foreachNode
                 }
             }
         } ?: setError(MissingParentDatabaseException())
@@ -103,7 +97,11 @@ class CopyNodesRunnable(
                 }
             }
         }
-        return ActionNodesValues(mNodesToCopy, mEntriesCopied)
+        return ActionNodesValues(
+            oldGroupsIds = groupsIdsToCopy,
+            oldEntriesIds = entriesIdsToCopy,
+            newEntriesIds = mEntriesCopied.map { it.nodeId }
+        )
     }
 
     companion object {

@@ -57,12 +57,8 @@ import com.kunzisoft.keepass.database.action.node.TouchEntryRunnable
 import com.kunzisoft.keepass.database.action.node.TouchGroupRunnable
 import com.kunzisoft.keepass.database.action.node.UpdateEntryRunnable
 import com.kunzisoft.keepass.database.action.node.UpdateGroupRunnable
-import com.kunzisoft.keepass.database.element.Entry
-import com.kunzisoft.keepass.database.element.Group
 import com.kunzisoft.keepass.database.element.database.CompressionAlgorithm
-import com.kunzisoft.keepass.database.element.node.Node
 import com.kunzisoft.keepass.database.element.node.NodeId
-import com.kunzisoft.keepass.database.element.node.Type
 import com.kunzisoft.keepass.hardware.HardwareKey
 import com.kunzisoft.keepass.model.CipherEncryptDatabase
 import com.kunzisoft.keepass.model.EntryInfo
@@ -964,8 +960,14 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
             actionNodesValues: ActionNodesValues,
         ) {
             val bundle = result.data ?: Bundle()
-            bundle.putBundle(OLD_NODES_KEY, getBundleFromListNodes(actionNodesValues.oldNodes))
-            bundle.putBundle(NEW_NODES_KEY, getBundleFromListNodes(actionNodesValues.newNodes))
+            bundle.putBundle(OLD_NODES_KEY, Bundle().apply {
+                putParcelableList(GROUPS_ID_KEY, actionNodesValues.oldGroupsIds ?: listOf())
+                putParcelableList(ENTRIES_ID_KEY, actionNodesValues.oldEntriesIds ?: listOf())
+            })
+            bundle.putBundle(NEW_NODES_KEY, Bundle().apply {
+                putParcelableList(GROUPS_ID_KEY, actionNodesValues.newGroupsIds ?: listOf())
+                putParcelableList(ENTRIES_ID_KEY, actionNodesValues.newEntriesIds ?: listOf())
+            })
             result.data = bundle
         }
     }
@@ -1445,32 +1447,24 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         const val NEW_ELEMENT_KEY = "NEW_ELEMENT_KEY" // Warning type of this thing change every time
         const val DATA_BYTES = "DATA_BYTES"
 
-        fun Bundle.getNewEntry(database: ContextualDatabase): Entry? {
-            getBundle(NEW_NODES_KEY)
-                ?.getParcelableList<NodeId<UUID>>(ENTRIES_ID_KEY)
-                ?.get(0)?.let {
-                return database.getEntryById(it)
-            }
-            return null
+        fun Bundle.getNewGroups(database: ContextualDatabase): List<GroupInfo>? {
+            return getBundle(NEW_NODES_KEY)
+                ?.getParcelableList<NodeId<UUID>>(GROUPS_ID_KEY)
+                ?.mapNotNull { database.getGroupById(it)?.getGroupInfo() }
         }
 
-        fun getBundleFromListNodes(nodes: List<Node>): Bundle {
-            val groupsId = mutableListOf<NodeId<*>>()
-            val entriesId = mutableListOf<NodeId<UUID>>()
-            nodes.forEach { nodeVersioned ->
-                when (nodeVersioned.type) {
-                    Type.GROUP -> {
-                        groupsId.add((nodeVersioned as Group).nodeId)
-                    }
-                    Type.ENTRY -> {
-                        entriesId.add((nodeVersioned as Entry).nodeId)
-                    }
-                }
-            }
-            return Bundle().apply {
-                putParcelableList(GROUPS_ID_KEY, groupsId)
-                putParcelableList(ENTRIES_ID_KEY, entriesId)
-            }
+        fun Bundle.getNewGroup(database: ContextualDatabase): GroupInfo? {
+            return getNewGroups(database)?.get(0)
+        }
+
+        fun Bundle.getNewEntries(database: ContextualDatabase): List<EntryInfo>? {
+            return getBundle(NEW_NODES_KEY)
+                ?.getParcelableList<NodeId<UUID>>(ENTRIES_ID_KEY)
+                ?.mapNotNull { database.getEntryById(it)?.getEntryInfo(database) }
+        }
+
+        fun Bundle.getNewEntry(database: ContextualDatabase): EntryInfo? {
+            return getNewEntries(database)?.get(0)
         }
     }
 

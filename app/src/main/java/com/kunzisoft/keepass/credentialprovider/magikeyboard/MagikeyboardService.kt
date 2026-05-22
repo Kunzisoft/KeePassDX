@@ -181,7 +181,7 @@ class MagikeyboardService : InputMethodService(),
                         entryIdList.mapNotNull {
                             getEntryInfo(it)?.let { entry ->
                                 KeyboardEntriesAdapter.KeyboardEntry(
-                                    id = entry.id,
+                                    id = entry.nodeId.id,
                                     icon = mDatabase?.let { database ->
                                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                                             entry.buildIcon(
@@ -501,7 +501,7 @@ class MagikeyboardService : InputMethodService(),
             searchInfo = searchInfo,
             onItemsFound = { _, items ->
                 // Force manual selection if items already retrieved
-                if (entriesAlreadyRetrieved(items.map { it.id })) {
+                if (entriesAlreadyRetrieved(items.map { it.nodeId.id })) {
                     launchEntrySelection(
                         SearchInfo(searchInfo).apply { manualSelection = true }
                     )
@@ -705,7 +705,7 @@ class MagikeyboardService : InputMethodService(),
                 )
                 // Add a new entry if keyboard activated
                 if (context.isMagikeyboardActivated()) {
-                    val newList = entryList.map { it.id }
+                    val newList = entryList.map { it.nodeId.id }
                     if (entriesAlreadyRetrieved(newList).not()) {
                         this.entryUUIDList.value = newList
                         // Auto switch to the Magikeyboard

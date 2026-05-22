@@ -57,8 +57,7 @@ class TouchEntryRunnable(
 
     override fun nodeFinish(): ActionNodesValues {
         return ActionNodesValues(
-            oldNodes = mEntry?.let { listOf(it) } ?: listOf(),
-            newNodes = listOf()
+            oldEntriesIds = mEntry?.nodeId?.let { listOf(it) }
         )
     }
 }

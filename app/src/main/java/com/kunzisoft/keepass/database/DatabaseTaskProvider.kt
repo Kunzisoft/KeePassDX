@@ -38,15 +38,13 @@ import androidx.core.content.ContextCompat.RECEIVER_NOT_EXPORTED
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.crypto.EncryptionAlgorithm
 import com.kunzisoft.keepass.database.crypto.kdf.KdfEngine
-import com.kunzisoft.keepass.database.element.Entry
 import com.kunzisoft.keepass.database.element.Group
 import com.kunzisoft.keepass.database.element.database.CompressionAlgorithm
-import com.kunzisoft.keepass.database.element.node.Node
 import com.kunzisoft.keepass.database.element.node.NodeId
-import com.kunzisoft.keepass.database.element.node.Type
 import com.kunzisoft.keepass.model.CipherEncryptDatabase
 import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.model.GroupInfo
+import com.kunzisoft.keepass.model.NodeInfo
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_CHALLENGE_RESPONDED
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_ASSIGN_CREDENTIAL_TASK
@@ -82,7 +80,8 @@ import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_PARALLELISM_TASK
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_RECYCLE_BIN_TASK
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_TEMPLATES_GROUP_TASK
-import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.getBundleFromListNodes
+import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ENTRIES_ID_KEY
+import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.GROUPS_ID_KEY
 import com.kunzisoft.keepass.utils.DATABASE_START_TASK_ACTION
 import com.kunzisoft.keepass.utils.DATABASE_STOP_TASK_ACTION
 import com.kunzisoft.keepass.utils.putParcelableList
@@ -349,7 +348,7 @@ class DatabaseTaskProvider(
     }
 
     fun startDatabaseTouchGroup(
-        groupId: NodeId<UUID>
+        groupId: NodeId<*>
     ) {
         start(Bundle().apply {
             putParcelable(DatabaseTaskNotificationService.GROUP_ID_KEY, groupId)
@@ -390,29 +389,25 @@ class DatabaseTaskProvider(
 
     private fun startDatabaseActionListNodes(
         actionTask: String,
-        nodesPaste: List<Node>,
-        newParent: Group?,
+        newParentId: NodeId<*>?,
+        nodes: List<NodeInfo>,
         save: Boolean
     ) {
         val groupsIdToCopy = mutableListOf<NodeId<*>>()
         val entriesIdToCopy = mutableListOf<NodeId<UUID>>()
-        nodesPaste.forEach { nodeVersioned ->
-            when (nodeVersioned.type) {
-                Type.GROUP -> {
-                    groupsIdToCopy.add((nodeVersioned as Group).nodeId)
+        nodes.forEach { nodeVersioned ->
+            when (nodeVersioned) {
+                is GroupInfo -> {
+                    groupsIdToCopy.add(nodeVersioned.nodeId)
                 }
-
-                Type.ENTRY -> {
-                    entriesIdToCopy.add((nodeVersioned as Entry).nodeId)
+                is EntryInfo -> {
+                    entriesIdToCopy.add(nodeVersioned.nodeId)
                 }
             }
         }
-        val newParentId = newParent?.nodeId
-
         start(Bundle().apply {
-            putAll(getBundleFromListNodes(nodesPaste))
-            putParcelableList(DatabaseTaskNotificationService.GROUPS_ID_KEY, groupsIdToCopy)
-            putParcelableList(DatabaseTaskNotificationService.ENTRIES_ID_KEY, entriesIdToCopy)
+            putParcelableList(GROUPS_ID_KEY, groupsIdToCopy)
+            putParcelableList(ENTRIES_ID_KEY, entriesIdToCopy)
             if (newParentId != null)
                 putParcelable(DatabaseTaskNotificationService.PARENT_ID_KEY, newParentId)
             putBoolean(DatabaseTaskNotificationService.SAVE_DATABASE_KEY, save)
@@ -420,26 +415,41 @@ class DatabaseTaskProvider(
     }
 
     fun startDatabaseCopyNodes(
-        nodesToCopy: List<Node>,
-        newParent: Group,
+        newParentId: NodeId<*>,
+        nodesToCopy: List<NodeInfo>,
         save: Boolean
     ) {
-        startDatabaseActionListNodes(ACTION_DATABASE_COPY_NODES_TASK, nodesToCopy, newParent, save)
+        startDatabaseActionListNodes(
+            actionTask = ACTION_DATABASE_COPY_NODES_TASK,
+            newParentId = newParentId,
+            nodes = nodesToCopy,
+            save = save
+        )
     }
 
     fun startDatabaseMoveNodes(
-        nodesToMove: List<Node>,
-        newParent: Group,
+        newParentId: NodeId<*>,
+        nodesToMove: List<NodeInfo>,
         save: Boolean
     ) {
-        startDatabaseActionListNodes(ACTION_DATABASE_MOVE_NODES_TASK, nodesToMove, newParent, save)
+        startDatabaseActionListNodes(
+            actionTask = ACTION_DATABASE_MOVE_NODES_TASK,
+            newParentId = newParentId,
+            nodes = nodesToMove,
+            save = save
+        )
     }
 
     fun startDatabaseDeleteNodes(
-        nodesToDelete: List<Node>,
+        nodesToDelete: List<NodeInfo>,
         save: Boolean
     ) {
-        startDatabaseActionListNodes(ACTION_DATABASE_DELETE_NODES_TASK, nodesToDelete, null, save)
+        startDatabaseActionListNodes(
+            actionTask = ACTION_DATABASE_DELETE_NODES_TASK,
+            newParentId = null,
+            nodes = nodesToDelete,
+            save = save
+        )
     }
 
     /*

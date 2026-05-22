@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 Jeremy Jamet / Kunzisoft.
+ * Copyright 2026 Jeremy Jamet / Kunzisoft.
  *
  * This file is part of KeePassDX.
  *
@@ -19,35 +19,24 @@
  */
 package com.kunzisoft.keepass.database.element.node
 
+import com.kunzisoft.keepass.database.element.Database
+import com.kunzisoft.keepass.database.element.Entry
 import com.kunzisoft.keepass.database.element.Group
-import com.kunzisoft.keepass.database.element.Tags
 
-interface Node: NodeVersionedInterface<Group> {
-
-    val nodeId: NodeId<*>?
-
-    var tags: Tags
-
-    fun addParentFrom(node: Node) {
-        parent = node.parent
-    }
-
-    fun removeParent() {
-        parent = null
-    }
-
-    fun getPathString(): String {
-        val pathNodes = mutableListOf<Node>()
-        var currentNode = this
-        pathNodes.add(0, currentNode)
-        while (currentNode.containsParent()) {
-            currentNode.parent?.let { parent ->
-                currentNode = parent
-                pathNodes.add(0, currentNode)
+class DefaultNodeFilter(
+    var database: Database? = null,
+    var showExpired: Boolean = true,
+    var showTemplate: Boolean = true
+): NodeFilter {
+    override val filter: (Node) -> Boolean = { node ->
+        when (node) {
+            is Entry -> {
+                node.entryKDB?.isMetaStream() != true
             }
-        }
-        return pathNodes.joinToString("/") { it.title }
+            is Group -> {
+                showTemplate || database?.templatesGroup != node
+            }
+            else -> true
+        } && (showExpired || !node.isCurrentlyExpires)
     }
 }
-
-

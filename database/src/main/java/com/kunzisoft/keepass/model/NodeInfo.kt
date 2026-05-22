@@ -1,16 +1,38 @@
+/*
+ * Copyright 2025 Jeremy Jamet / Kunzisoft.
+ *
+ * This file is part of KeePassDX.
+ *
+ *  KeePassDX is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  KeePassDX is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
 package com.kunzisoft.keepass.model
 
 import android.os.Parcel
 import android.os.Parcelable
 import com.kunzisoft.keepass.database.element.CustomData
 import com.kunzisoft.keepass.database.element.DateInstant
+import com.kunzisoft.keepass.database.element.Tags
 import com.kunzisoft.keepass.database.element.icon.IconImage
+import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.utils.readBooleanCompat
 import com.kunzisoft.keepass.utils.readParcelableCompat
 import com.kunzisoft.keepass.utils.writeBooleanCompat
 
-open class NodeInfo() : Parcelable {
+abstract class NodeInfo() : Parcelable {
 
+    abstract val nodeId: NodeId<*>
     var title: String = ""
     var icon: IconImage = IconImage()
     var creationTime: DateInstant = DateInstant()
@@ -18,6 +40,7 @@ open class NodeInfo() : Parcelable {
     var expires: Boolean = false
     var expiryTime: DateInstant = DateInstant.IN_ONE_MONTH_DATE_TIME
     var customData: CustomData = CustomData()
+    var tags: Tags = Tags()
 
     constructor(nodeToCopy: NodeInfo) : this() {
         this.title = nodeToCopy.title
@@ -27,6 +50,7 @@ open class NodeInfo() : Parcelable {
         this.expires = nodeToCopy.expires
         this.expiryTime = DateInstant(nodeToCopy.expiryTime)
         this.customData = CustomData(nodeToCopy.customData)
+        this.tags = Tags(nodeToCopy.tags)
     }
 
     constructor(parcel: Parcel) : this() {
@@ -37,6 +61,7 @@ open class NodeInfo() : Parcelable {
         expires = parcel.readBooleanCompat()
         expiryTime = parcel.readParcelableCompat() ?: expiryTime
         customData = parcel.readParcelableCompat() ?: customData
+        tags = parcel.readParcelableCompat() ?: tags
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
@@ -47,7 +72,11 @@ open class NodeInfo() : Parcelable {
         parcel.writeBooleanCompat(expires)
         parcel.writeParcelable(expiryTime, flags)
         parcel.writeParcelable(customData, flags)
+        parcel.writeParcelable(tags, flags)
     }
+
+    val isCurrentlyExpires: Boolean =
+        expires && expiryTime.isCurrentlyExpire()
 
     override fun describeContents(): Int {
         return 0
@@ -64,6 +93,7 @@ open class NodeInfo() : Parcelable {
         if (expires != other.expires) return false
         if (expiryTime != other.expiryTime) return false
         if (customData != other.customData) return false
+        if (tags != other.tags) return false
 
         return true
     }
@@ -76,16 +106,7 @@ open class NodeInfo() : Parcelable {
         result = 31 * result + expires.hashCode()
         result = 31 * result + expiryTime.hashCode()
         result = 31 * result + customData.hashCode()
+        result = 31 * result + tags.hashCode()
         return result
-    }
-
-    companion object CREATOR : Parcelable.Creator<NodeInfo> {
-        override fun createFromParcel(parcel: Parcel): NodeInfo {
-            return NodeInfo(parcel)
-        }
-
-        override fun newArray(size: Int): Array<NodeInfo?> {
-            return arrayOfNulls(size)
-        }
     }
 }

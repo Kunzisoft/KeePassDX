@@ -44,6 +44,7 @@ import com.kunzisoft.keepass.credentialprovider.passkey.util.PassHelper.addAuthC
 import com.kunzisoft.keepass.credentialprovider.viewmodel.CredentialLauncherViewModel
 import com.kunzisoft.keepass.credentialprovider.viewmodel.PasswordLauncherViewModel
 import com.kunzisoft.keepass.database.ContextualDatabase
+import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.model.SearchInfo
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_ENTRY_TASK
 import com.kunzisoft.keepass.tasks.ActionRunnable
@@ -178,7 +179,7 @@ class PasswordLauncherActivity : AuthenticationLauncherActivity() {
             context: Context,
             specialMode: SpecialMode,
             searchInfo: SearchInfo? = null,
-            nodeId: UUID? = null,
+            nodeId: NodeId<UUID>? = null,
             userVerifiedWithAuth: Boolean = true
         ): PendingIntent? {
             return PendingIntent.getActivity(
@@ -189,7 +190,7 @@ class PasswordLauncherActivity : AuthenticationLauncherActivity() {
                     addTypeMode(TypeMode.PASSWORD)
                     addSearchInfo(searchInfo)
                     addNodeId(nodeId)
-                    addAuthCode(nodeId)
+                    addAuthCode(nodeId?.id)
                     // User Verification request is always preferred for password,
                     // Allows to configure whether it is necessary or not with the corresponding setting
                     addUserVerification(UserVerificationRequirement.PREFERRED, userVerifiedWithAuth)

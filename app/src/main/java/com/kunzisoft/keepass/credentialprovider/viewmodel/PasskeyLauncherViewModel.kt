@@ -1,3 +1,22 @@
+/*
+ * Copyright 2025 Jeremy Jamet / Kunzisoft.
+ *
+ * This file is part of KeePassDX.
+ *
+ *  KeePassDX is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  KeePassDX is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
 package com.kunzisoft.keepass.credentialprovider.viewmodel
 
 import android.app.Activity.RESULT_CANCELED
@@ -36,7 +55,6 @@ import com.kunzisoft.keepass.credentialprovider.passkey.util.PrivilegedAllowList
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.element.Entry
 import com.kunzisoft.keepass.database.element.node.NodeId
-import com.kunzisoft.keepass.database.element.node.NodeIdUUID
 import com.kunzisoft.keepass.database.exception.RegisterInReadOnlyDatabaseException
 import com.kunzisoft.keepass.database.helper.SearchHelper
 import com.kunzisoft.keepass.model.AppOrigin
@@ -89,7 +107,7 @@ class PasskeyLauncherViewModel(application: Application): CredentialLauncherView
 
     fun showAppSignatureDialog(
         temptingApp: AppOrigin,
-        nodeId: UUID
+        nodeId: NodeId<UUID>
     ) {
         mUiState.value = UIState.ShowAppSignatureDialog(temptingApp, nodeId)
     }
@@ -118,17 +136,16 @@ class PasskeyLauncherViewModel(application: Application): CredentialLauncherView
     fun saveAppSignature(
         database: ContextualDatabase?,
         temptingApp: AppOrigin,
-        nodeId: UUID
+        nodeId: NodeId<UUID>
     ) {
         viewModelScope.launch(CoroutineExceptionHandler { _, e ->
             showError(e)
         }) {
             // Update the entry with app signature
-            val oldEntryId = NodeIdUUID(nodeId)
             val entry = database
-                ?.getEntryById(oldEntryId)
+                ?.getEntryById(nodeId)
                 ?: throw GetCredentialUnknownException(
-                    "No passkey with nodeId $oldEntryId found"
+                    "No passkey with nodeId $nodeId found"
                 )
             if (database.isReadOnly)
                 throw RegisterInReadOnlyDatabaseException()
@@ -139,7 +156,7 @@ class PasskeyLauncherViewModel(application: Application): CredentialLauncherView
             )
             entryInfo.saveAppOrigin(database, temptingApp)
             mUiState.value = UIState.UpdateEntry(
-                oldEntryId = oldEntryId,
+                oldEntryId = nodeId,
                 newEntry = entryInfo
             )
         }
@@ -213,7 +230,7 @@ class PasskeyLauncherViewModel(application: Application): CredentialLauncherView
     private suspend fun launchSelection(
         intent: Intent,
         database: ContextualDatabase?,
-        nodeId: UUID?,
+        nodeId: NodeId<UUID>?,
         searchInfo: SearchInfo,
         appOrigin: AppOrigin
     ) {
@@ -278,8 +295,8 @@ class PasskeyLauncherViewModel(application: Application): CredentialLauncherView
                     ?: throw IOException("No passkey entry found")
                 autoSelectPasskeyAndSetResult(
                     database = database,
-                    nodeId = entry.nodeId.id,
-                    appOrigin = entry.getAppOrigin()
+                    nodeId = entry.nodeId,
+                    appOrigin = entry.appOrigin
                         ?: throw IOException("No App origin found")
                 )
             } else throw result.exception
@@ -289,14 +306,14 @@ class PasskeyLauncherViewModel(application: Application): CredentialLauncherView
 
     private suspend fun autoSelectPasskeyAndSetResult(
         database: ContextualDatabase?,
-        nodeId: UUID,
+        nodeId: NodeId<UUID>,
         appOrigin: AppOrigin
     ) {
         withContext(Dispatchers.IO) {
             mUsageParameters?.let { usageParameters ->
                 // To get the passkey from the database
                 val passkey = database
-                    ?.getEntryById(NodeIdUUID(nodeId))
+                    ?.getEntryById(nodeId)
                     ?.getEntryInfo(database)
                     ?.passkey
                     ?: throw IOException(
@@ -547,7 +564,7 @@ class PasskeyLauncherViewModel(application: Application): CredentialLauncherView
         ): UIState()
         data class ShowAppSignatureDialog(
             val temptingApp: AppOrigin,
-            val nodeId: UUID
+            val nodeId: NodeId<UUID>
         ): UIState()
         data class UpdateEntry(
             val oldEntryId: NodeId<UUID>,

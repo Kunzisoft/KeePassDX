@@ -22,7 +22,6 @@ package com.kunzisoft.keepass.database.action.node
 import android.content.Context
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.element.Group
-import com.kunzisoft.keepass.database.element.node.Node
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.hardware.HardwareKey
 import com.kunzisoft.keepass.model.GroupInfo
@@ -43,8 +42,13 @@ class UpdateGroupRunnable(
     init {
         database.getGroupById(oldGroupId)?.let { oldGroupToUpdate ->
             mOldGroup = oldGroupToUpdate
+            // TODO Same groupId
         }
-        mNewGroup = database.getGroupFrom(newGroup)
+        database.getGroupById(newGroup.nodeId)?.let { oldGroup ->
+            mNewGroup = Group(oldGroup).apply {
+                setGroupInfo(newGroup)
+            }
+        }
     }
 
     override fun nodeAction() {
@@ -79,8 +83,8 @@ class UpdateGroupRunnable(
             }
         }
         return ActionNodesValues(
-            oldNodes = mOldGroup?.let { listOf<Node>(it) } ?: listOf(),
-            newNodes = mNewGroup?.let { listOf<Node>(it) } ?: listOf()
+            oldGroupsIds = mOldGroup?.nodeId?.let { listOf(it) },
+            newGroupsIds = mNewGroup?.nodeId?.let { listOf(it) }
         )
     }
 }

@@ -1,3 +1,22 @@
+/*
+ * Copyright 2021 Jeremy Jamet / Kunzisoft.
+ *
+ * This file is part of KeePassDX.
+ *
+ *  KeePassDX is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  KeePassDX is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
 package com.kunzisoft.keepass.viewmodels
 
 import android.net.Uri
@@ -237,6 +256,8 @@ class EntryEditViewModel: NodeEditViewModel() {
     fun saveEntryInfo(entryInfo: EntryInfo) {
         if (actionLocked.not()) {
             actionLocked = true
+            // Delete temp attachment if not completely downloaded
+            mDatabase?.removeTempAttachmentsNotCompleted(entryInfo)
             mParent?.nodeId?.let { parentId ->
                 mEntryEditState.value = EntryEditState.CreateEntry(
                     parentId = parentId,
@@ -305,14 +326,8 @@ class EntryEditViewModel: NodeEditViewModel() {
     }
 
     fun onAttachmentAction(entryAttachmentState: EntryAttachmentState?) {
-        mDatabase?.tempAttachments?.let { tempAttachments ->
-            // Add in temp list
-            if (tempAttachments.contains(entryAttachmentState)) {
-                tempAttachments.remove(entryAttachmentState)
-            }
-            if (entryAttachmentState != null) {
-                tempAttachments.add(entryAttachmentState)
-            }
+        entryAttachmentState?.let {
+            mDatabase?.addTempAttachment(entryAttachmentState)
         }
         _onAttachmentAction.value = entryAttachmentState
     }

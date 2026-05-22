@@ -22,10 +22,7 @@ package com.kunzisoft.keepass.database.action.node
 import android.content.Context
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.action.SaveDatabaseRunnable
-import com.kunzisoft.keepass.database.element.node.Node
-import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.hardware.HardwareKey
-import java.util.UUID
 
 abstract class ActionNodeDatabaseRunnable(
     context: Context,
@@ -59,24 +56,5 @@ abstract class ActionNodeDatabaseRunnable(
         afterActionNodesFinish?.apply {
             onActionNodesFinish(result, nodeFinish())
         }
-    }
-
-    protected fun getListNodesFromBundle(
-        database: ContextualDatabase,
-        groupsIds: List<NodeId<*>>,
-        entriesIds: List<NodeId<UUID>>
-    ): List<Node> {
-        val nodesAction = mutableListOf<Node>()
-        groupsIds.forEach {
-            database.getGroupById(it)?.let { groupRetrieve ->
-                nodesAction.add(groupRetrieve)
-            }
-        }
-        entriesIds.forEach {
-            database.getEntryById(it)?.let { entryRetrieve ->
-                nodesAction.add(entryRetrieve)
-            }
-        }
-        return nodesAction
     }
 }

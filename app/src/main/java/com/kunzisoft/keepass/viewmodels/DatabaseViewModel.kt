@@ -1,3 +1,22 @@
+/*
+ * Copyright 2021 Jeremy Jamet / Kunzisoft.
+ *
+ * This file is part of KeePassDX.
+ *
+ *  KeePassDX is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  KeePassDX is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
 package com.kunzisoft.keepass.viewmodels
 
 import android.app.Application
@@ -13,12 +32,11 @@ import com.kunzisoft.keepass.database.crypto.kdf.KdfEngine
 import com.kunzisoft.keepass.database.element.Group
 import com.kunzisoft.keepass.database.element.binary.BinaryData
 import com.kunzisoft.keepass.database.element.database.CompressionAlgorithm
-import com.kunzisoft.keepass.database.element.node.Node
 import com.kunzisoft.keepass.database.element.node.NodeId
-import com.kunzisoft.keepass.database.element.node.NodeIdUUID
 import com.kunzisoft.keepass.model.CipherEncryptDatabase
 import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.model.GroupInfo
+import com.kunzisoft.keepass.model.NodeInfo
 import com.kunzisoft.keepass.model.SnapFileDatabaseInfo
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService
 import com.kunzisoft.keepass.tasks.ActionRunnable
@@ -253,43 +271,40 @@ class DatabaseViewModel(application: Application): AndroidViewModel(application)
     fun touchGroup(
         groupInfo: GroupInfo
     ) {
-        // Implicitly filters KDB databases
-        groupInfo.id?.let { groupId ->
-            mDatabaseTaskProvider.startDatabaseTouchGroup(groupId = NodeIdUUID(groupId))
-        }
+        mDatabaseTaskProvider.startDatabaseTouchGroup(groupId = groupInfo.nodeId)
     }
 
     fun copyNodes(
-        nodesToCopy: List<Node>,
-        newParent: Group,
+        newParentId: NodeId<*>,
+        nodesToCopy: List<NodeInfo>,
         save: Boolean
     ) {
         mDatabaseTaskProvider.startDatabaseCopyNodes(
-            nodesToCopy,
-            newParent,
-            save
+            newParentId = newParentId,
+            nodesToCopy = nodesToCopy,
+            save = save
         )
     }
 
     fun moveNodes(
-        nodesToMove: List<Node>,
-        newParent: Group,
+        newParentId: NodeId<*>,
+        nodesToMove: List<NodeInfo>,
         save: Boolean
     ) {
         mDatabaseTaskProvider.startDatabaseMoveNodes(
-            nodesToMove,
-            newParent,
-            save
+            newParentId = newParentId,
+            nodesToMove = nodesToMove,
+            save = save
         )
     }
 
     fun deleteNodes(
-        nodes: List<Node>,
+        nodes: List<NodeInfo>,
         save: Boolean
     ) {
         mDatabaseTaskProvider.startDatabaseDeleteNodes(
-            nodes,
-            save
+            nodesToDelete = nodes,
+            save = save
         )
     }
 

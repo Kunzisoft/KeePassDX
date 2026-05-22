@@ -22,7 +22,6 @@ package com.kunzisoft.keepass.database.action.node
 import android.content.Context
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.element.Group
-import com.kunzisoft.keepass.database.element.node.Node
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.hardware.HardwareKey
 
@@ -57,8 +56,7 @@ class TouchGroupRunnable(
 
     override fun nodeFinish(): ActionNodesValues {
         return ActionNodesValues(
-            oldNodes = mGroup?.let { listOf<Node>(it) } ?: listOf(),
-            newNodes = listOf()
+            oldGroupsIds = mGroup?.nodeId?.let { listOf(it) }
         )
     }
 }

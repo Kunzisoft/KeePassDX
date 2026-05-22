@@ -140,18 +140,18 @@ object SearchHelper {
             ) {
                 searchInfo.getSearchParametersFromSearchInfo(context) { searchParameters ->
                     // If search provide results
-                    database.createVirtualGroupFromSearchInfo(
+                    database.createSearchGroupInfo(
                         searchParameters = searchParameters,
                         max = MAX_SEARCH_ENTRY
-                    )?.let { searchGroup ->
-                        if (searchGroup.numberOfChildEntries > 0) {
+                    ).let { searchGroup ->
+                        if (searchGroup.numberOfSearchResults() > 0) {
                             onItemsFound.invoke(
                                 database,
-                                searchGroup.getChildEntriesInfo(database)
+                                searchGroup.getSearchResults()
                             )
                         } else
                             onItemNotFound.invoke(database)
-                    } ?: onItemNotFound.invoke(database)
+                    }
                 }
             } else
                 onItemNotFound.invoke(database)

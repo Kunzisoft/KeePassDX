@@ -23,11 +23,11 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.kunzisoft.keepass.database.ContextualDatabase
-import com.kunzisoft.keepass.utils.IOActionTask
-import com.kunzisoft.keepass.database.element.Group
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.helper.SearchHelper
 import com.kunzisoft.keepass.database.search.SearchParameters
+import com.kunzisoft.keepass.model.GroupInfo
+import com.kunzisoft.keepass.utils.IOActionTask
 
 
 class GroupViewModel: ViewModel() {
@@ -41,35 +41,45 @@ class GroupViewModel: ViewModel() {
     val firstPositionVisible : LiveData<Int> get() = _firstPositionVisible
     private val _firstPositionVisible = MutableLiveData<Int>()
 
-    fun loadMainGroup(database: ContextualDatabase?,
-                      groupId: NodeId<*>?,
-                      showFromPosition: Int?) {
+    fun loadMainGroup(
+        database: ContextualDatabase?,
+        groupId: NodeId<*>?,
+        showFromPosition: Int?
+    ) {
         IOActionTask(
             {
                 if (groupId != null) {
                     database?.getGroupById(groupId)
                 } else {
                     database?.rootGroup
-                }
+                }?.apply {
+                    // TODO Call runnable properly
+                    // Update last access time.
+                    touch(modified = false, touchParents = false)
+                }?.getGroupInfo()
             },
             { group ->
                 if (group != null) {
-                    _mainGroup.value = SuperGroup(group,
-                        database?.recycleBin == group,
-                        showFromPosition)
+                    _mainGroup.value = SuperGroup(
+                        group = group,
+                        isRecycleBin = group.isRecycleBin(database),
+                        showFromPosition = showFromPosition
+                    )
                     _group.value = _mainGroup.value
                 }
             }
         ).execute()
     }
 
-    fun loadSearchGroup(database: ContextualDatabase?,
-                        searchParameters: SearchParameters,
-                        fromGroup: NodeId<*>?,
-                        showFromPosition: Int?) {
+    fun loadSearchGroup(
+        database: ContextualDatabase?,
+        searchParameters: SearchParameters,
+        fromGroup: NodeId<*>?,
+        showFromPosition: Int?
+    ) {
         IOActionTask(
             {
-                database?.createVirtualGroupFromSearch(
+                database?.createSearchGroupInfo(
                     searchParameters,
                     fromGroup,
                     SearchHelper.MAX_SEARCH_ENTRY
@@ -77,10 +87,12 @@ class GroupViewModel: ViewModel() {
             },
             { group ->
                 if (group != null) {
-                    _group.value = SuperGroup(group,
-                        database?.recycleBin == group,
-                        showFromPosition,
-                        searchParameters)
+                    _group.value = SuperGroup(
+                        group = group,
+                        isRecycleBin = group.isRecycleBin(database),
+                        showFromPosition = showFromPosition,
+                        searchParameters = searchParameters
+                    )
                 }
             }
         ).execute()
@@ -90,10 +102,12 @@ class GroupViewModel: ViewModel() {
         _firstPositionVisible.value = position
     }
 
-    data class SuperGroup(val group: Group,
-                          val isRecycleBin: Boolean,
-                          var showFromPosition: Int?,
-                          var searchParameters: SearchParameters = SearchParameters())
+    data class SuperGroup(
+        val group: GroupInfo,
+        val isRecycleBin: Boolean,
+        var showFromPosition: Int?,
+        var searchParameters: SearchParameters = SearchParameters()
+    )
 
     companion object {
         private val TAG = GroupViewModel::class.java.name

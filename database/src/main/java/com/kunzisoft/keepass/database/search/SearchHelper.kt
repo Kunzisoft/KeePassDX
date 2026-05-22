@@ -30,6 +30,7 @@ import com.kunzisoft.keepass.model.AppOriginEntryField.isWebDomain
 import com.kunzisoft.keepass.model.PasskeyEntryFields.isCredentialId
 import com.kunzisoft.keepass.model.PasskeyEntryFields.isPasskey
 import com.kunzisoft.keepass.model.PasskeyEntryFields.isRelyingParty
+import com.kunzisoft.keepass.model.SearchGroupInfo
 import com.kunzisoft.keepass.otp.OtpEntryFields.isOTP
 import com.kunzisoft.keepass.otp.OtpEntryFields.isOTPURIField
 import com.kunzisoft.keepass.utils.UUIDUtils.asHexString
@@ -40,13 +41,15 @@ class SearchHelper {
 
     private var incrementEntry = 0
 
-    fun createVirtualGroupWithSearchResult(database: Database,
-                                           searchParameters: SearchParameters,
-                                           fromGroup: NodeId<*>? = null,
-                                           max: Int): Group? {
+    fun createGroupInfoWithSearchResult(
+        database: Database,
+        searchParameters: SearchParameters,
+        fromGroup: NodeId<*>? = null,
+        max: Int
+    ): SearchGroupInfo {
 
-        val searchGroup = database.createGroup(virtual = true)
-        searchGroup?.title = "\"" + searchParameters.searchQuery + "\""
+        val searchGroup = SearchGroupInfo()
+        searchGroup.title = "\"" + searchParameters.searchQuery + "\""
 
         // Search all entries
         incrementEntry = 0
@@ -66,7 +69,7 @@ class SearchHelper {
                         if (database.entryIsTemplate(node) && !searchParameters.searchInTemplates)
                             return false
                         if (entryContainsString(database, node, searchParameters)) {
-                            searchGroup?.addChildEntry(node)
+                            searchGroup.addSearchResult(node.getEntryInfo(database))
                             incrementEntry++
                         }
                         // Stop searching when we have max entries
@@ -86,16 +89,16 @@ class SearchHelper {
                 false
             )
         }
-
-        searchGroup?.getNumberOfChildEntries()
         return searchGroup
     }
 
-    private fun groupConditions(database: Database,
-                                group: Group?,
-                                searchParameters: SearchParameters,
-                                allowCustomSearchable: Boolean,
-                                max: Int): Boolean {
+    private fun groupConditions(
+        database: Database,
+        group: Group?,
+        searchParameters: SearchParameters,
+        allowCustomSearchable: Boolean,
+        max: Int
+    ): Boolean {
         return if (group == null)
             false
         else if (incrementEntry >= max)
@@ -112,9 +115,11 @@ class SearchHelper {
             true
     }
 
-    private fun entryContainsString(database: Database,
-                                    entry: Entry,
-                                    searchParameters: SearchParameters): Boolean {
+    private fun entryContainsString(
+        database: Database,
+        entry: Entry,
+        searchParameters: SearchParameters
+    ): Boolean {
         // To search in field references
         database.startManageEntry(entry)
         // Search all strings in the entry

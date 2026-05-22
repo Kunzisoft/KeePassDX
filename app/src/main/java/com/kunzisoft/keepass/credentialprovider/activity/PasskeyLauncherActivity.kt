@@ -50,6 +50,7 @@ import com.kunzisoft.keepass.credentialprovider.passkey.util.PassHelper.addAuthC
 import com.kunzisoft.keepass.credentialprovider.viewmodel.CredentialLauncherViewModel
 import com.kunzisoft.keepass.credentialprovider.viewmodel.PasskeyLauncherViewModel
 import com.kunzisoft.keepass.database.ContextualDatabase
+import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.model.AppOrigin
 import com.kunzisoft.keepass.model.SearchInfo
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_ENTRY_TASK
@@ -237,7 +238,7 @@ class PasskeyLauncherActivity : AuthenticationLauncherActivity() {
      */
     private fun showAppSignatureDialog(
         temptingApp: AppOrigin,
-        nodeId: UUID
+        nodeId: NodeId<UUID>
     ) {
         AlertDialog.Builder(this@PasskeyLauncherActivity).apply {
             setTitle(getString(R.string.passkeys_missing_signature_app_ask_title))
@@ -287,7 +288,7 @@ class PasskeyLauncherActivity : AuthenticationLauncherActivity() {
             specialMode: SpecialMode,
             searchInfo: SearchInfo? = null,
             appOrigin: AppOrigin? = null,
-            nodeId: UUID? = null,
+            nodeId: NodeId<UUID>? = null,
             userVerification: UserVerificationRequirement = UserVerificationRequirement.PREFERRED,
             userVerifiedWithAuth: Boolean = true
         ): PendingIntent? {
@@ -300,7 +301,7 @@ class PasskeyLauncherActivity : AuthenticationLauncherActivity() {
                     addSearchInfo(searchInfo)
                     addAppOrigin(appOrigin)
                     addNodeId(nodeId)
-                    addAuthCode(nodeId)
+                    addAuthCode(nodeId?.id)
                     addUserVerification(userVerification, userVerifiedWithAuth)
                 },
                 PendingIntent.FLAG_MUTABLE or PendingIntent.FLAG_UPDATE_CURRENT

@@ -40,10 +40,13 @@ import com.kunzisoft.keepass.adapters.NodesAdapter
 import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper.retrieveSpecialMode
 import com.kunzisoft.keepass.credentialprovider.SpecialMode
 import com.kunzisoft.keepass.database.ContextualDatabase
-import com.kunzisoft.keepass.database.element.Group
 import com.kunzisoft.keepass.database.element.SortNodeEnum
-import com.kunzisoft.keepass.database.element.node.Node
-import com.kunzisoft.keepass.database.element.node.Type
+import com.kunzisoft.keepass.database.element.node.DefaultNodeFilter
+import com.kunzisoft.keepass.database.element.node.EmptyNodeFilter
+import com.kunzisoft.keepass.database.element.node.NodeFilter
+import com.kunzisoft.keepass.model.GroupInfo
+import com.kunzisoft.keepass.model.NodeInfo
+import com.kunzisoft.keepass.model.SearchGroupInfo
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.utils.KeyboardUtil.hideKeyboard
@@ -61,19 +64,21 @@ class GroupFragment : DatabaseFragment(), SortDialogFragment.SortSelectionListen
 
     private val mGroupViewModel: GroupViewModel by activityViewModels()
 
-    private var mCurrentGroup: Group? = null
+    private var mCurrentGroup: GroupInfo? = null
 
     var nodeActionSelectionMode = false
         private set
     var nodeActionPasteMode: PasteMode = PasteMode.UNDEFINED
         private set
-    private val listActionNodes = mutableListOf<Node>()
-    private val listPasteNodes = mutableListOf<Node>()
+    private val listActionNodes = mutableListOf<NodeInfo>()
+    private val listPasteNodes = mutableListOf<NodeInfo>()
 
     private var notFoundView: View? = null
-    private var isASearchResult: Boolean = false
 
     private var specialMode: SpecialMode = SpecialMode.DEFAULT
+
+
+    private var mNodeFilter: NodeFilter = EmptyNodeFilter()
 
     private var mRecycleViewScrollListener = object : RecyclerView.OnScrollListener() {
         override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
@@ -157,7 +162,7 @@ class GroupFragment : DatabaseFragment(), SortDialogFragment.SortSelectionListen
         context?.let { context ->
             mAdapter = NodesAdapter(context, database).apply {
                 setOnNodeClickListener(object : NodesAdapter.NodeClickCallback {
-                    override fun onNodeClick(database: ContextualDatabase, node: Node) {
+                    override fun onNodeClick(database: ContextualDatabase, node: NodeInfo) {
                         if (nodeActionSelectionMode) {
                             if (listActionNodes.contains(node)) {
                                 // Remove selected item if already selected
@@ -174,7 +179,7 @@ class GroupFragment : DatabaseFragment(), SortDialogFragment.SortSelectionListen
                         }
                     }
 
-                    override fun onNodeLongClick(database: ContextualDatabase, node: Node): Boolean {
+                    override fun onNodeLongClick(database: ContextualDatabase, node: NodeInfo): Boolean {
                         if (nodeActionPasteMode == PasteMode.UNDEFINED) {
                             // Select the first item after a long click
                             if (!listActionNodes.contains(node))
@@ -222,6 +227,13 @@ class GroupFragment : DatabaseFragment(), SortDialogFragment.SortSelectionListen
         mNodesRecyclerView = view.findViewById(R.id.nodes_list)
         notFoundView = view.findViewById(R.id.not_found_container)
 
+        context?.let {
+            mNodeFilter = DefaultNodeFilter(
+                showExpired = PreferencesUtil.showExpiredEntries(it),
+                showTemplate = PreferencesUtil.showTemplates(it)
+            )
+        }
+
         mLayoutManager = LinearLayoutManager(context)
         mNodesRecyclerView?.apply {
             scrollBarStyle = View.SCROLLBARS_INSIDE_INSET
@@ -232,7 +244,6 @@ class GroupFragment : DatabaseFragment(), SortDialogFragment.SortSelectionListen
 
         mGroupViewModel.group.observe(viewLifecycleOwner) {
             mCurrentGroup = it.group
-            isASearchResult = it.group.isVirtual
             rebuildList()
             it.showFromPosition?.let { position ->
                 mNodesRecyclerView?.scrollToPosition(position)
@@ -264,13 +275,28 @@ class GroupFragment : DatabaseFragment(), SortDialogFragment.SortSelectionListen
             // Add elements to the list
             mCurrentGroup?.let { currentGroup ->
                 // Thrown an exception when sort cannot be performed
-                mAdapter?.rebuildList(currentGroup)
+                // TODO In view model
+                val nodes = if (currentGroup is SearchGroupInfo) {
+                        // TODO Simplified
+                        currentGroup.getSearchResults().mapNotNull {
+                            mDatabase?.getNodeFrom(it)
+                        }
+                    } else {
+                        mDatabase?.getGroupById(currentGroup.nodeId)?.getChildren(
+                            mNodeFilter.filter
+                        ) ?: listOf()
+                    }
+                mAdapter?.rebuildList(
+                    nodes = nodes,
+                    isSearch = currentGroup is SearchGroupInfo,
+                    nodeFilter = mNodeFilter
+                )
             }
         } catch (e:Exception) {
             Log.e(TAG, "Unable to rebuild the list", e)
         }
 
-        if (isASearchResult && mAdapter != null && mAdapter!!.isEmpty) {
+        if (mCurrentGroup is SearchGroupInfo && mAdapter != null && mAdapter!!.isEmpty) {
             // To show the " no search entry found "
             notFoundView?.visibility = View.VISIBLE
         } else {
@@ -287,7 +313,7 @@ class GroupFragment : DatabaseFragment(), SortDialogFragment.SortSelectionListen
             PreferencesUtil.saveNodeSort(it, sortNodeEnum, sortNodeParameters)
         }
 
-        // Tell the adapter to refresh it's list
+        // Tell the adapter to refresh its list
         try {
             mAdapter?.notifyChangeSort(sortNodeEnum, sortNodeParameters)
             rebuildList()
@@ -296,15 +322,19 @@ class GroupFragment : DatabaseFragment(), SortDialogFragment.SortSelectionListen
         }
     }
 
-    private fun containsRecycleBin(database: ContextualDatabase?, nodes: List<Node>): Boolean {
-        return database?.isRecycleBinEnabled == true
-                && nodes.any { it == database.recycleBin }
+    private fun containsRecycleBin(
+        database: ContextualDatabase?,
+        nodes: List<NodeInfo>
+    ): Boolean {
+        return nodes.any { it is GroupInfo && it.isRecycleBin(database) }
     }
 
-    fun actionNodesCallback(database: ContextualDatabase,
-                            nodes: List<Node>,
-                            menuListener: NodesActionMenuListener?,
-                            onDestroyActionMode: (mode: ActionMode?) -> Unit) : ActionMode.Callback {
+    fun actionNodesCallback(
+        database: ContextualDatabase,
+        nodes: List<NodeInfo>,
+        menuListener: NodesActionMenuListener?,
+        onDestroyActionMode: (mode: ActionMode?) -> Unit
+    ) : ActionMode.Callback {
 
         return object : ActionMode.Callback {
 
@@ -340,7 +370,7 @@ class GroupFragment : DatabaseFragment(), SortDialogFragment.SortSelectionListen
 
                     // Copy (not allowed for group)
                     if (database.isReadOnly
-                            || nodes.any { it.type == Type.GROUP }) {
+                            || nodes.any { it is GroupInfo }) {
                         menu?.removeItem(R.id.menu_copy)
                     }
 
@@ -398,23 +428,23 @@ class GroupFragment : DatabaseFragment(), SortDialogFragment.SortSelectionListen
     }
 
     /**
-     * Callback listener to redefine to do an action when a node is click
+     * Callback listener to redefine to do an action when a node is clicked
      */
     interface NodeClickListener {
-        fun onNodeClick(database: ContextualDatabase, node: Node)
-        fun onNodeSelected(database: ContextualDatabase, nodes: List<Node>): Boolean
+        fun onNodeClick(database: ContextualDatabase, node: NodeInfo)
+        fun onNodeSelected(database: ContextualDatabase, nodes: List<NodeInfo>): Boolean
     }
 
     /**
      * Menu listener to redefine to do an action in menu
      */
     interface NodesActionMenuListener {
-        fun onOpenMenuClick(database: ContextualDatabase, node: Node): Boolean
-        fun onEditMenuClick(database: ContextualDatabase, node: Node): Boolean
-        fun onCopyMenuClick(database: ContextualDatabase, nodes: List<Node>): Boolean
-        fun onMoveMenuClick(database: ContextualDatabase, nodes: List<Node>): Boolean
-        fun onDeleteMenuClick(database: ContextualDatabase, nodes: List<Node>): Boolean
-        fun onPasteMenuClick(database: ContextualDatabase, pasteMode: PasteMode?, nodes: List<Node>): Boolean
+        fun onOpenMenuClick(database: ContextualDatabase, node: NodeInfo): Boolean
+        fun onEditMenuClick(database: ContextualDatabase, node: NodeInfo): Boolean
+        fun onCopyMenuClick(database: ContextualDatabase, nodes: List<NodeInfo>): Boolean
+        fun onMoveMenuClick(database: ContextualDatabase, nodes: List<NodeInfo>): Boolean
+        fun onDeleteMenuClick(database: ContextualDatabase, nodes: List<NodeInfo>): Boolean
+        fun onPasteMenuClick(database: ContextualDatabase, pasteMode: PasteMode?, nodes: List<NodeInfo>): Boolean
     }
 
     enum class PasteMode {

@@ -43,8 +43,15 @@ class UpdateEntryRunnable(
     init {
         database.getEntryById(oldEntryId)?.let { oldEntry ->
             mOldEntry = oldEntry
+            // TODO Same EntryId
         }
-        mNewEntry = database.getEntryFrom(newEntry)
+        database.getEntryById(newEntry.nodeId)?.let { oldEntry ->
+            // Create a clone
+            mNewEntry = Entry(oldEntry).apply {
+                setEntryInfo(database, newEntry)
+                database.removeTempAttachmentsNotUsed(this)
+            }
+        }
     }
 
     override fun nodeAction() {
@@ -100,8 +107,8 @@ class UpdateEntryRunnable(
             }
         }
         return ActionNodesValues(
-            oldNodes = mOldEntry?.let { listOf(it) } ?: listOf(),
-            newNodes = mNewEntry?.let { listOf(it) } ?: listOf()
+            oldEntriesIds = mOldEntry?.nodeId?.let { listOf(it) },
+            newEntriesIds = mNewEntry?.nodeId?.let { listOf(it) } ?: listOf()
         )
     }
 }

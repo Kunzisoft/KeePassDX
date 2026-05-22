@@ -22,7 +22,7 @@ package com.kunzisoft.keepass.database.element
 
 import com.kunzisoft.keepass.database.element.group.GroupVersionedInterface
 import com.kunzisoft.keepass.database.element.node.NodeVersionedInterface
-import com.kunzisoft.keepass.database.element.node.Type
+import com.kunzisoft.keepass.database.element.node.NodeType
 
 enum class SortNodeEnum {
     DB, TITLE, USERNAME, CREATION_TIME, LAST_MODIFY_TIME, LAST_ACCESS_TIME;
@@ -41,9 +41,11 @@ enum class SortNodeEnum {
         }
     }
 
-    data class SortNodeParameters(var ascending: Boolean = true,
-                                  var groupsBefore: Boolean = true,
-                                  var recycleBinBottom: Boolean = true)
+    data class SortNodeParameters(
+        var ascending: Boolean = true,
+        var groupsBefore: Boolean = true,
+        var recycleBinBottom: Boolean = true
+    )
 
     abstract class NodeComparator
             <
@@ -68,9 +70,9 @@ enum class SortNodeEnum {
                 return 0
 
             when (object1.type) {
-                Type.GROUP -> {
+                NodeType.GROUP -> {
                     when (object2.type) {
-                        Type.GROUP -> {
+                        NodeType.GROUP -> {
                             // RecycleBin at end of groups
                             if (database.isRecycleBinEnabled && sortNodeParameters.recycleBinBottom) {
                                 if (database.recycleBin == object1)
@@ -80,7 +82,7 @@ enum class SortNodeEnum {
                             }
                             return specificOrderOrHashIfEquals(object1, object2)
                         }
-                        Type.ENTRY -> {
+                        NodeType.ENTRY -> {
                             return if (sortNodeParameters.groupsBefore)
                                 -1
                             else
@@ -88,15 +90,15 @@ enum class SortNodeEnum {
                         }
                     }
                 }
-                Type.ENTRY -> {
+                NodeType.ENTRY -> {
                     return when (object2.type) {
-                        Type.GROUP -> {
+                        NodeType.GROUP -> {
                             if (sortNodeParameters.groupsBefore)
                                 1
                             else
                                 -1
                         }
-                        Type.ENTRY -> {
+                        NodeType.ENTRY -> {
                             specificOrderOrHashIfEquals(object1, object2)
                         }
                     }
@@ -146,7 +148,7 @@ enum class SortNodeEnum {
     ) : NodeComparator<G, T>(database, sortNodeParameters) {
 
         override fun compareBySpecificOrder(object1: T, object2: T): Int {
-            return if (object1.type == Type.ENTRY && object2.type == Type.ENTRY) {
+            return if (object1.type == NodeType.ENTRY && object2.type == NodeType.ENTRY) {
                 // To get username if it's a ref
                 val usernameCompare = (object1 as Entry).getEntryInfo(database).username
                         .compareTo((object2 as Entry).getEntryInfo(database).username,

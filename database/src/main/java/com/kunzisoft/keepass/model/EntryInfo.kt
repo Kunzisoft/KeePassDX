@@ -20,12 +20,10 @@
 package com.kunzisoft.keepass.model
 
 import android.os.Parcel
-import android.os.ParcelUuid
 import android.os.Parcelable
 import com.kunzisoft.keepass.database.element.Attachment
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.Field
-import com.kunzisoft.keepass.database.element.Tags
 import com.kunzisoft.keepass.database.element.entry.AutoType
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.node.NodeIdUUID
@@ -51,12 +49,11 @@ import java.util.UUID
 
 class EntryInfo : NodeInfo {
 
-    var id: UUID = UUID.randomUUID()
+    override var nodeId: NodeId<UUID> = NodeIdUUID()
     var username: String = ""
     var password: CharArray = charArrayOf()
     var url: String = ""
     var notes: String = ""
-    var tags: Tags = Tags()
     var backgroundColor: Int? = null
     var foregroundColor: Int? = null
     var customFields: MutableList<Field> = mutableListOf()
@@ -66,18 +63,16 @@ class EntryInfo : NodeInfo {
     var creditCard: CreditCard? = null
     var passkey: Passkey? = null
     var appOrigin: AppOrigin? = null
-
     var template: Template = Template.STANDARD
 
     constructor() : super()
 
     constructor(entryToCopy: EntryInfo) : super(entryToCopy) {
-        this.id = entryToCopy.id
+        this.nodeId = entryToCopy.nodeId
         this.username = entryToCopy.username
         this.password = entryToCopy.password.copyOf()
         this.url = entryToCopy.url
         this.notes = entryToCopy.notes
-        this.tags = Tags(entryToCopy.tags)
         this.backgroundColor = entryToCopy.backgroundColor
         this.foregroundColor = entryToCopy.foregroundColor
         this.customFields = entryToCopy.customFields.map { Field(it) }.toMutableList()
@@ -91,12 +86,11 @@ class EntryInfo : NodeInfo {
     }
 
     constructor(parcel: Parcel) : super(parcel) {
-        id = parcel.readParcelableCompat<ParcelUuid>()?.uuid ?: id
+        nodeId = parcel.readParcelableCompat<NodeId<UUID>>() ?: nodeId
         username = parcel.readString() ?: username
         password = parcel.readCharArrayCompat() ?: password
         url = parcel.readString() ?: url
         notes = parcel.readString() ?: notes
-        tags = parcel.readParcelableCompat() ?: tags
         val readBgColor = parcel.readInt()
         backgroundColor = if (readBgColor == -1) null else readBgColor
         val readFgColor = parcel.readInt()
@@ -117,12 +111,11 @@ class EntryInfo : NodeInfo {
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         super.writeToParcel(parcel, flags)
-        parcel.writeParcelable(ParcelUuid(id), flags)
+        parcel.writeParcelable(nodeId, flags)
         parcel.writeString(username)
         parcel.writeCharArrayCompat(password)
         parcel.writeString(url)
         parcel.writeString(notes)
-        parcel.writeParcelable(tags, flags)
         parcel.writeInt(backgroundColor ?: -1)
         parcel.writeInt(foregroundColor ?: -1)
         parcel.writeList(customFields)
@@ -134,9 +127,6 @@ class EntryInfo : NodeInfo {
         parcel.writeParcelable(appOrigin, flags)
         parcel.writeParcelable(template, flags)
     }
-
-    val nodeId: NodeId<UUID>
-        get() = NodeIdUUID(id)
 
     fun clear() {
         password.clear()
@@ -244,6 +234,13 @@ class EntryInfo : NodeInfo {
     }
 
     /**
+     * True if this entry contains any attachment
+     */
+    fun containsAttachment(): Boolean {
+        return attachments.isNotEmpty()
+    }
+
+    /**
      * Add searchInfo to current EntryInfo
      */
     private fun saveSearchInfo(database: Database?, searchInfo: SearchInfo) {
@@ -294,7 +291,7 @@ class EntryInfo : NodeInfo {
     fun getVisualTitle(): String {
         return title.ifEmpty {
             url.ifEmpty {
-                username.ifEmpty { id.toString() }
+                username.ifEmpty { nodeId.toString() }
             }
         }
     }
@@ -304,12 +301,11 @@ class EntryInfo : NodeInfo {
         if (other !is EntryInfo) return false
         if (!super.equals(other)) return false
 
-        if (id != other.id) return false
+        if (nodeId != other.nodeId) return false
         if (username != other.username) return false
         if (!password.contentEquals(other.password)) return false
         if (url != other.url) return false
         if (notes != other.notes) return false
-        if (tags != other.tags) return false
         if (backgroundColor != other.backgroundColor) return false
         if (foregroundColor != other.foregroundColor) return false
         if (customFields != other.customFields) return false
@@ -326,12 +322,11 @@ class EntryInfo : NodeInfo {
 
     override fun hashCode(): Int {
         var result = super.hashCode()
-        result = 31 * result + id.hashCode()
+        result = 31 * result + nodeId.hashCode()
         result = 31 * result + username.hashCode()
         result = 31 * result + password.contentHashCode()
         result = 31 * result + url.hashCode()
         result = 31 * result + notes.hashCode()
-        result = 31 * result + tags.hashCode()
         result = 31 * result + backgroundColor.hashCode()
         result = 31 * result + foregroundColor.hashCode()
         result = 31 * result + customFields.hashCode()

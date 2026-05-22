@@ -1,3 +1,22 @@
+/*
+ * Copyright 2025 Jeremy Jamet / Kunzisoft.
+ *
+ * This file is part of KeePassDX.
+ *
+ *  KeePassDX is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  KeePassDX is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
 package com.kunzisoft.keepass.credentialprovider.viewmodel
 
 import android.app.Activity.RESULT_CANCELED
@@ -25,7 +44,7 @@ import com.kunzisoft.keepass.credentialprovider.passkey.util.PasswordHelper.retr
 import com.kunzisoft.keepass.credentialprovider.passkey.util.PasswordHelper.retrievePasswordInfo
 import com.kunzisoft.keepass.credentialprovider.passkey.util.PasswordHelper.retrievePasswordUsageRequestParameters
 import com.kunzisoft.keepass.database.ContextualDatabase
-import com.kunzisoft.keepass.database.element.node.NodeIdUUID
+import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.helper.SearchHelper
 import com.kunzisoft.keepass.model.AppOrigin
 import com.kunzisoft.keepass.model.PasswordInfo
@@ -105,7 +124,7 @@ class PasswordLauncherViewModel(application: Application): CredentialLauncherVie
     private suspend fun launchSelection(
         intent: Intent,
         database: ContextualDatabase?,
-        nodeId: UUID?,
+        nodeId: NodeId<UUID>?,
         searchInfo: SearchInfo
     ) {
         withContext(Dispatchers.IO) {
@@ -183,11 +202,11 @@ class PasswordLauncherViewModel(application: Application): CredentialLauncherVie
 
     private suspend fun selectPasswordAndSetResult(
         database: ContextualDatabase?,
-        nodeId: UUID
+        nodeId: NodeId<UUID>
     ) {
         // To get the password from the database
         val entry = database
-            ?.getEntryById(NodeIdUUID(nodeId))
+            ?.getEntryById(nodeId)
             ?.getEntryInfo(database)
             ?: throw IOException(
                 "No entry with nodeId $nodeId found"

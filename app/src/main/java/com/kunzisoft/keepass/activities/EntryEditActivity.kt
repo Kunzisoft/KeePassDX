@@ -71,7 +71,6 @@ import com.kunzisoft.keepass.credentialprovider.passkey.util.PasswordHelper.buil
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.element.Attachment
 import com.kunzisoft.keepass.database.element.DateInstant
-import com.kunzisoft.keepass.database.element.Entry
 import com.kunzisoft.keepass.database.element.Field
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.security.ProtectedString
@@ -79,6 +78,7 @@ import com.kunzisoft.keepass.education.EntryEditActivityEducation
 import com.kunzisoft.keepass.model.AttachmentState
 import com.kunzisoft.keepass.model.DataTime
 import com.kunzisoft.keepass.model.EntryAttachmentState
+import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.model.RegisterInfo
 import com.kunzisoft.keepass.model.SearchInfo
 import com.kunzisoft.keepass.otp.OtpElement
@@ -521,13 +521,13 @@ class EntryEditActivity : DatabaseLockActivity(),
                                     when(typeMode) {
                                         TypeMode.DEFAULT -> {}
                                         TypeMode.MAGIKEYBOARD ->
-                                            entryValidatedForKeyboardSelection(database, entry)
+                                            entryValidatedForKeyboardSelection(entry)
                                         TypeMode.AUTOFILL ->
-                                            entryValidatedForAutofill(database, entry)
+                                            entryValidatedForAutofill(entry)
                                         TypeMode.PASSWORD ->
-                                            entryValidatedForPassword(database, entry)
+                                            entryValidatedForPassword(entry)
                                         TypeMode.PASSKEY ->
-                                            entryValidatedForPasskey(database, entry)
+                                            entryValidatedForPasskey(entry)
                                     }
                                 },
                                 registrationAction = { _, typeMode, _ ->
@@ -536,11 +536,11 @@ class EntryEditActivity : DatabaseLockActivity(),
                                             entryValidatedForSave(entry)
                                         TypeMode.MAGIKEYBOARD -> {}
                                         TypeMode.AUTOFILL ->
-                                            entryValidatedForAutofill(database, entry)
+                                            entryValidatedForAutofill(entry)
                                         TypeMode.PASSWORD ->
-                                            entryValidatedForPassword(database, entry)
+                                            entryValidatedForPassword(entry)
                                         TypeMode.PASSKEY ->
-                                            entryValidatedForPasskey(database, entry)
+                                            entryValidatedForPasskey(entry)
                                     }
                                 }
                             )
@@ -554,45 +554,45 @@ class EntryEditActivity : DatabaseLockActivity(),
         coordinatorLayout?.showActionErrorIfNeeded(result)
     }
 
-    private fun entryValidatedForSave(entry: Entry) {
+    private fun entryValidatedForSave(entry: EntryInfo) {
         onValidateSpecialMode()
         finishForEntryResult(entry)
     }
 
-    private fun entryValidatedForKeyboardSelection(database: ContextualDatabase, entry: Entry) {
+    private fun entryValidatedForKeyboardSelection(entry: EntryInfo) {
         // Build Magikeyboard response with the entry selected
         this.buildSpecialModeResponseAndSetResult(
-            entryInfo = entry.getEntryInfo(database),
+            entryInfo = entry,
             extras = buildEntryResult(entry)
         )
         onValidateSpecialMode()
     }
 
-    private fun entryValidatedForAutofill(database: ContextualDatabase, entry: Entry) {
+    private fun entryValidatedForAutofill(entry: EntryInfo) {
         // Build Autofill response with the entry selected
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             this.buildSpecialModeResponseAndSetResult(
-                entryInfo = entry.getEntryInfo(database),
+                entryInfo = entry,
                 extras = buildEntryResult(entry)
             )
         }
         onValidateSpecialMode()
     }
 
-    private fun entryValidatedForPassword(database: ContextualDatabase, entry: Entry) {
+    private fun entryValidatedForPassword(entry: EntryInfo) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
             this.buildPasswordResponseAndSetResult(
-                entryInfo = entry.getEntryInfo(database),
+                entryInfo = entry,
                 extras = buildEntryResult(entry)
             )
         }
         onValidateSpecialMode()
     }
 
-    private fun entryValidatedForPasskey(database: ContextualDatabase, entry: Entry) {
+    private fun entryValidatedForPasskey(entry: EntryInfo) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
             this.buildPasskeyResponseAndSetResult(
-                entryInfo = entry.getEntryInfo(database),
+                entryInfo = entry,
                 extras = buildEntryResult(entry) // To update the previous screen
             )
         }
@@ -828,13 +828,13 @@ class EntryEditActivity : DatabaseLockActivity(),
         )
     }
 
-    private fun buildEntryResult(entry: Entry): Bundle {
+    private fun buildEntryResult(entry: EntryInfo): Bundle {
         return Bundle().apply {
             putParcelable(ADD_OR_UPDATE_ENTRY_KEY, entry.nodeId)
         }
     }
 
-    private fun finishForEntryResult(entry: Entry) {
+    private fun finishForEntryResult(entry: EntryInfo) {
         // Assign entry callback as a result
         try {
             val bundle = buildEntryResult(entry)

@@ -39,12 +39,10 @@ import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper.removeModes
 import com.kunzisoft.keepass.credentialprovider.SpecialMode
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.MainCredential
-import com.kunzisoft.keepass.database.element.Entry
-import com.kunzisoft.keepass.database.element.Group
-import com.kunzisoft.keepass.database.element.node.Node
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.model.GroupInfo
+import com.kunzisoft.keepass.model.NodeInfo
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.tasks.ActionRunnable
@@ -222,6 +220,20 @@ abstract class DatabaseLockActivity : DatabaseModeActivity(),
         mDatabaseViewModel.reloadDatabase(fixDuplicateUuid = false)
     }
 
+    fun createGroup(
+        parentId: NodeId<*>,
+        groupInfo: GroupInfo
+    ) {
+        mDatabaseViewModel.createGroup(parentId, groupInfo, mAutoSaveEnable)
+    }
+
+    fun updateGroup(
+        oldGroupId: NodeId<*>,
+        groupInfo: GroupInfo
+    ) {
+        mDatabaseViewModel.updateGroup(oldGroupId, groupInfo, mAutoSaveEnable)
+    }
+
     fun createEntry(
         parentId: NodeId<*>,
         entryInfo: EntryInfo
@@ -242,71 +254,6 @@ abstract class DatabaseLockActivity : DatabaseModeActivity(),
         mDatabaseViewModel.touchEntry(entryInfo)
     }
 
-    fun copyNodes(
-        nodesToCopy: List<Node>,
-        newParent: Group
-    ) {
-        mDatabaseViewModel.copyNodes(nodesToCopy, newParent, mAutoSaveEnable)
-    }
-
-    fun moveNodes(
-        nodesToMove: List<Node>,
-        newParent: Group
-    ) {
-        mDatabaseViewModel.moveNodes(nodesToMove, newParent, mAutoSaveEnable)
-    }
-
-    private fun eachNodeRecyclable(database: ContextualDatabase, nodes: List<Node>): Boolean {
-        return nodes.find { node ->
-            var cannotRecycle = true
-            if (node is Entry) {
-                cannotRecycle = !database.canRecycle(node)
-            } else if (node is Group) {
-                cannotRecycle = !database.canRecycle(node)
-            }
-            cannotRecycle
-        } == null
-    }
-
-    fun deleteNodes(nodes: List<Node>, recycleBin: Boolean = false) {
-        // TODO Move in ViewModel
-        mDatabase?.let { database ->
-            // If recycle bin enabled, ensure it exists
-            if (database.isRecycleBinEnabled) {
-                database.ensureRecycleBinExists(resources.getString(R.string.recycle_bin))
-            }
-
-            // If recycle bin enabled and not in recycle bin, move in recycle bin
-            if (eachNodeRecyclable(database, nodes)) {
-                deleteDatabaseNodes(nodes)
-            }
-            // else open the dialog to confirm deletion
-            else {
-                DeleteNodesDialogFragment.getInstance(recycleBin)
-                    .show(supportFragmentManager, "deleteNodesDialogFragment")
-                mNodesViewModel.deleteNodes(nodes)
-            }
-        }
-    }
-
-    private fun deleteDatabaseNodes(nodes: List<Node>) {
-        mDatabaseViewModel.deleteNodes(nodes, mAutoSaveEnable)
-    }
-
-    fun createGroup(
-        parentId: NodeId<*>,
-        groupInfo: GroupInfo
-    ) {
-        mDatabaseViewModel.createGroup(parentId, groupInfo, mAutoSaveEnable)
-    }
-
-    fun updateGroup(
-        oldGroupId: NodeId<*>,
-        groupInfo: GroupInfo
-    ) {
-        mDatabaseViewModel.updateGroup(oldGroupId, groupInfo, mAutoSaveEnable)
-    }
-
     fun restoreEntryHistory(
         mainEntryId: NodeId<UUID>,
         entryHistoryPosition: Int
@@ -319,6 +266,58 @@ abstract class DatabaseLockActivity : DatabaseModeActivity(),
         entryHistoryPosition: Int
     ) {
         mDatabaseViewModel.deleteEntryHistory(mainEntryId, entryHistoryPosition, mAutoSaveEnable)
+    }
+
+    fun copyNodes(
+        newParentId: NodeId<*>,
+        nodesToCopy: List<NodeInfo>
+    ) {
+        mDatabaseViewModel.copyNodes(newParentId, nodesToCopy, mAutoSaveEnable)
+    }
+
+    fun moveNodes(
+        newParentId: NodeId<*>,
+        nodesToMove: List<NodeInfo>
+    ) {
+        mDatabaseViewModel.moveNodes(newParentId, nodesToMove, mAutoSaveEnable)
+    }
+
+    fun deleteNodes(nodes: List<NodeInfo>, recycleBin: Boolean = false) {
+        // TODO Move in ViewModel
+        mDatabase?.let { database ->
+            // If recycle bin enabled, ensure it exists
+            if (database.isRecycleBinEnabled) {
+                database.ensureRecycleBinExists(resources.getString(R.string.recycle_bin))
+            }
+            // If recycle bin enabled and not in recycle bin, move in recycle bin
+            if (database.eachNodeRecyclable(nodes)) {
+                deleteDatabaseNodes(nodes)
+            }
+            // else open the dialog to confirm deletion
+            else {
+                DeleteNodesDialogFragment.getInstance(recycleBin)
+                    .show(supportFragmentManager, "deleteNodesDialogFragment")
+                mNodesViewModel.deleteNodes(nodes)
+            }
+        }
+    }
+
+    // TODO Only with NodeInfo
+    fun emptyRecycleBin() {
+        mDatabase?.recycleBin?.getChildren()?.let { listChildren ->
+            // Automatically delete all elements
+            val nodesToDelete = listChildren.mapNotNull { mDatabase?.getNodeInfoFrom(it) }
+            if (nodesToDelete.isNotEmpty()) {
+                deleteNodes(
+                    nodes = nodesToDelete,
+                    recycleBin = true
+                )
+            }
+        }
+    }
+
+    private fun deleteDatabaseNodes(nodes: List<NodeInfo>) {
+        mDatabaseViewModel.deleteNodes(nodes, mAutoSaveEnable)
     }
 
     private fun checkRegister() {

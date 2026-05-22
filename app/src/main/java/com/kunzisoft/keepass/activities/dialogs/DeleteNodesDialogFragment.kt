@@ -24,12 +24,12 @@ import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.activityViewModels
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.database.element.node.Node
+import com.kunzisoft.keepass.model.NodeInfo
 import com.kunzisoft.keepass.viewmodels.NodesViewModel
 
 class DeleteNodesDialogFragment : DatabaseDialogFragment() {
 
-    private var mNodesToDelete: List<Node> = listOf()
+    private var mNodesToDelete: List<NodeInfo> = listOf()
     private val mNodesViewModel: NodesViewModel by activityViewModels()
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {

@@ -30,12 +30,9 @@ import com.kunzisoft.keepass.database.element.node.Node
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.node.NodeIdInt
 import com.kunzisoft.keepass.database.element.node.NodeIdUUID
-import com.kunzisoft.keepass.database.element.node.Type
-import com.kunzisoft.keepass.model.EntryInfo
+import com.kunzisoft.keepass.database.element.node.NodeType
 import com.kunzisoft.keepass.model.GroupInfo
-import com.kunzisoft.keepass.utils.readBooleanCompat
 import com.kunzisoft.keepass.utils.readParcelableCompat
-import com.kunzisoft.keepass.utils.writeBooleanCompat
 import java.util.UUID
 
 class Group : Node, GroupVersionedInterface<Group, Entry> {
@@ -44,9 +41,6 @@ class Group : Node, GroupVersionedInterface<Group, Entry> {
         private set
     var groupKDBX: GroupKDBX? = null
         private set
-
-    // Virtual group is used to defined a detached database group
-    var isVirtual = false
 
     // To optimize number of children call
     var numberOfChildEntries: Int = 0
@@ -87,7 +81,6 @@ class Group : Node, GroupVersionedInterface<Group, Entry> {
     constructor(parcel: Parcel) {
         groupKDB = parcel.readParcelableCompat()
         groupKDBX = parcel.readParcelableCompat()
-        isVirtual = parcel.readBooleanCompat()
     }
 
     companion object CREATOR : Parcelable.Creator<Group> {
@@ -107,7 +100,6 @@ class Group : Node, GroupVersionedInterface<Group, Entry> {
     override fun writeToParcel(dest: Parcel, flags: Int) {
         dest.writeParcelable(groupKDB, flags)
         dest.writeParcelable(groupKDBX, flags)
-        dest.writeBooleanCompat(isVirtual)
     }
 
     override val nodeId: NodeId<*>
@@ -141,8 +133,8 @@ class Group : Node, GroupVersionedInterface<Group, Entry> {
         groupKDBX?.previousParentGroup = previousParent?.groupKDBX?.id ?: DatabaseVersioned.UUID_ZERO
     }
 
-    override val type: Type
-        get() = Type.GROUP
+    override val type: NodeType
+        get() = NodeType.GROUP
 
     override var parent: Group?
         get() {
@@ -282,14 +274,6 @@ class Group : Node, GroupVersionedInterface<Group, Entry> {
         listOf()
     }
 
-    fun getChildEntriesInfo(database: Database): List<EntryInfo> {
-        val entriesInfo = mutableListOf<EntryInfo>()
-        getChildEntries().forEach { entry ->
-            entriesInfo.add(entry.getEntryInfo(database))
-        }
-        return entriesInfo
-    }
-
     /**
      * @return the cumulative number of entries in the current group and its children
      */
@@ -377,12 +361,6 @@ class Group : Node, GroupVersionedInterface<Group, Entry> {
         groupKDBX?.removeChildren()
     }
 
-    val allowAddEntryIfIsRoot: Boolean
-        get() = groupKDBX != null
-
-    val allowAddNoteInGroup: Boolean
-        get() = groupKDBX != null
-
     /*
       ------------
       KDB Methods
@@ -445,36 +423,40 @@ class Group : Node, GroupVersionedInterface<Group, Entry> {
 
     fun getGroupInfo(): GroupInfo {
         val groupInfo = GroupInfo()
-        groupInfo.id = groupKDBX?.nodeId?.id
+        groupInfo.nodeId = nodeId
         groupInfo.title = title
         groupInfo.icon = icon
         groupInfo.creationTime = creationTime
         groupInfo.lastModificationTime = lastModificationTime
         groupInfo.expires = expires
         groupInfo.expiryTime = expiryTime
+        groupInfo.customData = customData
+
         groupInfo.notes = notes
         groupInfo.searchable = searchable
         groupInfo.enableAutoType = enableAutoType
         groupInfo.defaultAutoTypeSequence = defaultAutoTypeSequence
         groupInfo.tags = tags
-        groupInfo.customData = customData
+
         return groupInfo
     }
 
     fun setGroupInfo(groupInfo: GroupInfo) {
+        // Do not set id
         title = groupInfo.title
         icon = groupInfo.icon
-        // Update date time, creation time stay as is
-        lastModificationTime = DateInstant()
+        creationTime = groupInfo.creationTime
+        lastModificationTime = groupInfo.lastModificationTime
         lastAccessTime = DateInstant()
         expires = groupInfo.expires
         expiryTime = groupInfo.expiryTime
+        customData = groupInfo.customData
+
         notes = groupInfo.notes
         searchable = groupInfo.searchable
         enableAutoType = groupInfo.enableAutoType
         defaultAutoTypeSequence = groupInfo.defaultAutoTypeSequence
         tags = groupInfo.tags
-        customData = groupInfo.customData
     }
 
     override fun equals(other: Any?): Boolean {

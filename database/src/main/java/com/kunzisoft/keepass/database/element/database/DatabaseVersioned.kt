@@ -29,7 +29,7 @@ import com.kunzisoft.keepass.database.element.group.GroupVersioned
 import com.kunzisoft.keepass.database.element.icon.IconImageStandard
 import com.kunzisoft.keepass.database.element.icon.IconsManager
 import com.kunzisoft.keepass.database.element.node.NodeId
-import com.kunzisoft.keepass.database.element.node.Type
+import com.kunzisoft.keepass.database.element.node.NodeType
 import com.kunzisoft.keepass.database.exception.DuplicateUuidDatabaseException
 import com.kunzisoft.keepass.utils.clear
 import java.io.UnsupportedEncodingException
@@ -177,7 +177,7 @@ abstract class DatabaseVersioned<
                 group.parent?.addChildGroup(group)
                 this.groupIndexes[newGroupId] = group
             } else {
-                throw DuplicateUuidDatabaseException(Type.GROUP, groupId)
+                throw DuplicateUuidDatabaseException(NodeType.GROUP, groupId)
             }
         } else {
             this.groupIndexes[groupId] = group
@@ -213,7 +213,7 @@ abstract class DatabaseVersioned<
                 entry.parent?.addChildEntry(entry)
                 this.entryIndexes[newEntryId] = entry
             } else {
-                throw DuplicateUuidDatabaseException(Type.ENTRY, entryId)
+                throw DuplicateUuidDatabaseException(NodeType.ENTRY, entryId)
             }
         } else {
             this.entryIndexes[entryId] = entry

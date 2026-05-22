@@ -30,7 +30,7 @@ import com.kunzisoft.keepass.database.element.icon.IconImageStandard.Companion.K
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.node.NodeIdUUID
 import com.kunzisoft.keepass.database.element.node.NodeKDBInterface
-import com.kunzisoft.keepass.database.element.node.Type
+import com.kunzisoft.keepass.database.element.node.NodeType
 import com.kunzisoft.keepass.utils.readParcelableCompat
 import com.kunzisoft.keepass.utils.readCharArrayCompat
 import com.kunzisoft.keepass.utils.writeCharArrayCompat
@@ -164,8 +164,8 @@ class EntryKDB : EntryVersioned<Int, UUID, GroupKDB, EntryKDB>, NodeKDBInterface
 
     override var title = ""
 
-    override val type: Type
-        get() = Type.ENTRY
+    override val type: NodeType
+        get() = NodeType.ENTRY
 
     fun getAttachment(attachmentPool: AttachmentPool): Attachment? {
         binaryDataId?.let { poolId ->

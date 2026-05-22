@@ -49,7 +49,12 @@ class AddEntryRunnable(
             Log.w(TAG, "Unable to retrieve the parent to create the entry")
             mParent = database.rootGroup
         }
-        mNewEntry = database.getEntryFrom(newEntry)
+
+        // Create the new entry
+        mNewEntry = database.createEntry()?.apply {
+            setEntryInfo(database, newEntry)
+            database.removeTempAttachmentsNotUsed(this)
+        }
     }
 
     override fun nodeAction() {
@@ -71,8 +76,8 @@ class AddEntryRunnable(
             }
         }
         return ActionNodesValues(
-            oldNodes = listOf(),
-            newNodes = mNewEntry?.let { listOf(it) } ?: listOf())
+            newEntriesIds = mNewEntry?.nodeId?.let { listOf(it) }
+        )
     }
 
     companion object {

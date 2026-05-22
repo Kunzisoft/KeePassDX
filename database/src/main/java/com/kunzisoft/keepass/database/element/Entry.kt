@@ -32,7 +32,7 @@ import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.database.element.node.Node
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.node.NodeIdUUID
-import com.kunzisoft.keepass.database.element.node.Type
+import com.kunzisoft.keepass.database.element.node.NodeType
 import com.kunzisoft.keepass.model.AppOrigin
 import com.kunzisoft.keepass.model.AppOriginEntryField
 import com.kunzisoft.keepass.model.CreditCard
@@ -134,8 +134,8 @@ class Entry : Node, EntryVersionedInterface<Group> {
         entryKDBX?.previousParentGroup = previousParent?.groupKDBX?.id ?: DatabaseVersioned.UUID_ZERO
     }
 
-    override val type: Type
-        get() = Type.ENTRY
+    override val type: NodeType
+        get() = NodeType.ENTRY
 
     override var parent: Group?
         get() {
@@ -495,7 +495,7 @@ class Entry : Node, EntryVersionedInterface<Group> {
             else
                 database?.startManageEntry(this)
 
-            entryInfo.id = nodeId.id
+            entryInfo.nodeId = nodeId
             entryInfo.title = title
             entryInfo.icon = icon
             entryInfo.username = username
