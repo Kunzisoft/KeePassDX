@@ -49,15 +49,14 @@ class RestoreEntryHistoryDatabaseRunnable (
     override fun onStartRun() {
         try {
             mMainEntry?.let { mainEntry ->
-                val historyToRestore = Entry(mainEntry.getHistory()[entryHistoryPosition]).getEntryInfo(
-                    database = database,
+                val historyToRestore = database.getEntryInfoFrom(
+                    entry = mainEntry.getHistory()[entryHistoryPosition],
                     raw = true
                 )
                 // Update the entry with the fresh formatted entry to restore
                 updateEntryRunnable = UpdateEntryRunnable(
                     context = context,
                     database = database,
-                    oldEntryId = mainEntry.nodeId,
                     newEntry = historyToRestore,
                     save = save,
                     afterActionNodesFinish = null,

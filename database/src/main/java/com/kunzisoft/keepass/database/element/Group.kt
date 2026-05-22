@@ -31,7 +31,6 @@ import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.node.NodeIdInt
 import com.kunzisoft.keepass.database.element.node.NodeIdUUID
 import com.kunzisoft.keepass.database.element.node.NodeType
-import com.kunzisoft.keepass.model.GroupInfo
 import com.kunzisoft.keepass.utils.readParcelableCompat
 import java.util.UUID
 
@@ -413,50 +412,6 @@ class Group : Node, GroupVersionedInterface<Group, Entry> {
 
     fun setExpanded(expanded: Boolean) {
         groupKDBX?.isExpanded = expanded
-    }
-
-    /*
-      ------------
-      Converter
-      ------------
-     */
-
-    fun getGroupInfo(): GroupInfo {
-        val groupInfo = GroupInfo()
-        groupInfo.nodeId = nodeId
-        groupInfo.title = title
-        groupInfo.icon = icon
-        groupInfo.creationTime = creationTime
-        groupInfo.lastModificationTime = lastModificationTime
-        groupInfo.expires = expires
-        groupInfo.expiryTime = expiryTime
-        groupInfo.customData = customData
-
-        groupInfo.notes = notes
-        groupInfo.searchable = searchable
-        groupInfo.enableAutoType = enableAutoType
-        groupInfo.defaultAutoTypeSequence = defaultAutoTypeSequence
-        groupInfo.tags = tags
-
-        return groupInfo
-    }
-
-    fun setGroupInfo(groupInfo: GroupInfo) {
-        // Do not set id
-        title = groupInfo.title
-        icon = groupInfo.icon
-        creationTime = groupInfo.creationTime
-        lastModificationTime = groupInfo.lastModificationTime
-        lastAccessTime = DateInstant()
-        expires = groupInfo.expires
-        expiryTime = groupInfo.expiryTime
-        customData = groupInfo.customData
-
-        notes = groupInfo.notes
-        searchable = groupInfo.searchable
-        enableAutoType = groupInfo.enableAutoType
-        defaultAutoTypeSequence = groupInfo.defaultAutoTypeSequence
-        tags = groupInfo.tags
     }
 
     override fun equals(other: Any?): Boolean {

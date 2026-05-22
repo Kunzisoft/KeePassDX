@@ -263,11 +263,8 @@ class EntryEditViewModel: NodeEditViewModel() {
                     parentId = parentId,
                     newEntry = entryInfo
                 )
-            } ?: mEntry?.nodeId?.let { oldEntryId ->
-                mEntryEditState.value = EntryEditState.UpdateEntry(
-                    oldEntryId = oldEntryId,
-                    updateEntry = entryInfo
-                )
+            } ?: run {
+                mEntryEditState.value = EntryEditState.UpdateEntry(entryInfo)
             }
         }
     }
@@ -391,7 +388,7 @@ class EntryEditViewModel: NodeEditViewModel() {
             val parentId: NodeId<*>, val newEntry: EntryInfo
         ): EntryEditState()
         data class UpdateEntry(
-            val oldEntryId: NodeId<UUID>, val updateEntry: EntryInfo
+            val updateEntry: EntryInfo
         ): EntryEditState()
         data class CloseEntry(
             val closeType: CloseType

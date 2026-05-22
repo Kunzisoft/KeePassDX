@@ -288,9 +288,7 @@ class MagikeyboardService : InputMethodService(),
     private fun getEntryInfo(entryId: UUID? = entriesAdapter?.selectedEntry?.id): EntryInfo? {
         var entryInfoRetrieved: EntryInfo? = null
         entryId?.let {
-            entryInfoRetrieved = mDatabase
-                ?.getEntryById(NodeIdUUID(entryId))
-                ?.getEntryInfo(mDatabase)
+            entryInfoRetrieved = mDatabase?.getEntryInfoById(NodeIdUUID(entryId))
         }
         return entryInfoRetrieved
     }

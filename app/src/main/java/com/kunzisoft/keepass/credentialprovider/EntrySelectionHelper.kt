@@ -283,11 +283,7 @@ object EntrySelectionHelper {
         val nodesIds = retrieveNodesIds()
             ?: throw IOException("NodesIds is null")
         removeNodesIds()
-        return nodesIds.mapNotNull { nodeId ->
-            database
-                .getEntryById(nodeId)
-                ?.getEntryInfo(database)
-        }
+        return nodesIds.mapNotNull { nodeId -> database.getEntryInfoById(nodeId) }
     }
 
     /**

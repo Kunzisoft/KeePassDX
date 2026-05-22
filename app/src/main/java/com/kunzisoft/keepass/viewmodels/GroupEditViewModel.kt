@@ -19,7 +19,6 @@
  */
 package com.kunzisoft.keepass.viewmodels
 
-import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.model.GroupInfo
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -37,8 +36,7 @@ class GroupEditViewModel: NodeEditViewModel() {
     }
 
     fun approveGroupUpdate(groupInfo: GroupInfo) {
-        // Assume it's only possible with UUID in KDBX database
-        this.mGroupEditState.value = GroupEditState.UpdateGroup(groupInfo.nodeId, groupInfo)
+        this.mGroupEditState.value = GroupEditState.UpdateGroup(groupInfo)
     }
 
     fun actionPerformed() {
@@ -51,7 +49,6 @@ class GroupEditViewModel: NodeEditViewModel() {
             val groupInfo: GroupInfo
         ): GroupEditState()
         data class UpdateGroup(
-            var oldGroupId: NodeId<*>,
             val groupInfo: GroupInfo
         ): GroupEditState()
     }

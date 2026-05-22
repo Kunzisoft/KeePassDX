@@ -206,8 +206,7 @@ class PasswordLauncherViewModel(application: Application): CredentialLauncherVie
     ) {
         // To get the password from the database
         val entry = database
-            ?.getEntryById(nodeId)
-            ?.getEntryInfo(database)
+            ?.getEntryInfoById(nodeId)
             ?: throw IOException(
                 "No entry with nodeId $nodeId found"
             )

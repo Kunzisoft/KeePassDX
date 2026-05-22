@@ -419,10 +419,7 @@ class EntryEditActivity : DatabaseLockActivity(),
                             mEntryEditViewModel.actionPerformed()
                         }
                         is EntryEditViewModel.EntryEditState.UpdateEntry -> {
-                            updateEntry(
-                                oldEntryId = entryEditState.oldEntryId,
-                                entryInfo = entryEditState.updateEntry
-                            )
+                            updateEntry(entryEditState.updateEntry)
                             mEntryEditViewModel.actionPerformed()
                         }
                         is EntryEditViewModel.EntryEditState.CloseEntry -> {

@@ -336,12 +336,10 @@ class DatabaseTaskProvider(
     }
 
     fun startDatabaseUpdateGroup(
-        oldGroupId: NodeId<*>,
         updateGroup: GroupInfo,
         save: Boolean
     ) {
         start(Bundle().apply {
-            putParcelable(DatabaseTaskNotificationService.GROUP_ID_KEY, oldGroupId)
             putParcelable(DatabaseTaskNotificationService.GROUP_KEY, updateGroup)
             putBoolean(DatabaseTaskNotificationService.SAVE_DATABASE_KEY, save)
         }, ACTION_DATABASE_UPDATE_GROUP_TASK)
@@ -368,12 +366,10 @@ class DatabaseTaskProvider(
     }
 
     fun startDatabaseUpdateEntry(
-        oldEntryId: NodeId<UUID>,
         updateEntry: EntryInfo,
         save: Boolean
     ) {
         start(Bundle().apply {
-            putParcelable(DatabaseTaskNotificationService.ENTRY_ID_KEY, oldEntryId)
             putParcelable(DatabaseTaskNotificationService.ENTRY_KEY, updateEntry)
             putBoolean(DatabaseTaskNotificationService.SAVE_DATABASE_KEY, save)
         }, ACTION_DATABASE_UPDATE_ENTRY_TASK)

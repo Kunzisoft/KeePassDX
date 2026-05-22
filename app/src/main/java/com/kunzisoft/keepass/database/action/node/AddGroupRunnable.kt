@@ -48,9 +48,7 @@ class AddGroupRunnable(
             Log.w(TAG, "Unable to retrieve the parent to create the group")
             mParent = database.rootGroup
         }
-        mNewGroup = database.createGroup()?.apply {
-            setGroupInfo(newGroup)
-        }
+        mNewGroup = database.createGroup(newGroup)
     }
 
     override fun nodeAction() {

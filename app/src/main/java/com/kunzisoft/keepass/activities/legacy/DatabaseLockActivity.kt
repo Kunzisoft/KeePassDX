@@ -228,10 +228,15 @@ abstract class DatabaseLockActivity : DatabaseModeActivity(),
     }
 
     fun updateGroup(
-        oldGroupId: NodeId<*>,
         groupInfo: GroupInfo
     ) {
-        mDatabaseViewModel.updateGroup(oldGroupId, groupInfo, mAutoSaveEnable)
+        mDatabaseViewModel.updateGroup(groupInfo, mAutoSaveEnable)
+    }
+
+    fun touchGroup(
+        groupInfo: GroupInfo
+    ) {
+        mDatabaseViewModel.touchGroup(groupInfo)
     }
 
     fun createEntry(
@@ -242,10 +247,9 @@ abstract class DatabaseLockActivity : DatabaseModeActivity(),
     }
 
     fun updateEntry(
-        oldEntryId: NodeId<UUID>,
         entryInfo: EntryInfo
     ) {
-        mDatabaseViewModel.updateEntry(oldEntryId, entryInfo, mAutoSaveEnable)
+        mDatabaseViewModel.updateEntry(entryInfo, mAutoSaveEnable)
     }
 
     fun touchEntry(

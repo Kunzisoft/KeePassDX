@@ -27,6 +27,7 @@ import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.model.AppOriginEntryField.isAppId
 import com.kunzisoft.keepass.model.AppOriginEntryField.isAppIdSignature
 import com.kunzisoft.keepass.model.AppOriginEntryField.isWebDomain
+import com.kunzisoft.keepass.model.DatabaseInfo
 import com.kunzisoft.keepass.model.PasskeyEntryFields.isCredentialId
 import com.kunzisoft.keepass.model.PasskeyEntryFields.isPasskey
 import com.kunzisoft.keepass.model.PasskeyEntryFields.isRelyingParty
@@ -42,7 +43,7 @@ class SearchHelper {
     private var incrementEntry = 0
 
     fun createGroupInfoWithSearchResult(
-        database: Database,
+        database: DatabaseInfo,
         searchParameters: SearchParameters,
         fromGroup: NodeId<*>? = null,
         max: Int
@@ -69,7 +70,7 @@ class SearchHelper {
                         if (database.entryIsTemplate(node) && !searchParameters.searchInTemplates)
                             return false
                         if (entryContainsString(database, node, searchParameters)) {
-                            searchGroup.addSearchResult(node.getEntryInfo(database))
+                            searchGroup.addSearchResult(database.getEntryInfoFrom(node))
                             incrementEntry++
                         }
                         // Stop searching when we have max entries

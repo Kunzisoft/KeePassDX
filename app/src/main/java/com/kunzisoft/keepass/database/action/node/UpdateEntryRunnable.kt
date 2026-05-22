@@ -22,15 +22,12 @@ package com.kunzisoft.keepass.database.action.node
 import android.content.Context
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.element.Entry
-import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.hardware.HardwareKey
 import com.kunzisoft.keepass.model.EntryInfo
-import java.util.UUID
 
 class UpdateEntryRunnable(
     context: Context,
     database: ContextualDatabase,
-    oldEntryId: NodeId<UUID>,
     newEntry: EntryInfo,
     save: Boolean,
     afterActionNodesFinish: AfterActionNodesFinish?,
@@ -41,14 +38,10 @@ class UpdateEntryRunnable(
     private var mNewEntry: Entry? = null
 
     init {
-        database.getEntryById(oldEntryId)?.let { oldEntry ->
-            mOldEntry = oldEntry
-            // TODO Same EntryId
-        }
         database.getEntryById(newEntry.nodeId)?.let { oldEntry ->
+            mOldEntry = oldEntry
             // Create a clone
-            mNewEntry = Entry(oldEntry).apply {
-                setEntryInfo(database, newEntry)
+            mNewEntry = database.updateEntry(Entry(oldEntry), newEntry).apply {
                 database.removeTempAttachmentsNotUsed(this)
             }
         }

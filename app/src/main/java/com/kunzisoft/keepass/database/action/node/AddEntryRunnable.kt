@@ -51,8 +51,7 @@ class AddEntryRunnable(
         }
 
         // Create the new entry
-        mNewEntry = database.createEntry()?.apply {
-            setEntryInfo(database, newEntry)
+        mNewEntry = database.createEntry(newEntry)?.apply {
             database.removeTempAttachmentsNotUsed(this)
         }
     }

@@ -21,8 +21,8 @@
 package com.kunzisoft.keepass.database.element
 
 import com.kunzisoft.keepass.database.element.group.GroupVersionedInterface
-import com.kunzisoft.keepass.database.element.node.NodeVersionedInterface
 import com.kunzisoft.keepass.database.element.node.NodeType
+import com.kunzisoft.keepass.database.element.node.NodeVersionedInterface
 
 enum class SortNodeEnum {
     DB, TITLE, USERNAME, CREATION_TIME, LAST_MODIFY_TIME, LAST_ACCESS_TIME;
@@ -150,9 +150,8 @@ enum class SortNodeEnum {
         override fun compareBySpecificOrder(object1: T, object2: T): Int {
             return if (object1.type == NodeType.ENTRY && object2.type == NodeType.ENTRY) {
                 // To get username if it's a ref
-                val usernameCompare = (object1 as Entry).getEntryInfo(database).username
-                        .compareTo((object2 as Entry).getEntryInfo(database).username,
-                                ignoreCase = true)
+                val usernameCompare = (object1 as Entry).username
+                        .compareTo((object2 as Entry).username, ignoreCase = true)
                 if (usernameCompare == 0)
                     NodeTitleComparator<G, T>(database, sortNodeParameters)
                             .compare(object1, object2)

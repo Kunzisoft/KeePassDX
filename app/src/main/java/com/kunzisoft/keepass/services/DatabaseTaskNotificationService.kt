@@ -1003,18 +1003,14 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         intent: Intent,
         database: ContextualDatabase,
     ): ActionRunnable? {
-        return if (intent.hasExtra(GROUP_ID_KEY)
-            && intent.hasExtra(GROUP_KEY)
+        return if (intent.hasExtra(GROUP_KEY)
             && intent.hasExtra(SAVE_DATABASE_KEY)
         ) {
-            val groupId: NodeId<*>? = intent.getParcelableExtraCompat(GROUP_ID_KEY)
-            val newGroup: GroupInfo? = intent.getParcelableExtraCompat(GROUP_KEY)
-            if (groupId == null || newGroup == null) return null
+            val newGroup: GroupInfo = intent.getParcelableExtraCompat(GROUP_KEY) ?: return null
             val saveDatabase = intent.getBooleanExtra(SAVE_DATABASE_KEY, false)
             UpdateGroupRunnable(
                 context = this,
                 database = database,
-                oldGroupId = groupId,
                 newGroup = newGroup,
                 save = !database.isReadOnly && saveDatabase,
                 afterActionNodesFinish = AfterActionNodesRunnable()
@@ -1076,18 +1072,14 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         intent: Intent,
         database: ContextualDatabase,
     ): ActionRunnable? {
-        return if (intent.hasExtra(ENTRY_ID_KEY)
-            && intent.hasExtra(ENTRY_KEY)
+        return if (intent.hasExtra(ENTRY_KEY)
             && intent.hasExtra(SAVE_DATABASE_KEY)
         ) {
-            val entryId: NodeId<UUID>? = intent.getParcelableExtraCompat(ENTRY_ID_KEY)
-            val newEntry: EntryInfo? = intent.getParcelableExtraCompat(ENTRY_KEY)
-            if (entryId == null || newEntry == null) return null
+            val newEntry: EntryInfo = intent.getParcelableExtraCompat(ENTRY_KEY) ?: return null
             val saveDatabase = intent.getBooleanExtra(SAVE_DATABASE_KEY, false)
              UpdateEntryRunnable(
                  context = this,
                  database = database,
-                 oldEntryId = entryId,
                  newEntry = newEntry,
                  save = !database.isReadOnly && saveDatabase,
                  afterActionNodesFinish = AfterActionNodesRunnable()
@@ -1450,7 +1442,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         fun Bundle.getNewGroups(database: ContextualDatabase): List<GroupInfo>? {
             return getBundle(NEW_NODES_KEY)
                 ?.getParcelableList<NodeId<UUID>>(GROUPS_ID_KEY)
-                ?.mapNotNull { database.getGroupById(it)?.getGroupInfo() }
+                ?.mapNotNull { database.getGroupInfoById(it) }
         }
 
         fun Bundle.getNewGroup(database: ContextualDatabase): GroupInfo? {
@@ -1460,7 +1452,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         fun Bundle.getNewEntries(database: ContextualDatabase): List<EntryInfo>? {
             return getBundle(NEW_NODES_KEY)
                 ?.getParcelableList<NodeId<UUID>>(ENTRIES_ID_KEY)
-                ?.mapNotNull { database.getEntryById(it)?.getEntryInfo(database) }
+                ?.mapNotNull { database.getEntryInfoById(it) }
         }
 
         fun Bundle.getNewEntry(database: ContextualDatabase): EntryInfo? {

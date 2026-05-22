@@ -470,6 +470,7 @@ class GroupActivity : DatabaseLockActivity(),
             mRecyclingBinIsCurrentGroup = it.isRecycleBin
             // Save group state
             mMainGroupState = GroupState(mainGroup.nodeId, it.showFromPosition)
+            touchGroup(mainGroup)
         }
 
         // Observe current group (main or search group visible)
@@ -599,7 +600,7 @@ class GroupActivity : DatabaseLockActivity(),
                             mGroupEditViewModel.actionPerformed()
                         }
                         is GroupEditViewModel.GroupEditState.UpdateGroup -> {
-                            updateGroup(groupEditState.oldGroupId, groupEditState.groupInfo)
+                            updateGroup(groupEditState.groupInfo)
                             mGroupEditViewModel.actionPerformed()
                         }
                     }
@@ -1071,8 +1072,7 @@ class GroupActivity : DatabaseLockActivity(),
         registerInfo: RegisterInfo
     ) {
         entry.saveRegisterInfo(database, registerInfo)
-        // TODO Remove id parameter
-        updateEntry(entry.nodeId, entry)
+        updateEntry(entry)
     }
 
     private fun EntryInfo.allowedToSaveSearchInfo(

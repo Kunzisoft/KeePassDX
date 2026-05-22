@@ -49,14 +49,10 @@ class GroupViewModel: ViewModel() {
         IOActionTask(
             {
                 if (groupId != null) {
-                    database?.getGroupById(groupId)
+                    database?.getGroupInfoById(groupId)
                 } else {
-                    database?.rootGroup
-                }?.apply {
-                    // TODO Call runnable properly
-                    // Update last access time.
-                    touch(modified = false, touchParents = false)
-                }?.getGroupInfo()
+                    database?.getRootGroupInfo()
+                }
             },
             { group ->
                 if (group != null) {

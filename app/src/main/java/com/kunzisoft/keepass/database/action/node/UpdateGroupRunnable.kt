@@ -22,14 +22,12 @@ package com.kunzisoft.keepass.database.action.node
 import android.content.Context
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.element.Group
-import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.hardware.HardwareKey
 import com.kunzisoft.keepass.model.GroupInfo
 
 class UpdateGroupRunnable(
     context: Context,
     database: ContextualDatabase,
-    oldGroupId: NodeId<*>,
     newGroup: GroupInfo,
     save: Boolean,
     afterActionNodesFinish: AfterActionNodesFinish?,
@@ -40,14 +38,9 @@ class UpdateGroupRunnable(
     private var mNewGroup: Group? = null
 
     init {
-        database.getGroupById(oldGroupId)?.let { oldGroupToUpdate ->
-            mOldGroup = oldGroupToUpdate
-            // TODO Same groupId
-        }
         database.getGroupById(newGroup.nodeId)?.let { oldGroup ->
-            mNewGroup = Group(oldGroup).apply {
-                setGroupInfo(newGroup)
-            }
+            mOldGroup = oldGroup
+            mNewGroup = database.updateGroup(Group(oldGroup), newGroup)
         }
     }
 

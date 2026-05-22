@@ -53,7 +53,6 @@ import com.kunzisoft.keepass.credentialprovider.passkey.util.PasskeyHelper.retri
 import com.kunzisoft.keepass.credentialprovider.passkey.util.PrivilegedAllowLists
 import com.kunzisoft.keepass.credentialprovider.passkey.util.PrivilegedAllowLists.saveCustomPrivilegedApps
 import com.kunzisoft.keepass.database.ContextualDatabase
-import com.kunzisoft.keepass.database.element.Entry
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.exception.RegisterInReadOnlyDatabaseException
 import com.kunzisoft.keepass.database.helper.SearchHelper
@@ -141,24 +140,15 @@ class PasskeyLauncherViewModel(application: Application): CredentialLauncherView
         viewModelScope.launch(CoroutineExceptionHandler { _, e ->
             showError(e)
         }) {
-            // Update the entry with app signature
-            val entry = database
-                ?.getEntryById(nodeId)
-                ?: throw GetCredentialUnknownException(
-                    "No passkey with nodeId $nodeId found"
-                )
-            if (database.isReadOnly)
-                throw RegisterInReadOnlyDatabaseException()
-            val newEntry = Entry(entry)
-            val entryInfo = newEntry.getEntryInfo(
-                database,
-                raw = true
-            )
-            entryInfo.saveAppOrigin(database, temptingApp)
-            mUiState.value = UIState.UpdateEntry(
-                oldEntryId = nodeId,
-                newEntry = entryInfo
-            )
+            database?.let {
+                if (database.isReadOnly)
+                    throw RegisterInReadOnlyDatabaseException()
+                // Update the entry with app signature
+                val entryInfo = database.getEntryInfoById(nodeId)
+                    ?: throw GetCredentialUnknownException("No passkey with nodeId $nodeId found")
+                entryInfo.saveAppOrigin(database, temptingApp)
+                mUiState.value = UIState.UpdateEntry(entryInfo)
+            }
         }
     }
 
@@ -313,8 +303,7 @@ class PasskeyLauncherViewModel(application: Application): CredentialLauncherView
             mUsageParameters?.let { usageParameters ->
                 // To get the passkey from the database
                 val passkey = database
-                    ?.getEntryById(nodeId)
-                    ?.getEntryInfo(database)
+                    ?.getEntryInfoById(nodeId)
                     ?.passkey
                     ?: throw IOException(
                         "No passkey with nodeId $nodeId found"
@@ -567,8 +556,7 @@ class PasskeyLauncherViewModel(application: Application): CredentialLauncherView
             val nodeId: NodeId<UUID>
         ): UIState()
         data class UpdateEntry(
-            val oldEntryId: NodeId<UUID>,
-            val newEntry: EntryInfo
+            val entry: EntryInfo
         ): UIState()
     }
 

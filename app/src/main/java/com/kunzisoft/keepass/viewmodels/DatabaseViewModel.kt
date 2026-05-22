@@ -201,12 +201,10 @@ class DatabaseViewModel(application: Application): AndroidViewModel(application)
     }
 
     fun updateEntry(
-        oldEntryId: NodeId<UUID>,
         updateEntry: EntryInfo,
         save: Boolean
     ) {
         mDatabaseTaskProvider.startDatabaseUpdateEntry(
-            oldEntryId = oldEntryId,
             updateEntry = updateEntry,
             save = save
         )
@@ -255,13 +253,11 @@ class DatabaseViewModel(application: Application): AndroidViewModel(application)
     }
 
     fun updateGroup(
-        oldGroupId: NodeId<*>,
         updateGroup: GroupInfo,
         save: Boolean
     ) {
         if (updateGroup.title.isNotEmpty()) {
             mDatabaseTaskProvider.startDatabaseUpdateGroup(
-                oldGroupId = oldGroupId,
                 updateGroup = updateGroup,
                 save = save
             )

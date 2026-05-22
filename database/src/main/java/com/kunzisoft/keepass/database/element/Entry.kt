@@ -37,7 +37,6 @@ import com.kunzisoft.keepass.model.AppOrigin
 import com.kunzisoft.keepass.model.AppOriginEntryField
 import com.kunzisoft.keepass.model.CreditCard
 import com.kunzisoft.keepass.model.CreditCardEntryFields
-import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.model.Passkey
 import com.kunzisoft.keepass.model.PasskeyEntryFields
 import com.kunzisoft.keepass.otp.OtpElement
@@ -51,9 +50,9 @@ import java.util.UUID
 class Entry : Node, EntryVersionedInterface<Group> {
 
     var entryKDB: EntryKDB? = null
-        private set
+        internal set
     var entryKDBX: EntryKDBX? = null
-        private set
+        internal set
 
     /**
      * Use this constructor to copy an Entry with exact same values
@@ -337,13 +336,13 @@ class Entry : Node, EntryVersionedInterface<Group> {
         entryKDBX?.putField(field)
     }
 
-    private fun addExtraFields(fields: List<Field>) {
+    fun addExtraFields(fields: List<Field>) {
         fields.forEach {
             putExtraField(it)
         }
     }
 
-    private fun removeAllFields() {
+    fun removeAllFields() {
         entryKDBX?.removeAllFields()
     }
 
@@ -412,12 +411,12 @@ class Entry : Node, EntryVersionedInterface<Group> {
         entryKDBX?.removeAttachment(attachment)
     }
 
-    private fun removeAllAttachments() {
+    fun removeAllAttachments() {
         entryKDB?.removeAttachment()
         entryKDBX?.removeAttachments()
     }
 
-    private fun putAttachment(attachment: Attachment, attachmentPool: AttachmentPool) {
+    fun putAttachment(attachment: Attachment, attachmentPool: AttachmentPool) {
         entryKDB?.putAttachment(attachment, attachmentPool)
         entryKDBX?.putAttachment(attachment, attachmentPool)
     }
@@ -467,111 +466,6 @@ class Entry : Node, EntryVersionedInterface<Group> {
 
     fun getSize(attachmentPool: AttachmentPool): Long {
         return entryKDBX?.getSize(attachmentPool) ?: 0L
-    }
-
-    /*
-      ------------
-      Converter
-      ------------
-     */
-
-    /**
-     * Retrieve generated entry info.
-     * If are not [raw] data, remove parameter fields and add auto generated elements in auto custom fields
-     */
-    fun getEntryInfo(
-        database: Database?,
-        raw: Boolean = false
-    ): EntryInfo {
-        val entryInfo = EntryInfo()
-        // Fetch template and remove unwanted template fields
-        database?.getTemplate(this)?.let {
-            entryInfo.template = it
-        }
-        val baseInfo = database?.decodeEntryWithTemplateConfiguration(entry = this) ?: this
-        baseInfo.apply {
-            if (raw)
-                database?.stopManageEntry(this)
-            else
-                database?.startManageEntry(this)
-
-            entryInfo.nodeId = nodeId
-            entryInfo.title = title
-            entryInfo.icon = icon
-            entryInfo.username = username
-            entryInfo.password = password
-            entryInfo.creationTime = creationTime
-            entryInfo.lastModificationTime = lastModificationTime
-            entryInfo.expires = expires
-            entryInfo.expiryTime = expiryTime
-            entryInfo.url = url
-            entryInfo.notes = notes
-            entryInfo.tags = tags
-            entryInfo.backgroundColor = backgroundColor
-            entryInfo.foregroundColor = foregroundColor
-            entryInfo.customData = customData
-            entryInfo.autoType = autoType
-            entryInfo.customFields = getExtraFields().toMutableList()
-            // Add otpElement to generate token
-            entryInfo.otpModel = getOtpElement()?.otpModel
-            // Add Credit Card
-            entryInfo.creditCard = getCreditCard()
-            // Add Passkey
-            entryInfo.passkey = getPasskey()
-            entryInfo.appOrigin = getAppOrigin()
-            if (!raw) {
-                // Replace parameter fields by generated OTP fields
-                entryInfo.customFields = OtpEntryFields.generateAutoFields(entryInfo.customFields)
-                entryInfo.customFields = PasskeyEntryFields.generateAutoFields(entryInfo.customFields)
-            }
-            database?.attachmentPool?.let { binaryPool ->
-                entryInfo.attachments = getAttachments(binaryPool).toMutableList()
-            }
-
-            if (!raw)
-                database?.stopManageEntry(this)
-        }
-        return entryInfo
-    }
-
-    fun setEntryInfo(database: Database?, newEntryInfo: EntryInfo) {
-        database?.startManageEntry(this)
-
-        removeAllFields()
-        removeAllAttachments()
-        // NodeId stay as is
-        title = newEntryInfo.title
-        icon = newEntryInfo.icon
-        username = newEntryInfo.username
-        password = newEntryInfo.password
-        // Update date time, creation time stay as is
-        lastModificationTime = DateInstant()
-        lastAccessTime = DateInstant()
-        expires = newEntryInfo.expires
-        expiryTime = newEntryInfo.expiryTime
-        url = newEntryInfo.url
-        notes = newEntryInfo.notes
-        tags = newEntryInfo.tags
-        backgroundColor = newEntryInfo.backgroundColor
-        foregroundColor = newEntryInfo.foregroundColor
-        customData = newEntryInfo.customData
-        autoType = newEntryInfo.autoType
-        addExtraFields(newEntryInfo.customFields)
-        // WARNING : Custom objects like creditCard, passkey and appOrigin are not directly saved
-        // Priority to custom fields
-        database?.attachmentPool?.let { binaryPool ->
-            newEntryInfo.attachments.forEach { attachment ->
-                putAttachment(attachment, binaryPool)
-            }
-        }
-
-        database?.stopManageEntry(this)
-
-        // Encode entry properties for template
-        entryKDBX = database?.encodeEntryWithTemplateConfiguration(
-            entry = this,
-            template = newEntryInfo.template
-        )?.entryKDBX
     }
 
     override fun equals(other: Any?): Boolean {

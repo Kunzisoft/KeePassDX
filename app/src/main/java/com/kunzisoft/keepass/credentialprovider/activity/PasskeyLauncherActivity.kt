@@ -103,7 +103,7 @@ class PasskeyLauncherActivity : AuthenticationLauncherActivity() {
                         )
                     }
                     is PasskeyLauncherViewModel.UIState.UpdateEntry -> {
-                        updateEntry(uiState.oldEntryId, uiState.newEntry)
+                        updateEntry(uiState.entry)
                     }
                 }
             }
