@@ -181,7 +181,7 @@ open class Database {
 
     // Remove the template link in the entry data if it's a basic entry
     // or compress the template fields (as pseudo language) if it's a template entry
-    fun decodeEntryWithTemplateConfiguration(
+    protected fun decodeEntryWithTemplateConfiguration(
         entry: Entry
     ): Entry {
         entry.entryKDBX?.let {
@@ -195,7 +195,7 @@ open class Database {
         return entry
     }
 
-    fun encodeEntryWithTemplateConfiguration(
+    protected fun encodeEntryWithTemplateConfiguration(
         entry: Entry,
         template: Template
     ): Entry {
