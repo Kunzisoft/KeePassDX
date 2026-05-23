@@ -28,6 +28,10 @@ import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.node.NodeIdUUID
 import com.kunzisoft.keepass.utils.readParcelableCompat
 
+/**
+ * Data class representing information about a group in the database.
+ * This class is used for UI representation and data transfer.
+ */
 open class GroupInfo : NodeInfo {
 
     override var nodeId: NodeId<*> = NodeIdUUID()
@@ -36,10 +40,17 @@ open class GroupInfo : NodeInfo {
     var enableAutoType: Boolean? = null
     var defaultAutoTypeSequence: String = ""
 
+    /**
+     * Default constructor.
+     */
     constructor(): super() {
         icon.standard = IconImageStandard(FOLDER_ID)
     }
 
+    /**
+     * Copy constructor.
+     * @param groupToCopy The group info to copy.
+     */
     constructor(groupToCopy: GroupInfo): super(groupToCopy) {
         this.nodeId = groupToCopy.nodeId
         this.notes = groupToCopy.notes
@@ -48,6 +59,10 @@ open class GroupInfo : NodeInfo {
         this.defaultAutoTypeSequence = groupToCopy.defaultAutoTypeSequence
     }
 
+    /**
+     * Parcel constructor.
+     * @param parcel The parcel to read from.
+     */
     constructor(parcel: Parcel): super(parcel) {
         nodeId = parcel.readParcelableCompat<NodeId<*>>() ?: nodeId
         notes = parcel.readString()
@@ -67,6 +82,11 @@ open class GroupInfo : NodeInfo {
         parcel.writeString(defaultAutoTypeSequence)
     }
 
+    /**
+     * Check if this group is the root group of the database.
+     * @param database The database context.
+     * @return True if this is the root group, false otherwise.
+     */
     fun isRoot(database: Database?): Boolean {
         if (database == null)
             return false
@@ -76,6 +96,11 @@ open class GroupInfo : NodeInfo {
         return false
     }
 
+    /**
+     * Check if this group is the recycle bin of the database.
+     * @param database The database context.
+     * @return True if this is the recycle bin, false otherwise.
+     */
     fun isRecycleBin(database: Database?): Boolean {
         if (database == null)
             return false

@@ -47,6 +47,10 @@ import com.kunzisoft.keepass.utils.writeCharArrayCompat
 import java.util.Locale
 import java.util.UUID
 
+/**
+ * Data class representing information about an entry in the database.
+ * This class is used for UI representation and data transfer.
+ */
 class EntryInfo : NodeInfo {
 
     override var nodeId: NodeId<UUID> = NodeIdUUID()
@@ -65,8 +69,15 @@ class EntryInfo : NodeInfo {
     var appOrigin: AppOrigin? = null
     var template: Template = Template.STANDARD
 
+    /**
+     * Default constructor.
+     */
     constructor() : super()
 
+    /**
+     * Copy constructor.
+     * @param entryToCopy The entry info to copy.
+     */
     constructor(entryToCopy: EntryInfo) : super(entryToCopy) {
         this.nodeId = entryToCopy.nodeId
         this.username = entryToCopy.username
@@ -85,6 +96,10 @@ class EntryInfo : NodeInfo {
         this.template = entryToCopy.template
     }
 
+    /**
+     * Parcel constructor.
+     * @param parcel The parcel to read from.
+     */
     constructor(parcel: Parcel) : super(parcel) {
         nodeId = parcel.readParcelableCompat<NodeId<UUID>>() ?: nodeId
         username = parcel.readString() ?: username
@@ -128,6 +143,9 @@ class EntryInfo : NodeInfo {
         parcel.writeParcelable(template, flags)
     }
 
+    /**
+     * Clear sensitive data from memory.
+     */
     fun clear() {
         password.clear()
         customFields.forEach { it.clear() }
@@ -136,26 +154,48 @@ class EntryInfo : NodeInfo {
         passkey?.clear()
     }
 
+    /**
+     * Check if the entry contains an OTP token.
+     * @return True if it contains an OTP token, false otherwise.
+     */
     fun containsOtpToken(): Boolean {
         return containsCustomField(OTP_TOKEN_FIELD)
     }
 
+    /**
+     * Get the OTP token.
+     * @return The OTP token if present, null otherwise.
+     */
     fun getOtpToken(): CharArray? {
         return otpModel?.let {
             OtpElement(it).token
         }
     }
 
+    /**
+     * Get custom fields suitable for auto-filling.
+     * @return List of fields excluding OTP and Passkey fields.
+     */
     fun getCustomFieldsForFilling(): List<Field> {
         return customFields.filter {
             !it.isOTP() && !it.isPasskey()
         }
     }
 
+    /**
+     * Check if a custom field with the specified label exists.
+     * @param label The label to search for.
+     * @return True if found, false otherwise.
+     */
     fun containsCustomField(label: String): Boolean {
         return customFields.lastOrNull { it.name == label } != null
     }
 
+    /**
+     * Get the generated value of a field by its label.
+     * @param label The label of the field.
+     * @return The field value as CharArray, or null if not found.
+     */
     fun getGeneratedFieldValue(label: String): CharArray? {
         if (label == OTP_TOKEN_FIELD) {
             return getOtpToken()
@@ -164,7 +204,8 @@ class EntryInfo : NodeInfo {
     }
 
     /**
-     * Add a field to the custom fields list, replace if name already exists
+     * Add a field to the custom fields list, replace if name already exists.
+     * @param field The field to add or replace.
      */
     fun addOrReplaceField(field: Field) {
         customFields.lastOrNull { it.name == field.name }?.let {
@@ -175,8 +216,9 @@ class EntryInfo : NodeInfo {
     }
 
     /**
-     * Add a field to the custom fields list with a suffix position,
-     * replace if name already exists
+     * Add a field to the custom fields list with a suffix position, replace if name already exists.
+     * @param field The field to add.
+     * @param position The position to use for the suffix.
      */
     fun addOrReplaceFieldWithSuffix(field: Field, position: Int) {
         addOrReplaceField(Field(
@@ -186,11 +228,10 @@ class EntryInfo : NodeInfo {
     }
 
     /**
-     * Add a unique field to the list of custom fields with a suffix
-     * if name already exists and value not the same
-     * @param field the field to add
-     * @param position the number to add to the suffix
-     * @return the increment number and the custom field created
+     * Add a unique field to the list of custom fields with a suffix if name already exists and value is not the same.
+     * @param field the field to add.
+     * @param position the number to add to the suffix.
+     * @return the increment number and the custom field created.
      */
     fun addUniqueField(field: Field, position: Int = 0): Pair<Int, Field> {
         val suffix = suffixFieldNamePosition(position)
@@ -213,7 +254,9 @@ class EntryInfo : NodeInfo {
     }
 
     /**
-     * Capitalize and remove suffix of a title
+     * Capitalize and remove suffix of a title.
+     * @receiver The string to format.
+     * @return The formatted title string.
      */
     fun String.toTitle(): String {
         return this.replaceFirstChar {
@@ -223,7 +266,9 @@ class EntryInfo : NodeInfo {
 
     /**
      * True if this entry contains domain or applicationId,
-     * OTP is ignored and considered not present
+     * OTP is ignored and considered not present.
+     * @param searchInfo Info to search for.
+     * @return True if it contains search info, false otherwise.
      */
     fun containsSearchInfo(searchInfo: SearchInfo): Boolean {
         return searchInfo.webDomain?.let { webDomain ->
@@ -234,14 +279,30 @@ class EntryInfo : NodeInfo {
     }
 
     /**
-     * True if this entry contains any attachment
+     * Check if it's allowed to save search info to this entry.
+     * @param searchInfo Search info to check.
+     * @return True if allowed, false otherwise.
+     */
+    fun allowedToSaveSearchInfo(
+        searchInfo: SearchInfo?
+    ): Boolean {
+        if (searchInfo == null || searchInfo.toString().isEmpty())
+            return false
+        return !(this.containsSearchInfo(searchInfo))
+    }
+
+    /**
+     * True if this entry contains any attachment.
+     * @return True if attachments list is not empty.
      */
     fun containsAttachment(): Boolean {
         return attachments.isNotEmpty()
     }
 
     /**
-     * Add searchInfo to current EntryInfo
+     * Add searchInfo to current EntryInfo.
+     * @param database The database context.
+     * @param searchInfo Search info to save.
      */
     private fun saveSearchInfo(database: Database?, searchInfo: SearchInfo) {
         searchInfo.otpString?.let { otpString ->
@@ -261,8 +322,10 @@ class EntryInfo : NodeInfo {
     }
 
     /**
-     * Add registerInfo to current EntryInfo,
-     * return true if data has been overwritten
+     * Add registerInfo to current EntryInfo, return true if data has been overwritten.
+     * @param database The database context.
+     * @param registerInfo Register info to save.
+     * @return True if data was overwritten, false otherwise.
      */
     fun saveRegisterInfo(database: Database?, registerInfo: RegisterInfo): Boolean {
         saveSearchInfo(database, registerInfo.searchInfo)
@@ -282,12 +345,18 @@ class EntryInfo : NodeInfo {
     }
 
     /**
-     * Add AppOrigin
+     * Add AppOrigin.
+     * @param database The database context.
+     * @param appOrigin App origin to save.
      */
     fun saveAppOrigin(database: Database?, appOrigin: AppOrigin?) {
         setAppOrigin(appOrigin, database?.allowEntryCustomFields() == true)
     }
 
+    /**
+     * Get a visual title for the entry, fallback to URL, username or ID.
+     * @return The best visual title string.
+     */
     fun getVisualTitle(): String {
         return title.ifEmpty {
             url.ifEmpty {

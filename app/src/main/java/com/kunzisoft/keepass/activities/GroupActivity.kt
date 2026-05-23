@@ -966,7 +966,8 @@ class GroupActivity : DatabaseLockActivity(),
                         when (typeMode) {
                             TypeMode.DEFAULT -> {}
                             TypeMode.MAGIKEYBOARD -> {
-                                if (node.allowedToSaveSearchInfo(database, searchInfo)
+                                if (!database.isReadOnly
+                                    && node.allowedToSaveSearchInfo(searchInfo)
                                     && PreferencesUtil.isKeyboardSaveSearchInfoEnable(this@GroupActivity)
                                 ) {
                                     updateEntryWithRegisterInfo(
@@ -979,7 +980,8 @@ class GroupActivity : DatabaseLockActivity(),
                                 }
                             }
                             TypeMode.AUTOFILL -> {
-                                if (node.allowedToSaveSearchInfo(database, searchInfo)
+                                if (!database.isReadOnly
+                                    && node.allowedToSaveSearchInfo(searchInfo)
                                     && PreferencesUtil.isAutofillSaveSearchInfoEnable(this@GroupActivity)
                                 ) {
                                     updateEntryWithRegisterInfo(
@@ -1073,17 +1075,6 @@ class GroupActivity : DatabaseLockActivity(),
     ) {
         entry.saveRegisterInfo(database, registerInfo)
         updateEntry(entry)
-    }
-
-    private fun EntryInfo.allowedToSaveSearchInfo(
-        database: ContextualDatabase,
-        searchInfo: SearchInfo?
-    ): Boolean {
-        if (database.isReadOnly)
-            return false
-        if (searchInfo == null || searchInfo.toString().isEmpty())
-            return false
-        return !(this.containsSearchInfo(searchInfo))
     }
 
     private fun editEntry(database: ContextualDatabase?, entryId: NodeId<*>?) {
