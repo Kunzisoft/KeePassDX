@@ -69,8 +69,15 @@ class EntryViewModel(application: Application): AndroidViewModel(application) {
 
     private val _clipboardHelper: ClipboardHelper = ClipboardHelper(application)
 
+
+    private val _entryUIState = MutableStateFlow<EntryState>(EntryState())
+    val entryUIState: StateFlow<EntryState> = _entryUIState.asStateFlow()
+
     private val _entryHistoryState = MutableStateFlow(EntryHistoryState())
     val entryHistoryState: StateFlow<EntryHistoryState> = _entryHistoryState.asStateFlow()
+
+    private val _sectionSelected = MutableStateFlow(EntrySection.MAIN)
+    val sectionSelected: StateFlow<EntrySection> = _sectionSelected.asStateFlow()
 
     private val _onEntryLoaded = MutableSharedFlow<OnEntryLoaded>(replay = 0)
     val onEntryLoaded: SharedFlow<OnEntryLoaded> = _onEntryLoaded.asSharedFlow()
@@ -84,9 +91,6 @@ class EntryViewModel(application: Application): AndroidViewModel(application) {
     private val _onAttachmentAction = MutableSharedFlow<EntryAttachmentState?>(replay = 0)
     val onAttachmentAction: SharedFlow<EntryAttachmentState?> = _onAttachmentAction.asSharedFlow()
 
-    private val _sectionSelected = MutableStateFlow(EntrySection.MAIN)
-    val sectionSelected: StateFlow<EntrySection> = _sectionSelected.asStateFlow()
-
     private val _historySelected = MutableSharedFlow<EntryHistory>(replay = 0)
     val historySelected: SharedFlow<EntryHistory> = _historySelected.asSharedFlow()
 
@@ -99,8 +103,6 @@ class EntryViewModel(application: Application): AndroidViewModel(application) {
     private val _onFieldProtectionUpdated = MutableSharedFlow<FieldProtection>(replay = 0)
     val onFieldProtectionUpdated: SharedFlow<FieldProtection> = _onFieldProtectionUpdated.asSharedFlow()
 
-    private val _entryState = MutableStateFlow<EntryState>(EntryState())
-    val entryUIState: StateFlow<EntryState> = _entryState.asStateFlow()
 
     init {
         // Init preferences
@@ -139,7 +141,7 @@ class EntryViewModel(application: Application): AndroidViewModel(application) {
                             entryInfo = entryInfo
                         ))
                         // To show Entry UI
-                        _entryState.update {
+                        _entryUIState.update {
                             it.copy(
                                 loading = false,
                                 entryInfo = entryInfo,

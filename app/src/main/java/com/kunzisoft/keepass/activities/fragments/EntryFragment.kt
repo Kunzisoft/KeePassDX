@@ -118,22 +118,12 @@ class EntryFragment: DatabaseFragment() {
         lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 launch {
-                    mEntryViewModel.onEntryLoaded.collect { _ ->
-                        resetAppTimeoutWhenViewFocusedOrChanged(rootView)
-                    }
-                }
-                launch {
-                    mEntryViewModel.onAttachmentAction.collect { entryAttachmentState ->
-                        entryAttachmentState?.let {
-                            if (it.streamDirection != StreamDirection.UPLOAD) {
-                                putAttachment(it)
-                            }
+                    mEntryViewModel.entryUIState.collect { entryState ->
+                        entryState.entryInfo?.let { entryInfo ->
+                            assignEntryInfo(entryInfo)
+                            // Smooth appearing
+                            rootView.showByFading()
                         }
-                    }
-                }
-                launch {
-                    mEntryViewModel.onFieldProtectionUpdated.collect { fieldProtection ->
-                        updateField(fieldProtection)
                     }
                 }
                 launch {
@@ -150,16 +140,23 @@ class EntryFragment: DatabaseFragment() {
                         }
                     }
                 }
-            }
-        }
-
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                mEntryViewModel.entryUIState.collect { entryState ->
-                    entryState.entryInfo?.let { entryInfo ->
-                        assignEntryInfo(entryInfo)
-                        // Smooth appearing
-                        rootView.showByFading()
+                launch {
+                    mEntryViewModel.onEntryLoaded.collect { _ ->
+                        resetAppTimeoutWhenViewFocusedOrChanged(rootView)
+                    }
+                }
+                launch {
+                    mEntryViewModel.onAttachmentAction.collect { entryAttachmentState ->
+                        entryAttachmentState?.let {
+                            if (it.streamDirection != StreamDirection.UPLOAD) {
+                                putAttachment(it)
+                            }
+                        }
+                    }
+                }
+                launch {
+                    mEntryViewModel.onFieldProtectionUpdated.collect { fieldProtection ->
+                        updateField(fieldProtection)
                     }
                 }
             }

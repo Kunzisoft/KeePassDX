@@ -261,14 +261,34 @@ class EntryActivity : DatabaseLockActivity() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 launch {
-                    mEntryViewModel.onEntryLoaded.collect { onEntryLoaded ->
-                        // To sort by access
-                        touchEntry(onEntryLoaded.entryInfo)
+                    mEntryViewModel.entryUIState.collect { entryState ->
+                        // Define Loading
+                        if (entryState.loading)
+                            loadingView?.isVisible = true
+                        else
+                            loadingView?.hideByFading()
+                        // Assign Entry views
+                        entryState.entryInfo?.let { entryInfo ->
+                            setEntryInfoViews(entryInfo)
+                        }
+                        // Manage FAB visibility
+                        editFab?.visibility = if (!mDatabaseReadOnly
+                            && entryState.showFloatingActionButton) View.VISIBLE else View.GONE
+                        // Assign history dedicated view
+                        historyView?.visibility = if (entryState.showHistoryView) View.VISIBLE else View.GONE
+                        // Refresh Menu
+                        invalidateOptionsMenu()
                     }
                 }
                 launch {
                     mEntryViewModel.sectionSelected.collect { entrySection ->
                         entryContentTab?.getTabAt(entrySection.position)?.select()
+                    }
+                }
+                launch {
+                    mEntryViewModel.onEntryLoaded.collect { onEntryLoaded ->
+                        // To sort by access
+                        touchEntry(onEntryLoaded.entryInfo)
                     }
                 }
                 launch {
@@ -359,29 +379,6 @@ class EntryActivity : DatabaseLockActivity() {
                             }
                         }
                     }
-                }
-            }
-        }
-
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                mEntryViewModel.entryUIState.collect { entryState ->
-                    // Define Loading
-                    if (entryState.loading)
-                        loadingView?.isVisible = true
-                    else
-                        loadingView?.hideByFading()
-                    // Assign Entry views
-                    entryState.entryInfo?.let { entryInfo ->
-                        setEntryInfoViews(entryInfo)
-                    }
-                    // Manage FAB visibility
-                    editFab?.visibility = if (!mDatabaseReadOnly
-                        && entryState.showFloatingActionButton) View.VISIBLE else View.GONE
-                    // Assign history dedicated view
-                    historyView?.visibility = if (entryState.showHistoryView) View.VISIBLE else View.GONE
-                    // Refresh Menu
-                    invalidateOptionsMenu()
                 }
             }
         }
