@@ -210,6 +210,17 @@ open class DatabaseInfo: Database() {
     }
 
     /**
+     * Get history of an entry by the EntryId, as a list of entry info.
+     * @param entryId The entryId to get history from.
+     * @return List of entry info representing the history.
+     */
+    fun getHistoryEntryInfoFrom(entryId: NodeId<UUID>): List<EntryInfo>? {
+        return getEntryById(entryId)?.let { mainEntry ->
+            getHistoryEntryInfoFrom(mainEntry)
+        }
+    }
+
+    /**
      * Convert a node to node info.
      * @param node The node (entry or group) to convert.
      * @return The converted node info.

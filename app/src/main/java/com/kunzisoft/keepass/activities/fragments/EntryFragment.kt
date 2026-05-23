@@ -38,7 +38,6 @@ import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.adapters.EntryAttachmentsItemsAdapter
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.element.Attachment
-import com.kunzisoft.keepass.database.element.template.Template
 import com.kunzisoft.keepass.model.EntryAttachmentState
 import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.model.FieldProtection
@@ -116,47 +115,51 @@ class EntryFragment: DatabaseFragment() {
         }
         uuidReferenceView = view.findViewById(R.id.entry_UUID_reference)
 
-        mEntryViewModel.entryInfoHistory.observe(viewLifecycleOwner) { entryInfoHistory ->
-            if (entryInfoHistory != null) {
-                assignEntryInfo(entryInfoHistory.entryInfo)
-                // Smooth appearing
-                rootView.showByFading()
-                resetAppTimeoutWhenViewFocusedOrChanged(rootView)
-            }
-        }
-
-        mEntryViewModel.onAttachmentAction.observe(viewLifecycleOwner) { entryAttachmentState ->
-            entryAttachmentState?.let {
-                if (it.streamDirection != StreamDirection.UPLOAD) {
-                    putAttachment(it)
+        lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                launch {
+                    mEntryViewModel.onEntryLoaded.collect { _ ->
+                        resetAppTimeoutWhenViewFocusedOrChanged(rootView)
+                    }
                 }
-            }
-        }
-
-        mEntryViewModel.sectionSelected.observe(viewLifecycleOwner) { entrySection ->
-            when (entrySection ?: EntryViewModel.EntrySection.MAIN) {
-                EntryViewModel.EntrySection.MAIN -> {
-                    mainSection.showByFading()
-                    advancedSection.hideByFading()
+                launch {
+                    mEntryViewModel.onAttachmentAction.collect { entryAttachmentState ->
+                        entryAttachmentState?.let {
+                            if (it.streamDirection != StreamDirection.UPLOAD) {
+                                putAttachment(it)
+                            }
+                        }
+                    }
                 }
-                EntryViewModel.EntrySection.ADVANCED -> {
-                    mainSection.hideByFading()
-                    advancedSection.showByFading()
+                launch {
+                    mEntryViewModel.onFieldProtectionUpdated.collect { fieldProtection ->
+                        updateField(fieldProtection)
+                    }
+                }
+                launch {
+                    mEntryViewModel.sectionSelected.collect { entrySection ->
+                        when (entrySection) {
+                            EntryViewModel.EntrySection.MAIN -> {
+                                mainSection.showByFading()
+                                advancedSection.hideByFading()
+                            }
+                            EntryViewModel.EntrySection.ADVANCED -> {
+                                mainSection.hideByFading()
+                                advancedSection.showByFading()
+                            }
+                        }
+                    }
                 }
             }
         }
 
         lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.RESUMED) {
-                mEntryViewModel.entryState.collect { entryState ->
-                    when (entryState) {
-                        is EntryViewModel.EntryState.Loading -> {}
-                        is EntryViewModel.EntryState.RequestCopyProtectedField -> {}
-                        is EntryViewModel.EntryState.OnFieldProtectionUpdated -> {
-                            updateField(entryState.fieldProtection)
-                            mEntryViewModel.actionPerformed()
-                        }
-                        is EntryViewModel.EntryState.OnChangeFieldProtectionRequested -> {}
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                mEntryViewModel.entryUIState.collect { entryState ->
+                    entryState.entryInfo?.let { entryInfo ->
+                        assignEntryInfo(entryInfo)
+                        // Smooth appearing
+                        rootView.showByFading()
                     }
                 }
             }
@@ -179,7 +182,7 @@ class EntryFragment: DatabaseFragment() {
         }
     }
 
-    private fun assignEntryInfo(entryInfo: EntryInfo?) {
+    private fun assignEntryInfo(entryInfo: EntryInfo) {
         // Set copy buttons
         templateView.apply {
             setOnChangeFieldProtectionClickListener { fieldProtection ->
@@ -194,7 +197,7 @@ class EntryFragment: DatabaseFragment() {
         }
 
         // Set template
-        templateView.setTemplate(entryInfo?.template ?: Template.STANDARD)
+        templateView.setTemplate(entryInfo.template)
 
         // Populate entry views
         templateView.setEntryInfo(entryInfo)
@@ -205,17 +208,17 @@ class EntryFragment: DatabaseFragment() {
         }
 
         // Manage attachments
-        assignAttachments(entryInfo?.attachments ?: listOf())
+        assignAttachments(entryInfo.attachments)
 
         // Assign dates
-        creationDateView.text = entryInfo?.creationTime?.getDateTimeString(resources)
-        modificationDateView.text = entryInfo?.lastModificationTime?.getDateTimeString(resources)
+        creationDateView.text = entryInfo.creationTime.getDateTimeString(resources)
+        modificationDateView.text = entryInfo.lastModificationTime.getDateTimeString(resources)
 
         // TODO Custom data
-        // customDataView.text = entryInfo?.customData?.toString()
+        // customDataView.text = entryInfo.customData.toString()
 
         // Assign special data
-        uuidReferenceView.text = entryInfo?.nodeId?.toString()
+        uuidReferenceView.text = entryInfo.nodeId.toString()
     }
 
     fun updateField(field: FieldProtection) {

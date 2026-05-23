@@ -21,8 +21,8 @@ package com.kunzisoft.keepass.viewmodels
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
+import com.kunzisoft.keepass.credentialprovider.magikeyboard.MagikeyboardService
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.element.Attachment
 import com.kunzisoft.keepass.database.element.Field
@@ -33,14 +33,24 @@ import com.kunzisoft.keepass.model.EntryAttachmentState
 import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.model.FieldProtection
 import com.kunzisoft.keepass.otp.OtpElement
+import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.timeout.ClipboardHelper
-import com.kunzisoft.keepass.utils.IOActionTask
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.util.UUID
 
 
+/**
+ * ViewModel for managing entry data and state.
+ */
 class EntryViewModel(application: Application): AndroidViewModel(application) {
 
     var mainEntryId: NodeId<UUID>? = null
@@ -54,42 +64,65 @@ class EntryViewModel(application: Application): AndroidViewModel(application) {
     var entryLoaded = false
         private set
 
-    private var mClipboardHelper: ClipboardHelper = ClipboardHelper(application)
+    private var autoSwitchToMagikeyboard: Boolean = false
+    private var keyboardEntrySelectionEnabled: Boolean = false
 
-    val entryInfoHistory : LiveData<EntryInfoHistory?> get() = _entryInfoHistory
-    private val _entryInfoHistory = MutableLiveData<EntryInfoHistory?>()
+    private val _clipboardHelper: ClipboardHelper = ClipboardHelper(application)
 
-    val entryHistory : LiveData<List<EntryInfo>?> get() = _entryHistory
-    private val _entryHistory = MutableLiveData<List<EntryInfo>?>()
+    private val _entryHistoryState = MutableStateFlow(EntryHistoryState())
+    val entryHistoryState: StateFlow<EntryHistoryState> = _entryHistoryState.asStateFlow()
 
-    val onOtpElementUpdated : LiveData<OtpElement?> get() = _onOtpElementUpdated
-    private val _onOtpElementUpdated = SingleLiveEvent<OtpElement?>()
+    private val _onEntryLoaded = MutableSharedFlow<OnEntryLoaded>(replay = 0)
+    val onEntryLoaded: SharedFlow<OnEntryLoaded> = _onEntryLoaded.asSharedFlow()
 
-    val attachmentSelected : LiveData<Attachment> get() = _attachmentSelected
-    private val _attachmentSelected = SingleLiveEvent<Attachment>()
-    val onAttachmentAction : LiveData<EntryAttachmentState?> get() = _onAttachmentAction
-    private val _onAttachmentAction = MutableLiveData<EntryAttachmentState?>()
+    private val _onOtpElementUpdated = MutableSharedFlow<OtpElement?>(replay = 0)
+    val onOtpElementUpdated: SharedFlow<OtpElement?> = _onOtpElementUpdated.asSharedFlow()
 
-    val sectionSelected : LiveData<EntrySection> get() = _sectionSelected
-    private val _sectionSelected = MutableLiveData<EntrySection>()
+    private val _attachmentSelected = MutableSharedFlow<Attachment>(replay = 0)
+    val attachmentSelected: SharedFlow<Attachment> = _attachmentSelected.asSharedFlow()
 
-    val historySelected : LiveData<EntryHistory> get() = _historySelected
-    private val _historySelected = SingleLiveEvent<EntryHistory>()
+    private val _onAttachmentAction = MutableSharedFlow<EntryAttachmentState?>(replay = 0)
+    val onAttachmentAction: SharedFlow<EntryAttachmentState?> = _onAttachmentAction.asSharedFlow()
 
-    private val mEntryState = MutableStateFlow<EntryState>(EntryState.Loading)
-    val entryState: StateFlow<EntryState> = mEntryState.asStateFlow()
+    private val _sectionSelected = MutableStateFlow(EntrySection.MAIN)
+    val sectionSelected: StateFlow<EntrySection> = _sectionSelected.asStateFlow()
+
+    private val _historySelected = MutableSharedFlow<EntryHistory>(replay = 0)
+    val historySelected: SharedFlow<EntryHistory> = _historySelected.asSharedFlow()
+
+    private val _requestCopyProtectedField = MutableSharedFlow<FieldProtection>(replay = 0)
+    val requestCopyProtectedField: SharedFlow<FieldProtection> = _requestCopyProtectedField.asSharedFlow()
+
+    private val _onChangeFieldProtectionRequested = MutableSharedFlow<FieldProtection>(replay = 0)
+    val onChangeFieldProtectionRequested: SharedFlow<FieldProtection> = _onChangeFieldProtectionRequested.asSharedFlow()
+
+    private val _onFieldProtectionUpdated = MutableSharedFlow<FieldProtection>(replay = 0)
+    val onFieldProtectionUpdated: SharedFlow<FieldProtection> = _onFieldProtectionUpdated.asSharedFlow()
+
+    private val _entryState = MutableStateFlow<EntryState>(EntryState())
+    val entryUIState: StateFlow<EntryState> = _entryState.asStateFlow()
+
+    init {
+        // Init preferences
+        autoSwitchToMagikeyboard = PreferencesUtil.isAutoSwitchToMagikeyboardEnable(application)
+        keyboardEntrySelectionEnabled = PreferencesUtil.isKeyboardEntrySelectionEnable(application)
+    }
 
     fun loadDatabase(database: ContextualDatabase?) {
         loadEntry(database, mainEntryId, historyPosition)
     }
 
-    fun loadEntry(database: ContextualDatabase?, mainEntryId: NodeId<UUID>?, historyPosition: Int = -1) {
+    fun loadEntry(
+        database: ContextualDatabase?,
+        mainEntryId: NodeId<UUID>?,
+        historyPosition: Int = -1,
+    ) {
         this.mainEntryId = mainEntryId
         this.historyPosition = historyPosition
 
-        if (database != null && mainEntryId != null) {
-            IOActionTask(
-                {
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                if (database != null && mainEntryId != null) {
                     database.getEntryById(mainEntryId)?.let { mainEntry ->
                         val isHistory = historyPosition > -1
                         val currentEntry = if (isHistory) {
@@ -97,64 +130,97 @@ class EntryViewModel(application: Application): AndroidViewModel(application) {
                         } else {
                             mainEntry
                         }
-                        // To simplify template field visibility
-                        EntryInfoHistory(
-                            mainEntryId = mainEntry.nodeId,
-                            historyPosition = historyPosition,
-                            entryInfo = database.getEntryInfoFrom(currentEntry),
-                            entryHistory = if (!isHistory)
-                                database.getHistoryEntryInfoFrom(mainEntry)
-                            else listOf()
-                        )
+                        val entryInfo = database.getEntryInfoFrom(currentEntry)
+                        this@EntryViewModel.entryInfo = entryInfo
+                        this@EntryViewModel.entryIsHistory = isHistory
+                        this@EntryViewModel.entryLoaded = true
+
+                        _onEntryLoaded.emit(OnEntryLoaded(
+                            entryInfo = entryInfo
+                        ))
+                        // To show Entry UI
+                        _entryState.update {
+                            it.copy(
+                                loading = false,
+                                entryInfo = entryInfo,
+                                showFloatingActionButton = !isHistory,
+                                showHistoryView = isHistory
+                            )
+                        }
+
+                        // To build entry history
+                        val entryHistory: List<EntryInfo> = if (!isHistory)
+                            database.getHistoryEntryInfoFrom(mainEntryId) ?: listOf()
+                        else listOf()
+                        _entryHistoryState.update { currentState ->
+                            currentState.copy(
+                                entryHistory = entryHistory
+                            )
+                        }
+
+                        withContext(Dispatchers.Main) {
+                            // Manage entry to populate Magikeyboard and launch keyboard notification if allowed
+                            if (keyboardEntrySelectionEnabled) {
+                                MagikeyboardService.addEntry(
+                                    context = getApplication(),
+                                    entry = entryInfo,
+                                    autoSwitchKeyboard = autoSwitchToMagikeyboard
+                                )
+                            }
+                        }
                     }
-                },
-                { entryInfoHistory ->
-                    if (entryInfoHistory != null) {
-                        this.mainEntryId = entryInfoHistory.mainEntryId
-                        this.entryInfo = entryInfoHistory.entryInfo
-                        this.historyPosition = historyPosition
-                        this.entryIsHistory = historyPosition > -1
-                        this.entryLoaded = true
-                    }
-                    _entryInfoHistory.value = entryInfoHistory
-                    _entryHistory.value = entryInfoHistory?.entryHistory
                 }
-            ).execute()
+            }
         }
     }
 
     fun updateProtectionField(fieldProtection: FieldProtection, value: Boolean) {
         fieldProtection.isCurrentlyProtected = value
-        mEntryState.value = EntryState.OnFieldProtectionUpdated(fieldProtection)
+        viewModelScope.launch {
+            _onFieldProtectionUpdated.emit(fieldProtection)
+        }
     }
 
     fun requestChangeFieldProtection(fieldProtection: FieldProtection) {
-        mEntryState.value = EntryState.OnChangeFieldProtectionRequested(fieldProtection)
+        viewModelScope.launch {
+            _onChangeFieldProtectionRequested.emit(fieldProtection)
+        }
     }
 
     fun requestCopyField(fieldProtection: FieldProtection) {
         // Only request the User Verification if the field is protected and not shown
         val field = fieldProtection.field
-        if (field.protectedValue.isProtected && fieldProtection.isCurrentlyProtected)
-            mEntryState.value = EntryState.RequestCopyProtectedField(fieldProtection)
-        else
+        if (field.protectedValue.isProtected && fieldProtection.isCurrentlyProtected) {
+            viewModelScope.launch {
+                _requestCopyProtectedField.emit(fieldProtection)
+            }
+        } else {
             copyToClipboard(field)
+        }
     }
 
     fun onOtpElementUpdated(optElement: OtpElement?) {
-        _onOtpElementUpdated.value = optElement
+        viewModelScope.launch {
+            _onOtpElementUpdated.emit(optElement)
+        }
     }
 
     fun onAttachmentSelected(attachment: Attachment) {
-        _attachmentSelected.value = attachment
+        viewModelScope.launch {
+            _attachmentSelected.emit(attachment)
+        }
     }
 
     fun onAttachmentAction(entryAttachmentState: EntryAttachmentState?) {
-        _onAttachmentAction.value = entryAttachmentState
+        viewModelScope.launch {
+            _onAttachmentAction.emit(entryAttachmentState)
+        }
     }
 
     fun onHistorySelected(item: EntryInfo, position: Int) {
-        _historySelected.value = EntryHistory(item.nodeId, item, position)
+        viewModelScope.launch {
+            _historySelected.emit(EntryHistory(item.nodeId, item, position))
+        }
     }
 
     fun selectSection(section: EntrySection) {
@@ -162,7 +228,7 @@ class EntryViewModel(application: Application): AndroidViewModel(application) {
     }
 
     fun copyToClipboard(field: Field) {
-        mClipboardHelper.timeoutCopyToClipboard(
+        _clipboardHelper.timeoutCopyToClipboard(
             TemplateField.getLocalizedName(getApplication(), field.name),
             field.protectedValue.toString(),
             field.protectedValue.isProtected
@@ -170,26 +236,21 @@ class EntryViewModel(application: Application): AndroidViewModel(application) {
     }
 
     fun copyToClipboard(text: String) {
-        mClipboardHelper.timeoutCopyToClipboard(text, text)
+        _clipboardHelper.timeoutCopyToClipboard(text, text)
     }
 
-    fun actionPerformed() {
-        mEntryState.value = EntryState.Loading
-    }
-
-    data class EntryInfoHistory(
-        var mainEntryId: NodeId<UUID>,
-        var historyPosition: Int,
-        val entryInfo: EntryInfo,
-        val entryHistory: List<EntryInfo>
-    )
-    // Custom data class to manage entry to retrieve and define is it's an history item (!= -1)
+    /**
+     * Custom data class to manage entry history.
+     */
     data class EntryHistory(
         var nodeId: NodeId<UUID>,
         var entryInfo: EntryInfo,
         var historyPosition: Int = -1
     )
 
+    /**
+     * Enum for entry sections.
+     */
     enum class EntrySection(var position: Int) {
         MAIN(0), ADVANCED(1);
 
@@ -200,18 +261,20 @@ class EntryViewModel(application: Application): AndroidViewModel(application) {
         }
     }
 
-    sealed class EntryState {
-        object Loading: EntryState()
-        data class OnChangeFieldProtectionRequested(
-            val fieldProtection: FieldProtection
-        ): EntryState()
-        data class OnFieldProtectionUpdated(
-            val fieldProtection: FieldProtection
-        ): EntryState()
-        data class RequestCopyProtectedField(
-            val fieldProtection: FieldProtection
-        ): EntryState()
-    }
+    data class OnEntryLoaded(
+        val entryInfo: EntryInfo
+    )
+
+    data class EntryState(
+        val loading: Boolean = true,
+        val entryInfo: EntryInfo? = null,
+        val showFloatingActionButton: Boolean = false,
+        val showHistoryView: Boolean = false
+    )
+
+    data class EntryHistoryState(
+        val entryHistory: List<EntryInfo> = listOf()
+    )
 
     companion object {
         private val TAG = EntryViewModel::class.java.name

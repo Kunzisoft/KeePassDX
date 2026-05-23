@@ -40,6 +40,7 @@ import androidx.core.graphics.BlendModeCompat
 import androidx.core.graphics.ColorUtils
 import androidx.core.graphics.drawable.toDrawable
 import androidx.core.view.ViewCompat
+import androidx.core.view.isVisible
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -59,13 +60,13 @@ import com.kunzisoft.keepass.credentialprovider.SpecialMode
 import com.kunzisoft.keepass.credentialprovider.UserVerificationActionType
 import com.kunzisoft.keepass.credentialprovider.UserVerificationData
 import com.kunzisoft.keepass.credentialprovider.UserVerificationHelper.Companion.checkUserVerification
-import com.kunzisoft.keepass.credentialprovider.magikeyboard.MagikeyboardService
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.element.Attachment
 import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.education.EntryActivityEducation
 import com.kunzisoft.keepass.model.EntryAttachmentState
+import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.otp.OtpType
 import com.kunzisoft.keepass.services.AttachmentFileNotificationService
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_DELETE_ENTRY_HISTORY
@@ -114,8 +115,6 @@ class EntryActivity : DatabaseLockActivity() {
     private var mAttachmentFileBinderManager: AttachmentFileBinderManager? = null
     private var mExternalFileHelper: ExternalFileHelper? = null
     private var mAttachmentSelected: Attachment? = null
-
-    private var mSwitchToMagikeyboard: Boolean = false
 
     private var mEntryActivityResultLauncher = EntryEditActivity.registerForEntryResult(this) {
         // Reload the current id from database
@@ -194,9 +193,6 @@ class EntryActivity : DatabaseLockActivity() {
             isFocusable = false
         }
 
-        // Init preferences
-        mSwitchToMagikeyboard = PreferencesUtil.isAutoSwitchToMagikeyboardEnable(this)
-
         // Init content tab
         entryContentTab?.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
@@ -245,159 +241,151 @@ class EntryActivity : DatabaseLockActivity() {
             requestEdition()
         }
 
-        mEntryViewModel.sectionSelected.observe(this) { entrySection ->
-            entryContentTab?.getTabAt(entrySection.position)?.select()
+        fun setEntryInfoViews(entryInfo: EntryInfo) {
+            // Assign title icon
+            mIcon = entryInfo.icon
+            // Assign title text
+            val entryTitle = entryInfo.title.ifEmpty { entryInfo.nodeId.toString() }
+            collapsingToolbarLayout?.title = entryTitle
+            toolbar?.title = entryTitle
+            // Assign tags
+            val tags = entryInfo.tags
+            tagsListView?.visibility = if (tags.isEmpty()) View.GONE else View.VISIBLE
+            tagsAdapter?.setTags(tags)
+            // Assign colors
+            val showEntryColors = PreferencesUtil.showEntryColors(this)
+            mBackgroundColor = if (showEntryColors) entryInfo.backgroundColor else null
+            mForegroundColor = if (showEntryColors) entryInfo.foregroundColor else null
         }
 
-        mEntryViewModel.entryInfoHistory.observe(this) { entryInfoHistory ->
-            if (entryInfoHistory != null) {
-                // Manage history position
-                val historyPosition = entryInfoHistory.historyPosition
-                val entryIsHistory = historyPosition > -1
-
-                // Manage FAB visibility
-                editFab?.visibility = if (!mDatabaseReadOnly && !entryIsHistory) View.VISIBLE else View.GONE
-
-                // Assign history dedicated view
-                historyView?.visibility = if (entryIsHistory) View.VISIBLE else View.GONE
-                // TODO History badge
-                /*
-                if (entryIsHistory) {
-                }*/
-
-                val entryInfo = entryInfoHistory.entryInfo
-                // Manage entry copy to start notification if allowed (at the first start)
-                if (savedInstanceState == null) {
-                    // Manage entry to populate Magikeyboard and launch keyboard notification if allowed
-                    if (PreferencesUtil.isKeyboardEntrySelectionEnable(this)) {
-                        MagikeyboardService.addEntry(
-                            context = this,
-                            entry = entryInfo,
-                            autoSwitchKeyboard = mSwitchToMagikeyboard
-                        )
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                launch {
+                    mEntryViewModel.onEntryLoaded.collect { onEntryLoaded ->
+                        // To sort by access
+                        touchEntry(onEntryLoaded.entryInfo)
                     }
                 }
-                // Assign title icon
-                mIcon = entryInfo.icon
-                // Assign title text
-                val entryTitle = entryInfo.title.ifEmpty { entryInfo.nodeId.toString() }
-                collapsingToolbarLayout?.title = entryTitle
-                toolbar?.title = entryTitle
-                // Assign tags
-                val tags = entryInfo.tags
-                tagsListView?.visibility = if (tags.isEmpty()) View.GONE else View.VISIBLE
-                tagsAdapter?.setTags(tags)
-                // Assign colors
-                val showEntryColors = PreferencesUtil.showEntryColors(this)
-                mBackgroundColor = if (showEntryColors) entryInfo.backgroundColor else null
-                mForegroundColor = if (showEntryColors) entryInfo.foregroundColor else null
-
-                // To sort by access
-                touchEntry(entryInfo)
-
-                loadingView?.hideByFading()
-            } else {
-                finish()
-            }
-            // Refresh Menu
-            invalidateOptionsMenu()
-        }
-
-        mEntryViewModel.onOtpElementUpdated.observe(this) { otpElement ->
-            if (otpElement == null) {
-                entryProgress?.visibility = View.GONE
-            } else when (otpElement.type) {
-                // Only add token if HOTP
-                OtpType.HOTP -> {
-                    entryProgress?.visibility = View.GONE
-                }
-                // Refresh view if TOTP
-                OtpType.TOTP -> {
-                    entryProgress?.apply {
-                        max = otpElement.period
-                        setProgressCompat(otpElement.secondsRemaining, true)
-                        visibility = View.VISIBLE
+                launch {
+                    mEntryViewModel.sectionSelected.collect { entrySection ->
+                        entryContentTab?.getTabAt(entrySection.position)?.select()
                     }
                 }
-            }
-        }
-
-        mEntryViewModel.attachmentSelected.observe(this) { attachmentSelected ->
-            mAttachmentSelected = attachmentSelected
-            mExternalFileHelper?.createDocument(attachmentSelected.name)
-        }
-
-        mEntryViewModel.historySelected.observe(this) { historySelected ->
-            mDatabase?.let { database ->
-                launch(
-                    activity = this,
-                    database = database,
-                    entryId = historySelected.nodeId,
-                    historyPosition = historySelected.historyPosition,
-                    activityResultLauncher = mEntryActivityResultLauncher
-                )
+                launch {
+                    mEntryViewModel.onOtpElementUpdated.collect { otpElement ->
+                        if (otpElement == null) {
+                            entryProgress?.visibility = View.GONE
+                        } else when (otpElement.type) {
+                            // Only add token if HOTP
+                            OtpType.HOTP -> {
+                                entryProgress?.visibility = View.GONE
+                            }
+                            // Refresh view if TOTP
+                            OtpType.TOTP -> {
+                                entryProgress?.apply {
+                                    max = otpElement.period
+                                    setProgressCompat(otpElement.secondsRemaining, true)
+                                    visibility = View.VISIBLE
+                                }
+                            }
+                        }
+                    }
+                }
+                launch {
+                    mEntryViewModel.attachmentSelected.collect { attachmentSelected ->
+                        mAttachmentSelected = attachmentSelected
+                        mExternalFileHelper?.createDocument(attachmentSelected.name)
+                    }
+                }
+                launch {
+                    mEntryViewModel.historySelected.collect { historySelected ->
+                        mDatabase?.let { database ->
+                            launch(
+                                activity = this@EntryActivity,
+                                database = database,
+                                entryId = historySelected.nodeId,
+                                historyPosition = historySelected.historyPosition,
+                                activityResultLauncher = mEntryActivityResultLauncher
+                            )
+                        }
+                    }
+                }
+                launch {
+                    mEntryViewModel.requestCopyProtectedField.collect { fieldProtection ->
+                        if (mDatabaseAllowUserVerification) {
+                            mDatabase?.let { database ->
+                                checkUserVerification(
+                                    userVerificationViewModel = mUserVerificationViewModel,
+                                    dataToVerify = UserVerificationData(
+                                        actionType = UserVerificationActionType.COPY_PROTECTED_FIELD,
+                                        database = database,
+                                        fieldProtection = fieldProtection,
+                                    )
+                                )
+                            }
+                        } else {
+                            // Copy field value directly without user verification
+                            fieldProtection.field.let {
+                                mEntryViewModel.copyToClipboard(it)
+                            }
+                        }
+                    }
+                }
+                launch {
+                    mEntryViewModel.onChangeFieldProtectionRequested.collect { fieldProtection ->
+                        mDatabase?.let { database ->
+                            if (mDatabaseAllowUserVerification) {
+                                if (fieldProtection.isCurrentlyProtected) {
+                                    checkUserVerification(
+                                        userVerificationViewModel = mUserVerificationViewModel,
+                                        dataToVerify = UserVerificationData(
+                                            actionType = UserVerificationActionType.SHOW_PROTECTED_FIELD,
+                                            database = database,
+                                            fieldProtection = fieldProtection
+                                        )
+                                    )
+                                } else {
+                                    mEntryViewModel.updateProtectionField(
+                                        fieldProtection = fieldProtection,
+                                        value = true
+                                    )
+                                }
+                            } else {
+                                // Toggle field protection directly without user verification
+                                mEntryViewModel.updateProtectionField(
+                                    fieldProtection = fieldProtection,
+                                    value = !fieldProtection.isCurrentlyProtected
+                                )
+                            }
+                        }
+                    }
+                }
             }
         }
 
         lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.RESUMED) {
-                mEntryViewModel.entryState.collect { entryState ->
-                    when (entryState) {
-                        is EntryViewModel.EntryState.Loading -> {}
-                        is EntryViewModel.EntryState.OnChangeFieldProtectionRequested -> {
-                            mDatabase?.let { database ->
-                                val fieldProtection = entryState.fieldProtection
-                                if (mDatabaseAllowUserVerification) {
-                                    if (fieldProtection.isCurrentlyProtected) {
-                                        checkUserVerification(
-                                            userVerificationViewModel = mUserVerificationViewModel,
-                                            dataToVerify = UserVerificationData(
-                                                actionType = UserVerificationActionType.SHOW_PROTECTED_FIELD,
-                                                database = database,
-                                                fieldProtection = fieldProtection
-                                            )
-                                        )
-                                        mEntryViewModel.actionPerformed()
-                                    } else {
-                                        mEntryViewModel.updateProtectionField(
-                                            fieldProtection = fieldProtection,
-                                            value = true
-                                        )
-                                    }
-                                } else {
-                                    // Toggle field protection directly without user verification
-                                    mEntryViewModel.updateProtectionField(
-                                        fieldProtection = fieldProtection,
-                                        value = !fieldProtection.isCurrentlyProtected
-                                    )
-                                }
-                            }
-                        }
-                        is EntryViewModel.EntryState.OnFieldProtectionUpdated -> {}
-                        is EntryViewModel.EntryState.RequestCopyProtectedField -> {
-                            if (mDatabaseAllowUserVerification) {
-                                mDatabase?.let { database ->
-                                    checkUserVerification(
-                                        userVerificationViewModel = mUserVerificationViewModel,
-                                        dataToVerify = UserVerificationData(
-                                            actionType = UserVerificationActionType.COPY_PROTECTED_FIELD,
-                                            database = database,
-                                            fieldProtection = entryState.fieldProtection,
-                                        )
-                                    )
-                                }
-                            } else {
-                                // Copy field value directly without user verification
-                                entryState.fieldProtection.field.let {
-                                    mEntryViewModel.copyToClipboard(it)
-                                }
-                            }
-                            mEntryViewModel.actionPerformed()
-                        }
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                mEntryViewModel.entryUIState.collect { entryState ->
+                    // Define Loading
+                    if (entryState.loading)
+                        loadingView?.isVisible = true
+                    else
+                        loadingView?.hideByFading()
+                    // Assign Entry views
+                    entryState.entryInfo?.let { entryInfo ->
+                        setEntryInfoViews(entryInfo)
                     }
+                    // Manage FAB visibility
+                    editFab?.visibility = if (!mDatabaseReadOnly
+                        && entryState.showFloatingActionButton) View.VISIBLE else View.GONE
+                    // Assign history dedicated view
+                    historyView?.visibility = if (entryState.showHistoryView) View.VISIBLE else View.GONE
+                    // Refresh Menu
+                    invalidateOptionsMenu()
                 }
             }
         }
+
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.RESUMED) {
                 mUserVerificationViewModel.userVerificationState.collect { uVState ->
