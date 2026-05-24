@@ -55,14 +55,12 @@ class EntryViewModel(application: Application): AndroidViewModel(application) {
 
     var mainEntryId: NodeId<UUID>? = null
         private set
-    var entryInfo: EntryInfo? = null
-        private set
     var historyPosition: Int = -1
         private set
     var entryIsHistory: Boolean = false
         private set
-    var entryLoaded = false
-        private set
+    val entryLoaded: Boolean
+        get() = entryUIState.value.loaded
 
     private var autoSwitchToMagikeyboard: Boolean = false
     private var keyboardEntrySelectionEnabled: Boolean = false
@@ -133,9 +131,7 @@ class EntryViewModel(application: Application): AndroidViewModel(application) {
                             mainEntry
                         }
                         val entryInfo = database.getEntryInfoFrom(currentEntry)
-                        this@EntryViewModel.entryInfo = entryInfo
                         this@EntryViewModel.entryIsHistory = isHistory
-                        this@EntryViewModel.entryLoaded = true
 
                         _onEntryLoaded.emit(OnEntryLoaded(
                             entryInfo = entryInfo
@@ -143,7 +139,7 @@ class EntryViewModel(application: Application): AndroidViewModel(application) {
                         // To show Entry UI
                         _entryUIState.update {
                             it.copy(
-                                loading = false,
+                                loaded = false,
                                 entryInfo = entryInfo,
                                 showFloatingActionButton = !isHistory,
                                 showHistoryView = isHistory
@@ -268,7 +264,7 @@ class EntryViewModel(application: Application): AndroidViewModel(application) {
     )
 
     data class EntryState(
-        val loading: Boolean = true,
+        val loaded: Boolean = true,
         val entryInfo: EntryInfo? = null,
         val showFloatingActionButton: Boolean = false,
         val showHistoryView: Boolean = false

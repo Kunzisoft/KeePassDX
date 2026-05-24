@@ -263,7 +263,7 @@ class EntryActivity : DatabaseLockActivity() {
                 launch {
                     mEntryViewModel.entryUIState.collect { entryState ->
                         // Define Loading
-                        if (entryState.loading)
+                        if (entryState.loaded)
                             loadingView?.isVisible = true
                         else
                             loadingView?.hideByFading()
@@ -385,38 +385,34 @@ class EntryActivity : DatabaseLockActivity() {
 
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.RESUMED) {
-                mUserVerificationViewModel.userVerificationState.collect { uVState ->
-                    when (uVState) {
-                        is UserVerificationViewModel.UVState.Loading -> {}
-                        is UserVerificationViewModel.UVState.OnUserVerificationCanceled -> {
-                            coordinatorLayout?.showError(uVState.error, R.id.entry_content_tab)
-                            mUserVerificationViewModel.onUserVerificationReceived()
-                        }
-                        is UserVerificationViewModel.UVState.OnUserVerificationSucceeded -> {
-                            val data = uVState.dataToVerify
-                            when (data.actionType) {
-                                UserVerificationActionType.SHOW_PROTECTED_FIELD -> {
-                                    // Unprotect field by its view
-                                    data.fieldProtection?.let { field ->
-                                        mEntryViewModel.updateProtectionField(
-                                            fieldProtection = field,
-                                            value = false
-                                        )
-                                    }
+                launch {
+                    mUserVerificationViewModel.onUserVerificationCanceled.collect { result ->
+                        coordinatorLayout?.showError(result.error, R.id.entry_content_tab)
+                    }
+                }
+                launch {
+                    mUserVerificationViewModel.onUserVerificationSucceeded.collect { data ->
+                        when (data.actionType) {
+                            UserVerificationActionType.SHOW_PROTECTED_FIELD -> {
+                                // Unprotect field by its view
+                                data.fieldProtection?.let { field ->
+                                    mEntryViewModel.updateProtectionField(
+                                        fieldProtection = field,
+                                        value = false
+                                    )
                                 }
-                                UserVerificationActionType.COPY_PROTECTED_FIELD -> {
-                                    // Copy field value
-                                    data.fieldProtection?.field?.let {
-                                        mEntryViewModel.copyToClipboard(it)
-                                    }
-                                }
-                                UserVerificationActionType.EDIT_ENTRY -> {
-                                    // Edit Entry
-                                    editEntry(data.database, data.entryId)
-                                }
-                                else -> {}
                             }
-                            mUserVerificationViewModel.onUserVerificationReceived()
+                            UserVerificationActionType.COPY_PROTECTED_FIELD -> {
+                                // Copy field value
+                                data.fieldProtection?.field?.let {
+                                    mEntryViewModel.copyToClipboard(it)
+                                }
+                            }
+                            UserVerificationActionType.EDIT_ENTRY -> {
+                                // Edit Entry
+                                editEntry(data.database, data.entryId)
+                            }
+                            else -> {}
                         }
                     }
                 }

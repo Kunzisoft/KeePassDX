@@ -610,33 +610,29 @@ class GroupActivity : DatabaseLockActivity(),
 
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.RESUMED) {
-                mUserVerificationViewModel.userVerificationState.collect { uVState ->
-                    when (uVState) {
-                        is UserVerificationViewModel.UVState.Loading -> {}
-                        is UserVerificationViewModel.UVState.OnUserVerificationCanceled -> {
-                            coordinatorLayout?.showError(uVState.error)
-                            mUserVerificationViewModel.onUserVerificationReceived()
-                        }
-                        is UserVerificationViewModel.UVState.OnUserVerificationSucceeded -> {
-                            val data = uVState.dataToVerify
-                            when (data.actionType) {
-                                UserVerificationActionType.EDIT_ENTRY -> {
-                                    editEntry(uVState.dataToVerify.database,  uVState.dataToVerify.entryId)
-                                }
-                                UserVerificationActionType.MERGE_FROM_DATABASE -> {
-                                    mExternalFileHelper?.openDocument()
-                                }
-                                UserVerificationActionType.SAVE_DATABASE_COPY_TO -> {
-                                    mExternalFileHelper?.createDocument(
-                                        getString(R.string.database_file_name_default) +
-                                                "_" +
-                                                LocalDateTime.now().toString() +
-                                                uVState.dataToVerify.database?.defaultFileExtension
-                                    )
-                                }
-                                else -> {}
+                launch {
+                    mUserVerificationViewModel.onUserVerificationCanceled.collect { result ->
+                        coordinatorLayout?.showError(result.error)
+                    }
+                }
+                launch {
+                    mUserVerificationViewModel.onUserVerificationSucceeded.collect { data ->
+                        when (data.actionType) {
+                            UserVerificationActionType.EDIT_ENTRY -> {
+                                editEntry(data.database, data.entryId)
                             }
-                            mUserVerificationViewModel.onUserVerificationReceived()
+                            UserVerificationActionType.MERGE_FROM_DATABASE -> {
+                                mExternalFileHelper?.openDocument()
+                            }
+                            UserVerificationActionType.SAVE_DATABASE_COPY_TO -> {
+                                mExternalFileHelper?.createDocument(
+                                    getString(R.string.database_file_name_default) +
+                                            "_" +
+                                            LocalDateTime.now().toString() +
+                                            data.database?.defaultFileExtension
+                                )
+                            }
+                            else -> {}
                         }
                     }
                 }

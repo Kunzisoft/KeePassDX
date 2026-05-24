@@ -452,26 +452,23 @@ class EntryEditActivity : DatabaseLockActivity(),
         }
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                mUserVerificationViewModel.userVerificationState.collect { uVState ->
-                    when (uVState) {
-                        is UserVerificationViewModel.UVState.Loading -> {}
-                        is UserVerificationViewModel.UVState.OnUserVerificationCanceled -> {
-                            coordinatorLayout?.showError(uVState.error)
-                            mUserVerificationViewModel.onUserVerificationReceived()
-                        }
-                        is UserVerificationViewModel.UVState.OnUserVerificationSucceeded -> {
-                            when (uVState.dataToVerify.actionType) {
-                                UserVerificationActionType.SHOW_PROTECTED_FIELD -> {
-                                    uVState.dataToVerify.fieldProtection?.let { fieldProtection ->
-                                        mEntryEditViewModel.updateFieldProtection(
-                                            fieldProtection = fieldProtection,
-                                            value = false
-                                        )
-                                    }
+                launch {
+                    mUserVerificationViewModel.onUserVerificationCanceled.collect { result ->
+                        coordinatorLayout?.showError(result.error)
+                    }
+                }
+                launch {
+                    mUserVerificationViewModel.onUserVerificationSucceeded.collect { data ->
+                        when (data.actionType) {
+                            UserVerificationActionType.SHOW_PROTECTED_FIELD -> {
+                                data.fieldProtection?.let { fieldProtection ->
+                                    mEntryEditViewModel.updateFieldProtection(
+                                        fieldProtection = fieldProtection,
+                                        value = false
+                                    )
                                 }
-                                else -> {}
                             }
-                            mUserVerificationViewModel.onUserVerificationReceived()
+                            else -> {}
                         }
                     }
                 }
