@@ -763,4 +763,6 @@
     <string name="menu_user_verification_disabled">Перевірка користувача вимкнена</string>
     <string name="education_user_verification_title">Перевірка для чутливих дій</string>
     <string name="education_user_verification_summary">Змінити режим перевірки користувача для сеансу. \n\n«Перевірка користувача увімкнена» перевіряє дії в захищених полях і налаштуваннях бази даних. \n«Перевірка користувача вимкнена» дає змогу змінювати будь-які дані в базі даних без перевірки.</string>
+    <string name="content_description_share_url">Поділитися посиланням</string>
+    <string name="show_tags_title">Показати теги</string>
 </resources>
