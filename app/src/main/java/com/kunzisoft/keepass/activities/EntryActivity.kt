@@ -20,7 +20,6 @@ package com.kunzisoft.keepass.activities
 
 import android.app.Activity
 import android.content.Intent
-import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
@@ -37,10 +36,8 @@ import androidx.appcompat.widget.Toolbar
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.graphics.BlendModeColorFilterCompat
 import androidx.core.graphics.BlendModeCompat
-import androidx.core.graphics.ColorUtils
 import androidx.core.graphics.drawable.toDrawable
 import androidx.core.view.ViewCompat
-import androidx.core.view.isVisible
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -62,11 +59,10 @@ import com.kunzisoft.keepass.credentialprovider.UserVerificationData
 import com.kunzisoft.keepass.credentialprovider.UserVerificationHelper.Companion.checkUserVerification
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.element.Attachment
-import com.kunzisoft.keepass.database.element.icon.IconImage
+import com.kunzisoft.keepass.database.element.Tags
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.education.EntryActivityEducation
 import com.kunzisoft.keepass.model.EntryAttachmentState
-import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.otp.OtpType
 import com.kunzisoft.keepass.services.AttachmentFileNotificationService
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_DELETE_ENTRY_HISTORY
@@ -83,6 +79,7 @@ import com.kunzisoft.keepass.view.changeTitleColor
 import com.kunzisoft.keepass.view.hideByFading
 import com.kunzisoft.keepass.view.setTransparentNavigationBar
 import com.kunzisoft.keepass.view.showActionErrorIfNeeded
+import com.kunzisoft.keepass.view.showByFading
 import com.kunzisoft.keepass.view.showError
 import com.kunzisoft.keepass.viewmodels.EntryViewModel
 import com.kunzisoft.keepass.viewmodels.UserVerificationViewModel
@@ -120,14 +117,6 @@ class EntryActivity : DatabaseLockActivity() {
         // Reload the current id from database
         mEntryViewModel.loadDatabase(mDatabase)
     }
-
-    private var mIcon: IconImage? = null
-    private var mColorSecondary: Int = 0
-    private var mColorSurface: Int = 0
-    private var mColorOnSurface: Int = 0
-    private var mColorBackground: Int = 0
-    private var mBackgroundColor: Int? = null
-    private var mForegroundColor: Int? = null
 
     override fun manageDatabaseInfo(): Boolean = true
 
@@ -171,19 +160,8 @@ class EntryActivity : DatabaseLockActivity() {
         collapsingToolbarLayout?.title = " "
         toolbar?.title = " "
 
-        // Retrieve the textColor to tint the toolbar
-        val taColorSecondary = theme.obtainStyledAttributes(intArrayOf(R.attr.colorSecondary))
-        val taColorSurface = theme.obtainStyledAttributes(intArrayOf(R.attr.colorSurface))
-        val taColorOnSurface = theme.obtainStyledAttributes(intArrayOf(R.attr.colorOnSurface))
-        val taColorBackground = theme.obtainStyledAttributes(intArrayOf(android.R.attr.windowBackground))
-        mColorSecondary = taColorSecondary.getColor(0, Color.BLACK)
-        mColorSurface = taColorSurface.getColor(0, Color.BLACK)
-        mColorOnSurface = taColorOnSurface.getColor(0, Color.BLACK)
-        mColorBackground = taColorBackground.getColor(0, Color.BLACK)
-        taColorSecondary.recycle()
-        taColorSurface.recycle()
-        taColorOnSurface.recycle()
-        taColorBackground.recycle()
+        // Set the theme to retrieve the toolbar color
+        mEntryViewModel.setTheme(theme)
 
         // Init Tags adapter
         tagsAdapter = TagsAdapter(this)
@@ -241,36 +219,43 @@ class EntryActivity : DatabaseLockActivity() {
             requestEdition()
         }
 
-        fun setEntryInfoViews(entryInfo: EntryInfo) {
-            // Assign title icon
-            mIcon = entryInfo.icon
-            // Assign title text
-            val entryTitle = entryInfo.title.ifEmpty { entryInfo.nodeId.toString() }
-            collapsingToolbarLayout?.title = entryTitle
-            toolbar?.title = entryTitle
-            // Assign tags
-            val tags = entryInfo.tags
-            tagsListView?.visibility = if (tags.isEmpty()) View.GONE else View.VISIBLE
-            tagsAdapter?.setTags(tags)
-            // Assign colors
-            val showEntryColors = PreferencesUtil.showEntryColors(this)
-            mBackgroundColor = if (showEntryColors) entryInfo.backgroundColor else null
-            mForegroundColor = if (showEntryColors) entryInfo.foregroundColor else null
-        }
-
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 launch {
                     mEntryViewModel.entryUIState.collect { entryState ->
                         // Define Loading
                         if (entryState.loaded)
-                            loadingView?.isVisible = true
-                        else
                             loadingView?.hideByFading()
-                        // Assign Entry views
-                        entryState.entryInfo?.let { entryInfo ->
-                            setEntryInfoViews(entryInfo)
+                        else
+                            loadingView?.showByFading()
+                        val entryInfo = entryState.entryInfo
+                        // Assign title text
+                        val entryTitle = entryInfo?.title?.ifEmpty { entryInfo.nodeId.toString() } ?: ""
+                        collapsingToolbarLayout?.title = entryTitle
+                        toolbar?.title = entryTitle
+                        // Assign tags
+                        val tags = entryInfo?.tags ?: Tags()
+                        tagsListView?.visibility = if (tags.isEmpty()) View.GONE else View.VISIBLE
+                        tagsAdapter?.setTags(tags)
+                        // Icon
+                        titleIconView?.background?.colorFilter = BlendModeColorFilterCompat
+                            .createBlendModeColorFilterCompat(entryState.iconBackgroundColor, BlendModeCompat.SRC_IN)
+                        entryInfo?.icon?.let { icon ->
+                            titleIconView?.let { iconView ->
+                                mDatabase?.iconDrawableFactory?.assignDatabaseIcon(
+                                    imageView = iconView,
+                                    icon = icon,
+                                    tintColor = entryState.iconColor
+                                )
+                            }
                         }
+                        // Toolbar customization
+                        val toolbarColor = entryState.toolbarColor
+                        val onToolbarColor = entryState.onToolbarColor
+                        collapsingToolbarLayout?.setBackgroundColor(toolbarColor)
+                        collapsingToolbarLayout?.contentScrim = (toolbarColor).toDrawable()
+                        toolbar?.changeControlColor(onToolbarColor)
+                        collapsingToolbarLayout?.changeTitleColor(onToolbarColor)
                         // Manage FAB visibility
                         editFab?.visibility = if (!mDatabaseReadOnly
                             && entryState.showFloatingActionButton) View.VISIBLE else View.GONE
@@ -479,29 +464,6 @@ class EntryActivity : DatabaseLockActivity() {
         super.onPause()
     }
 
-    private fun applyToolbarColors() {
-        collapsingToolbarLayout?.setBackgroundColor(mBackgroundColor ?: mColorSurface)
-        collapsingToolbarLayout?.contentScrim = (mBackgroundColor ?: mColorSurface).toDrawable()
-        val backgroundDarker = if (mBackgroundColor != null) {
-            ColorUtils.blendARGB(mBackgroundColor!!, Color.WHITE, 0.1f)
-        } else {
-            mColorBackground
-        }
-        titleIconView?.background?.colorFilter = BlendModeColorFilterCompat
-            .createBlendModeColorFilterCompat(backgroundDarker, BlendModeCompat.SRC_IN)
-        mIcon?.let { icon ->
-            titleIconView?.let { iconView ->
-                mDatabase?.iconDrawableFactory?.assignDatabaseIcon(
-                    iconView,
-                    icon,
-                    mForegroundColor ?: mColorSecondary
-                )
-            }
-        }
-        toolbar?.changeControlColor(mForegroundColor ?: mColorOnSurface)
-        collapsingToolbarLayout?.changeTitleColor(mForegroundColor ?: mColorOnSurface)
-    }
-
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         super.onCreateOptionsMenu(menu)
         if (mEntryViewModel.entryLoaded) {
@@ -532,7 +494,7 @@ class EntryActivity : DatabaseLockActivity() {
             menu?.findItem(R.id.menu_merge_database)?.isVisible = false
             menu?.findItem(R.id.menu_reload_database)?.isVisible = false
         }
-        applyToolbarColors()
+        mEntryViewModel.applyToolbarColors()
         return super.onPrepareOptionsMenu(menu)
     }
 

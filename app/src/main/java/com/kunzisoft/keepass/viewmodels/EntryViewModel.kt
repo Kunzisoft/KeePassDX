@@ -20,8 +20,13 @@
 package com.kunzisoft.keepass.viewmodels
 
 import android.app.Application
+import android.content.res.Resources
+import android.graphics.Color
+import androidx.annotation.ColorInt
+import androidx.core.graphics.ColorUtils
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
+import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.credentialprovider.magikeyboard.MagikeyboardService
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.element.Attachment
@@ -62,8 +67,22 @@ class EntryViewModel(application: Application): AndroidViewModel(application) {
     val entryLoaded: Boolean
         get() = entryUIState.value.loaded
 
+    @ColorInt
+    private var colorSecondary: Int = 0
+    @ColorInt
+    private var colorSurface: Int = 0
+    @ColorInt
+    private var colorOnSurface: Int = 0
+    @ColorInt
+    private var colorBackground: Int = 0
+    @ColorInt
+    private var backgroundColor: Int? = null
+    @ColorInt
+    private var foregroundColor: Int? = null
+
     private var autoSwitchToMagikeyboard: Boolean = false
     private var keyboardEntrySelectionEnabled: Boolean = false
+    private var showEntryColors: Boolean = false
 
     private val _clipboardHelper: ClipboardHelper = ClipboardHelper(application)
 
@@ -106,6 +125,23 @@ class EntryViewModel(application: Application): AndroidViewModel(application) {
         // Init preferences
         autoSwitchToMagikeyboard = PreferencesUtil.isAutoSwitchToMagikeyboardEnable(application)
         keyboardEntrySelectionEnabled = PreferencesUtil.isKeyboardEntrySelectionEnable(application)
+        showEntryColors = PreferencesUtil.showEntryColors(application)
+    }
+
+    fun setTheme(theme: Resources.Theme) {
+        // Retrieve the textColor to tint the toolbar
+        theme.obtainStyledAttributes(intArrayOf(R.attr.colorSecondary)).also { taColorSecondary ->
+            colorSecondary = taColorSecondary.getColor(0, Color.BLACK)
+        }.recycle()
+        theme.obtainStyledAttributes(intArrayOf(R.attr.colorSurface)).also { taColorSurface ->
+            colorSurface = taColorSurface.getColor(0, Color.BLACK)
+        }.recycle()
+        theme.obtainStyledAttributes(intArrayOf(R.attr.colorOnSurface)).also { taColorOnSurface ->
+            colorOnSurface = taColorOnSurface.getColor(0, Color.BLACK)
+        }.recycle()
+        theme.obtainStyledAttributes(intArrayOf(android.R.attr.windowBackground)).also { taColorBackground ->
+            colorBackground = taColorBackground.getColor(0, Color.BLACK)
+        }.recycle()
     }
 
     fun loadDatabase(database: ContextualDatabase?) {
@@ -136,10 +172,15 @@ class EntryViewModel(application: Application): AndroidViewModel(application) {
                         _onEntryLoaded.emit(OnEntryLoaded(
                             entryInfo = entryInfo
                         ))
+
+                        // Assign colors
+                        backgroundColor = if (showEntryColors) entryInfo.backgroundColor else null
+                        foregroundColor = if (showEntryColors) entryInfo.foregroundColor else null
+
                         // To show Entry UI
                         _entryUIState.update {
                             it.copy(
-                                loaded = false,
+                                loaded = true,
                                 entryInfo = entryInfo,
                                 showFloatingActionButton = !isHistory,
                                 showHistoryView = isHistory
@@ -237,6 +278,21 @@ class EntryViewModel(application: Application): AndroidViewModel(application) {
         _clipboardHelper.timeoutCopyToClipboard(text, text)
     }
 
+    fun applyToolbarColors() {
+        viewModelScope.launch {
+            _entryUIState.update {
+                it.copy(
+                    toolbarColor = backgroundColor ?: colorSurface,
+                    onToolbarColor = foregroundColor ?: colorOnSurface,
+                    iconColor = foregroundColor ?: colorSecondary,
+                    iconBackgroundColor = backgroundColor?.let { background ->
+                        ColorUtils.blendARGB(background, Color.WHITE, 0.1f)
+                    } ?: colorBackground
+                )
+            }
+        }
+    }
+
     /**
      * Custom data class to manage entry history.
      */
@@ -264,10 +320,14 @@ class EntryViewModel(application: Application): AndroidViewModel(application) {
     )
 
     data class EntryState(
-        val loaded: Boolean = true,
+        val loaded: Boolean = false,
         val entryInfo: EntryInfo? = null,
         val showFloatingActionButton: Boolean = false,
-        val showHistoryView: Boolean = false
+        val showHistoryView: Boolean = false,
+        val toolbarColor: Int =  0,
+        val onToolbarColor: Int =  0,
+        val iconColor: Int = 0,
+        val iconBackgroundColor: Int = 0
     )
 
     data class EntryHistoryState(
