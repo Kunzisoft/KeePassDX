@@ -285,6 +285,9 @@ open class Database {
     val allowDataCompression: Boolean
         get() = mDatabaseKDBX != null
 
+    val supportsKeeShare: Boolean
+        get() = mDatabaseKDBX != null
+
     val availableCompressionAlgorithms: List<CompressionAlgorithm>
         get() = mDatabaseKDBX?.availableCompressionAlgorithms ?: emptyList()
 
@@ -443,6 +446,12 @@ open class Database {
         return mDatabaseKDB?.getAllGroupsWithoutRoot()?.map { Group(it) }
             ?: mDatabaseKDBX?.getAllGroupsWithoutRoot()?.map { Group(it) }
             ?: listOf()
+    }
+
+    fun forEachGroupWithCustomData(action: (Group) -> Unit) {
+        mDatabaseKDBX?.getGroupIndexes()
+            ?.filter { it.customData.isNotEmpty() }
+            ?.forEach { action(Group(it)) }
     }
 
     val manageHistory: Boolean
