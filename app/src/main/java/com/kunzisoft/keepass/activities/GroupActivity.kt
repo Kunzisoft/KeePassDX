@@ -98,6 +98,7 @@ import com.kunzisoft.keepass.model.DataTime
 import com.kunzisoft.keepass.model.GroupInfo
 import com.kunzisoft.keepass.model.RegisterInfo
 import com.kunzisoft.keepass.model.SearchInfo
+import com.kunzisoft.keepass.services.DatabaseTaskNotificationService
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_ENTRY_TASK
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_GROUP_TASK
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.getNewEntry
@@ -108,7 +109,11 @@ import com.kunzisoft.keepass.timeout.TimeoutHelper
 import com.kunzisoft.keepass.utils.BACK_PREVIOUS_KEYBOARD_ACTION
 import com.kunzisoft.keepass.utils.KeyboardUtil.showKeyboard
 import com.kunzisoft.keepass.utils.TimeUtil.datePickerToDataDate
+import com.kunzisoft.keepass.database.MainCredential
+import com.kunzisoft.keepass.database.keeshare.KeeShareReference
+import com.kunzisoft.keepass.keeshare.KeeShareObserver
 import com.kunzisoft.keepass.utils.UriUtil.openUrl
+import com.kunzisoft.keepass.utils.UriUtil.takeUriPermission
 import com.kunzisoft.keepass.utils.getParcelableCompat
 import com.kunzisoft.keepass.utils.getParcelableExtraCompat
 import com.kunzisoft.keepass.utils.getParcelableList
@@ -140,6 +145,7 @@ class GroupActivity : DatabaseLockActivity(),
         GroupFragment.NodesActionMenuListener,
         GroupFragment.OnScrollListener,
         GroupFragment.GroupRefreshedListener,
+        GroupFragment.KeeShareIconClickListener,
         SortDialogFragment.SortSelectionListener {
 
     // Views
@@ -181,6 +187,9 @@ class GroupActivity : DatabaseLockActivity(),
 
     // Manage merge
     private var mExternalFileHelper: ExternalFileHelper? = null
+    private var mPendingKeeShareGroupUuid: String? = null
+    private var mKeeShareFileHelper: ExternalFileHelper? = null
+    private var mKeeShareObserver: KeeShareObserver? = null
 
     // Manage group
     private var mSearchState: SearchState? = null
@@ -352,6 +361,17 @@ class GroupActivity : DatabaseLockActivity(),
         mExternalFileHelper?.buildCreateDocument("application/x-keepass") { uri ->
             uri?.let {
                 saveDatabaseTo(it)
+            }
+        }
+
+        mKeeShareFileHelper = ExternalFileHelper(this)
+        mKeeShareFileHelper?.buildOpenDocument { uri ->
+            uri?.let { selectedUri ->
+                mPendingKeeShareGroupUuid?.let { groupUuid ->
+                    contentResolver?.takeUriPermission(selectedUri)
+                    PreferencesUtil.setKeeShareContainerUri(this, groupUuid, selectedUri.toString())
+                    mPendingKeeShareGroupUuid = null
+                }
             }
         }
 
@@ -672,6 +692,7 @@ class GroupActivity : DatabaseLockActivity(),
 
     override fun onDatabaseRetrieved(database: ContextualDatabase) {
         super.onDatabaseRetrieved(database)
+        startKeeShareObservers(database)
 
         mBreadcrumbAdapter = BreadcrumbAdapter(this, database).apply {
             // Open group on breadcrumb click
@@ -753,6 +774,10 @@ class GroupActivity : DatabaseLockActivity(),
         actionTask: String,
         result: ActionRunnable.Result
     ) {
+        if (actionTask == DatabaseTaskNotificationService.ACTION_KEESHARE_MERGE_TASK) {
+            if (result.isSuccess) mGroupFragment?.rebuildList()
+            return
+        }
         super.onDatabaseActionFinished(database, actionTask, result)
         when (actionTask) {
             ACTION_DATABASE_UPDATE_ENTRY_TASK -> {
@@ -917,6 +942,51 @@ class GroupActivity : DatabaseLockActivity(),
     override fun onScrolled(dy: Int) {
         if (actionNodeMode == null)
             addNodeButtonView?.hideOrShowButtonOnScrollListener(dy)
+    }
+
+    private data class KeeShareConfig(
+        val containerUri: Uri,
+        val password: String,
+        val groupId: NodeIdUUID,
+    )
+
+    private val mKeeShareConfigs = mutableMapOf<String, KeeShareConfig>()
+    private var mKeeShareInitialMergeDone = false
+
+    private fun startKeeShareObservers(database: ContextualDatabase) {
+        mKeeShareObserver?.stopAll(contentResolver)
+        if (!database.supportsKeeShare) return
+        mKeeShareObserver = KeeShareObserver { containerUri ->
+            mergeKeeShareContainer(containerUri.toString())
+        }
+        database.forEachGroupWithCustomData { group ->
+            val ref = KeeShareReference.fromCustomData(group.customData) ?: return@forEachGroupWithCustomData
+            val uriString = PreferencesUtil.getKeeShareContainerUri(this, group.nodeId.toString())
+                ?: return@forEachGroupWithCustomData
+            val groupId = group.nodeId as? NodeIdUUID ?: return@forEachGroupWithCustomData
+            mKeeShareConfigs[uriString] = KeeShareConfig(Uri.parse(uriString), ref.password, groupId)
+            mKeeShareObserver?.observe(contentResolver, Uri.parse(uriString))
+            if (!mKeeShareInitialMergeDone) {
+                mergeKeeShareContainer(uriString)
+            }
+        }
+        if (mKeeShareConfigs.isNotEmpty()) mKeeShareInitialMergeDone = true
+    }
+
+    private fun mergeKeeShareContainer(uriString: String) {
+        val config = mKeeShareConfigs[uriString] ?: return
+        mDatabaseViewModel.mergeKeeShare(
+            config.containerUri,
+            MainCredential(
+                if (config.password.isNotEmpty()) config.password.toCharArray() else CharArray(0),
+            ),
+            config.groupId,
+        )
+    }
+
+    override fun onKeeShareIconClick(database: ContextualDatabase, group: Group) {
+        mPendingKeeShareGroupUuid = group.nodeId.toString()
+        mKeeShareFileHelper?.openDocument()
     }
 
     override fun onNodeClick(
@@ -1268,6 +1338,7 @@ class GroupActivity : DatabaseLockActivity(),
 
     override fun onPause() {
         super.onPause()
+        mKeeShareObserver?.stopAll(contentResolver)
 
         finishNodeAction()
         searchView?.setOnQueryTextListener(null)
