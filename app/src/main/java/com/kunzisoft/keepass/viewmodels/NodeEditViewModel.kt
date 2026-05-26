@@ -1,69 +1,97 @@
 package com.kunzisoft.keepass.viewmodels
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.kunzisoft.keepass.database.element.DateInstant
 import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.model.DataDate
 import com.kunzisoft.keepass.model.DataTime
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.launch
 
+/**
+ * Abstract ViewModel for node editing common properties (icon, color, date).
+ */
 abstract class NodeEditViewModel : ViewModel() {
 
-    val requestIconSelection : LiveData<IconImage> get() = _requestIconSelection
-    private val _requestIconSelection = SingleLiveEvent<IconImage>()
-    val onIconSelected : LiveData<IconImage> get() = _onIconSelected
-    private val _onIconSelected = SingleLiveEvent<IconImage>()
+    private val _requestIconSelection = MutableSharedFlow<IconImage>(replay = 0)
+    val requestIconSelection: SharedFlow<IconImage> = _requestIconSelection.asSharedFlow()
+
+    private val _onIconSelected = MutableSharedFlow<IconImage>(replay = 0)
+    val onIconSelected: SharedFlow<IconImage> = _onIconSelected.asSharedFlow()
 
     private var mColorRequest: ColorRequest = ColorRequest.BACKGROUND
-    val requestColorSelection : LiveData<Int?> get() = _requestColorSelection
-    private val _requestColorSelection = SingleLiveEvent<Int?>()
-    val onBackgroundColorSelected : LiveData<Int?> get() = _onBackgroundColorSelected
-    private val _onBackgroundColorSelected = SingleLiveEvent<Int?>()
-    val onForegroundColorSelected : LiveData<Int?> get() = _onForegroundColorSelected
-    private val _onForegroundColorSelected = SingleLiveEvent<Int?>()
+    private val _requestColorSelection = MutableSharedFlow<Int?>(replay = 0)
+    val requestColorSelection: SharedFlow<Int?> = _requestColorSelection.asSharedFlow()
 
-    val requestDateTimeSelection : LiveData<DateInstant> get() = _requestDateTimeSelection
-    private val _requestDateTimeSelection = SingleLiveEvent<DateInstant>()
-    val onDateSelected : LiveData<DataDate> get() = _onDateSelected
-    private val _onDateSelected = SingleLiveEvent<DataDate>()
-    val onTimeSelected : LiveData<DataTime> get() = _onTimeSelected
-    private val _onTimeSelected = SingleLiveEvent<DataTime>()
+    private val _onBackgroundColorSelected = MutableSharedFlow<Int?>(replay = 0)
+    val onBackgroundColorSelected: SharedFlow<Int?> = _onBackgroundColorSelected.asSharedFlow()
+
+    private val _onForegroundColorSelected = MutableSharedFlow<Int?>(replay = 0)
+    val onForegroundColorSelected: SharedFlow<Int?> = _onForegroundColorSelected.asSharedFlow()
+
+    private val _requestDateTimeSelection = MutableSharedFlow<DateInstant>(replay = 0)
+    val requestDateTimeSelection: SharedFlow<DateInstant> = _requestDateTimeSelection.asSharedFlow()
+
+    private val _onDateSelected = MutableSharedFlow<DataDate>(replay = 0)
+    val onDateSelected: SharedFlow<DataDate> = _onDateSelected.asSharedFlow()
+
+    private val _onTimeSelected = MutableSharedFlow<DataTime>(replay = 0)
+    val onTimeSelected: SharedFlow<DataTime> = _onTimeSelected.asSharedFlow()
 
     fun requestIconSelection(oldIconImage: IconImage) {
-        _requestIconSelection.value = oldIconImage
+        viewModelScope.launch {
+            _requestIconSelection.emit(oldIconImage)
+        }
     }
 
     fun selectIcon(iconImage: IconImage) {
-        _onIconSelected.value = iconImage
+        viewModelScope.launch {
+            _onIconSelected.emit(iconImage)
+        }
     }
 
     fun requestBackgroundColorSelection(initialColor: Int?) {
         mColorRequest = ColorRequest.BACKGROUND
-        _requestColorSelection.value = initialColor
+        viewModelScope.launch {
+            _requestColorSelection.emit(initialColor)
+        }
     }
 
     fun requestForegroundColorSelection(initialColor: Int?) {
         mColorRequest = ColorRequest.FOREGROUND
-        _requestColorSelection.value = initialColor
+        viewModelScope.launch {
+            _requestColorSelection.emit(initialColor)
+        }
     }
 
     fun selectColor(color: Int?) {
-        when (mColorRequest) {
-            ColorRequest.BACKGROUND -> _onBackgroundColorSelected.value = color
-            ColorRequest.FOREGROUND -> _onForegroundColorSelected.value = color
+        viewModelScope.launch {
+            when (mColorRequest) {
+                ColorRequest.BACKGROUND -> _onBackgroundColorSelected.emit(color)
+                ColorRequest.FOREGROUND -> _onForegroundColorSelected.emit(color)
+            }
         }
     }
 
     fun requestDateTimeSelection(dateInstant: DateInstant) {
-        _requestDateTimeSelection.value = dateInstant
+        viewModelScope.launch {
+            _requestDateTimeSelection.emit(dateInstant)
+        }
     }
 
     fun selectDate(date: DataDate) {
-        _onDateSelected.value = date
+        viewModelScope.launch {
+            _onDateSelected.emit(date)
+        }
     }
 
     fun selectTime(dataTime: DataTime) {
-        _onTimeSelected.value = dataTime
+        viewModelScope.launch {
+            _onTimeSelected.emit(dataTime)
+        }
     }
 
     private enum class ColorRequest {

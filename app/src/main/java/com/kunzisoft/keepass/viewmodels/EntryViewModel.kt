@@ -96,8 +96,8 @@ class EntryViewModel(application: Application): AndroidViewModel(application) {
     private val _sectionSelected = MutableStateFlow(EntrySection.MAIN)
     val sectionSelected: StateFlow<EntrySection> = _sectionSelected.asStateFlow()
 
-    private val _onEntryLoaded = MutableSharedFlow<OnEntryLoaded>(replay = 0)
-    val onEntryLoaded: SharedFlow<OnEntryLoaded> = _onEntryLoaded.asSharedFlow()
+    private val _onEntryLoaded = MutableSharedFlow<EntryInfo>(replay = 0)
+    val onEntryLoaded: SharedFlow<EntryInfo> = _onEntryLoaded.asSharedFlow()
 
     private val _onOtpElementUpdated = MutableSharedFlow<OtpElement?>(replay = 0)
     val onOtpElementUpdated: SharedFlow<OtpElement?> = _onOtpElementUpdated.asSharedFlow()
@@ -169,9 +169,7 @@ class EntryViewModel(application: Application): AndroidViewModel(application) {
                         val entryInfo = database.getEntryInfoFrom(currentEntry)
                         this@EntryViewModel.entryIsHistory = isHistory
 
-                        _onEntryLoaded.emit(OnEntryLoaded(
-                            entryInfo = entryInfo
-                        ))
+                        _onEntryLoaded.emit(entryInfo)
 
                         // Assign colors
                         backgroundColor = if (showEntryColors) entryInfo.backgroundColor else null
@@ -314,10 +312,6 @@ class EntryViewModel(application: Application): AndroidViewModel(application) {
             }
         }
     }
-
-    data class OnEntryLoaded(
-        val entryInfo: EntryInfo
-    )
 
     data class EntryState(
         val loaded: Boolean = false,

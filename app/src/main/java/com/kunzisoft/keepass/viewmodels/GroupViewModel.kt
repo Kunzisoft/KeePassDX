@@ -19,27 +19,37 @@
  */
 package com.kunzisoft.keepass.viewmodels
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.helper.SearchHelper
 import com.kunzisoft.keepass.database.search.SearchParameters
 import com.kunzisoft.keepass.model.GroupInfo
 import com.kunzisoft.keepass.utils.IOActionTask
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
 
 
+/**
+ * ViewModel for managing groups.
+ */
 class GroupViewModel: ViewModel() {
 
-    val mainGroup : LiveData<SuperGroup> get() = _mainGroup
-    private val _mainGroup = MutableLiveData<SuperGroup>()
+    // TODO As UIState
+    private val _mainGroup = MutableSharedFlow<SuperGroup>(replay = 1)
+    val mainGroup: SharedFlow<SuperGroup> = _mainGroup.asSharedFlow()
 
-    val group : LiveData<SuperGroup> get() = _group
-    private val _group = MutableLiveData<SuperGroup>()
+    private val _group = MutableStateFlow<SuperGroup?>(null)
+    val group: StateFlow<SuperGroup?> = _group.asStateFlow()
 
-    val firstPositionVisible : LiveData<Int> get() = _firstPositionVisible
-    private val _firstPositionVisible = MutableLiveData<Int>()
+    private val _firstPositionVisible = MutableStateFlow(0)
+    val firstPositionVisible: StateFlow<Int> = _firstPositionVisible.asStateFlow()
 
     fun loadMainGroup(
         database: ContextualDatabase?,
@@ -47,21 +57,25 @@ class GroupViewModel: ViewModel() {
         showFromPosition: Int?
     ) {
         IOActionTask(
-            {
+            scope = viewModelScope,
+            action = {
                 if (groupId != null) {
                     database?.getGroupInfoById(groupId)
                 } else {
                     database?.getRootGroupInfo()
                 }
             },
-            { group ->
+            onActionComplete = { group ->
                 if (group != null) {
-                    _mainGroup.value = SuperGroup(
+                    val superGroup = SuperGroup(
                         group = group,
                         isRecycleBin = group.isRecycleBin(database),
                         showFromPosition = showFromPosition
                     )
-                    _group.value = _mainGroup.value
+                    viewModelScope.launch {
+                        _mainGroup.emit(superGroup)
+                    }
+                    _group.value = superGroup
                 }
             }
         ).execute()
@@ -74,14 +88,15 @@ class GroupViewModel: ViewModel() {
         showFromPosition: Int?
     ) {
         IOActionTask(
-            {
+            scope = viewModelScope,
+            action = {
                 database?.createSearchGroupInfo(
                     searchParameters,
                     fromGroup,
                     SearchHelper.MAX_SEARCH_ENTRY
                 )
             },
-            { group ->
+            onActionComplete = { group ->
                 if (group != null) {
                     _group.value = SuperGroup(
                         group = group,

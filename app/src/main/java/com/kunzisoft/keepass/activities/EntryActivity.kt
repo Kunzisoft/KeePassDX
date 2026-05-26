@@ -271,9 +271,9 @@ class EntryActivity : DatabaseLockActivity() {
                     }
                 }
                 launch {
-                    mEntryViewModel.onEntryLoaded.collect { onEntryLoaded ->
+                    mEntryViewModel.onEntryLoaded.collect { entry ->
                         // To sort by access
-                        touchEntry(onEntryLoaded.entryInfo)
+                        touchEntry(entry)
                     }
                 }
                 launch {

@@ -140,169 +140,163 @@ class EntryEditFragment: DatabaseFragment() {
             setAttachments(attachments)
         }
 
-        mEntryEditViewModel.onTemplateChanged.observe(viewLifecycleOwner) { template ->
-            templateView.setTemplate(template)
-        }
-
-        mEntryEditViewModel.templatesEntry.observe(viewLifecycleOwner) { templateEntry ->
-            if (templateEntry != null) {
-                val selectedTemplate = templateEntry.template ?: templateEntry.defaultTemplate
-                templateView.setTemplate(selectedTemplate)
-                // Load entry info only the first time to keep change locally
-                if (savedInstanceState == null) {
-                    assignEntryInfo(templateEntry.entryInfo)
-                }
-                // To prevent flickering
-                rootView.showByFading()
-                // Apply timeout reset
-                resetAppTimeoutWhenViewFocusedOrChanged(rootView)
-            }
-        }
-
-        mEntryEditViewModel.requestEntryInfoUpdate.observe(viewLifecycleOwner) {
-            mEntryEditViewModel.saveEntryInfo(retrieveEntryInfo())
-        }
-
-        mEntryEditViewModel.onIconSelected.observe(viewLifecycleOwner) { iconImage ->
-            templateView.setIcon(iconImage)
-        }
-
-        mEntryEditViewModel.onBackgroundColorSelected.observe(viewLifecycleOwner) { color ->
-            templateView.setBackgroundColor(color)
-        }
-
-        mEntryEditViewModel.onForegroundColorSelected.observe(viewLifecycleOwner) { color ->
-            templateView.setForegroundColor(color)
-        }
-
-        mEntryEditViewModel.onPasswordSelected.observe(viewLifecycleOwner) { passwordField ->
-            templateView.setPasswordField(passwordField)
-        }
-
-        mEntryEditViewModel.onDateSelected.observe(viewLifecycleOwner) { viewModelDate ->
-            // Save the date
-            templateView.setCurrentDateTimeValue(viewModelDate)
-        }
-
-        mEntryEditViewModel.onTimeSelected.observe(viewLifecycleOwner) { viewModelTime ->
-            // Save the time
-            templateView.setCurrentTimeValue(viewModelTime)
-        }
-
-        mEntryEditViewModel.onCustomFieldEdited.observe(viewLifecycleOwner) { fieldAction ->
-            val oldField = fieldAction.oldField
-            val newField = fieldAction.newField
-            // Field to add
-            if (oldField == null) {
-                newField?.let {
-                    if (!templateView.putCustomField(it)) {
-                        mEntryEditViewModel.showCustomFieldEditionError()
-                    }
-                }
-            }
-            // Field to replace
-            oldField?.let {
-                newField?.let {
-                    if (!templateView.replaceCustomField(oldField, newField)) {
-                        mEntryEditViewModel.showCustomFieldEditionError()
-                    }
-                }
-            }
-            // Field to remove
-            if (newField == null) {
-                oldField?.let {
-                    templateView.removeCustomField(it)
-                }
-            }
-        }
-
-        mEntryEditViewModel.requestSetupOtp.observe(viewLifecycleOwner) {
-            // Retrieve the current otpElement if exists
-            // and open the dialog to set up the OTP
-            SetOTPDialogFragment.build(templateView.getEntryInfo().otpModel)
-                .show(parentFragmentManager, "addOTPDialog")
-        }
-
-        mEntryEditViewModel.onOtpCreated.observe(viewLifecycleOwner) {
-            // Update the otp field with otpauth:// url
-            templateView.putOtpElement(it)
-        }
-
-        mEntryEditViewModel.onBuildNewAttachment.observe(viewLifecycleOwner) {
-            val attachmentToUploadUri = it.attachmentToUploadUri
-            val fileName = it.fileName
-
-            mDatabaseViewModel.buildNewAttachment()?.let { binaryAttachment ->
-                val entryAttachment = Attachment(fileName, binaryAttachment)
-                // Ask to replace the current attachment
-                if ((!mAllowMultipleAttachments
-                            && containsAttachment()) ||
-                    containsAttachment(EntryAttachmentState(entryAttachment, StreamDirection.UPLOAD))) {
-                    ReplaceFileDialogFragment.build(attachmentToUploadUri, entryAttachment)
-                        .show(parentFragmentManager, "replacementFileFragment")
-                } else {
-                    mEntryEditViewModel.startUploadAttachment(attachmentToUploadUri, entryAttachment)
-                }
-            }
-        }
-
-        mEntryEditViewModel.onAttachmentAction.observe(viewLifecycleOwner) { entryAttachmentState ->
-            when (entryAttachmentState?.downloadState) {
-                AttachmentState.START -> {
-                    putAttachment(entryAttachmentState)
-                    getAttachmentViewPosition(entryAttachmentState) { attachment, position ->
-                        mEntryEditViewModel.binaryPreviewLoaded(attachment, position)
-                    }
-                }
-                AttachmentState.IN_PROGRESS -> {
-                    putAttachment(entryAttachmentState)
-                }
-                AttachmentState.COMPLETE -> {
-                    putAttachment(entryAttachmentState) { entryAttachment ->
-                        getAttachmentViewPosition(entryAttachment) { attachment, position ->
-                            mEntryEditViewModel.binaryPreviewLoaded(attachment, position)
-                        }
-                    }
-                    mEntryEditViewModel.onAttachmentAction(null)
-                }
-                AttachmentState.CANCELED,
-                AttachmentState.ERROR -> {
-                    removeAttachment(entryAttachmentState)
-                    mEntryEditViewModel.onAttachmentAction(null)
-                }
-                else -> {}
-            }
-        }
-
         lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                mEntryEditViewModel.entryEditState.collect { entryEditState ->
-                    when (entryEditState) {
-                        is EntryEditViewModel.EntryEditState.Loading -> {}
-                        is EntryEditViewModel.EntryEditState.ShowOverwriteMessage -> {}
-                        is EntryEditViewModel.EntryEditState.OnChangeFieldProtectionRequested -> {}
-                        is EntryEditViewModel.EntryEditState.OnFieldProtectionUpdated -> {
-                            updateFieldProtection(entryEditState.fieldProtection)
-                            mEntryEditViewModel.actionPerformed()
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                launch {
+                    mEntryEditViewModel.entryEditUIState.collect { templateEntry ->
+                        // Load entry info only the first time to keep change locally
+                        if (savedInstanceState == null) {
+                            assignEntryInfo(templateEntry.entryInfo)
                         }
-                        is EntryEditViewModel.EntryEditState.CreateEntry -> {
-                            // Managed in entry edit activity
+                        // To prevent flickering
+                        rootView.showByFading()
+                        // Apply timeout reset
+                        resetAppTimeoutWhenViewFocusedOrChanged(rootView)
+                    }
+                }
+                launch {
+                    mEntryEditViewModel.onTemplateChanged.collect { template ->
+                        templateView.setTemplate(template)
+                    }
+                }
+                launch {
+                    mEntryEditViewModel.onEntryValidationRequested.collect {
+                        mEntryEditViewModel.saveEntryInfo(retrieveEntryInfo())
+                    }
+                }
+                launch {
+                    mEntryEditViewModel.onIconSelected.collect { iconImage ->
+                        templateView.setIcon(iconImage)
+                    }
+                }
+                launch {
+                    mEntryEditViewModel.onBackgroundColorSelected.collect { color ->
+                        templateView.setBackgroundColor(color)
+                    }
+                }
+                launch {
+                    mEntryEditViewModel.onForegroundColorSelected.collect { color ->
+                        templateView.setForegroundColor(color)
+                    }
+                }
+                launch {
+                    mEntryEditViewModel.onPasswordSelected.collect { passwordField ->
+                        templateView.setPasswordField(passwordField)
+                    }
+                }
+                launch {
+                    mEntryEditViewModel.onDateSelected.collect { viewModelDate ->
+                        // Save the date
+                        templateView.setCurrentDateTimeValue(viewModelDate)
+                    }
+                }
+                launch {
+                    mEntryEditViewModel.onTimeSelected.collect { viewModelTime ->
+                        // Save the time
+                        templateView.setCurrentTimeValue(viewModelTime)
+                    }
+                }
+                launch {
+                    mEntryEditViewModel.onCustomFieldEdited.collect { fieldAction ->
+                        val oldField = fieldAction.oldField
+                        val newField = fieldAction.newField
+                        // Field to add
+                        if (oldField == null) {
+                            newField?.let {
+                                if (!templateView.putCustomField(it)) {
+                                    mEntryEditViewModel.showCustomFieldEditionError()
+                                }
+                            }
                         }
-                        is EntryEditViewModel.EntryEditState.UpdateEntry -> {
-                            // Managed in entry edit activity
+                        // Field to replace
+                        oldField?.let {
+                            newField?.let {
+                                if (!templateView.replaceCustomField(oldField, newField)) {
+                                    mEntryEditViewModel.showCustomFieldEditionError()
+                                }
+                            }
                         }
-                        is EntryEditViewModel.EntryEditState.CloseEntry -> {
-                            // Managed in entry edit activity
+                        // Field to remove
+                        if (newField == null) {
+                            oldField?.let {
+                                templateView.removeCustomField(it)
+                            }
                         }
-                        is EntryEditViewModel.EntryEditState.RetrieveEntryInfoForClosing -> {
-                            mEntryEditViewModel.askToCloseEntry(
-                                currentEntryInfo = retrieveEntryInfo(),
-                                closeType = entryEditState.closeType
-                            )
+                    }
+                }
+                launch {
+                    mEntryEditViewModel.requestSetupOtp.collect {
+                        // Retrieve the current otpElement if exists
+                        // and open the dialog to set up the OTP
+                        SetOTPDialogFragment.build(templateView.getEntryInfo().otpModel)
+                            .show(parentFragmentManager, "addOTPDialog")
+                    }
+                }
+                launch {
+                    mEntryEditViewModel.onOtpCreated.collect {
+                        // Update the otp field with otpauth:// url
+                        templateView.putOtpElement(it)
+                    }
+                }
+                launch {
+                    mEntryEditViewModel.onBuildNewAttachment.collect {
+                        val attachmentToUploadUri = it.attachmentToUploadUri
+                        val fileName = it.fileName
+
+                        mDatabaseViewModel.buildNewAttachment()?.let { binaryAttachment ->
+                            val entryAttachment = Attachment(fileName, binaryAttachment)
+                            // Ask to replace the current attachment
+                            if ((!mAllowMultipleAttachments
+                                        && containsAttachment()) ||
+                                containsAttachment(EntryAttachmentState(entryAttachment, StreamDirection.UPLOAD))) {
+                                ReplaceFileDialogFragment.build(attachmentToUploadUri, entryAttachment)
+                                    .show(parentFragmentManager, "replacementFileFragment")
+                            } else {
+                                mEntryEditViewModel.startUploadAttachment(attachmentToUploadUri, entryAttachment)
+                            }
                         }
-                        is EntryEditViewModel.EntryEditState.AskToDiscardChanges -> {
-                            // Dialog in activity
+                    }
+                }
+                launch {
+                    mEntryEditViewModel.onAttachmentAction.collect { entryAttachmentState ->
+                        when (entryAttachmentState?.downloadState) {
+                            AttachmentState.START -> {
+                                putAttachment(entryAttachmentState)
+                                getAttachmentViewPosition(entryAttachmentState) { attachment, position ->
+                                    mEntryEditViewModel.binaryPreviewLoaded(attachment, position)
+                                }
+                            }
+                            AttachmentState.IN_PROGRESS -> {
+                                putAttachment(entryAttachmentState)
+                            }
+                            AttachmentState.COMPLETE -> {
+                                putAttachment(entryAttachmentState) { entryAttachment ->
+                                    getAttachmentViewPosition(entryAttachment) { attachment, position ->
+                                        mEntryEditViewModel.binaryPreviewLoaded(attachment, position)
+                                    }
+                                }
+                                mEntryEditViewModel.onAttachmentAction(null)
+                            }
+                            AttachmentState.CANCELED,
+                            AttachmentState.ERROR -> {
+                                removeAttachment(entryAttachmentState)
+                                mEntryEditViewModel.onAttachmentAction(null)
+                            }
+                            else -> {}
                         }
+                    }
+                }
+                launch {
+                    mEntryEditViewModel.onFieldProtectionUpdated.collect { fieldProtection ->
+                        updateFieldProtection(fieldProtection)
+                    }
+                }
+                launch {
+                    mEntryEditViewModel.retrieveEntryInfoForClosing.collect { closeType ->
+                        mEntryEditViewModel.askToCloseEntry(
+                            currentEntryInfo = retrieveEntryInfo(),
+                            closeType = closeType
+                        )
                     }
                 }
             }

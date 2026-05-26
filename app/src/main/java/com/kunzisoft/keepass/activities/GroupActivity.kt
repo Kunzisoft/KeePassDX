@@ -463,57 +463,124 @@ class GroupActivity : DatabaseLockActivity(),
             GROUP_FRAGMENT_TAG
         ).commit()
 
-        // Observe main group
-        mGroupViewModel.mainGroup.observe(this) {
-            val mainGroup = it.group
-            mMainGroup = mainGroup
-            mRecyclingBinIsCurrentGroup = it.isRecycleBin
-            // Save group state
-            mMainGroupState = GroupState(mainGroup.nodeId, it.showFromPosition)
-            touchGroup(mainGroup)
-        }
-
-        // Observe current group (main or search group visible)
-        mGroupViewModel.group.observe(this) {
-            val currentGroup = it.group
-            mCurrentGroup = currentGroup
-            if (currentGroup is SearchGroupInfo) {
-                mSearchState = SearchState(
-                    it.searchParameters,
-                    it.showFromPosition
-                )
-            }
-            // Main and search groups in activity are managed with another variables
-            // to keep values during orientation
-
-            loadingView?.hideByFading()
-        }
-
-        mGroupViewModel.firstPositionVisible.observe(this) { firstPositionVisible ->
-            mSearchState?.firstVisibleItem = firstPositionVisible
-            mMainGroupState?.firstVisibleItem = firstPositionVisible
-        }
-
-        mGroupEditViewModel.requestIconSelection.observe(this) { iconImage ->
-            IconPickerActivity.launch(this@GroupActivity, iconImage, mIconSelectionActivityResultLauncher)
-        }
-
-        mGroupEditViewModel.requestDateTimeSelection.observe(this) { dateInstant ->
-            if (dateInstant.type == DateInstant.Type.TIME) {
-                // Launch the time picker
-                MaterialTimePicker.Builder().build().apply {
-                    addOnPositiveButtonClickListener {
-                        mGroupEditViewModel.selectTime(DataTime(this.hour, this.minute))
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                launch {
+                    mGroupViewModel.mainGroup.collect {
+                        val mainGroup = it.group
+                        mMainGroup = mainGroup
+                        mRecyclingBinIsCurrentGroup = it.isRecycleBin
+                        // Save group state
+                        mMainGroupState = GroupState(mainGroup.nodeId, it.showFromPosition)
+                        touchGroup(mainGroup)
                     }
-                    show(supportFragmentManager, "TimePickerFragment")
                 }
-            } else {
-                // Launch the date picker
-                MaterialDatePicker.Builder.datePicker().build().apply {
-                    addOnPositiveButtonClickListener {
-                        mGroupEditViewModel.selectDate(datePickerToDataDate(it))
+                launch {
+                    mGroupViewModel.group.collect {
+                        it?.let {
+                            val currentGroup = it.group
+                            mCurrentGroup = currentGroup
+                            if (currentGroup is SearchGroupInfo) {
+                                mSearchState = SearchState(
+                                    it.searchParameters,
+                                    it.showFromPosition
+                                )
+                            }
+                            // Main and search groups in activity are managed with another variables
+                            // to keep values during orientation
+
+                            loadingView?.hideByFading()
+                        }
                     }
-                    show(supportFragmentManager, "DatePickerFragment")
+                }
+                launch {
+                    mGroupViewModel.firstPositionVisible.collect { firstPositionVisible ->
+                        mSearchState?.firstVisibleItem = firstPositionVisible
+                        mMainGroupState?.firstVisibleItem = firstPositionVisible
+                    }
+                }
+                launch {
+                    mGroupEditViewModel.requestIconSelection.collect { iconImage ->
+                        IconPickerActivity.launch(this@GroupActivity, iconImage, mIconSelectionActivityResultLauncher)
+                    }
+                }
+                launch {
+                    mGroupEditViewModel.requestDateTimeSelection.collect { dateInstant ->
+                        if (dateInstant.type == DateInstant.Type.TIME) {
+                            // Launch the time picker
+                            MaterialTimePicker.Builder().build().apply {
+                                addOnPositiveButtonClickListener {
+                                    mGroupEditViewModel.selectTime(DataTime(this.hour, this.minute))
+                                }
+                                show(supportFragmentManager, "TimePickerFragment")
+                            }
+                        } else {
+                            // Launch the date picker
+                            MaterialDatePicker.Builder.datePicker().build().apply {
+                                addOnPositiveButtonClickListener {
+                                    mGroupEditViewModel.selectDate(datePickerToDataDate(it))
+                                }
+                                show(supportFragmentManager, "DatePickerFragment")
+                            }
+                        }
+                    }
+                }
+                launch {
+                    mMainCredentialViewModel.uiState.collect { credentialState ->
+                        when (credentialState) {
+                            is MainCredentialViewModel.UIState.Loading -> {}
+                            is MainCredentialViewModel.UIState.OnMainCredentialEntered -> {
+                                mergeDatabaseFrom(credentialState.databaseUri, credentialState.mainCredential)
+                                mMainCredentialViewModel.onActionReceived()
+                            }
+                            is MainCredentialViewModel.UIState.OnMainCredentialCanceled -> {
+                                mMainCredentialViewModel.onActionReceived()
+                            }
+                        }
+                    }
+                }
+                launch {
+                    mGroupEditViewModel.groupEditState.collect { groupEditState ->
+                        when (groupEditState) {
+                            is GroupEditViewModel.GroupEditState.Wait -> {}
+                            is GroupEditViewModel.GroupEditState.CreateGroup -> {
+                                mMainGroup?.nodeId?.let { parentId ->
+                                    createGroup(parentId, groupEditState.groupInfo)
+                                }
+                                mGroupEditViewModel.actionPerformed()
+                            }
+                            is GroupEditViewModel.GroupEditState.UpdateGroup -> {
+                                updateGroup(groupEditState.groupInfo)
+                                mGroupEditViewModel.actionPerformed()
+                            }
+                        }
+                    }
+                }
+                launch {
+                    mUserVerificationViewModel.onUserVerificationCanceled.collect { result ->
+                        coordinatorLayout?.showError(result.error)
+                    }
+                }
+                launch {
+                    mUserVerificationViewModel.onUserVerificationSucceeded.collect { data ->
+                        when (data.actionType) {
+                            UserVerificationActionType.EDIT_ENTRY -> {
+                                editEntry(data.database, data.entryId)
+                            }
+                            UserVerificationActionType.MERGE_FROM_DATABASE -> {
+                                mExternalFileHelper?.openDocument()
+                            }
+                            UserVerificationActionType.SAVE_DATABASE_COPY_TO -> {
+                                mExternalFileHelper?.createDocument(
+                                    getString(R.string.database_file_name_default) +
+                                            "_" +
+                                            LocalDateTime.now().toString() +
+                                            data.database?.defaultFileExtension
+                                )
+                            }
+                            else -> {}
+                        }
+                    }
                 }
             }
         }
@@ -567,74 +634,6 @@ class GroupActivity : DatabaseLockActivity(),
                             onLaunchActivitySpecialMode()
                         }
                     )
-                }
-            }
-        }
-
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.RESUMED) {
-                mMainCredentialViewModel.uiState.collect { credentialState ->
-                    when (credentialState) {
-                        is MainCredentialViewModel.UIState.Loading -> {}
-                        is MainCredentialViewModel.UIState.OnMainCredentialEntered -> {
-                            mergeDatabaseFrom(credentialState.databaseUri, credentialState.mainCredential)
-                            mMainCredentialViewModel.onActionReceived()
-                        }
-                        is MainCredentialViewModel.UIState.OnMainCredentialCanceled -> {
-                            mMainCredentialViewModel.onActionReceived()
-                        }
-                    }
-                }
-            }
-        }
-
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.RESUMED) {
-                mGroupEditViewModel.groupEditState.collect { groupEditState ->
-                    when (groupEditState) {
-                        is GroupEditViewModel.GroupEditState.Wait -> {}
-                        is GroupEditViewModel.GroupEditState.CreateGroup -> {
-                            mMainGroup?.nodeId?.let { parentId ->
-                                createGroup(parentId, groupEditState.groupInfo)
-                            }
-                            mGroupEditViewModel.actionPerformed()
-                        }
-                        is GroupEditViewModel.GroupEditState.UpdateGroup -> {
-                            updateGroup(groupEditState.groupInfo)
-                            mGroupEditViewModel.actionPerformed()
-                        }
-                    }
-                }
-            }
-        }
-
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.RESUMED) {
-                launch {
-                    mUserVerificationViewModel.onUserVerificationCanceled.collect { result ->
-                        coordinatorLayout?.showError(result.error)
-                    }
-                }
-                launch {
-                    mUserVerificationViewModel.onUserVerificationSucceeded.collect { data ->
-                        when (data.actionType) {
-                            UserVerificationActionType.EDIT_ENTRY -> {
-                                editEntry(data.database, data.entryId)
-                            }
-                            UserVerificationActionType.MERGE_FROM_DATABASE -> {
-                                mExternalFileHelper?.openDocument()
-                            }
-                            UserVerificationActionType.SAVE_DATABASE_COPY_TO -> {
-                                mExternalFileHelper?.createDocument(
-                                    getString(R.string.database_file_name_default) +
-                                            "_" +
-                                            LocalDateTime.now().toString() +
-                                            data.database?.defaultFileExtension
-                                )
-                            }
-                            else -> {}
-                        }
-                    }
                 }
             }
         }

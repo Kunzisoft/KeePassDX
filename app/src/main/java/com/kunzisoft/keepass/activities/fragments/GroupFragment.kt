@@ -31,6 +31,9 @@ import android.view.ViewGroup
 import androidx.appcompat.view.ActionMode
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.SCROLL_STATE_IDLE
@@ -51,6 +54,7 @@ import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.utils.KeyboardUtil.hideKeyboard
 import com.kunzisoft.keepass.viewmodels.GroupViewModel
+import kotlinx.coroutines.launch
 
 class GroupFragment : DatabaseFragment(), SortDialogFragment.SortSelectionListener {
 
@@ -242,11 +246,17 @@ class GroupFragment : DatabaseFragment(), SortDialogFragment.SortSelectionListen
         }
         resetAppTimeoutWhenViewFocusedOrChanged(view)
 
-        mGroupViewModel.group.observe(viewLifecycleOwner) {
-            mCurrentGroup = it.group
-            rebuildList()
-            it.showFromPosition?.let { position ->
-                mNodesRecyclerView?.scrollToPosition(position)
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                mGroupViewModel.group.collect { superGroup ->
+                    superGroup?.let {
+                        mCurrentGroup = it.group
+                        rebuildList()
+                        it.showFromPosition?.let { position ->
+                            mNodesRecyclerView?.scrollToPosition(position)
+                        }
+                    }
+                }
             }
         }
     }

@@ -20,14 +20,11 @@
 package com.kunzisoft.keepass.viewmodels
 
 import android.net.Uri
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.element.Attachment
-import com.kunzisoft.keepass.database.element.Entry
+import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.Field
-import com.kunzisoft.keepass.database.element.Group
 import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.database.element.icon.IconImageStandard
 import com.kunzisoft.keepass.database.element.node.NodeId
@@ -37,21 +34,30 @@ import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.model.FieldProtection
 import com.kunzisoft.keepass.model.RegisterInfo
 import com.kunzisoft.keepass.otp.OtpElement
-import com.kunzisoft.keepass.utils.IOActionTask
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.channels.BufferOverflow
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.util.UUID
 
 
+/**
+ * ViewModel for editing an entry.
+ */
 class EntryEditViewModel: NodeEditViewModel() {
 
     private var mDatabase: ContextualDatabase? = null
     private var mEntryId: NodeId<UUID>? = null
     private var mParentId: NodeId<*>? = null
     private var mRegisterInfo: RegisterInfo? = null
-    private var mParent: Group? = null
-    private var mEntry: Entry? = null
+    private var mTemplates: Templates? = null
     var isTemplate: Boolean = false
         private set
     var allowCustomFields: Boolean = false
@@ -69,110 +75,147 @@ class EntryEditViewModel: NodeEditViewModel() {
 
     private var mInitialEntryInfo: EntryInfo? = null
 
-    val templatesEntry : LiveData<TemplatesEntry?> get() = _templatesEntry
-    private val _templatesEntry = MutableLiveData<TemplatesEntry?>()
+    private val _entryEditUIState = MutableStateFlow(EntryEditState())
+    val entryEditUIState: StateFlow<EntryEditState> = _entryEditUIState.asStateFlow()
 
-    val requestEntryInfoUpdate : LiveData<Void?> get() = _requestEntryInfoUpdate
-    private val _requestEntryInfoUpdate = SingleLiveEvent<Void?>()
+    private val _onEntryLoaded = MutableSharedFlow<EntryInfo>(replay = 0)
+    val onEntryLoaded: SharedFlow<EntryInfo> = _onEntryLoaded.asSharedFlow()
 
-    val onTemplateChanged : LiveData<Template> get() = _onTemplateChanged
-    private val _onTemplateChanged = MutableLiveData<Template>()
+    private val _onTemplatesInitialized = MutableSharedFlow<Templates>(replay = 0)
+    val onTemplatesInitialized: SharedFlow<Templates> = _onTemplatesInitialized.asSharedFlow()
 
-    val requestPasswordSelection : LiveData<Void?> get() = _requestPasswordSelection
-    private val _requestPasswordSelection = SingleLiveEvent<Void?>()
-    val onPasswordSelected : LiveData<Field> get() = _onPasswordSelected
-    private val _onPasswordSelected = SingleLiveEvent<Field>()
+    private val _onTemplateChanged = MutableSharedFlow<Template>(replay = 0)
+    val onTemplateChanged: SharedFlow<Template> = _onTemplateChanged.asSharedFlow()
 
-    val requestCustomFieldEdition : LiveData<Field> get() = _requestCustomFieldEdition
-    private val _requestCustomFieldEdition = SingleLiveEvent<Field>()
-    val onCustomFieldEdited : LiveData<FieldEdition> get() = _onCustomFieldEdited
-    private val _onCustomFieldEdited = SingleLiveEvent<FieldEdition>()
-    val onCustomFieldError : LiveData<Void?> get() = _onCustomFieldError
-    private val _onCustomFieldError = SingleLiveEvent<Void?>()
+    private val _onEntryValidationRequested = MutableSharedFlow<Unit>(
+        replay = 0,
+        extraBufferCapacity = 1,
+        onBufferOverflow = BufferOverflow.DROP_OLDEST
+    )
+    val onEntryValidationRequested: SharedFlow<Unit> = _onEntryValidationRequested.asSharedFlow()
 
-    val requestSetupOtp : LiveData<Void?> get() = _requestSetupOtp
-    private val _requestSetupOtp = SingleLiveEvent<Void?>()
-    val onOtpCreated : LiveData<OtpElement> get() = _onOtpCreated
-    private val _onOtpCreated = SingleLiveEvent<OtpElement>()
+    private val _requestPasswordSelection = MutableSharedFlow<Unit>(replay = 0)
+    val requestPasswordSelection: SharedFlow<Unit> = _requestPasswordSelection.asSharedFlow()
 
-    val onBuildNewAttachment : LiveData<AttachmentBuild> get() = _onBuildNewAttachment
-    private val _onBuildNewAttachment = SingleLiveEvent<AttachmentBuild>()
-    val onStartUploadAttachment : LiveData<AttachmentUpload> get() = _onStartUploadAttachment
-    private val _onStartUploadAttachment = SingleLiveEvent<AttachmentUpload>()
-    val attachmentDeleted : LiveData<Attachment> get() = _attachmentDeleted
-    private val _attachmentDeleted = SingleLiveEvent<Attachment>()
-    val onAttachmentAction : LiveData<EntryAttachmentState?> get() = _onAttachmentAction
-    private val _onAttachmentAction = MutableLiveData<EntryAttachmentState?>()
-    val onBinaryPreviewLoaded : LiveData<AttachmentPosition> get() = _onBinaryPreviewLoaded
-    private val _onBinaryPreviewLoaded = SingleLiveEvent<AttachmentPosition>()
+    private val _onPasswordSelected = MutableSharedFlow<Field>(replay = 0)
+    val onPasswordSelected: SharedFlow<Field> = _onPasswordSelected.asSharedFlow()
 
-    private val mEntryEditState = MutableStateFlow<EntryEditState>(EntryEditState.Loading)
-    val entryEditState: StateFlow<EntryEditState> = mEntryEditState.asStateFlow()
+    private val _requestCustomFieldEdition = MutableSharedFlow<Field>(replay = 0)
+    val requestCustomFieldEdition: SharedFlow<Field> = _requestCustomFieldEdition.asSharedFlow()
+
+    private val _onCustomFieldEdited = MutableSharedFlow<FieldEdition>(replay = 0)
+    val onCustomFieldEdited: SharedFlow<FieldEdition> = _onCustomFieldEdited.asSharedFlow()
+
+    private val _onCustomFieldError = MutableSharedFlow<Unit>(replay = 0)
+    val onCustomFieldError: SharedFlow<Unit> = _onCustomFieldError.asSharedFlow()
+
+    private val _requestSetupOtp = MutableSharedFlow<Unit>(replay = 0)
+    val requestSetupOtp: SharedFlow<Unit> = _requestSetupOtp.asSharedFlow()
+
+    private val _onOtpCreated = MutableSharedFlow<OtpElement>(replay = 0)
+    val onOtpCreated: SharedFlow<OtpElement> = _onOtpCreated.asSharedFlow()
+
+    private val _onBuildNewAttachment = MutableSharedFlow<AttachmentBuild>(replay = 0)
+    val onBuildNewAttachment: SharedFlow<AttachmentBuild> = _onBuildNewAttachment.asSharedFlow()
+
+    private val _onStartUploadAttachment = MutableSharedFlow<AttachmentUpload>(replay = 0)
+    val onStartUploadAttachment: SharedFlow<AttachmentUpload> = _onStartUploadAttachment.asSharedFlow()
+
+    private val _attachmentDeleted = MutableSharedFlow<Attachment>(replay = 0)
+    val attachmentDeleted: SharedFlow<Attachment> = _attachmentDeleted.asSharedFlow()
+
+    private val _onAttachmentAction = MutableStateFlow<EntryAttachmentState?>(null)
+    val onAttachmentAction: StateFlow<EntryAttachmentState?> = _onAttachmentAction.asStateFlow()
+
+    private val _onBinaryPreviewLoaded = MutableSharedFlow<AttachmentPosition>(replay = 0)
+    val onBinaryPreviewLoaded: SharedFlow<AttachmentPosition> = _onBinaryPreviewLoaded.asSharedFlow()
+
+    private val _createEntry = MutableSharedFlow<CreateEntryAction>(replay = 0)
+    val createEntry: SharedFlow<CreateEntryAction> = _createEntry.asSharedFlow()
+
+    private val _updateEntry = MutableSharedFlow<EntryInfo>(replay = 0)
+    val updateEntry: SharedFlow<EntryInfo> = _updateEntry.asSharedFlow()
+
+    private val _closeEntry = MutableSharedFlow<CloseType>(replay = 0)
+    val closeEntry: SharedFlow<CloseType> = _closeEntry.asSharedFlow()
+
+    private val _askToDiscardChanges = MutableSharedFlow<CloseType>(replay = 0)
+    val askToDiscardChanges: SharedFlow<CloseType> = _askToDiscardChanges.asSharedFlow()
+
+    private val _showOverwriteMessage = MutableSharedFlow<Unit>(replay = 0)
+    val showOverwriteMessage: SharedFlow<Unit> = _showOverwriteMessage.asSharedFlow()
+
+    private val _onChangeFieldProtectionRequested = MutableSharedFlow<FieldProtection>(replay = 0)
+    val onChangeFieldProtectionRequested: SharedFlow<FieldProtection> = _onChangeFieldProtectionRequested.asSharedFlow()
+
+    private val _onFieldProtectionUpdated = MutableSharedFlow<FieldProtection>(replay = 0)
+    val onFieldProtectionUpdated: SharedFlow<FieldProtection> = _onFieldProtectionUpdated.asSharedFlow()
+
+    private val _retrieveEntryInfoForClosing = MutableSharedFlow<CloseType>(replay = 0)
+    val retrieveEntryInfoForClosing: SharedFlow<CloseType> = _retrieveEntryInfoForClosing.asSharedFlow()
 
     val entryLoaded: Boolean
-        get() = templatesEntry.value != null
+        get() = entryEditUIState.value.loaded
 
     fun loadTemplateEntry(database: ContextualDatabase) {
         mDatabase = database
         allowCustomFields = database.allowEntryCustomFields() == true
         allowOTP = database.allowOTP == true
-        loadTemplateEntry(database, mEntryId, mParentId, mRegisterInfo)
+        loadTemplateEntry(mEntryId, mParentId, mRegisterInfo)
     }
 
     fun loadTemplateEntry(
-        database: ContextualDatabase?,
         entryId: NodeId<UUID>?,
         parentId: NodeId<*>?,
         registerInfo: RegisterInfo?
     ) {
+        if (this.mEntryId == entryId
+            && this.mParentId == parentId
+            && this.mRegisterInfo == registerInfo
+            && entryLoaded) {
+            return
+        }
         this.mEntryId = entryId
         this.mParentId = parentId
         this.mRegisterInfo = registerInfo
 
-        // TODO Move in Database
-        database?.let {
-            mEntryId?.let {
-                IOActionTask(
-                    scope = viewModelScope,
-                    action = {
+        viewModelScope.launch {
+            // Just to compensate TemplateView bug
+            mTemplates?.let {
+                _onTemplatesInitialized.emit(it)
+            }
+            withContext(Dispatchers.IO) {
+                mDatabase?.let { database ->
+                    // Update the entry
+                    mEntryId?.let {
                         // Create an Entry copy to modify from the database entry
-                        mEntry = database.getEntryById(it)
+                        val entry = database.getEntryById(it)
                         // Retrieve the parent
-                        mEntry?.let { entry ->
+                        entry?.let { entry ->
                             // If no parent, add root group as parent
                             if (entry.parent == null) {
                                 entry.parent = database.rootGroup
                             }
                             // Define if current entry is a template (in direct template group)
-                            isTemplate = database.entryIsTemplate(mEntry)
-                            decodeTemplateEntry(
-                                database,
-                                entry,
-                                isTemplate,
-                                registerInfo
-                            )
-                        }
-                    },
-                    onActionComplete = { templatesEntry ->
-                        mEntryId = null
-                        mInitialEntryInfo = templatesEntry?.entryInfo?.let { entryInfo ->
-                            EntryInfo(entryInfo)
-                        }
-                        _templatesEntry.value = templatesEntry
-                        if (templatesEntry?.overwrittenData == true) {
-                            mEntryEditState.value = EntryEditState.ShowOverwriteMessage
+                            isTemplate = database.entryIsTemplate(entry)
+                            var entryInfo: EntryInfo? = null
+                            // Decode the entry / load entry info
+                            database.getEntryInfoFrom(entry = entry, raw = true).let { tempEntryInfo ->
+                                // Retrieve data from registration
+                                registerInfo?.let { regInfo ->
+                                    if(tempEntryInfo.saveRegisterInfo(database, regInfo))
+                                        _showOverwriteMessage.emit(Unit)
+                                }
+                                entryInfo = tempEntryInfo
+                            }
+                            loadEntryInfo(database, entryInfo)
                         }
                     }
-                ).execute()
-            }
-
-            mParentId?.let {
-                IOActionTask(
-                    scope = viewModelScope,
-                    action = {
-                        mParent = database.getGroupById(it)
-                        mParent?.let { parentGroup ->
-                            mEntry = database.createEntry()?.apply {
+                    // Create the entry
+                    mParentId?.let {
+                        val parent = database.getGroupById(it)
+                        parent?.let { parentGroup ->
+                            val entry = database.createEntry()?.apply {
                                 // Add the default icon from parent if not a folder
                                 val parentIcon = parentGroup.icon
                                 // Set default icon
@@ -186,67 +229,61 @@ class EntryEditViewModel: NodeEditViewModel() {
                                 }
                                 // Set default username
                                 username = database.defaultUsername
-                                // Warning only the entry recognize is parent, parent don't yet recognize the new entry
-                                // Useful to recognize child state (ie: entry is a template)
-                                parent = parentGroup
                             }
-                            isTemplate = database.entryIsTemplate(mEntry)
-                            decodeTemplateEntry(
-                                database,
-                                mEntry,
-                                isTemplate,
-                                registerInfo
-                            )
+                            isTemplate = database.entryIsTemplate(entry)
+
+                            var entryInfo: EntryInfo? = null
+                            // Decode the entry / load entry info
+                            entry?.let {
+                                database.getEntryInfoFrom(entry = entry, raw = true).let { tempEntryInfo ->
+                                    // Retrieve data from registration
+                                    registerInfo?.let { regInfo ->
+                                        tempEntryInfo.saveRegisterInfo(database, regInfo)
+                                    }
+                                    entryInfo = tempEntryInfo
+                                }
+                            }
+                            loadEntryInfo(database, entryInfo)
                         }
-                    },
-                    onActionComplete = { templatesEntry ->
-                        mParentId = null
-                        mInitialEntryInfo = templatesEntry?.entryInfo?.let { entryInfo ->
-                            EntryInfo(entryInfo)
-                        }
-                        _templatesEntry.value = templatesEntry
                     }
-                ).execute()
+                }
             }
         }
     }
 
-    private fun decodeTemplateEntry(
-        database: ContextualDatabase,
-        entry: Entry?,
-        isTemplate: Boolean,
-        registerInfo: RegisterInfo?
-    ): TemplatesEntry {
-        val templates = database.getTemplates(isTemplate)
-        var entryInfo: EntryInfo? = null
-        var overwrittenData = false
-        // Decode the entry / load entry info
-        entry?.let {
-            database.getEntryInfoFrom(entry = it, raw = true).let { tempEntryInfo ->
-                // Retrieve data from registration
-                registerInfo?.let { regInfo ->
-                    overwrittenData = tempEntryInfo.saveRegisterInfo(database, regInfo)
-                }
-                entryInfo = tempEntryInfo
-            }
+    private suspend fun loadEntryInfo(database: Database, entryInfo: EntryInfo?) {
+        mInitialEntryInfo = entryInfo?.let { entryInfo ->
+            EntryInfo(entryInfo)
         }
-        return TemplatesEntry(
-            template = onTemplateChanged.value,
-            templates = templates,
-            defaultTemplate = entryInfo?.template ?: Template.STANDARD,
-            entryInfo = entryInfo,
-            overwrittenData = overwrittenData
+        entryInfo?.let {
+            _onEntryLoaded.emit(entryInfo)
+        }
+        val selectedTemplate = entryInfo?.template ?: Template.STANDARD
+        val templates = Templates(
+            templates = database.getTemplates(isTemplate),
+            defaultTemplate = selectedTemplate
         )
+        mTemplates = templates
+        _onTemplatesInitialized.emit(templates)
+        _onTemplateChanged.emit(selectedTemplate)
+        _entryEditUIState.update { entryEdit ->
+            entryEdit.copy(
+                loaded = true,
+                entryInfo = entryInfo
+            )
+        }
     }
 
     fun changeTemplate(template: Template) {
-        if (_onTemplateChanged.value != template) {
-            _onTemplateChanged.value = template
+        viewModelScope.launch {
+            _onTemplateChanged.emit(template)
         }
     }
 
-    fun requestEntryInfoUpdate() {
-        _requestEntryInfoUpdate.call()
+    fun requestEntryValidation() {
+        viewModelScope.launch {
+            _onEntryValidationRequested.emit(Unit)
+        }
     }
 
     fun unlockAction() {
@@ -258,68 +295,99 @@ class EntryEditViewModel: NodeEditViewModel() {
             actionLocked = true
             // Delete temp attachment if not completely downloaded
             mDatabase?.removeTempAttachmentsNotCompleted(entryInfo)
-            mParent?.nodeId?.let { parentId ->
-                mEntryEditState.value = EntryEditState.CreateEntry(
-                    parentId = parentId,
-                    newEntry = entryInfo
-                )
-            } ?: run {
-                mEntryEditState.value = EntryEditState.UpdateEntry(entryInfo)
+            viewModelScope.launch {
+                mEntryId?.let {
+                    _updateEntry.emit(entryInfo)
+                } ?: mParentId?.let { parentId ->
+                    _createEntry.emit(CreateEntryAction(
+                        parentId = parentId,
+                        newEntry = entryInfo
+                    ))
+                } ?: run {
+                    actionLocked = false
+                }
             }
         }
     }
 
     fun requestPasswordSelection(passwordField: Field) {
         this.passwordField = passwordField
-        _requestPasswordSelection.call()
+        viewModelScope.launch {
+            _requestPasswordSelection.emit(Unit)
+        }
     }
 
     fun selectPassword(passwordField: Field) {
-        _onPasswordSelected.value = passwordField
+        viewModelScope.launch {
+            _onPasswordSelected.emit(passwordField)
+        }
     }
 
     fun requestChangeFieldProtection(fieldProtection: FieldProtection) {
-        mEntryEditState.value = EntryEditState.OnChangeFieldProtectionRequested(fieldProtection)
+        viewModelScope.launch {
+            _onChangeFieldProtectionRequested.emit(fieldProtection)
+        }
     }
 
     fun requestCustomFieldEdition(customField: Field) {
-        _requestCustomFieldEdition.value = customField
+        viewModelScope.launch {
+            _requestCustomFieldEdition.emit(customField)
+        }
     }
 
     fun addCustomField(newField: Field) {
-        _onCustomFieldEdited.value = FieldEdition(null, newField)
+        viewModelScope.launch {
+            _onCustomFieldEdited.emit(FieldEdition(null, newField))
+        }
     }
 
     fun editCustomField(oldField: Field, newField: Field) {
-        _onCustomFieldEdited.value = FieldEdition(oldField, newField)
+        viewModelScope.launch {
+            _onCustomFieldEdited.emit(FieldEdition(oldField, newField))
+        }
     }
 
     fun removeCustomField(oldField: Field) {
-        _onCustomFieldEdited.value = FieldEdition(oldField, null)
+        viewModelScope.launch {
+            _onCustomFieldEdited.emit(FieldEdition(oldField, null))
+        }
     }
 
     fun showCustomFieldEditionError() {
-        _onCustomFieldError.call()
+        viewModelScope.launch {
+            _onCustomFieldError.emit(Unit)
+        }
     }
 
     fun setupOtp() {
-        _requestSetupOtp.call()
+        viewModelScope.launch {
+            _requestSetupOtp.emit(Unit)
+        }
     }
 
     fun createOtp(otpElement: OtpElement) {
-        _onOtpCreated.value = otpElement
+        viewModelScope.launch {
+            _onOtpCreated.emit(otpElement)
+        }
     }
 
     fun buildNewAttachment(attachmentToUploadUri: Uri, fileName: String) {
-        _onBuildNewAttachment.value = AttachmentBuild(attachmentToUploadUri, fileName)
+        viewModelScope.launch {
+            _onBuildNewAttachment.emit(AttachmentBuild(attachmentToUploadUri, fileName))
+        }
     }
 
     fun startUploadAttachment(attachmentToUploadUri: Uri, attachment: Attachment) {
-        _onStartUploadAttachment.value = AttachmentUpload(attachmentToUploadUri, attachment)
+        viewModelScope.launch {
+            _onStartUploadAttachment.emit(AttachmentUpload(attachmentToUploadUri, attachment)
+            )
+        }
     }
 
     fun deleteAttachment(attachment: Attachment) {
-        _attachmentDeleted.value = attachment
+        viewModelScope.launch {
+            _attachmentDeleted.emit(attachment)
+        }
     }
 
     fun onAttachmentAction(entryAttachmentState: EntryAttachmentState?) {
@@ -330,76 +398,66 @@ class EntryEditViewModel: NodeEditViewModel() {
     }
 
     fun binaryPreviewLoaded(entryAttachmentState: EntryAttachmentState, viewPosition: Float) {
-        _onBinaryPreviewLoaded.value = AttachmentPosition(entryAttachmentState, viewPosition)
+        viewModelScope.launch {
+            _onBinaryPreviewLoaded.emit(AttachmentPosition(entryAttachmentState, viewPosition))
+        }
     }
 
     fun updateFieldProtection(fieldProtection: FieldProtection, value: Boolean) {
         fieldProtection.isCurrentlyProtected = value
-        mEntryEditState.value = EntryEditState.OnFieldProtectionUpdated(fieldProtection)
-    }
-
-    fun actionPerformed() {
-        mEntryEditState.value = EntryEditState.Loading
+        viewModelScope.launch {
+            _onFieldProtectionUpdated.emit(fieldProtection)
+        }
     }
 
     fun askToClose(closeType: CloseType) {
-        mEntryEditState.value = EntryEditState.RetrieveEntryInfoForClosing(closeType)
+        viewModelScope.launch {
+            _retrieveEntryInfoForClosing.emit(closeType)
+        }
     }
 
     fun askToCloseEntry(currentEntryInfo: EntryInfo?, closeType: CloseType) {
         if (backPressedAlreadyApproved.not()) {
             if (mInitialEntryInfo != currentEntryInfo) {
-                mEntryEditState.value = EntryEditState.AskToDiscardChanges(closeType)
+                viewModelScope.launch {
+                    _askToDiscardChanges.emit(closeType)
+                }
             } else {
-                mEntryEditState.value = EntryEditState.CloseEntry(closeType)
+                viewModelScope.launch {
+                    _closeEntry.emit(closeType)
+                }
             }
         } else {
-            mEntryEditState.value = EntryEditState.CloseEntry(closeType)
+            viewModelScope.launch {
+                _closeEntry.emit(closeType)
+            }
         }
     }
 
     fun approveDiscardChanges(closeType: CloseType) {
         backPressedAlreadyApproved = true
-        mEntryEditState.value = EntryEditState.CloseEntry(closeType)
+        viewModelScope.launch {
+            _closeEntry.emit(closeType)
+        }
     }
 
-    data class TemplatesEntry(
-        val template: Template?,
+    data class Templates(
         val templates: List<Template>,
         val defaultTemplate: Template,
-        val entryInfo: EntryInfo?,
-        val overwrittenData: Boolean = false
     )
     data class FieldEdition(val oldField: Field?, val newField: Field?)
     data class AttachmentBuild(val attachmentToUploadUri: Uri, val fileName: String)
     data class AttachmentUpload(val attachmentToUploadUri: Uri, val attachment: Attachment)
     data class AttachmentPosition(val entryAttachmentState: EntryAttachmentState, val viewPosition: Float)
 
-    sealed class EntryEditState {
-        object Loading: EntryEditState()
-        object ShowOverwriteMessage: EntryEditState()
-        data class OnChangeFieldProtectionRequested(
-            val fieldProtection: FieldProtection
-        ): EntryEditState()
-        data class OnFieldProtectionUpdated(
-            val fieldProtection: FieldProtection
-        ): EntryEditState()
-        data class CreateEntry(
-            val parentId: NodeId<*>, val newEntry: EntryInfo
-        ): EntryEditState()
-        data class UpdateEntry(
-            val updateEntry: EntryInfo
-        ): EntryEditState()
-        data class CloseEntry(
-            val closeType: CloseType
-        ): EntryEditState()
-        data class RetrieveEntryInfoForClosing(
-            val closeType: CloseType
-        ): EntryEditState()
-        data class AskToDiscardChanges(
-            val closeType: CloseType
-        ): EntryEditState()
-    }
+    data class EntryEditState(
+        val loaded: Boolean = false,
+        val entryInfo: EntryInfo? = null
+    )
+    data class CreateEntryAction(
+        val parentId: NodeId<*>,
+        val newEntry: EntryInfo
+    )
 
     enum class CloseType {
         DATABASE_BACK_PRESSED,

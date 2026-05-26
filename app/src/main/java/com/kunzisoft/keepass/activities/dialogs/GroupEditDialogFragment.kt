@@ -29,6 +29,9 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.google.android.material.textfield.TextInputLayout
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.GroupEditDialogFragment.EditGroupDialogAction.CREATION
@@ -45,6 +48,7 @@ import com.kunzisoft.keepass.view.InheritedCompletionView
 import com.kunzisoft.keepass.view.TagsCompletionView
 import com.kunzisoft.keepass.viewmodels.GroupEditViewModel
 import com.tokenautocomplete.FilteredArrayAdapter
+import kotlinx.coroutines.launch
 
 class GroupEditDialogFragment : DatabaseDialogFragment() {
 
@@ -83,27 +87,35 @@ class GroupEditDialogFragment : DatabaseDialogFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        mGroupEditViewModel.onIconSelected.observe(this) { iconImage ->
-            mGroupInfo.icon = iconImage
-            mPopulateIconMethod?.invoke(iconButtonView, mGroupInfo.icon)
-        }
-
-        mGroupEditViewModel.onDateSelected.observe(this) { date ->
-            // Save the date
-            mGroupInfo.expiryTime.setDate(date.year, date.month, date.day)
-            expirationView.dateTime = mGroupInfo.expiryTime
-            if (expirationView.dateTime.type == DateInstant.Type.DATE_TIME) {
-                // Trick to recall selection with time
-                mGroupEditViewModel.requestDateTimeSelection(
-                    DateInstant(mGroupInfo.expiryTime.instant, DateInstant.Type.TIME)
-                )
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                launch {
+                    mGroupEditViewModel.onIconSelected.collect { iconImage ->
+                        mGroupInfo.icon = iconImage
+                        mPopulateIconMethod?.invoke(iconButtonView, mGroupInfo.icon)
+                    }
+                }
+                launch {
+                    mGroupEditViewModel.onDateSelected.collect { date ->
+                        // Save the date
+                        mGroupInfo.expiryTime.setDate(date.year, date.month, date.day)
+                        expirationView.dateTime = mGroupInfo.expiryTime
+                        if (expirationView.dateTime.type == DateInstant.Type.DATE_TIME) {
+                            // Trick to recall selection with time
+                            mGroupEditViewModel.requestDateTimeSelection(
+                                DateInstant(mGroupInfo.expiryTime.instant, DateInstant.Type.TIME)
+                            )
+                        }
+                    }
+                }
+                launch {
+                    mGroupEditViewModel.onTimeSelected.collect { viewModelTime ->
+                        // Save the time
+                        mGroupInfo.expiryTime.setTime(viewModelTime.hour, viewModelTime.minute)
+                        expirationView.dateTime = mGroupInfo.expiryTime
+                    }
+                }
             }
-        }
-
-        mGroupEditViewModel.onTimeSelected.observe(this) { viewModelTime ->
-            // Save the time
-            mGroupInfo.expiryTime.setTime(viewModelTime.hour, viewModelTime.minute)
-            expirationView.dateTime = mGroupInfo.expiryTime
         }
     }
 
