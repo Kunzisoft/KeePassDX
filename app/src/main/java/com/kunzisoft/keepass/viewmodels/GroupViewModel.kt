@@ -19,14 +19,19 @@
  */
 package com.kunzisoft.keepass.viewmodels
 
-import androidx.lifecycle.ViewModel
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
+import com.kunzisoft.keepass.activities.GroupActivity.GroupState
+import com.kunzisoft.keepass.activities.GroupActivity.SearchState
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.helper.SearchHelper
 import com.kunzisoft.keepass.database.search.SearchParameters
 import com.kunzisoft.keepass.model.GroupInfo
-import com.kunzisoft.keepass.utils.IOActionTask
+import com.kunzisoft.keepass.model.SearchGroupInfo
+import com.kunzisoft.keepass.settings.PreferencesUtil
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -34,90 +39,172 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 
 /**
  * ViewModel for managing groups.
  */
-class GroupViewModel: ViewModel() {
+class GroupViewModel(application: Application): AndroidViewModel(application) {
 
-    // TODO As UIState
-    private val _mainGroup = MutableSharedFlow<SuperGroup>(replay = 1)
-    val mainGroup: SharedFlow<SuperGroup> = _mainGroup.asSharedFlow()
+    // Main group currently in memory
+    var mMainGroup: GroupInfo? = null
+        private set
 
-    private val _group = MutableStateFlow<SuperGroup?>(null)
-    val group: StateFlow<SuperGroup?> = _group.asStateFlow()
+    // Group state, not a search
+    var mMainGroupState: GroupState? = null
 
-    private val _firstPositionVisible = MutableStateFlow(0)
-    val firstPositionVisible: StateFlow<Int> = _firstPositionVisible.asStateFlow()
+    // Group currently visible (search or main group)
+    var mCurrentGroup: GroupInfo? = null
+
+
+    private var mPreviousGroupsIds = mutableListOf<GroupState>()
+
+    var mSearchState: SearchState? = null
+    // To mainly manage keyboard
+    var mAutoSearch: Boolean = false
+    // To manage temp search
+    var mTempSearchInfo: Boolean = false
+    var mLockSearchListeners = false
+
+    var mRequestStartupSearch = true
+
+    var recyclingBinIsCurrentGroup = false
+        private set
+
+    private val _groupUIState = MutableStateFlow<GroupUISTate?>(null)
+    val groupUIState: StateFlow<GroupUISTate?> = _groupUIState.asStateFlow()
+
+    private val _onGroupLoaded = MutableSharedFlow<GroupInfo>(replay = 0)
+    val onGroupLoaded: SharedFlow<GroupInfo> = _onGroupLoaded.asSharedFlow()
+
+    private var mDefaultSearchParameters: SearchParameters = PreferencesUtil.getDefaultSearchParameters(getApplication())
 
     fun loadMainGroup(
         database: ContextualDatabase?,
         groupId: NodeId<*>?,
         showFromPosition: Int?
     ) {
-        IOActionTask(
-            scope = viewModelScope,
-            action = {
-                if (groupId != null) {
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                val group = if (groupId != null) {
                     database?.getGroupInfoById(groupId)
                 } else {
                     database?.getRootGroupInfo()
                 }
-            },
-            onActionComplete = { group ->
                 if (group != null) {
-                    val superGroup = SuperGroup(
+                    recyclingBinIsCurrentGroup = group.isRecycleBin(database)
+                    mMainGroup = group
+                    // Save group state
+                    mMainGroupState = GroupState(group.nodeId, showFromPosition)
+                    mCurrentGroup = group
+                    mSearchState = null
+                    _onGroupLoaded.emit(group)
+                    _groupUIState.value = GroupUISTate(
                         group = group,
-                        isRecycleBin = group.isRecycleBin(database),
                         showFromPosition = showFromPosition
                     )
-                    viewModelScope.launch {
-                        _mainGroup.emit(superGroup)
-                    }
-                    _group.value = superGroup
                 }
             }
-        ).execute()
+        }
     }
 
-    fun loadSearchGroup(
+    fun loadChildGroup(
         database: ContextualDatabase?,
-        searchParameters: SearchParameters,
-        fromGroup: NodeId<*>?,
-        showFromPosition: Int?
+        groupId: NodeId<*>?
     ) {
-        IOActionTask(
-            scope = viewModelScope,
-            action = {
-                database?.createSearchGroupInfo(
-                    searchParameters,
-                    fromGroup,
-                    SearchHelper.MAX_SEARCH_ENTRY
+        // Save the last not virtual group and it's position
+        if (mCurrentGroup !is SearchGroupInfo) {
+            mMainGroupState?.let {
+                mPreviousGroupsIds.add(it)
+            }
+        }
+        loadMainGroup(database, groupId, showFromPosition = 0)
+    }
+
+    fun loadSearch(
+        database: ContextualDatabase?,
+        searchState: SearchState,
+    ) {
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                val searchParameters = searchState.searchParameters
+                val showFromPosition = searchState.firstVisibleItem
+                val group = database?.createSearchGroupInfo(
+                    searchParameters = searchParameters,
+                    fromGroup = mMainGroupState?.groupId,
+                    max = SearchHelper.MAX_SEARCH_ENTRY
                 )
-            },
-            onActionComplete = { group ->
                 if (group != null) {
-                    _group.value = SuperGroup(
+                    mCurrentGroup = group
+                    mSearchState = searchState
+                    _onGroupLoaded.emit(group)
+                    _groupUIState.value = GroupUISTate(
                         group = group,
-                        isRecycleBin = group.isRecycleBin(database),
-                        showFromPosition = showFromPosition,
-                        searchParameters = searchParameters
+                        showFromPosition = showFromPosition
                     )
                 }
             }
-        ).execute()
+        }
+    }
+
+    fun searchText(database: ContextualDatabase?, text: String?) {
+        if (text != null && !mLockSearchListeners) {
+            mSearchState?.let { searchState ->
+                searchState.searchParameters.searchQuery = text
+                loadSearch(database, searchState)
+            }
+        }
+    }
+
+    fun searchWithParameters(database: ContextualDatabase?, searchParameters: SearchParameters) {
+        mSearchState?.let { searchState ->
+            searchParameters.searchQuery = searchState.searchParameters.searchQuery
+            searchState.searchParameters = searchParameters
+            loadSearch(database, searchState)
+        }
+    }
+
+    fun assignSearchParameters(searchParameters: SearchParameters?) {
+        if (mSearchState == null) {
+            mSearchState = SearchState(
+                searchParameters ?: mDefaultSearchParameters,
+                firstVisibleItem = 0
+            )
+        }
     }
 
     fun assignPosition(position: Int) {
-        _firstPositionVisible.value = position
+        mSearchState?.firstVisibleItem = position
+        mMainGroupState?.firstVisibleItem = position
     }
 
-    data class SuperGroup(
+    fun isCurrentGroupRoot(database: ContextualDatabase?): Boolean {
+        return mCurrentGroup?.isRoot(database) == true
+    }
+
+    fun previousGroupExists(): Boolean = mPreviousGroupsIds.isNotEmpty()
+
+    fun loadPreviousGroup(database: ContextualDatabase?) {
+        if (previousGroupExists()) {
+            val previousGroup = mPreviousGroupsIds.removeAt(mPreviousGroupsIds.lastIndex)
+            return loadMainGroup(
+                database = database,
+                groupId = previousGroup.groupId,
+                showFromPosition = previousGroup.firstVisibleItem
+            )
+        }
+    }
+
+    fun clearSearch() {
+        mSearchState = null
+        mTempSearchInfo = false
+    }
+
+    data class GroupUISTate(
+        val loaded: Boolean = false,
         val group: GroupInfo,
-        val isRecycleBin: Boolean,
-        var showFromPosition: Int?,
-        var searchParameters: SearchParameters = SearchParameters()
+        var showFromPosition: Int?
     )
 
     companion object {

@@ -19,37 +19,32 @@
  */
 package com.kunzisoft.keepass.viewmodels
 
+import androidx.lifecycle.viewModelScope
 import com.kunzisoft.keepass.model.GroupInfo
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.launch
 
 class GroupEditViewModel: NodeEditViewModel() {
 
-    private val mGroupEditState = MutableStateFlow<GroupEditState>(GroupEditState.Wait)
-    val groupEditState: StateFlow<GroupEditState> = mGroupEditState.asStateFlow()
+    private val _onCreateGroup = MutableSharedFlow<GroupInfo>(replay = 0)
+    val onCreateGroup: SharedFlow<GroupInfo> = _onCreateGroup.asSharedFlow()
+
+    private val _onUpdateGroup = MutableSharedFlow<GroupInfo>(replay = 0)
+    val onUpdateGroup: SharedFlow<GroupInfo> = _onUpdateGroup.asSharedFlow()
 
     var groupNamesNotAllowed : List<String>? = null
 
     fun approveGroupCreation(groupInfo: GroupInfo) {
-        this.mGroupEditState.value = GroupEditState.CreateGroup(groupInfo)
+        viewModelScope.launch {
+            _onCreateGroup.emit(groupInfo)
+        }
     }
 
     fun approveGroupUpdate(groupInfo: GroupInfo) {
-        this.mGroupEditState.value = GroupEditState.UpdateGroup(groupInfo)
-    }
-
-    fun actionPerformed() {
-        this.mGroupEditState.value = GroupEditState.Wait
-    }
-
-    sealed class GroupEditState {
-        object Wait: GroupEditState()
-        data class CreateGroup(
-            val groupInfo: GroupInfo
-        ): GroupEditState()
-        data class UpdateGroup(
-            val groupInfo: GroupInfo
-        ): GroupEditState()
+        viewModelScope.launch {
+            _onUpdateGroup.emit(groupInfo)
+        }
     }
 }
