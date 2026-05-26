@@ -41,21 +41,21 @@ open class DatabaseInfo: Database() {
 
     /**
      * Get entry info by its ID.
-     * @param nodeId Unique identifier of the entry.
+     * @param entryId Unique identifier of the entry.
      * @param raw Whether to retrieve raw data or processed data (e.g. OTP fields).
      * @return The entry info if found, null otherwise.
      */
-    fun getEntryInfoById(nodeId: NodeId<UUID>, raw: Boolean = false): EntryInfo? {
-        return getEntryById(nodeId)?.let { entry -> getEntryInfoFrom(entry, raw) }
+    fun getEntryInfoById(entryId: NodeId<UUID>, raw: Boolean = false): EntryInfo? {
+        return getEntryById(entryId)?.let { entry -> getEntryInfoFrom(entry, raw) }
     }
 
     /**
      * Get group info by its ID.
-     * @param nodeId Unique identifier of the group.
+     * @param groupId Unique identifier of the group.
      * @return The group info if found, null otherwise.
      */
-    fun getGroupInfoById(nodeId: NodeId<*>): GroupInfo? {
-        return getGroupById(nodeId)?.let { group -> getGroupInfoFrom(group) }
+    fun getGroupInfoById(groupId: NodeId<*>): GroupInfo? {
+        return getGroupById(groupId)?.let { group -> getGroupInfoFrom(group) }
     }
 
     /**
@@ -241,6 +241,16 @@ open class DatabaseInfo: Database() {
     }
 
     /**
+     * Save register info in entry info.
+     * @param entryInfo The entry info to save in.
+     * @param registerInfo The register info to save.
+     * @return True if data has been overwritten, false otherwise.
+     */
+    fun saveRegisterInfoIn(entryInfo: EntryInfo, registerInfo: RegisterInfo): Boolean {
+        return entryInfo.saveRegisterInfo(registerInfo, allowEntryCustomFields())
+    }
+
+    /**
      * Get the number of children entries in a group.
      * @param node The group info.
      * @param recursiveNumberOfEntries Whether to count entries in subgroups recursively.
@@ -376,6 +386,17 @@ open class DatabaseInfo: Database() {
             searchParameters = searchParameters,
             fromGroup = fromGroup,
             max = max)
+    }
+
+    /**
+     * Check if an entry is a template.
+     * @param entry The entry to check.
+     */
+    fun entryIsTemplate(entry: EntryInfo?): Boolean {
+        return if (entry == null)
+            false
+        else
+            entryIsTemplate(getEntryById(entry.nodeId))
     }
 
     companion object {

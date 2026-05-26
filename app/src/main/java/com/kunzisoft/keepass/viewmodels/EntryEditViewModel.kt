@@ -23,10 +23,7 @@ import android.net.Uri
 import androidx.lifecycle.viewModelScope
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.element.Attachment
-import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.Field
-import com.kunzisoft.keepass.database.element.icon.IconImage
-import com.kunzisoft.keepass.database.element.icon.IconImageStandard
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.template.Template
 import com.kunzisoft.keepass.model.EntryAttachmentState
@@ -188,73 +185,31 @@ class EntryEditViewModel: NodeEditViewModel() {
                 mDatabase?.let { database ->
                     // Update the entry
                     mEntryId?.let {
-                        // Create an Entry copy to modify from the database entry
-                        val entry = database.getEntryById(it)
-                        // Retrieve the parent
-                        entry?.let { entry ->
-                            // If no parent, add root group as parent
-                            if (entry.parent == null) {
-                                entry.parent = database.rootGroup
-                            }
-                            // Define if current entry is a template (in direct template group)
-                            isTemplate = database.entryIsTemplate(entry)
-                            var entryInfo: EntryInfo? = null
-                            // Decode the entry / load entry info
-                            database.getEntryInfoFrom(entry = entry, raw = true).let { tempEntryInfo ->
-                                // Retrieve data from registration
-                                registerInfo?.let { regInfo ->
-                                    if(tempEntryInfo.saveRegisterInfo(database, regInfo))
-                                        _showOverwriteMessage.emit(Unit)
-                                }
-                                entryInfo = tempEntryInfo
-                            }
-                            loadEntryInfo(database, entryInfo)
-                        }
+                        loadEntryInfo(database, database.buildEntryInfoFrom(
+                            entryId = it,
+                            registerInfo = registerInfo
+                        ) {
+                            // Action to perform when data is overwritten
+                            _showOverwriteMessage.emit(Unit)
+                        })
                     }
                     // Create the entry
                     mParentId?.let {
-                        val parent = database.getGroupById(it)
-                        parent?.let { parentGroup ->
-                            val entry = database.createEntry()?.apply {
-                                // Add the default icon from parent if not a folder
-                                val parentIcon = parentGroup.icon
-                                // Set default icon
-                                if (parentIcon.custom.isUnknown
-                                    && parentIcon.standard.id != IconImageStandard.FOLDER_ID
-                                ) {
-                                    icon = IconImage(parentIcon.standard)
-                                }
-                                if (!parentIcon.custom.isUnknown) {
-                                    icon = IconImage(parentIcon.custom)
-                                }
-                                // Set default username
-                                username = database.defaultUsername
-                            }
-                            isTemplate = database.entryIsTemplate(entry)
-
-                            var entryInfo: EntryInfo? = null
-                            // Decode the entry / load entry info
-                            entry?.let {
-                                database.getEntryInfoFrom(entry = entry, raw = true).let { tempEntryInfo ->
-                                    // Retrieve data from registration
-                                    registerInfo?.let { regInfo ->
-                                        tempEntryInfo.saveRegisterInfo(database, regInfo)
-                                    }
-                                    entryInfo = tempEntryInfo
-                                }
-                            }
-                            loadEntryInfo(database, entryInfo)
-                        }
+                        loadEntryInfo(database, database.buildNewEntryInfo(
+                            parentId = it,
+                            registerInfo = registerInfo
+                        ))
                     }
                 }
             }
         }
     }
 
-    private suspend fun loadEntryInfo(database: Database, entryInfo: EntryInfo?) {
+    private suspend fun loadEntryInfo(database: ContextualDatabase, entryInfo: EntryInfo?) {
         mInitialEntryInfo = entryInfo?.let { entryInfo ->
             EntryInfo(entryInfo)
         }
+        isTemplate = database.entryIsTemplate(entryInfo)
         entryInfo?.let {
             _onEntryLoaded.emit(entryInfo)
         }
@@ -441,22 +396,33 @@ class EntryEditViewModel: NodeEditViewModel() {
         }
     }
 
-    data class Templates(
-        val templates: List<Template>,
-        val defaultTemplate: Template,
-    )
-    data class FieldEdition(val oldField: Field?, val newField: Field?)
-    data class AttachmentBuild(val attachmentToUploadUri: Uri, val fileName: String)
-    data class AttachmentUpload(val attachmentToUploadUri: Uri, val attachment: Attachment)
-    data class AttachmentPosition(val entryAttachmentState: EntryAttachmentState, val viewPosition: Float)
-
     data class EntryEditState(
         val loaded: Boolean = false,
         val entryInfo: EntryInfo? = null
     )
+    data class Templates(
+        val templates: List<Template>,
+        val defaultTemplate: Template,
+    )
     data class CreateEntryAction(
         val parentId: NodeId<*>,
         val newEntry: EntryInfo
+    )
+    data class FieldEdition(
+        val oldField: Field?,
+        val newField: Field?
+    )
+    data class AttachmentBuild(
+        val attachmentToUploadUri: Uri,
+        val fileName: String
+    )
+    data class AttachmentUpload(
+        val attachmentToUploadUri: Uri,
+        val attachment: Attachment
+    )
+    data class AttachmentPosition(
+        val entryAttachmentState: EntryAttachmentState,
+        val viewPosition: Float
     )
 
     enum class CloseType {

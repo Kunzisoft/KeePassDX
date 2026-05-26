@@ -21,15 +21,20 @@ package com.kunzisoft.keepass.database
 
 import android.net.Uri
 import com.kunzisoft.keepass.database.element.Entry
+import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.database.element.icon.IconImageCustom
+import com.kunzisoft.keepass.database.element.icon.IconImageStandard
+import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.icons.IconDrawableFactory
 import com.kunzisoft.keepass.model.AttachmentState
 import com.kunzisoft.keepass.model.DatabaseInfo
 import com.kunzisoft.keepass.model.EntryAttachmentState
 import com.kunzisoft.keepass.model.EntryInfo
+import com.kunzisoft.keepass.model.RegisterInfo
 import com.kunzisoft.keepass.model.StreamDirection
 import com.kunzisoft.keepass.utils.SingletonHolder
 import java.io.File
+import java.util.UUID
 
 class ContextualDatabase: DatabaseInfo() {
 
@@ -41,6 +46,70 @@ class ContextualDatabase: DatabaseInfo() {
     )
 
     private val tempAttachments = mutableListOf<EntryAttachmentState>()
+
+    /**
+     * Build entry info to create.
+     * @param parentId The parent ID to use.
+     * @param registerInfo The registration info to use.
+     * @return The created entry info if successful, null otherwise.
+     */
+    suspend fun buildNewEntryInfo(
+        parentId: NodeId<*>,
+        registerInfo: RegisterInfo? = null
+    ): EntryInfo? {
+        getGroupById(parentId)?.let { parentGroup ->
+            val entry = createEntry()?.apply {
+                // Add the default icon from parent if not a folder
+                val parentIcon = parentGroup.icon
+                // Set default icon
+                if (parentIcon.custom.isUnknown
+                    && parentIcon.standard.id != IconImageStandard.FOLDER_ID
+                ) {
+                    icon = IconImage(parentIcon.standard)
+                }
+                if (!parentIcon.custom.isUnknown) {
+                    icon = IconImage(parentIcon.custom)
+                }
+                // Set default username
+                username = defaultUsername
+            }
+            var entryInfo: EntryInfo? = null
+            // Decode the entry / load entry info
+            entry?.let {
+                getEntryInfoFrom(entry = entry, raw = true).let { tempEntryInfo ->
+                    // Retrieve data from registration
+                    registerInfo?.let { regInfo ->
+                        saveRegisterInfoIn(tempEntryInfo, regInfo)
+                    }
+                    entryInfo = tempEntryInfo
+                }
+            }
+            return entryInfo
+        }
+        return null
+    }
+
+    /**
+     * Build entry info to update.
+     * @param entryId The entry ID to update.
+     * @param registerInfo The registration info to use.
+     * @param actionDataOverwrite The action to perform when data is overwritten.
+     */
+    suspend fun buildEntryInfoFrom(
+        entryId: NodeId<UUID>,
+        registerInfo: RegisterInfo? = null,
+        actionDataOverwrite: suspend () -> Unit = {}
+    ): EntryInfo? {
+        getEntryInfoById(entryId = entryId, raw = true)?.let { tempEntryInfo ->
+            // Retrieve data from registration
+            registerInfo?.let { regInfo ->
+                if (saveRegisterInfoIn(tempEntryInfo, regInfo))
+                    actionDataOverwrite()
+            }
+            return tempEntryInfo
+        }
+        return null
+    }
 
     override fun removeCustomIcon(customIcon: IconImageCustom) {
         iconDrawableFactory.clearFromCache(customIcon)

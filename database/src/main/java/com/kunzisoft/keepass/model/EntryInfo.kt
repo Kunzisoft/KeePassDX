@@ -22,7 +22,6 @@ package com.kunzisoft.keepass.model
 import android.os.Parcel
 import android.os.Parcelable
 import com.kunzisoft.keepass.database.element.Attachment
-import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.Field
 import com.kunzisoft.keepass.database.element.entry.AutoType
 import com.kunzisoft.keepass.database.element.node.NodeId
@@ -301,17 +300,17 @@ class EntryInfo : NodeInfo {
 
     /**
      * Add searchInfo to current EntryInfo.
-     * @param database The database context.
      * @param searchInfo Search info to save.
+     * @param customFieldsAllowed True if custom fields are allowed.
      */
-    private fun saveSearchInfo(database: Database?, searchInfo: SearchInfo) {
+    private fun saveSearchInfo(searchInfo: SearchInfo, customFieldsAllowed: Boolean) {
         searchInfo.otpString?.let { otpString ->
             setOtp(otpString)
         } ?: searchInfo.webDomain?.let { webDomain ->
             setWebDomain(
                 webDomain,
                 searchInfo.webScheme,
-                database?.allowEntryCustomFields() == true
+                customFieldsAllowed
             )
         } ?: searchInfo.applicationId?.let { applicationId ->
             setApplicationId(applicationId)
@@ -323,12 +322,12 @@ class EntryInfo : NodeInfo {
 
     /**
      * Add registerInfo to current EntryInfo, return true if data has been overwritten.
-     * @param database The database context.
      * @param registerInfo Register info to save.
+     * @param customFieldsAllowed True if custom fields are allowed.
      * @return True if data was overwritten, false otherwise.
      */
-    fun saveRegisterInfo(database: Database?, registerInfo: RegisterInfo): Boolean {
-        saveSearchInfo(database, registerInfo.searchInfo)
+    fun saveRegisterInfo(registerInfo: RegisterInfo, customFieldsAllowed: Boolean): Boolean {
+        saveSearchInfo(registerInfo.searchInfo, customFieldsAllowed)
         registerInfo.username?.let { username = it }
         registerInfo.password?.let { password = it }
         registerInfo.expiration?.let {
@@ -337,7 +336,7 @@ class EntryInfo : NodeInfo {
         }
         setCreditCard(registerInfo.creditCard)
         val dataOverwrite: Boolean = setPasskey(registerInfo.passkey)
-        saveAppOrigin(database, registerInfo.appOrigin)
+        saveAppOrigin(registerInfo.appOrigin, customFieldsAllowed)
         if (title.isEmpty()) {
             title = registerInfo.toString().toTitle()
         }
@@ -346,11 +345,11 @@ class EntryInfo : NodeInfo {
 
     /**
      * Add AppOrigin.
-     * @param database The database context.
      * @param appOrigin App origin to save.
+     * @param customFieldsAllowed True if custom fields are allowed.
      */
-    fun saveAppOrigin(database: Database?, appOrigin: AppOrigin?) {
-        setAppOrigin(appOrigin, database?.allowEntryCustomFields() == true)
+    fun saveAppOrigin(appOrigin: AppOrigin?, customFieldsAllowed: Boolean) {
+        setAppOrigin(appOrigin, customFieldsAllowed)
     }
 
     /**

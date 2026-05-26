@@ -146,7 +146,7 @@ class PasskeyLauncherViewModel(application: Application): CredentialLauncherView
                 // Update the entry with app signature
                 val entryInfo = database.getEntryInfoById(nodeId)
                     ?: throw GetCredentialUnknownException("No passkey with nodeId $nodeId found")
-                entryInfo.saveAppOrigin(database, temptingApp)
+                entryInfo.saveAppOrigin(temptingApp, database.allowEntryCustomFields())
                 mUiState.value = UIState.UpdateEntry(entryInfo)
             }
         }

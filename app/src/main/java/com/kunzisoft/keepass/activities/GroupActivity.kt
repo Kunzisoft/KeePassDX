@@ -1068,7 +1068,7 @@ class GroupActivity : DatabaseLockActivity(),
         entry: EntryInfo,
         registerInfo: RegisterInfo
     ) {
-        entry.saveRegisterInfo(database, registerInfo)
+        database.saveRegisterInfoIn(entry, registerInfo)
         updateEntry(entry)
     }
 
