@@ -80,11 +80,8 @@ class GroupViewModel(application: Application): AndroidViewModel(application) {
         private set
 
     // Group currently visible (search or main group)
-    var currentGroup: GroupInfo? = null
-        private set
-
-    var children: List<SortedNodeInfo>? = null
-        private set
+    var isCurrentGroupIsRoot: Boolean = false
+    var isCurrentGroupIsSearch: Boolean = false
 
     // Group state to retrieve position, not a search
     private var mMainGroupState: GroupState? = null
@@ -212,7 +209,8 @@ class GroupViewModel(application: Application): AndroidViewModel(application) {
                     mainGroup = group
                     // Save group state
                     mMainGroupState = GroupState(group.nodeId, showFromPosition)
-                    currentGroup = group
+                    isCurrentGroupIsRoot = group.isRoot(mDatabase) == true
+                    isCurrentGroupIsSearch = false
                     mSearchState = null
                     // Breadcrumbs
                     val breadcrumbs = mDatabase?.getBreadcrumbsFrom(
@@ -221,7 +219,7 @@ class GroupViewModel(application: Application): AndroidViewModel(application) {
                         nodeFilter = mNodeFilter
                     ) ?: listOf()
                     // Children
-                    children = mDatabase?.getSortedChildrenOf(
+                    val children = mDatabase?.getSortedChildrenOf(
                         parentId = group.nodeId,
                         recursiveNumberOfEntries = mRecursiveNumberEntries,
                         nodeFilter = mNodeFilter
@@ -256,7 +254,7 @@ class GroupViewModel(application: Application): AndroidViewModel(application) {
         groupId: GroupId?
     ) {
         // Save the last not virtual group and it's position
-        if (currentGroup !is SearchGroupInfo) {
+        if (!isCurrentGroupIsSearch) {
             mMainGroupState?.let {
                 mPreviousGroupsStates.add(it)
             }
@@ -284,9 +282,10 @@ class GroupViewModel(application: Application): AndroidViewModel(application) {
                         max = SearchHelper.MAX_SEARCH_ENTRY
                     )
                     if (group != null) {
-                        currentGroup = group
+                        isCurrentGroupIsRoot = false
+                        isCurrentGroupIsSearch = true
                         mSearchState = searchState
-                        children = group.getSearchResults()
+                        val children = group.getSearchResults()
                         withContext(Dispatchers.Main) {
                             _groupUIState.update { groupState ->
                                 groupState.copy(
@@ -646,16 +645,12 @@ class GroupViewModel(application: Application): AndroidViewModel(application) {
         nodeActionSelectionMode = false
     }
 
-    fun isCurrentGroupRoot(database: ContextualDatabase?): Boolean {
-        return currentGroup?.isRoot(database) == true
-    }
-
     fun previousGroupExists(): Boolean = mPreviousGroupsStates.isNotEmpty()
 
-    fun loadPreviousGroup(database: ContextualDatabase?) {
+    fun loadPreviousGroup() {
         if (previousGroupExists()) {
             return loadMainGroup(
-                database = database,
+                database = mDatabase,
                 groupState = mPreviousGroupsStates.removeAt(mPreviousGroupsStates.lastIndex)
             )
         }

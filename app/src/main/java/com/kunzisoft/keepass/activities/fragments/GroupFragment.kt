@@ -48,7 +48,6 @@ import com.kunzisoft.keepass.database.element.node.NodeFilter
 import com.kunzisoft.keepass.model.SearchGroupInfo
 import com.kunzisoft.keepass.model.SortedNodeInfo
 import com.kunzisoft.keepass.settings.PreferencesUtil
-import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.viewmodels.GroupViewModel
 import kotlinx.coroutines.launch
 
@@ -125,20 +124,6 @@ class GroupFragment : DatabaseFragment(), SortDialogFragment.SortSelectionListen
         }
     }
 
-    override fun onDatabaseActionFinished(
-        database: ContextualDatabase,
-        actionTask: String,
-        result: ActionRunnable.Result
-    ) {
-        super.onDatabaseActionFinished(database, actionTask, result)
-
-        // Too many special cases to make specific additions or deletions,
-        // rebuilt the list works well.
-        if (result.isSuccess) {
-            rebuildList()
-        }
-    }
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreateView(inflater, container, savedInstanceState)
         // To apply theme
@@ -172,8 +157,26 @@ class GroupFragment : DatabaseFragment(), SortDialogFragment.SortSelectionListen
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 launch {
                     mGroupViewModel.groupUIState.collect { groupUIState ->
-                        groupUIState.group?.let {
-                            rebuildList()
+                        try {
+                            groupUIState.group?.let { currentGroup ->
+                                groupUIState.children?.let { children ->
+                                    mAdapter?.rebuildList(
+                                        nodes = children,
+                                        isSearch = currentGroup is SearchGroupInfo,
+                                        nodeFilter = mNodeFilter
+                                    )
+                                }
+                                if (currentGroup is SearchGroupInfo
+                                    && mAdapter != null
+                                    && mAdapter!!.isEmpty) {
+                                    // To show the " no search entry found "
+                                    notFoundView?.visibility = View.VISIBLE
+                                } else {
+                                    notFoundView?.visibility = View.GONE
+                                }
+                            }
+                        } catch (e:Exception) {
+                            Log.e(TAG, "Unable to rebuild the list", e)
                         }
                     }
                 }
@@ -215,31 +218,6 @@ class GroupFragment : DatabaseFragment(), SortDialogFragment.SortSelectionListen
         return mLayoutManager?.findFirstVisibleItemPosition() ?: 0
     }
 
-    private fun rebuildList() {
-        try {
-            mGroupViewModel.currentGroup?.let { currentGroup ->
-                mGroupViewModel.children?.let { children ->
-                    mAdapter?.rebuildList(
-                        nodes = children,
-                        isSearch = currentGroup is SearchGroupInfo,
-                        nodeFilter = mNodeFilter
-                    )
-                }
-
-                if (currentGroup is SearchGroupInfo
-                    && mAdapter != null
-                    && mAdapter!!.isEmpty) {
-                    // To show the " no search entry found "
-                    notFoundView?.visibility = View.VISIBLE
-                } else {
-                    notFoundView?.visibility = View.GONE
-                }
-            }
-        } catch (e:Exception) {
-            Log.e(TAG, "Unable to rebuild the list", e)
-        }
-    }
-
     override fun onSortSelected(
         sortNodeEnum: SortNodeEnum,
         sortNodeParameters: SortNodeEnum.SortNodeParameters
@@ -252,7 +230,7 @@ class GroupFragment : DatabaseFragment(), SortDialogFragment.SortSelectionListen
         // Tell the adapter to refresh its list
         try {
             mAdapter?.notifyChangeSort(sortNodeEnum, sortNodeParameters)
-            rebuildList()
+            mGroupViewModel.loadGroup()
         } catch (e:Exception) {
             Log.e(TAG, "Unable to sort the list", e)
         }

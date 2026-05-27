@@ -93,6 +93,8 @@ import com.kunzisoft.keepass.model.RegisterInfo
 import com.kunzisoft.keepass.model.SearchGroupInfo
 import com.kunzisoft.keepass.model.SearchInfo
 import com.kunzisoft.keepass.model.SortedNodeInfo
+import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_TOUCH_ENTRY_TASK
+import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_TOUCH_GROUP_TASK
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_ENTRY_TASK
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_GROUP_TASK
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.getNewEntry
@@ -786,12 +788,16 @@ class GroupActivity : DatabaseLockActivity(),
                 }
             }
         }
+        if (actionTask != ACTION_DATABASE_TOUCH_GROUP_TASK
+            && actionTask != ACTION_DATABASE_TOUCH_ENTRY_TASK) {
+            // Too many special cases to make specific additions or deletions,
+            // rebuilt the list works well.
+            loadGroup()
+        }
         if (actionTask == ACTION_DATABASE_UPDATE_GROUP_TASK
             || actionTask == ACTION_DATABASE_UPDATE_ENTRY_TASK) {
             if (result.isSuccess) {
                 coordinatorError?.showActionErrorIfNeeded(result)
-                // Reload the group
-                loadGroup()
                 finishNodeAction()
             }
         }
@@ -1232,9 +1238,9 @@ class GroupActivity : DatabaseLockActivity(),
                 }
                 mGroupViewModel.previousGroupExists() -> {
                     // Load the previous group
-                    mGroupViewModel.loadPreviousGroup(mDatabase)
+                    mGroupViewModel.loadPreviousGroup()
                 }
-                mGroupViewModel.isCurrentGroupRoot(mDatabase) -> {
+                mGroupViewModel.isCurrentGroupIsRoot -> {
                     // In root, lock if needed
                     removeSearch()
                     intent.removeModes()
