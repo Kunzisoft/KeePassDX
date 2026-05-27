@@ -23,20 +23,20 @@ import android.content.Context
 import android.util.Log
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.element.Entry
+import com.kunzisoft.keepass.database.element.EntryId
 import com.kunzisoft.keepass.database.element.Group
-import com.kunzisoft.keepass.database.element.node.NodeId
+import com.kunzisoft.keepass.database.element.GroupId
 import com.kunzisoft.keepass.database.exception.CopyEntryDatabaseException
 import com.kunzisoft.keepass.database.exception.CopyGroupDatabaseException
 import com.kunzisoft.keepass.database.exception.MissingParentDatabaseException
 import com.kunzisoft.keepass.hardware.HardwareKey
-import java.util.UUID
 
 class CopyNodesRunnable(
     context: Context,
     database: ContextualDatabase,
-    newParentId: NodeId<*>,
-    val groupsIdsToCopy: List<NodeId<*>>,
-    val entriesIdsToCopy: List<NodeId<UUID>>,
+    newParentId: GroupId,
+    val groupsIdsToCopy: List<GroupId>,
+    val entriesIdsToCopy: List<EntryId>,
     save: Boolean,
     afterActionNodesFinish: AfterActionNodesFinish?,
     challengeResponseRetriever: (HardwareKey, ByteArray?) -> ByteArray

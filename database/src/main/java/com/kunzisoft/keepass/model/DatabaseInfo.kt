@@ -22,15 +22,15 @@ package com.kunzisoft.keepass.model
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.DateInstant
 import com.kunzisoft.keepass.database.element.Entry
+import com.kunzisoft.keepass.database.element.EntryId
 import com.kunzisoft.keepass.database.element.Group
+import com.kunzisoft.keepass.database.element.GroupId
 import com.kunzisoft.keepass.database.element.node.EmptyNodeFilter
 import com.kunzisoft.keepass.database.element.node.Node
 import com.kunzisoft.keepass.database.element.node.NodeFilter
-import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.search.SearchHelper
 import com.kunzisoft.keepass.database.search.SearchParameters
 import com.kunzisoft.keepass.otp.OtpEntryFields
-import java.util.UUID
 
 /**
  * Database utility class to manage database information and conversion between elements and info objects.
@@ -45,7 +45,7 @@ open class DatabaseInfo: Database() {
      * @param raw Whether to retrieve raw data or processed data (e.g. OTP fields).
      * @return The entry info if found, null otherwise.
      */
-    fun getEntryInfoById(entryId: NodeId<UUID>, raw: Boolean = false): EntryInfo? {
+    fun getEntryInfoById(entryId: EntryId, raw: Boolean = false): EntryInfo? {
         return getEntryById(entryId)?.let { entry -> getEntryInfoFrom(entry, raw) }
     }
 
@@ -54,7 +54,7 @@ open class DatabaseInfo: Database() {
      * @param groupId Unique identifier of the group.
      * @return The group info if found, null otherwise.
      */
-    fun getGroupInfoById(groupId: NodeId<*>): GroupInfo? {
+    fun getGroupInfoById(groupId: GroupId): GroupInfo? {
         return getGroupById(groupId)?.let { group -> getGroupInfoFrom(group) }
     }
 
@@ -216,7 +216,7 @@ open class DatabaseInfo: Database() {
      * @param entryId The entryId to get history from.
      * @return List of entry info representing the history.
      */
-    fun getHistoryEntryInfoFrom(entryId: NodeId<UUID>): List<EntryInfo>? {
+    fun getHistoryEntryInfoFrom(entryId: EntryId): List<EntryInfo>? {
         return getEntryById(entryId)?.let { mainEntry ->
             getHistoryEntryInfoFrom(mainEntry)
         }
@@ -276,7 +276,7 @@ open class DatabaseInfo: Database() {
      * @return List of group info representing the path from root to the group.
      */
     fun getBreadcrumbsFrom(
-        groupId: NodeId<*>,
+        groupId: GroupId,
         recursiveNumberOfEntries: Boolean,
         nodeFilter: NodeFilter
     ): List<SortedGroupInfo> {
@@ -317,7 +317,7 @@ open class DatabaseInfo: Database() {
      * @param nodeFilter Filter to apply to entries.
      */
     fun getSortedChildrenOf(
-        parentId: NodeId<*>,
+        parentId: GroupId,
         recursiveNumberOfEntries: Boolean,
         nodeFilter: NodeFilter
     ): List<SortedNodeInfo> {
@@ -430,7 +430,7 @@ open class DatabaseInfo: Database() {
      */
     fun createSearchGroupInfo(
         searchParameters: SearchParameters,
-        fromGroup: NodeId<*>? = null,
+        fromGroup: GroupId? = null,
         max: Int = Integer.MAX_VALUE
     ): SearchGroupInfo {
         return mSearchHelper.createGroupInfoWithSearchResult(

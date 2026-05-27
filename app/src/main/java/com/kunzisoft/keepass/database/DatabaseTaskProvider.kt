@@ -38,9 +38,10 @@ import androidx.core.content.ContextCompat.RECEIVER_NOT_EXPORTED
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.crypto.EncryptionAlgorithm
 import com.kunzisoft.keepass.database.crypto.kdf.KdfEngine
+import com.kunzisoft.keepass.database.element.EntryId
 import com.kunzisoft.keepass.database.element.Group
+import com.kunzisoft.keepass.database.element.GroupId
 import com.kunzisoft.keepass.database.element.database.CompressionAlgorithm
-import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.model.CipherEncryptDatabase
 import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.model.GroupInfo
@@ -85,7 +86,6 @@ import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.
 import com.kunzisoft.keepass.utils.DATABASE_START_TASK_ACTION
 import com.kunzisoft.keepass.utils.DATABASE_STOP_TASK_ACTION
 import com.kunzisoft.keepass.utils.putParcelableList
-import java.util.UUID
 
 /**
  * Utility class to connect an activity or a service to the DatabaseTaskNotificationService,
@@ -324,7 +324,7 @@ class DatabaseTaskProvider(
     */
 
     fun startDatabaseCreateGroup(
-        parentId: NodeId<*>,
+        parentId: GroupId,
         newGroup: GroupInfo,
         save: Boolean
     ) {
@@ -346,7 +346,7 @@ class DatabaseTaskProvider(
     }
 
     fun startDatabaseTouchGroup(
-        groupId: NodeId<*>
+        groupId: GroupId
     ) {
         start(Bundle().apply {
             putParcelable(DatabaseTaskNotificationService.GROUP_ID_KEY, groupId)
@@ -354,7 +354,7 @@ class DatabaseTaskProvider(
     }
 
     fun startDatabaseCreateEntry(
-        parentId: NodeId<*>,
+        parentId: GroupId,
         newEntry: EntryInfo,
         save: Boolean
     ) {
@@ -376,7 +376,7 @@ class DatabaseTaskProvider(
     }
 
     fun startDatabaseTouchEntry(
-        entryId: NodeId<UUID>
+        entryId: EntryId
     ) {
         start(Bundle().apply {
             putParcelable(DatabaseTaskNotificationService.ENTRY_ID_KEY, entryId)
@@ -385,12 +385,12 @@ class DatabaseTaskProvider(
 
     private fun startDatabaseActionListNodes(
         actionTask: String,
-        newParentId: NodeId<*>?,
+        newParentId: GroupId?,
         nodes: List<NodeInfo>,
         save: Boolean
     ) {
-        val groupsIdToCopy = mutableListOf<NodeId<*>>()
-        val entriesIdToCopy = mutableListOf<NodeId<UUID>>()
+        val groupsIdToCopy = mutableListOf<GroupId>()
+        val entriesIdToCopy = mutableListOf<EntryId>()
         nodes.forEach { nodeVersioned ->
             when (nodeVersioned) {
                 is GroupInfo -> {
@@ -411,7 +411,7 @@ class DatabaseTaskProvider(
     }
 
     fun startDatabaseCopyNodes(
-        newParentId: NodeId<*>,
+        newParentId: GroupId,
         nodesToCopy: List<NodeInfo>,
         save: Boolean
     ) {
@@ -424,7 +424,7 @@ class DatabaseTaskProvider(
     }
 
     fun startDatabaseMoveNodes(
-        newParentId: NodeId<*>,
+        newParentId: GroupId,
         nodesToMove: List<NodeInfo>,
         save: Boolean
     ) {
@@ -455,7 +455,7 @@ class DatabaseTaskProvider(
     */
 
     fun startDatabaseRestoreEntryHistory(
-        mainEntryId: NodeId<UUID>,
+        mainEntryId: EntryId,
         entryHistoryPosition: Int,
         save: Boolean
     ) {
@@ -467,7 +467,7 @@ class DatabaseTaskProvider(
     }
 
     fun startDatabaseDeleteEntryHistory(
-        mainEntryId: NodeId<UUID>,
+        mainEntryId: EntryId,
         entryHistoryPosition: Int,
         save: Boolean
     ) {

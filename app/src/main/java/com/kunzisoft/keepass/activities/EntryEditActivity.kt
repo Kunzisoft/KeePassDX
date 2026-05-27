@@ -72,7 +72,9 @@ import com.kunzisoft.keepass.credentialprovider.passkey.util.PasswordHelper.buil
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.element.Attachment
 import com.kunzisoft.keepass.database.element.DateInstant
+import com.kunzisoft.keepass.database.element.EntryId
 import com.kunzisoft.keepass.database.element.Field
+import com.kunzisoft.keepass.database.element.GroupId
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.security.ProtectedString
 import com.kunzisoft.keepass.education.EntryEditActivityEducation
@@ -112,7 +114,6 @@ import com.kunzisoft.keepass.viewmodels.EntryEditViewModel
 import com.kunzisoft.keepass.viewmodels.UserVerificationViewModel
 import kotlinx.coroutines.launch
 import java.util.EnumSet
-import java.util.UUID
 
 class EntryEditActivity : DatabaseLockActivity(),
         EntryCustomFieldDialogFragment.EntryCustomFieldListener,
@@ -199,9 +200,9 @@ class EntryEditActivity : DatabaseLockActivity(),
 
         mEntryEditViewModel.loadTemplateEntry(
             // Entry is retrieve, it's an entry to update
-            entryId = intent.getParcelableExtraCompat<NodeId<UUID>>(KEY_ENTRY),
+            entryId = intent.getParcelableExtraCompat<EntryId>(KEY_ENTRY),
             // Parent is retrieve, it's a new entry to create
-            parentId = intent.getParcelableExtraCompat<NodeId<*>>(KEY_PARENT),
+            parentId = intent.getParcelableExtraCompat<GroupId>(KEY_PARENT),
             // Register info from search
             registerInfo = intent.retrieveRegisterInfo()
                 ?: intent.retrieveSearchInfo()?.toRegisterInfo()
@@ -845,7 +846,7 @@ class EntryEditActivity : DatabaseLockActivity(),
 
         fun registerForEntryResult(
             activity: FragmentActivity,
-            entryAddedOrUpdatedListener: (NodeId<UUID>?) -> Unit
+            entryAddedOrUpdatedListener: (EntryId?) -> Unit
         ): ActivityResultLauncher<Intent> {
             return activity.registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
                 if (result.resultCode == RESULT_OK) {
@@ -887,7 +888,7 @@ class EntryEditActivity : DatabaseLockActivity(),
             context: Context,
             database: ContextualDatabase,
             typeMode: TypeMode,
-            groupId: NodeId<*>,
+            groupId: GroupId,
             searchInfo: SearchInfo? = null,
             activityResultLauncher: ActivityResultLauncher<Intent>? = null,
         ) {

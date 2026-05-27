@@ -59,8 +59,8 @@ import com.kunzisoft.keepass.credentialprovider.UserVerificationData
 import com.kunzisoft.keepass.credentialprovider.UserVerificationHelper.Companion.checkUserVerification
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.element.Attachment
+import com.kunzisoft.keepass.database.element.EntryId
 import com.kunzisoft.keepass.database.element.Tags
-import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.education.EntryActivityEducation
 import com.kunzisoft.keepass.model.EntryAttachmentState
 import com.kunzisoft.keepass.otp.OtpType
@@ -85,7 +85,6 @@ import com.kunzisoft.keepass.viewmodels.EntryViewModel
 import com.kunzisoft.keepass.viewmodels.UserVerificationViewModel
 import kotlinx.coroutines.launch
 import java.util.EnumSet
-import java.util.UUID
 
 class EntryActivity : DatabaseLockActivity() {
 
@@ -186,7 +185,7 @@ class EntryActivity : DatabaseLockActivity() {
 
         // Get Entry from UUID
         try {
-            intent.getParcelableExtraCompat<NodeId<UUID>>(KEY_ENTRY)?.let { mainEntryId ->
+            intent.getParcelableExtraCompat<EntryId>(KEY_ENTRY)?.let { mainEntryId ->
                 intent.removeExtra(KEY_ENTRY)
                 val historyPosition = intent.getIntExtra(KEY_ENTRY_HISTORY_POSITION, -1)
                 intent.removeExtra(KEY_ENTRY_HISTORY_POSITION)
@@ -544,7 +543,7 @@ class EntryActivity : DatabaseLockActivity() {
         }
     }
 
-    private fun editEntry(database: ContextualDatabase?, entryId: NodeId<*>?) {
+    private fun editEntry(database: ContextualDatabase?, entryId: EntryId?) {
         database?.let { database ->
             entryId?.let { entryId ->
                 EntryEditActivity.launch(
@@ -613,7 +612,7 @@ class EntryActivity : DatabaseLockActivity() {
         fun launch(
             activity: Activity,
             database: ContextualDatabase,
-            entryId: NodeId<UUID>,
+            entryId: EntryId,
             historyPosition: Int? = null,
             activityResultLauncher: ActivityResultLauncher<Intent>
         ) {

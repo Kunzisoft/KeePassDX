@@ -1032,7 +1032,7 @@ open class Database {
         return group
     }
 
-    fun getEntryById(id: NodeId<UUID>): Entry? {
+    fun getEntryById(id: EntryId): Entry? {
         mDatabaseKDB?.getEntryById(id)?.let {
             return Entry(it)
         }
@@ -1042,11 +1042,11 @@ open class Database {
         return null
     }
 
-    fun getEntriesByIds(entriesIds: List<NodeId<UUID>>): List<Entry> {
+    fun getEntriesByIds(entriesIds: List<EntryId>): List<Entry> {
         return entriesIds.mapNotNull { getEntryById(it) }
     }
 
-    fun getGroupById(id: NodeId<*>): Group? {
+    fun getGroupById(id: GroupId): Group? {
         if (id is NodeIdInt)
             mDatabaseKDB?.getGroupById(id)?.let {
                 return Group(it)
@@ -1058,7 +1058,7 @@ open class Database {
         return null
     }
 
-    fun getGroupsByIds(groupsIds: List<NodeId<*>>): List<Group> {
+    fun getGroupsByIds(groupsIds: List<GroupId>): List<Group> {
         return groupsIds.mapNotNull { getGroupById(it) }
     }
 

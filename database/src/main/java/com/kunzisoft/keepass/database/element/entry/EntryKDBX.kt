@@ -25,13 +25,13 @@ import android.os.Parcelable
 import com.kunzisoft.keepass.database.element.Attachment
 import com.kunzisoft.keepass.database.element.CustomData
 import com.kunzisoft.keepass.database.element.DateInstant
+import com.kunzisoft.keepass.database.element.EntryId
 import com.kunzisoft.keepass.database.element.Field
 import com.kunzisoft.keepass.database.element.Tags
 import com.kunzisoft.keepass.database.element.binary.AttachmentPool
 import com.kunzisoft.keepass.database.element.database.DatabaseKDBX
 import com.kunzisoft.keepass.database.element.database.DatabaseVersioned
 import com.kunzisoft.keepass.database.element.group.GroupKDBX
-import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.node.NodeIdUUID
 import com.kunzisoft.keepass.database.element.node.NodeKDBXInterface
 import com.kunzisoft.keepass.database.element.node.NodeType
@@ -155,11 +155,11 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
         this.mDecodeRef = false
     }
 
-    override fun initNodeId(): NodeId<UUID> {
+    override fun initNodeId(): EntryId {
         return NodeIdUUID()
     }
 
-    override fun copyNodeId(nodeId: NodeId<UUID>): NodeId<UUID> {
+    override fun copyNodeId(nodeId: EntryId): EntryId {
         return NodeIdUUID(nodeId.id)
     }
 

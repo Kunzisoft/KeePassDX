@@ -30,7 +30,7 @@ import androidx.annotation.RequiresApi
 import androidx.credentials.exceptions.CreateCredentialUnknownException
 import androidx.credentials.provider.CallingAppInfo
 import com.kunzisoft.encrypt.Signature.getApplicationFingerprints
-import com.kunzisoft.keepass.database.element.node.NodeId
+import com.kunzisoft.keepass.database.element.EntryId
 import com.kunzisoft.keepass.model.AndroidOrigin
 import com.kunzisoft.keepass.model.AppOrigin
 import com.kunzisoft.keepass.utils.AppUtil
@@ -115,7 +115,7 @@ object PassHelper {
     /**
      * Check the timestamp and authentication code transmitted via PendingIntent
      */
-    fun checkSecurity(intent: Intent, nodeId: NodeId<UUID>?) {
+    fun checkSecurity(intent: Intent, nodeId: EntryId?) {
         val timestampString = intent.getStringExtra(EXTRA_TIMESTAMP)
         if (timestampString.isNullOrEmpty())
             throw CreateCredentialUnknownException("Timestamp null")

@@ -29,10 +29,11 @@ import com.kunzisoft.keepass.database.MainCredential
 import com.kunzisoft.keepass.database.ProgressMessage
 import com.kunzisoft.keepass.database.crypto.EncryptionAlgorithm
 import com.kunzisoft.keepass.database.crypto.kdf.KdfEngine
+import com.kunzisoft.keepass.database.element.EntryId
 import com.kunzisoft.keepass.database.element.Group
+import com.kunzisoft.keepass.database.element.GroupId
 import com.kunzisoft.keepass.database.element.binary.BinaryData
 import com.kunzisoft.keepass.database.element.database.CompressionAlgorithm
-import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.model.CipherEncryptDatabase
 import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.model.GroupInfo
@@ -43,7 +44,6 @@ import com.kunzisoft.keepass.tasks.ActionRunnable
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import java.util.UUID
 
 class DatabaseViewModel(application: Application): AndroidViewModel(application) {
 
@@ -189,7 +189,7 @@ class DatabaseViewModel(application: Application): AndroidViewModel(application)
      */
 
     fun createEntry(
-        parentId: NodeId<*>,
+        parentId: GroupId,
         newEntry: EntryInfo,
         save: Boolean
     ) {
@@ -215,7 +215,7 @@ class DatabaseViewModel(application: Application): AndroidViewModel(application)
     }
 
     fun restoreEntryHistory(
-        mainEntryId: NodeId<UUID>,
+        mainEntryId: EntryId,
         entryHistoryPosition: Int,
         save: Boolean
     ) {
@@ -227,7 +227,7 @@ class DatabaseViewModel(application: Application): AndroidViewModel(application)
     }
 
     fun deleteEntryHistory(
-        mainEntryId: NodeId<UUID>,
+        mainEntryId: EntryId,
         entryHistoryPosition: Int,
         save: Boolean
     ) {
@@ -239,7 +239,7 @@ class DatabaseViewModel(application: Application): AndroidViewModel(application)
     }
 
     fun createGroup(
-        parentId: NodeId<*>,
+        parentId: GroupId,
         newGroup: GroupInfo,
         save: Boolean
     ) {
@@ -271,7 +271,7 @@ class DatabaseViewModel(application: Application): AndroidViewModel(application)
     }
 
     fun copyNodes(
-        newParentId: NodeId<*>,
+        newParentId: GroupId,
         nodesToCopy: List<NodeInfo>,
         save: Boolean
     ) {
@@ -283,7 +283,7 @@ class DatabaseViewModel(application: Application): AndroidViewModel(application)
     }
 
     fun moveNodes(
-        newParentId: NodeId<*>,
+        newParentId: GroupId,
         nodesToMove: List<NodeInfo>,
         save: Boolean
     ) {

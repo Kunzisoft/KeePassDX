@@ -30,8 +30,8 @@ import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.credentialprovider.magikeyboard.MagikeyboardService
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.element.Attachment
+import com.kunzisoft.keepass.database.element.EntryId
 import com.kunzisoft.keepass.database.element.Field
-import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.template.TemplateField
 import com.kunzisoft.keepass.database.helper.getLocalizedName
 import com.kunzisoft.keepass.model.EntryAttachmentState
@@ -50,7 +50,6 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.util.UUID
 
 
 /**
@@ -58,7 +57,7 @@ import java.util.UUID
  */
 class EntryViewModel(application: Application): AndroidViewModel(application) {
 
-    var mainEntryId: NodeId<UUID>? = null
+    var mainEntryId: EntryId? = null
         private set
     var historyPosition: Int = -1
         private set
@@ -150,7 +149,7 @@ class EntryViewModel(application: Application): AndroidViewModel(application) {
 
     fun loadEntry(
         database: ContextualDatabase?,
-        mainEntryId: NodeId<UUID>?,
+        mainEntryId: EntryId?,
         historyPosition: Int = -1,
     ) {
         this.mainEntryId = mainEntryId
@@ -295,7 +294,7 @@ class EntryViewModel(application: Application): AndroidViewModel(application) {
      * Custom data class to manage entry history.
      */
     data class EntryHistory(
-        var nodeId: NodeId<UUID>,
+        var nodeId: EntryId,
         var entryInfo: EntryInfo,
         var historyPosition: Int = -1
     )

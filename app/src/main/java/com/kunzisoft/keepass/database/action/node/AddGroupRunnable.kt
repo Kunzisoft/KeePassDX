@@ -23,14 +23,14 @@ import android.content.Context
 import android.util.Log
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.element.Group
-import com.kunzisoft.keepass.database.element.node.NodeId
+import com.kunzisoft.keepass.database.element.GroupId
 import com.kunzisoft.keepass.hardware.HardwareKey
 import com.kunzisoft.keepass.model.GroupInfo
 
 class AddGroupRunnable(
     context: Context,
     database: ContextualDatabase,
-    parentId: NodeId<*>,
+    parentId: GroupId,
     newGroup: GroupInfo,
     save: Boolean,
     afterActionNodesFinish: AfterActionNodesFinish?,

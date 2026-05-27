@@ -22,16 +22,16 @@ package com.kunzisoft.keepass.database.action.node
 import android.content.Context
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.element.Entry
+import com.kunzisoft.keepass.database.element.EntryId
 import com.kunzisoft.keepass.database.element.Group
-import com.kunzisoft.keepass.database.element.node.NodeId
+import com.kunzisoft.keepass.database.element.GroupId
 import com.kunzisoft.keepass.hardware.HardwareKey
-import java.util.UUID
 
 class DeleteNodesRunnable(
     context: Context,
     database: ContextualDatabase,
-    groupsIdsToDelete: List<NodeId<*>>,
-    entriesIdsToDelete: List<NodeId<UUID>>,
+    groupsIdsToDelete: List<GroupId>,
+    entriesIdsToDelete: List<EntryId>,
     private val recyclerBinTitle: String,
     save: Boolean,
     afterActionNodesFinish: AfterActionNodesFinish,

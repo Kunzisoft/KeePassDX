@@ -44,7 +44,7 @@ import com.kunzisoft.keepass.credentialprovider.passkey.util.PasswordHelper.retr
 import com.kunzisoft.keepass.credentialprovider.passkey.util.PasswordHelper.retrievePasswordInfo
 import com.kunzisoft.keepass.credentialprovider.passkey.util.PasswordHelper.retrievePasswordUsageRequestParameters
 import com.kunzisoft.keepass.database.ContextualDatabase
-import com.kunzisoft.keepass.database.element.node.NodeId
+import com.kunzisoft.keepass.database.element.EntryId
 import com.kunzisoft.keepass.database.helper.SearchHelper
 import com.kunzisoft.keepass.model.AppOrigin
 import com.kunzisoft.keepass.model.PasswordInfo
@@ -57,7 +57,6 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.IOException
 import java.io.InvalidObjectException
-import java.util.UUID
 
 @RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
 class PasswordLauncherViewModel(application: Application): CredentialLauncherViewModel(application) {
@@ -124,7 +123,7 @@ class PasswordLauncherViewModel(application: Application): CredentialLauncherVie
     private suspend fun launchSelection(
         intent: Intent,
         database: ContextualDatabase?,
-        nodeId: NodeId<UUID>?,
+        nodeId: EntryId?,
         searchInfo: SearchInfo
     ) {
         withContext(Dispatchers.IO) {
@@ -202,7 +201,7 @@ class PasswordLauncherViewModel(application: Application): CredentialLauncherVie
 
     private suspend fun selectPasswordAndSetResult(
         database: ContextualDatabase?,
-        nodeId: NodeId<UUID>
+        nodeId: EntryId
     ) {
         // To get the password from the database
         val entry = database

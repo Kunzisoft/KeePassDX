@@ -22,8 +22,8 @@ package com.kunzisoft.keepass.database.search
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.Entry
 import com.kunzisoft.keepass.database.element.Group
+import com.kunzisoft.keepass.database.element.GroupId
 import com.kunzisoft.keepass.database.element.node.NodeHandler
-import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.model.AppOriginEntryField.isAppId
 import com.kunzisoft.keepass.model.AppOriginEntryField.isAppIdSignature
 import com.kunzisoft.keepass.model.AppOriginEntryField.isWebDomain
@@ -58,7 +58,7 @@ class SearchHelper {
     fun createGroupInfoWithSearchResult(
         database: DatabaseInfo,
         searchParameters: SearchParameters,
-        fromGroup: NodeId<*>? = null,
+        fromGroup: GroupId? = null,
         max: Int
     ): SearchGroupInfo {
 

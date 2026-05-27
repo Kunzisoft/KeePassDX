@@ -39,7 +39,8 @@ import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper.removeModes
 import com.kunzisoft.keepass.credentialprovider.SpecialMode
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.MainCredential
-import com.kunzisoft.keepass.database.element.node.NodeId
+import com.kunzisoft.keepass.database.element.EntryId
+import com.kunzisoft.keepass.database.element.GroupId
 import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.model.GroupInfo
 import com.kunzisoft.keepass.model.NodeInfo
@@ -56,7 +57,6 @@ import com.kunzisoft.keepass.view.showActionErrorIfNeeded
 import com.kunzisoft.keepass.viewmodels.NodesViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import java.util.UUID
 
 abstract class DatabaseLockActivity : DatabaseModeActivity(),
     PasswordEncodingDialogFragment.Listener {
@@ -221,7 +221,7 @@ abstract class DatabaseLockActivity : DatabaseModeActivity(),
     }
 
     fun createGroup(
-        parentId: NodeId<*>,
+        parentId: GroupId,
         groupInfo: GroupInfo
     ) {
         mDatabaseViewModel.createGroup(parentId, groupInfo, mAutoSaveEnable)
@@ -240,7 +240,7 @@ abstract class DatabaseLockActivity : DatabaseModeActivity(),
     }
 
     fun createEntry(
-        parentId: NodeId<*>,
+        parentId: GroupId,
         entryInfo: EntryInfo
     ) {
         mDatabaseViewModel.createEntry(parentId, entryInfo, mAutoSaveEnable)
@@ -259,28 +259,28 @@ abstract class DatabaseLockActivity : DatabaseModeActivity(),
     }
 
     fun restoreEntryHistory(
-        mainEntryId: NodeId<UUID>,
+        mainEntryId: EntryId,
         entryHistoryPosition: Int
     ) {
         mDatabaseViewModel.restoreEntryHistory(mainEntryId, entryHistoryPosition, mAutoSaveEnable)
     }
 
     fun deleteEntryHistory(
-        mainEntryId: NodeId<UUID>,
+        mainEntryId: EntryId,
         entryHistoryPosition: Int
     ) {
         mDatabaseViewModel.deleteEntryHistory(mainEntryId, entryHistoryPosition, mAutoSaveEnable)
     }
 
     fun copyNodes(
-        newParentId: NodeId<*>,
+        newParentId: GroupId,
         nodesToCopy: List<NodeInfo>
     ) {
         mDatabaseViewModel.copyNodes(newParentId, nodesToCopy, mAutoSaveEnable)
     }
 
     fun moveNodes(
-        newParentId: NodeId<*>,
+        newParentId: GroupId,
         nodesToMove: List<NodeInfo>
     ) {
         mDatabaseViewModel.moveNodes(newParentId, nodesToMove, mAutoSaveEnable)

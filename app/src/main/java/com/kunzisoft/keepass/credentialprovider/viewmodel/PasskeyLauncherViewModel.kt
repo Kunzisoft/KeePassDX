@@ -53,7 +53,7 @@ import com.kunzisoft.keepass.credentialprovider.passkey.util.PasskeyHelper.retri
 import com.kunzisoft.keepass.credentialprovider.passkey.util.PrivilegedAllowLists
 import com.kunzisoft.keepass.credentialprovider.passkey.util.PrivilegedAllowLists.saveCustomPrivilegedApps
 import com.kunzisoft.keepass.database.ContextualDatabase
-import com.kunzisoft.keepass.database.element.node.NodeId
+import com.kunzisoft.keepass.database.element.EntryId
 import com.kunzisoft.keepass.database.exception.RegisterInReadOnlyDatabaseException
 import com.kunzisoft.keepass.database.helper.SearchHelper
 import com.kunzisoft.keepass.model.AppOrigin
@@ -106,7 +106,7 @@ class PasskeyLauncherViewModel(application: Application): CredentialLauncherView
 
     fun showAppSignatureDialog(
         temptingApp: AppOrigin,
-        nodeId: NodeId<UUID>
+        nodeId: EntryId
     ) {
         mUiState.value = UIState.ShowAppSignatureDialog(temptingApp, nodeId)
     }
@@ -135,7 +135,7 @@ class PasskeyLauncherViewModel(application: Application): CredentialLauncherView
     fun saveAppSignature(
         database: ContextualDatabase?,
         temptingApp: AppOrigin,
-        nodeId: NodeId<UUID>
+        nodeId: EntryId
     ) {
         viewModelScope.launch(CoroutineExceptionHandler { _, e ->
             showError(e)
@@ -220,7 +220,7 @@ class PasskeyLauncherViewModel(application: Application): CredentialLauncherView
     private suspend fun launchSelection(
         intent: Intent,
         database: ContextualDatabase?,
-        nodeId: NodeId<UUID>?,
+        nodeId: EntryId?,
         searchInfo: SearchInfo,
         appOrigin: AppOrigin
     ) {
@@ -296,7 +296,7 @@ class PasskeyLauncherViewModel(application: Application): CredentialLauncherView
 
     private suspend fun autoSelectPasskeyAndSetResult(
         database: ContextualDatabase?,
-        nodeId: NodeId<UUID>,
+        nodeId: EntryId,
         appOrigin: AppOrigin
     ) {
         withContext(Dispatchers.IO) {
@@ -553,7 +553,7 @@ class PasskeyLauncherViewModel(application: Application): CredentialLauncherView
         ): UIState()
         data class ShowAppSignatureDialog(
             val temptingApp: AppOrigin,
-            val nodeId: NodeId<UUID>
+            val nodeId: EntryId
         ): UIState()
         data class UpdateEntry(
             val entry: EntryInfo

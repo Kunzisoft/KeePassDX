@@ -23,14 +23,13 @@ import android.content.Context
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.action.SaveDatabaseRunnable
 import com.kunzisoft.keepass.database.element.Entry
-import com.kunzisoft.keepass.database.element.node.NodeId
+import com.kunzisoft.keepass.database.element.EntryId
 import com.kunzisoft.keepass.hardware.HardwareKey
-import java.util.UUID
 
 class DeleteEntryHistoryDatabaseRunnable (
     context: Context,
     database: ContextualDatabase,
-    mainEntryId: NodeId<UUID>,
+    mainEntryId: EntryId,
     private val entryHistoryPosition: Int,
     save: Boolean,
     challengeResponseRetriever: (HardwareKey, ByteArray?) -> ByteArray

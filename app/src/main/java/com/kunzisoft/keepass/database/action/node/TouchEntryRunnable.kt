@@ -22,14 +22,13 @@ package com.kunzisoft.keepass.database.action.node
 import android.content.Context
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.element.Entry
-import com.kunzisoft.keepass.database.element.node.NodeId
+import com.kunzisoft.keepass.database.element.EntryId
 import com.kunzisoft.keepass.hardware.HardwareKey
-import java.util.UUID
 
 class TouchEntryRunnable(
     context: Context,
     database: ContextualDatabase,
-    oldEntryId: NodeId<UUID>,
+    oldEntryId: EntryId,
     afterActionNodesFinish: AfterActionNodesFinish?,
     challengeResponseRetriever: (HardwareKey, ByteArray?) -> ByteArray
 ) : ActionNodeDatabaseRunnable(

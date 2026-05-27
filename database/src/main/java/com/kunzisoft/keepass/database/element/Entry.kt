@@ -47,6 +47,8 @@ import com.kunzisoft.keepass.utils.readParcelableCompat
 import java.io.IOException
 import java.util.UUID
 
+typealias EntryId = NodeId<UUID>
+
 class Entry : Node, EntryVersionedInterface<Group> {
 
     var entryKDB: EntryKDB? = null
@@ -96,7 +98,7 @@ class Entry : Node, EntryVersionedInterface<Group> {
         dest.writeParcelable(entryKDBX, flags)
     }
 
-    override var nodeId: NodeId<UUID>
+    override var nodeId: EntryId
         get() = entryKDBX?.nodeId ?: entryKDB?.nodeId ?: NodeIdUUID()
         set(value) {
             entryKDB?.nodeId = value
@@ -432,7 +434,7 @@ class Entry : Node, EntryVersionedInterface<Group> {
         return history
     }
 
-    fun getMainEntryHistoryId(): NodeId<UUID> {
+    fun getMainEntryHistoryId(): EntryId {
         return entryKDBX?.historyMainEntryId?.let { NodeIdUUID(it) } ?: nodeId
     }
 

@@ -34,6 +34,8 @@ import com.kunzisoft.keepass.database.element.node.NodeType
 import com.kunzisoft.keepass.utils.readParcelableCompat
 import java.util.UUID
 
+typealias GroupId = NodeId<*>
+
 class Group : Node, GroupVersionedInterface<Group, Entry> {
 
     var groupKDB: GroupKDB? = null
@@ -101,7 +103,7 @@ class Group : Node, GroupVersionedInterface<Group, Entry> {
         dest.writeParcelable(groupKDBX, flags)
     }
 
-    override val nodeId: NodeId<*>
+    override val nodeId: GroupId
         get() = groupKDBX?.nodeId ?: groupKDB?.nodeId ?: NodeIdUUID()
 
     override var title: String

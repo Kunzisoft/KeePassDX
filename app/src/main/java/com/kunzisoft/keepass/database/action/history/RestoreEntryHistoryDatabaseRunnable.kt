@@ -23,15 +23,14 @@ import android.content.Context
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.action.node.UpdateEntryRunnable
 import com.kunzisoft.keepass.database.element.Entry
-import com.kunzisoft.keepass.database.element.node.NodeId
+import com.kunzisoft.keepass.database.element.EntryId
 import com.kunzisoft.keepass.hardware.HardwareKey
 import com.kunzisoft.keepass.tasks.ActionRunnable
-import java.util.UUID
 
 class RestoreEntryHistoryDatabaseRunnable (
     private val context: Context,
     private val database: ContextualDatabase,
-    entryId: NodeId<UUID>,
+    entryId: EntryId,
     private val entryHistoryPosition: Int,
     private val save: Boolean,
     private val challengeResponseRetriever: (HardwareKey, ByteArray?) -> ByteArray

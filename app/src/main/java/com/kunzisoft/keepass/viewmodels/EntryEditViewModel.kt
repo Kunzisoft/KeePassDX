@@ -23,8 +23,9 @@ import android.net.Uri
 import androidx.lifecycle.viewModelScope
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.element.Attachment
+import com.kunzisoft.keepass.database.element.EntryId
 import com.kunzisoft.keepass.database.element.Field
-import com.kunzisoft.keepass.database.element.node.NodeId
+import com.kunzisoft.keepass.database.element.GroupId
 import com.kunzisoft.keepass.database.element.template.Template
 import com.kunzisoft.keepass.model.EntryAttachmentState
 import com.kunzisoft.keepass.model.EntryInfo
@@ -42,7 +43,6 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.util.UUID
 
 
 /**
@@ -51,8 +51,8 @@ import java.util.UUID
 class EntryEditViewModel: NodeEditViewModel() {
 
     private var mDatabase: ContextualDatabase? = null
-    private var mEntryId: NodeId<UUID>? = null
-    private var mParentId: NodeId<*>? = null
+    private var mEntryId: EntryId? = null
+    private var mParentId: GroupId? = null
     private var mRegisterInfo: RegisterInfo? = null
     private var mTemplates: Templates? = null
     var isTemplate: Boolean = false
@@ -162,8 +162,8 @@ class EntryEditViewModel: NodeEditViewModel() {
     }
 
     fun loadTemplateEntry(
-        entryId: NodeId<UUID>?,
-        parentId: NodeId<*>?,
+        entryId: EntryId?,
+        parentId: GroupId?,
         registerInfo: RegisterInfo?
     ) {
         if (this.mEntryId == entryId
@@ -405,7 +405,7 @@ class EntryEditViewModel: NodeEditViewModel() {
         val defaultTemplate: Template,
     )
     data class CreateEntryAction(
-        val parentId: NodeId<*>,
+        val parentId: GroupId,
         val newEntry: EntryInfo
     )
     data class FieldEdition(

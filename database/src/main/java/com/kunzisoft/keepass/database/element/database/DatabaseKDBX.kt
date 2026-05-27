@@ -31,6 +31,7 @@ import com.kunzisoft.keepass.database.element.CompositeKey
 import com.kunzisoft.keepass.database.element.CustomData
 import com.kunzisoft.keepass.database.element.DateInstant
 import com.kunzisoft.keepass.database.element.DeletedObject
+import com.kunzisoft.keepass.database.element.EntryId
 import com.kunzisoft.keepass.database.element.MasterCredential
 import com.kunzisoft.keepass.database.element.Tags
 import com.kunzisoft.keepass.database.element.binary.BinaryData
@@ -41,7 +42,6 @@ import com.kunzisoft.keepass.database.element.group.GroupKDBX
 import com.kunzisoft.keepass.database.element.icon.IconImageCustom
 import com.kunzisoft.keepass.database.element.icon.IconImageStandard
 import com.kunzisoft.keepass.database.element.node.NodeHandler
-import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.node.NodeIdUUID
 import com.kunzisoft.keepass.database.element.node.NodeKDBXInterface
 import com.kunzisoft.keepass.database.element.node.NodeVersioned
@@ -802,7 +802,7 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
         return false
     }
 
-    fun getDeletedObject(nodeId: NodeId<UUID>): DeletedObject? {
+    fun getDeletedObject(nodeId: EntryId): DeletedObject? {
         return deletedObjects.find { it.uuid == nodeId.id }
     }
 

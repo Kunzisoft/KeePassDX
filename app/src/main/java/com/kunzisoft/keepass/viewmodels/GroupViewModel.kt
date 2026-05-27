@@ -33,10 +33,10 @@ import com.kunzisoft.keepass.activities.GroupActivity.Companion.retrieveAutoSear
 import com.kunzisoft.keepass.activities.GroupActivity.SearchState
 import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper.retrieveSearchInfo
 import com.kunzisoft.keepass.database.ContextualDatabase
+import com.kunzisoft.keepass.database.element.GroupId
 import com.kunzisoft.keepass.database.element.node.DefaultNodeFilter
 import com.kunzisoft.keepass.database.element.node.EmptyNodeFilter
 import com.kunzisoft.keepass.database.element.node.NodeFilter
-import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.helper.SearchHelper
 import com.kunzisoft.keepass.database.helper.SearchHelper.getSearchParametersFromSearchInfo
 import com.kunzisoft.keepass.database.search.SearchParameters
@@ -253,7 +253,7 @@ class GroupViewModel(application: Application): AndroidViewModel(application) {
 
     fun loadChildGroup(
         database: ContextualDatabase?,
-        groupId: NodeId<*>?
+        groupId: GroupId?
     ) {
         // Save the last not virtual group and it's position
         if (currentGroup !is SearchGroupInfo) {
@@ -684,13 +684,13 @@ class GroupViewModel(application: Application): AndroidViewModel(application) {
     )
 
     data class GroupState(
-        var groupId: NodeId<*>?,
+        var groupId: GroupId?,
         var firstVisibleItem: Int?
     )
 
     data class PasteAction(
         val pasteMode: PasteMode,
-        val parentId: NodeId<*>,
+        val parentId: GroupId,
         val nodes: List<NodeInfo>
     )
 

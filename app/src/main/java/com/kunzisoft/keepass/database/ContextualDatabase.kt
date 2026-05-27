@@ -21,10 +21,11 @@ package com.kunzisoft.keepass.database
 
 import android.net.Uri
 import com.kunzisoft.keepass.database.element.Entry
+import com.kunzisoft.keepass.database.element.EntryId
+import com.kunzisoft.keepass.database.element.GroupId
 import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.database.element.icon.IconImageCustom
 import com.kunzisoft.keepass.database.element.icon.IconImageStandard
-import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.icons.IconDrawableFactory
 import com.kunzisoft.keepass.model.AttachmentState
 import com.kunzisoft.keepass.model.DatabaseInfo
@@ -34,7 +35,6 @@ import com.kunzisoft.keepass.model.RegisterInfo
 import com.kunzisoft.keepass.model.StreamDirection
 import com.kunzisoft.keepass.utils.SingletonHolder
 import java.io.File
-import java.util.UUID
 
 class ContextualDatabase: DatabaseInfo() {
 
@@ -54,7 +54,7 @@ class ContextualDatabase: DatabaseInfo() {
      * @return The created entry info if successful, null otherwise.
      */
     suspend fun buildNewEntryInfo(
-        parentId: NodeId<*>,
+        parentId: GroupId,
         registerInfo: RegisterInfo? = null
     ): EntryInfo? {
         getGroupById(parentId)?.let { parentGroup ->
@@ -96,7 +96,7 @@ class ContextualDatabase: DatabaseInfo() {
      * @param actionDataOverwrite The action to perform when data is overwritten.
      */
     suspend fun buildEntryInfoFrom(
-        entryId: NodeId<UUID>,
+        entryId: EntryId,
         registerInfo: RegisterInfo? = null,
         actionDataOverwrite: suspend () -> Unit = {}
     ): EntryInfo? {

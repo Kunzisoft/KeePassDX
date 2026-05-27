@@ -23,20 +23,20 @@ import android.content.Context
 import android.util.Log
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.element.Entry
+import com.kunzisoft.keepass.database.element.EntryId
 import com.kunzisoft.keepass.database.element.Group
-import com.kunzisoft.keepass.database.element.node.NodeId
+import com.kunzisoft.keepass.database.element.GroupId
 import com.kunzisoft.keepass.database.exception.MissingParentDatabaseException
 import com.kunzisoft.keepass.database.exception.MoveEntryDatabaseException
 import com.kunzisoft.keepass.database.exception.MoveGroupDatabaseException
 import com.kunzisoft.keepass.hardware.HardwareKey
-import java.util.UUID
 
 class MoveNodesRunnable(
     context: Context,
     database: ContextualDatabase,
-    parentId: NodeId<*>,
-    groupsIdsToMove: List<NodeId<*>>,
-    entriesIdsToMove: List<NodeId<UUID>>,
+    parentId: GroupId,
+    groupsIdsToMove: List<GroupId>,
+    entriesIdsToMove: List<EntryId>,
     save: Boolean,
     afterActionNodesFinish: AfterActionNodesFinish?,
     challengeResponseRetriever: (HardwareKey, ByteArray?) -> ByteArray

@@ -22,9 +22,9 @@ package com.kunzisoft.keepass.model
 import android.os.Parcel
 import android.os.Parcelable
 import com.kunzisoft.keepass.database.element.Attachment
+import com.kunzisoft.keepass.database.element.EntryId
 import com.kunzisoft.keepass.database.element.Field
 import com.kunzisoft.keepass.database.element.entry.AutoType
-import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.node.NodeIdUUID
 import com.kunzisoft.keepass.database.element.template.Template
 import com.kunzisoft.keepass.model.AppOriginEntryField.containsDomainOrApplicationId
@@ -44,7 +44,6 @@ import com.kunzisoft.keepass.utils.readListCompat
 import com.kunzisoft.keepass.utils.readParcelableCompat
 import com.kunzisoft.keepass.utils.writeCharArrayCompat
 import java.util.Locale
-import java.util.UUID
 
 /**
  * Data class representing information about an entry in the database.
@@ -52,7 +51,7 @@ import java.util.UUID
  */
 open class EntryInfo : NodeInfo {
 
-    override var nodeId: NodeId<UUID> = NodeIdUUID()
+    override var nodeId: EntryId = NodeIdUUID()
     var username: String = ""
     var password: CharArray = charArrayOf()
     var url: String = ""
@@ -100,7 +99,7 @@ open class EntryInfo : NodeInfo {
      * @param parcel The parcel to read from.
      */
     constructor(parcel: Parcel) : super(parcel) {
-        nodeId = parcel.readParcelableCompat<NodeId<UUID>>() ?: nodeId
+        nodeId = parcel.readParcelableCompat<EntryId>() ?: nodeId
         username = parcel.readString() ?: username
         password = parcel.readCharArrayCompat() ?: password
         url = parcel.readString() ?: url

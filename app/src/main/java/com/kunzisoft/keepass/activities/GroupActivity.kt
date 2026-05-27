@@ -80,8 +80,8 @@ import com.kunzisoft.keepass.credentialprovider.passkey.util.PasskeyHelper.build
 import com.kunzisoft.keepass.credentialprovider.passkey.util.PasswordHelper.buildPasswordResponseAndSetResult
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.element.DateInstant
+import com.kunzisoft.keepass.database.element.EntryId
 import com.kunzisoft.keepass.database.element.SortNodeEnum
-import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.exception.RegisterInReadOnlyDatabaseException
 import com.kunzisoft.keepass.database.helper.SearchHelper
 import com.kunzisoft.keepass.database.search.SearchParameters
@@ -941,7 +941,7 @@ class GroupActivity : DatabaseLockActivity(),
         updateEntry(entry)
     }
 
-    private fun editEntry(database: ContextualDatabase?, entryId: NodeId<*>?) {
+    private fun editEntry(database: ContextualDatabase?, entryId: EntryId?) {
         database?.let {
             entryId?.let {
                 EntryEditActivity.launch(

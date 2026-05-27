@@ -22,9 +22,9 @@ package com.kunzisoft.keepass.model
 import android.os.Parcel
 import android.os.Parcelable
 import com.kunzisoft.keepass.database.element.Database
+import com.kunzisoft.keepass.database.element.GroupId
 import com.kunzisoft.keepass.database.element.icon.IconImageStandard
 import com.kunzisoft.keepass.database.element.icon.IconImageStandard.Companion.FOLDER_ID
-import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.node.NodeIdUUID
 import com.kunzisoft.keepass.utils.readParcelableCompat
 
@@ -34,7 +34,7 @@ import com.kunzisoft.keepass.utils.readParcelableCompat
  */
 open class GroupInfo : NodeInfo {
 
-    override var nodeId: NodeId<*> = NodeIdUUID()
+    override var nodeId: GroupId = NodeIdUUID()
     var notes: String? = null
     var searchable: Boolean? = null
     var enableAutoType: Boolean? = null
@@ -64,7 +64,7 @@ open class GroupInfo : NodeInfo {
      * @param parcel The parcel to read from.
      */
     constructor(parcel: Parcel): super(parcel) {
-        nodeId = parcel.readParcelableCompat<NodeId<*>>() ?: nodeId
+        nodeId = parcel.readParcelableCompat<GroupId>() ?: nodeId
         notes = parcel.readString()
         val isSearchingEnabled = parcel.readInt()
         searchable = if (isSearchingEnabled == -1) null else isSearchingEnabled == 1

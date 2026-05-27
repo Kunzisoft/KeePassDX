@@ -19,9 +19,9 @@
  */
 package com.kunzisoft.keepass.database.action.node
 
-import com.kunzisoft.keepass.database.element.node.NodeId
+import com.kunzisoft.keepass.database.element.EntryId
+import com.kunzisoft.keepass.database.element.GroupId
 import com.kunzisoft.keepass.tasks.ActionRunnable
-import java.util.UUID
 
 /**
  * Callback method who return the node(s) modified after an action
@@ -33,10 +33,10 @@ import java.util.UUID
  * - Touch : @param olNodes TouchedNodes, @param newNodes empty
  */
 class ActionNodesValues(
-    val oldGroupsIds: List<NodeId<*>>? = null,
-    val oldEntriesIds: List<NodeId<UUID>>? = null,
-    val newGroupsIds: List<NodeId<*>>? = null,
-    val newEntriesIds: List<NodeId<UUID>>? = null,
+    val oldGroupsIds: List<GroupId>? = null,
+    val oldEntriesIds: List<EntryId>? = null,
+    val newGroupsIds: List<GroupId>? = null,
+    val newEntriesIds: List<EntryId>? = null,
 )
 
 abstract class AfterActionNodesFinish {

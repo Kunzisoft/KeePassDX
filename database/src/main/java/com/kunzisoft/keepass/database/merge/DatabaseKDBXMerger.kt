@@ -23,6 +23,7 @@ import com.kunzisoft.keepass.database.element.Attachment
 import com.kunzisoft.keepass.database.element.CustomData
 import com.kunzisoft.keepass.database.element.DateInstant
 import com.kunzisoft.keepass.database.element.DeletedObject
+import com.kunzisoft.keepass.database.element.EntryId
 import com.kunzisoft.keepass.database.element.database.DatabaseKDB
 import com.kunzisoft.keepass.database.element.database.DatabaseKDBX
 import com.kunzisoft.keepass.database.element.entry.EntryKDB
@@ -80,7 +81,7 @@ class DatabaseKDBXMerger(private var database: DatabaseKDBX) {
     /**
      * Utility method to transform KDB id nodes in KDBX id nodes
      */
-    private fun getNodeIdUUIDFrom(seed: NodeId<UUID>, intId: NodeId<Int>): NodeId<UUID> {
+    private fun getNodeIdUUIDFrom(seed: EntryId, intId: NodeId<Int>): EntryId {
         val seedUUID = seed.id
         val idInt = intId.id
         return NodeIdUUID(UUID(seedUUID.mostSignificantBits, seedUUID.leastSignificantBits + idInt))
@@ -89,8 +90,8 @@ class DatabaseKDBXMerger(private var database: DatabaseKDBX) {
     /**
      * Utility method to merge a KDB entry
      */
-    private fun mergeEntry(seed: NodeId<UUID>, nodeToMerge: EntryKDB, databaseToMerge: DatabaseKDB) {
-        val entryId: NodeId<UUID> = nodeToMerge.nodeId
+    private fun mergeEntry(seed: EntryId, nodeToMerge: EntryKDB, databaseToMerge: DatabaseKDB) {
+        val entryId: EntryId = nodeToMerge.nodeId
         val entry = database.getEntryById(entryId)
 
         databaseToMerge.getEntryById(entryId)?.let { srcEntryToMerge ->
@@ -152,7 +153,7 @@ class DatabaseKDBXMerger(private var database: DatabaseKDBX) {
     /**
      * Utility method to merge a KDB group
      */
-    private fun mergeGroup(seed: NodeId<UUID>, nodeToMerge: GroupKDB, databaseToMerge: DatabaseKDB) {
+    private fun mergeGroup(seed: EntryId, nodeToMerge: GroupKDB, databaseToMerge: DatabaseKDB) {
         val groupId: NodeId<Int> = nodeToMerge.nodeId
         val group = database.getGroupById(getNodeIdUUIDFrom(seed, groupId))
 

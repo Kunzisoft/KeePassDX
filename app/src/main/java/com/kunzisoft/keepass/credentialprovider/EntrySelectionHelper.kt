@@ -33,7 +33,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.IconCompat
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.ContextualDatabase
-import com.kunzisoft.keepass.database.element.node.NodeId
+import com.kunzisoft.keepass.database.element.EntryId
 import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.model.RegisterInfo
 import com.kunzisoft.keepass.model.SearchInfo
@@ -47,7 +47,6 @@ import com.kunzisoft.keepass.utils.putEnum
 import com.kunzisoft.keepass.utils.putEnumExtra
 import com.kunzisoft.keepass.utils.putParcelableList
 import java.io.IOException
-import java.util.UUID
 
 object EntrySelectionHelper {
 
@@ -239,7 +238,7 @@ object EntrySelectionHelper {
      * Add many nodes ids to the intent
      * TODO Manage Groups
      */
-    fun Intent.addNodesIds(nodesIds: List<NodeId<UUID>>): Intent {
+    fun Intent.addNodesIds(nodesIds: List<EntryId>): Intent {
         this.putParcelableList(EXTRA_NODES_IDS, nodesIds.map { it })
         return this
     }
@@ -247,8 +246,8 @@ object EntrySelectionHelper {
     /**
      * Retrieve the nodes ids from the intent
      */
-    fun Intent.retrieveNodesIds(): List<NodeId<UUID>>? {
-        return getParcelableList<NodeId<UUID>>(EXTRA_NODES_IDS)?.map { it }
+    fun Intent.retrieveNodesIds(): List<EntryId>? {
+        return getParcelableList<EntryId>(EXTRA_NODES_IDS)?.map { it }
     }
 
     fun Intent.removeNodesIds() {
@@ -259,7 +258,7 @@ object EntrySelectionHelper {
      * Add the node id to the intent
      * TODO Manage Group
      */
-    fun Intent.addNodeId(nodeId: NodeId<UUID>?) {
+    fun Intent.addNodeId(nodeId: EntryId?) {
         nodeId?.let {
             putExtra(EXTRA_NODE_ID, nodeId)
         }
@@ -268,8 +267,8 @@ object EntrySelectionHelper {
     /**
      * Retrieve the node id from the intent
      */
-    fun Intent.retrieveNodeId(): NodeId<UUID>? {
-        return getParcelableExtraCompat<NodeId<UUID>>(EXTRA_NODE_ID)
+    fun Intent.retrieveNodeId(): EntryId? {
+        return getParcelableExtraCompat<EntryId>(EXTRA_NODE_ID)
     }
 
     fun Intent.removeNodeId() {

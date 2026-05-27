@@ -22,13 +22,13 @@ package com.kunzisoft.keepass.database.action.node
 import android.content.Context
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.element.Group
-import com.kunzisoft.keepass.database.element.node.NodeId
+import com.kunzisoft.keepass.database.element.GroupId
 import com.kunzisoft.keepass.hardware.HardwareKey
 
 class TouchGroupRunnable(
     context: Context,
     database: ContextualDatabase,
-    groupId: NodeId<*>,
+    groupId: GroupId,
     afterActionNodesFinish: AfterActionNodesFinish?,
     challengeResponseRetriever: (HardwareKey, ByteArray?) -> ByteArray
 ) : ActionNodeDatabaseRunnable(
