@@ -227,7 +227,6 @@ class GroupActivity : DatabaseLockActivity(),
     }
 
     private fun addSearch() {
-        finishNodeAction()
         mGroupViewModel.assignSearchParameters(searchFiltersView?.searchParameters)
     }
 
@@ -474,6 +473,16 @@ class GroupActivity : DatabaseLockActivity(),
                     }
                 }
                 launch {
+                    mGroupViewModel.requestShowGroup.collect { group ->
+                        launchDialogToShowGroupInfo(group)
+                    }
+                }
+                launch {
+                    mGroupViewModel.requestUpdateGroup.collect { group ->
+                        launchDialogForGroupUpdate(group)
+                    }
+                }
+                launch {
                     mGroupViewModel.requestCopyNodes.collect {
                         removeSearch()
                         loadGroup()
@@ -689,33 +698,11 @@ class GroupActivity : DatabaseLockActivity(),
 
         mBreadcrumbAdapter?.apply {
             // Open group on breadcrumb click
-            onItemClickListener = { node, _ ->
-                // If last item & not a virtual root group
-                val currentGroup = mGroupViewModel.mainGroup
-                if (currentGroup != null && node.nodeId == currentGroup.nodeId
-                    && (currentGroup.nodeId != database.rootGroup?.nodeId
-                            || !database.rootGroupIsVirtual)
-                ) {
-                    finishNodeAction()
-                    launchDialogToShowGroupInfo(currentGroup)
-                } else {
-                    if (mGroupViewModel.nodeActionSelectionMode) {
-                        finishNodeAction()
-                    }
-                    openNode(database, node)
-                }
+            onItemClickListener = { node ->
+                mGroupViewModel.onBreadcrumbClicked(node)
             }
-            onLongItemClickListener = { node, position ->
-                val currentGroup = mGroupViewModel.mainGroup
-                if (currentGroup != null && node.nodeId == currentGroup.nodeId
-                    && (currentGroup.nodeId != database.rootGroup?.nodeId
-                            || !database.rootGroupIsVirtual)
-                ) {
-                    finishNodeAction()
-                    launchDialogForGroupUpdate(currentGroup)
-                } else {
-                    onItemClickListener?.invoke(node, position)
-                }
+            onLongItemClickListener = { node ->
+                mGroupViewModel.onBreadcrumbLongClicked(node)
             }
         }
         breadcrumbListView?.apply {

@@ -149,6 +149,12 @@ class GroupViewModel(application: Application): AndroidViewModel(application) {
     private val _removeSearch = MutableSharedFlow<Unit>(replay = 0)
     val removeSearch: SharedFlow<Unit> = _removeSearch.asSharedFlow()
 
+    private val _requestShowGroup = MutableSharedFlow<GroupInfo>(replay = 0)
+    val requestShowGroup: SharedFlow<GroupInfo> = _requestShowGroup.asSharedFlow()
+
+    private val _requestUpdateGroup = MutableSharedFlow<GroupInfo>(replay = 0)
+    val requestUpdateGroup: SharedFlow<GroupInfo> = _requestUpdateGroup.asSharedFlow()
+
     private val _showKeyboard = MutableSharedFlow<Boolean>(replay = 0)
     val showKeyboard: SharedFlow<Boolean> = _showKeyboard.asSharedFlow()
 
@@ -185,7 +191,7 @@ class GroupViewModel(application: Application): AndroidViewModel(application) {
         } else loadMainGroup(mDatabase)
     }
 
-    fun loadMainGroup(
+    private fun loadMainGroup(
         database: ContextualDatabase?,
         groupState: GroupState? = mMainGroupState
     ) {
@@ -258,7 +264,7 @@ class GroupViewModel(application: Application): AndroidViewModel(application) {
         loadMainGroup(database, GroupState(groupId, firstVisibleItem = 0))
     }
 
-    fun loadSearch(
+    private fun loadSearch(
         database: ContextualDatabase?,
         searchState: SearchState? = mSearchState,
     ) {
@@ -355,6 +361,7 @@ class GroupViewModel(application: Application): AndroidViewModel(application) {
     }
 
     fun assignSearchParameters(searchParameters: SearchParameters?) {
+        finishNodeAction()
         if (mSearchState == null) {
             mSearchState = SearchState(
                 searchParameters ?: mDefaultSearchParameters,
@@ -366,6 +373,44 @@ class GroupViewModel(application: Application): AndroidViewModel(application) {
     fun assignPosition(position: Int) {
         mSearchState?.firstVisibleItem = position
         mMainGroupState?.firstVisibleItem = position
+    }
+
+    /*
+     * Breadcrumbs
+     */
+
+    fun onBreadcrumbClicked(node: SortedNodeInfo) {
+        viewModelScope.launch {
+            // If last item & not a virtual root group
+            val currentGroup = mainGroup
+            if (currentGroup != null && node.nodeId == currentGroup.nodeId
+                && (currentGroup.nodeId != mDatabase?.rootGroup?.nodeId
+                        || mDatabase?.rootGroupIsVirtual != true)
+            ) {
+                finishNodeAction()
+                _requestShowGroup.emit(currentGroup)
+            } else {
+                if (nodeActionSelectionMode) {
+                    finishNodeAction()
+                }
+                _requestOpenNode.emit(node)
+            }
+        }
+    }
+
+    fun onBreadcrumbLongClicked(node: SortedNodeInfo) {
+        viewModelScope.launch {
+            val currentGroup = mainGroup
+            if (currentGroup != null && node.nodeId == currentGroup.nodeId
+                && (currentGroup.nodeId != mDatabase?.rootGroup?.nodeId
+                        || mDatabase?.rootGroupIsVirtual != true)
+            ) {
+                finishNodeAction()
+                _requestUpdateGroup.emit(currentGroup)
+            } else {
+                onBreadcrumbClicked(node)
+            }
+        }
     }
 
     /*

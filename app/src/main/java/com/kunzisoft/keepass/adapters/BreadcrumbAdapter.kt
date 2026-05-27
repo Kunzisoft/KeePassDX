@@ -47,8 +47,8 @@ class BreadcrumbAdapter(val context: Context)
             notifyDataSetChanged()
         }
     private var mNodeBreadcrumb: MutableList<SortedGroupInfo> = mutableListOf()
-    var onItemClickListener: ((item: SortedGroupInfo, position: Int)->Unit)? = null
-    var onLongItemClickListener: ((item: SortedGroupInfo, position: Int)->Unit)? = null
+    var onItemClickListener: ((item: SortedGroupInfo)->Unit)? = null
+    var onLongItemClickListener: ((item: SortedGroupInfo)->Unit)? = null
 
     private var mShowNumberEntries = false
     private var mShowTags = false
@@ -101,10 +101,10 @@ class BreadcrumbAdapter(val context: Context)
 
         holder.itemView.apply {
             setOnClickListener {
-                onItemClickListener?.invoke(node, position)
+                onItemClickListener?.invoke(node)
             }
             setOnLongClickListener {
-                onLongItemClickListener?.invoke(node, position)
+                onLongItemClickListener?.invoke(node)
                 true
             }
         }
@@ -140,11 +140,10 @@ class BreadcrumbAdapter(val context: Context)
                 tagsAdapter.onItemClickListener =
                     object : TagsAdapter.OnItemClickListener {
                         override fun onItemClick(item: Tag) {
-                            onItemClickListener?.invoke(node, position)
+                            onItemClickListener?.invoke(node)
                         }
-
                         override fun onItemLongClick(item: Tag): Boolean {
-                            onLongItemClickListener?.invoke(node, position)
+                            onLongItemClickListener?.invoke(node)
                             return true
                         }
                     }
