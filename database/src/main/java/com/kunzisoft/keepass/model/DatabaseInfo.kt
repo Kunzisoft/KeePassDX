@@ -291,13 +291,12 @@ open class DatabaseInfo: Database() {
     /**
      * Check if adding a group is allowed in the specified group.
      * @param group The parent group info.
-     * @param forceReadOnly Whether to force read-only check.
      * @return True if allowed, false otherwise.
      */
-    fun allowAddGroupIn(group: GroupInfo?, forceReadOnly: Boolean = false): Boolean {
+    fun allowAddGroupIn(group: GroupInfo?): Boolean {
         if (group == null)
             return false
-        if (isReadOnly || forceReadOnly)
+        if (isReadOnly)
             return false
         if (group is SearchGroupInfo)
             return false
@@ -307,13 +306,12 @@ open class DatabaseInfo: Database() {
     /**
      * Check if adding an entry is allowed in the specified group.
      * @param group The parent group info.
-     * @param forceReadOnly Whether to force read-only check.
      * @return True if allowed, false otherwise.
      */
-    fun allowAddEntryIn(group: GroupInfo?, forceReadOnly: Boolean = false): Boolean {
+    fun allowAddEntryIn(group: GroupInfo?): Boolean {
         if (group == null)
             return false
-        if (isReadOnly || forceReadOnly)
+        if (isReadOnly)
             return false
         if (group is SearchGroupInfo)
             return false

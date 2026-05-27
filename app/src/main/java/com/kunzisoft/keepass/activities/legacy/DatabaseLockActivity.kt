@@ -306,6 +306,10 @@ abstract class DatabaseLockActivity : DatabaseModeActivity(),
         }
     }
 
+    fun recycleBinAllowed(): Boolean {
+        return !mDatabaseReadOnly && mDatabase?.isRecycleBinEnabled == true
+    }
+
     // TODO Only with NodeInfo
     fun emptyRecycleBin() {
         mDatabase?.recycleBin?.getChildren()?.let { listChildren ->

@@ -236,19 +236,19 @@ class NodesAdapter(
     }
 
     fun setActionNodes(actionNodes: List<NodeInfo>) {
+        val oldList = mActionNodesList.toMutableList()
+        oldList.addAll(actionNodes)
         this.mActionNodesList.apply {
             clear()
             addAll(actionNodes)
         }
+        oldList.forEach {
+            notifyNodeChanged(it)
+        }
     }
 
     fun unselectActionNodes() {
-        mActionNodesList.forEach {
-            notifyNodeChanged(it)
-        }
-        this.mActionNodesList.apply {
-            clear()
-        }
+        setActionNodes(listOf())
     }
 
     /**

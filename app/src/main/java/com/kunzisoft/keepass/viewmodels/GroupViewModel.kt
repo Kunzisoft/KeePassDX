@@ -20,16 +20,27 @@
 package com.kunzisoft.keepass.viewmodels
 
 import android.app.Application
+import android.app.SearchManager
+import android.content.Intent
+import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
+import androidx.appcompat.view.ActionMode
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
-import com.kunzisoft.keepass.activities.GroupActivity.GroupState
+import com.kunzisoft.keepass.R
+import com.kunzisoft.keepass.activities.GroupActivity.Companion.retrieveAutoSearch
 import com.kunzisoft.keepass.activities.GroupActivity.SearchState
+import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper.retrieveSearchInfo
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.helper.SearchHelper
+import com.kunzisoft.keepass.database.helper.SearchHelper.getSearchParametersFromSearchInfo
 import com.kunzisoft.keepass.database.search.SearchParameters
 import com.kunzisoft.keepass.model.GroupInfo
+import com.kunzisoft.keepass.model.NodeInfo
 import com.kunzisoft.keepass.model.SearchGroupInfo
+import com.kunzisoft.keepass.model.SearchInfo
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -38,6 +49,7 @@ import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -47,63 +59,155 @@ import kotlinx.coroutines.withContext
  */
 class GroupViewModel(application: Application): AndroidViewModel(application) {
 
+    private var mDatabase: ContextualDatabase? = null
+
+    // Manage Recycle Bin
+
+    private var mRecycleBinAllowed = false
+    private var mRecyclingBinIsCurrentGroup = false
+
+    private var mAddGroupOrEntryAllowed = false
+    private val mAddNodeButtonAllowed: Boolean
+        get() = mAddGroupOrEntryAllowed && !actionNodeInProgress()
+
     // Main group currently in memory
-    var mMainGroup: GroupInfo? = null
+    var mainGroup: GroupInfo? = null
         private set
 
-    // Group state, not a search
-    var mMainGroupState: GroupState? = null
-
     // Group currently visible (search or main group)
-    var mCurrentGroup: GroupInfo? = null
+    var currentGroup: GroupInfo? = null
+        private set
 
 
-    private var mPreviousGroupsIds = mutableListOf<GroupState>()
+    // Group state to retrieve position, not a search
+    private var mMainGroupState: GroupState? = null
+    // Previous groups states to retrieve history and position
+    private var mPreviousGroupsStates = mutableListOf<GroupState>()
 
+    /*
+     * Manage search state
+     */
     var mSearchState: SearchState? = null
     // To mainly manage keyboard
     var mAutoSearch: Boolean = false
     // To manage temp search
     var mTempSearchInfo: Boolean = false
     var mLockSearchListeners = false
+    private var mRequestStartupSearch = true
 
-    var mRequestStartupSearch = true
-
-    var recyclingBinIsCurrentGroup = false
+    /*
+     * Manage action in group
+     */
+    var nodeActionSelectionMode = false
         private set
+    var nodeActionPasteMode: PasteMode = PasteMode.UNDEFINED
+        private set
+    private val listActionNodes = mutableListOf<NodeInfo>()
+    private val listPasteNodes = mutableListOf<NodeInfo>()
+    var actionNodeMode: ActionMode? = null
 
-    private val _groupUIState = MutableStateFlow<GroupUISTate?>(null)
-    val groupUIState: StateFlow<GroupUISTate?> = _groupUIState.asStateFlow()
+    private val _groupUIState = MutableStateFlow<GroupUISTate>(GroupUISTate())
+    val groupUIState: StateFlow<GroupUISTate> = _groupUIState.asStateFlow()
 
-    private val _onGroupLoaded = MutableSharedFlow<GroupInfo>(replay = 0)
-    val onGroupLoaded: SharedFlow<GroupInfo> = _onGroupLoaded.asSharedFlow()
+    private val _actionsNodes = MutableStateFlow<List<NodeInfo>>(listOf())
+    val actionsNodes: StateFlow<List<NodeInfo>> = _actionsNodes.asStateFlow()
+
+    private val _removeNodeAction = MutableSharedFlow<Unit>(replay = 0)
+    val removeNodeAction: SharedFlow<Unit> = _removeNodeAction.asSharedFlow()
+
+    private val _requestOpenNode = MutableSharedFlow<NodeInfo>(replay = 0)
+    val requestOpenNode: SharedFlow<NodeInfo> = _requestOpenNode.asSharedFlow()
+
+    private val _requestEditNode = MutableSharedFlow<NodeInfo>(replay = 0)
+    val requestEditNode: SharedFlow<NodeInfo> = _requestEditNode.asSharedFlow()
+
+    private val _requestCopyNodes = MutableSharedFlow<List<NodeInfo>>(replay = 0)
+    val requestCopyNodes: SharedFlow<List<NodeInfo>> = _requestCopyNodes.asSharedFlow()
+
+    private val _requestMoveNodes = MutableSharedFlow<List<NodeInfo>>(replay = 0)
+    val requestMoveNodes: SharedFlow<List<NodeInfo>> = _requestMoveNodes.asSharedFlow()
+
+    private val _requestDeleteNodes = MutableSharedFlow<List<NodeInfo>>(replay = 0)
+    val requestDeleteNodes: SharedFlow<List<NodeInfo>> = _requestDeleteNodes.asSharedFlow()
+
+    private val _requestPaste = MutableSharedFlow<PasteAction>(replay = 0)
+    val requestPasteNodes: SharedFlow<PasteAction> = _requestPaste.asSharedFlow()
+
+    private val _provideNodeActionCallback = MutableSharedFlow<ActionMode.Callback>(replay = 0)
+    val provideNodeActionCallback: SharedFlow<ActionMode.Callback> = _provideNodeActionCallback.asSharedFlow()
+
+    private val _requestAddSearch = MutableSharedFlow<Unit>(replay = 0)
+    val addSearch: SharedFlow<Unit> = _requestAddSearch.asSharedFlow()
+
+    private val _removeSearch = MutableSharedFlow<Unit>(replay = 0)
+    val removeSearch: SharedFlow<Unit> = _removeSearch.asSharedFlow()
+
+    private val _showKeyboard = MutableSharedFlow<Boolean>(replay = 0)
+    val showKeyboard: SharedFlow<Boolean> = _showKeyboard.asSharedFlow()
+
+    private val _showPosition = MutableSharedFlow<Int>(replay = 0)
+    val showPosition: SharedFlow<Int> = _showPosition.asSharedFlow()
+
+    private val _scrollTo = MutableSharedFlow<Int>(replay = 0)
+    val scrollTo: SharedFlow<Int> = _scrollTo.asSharedFlow()
 
     private var mDefaultSearchParameters: SearchParameters = PreferencesUtil.getDefaultSearchParameters(getApplication())
+    private var mAutoFocusSearch: Boolean = PreferencesUtil.automaticallyFocusSearch(getApplication())
+
+    fun onDatabaseLoaded(
+        database: ContextualDatabase,
+        recycleBinAllowed: Boolean
+    ) {
+        this.mDatabase = database
+        this.mRecycleBinAllowed = recycleBinAllowed
+    }
+
+    fun loadGroup() {
+        if (mSearchState != null) {
+            finishNodeAction()
+            loadSearch(mDatabase)
+        } else loadMainGroup(mDatabase)
+    }
 
     fun loadMainGroup(
         database: ContextualDatabase?,
-        groupId: NodeId<*>?,
-        showFromPosition: Int?
+        groupState: GroupState? = mMainGroupState
     ) {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
+                _groupUIState.update { groupState ->
+                    groupState.copy(loaded = false)
+                }
+                val groupId = groupState?.groupId
+                val showFromPosition = groupState?.firstVisibleItem
                 val group = if (groupId != null) {
                     database?.getGroupInfoById(groupId)
                 } else {
                     database?.getRootGroupInfo()
                 }
                 if (group != null) {
-                    recyclingBinIsCurrentGroup = group.isRecycleBin(database)
-                    mMainGroup = group
+                    mRecyclingBinIsCurrentGroup = group.isRecycleBin(database)
+                    mainGroup = group
                     // Save group state
                     mMainGroupState = GroupState(group.nodeId, showFromPosition)
-                    mCurrentGroup = group
+                    currentGroup = group
                     mSearchState = null
-                    _onGroupLoaded.emit(group)
-                    _groupUIState.value = GroupUISTate(
-                        group = group,
-                        showFromPosition = showFromPosition
-                    )
+                    // To enable add button
+                    val addGroupEnabled = mDatabase?.allowAddGroupIn(group = group) ?: false
+                    val addEntryEnabled = mDatabase?.allowAddEntryIn(group = group) ?: false
+                    mAddGroupOrEntryAllowed = addGroupEnabled || addEntryEnabled
+                    _groupUIState.update { groupState ->
+                        groupState.copy(
+                            loaded = true,
+                            group = group,
+                            showAddGroupButton = addGroupEnabled,
+                            showAddEntryButton = addEntryEnabled,
+                            showAddNodeButton = mAddNodeButtonAllowed
+                        )
+                    }
+                    showFromPosition?.let {
+                        _showPosition.emit(showFromPosition)
+                    }
                 }
             }
         }
@@ -114,37 +218,84 @@ class GroupViewModel(application: Application): AndroidViewModel(application) {
         groupId: NodeId<*>?
     ) {
         // Save the last not virtual group and it's position
-        if (mCurrentGroup !is SearchGroupInfo) {
+        if (currentGroup !is SearchGroupInfo) {
             mMainGroupState?.let {
-                mPreviousGroupsIds.add(it)
+                mPreviousGroupsStates.add(it)
             }
         }
-        loadMainGroup(database, groupId, showFromPosition = 0)
+        loadMainGroup(database, GroupState(groupId, firstVisibleItem = 0))
     }
 
     fun loadSearch(
         database: ContextualDatabase?,
-        searchState: SearchState,
+        searchState: SearchState? = mSearchState,
     ) {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
-                val searchParameters = searchState.searchParameters
-                val showFromPosition = searchState.firstVisibleItem
-                val group = database?.createSearchGroupInfo(
-                    searchParameters = searchParameters,
-                    fromGroup = mMainGroupState?.groupId,
-                    max = SearchHelper.MAX_SEARCH_ENTRY
-                )
-                if (group != null) {
-                    mCurrentGroup = group
-                    mSearchState = searchState
-                    _onGroupLoaded.emit(group)
-                    _groupUIState.value = GroupUISTate(
-                        group = group,
-                        showFromPosition = showFromPosition
+                searchState?.let {
+                    _groupUIState.update { groupState ->
+                        groupState.copy(loaded = false)
+                    }
+                    val searchParameters = searchState.searchParameters
+                    val showFromPosition = searchState.firstVisibleItem
+                    val group = database?.createSearchGroupInfo(
+                        searchParameters = searchParameters,
+                        fromGroup = mMainGroupState?.groupId,
+                        max = SearchHelper.MAX_SEARCH_ENTRY
+                    )
+                    if (group != null) {
+                        currentGroup = group
+                        mSearchState = searchState
+                        _groupUIState.update { groupState ->
+                            groupState.copy(
+                                loaded = true,
+                                group = group,
+                                showAddNodeButton = false
+                            )
+                        }
+                        showFromPosition?.let {
+                            _showPosition.emit(showFromPosition)
+                        }
+                    }
+                } ?: Log.e(TAG, "Search state is null")
+            }
+        }
+    }
+
+    fun manageIntent(intent: Intent?) {
+        intent?.let {
+            // To get the form filling search as temp search
+            val searchInfo: SearchInfo? = intent.retrieveSearchInfo()
+            val autoSearch = intent.retrieveAutoSearch()
+            // Get search query
+            if (searchInfo != null && autoSearch) {
+                mAutoSearch = true
+                mTempSearchInfo = true
+                searchInfo.getSearchParametersFromSearchInfo(getApplication()) {
+                    mSearchState = SearchState(
+                        searchParameters = it,
+                        firstVisibleItem = mSearchState?.firstVisibleItem ?: 0
                     )
                 }
+            } else if (intent.action == Intent.ACTION_SEARCH) {
+                mAutoSearch = true
+                mSearchState = SearchState(
+                    searchParameters = mDefaultSearchParameters.apply {
+                        searchQuery = intent.getStringExtra(SearchManager.QUERY)
+                            ?.trim { it <= ' ' } ?: ""
+                    },
+                    firstVisibleItem = mSearchState?.firstVisibleItem ?: 0
+                )
+            } else if (mRequestStartupSearch && mAutoFocusSearch) {
+                // Expand the search view if defined in settings
+                // To request search only one time
+                mRequestStartupSearch = false
+                viewModelScope.launch {
+                    _requestAddSearch.emit(Unit)
+                }
             }
+            intent.action = Intent.ACTION_DEFAULT
+            intent.removeExtra(SearchManager.QUERY)
         }
     }
 
@@ -179,20 +330,257 @@ class GroupViewModel(application: Application): AndroidViewModel(application) {
         mMainGroupState?.firstVisibleItem = position
     }
 
-    fun isCurrentGroupRoot(database: ContextualDatabase?): Boolean {
-        return mCurrentGroup?.isRoot(database) == true
+    /*
+     * Actions
+     */
+
+    fun performNodeClick(
+        database: ContextualDatabase,
+        node: NodeInfo
+    ) {
+        if (nodeActionSelectionMode) {
+            if (listActionNodes.contains(node)) {
+                // Remove selected item if already selected
+                listActionNodes.remove(node)
+            } else {
+                // Add selected item if not already selected
+                listActionNodes.add(node)
+            }
+            selectNodes(database, listActionNodes)
+            _actionsNodes.value = listActionNodes
+        } else {
+            viewModelScope.launch {
+                _requestOpenNode.emit(node)
+            }
+        }
     }
 
-    fun previousGroupExists(): Boolean = mPreviousGroupsIds.isNotEmpty()
+    fun performLongNodeClick(
+        database: ContextualDatabase,
+        node: NodeInfo
+    ): Boolean {
+        if (nodeActionPasteMode == PasteMode.UNDEFINED) {
+            // Select the first item after a long click
+            if (!listActionNodes.contains(node))
+                listActionNodes.add(node)
+            selectNodes(database, listActionNodes)
+            _actionsNodes.value = listActionNodes
+            viewModelScope.launch {
+                _showKeyboard.emit(false)
+            }
+        }
+        return true
+    }
+
+    private fun containsRecycleBin(
+        database: ContextualDatabase?,
+        nodes: List<NodeInfo>
+    ): Boolean {
+        return nodes.any { it is GroupInfo && it.isRecycleBin(database) }
+    }
+
+    private fun actionNodesCallback(
+        database: ContextualDatabase,
+        nodes: List<NodeInfo>
+    ) : ActionMode.Callback {
+
+        return object : ActionMode.Callback {
+
+            override fun onCreateActionMode(mode: ActionMode?, menu: Menu?): Boolean {
+                _groupUIState.update { groupState ->
+                    groupState.copy(showAddNodeButton = false)
+                }
+                nodeActionSelectionMode = false
+                nodeActionPasteMode = PasteMode.UNDEFINED
+                return true
+            }
+
+            override fun onPrepareActionMode(mode: ActionMode?, menu: Menu?): Boolean {
+                menu?.clear()
+                if (nodeActionPasteMode != PasteMode.UNDEFINED) {
+                    mode?.menuInflater?.inflate(R.menu.node_paste_menu, menu)
+                } else {
+                    nodeActionSelectionMode = true
+                    mode?.menuInflater?.inflate(R.menu.node_menu, menu)
+
+                    // Open and Edit for a single item
+                    if (nodes.size == 1) {
+                        // Edition
+                        if (database.isReadOnly || containsRecycleBin(database, nodes)) {
+                            menu?.removeItem(R.id.menu_edit)
+                        }
+                    } else {
+                        menu?.removeItem(R.id.menu_open)
+                        menu?.removeItem(R.id.menu_edit)
+                    }
+
+                    // Move
+                    if (database.isReadOnly) {
+                        menu?.removeItem(R.id.menu_move)
+                    }
+
+                    // Copy (not allowed for group)
+                    if (database.isReadOnly
+                        || nodes.any { it is GroupInfo }) {
+                        menu?.removeItem(R.id.menu_copy)
+                    }
+
+                    // Deletion
+                    if (database.isReadOnly || containsRecycleBin(database, nodes)) {
+                        menu?.removeItem(R.id.menu_delete)
+                    }
+                }
+
+                // Add the number of items selected in title
+                mode?.title = nodes.size.toString()
+                return true
+            }
+
+            override fun onActionItemClicked(mode: ActionMode?, item: MenuItem?): Boolean {
+                val node = nodes[0]
+                return when (item?.itemId) {
+                    R.id.menu_open -> {
+                        finishNodeAction()
+                        viewModelScope.launch {
+                            _requestOpenNode.emit(node)
+                        }
+                        true
+                    }
+                    R.id.menu_edit -> {
+                        finishNodeAction()
+                        viewModelScope.launch {
+                            _requestEditNode.emit(node)
+                        }
+                        true
+                    }
+                    R.id.menu_copy -> {
+                        nodeActionPasteMode = PasteMode.PASTE_FROM_COPY
+                        //_removeNodeAction.emit(Unit)
+                        invalidateNodeAction()
+                        viewModelScope.launch {
+                            _requestCopyNodes.emit(nodes)
+                        }
+                        nodeActionSelectionMode = false
+                        true
+                    }
+                    R.id.menu_move -> {
+                        nodeActionPasteMode = PasteMode.PASTE_FROM_MOVE
+                        //_removeNodeAction.emit(Unit)
+                        invalidateNodeAction()
+                        viewModelScope.launch {
+                            _requestMoveNodes.emit(nodes)
+                        }
+                        nodeActionSelectionMode = false
+                        true
+                    }
+                    R.id.menu_delete -> {
+                        viewModelScope.launch {
+                            _requestDeleteNodes.emit(nodes)
+                        }
+                        finishNodeAction()
+                        true
+                    }
+                    R.id.menu_paste -> {
+                        mainGroup?.nodeId?.let { parentId ->
+                            viewModelScope.launch {
+                                _requestPaste.emit(
+                                    PasteAction(
+                                        nodeActionPasteMode,
+                                        parentId,
+                                        nodes
+                                    )
+                                )
+                            }
+                            finishNodeAction()
+                            nodeActionPasteMode = PasteMode.UNDEFINED
+                            nodeActionSelectionMode = false
+                        }
+                        true
+                    }
+                    else -> false
+                }
+            }
+
+            override fun onDestroyActionMode(mode: ActionMode?) {
+                viewModelScope.launch {
+                    _removeNodeAction.emit(Unit)
+                }
+                clearNodeAction()
+                _groupUIState.update { groupState ->
+                    groupState.copy(showAddNodeButton = mAddNodeButtonAllowed)
+                }
+            }
+        }
+    }
+
+    fun selectNodes(
+        database: ContextualDatabase,
+        nodes: List<NodeInfo>
+    ): Boolean {
+        if (nodes.isNotEmpty()) {
+            if (!actionNodeInProgress()) {
+                viewModelScope.launch {
+                    _provideNodeActionCallback.emit(
+                        actionNodesCallback(
+                            database,
+                            nodes
+                        )
+                    )
+                }
+            } else {
+                invalidateNodeAction()
+            }
+        } else {
+            finishNodeAction()
+        }
+        return true
+    }
+
+    fun recycleBinActionsAllowed(): Boolean = mRecycleBinAllowed && mRecyclingBinIsCurrentGroup
+
+    fun actionNodeInProgress(): Boolean {
+        return actionNodeMode != null
+    }
+
+    fun setNodeAction(actionNodeMode: ActionMode?) {
+        this.actionNodeMode = actionNodeMode
+    }
+
+    fun invalidateNodeAction() {
+        actionNodeMode?.invalidate()
+    }
+
+    fun finishNodeAction() {
+        actionNodeMode?.finish()
+    }
+
+    fun clearNodeAction() {
+        listActionNodes.clear()
+        listPasteNodes.clear()
+        actionNodeMode = null
+        nodeActionPasteMode = PasteMode.UNDEFINED
+        nodeActionSelectionMode = false
+    }
+
+    fun isCurrentGroupRoot(database: ContextualDatabase?): Boolean {
+        return currentGroup?.isRoot(database) == true
+    }
+
+    fun previousGroupExists(): Boolean = mPreviousGroupsStates.isNotEmpty()
 
     fun loadPreviousGroup(database: ContextualDatabase?) {
         if (previousGroupExists()) {
-            val previousGroup = mPreviousGroupsIds.removeAt(mPreviousGroupsIds.lastIndex)
             return loadMainGroup(
                 database = database,
-                groupId = previousGroup.groupId,
-                showFromPosition = previousGroup.firstVisibleItem
+                groupState = mPreviousGroupsStates.removeAt(mPreviousGroupsStates.lastIndex)
             )
+        }
+    }
+
+    fun scrollTo(dy: Int) {
+        viewModelScope.launch {
+            if (!actionNodeInProgress())
+                _scrollTo.emit(dy)
         }
     }
 
@@ -203,9 +591,26 @@ class GroupViewModel(application: Application): AndroidViewModel(application) {
 
     data class GroupUISTate(
         val loaded: Boolean = false,
-        val group: GroupInfo,
-        var showFromPosition: Int?
+        val group: GroupInfo? = null,
+        val showAddNodeButton: Boolean = false,
+        val showAddGroupButton: Boolean = false,
+        val showAddEntryButton: Boolean = false
     )
+
+    data class GroupState(
+        var groupId: NodeId<*>?,
+        var firstVisibleItem: Int?
+    )
+
+    data class PasteAction(
+        val pasteMode: PasteMode,
+        val parentId: NodeId<*>,
+        val nodes: List<NodeInfo>
+    )
+
+    enum class PasteMode {
+        UNDEFINED, PASTE_FROM_COPY, PASTE_FROM_MOVE
+    }
 
     companion object {
         private val TAG = GroupViewModel::class.java.name

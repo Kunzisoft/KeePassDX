@@ -19,7 +19,6 @@
  */
 package com.kunzisoft.keepass.activities.fragments
 
-import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -28,7 +27,6 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.view.ActionMode
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
@@ -47,37 +45,22 @@ import com.kunzisoft.keepass.database.element.SortNodeEnum
 import com.kunzisoft.keepass.database.element.node.DefaultNodeFilter
 import com.kunzisoft.keepass.database.element.node.EmptyNodeFilter
 import com.kunzisoft.keepass.database.element.node.NodeFilter
-import com.kunzisoft.keepass.model.GroupInfo
 import com.kunzisoft.keepass.model.NodeInfo
 import com.kunzisoft.keepass.model.SearchGroupInfo
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.tasks.ActionRunnable
-import com.kunzisoft.keepass.utils.KeyboardUtil.hideKeyboard
 import com.kunzisoft.keepass.viewmodels.GroupViewModel
 import kotlinx.coroutines.launch
 
 class GroupFragment : DatabaseFragment(), SortDialogFragment.SortSelectionListener {
 
-    private var nodeClickListener: NodeClickListener? = null
-    private var onScrollListener: OnScrollListener? = null
-    private var groupRefreshed: GroupRefreshedListener? = null
-
     private var mNodesRecyclerView: RecyclerView? = null
     private var mLayoutManager: LinearLayoutManager? = null
+
+    private var notFoundView: View? = null
     private var mAdapter: NodesAdapter? = null
 
     private val mGroupViewModel: GroupViewModel by activityViewModels()
-
-    private var mCurrentGroup: GroupInfo? = null
-
-    var nodeActionSelectionMode = false
-        private set
-    var nodeActionPasteMode: PasteMode = PasteMode.UNDEFINED
-        private set
-    private val listActionNodes = mutableListOf<NodeInfo>()
-    private val listPasteNodes = mutableListOf<NodeInfo>()
-
-    private var notFoundView: View? = null
 
     private var specialMode: SpecialMode = SpecialMode.DEFAULT
 
@@ -93,7 +76,7 @@ class GroupFragment : DatabaseFragment(), SortDialogFragment.SortSelectionListen
         }
         override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
             super.onScrolled(recyclerView, dx, dy)
-            onScrollListener?.onScrolled(dy)
+            mGroupViewModel.scrollTo(dy)
         }
     }
 
@@ -124,77 +107,16 @@ class GroupFragment : DatabaseFragment(), SortDialogFragment.SortSelectionListen
         }
     }
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-
-        // TODO Change to ViewModel
-        try {
-            nodeClickListener = context as NodeClickListener
-        } catch (e: ClassCastException) {
-            // The activity doesn't implement the interface, throw exception
-            throw ClassCastException(context.toString()
-                    + " must implement " + NodesAdapter.NodeClickCallback::class.java.name)
-        }
-
-        try {
-            onScrollListener = context as OnScrollListener
-        } catch (e: ClassCastException) {
-            onScrollListener = null
-            // Context menu can be omit
-            Log.w(
-                TAG, context.toString()
-                    + " must implement " + RecyclerView.OnScrollListener::class.java.name)
-        }
-
-        try {
-            groupRefreshed = context as GroupRefreshedListener
-        } catch (e: ClassCastException) {
-            // The activity doesn't implement the interface, throw exception
-            throw ClassCastException(context.toString()
-                    + " must implement " + GroupRefreshedListener::class.java.name)
-        }
-    }
-
-    override fun onDetach() {
-        nodeClickListener = null
-        onScrollListener = null
-        groupRefreshed = null
-        super.onDetach()
-    }
-
     override fun onDatabaseRetrieved(database: ContextualDatabase) {
         context?.let { context ->
             mAdapter = NodesAdapter(context, database).apply {
                 setOnNodeClickListener(object : NodesAdapter.NodeClickCallback {
                     override fun onNodeClick(database: ContextualDatabase, node: NodeInfo) {
-                        if (nodeActionSelectionMode) {
-                            if (listActionNodes.contains(node)) {
-                                // Remove selected item if already selected
-                                listActionNodes.remove(node)
-                            } else {
-                                // Add selected item if not already selected
-                                listActionNodes.add(node)
-                            }
-                            nodeClickListener?.onNodeSelected(database, listActionNodes)
-                            setActionNodes(listActionNodes)
-                            notifyNodeChanged(node)
-                        } else {
-                            nodeClickListener?.onNodeClick(database, node)
-                        }
+                        mGroupViewModel.performNodeClick(database, node)
                     }
 
                     override fun onNodeLongClick(database: ContextualDatabase, node: NodeInfo): Boolean {
-                        if (nodeActionPasteMode == PasteMode.UNDEFINED) {
-                            // Select the first item after a long click
-                            if (!listActionNodes.contains(node))
-                                listActionNodes.add(node)
-
-                            nodeClickListener?.onNodeSelected(database, listActionNodes)
-
-                            setActionNodes(listActionNodes)
-                            notifyNodeChanged(node)
-                            activity?.hideKeyboard()
-                        }
+                        mGroupViewModel.performLongNodeClick(database, node)
                         return true
                     }
                 })
@@ -248,13 +170,26 @@ class GroupFragment : DatabaseFragment(), SortDialogFragment.SortSelectionListen
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                mGroupViewModel.groupUIState.collect { superGroup ->
-                    superGroup?.let {
-                        mCurrentGroup = it.group
-                        rebuildList()
-                        it.showFromPosition?.let { position ->
-                            mNodesRecyclerView?.scrollToPosition(position)
+                launch {
+                    mGroupViewModel.groupUIState.collect { superGroup ->
+                        superGroup.group?.let {
+                            rebuildList()
                         }
+                    }
+                }
+                launch {
+                    mGroupViewModel.showPosition.collect { position ->
+                        mNodesRecyclerView?.scrollToPosition(position)
+                    }
+                }
+                launch {
+                    mGroupViewModel.actionsNodes.collect { actionsNodes ->
+                        mAdapter?.setActionNodes(actionsNodes)
+                    }
+                }
+                launch {
+                    mGroupViewModel.removeNodeAction.collect {
+                        mAdapter?.unselectActionNodes()
                     }
                 }
             }
@@ -281,9 +216,10 @@ class GroupFragment : DatabaseFragment(), SortDialogFragment.SortSelectionListen
     }
 
     private fun rebuildList() {
+        val currentGroup = mGroupViewModel.currentGroup
         try {
             // Add elements to the list
-            mCurrentGroup?.let { currentGroup ->
+            currentGroup?.let { currentGroup ->
                 // Thrown an exception when sort cannot be performed
                 // TODO In view model
                 val nodes = if (currentGroup is SearchGroupInfo) {
@@ -306,14 +242,14 @@ class GroupFragment : DatabaseFragment(), SortDialogFragment.SortSelectionListen
             Log.e(TAG, "Unable to rebuild the list", e)
         }
 
-        if (mCurrentGroup is SearchGroupInfo && mAdapter != null && mAdapter!!.isEmpty) {
+        if (currentGroup is SearchGroupInfo
+            && mAdapter != null
+            && mAdapter!!.isEmpty) {
             // To show the " no search entry found "
             notFoundView?.visibility = View.VISIBLE
         } else {
             notFoundView?.visibility = View.GONE
         }
-
-        groupRefreshed?.onGroupRefreshed()
     }
 
     override fun onSortSelected(sortNodeEnum: SortNodeEnum,
@@ -330,150 +266,6 @@ class GroupFragment : DatabaseFragment(), SortDialogFragment.SortSelectionListen
         } catch (e:Exception) {
             Log.e(TAG, "Unable to sort the list", e)
         }
-    }
-
-    private fun containsRecycleBin(
-        database: ContextualDatabase?,
-        nodes: List<NodeInfo>
-    ): Boolean {
-        return nodes.any { it is GroupInfo && it.isRecycleBin(database) }
-    }
-
-    fun actionNodesCallback(
-        database: ContextualDatabase,
-        nodes: List<NodeInfo>,
-        menuListener: NodesActionMenuListener?,
-        onDestroyActionMode: (mode: ActionMode?) -> Unit
-    ) : ActionMode.Callback {
-
-        return object : ActionMode.Callback {
-
-            override fun onCreateActionMode(mode: ActionMode?, menu: Menu?): Boolean {
-                nodeActionSelectionMode = false
-                nodeActionPasteMode = PasteMode.UNDEFINED
-                return true
-            }
-
-            override fun onPrepareActionMode(mode: ActionMode?, menu: Menu?): Boolean {
-                menu?.clear()
-                if (nodeActionPasteMode != PasteMode.UNDEFINED) {
-                    mode?.menuInflater?.inflate(R.menu.node_paste_menu, menu)
-                } else {
-                    nodeActionSelectionMode = true
-                    mode?.menuInflater?.inflate(R.menu.node_menu, menu)
-
-                    // Open and Edit for a single item
-                    if (nodes.size == 1) {
-                        // Edition
-                        if (database.isReadOnly || containsRecycleBin(database, nodes)) {
-                            menu?.removeItem(R.id.menu_edit)
-                        }
-                    } else {
-                        menu?.removeItem(R.id.menu_open)
-                        menu?.removeItem(R.id.menu_edit)
-                    }
-
-                    // Move
-                    if (database.isReadOnly) {
-                        menu?.removeItem(R.id.menu_move)
-                    }
-
-                    // Copy (not allowed for group)
-                    if (database.isReadOnly
-                            || nodes.any { it is GroupInfo }) {
-                        menu?.removeItem(R.id.menu_copy)
-                    }
-
-                    // Deletion
-                    if (database.isReadOnly || containsRecycleBin(database, nodes)) {
-                        menu?.removeItem(R.id.menu_delete)
-                    }
-                }
-
-                // Add the number of items selected in title
-                mode?.title = nodes.size.toString()
-                return true
-            }
-
-            override fun onActionItemClicked(mode: ActionMode?, item: MenuItem?): Boolean {
-                if (menuListener == null)
-                    return false
-                return when (item?.itemId) {
-                    R.id.menu_open -> menuListener.onOpenMenuClick(database, nodes[0])
-                    R.id.menu_edit -> menuListener.onEditMenuClick(database, nodes[0])
-                    R.id.menu_copy -> {
-                        nodeActionPasteMode = PasteMode.PASTE_FROM_COPY
-                        mAdapter?.unselectActionNodes()
-                        val returnValue = menuListener.onCopyMenuClick(database, nodes)
-                        nodeActionSelectionMode = false
-                        returnValue
-                    }
-                    R.id.menu_move -> {
-                        nodeActionPasteMode = PasteMode.PASTE_FROM_MOVE
-                        mAdapter?.unselectActionNodes()
-                        val returnValue = menuListener.onMoveMenuClick(database, nodes)
-                        nodeActionSelectionMode = false
-                        returnValue
-                    }
-                    R.id.menu_delete -> menuListener.onDeleteMenuClick(database, nodes)
-                    R.id.menu_paste -> {
-                        val returnValue = menuListener.onPasteMenuClick(database, nodeActionPasteMode, nodes)
-                        nodeActionPasteMode = PasteMode.UNDEFINED
-                        nodeActionSelectionMode = false
-                        returnValue
-                    }
-                    else -> false
-                }
-            }
-
-            override fun onDestroyActionMode(mode: ActionMode?) {
-                listActionNodes.clear()
-                listPasteNodes.clear()
-                mAdapter?.unselectActionNodes()
-                nodeActionPasteMode = PasteMode.UNDEFINED
-                nodeActionSelectionMode = false
-                onDestroyActionMode(mode)
-            }
-        }
-    }
-
-    /**
-     * Callback listener to redefine to do an action when a node is clicked
-     */
-    interface NodeClickListener {
-        fun onNodeClick(database: ContextualDatabase, node: NodeInfo)
-        fun onNodeSelected(database: ContextualDatabase, nodes: List<NodeInfo>): Boolean
-    }
-
-    /**
-     * Menu listener to redefine to do an action in menu
-     */
-    interface NodesActionMenuListener {
-        fun onOpenMenuClick(database: ContextualDatabase, node: NodeInfo): Boolean
-        fun onEditMenuClick(database: ContextualDatabase, node: NodeInfo): Boolean
-        fun onCopyMenuClick(database: ContextualDatabase, nodes: List<NodeInfo>): Boolean
-        fun onMoveMenuClick(database: ContextualDatabase, nodes: List<NodeInfo>): Boolean
-        fun onDeleteMenuClick(database: ContextualDatabase, nodes: List<NodeInfo>): Boolean
-        fun onPasteMenuClick(database: ContextualDatabase, pasteMode: PasteMode?, nodes: List<NodeInfo>): Boolean
-    }
-
-    enum class PasteMode {
-        UNDEFINED, PASTE_FROM_COPY, PASTE_FROM_MOVE
-    }
-
-    interface OnScrollListener {
-
-        /**
-         * Callback method to be invoked when the RecyclerView has been scrolled. This will be
-         * called after the scroll has completed.
-         *
-         * @param dy The amount of vertical scroll.
-         */
-        fun onScrolled(dy: Int)
-    }
-
-    interface GroupRefreshedListener {
-        fun onGroupRefreshed()
     }
 
     companion object {
