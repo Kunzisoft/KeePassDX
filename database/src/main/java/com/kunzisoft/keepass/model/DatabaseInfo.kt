@@ -99,6 +99,7 @@ open class DatabaseInfo: Database() {
             entryInfo.password = password
             entryInfo.creationTime = creationTime
             entryInfo.lastModificationTime = lastModificationTime
+            entryInfo.lastAccessTime = lastAccessTime
             entryInfo.expires = expires
             entryInfo.expiryTime = expiryTime
             entryInfo.url = url
@@ -163,6 +164,7 @@ open class DatabaseInfo: Database() {
             groupInfo.icon = icon
             groupInfo.creationTime = creationTime
             groupInfo.lastModificationTime = lastModificationTime
+            groupInfo.lastAccessTime = lastAccessTime
             groupInfo.expires = expires
             groupInfo.expiryTime = expiryTime
             groupInfo.customData = customData
@@ -270,22 +272,74 @@ open class DatabaseInfo: Database() {
 
     /**
      * Get the breadcrumb of a group.
-     * @param node The group info.
+     * @param groupId The group ID.
      * @return List of group info representing the path from root to the group.
      */
-    fun getBreadcrumb(node: GroupInfo): List<GroupInfo> {
-        val listBreadcrumb = mutableListOf<GroupInfo>()
-        getGroupById(node.nodeId)?.let {
+    fun getBreadcrumbsFrom(
+        groupId: NodeId<*>,
+        recursiveNumberOfEntries: Boolean,
+        nodeFilter: NodeFilter
+    ): List<SortedGroupInfo> {
+        val listBreadcrumb = mutableListOf<SortedGroupInfo>()
+        getGroupById(groupId)?.let {
             var currentNode = it
-            listBreadcrumb.add(0, getGroupInfoFrom(currentNode))
+            listBreadcrumb.add(0,
+               SortedGroupInfo(
+                    groupToCopy = getGroupInfoFrom(currentNode),
+                    numberChildrenEntries = it.getNumberOfChildEntries(
+                        recursive = recursiveNumberOfEntries,
+                        filter = nodeFilter.filter
+                    )
+                )
+            )
             while (currentNode.containsParent()) {
                 currentNode.parent?.let { parent ->
                     currentNode = parent
-                    listBreadcrumb.add(0, getGroupInfoFrom(currentNode))
+                    listBreadcrumb.add(0,
+                        SortedGroupInfo(
+                            groupToCopy = getGroupInfoFrom(currentNode),
+                            numberChildrenEntries = parent.getNumberOfChildEntries(
+                                recursive = recursiveNumberOfEntries,
+                                filter = nodeFilter.filter
+                            )
+                        )
+                    )
                 }
             }
         }
         return listBreadcrumb
+    }
+
+    /**
+     * Get the children of a group represented by its ID.
+     * @param parentId The group ID.
+     * @param recursiveNumberOfEntries Whether to count entries in subgroups recursively.
+     * @param nodeFilter Filter to apply to entries.
+     */
+    fun getSortedChildrenOf(
+        parentId: NodeId<*>,
+        recursiveNumberOfEntries: Boolean,
+        nodeFilter: NodeFilter
+    ): List<SortedNodeInfo> {
+        return getGroupById(parentId)
+            ?.getChildren(nodeFilter.filter)
+            ?.mapNotNull {
+                when (it) {
+                    is Group -> SortedGroupInfo(
+                        groupToCopy = getGroupInfoFrom(it),
+                        numberChildrenEntries = it.getNumberOfChildEntries(
+                            recursive = recursiveNumberOfEntries,
+                            filter = nodeFilter.filter
+                        ),
+                        indexInParent = it.indexInParent()
+                    )
+                    is Entry -> SortedEntryInfo(
+                        entryToCopy = getEntryInfoFrom(it),
+                        indexInParent = it.indexInParent()
+                    )
+                    else -> null
+                }
+            } ?: listOf()
     }
 
     /**
@@ -409,7 +463,7 @@ open class DatabaseInfo: Database() {
             username = newEntryInfo.username
             password = newEntryInfo.password
             // Update date time, creation time stay as is
-            lastModificationTime = DateInstant()
+            lastModificationTime = newEntryInfo.lastModificationTime
             lastAccessTime = DateInstant()
             expires = newEntryInfo.expires
             expiryTime = newEntryInfo.expiryTime

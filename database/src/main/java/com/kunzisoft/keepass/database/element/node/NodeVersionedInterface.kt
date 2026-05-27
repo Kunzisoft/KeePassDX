@@ -22,27 +22,64 @@ package com.kunzisoft.keepass.database.element.node
 import android.os.Parcelable
 import com.kunzisoft.keepass.database.element.icon.IconImage
 
-interface NodeVersionedInterface<ParentGroup> : NodeTimeInterface, Parcelable {
+/**
+ * Interface representing a versioned node in the database hierarchy.
+ * @param ParentGroup The type of the parent group.
+ */
+interface NodeVersionedInterface<ParentGroup> : NodeTimeInterface,  Parcelable {
 
+    /**
+     * The title of the node.
+     */
     var title: String
+
+    /**
+     * The icon associated with the node.
+     */
     var icon: IconImage
+
+    /**
+     * The type of the node.
+     */
     val type: NodeType
 
     /**
-     * Retrieve the parent node
+     * The parent node of this versioned node.
      */
     var parent: ParentGroup?
 
+    /**
+     * Checks if the node has a parent.
+     * @return True if a parent exists, false otherwise.
+     */
     fun containsParent(): Boolean
 
+    /**
+     * Callback method called after a new parent has been assigned to the node.
+     */
     fun afterAssignNewParent()
 
+    /**
+     * Checks if this node is contained within the specified container group.
+     * @param container The group to check against.
+     * @return True if contained in the group, false otherwise.
+     */
     fun isContainedIn(container: ParentGroup): Boolean
 
     /**
-     * Groups are always before in natural order (DB order)
+     * Retrieves the index of this node within its parent group.
+     * Groups are always before in natural order (DB order).
+     * @return The index in the parent.
      */
-    fun nodeIndexInParentForNaturalOrder(): Int
+    fun indexInParent(): Int
 
-    fun touch(modified: Boolean, touchParents: Boolean)
+    /**
+     * Updates the access or modification time of the node.
+     * @param modified Whether the node has been modified.
+     * @param touchParents Whether to also touch the parent nodes.
+     */
+    fun touch(
+        modified: Boolean,
+        touchParents: Boolean,
+    )
 }

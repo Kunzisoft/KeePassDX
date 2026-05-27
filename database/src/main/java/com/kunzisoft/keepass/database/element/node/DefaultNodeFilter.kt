@@ -23,10 +23,16 @@ import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.Entry
 import com.kunzisoft.keepass.database.element.Group
 
+/**
+ * Node filter by default.
+ * @param database The database to filter.
+ * @param showExpired Whether to show expired entries.
+ * @param showTemplates Whether to show templates.
+ */
 class DefaultNodeFilter(
     var database: Database? = null,
     var showExpired: Boolean = true,
-    var showTemplate: Boolean = true
+    var showTemplates: Boolean = true
 ): NodeFilter {
     override val filter: (Node) -> Boolean = { node ->
         when (node) {
@@ -34,7 +40,7 @@ class DefaultNodeFilter(
                 node.entryKDB?.isMetaStream() != true
             }
             is Group -> {
-                showTemplate || database?.templatesGroup != node
+                showTemplates || database?.templatesGroup != node
             }
             else -> true
         } && (showExpired || !node.isCurrentlyExpires)

@@ -32,12 +32,19 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import mozilla.components.lib.publicsuffixlist.PublicSuffixList
 
+/**
+ * Utility object for search-related operations in the app module.
+ * Provides methods for displaying result counts and performing automated searches.
+ */
 object SearchHelper {
 
+    /** Maximum number of search entries to process. */
     const val MAX_SEARCH_ENTRY = 1000
 
     /**
-     * Method to show the number of search results with max results
+     * Formats the number of search results for display.
+     * @param number The number of results.
+     * @return A string representation, appended with "+" if the max is reached.
      */
     fun showNumberOfSearchResults(number: Int): String {
         return if (number >= MAX_SEARCH_ENTRY) {
@@ -77,7 +84,9 @@ object SearchHelper {
     }
 
     /**
-     * Create search parameters asynchronously from [SearchInfo]
+     * Asynchronously creates [SearchParameters] from a [SearchInfo] object.
+     * @param context The application context.
+     * @param callback Callback function that receives the generated [SearchParameters].
      */
     fun SearchInfo.getSearchParametersFromSearchInfo(
         context: Context,
@@ -119,7 +128,13 @@ object SearchHelper {
     }
 
     /**
-     * Utility method to perform actions if item is found or not after an auto search in [database]
+     * Performs an automatic search based on [SearchInfo] and triggers callbacks based on results.
+     * @param context The application context.
+     * @param database The database to search in.
+     * @param searchInfo Information defining the search.
+     * @param onItemsFound Callback triggered when matches are found.
+     * @param onItemNotFound Callback triggered when no matches are found.
+     * @param onDatabaseClosed Callback triggered if the database is closed or unavailable.
      */
     fun checkAutoSearchInfo(
         context: Context,

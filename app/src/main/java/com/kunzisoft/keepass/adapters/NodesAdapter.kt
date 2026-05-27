@@ -38,20 +38,18 @@ import androidx.recyclerview.widget.SortedListAdapterCallback
 import com.google.android.material.progressindicator.CircularProgressIndicator
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.ContextualDatabase
-import com.kunzisoft.keepass.database.element.Entry
-import com.kunzisoft.keepass.database.element.Group
 import com.kunzisoft.keepass.database.element.SortNodeEnum
 import com.kunzisoft.keepass.database.element.Tag
 import com.kunzisoft.keepass.database.element.node.EmptyNodeFilter
-import com.kunzisoft.keepass.database.element.node.Node
 import com.kunzisoft.keepass.database.element.node.NodeFilter
 import com.kunzisoft.keepass.database.element.node.NodeType
-import com.kunzisoft.keepass.database.element.node.NodeVersionedInterface
 import com.kunzisoft.keepass.database.element.template.TemplateField
 import com.kunzisoft.keepass.database.helper.getLocalizedName
 import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.model.GroupInfo
-import com.kunzisoft.keepass.model.NodeInfo
+import com.kunzisoft.keepass.model.SortedEntryInfo
+import com.kunzisoft.keepass.model.SortedGroupInfo
+import com.kunzisoft.keepass.model.SortedNodeInfo
 import com.kunzisoft.keepass.otp.OtpElement
 import com.kunzisoft.keepass.otp.OtpType
 import com.kunzisoft.keepass.settings.PreferencesUtil
@@ -60,17 +58,18 @@ import com.kunzisoft.keepass.view.setTextSize
 import com.kunzisoft.keepass.view.strikeOut
 
 /**
- * Create node list adapter with contextMenu or not
+ * Create node list adapter.
  * @param context Context to use
+ * @param database Associated database to manage the nodes
  */
 class NodesAdapter(
     private val context: Context,
     private val database: ContextualDatabase
 ) : RecyclerView.Adapter<NodesAdapter.NodeViewHolder>() {
 
-    private var mNodeComparator: Comparator<NodeVersionedInterface<Group>>? = null
+    private var mNodeComparator: Comparator<SortedNodeInfo>? = null
     private val mNodeSortedListCallback: NodeSortedListCallback
-    private val mNodeSortedList: SortedList<Node>
+    private val mNodeSortedList: SortedList<SortedNodeInfo>
     private val mInflater: LayoutInflater = LayoutInflater.from(context)
     private var mCalculateViewTypeTextSize = Array(2) { true } // number of view type
     private var mTextSizeUnit: Int = TypedValue.COMPLEX_UNIT_PX
@@ -92,7 +91,7 @@ class NodesAdapter(
     private var mOldVirtualGroup = false
     private var mVirtualGroup = false
 
-    private var mActionNodesList = mutableListOf<NodeInfo>()
+    private var mActionNodesList = mutableListOf<SortedNodeInfo>()
     private var mNodeClickCallback: NodeClickCallback? = null
     private var mClipboardHelper = ClipboardHelper(context)
 
@@ -124,7 +123,7 @@ class NodesAdapter(
         assignPreferences()
 
         this.mNodeSortedListCallback = NodeSortedListCallback()
-        this.mNodeSortedList = SortedList(Node::class.java, mNodeSortedListCallback)
+        this.mNodeSortedList = SortedList(SortedNodeInfo::class.java, mNodeSortedListCallback)
 
         context.obtainStyledAttributes(intArrayOf(R.attr.colorSurfaceContainer)).also { taColorSurfaceContainer ->
             this.mColorSurfaceContainer = taColorSurfaceContainer.getColor(0, Color.BLACK)
@@ -176,10 +175,12 @@ class NodesAdapter(
     }
 
     /**
-     * Rebuild the list by clear and build children from the group
+     * Rebuild the list by clear and build children from the list of [nodes]
+     * @param isSearch If the list is a search list
+     * @param nodeFilter Node filter to apply
      */
     fun rebuildList(
-        nodes: List<Node>,
+        nodes: List<SortedNodeInfo>,
         isSearch: Boolean = false,
         nodeFilter: NodeFilter = EmptyNodeFilter()
     ) {
@@ -190,30 +191,29 @@ class NodesAdapter(
         mNodeSortedList.replaceAll(nodes)
     }
 
-    private inner class NodeSortedListCallback: SortedListAdapterCallback<Node>(this) {
-        override fun compare(item1: Node, item2: Node): Int {
+    private inner class NodeSortedListCallback: SortedListAdapterCallback<SortedNodeInfo>(this) {
+        override fun compare(item1: SortedNodeInfo, item2: SortedNodeInfo): Int {
             return mNodeComparator!!.compare(item1, item2)
         }
 
-        override fun areContentsTheSame(oldItem: Node, newItem: Node): Boolean {
+        override fun areContentsTheSame(oldItem: SortedNodeInfo, newItem: SortedNodeInfo): Boolean {
             if (mOldVirtualGroup != mVirtualGroup)
                 return false
             var typeContentTheSame = true
-            if (oldItem is Entry && newItem is Entry) {
+            if (oldItem is SortedEntryInfo && newItem is SortedEntryInfo) {
                 typeContentTheSame = oldItem.getVisualTitle() == newItem.getVisualTitle()
                         && oldItem.username == newItem.username
                         && oldItem.backgroundColor == newItem.backgroundColor
                         && oldItem.foregroundColor == newItem.foregroundColor
-                        && oldItem.getOtpElement() == newItem.getOtpElement()
+                        && oldItem.otpModel == newItem.otpModel
                         && oldItem.containsAttachment() == newItem.containsAttachment()
-            } else if (oldItem is Group && newItem is Group) {
+            } else if (oldItem is SortedGroupInfo && newItem is SortedGroupInfo) {
                 typeContentTheSame = oldItem.numberOfChildEntries == newItem.numberOfChildEntries
-                        && oldItem.recursiveNumberOfChildEntries == newItem.recursiveNumberOfChildEntries
                         && oldItem.notes == newItem.notes
             }
             return typeContentTheSame
                     && oldItem.nodeId == newItem.nodeId
-                    && oldItem.type == newItem.type
+                    && oldItem::class == newItem::class
                     && oldItem.title == newItem.title
                     && oldItem.icon == newItem.icon
                     && oldItem.creationTime == newItem.creationTime
@@ -224,25 +224,28 @@ class NodesAdapter(
                     && oldItem.isCurrentlyExpires == newItem.isCurrentlyExpires
         }
 
-        override fun areItemsTheSame(item1: Node, item2: Node): Boolean {
+        override fun areItemsTheSame(item1: SortedNodeInfo, item2: SortedNodeInfo): Boolean {
             return item1 == item2
         }
     }
 
-    fun notifyNodeChanged(nodeInfo: NodeInfo) {
-        database.getNodeFrom(nodeInfo)?.let {
-            notifyItemChanged(mNodeSortedList.indexOf(it))
-        }
+    fun notifyNodeChanged(node: SortedNodeInfo) {
+        notifyItemChanged(mNodeSortedList.indexOf(node))
     }
 
-    fun setActionNodes(actionNodes: List<NodeInfo>) {
-        val oldList = mActionNodesList.toMutableList()
-        oldList.addAll(actionNodes)
+    fun setActionNodes(actionNodes: List<SortedNodeInfo>) {
+        val oldIds = mActionNodesList.map { it.nodeId }.toSet()
+        val newIds = actionNodes.map { it.nodeId }.toSet()
+
+        val nodesToUpdate = mutableSetOf<SortedNodeInfo>()
+        mActionNodesList.forEach { if (it.nodeId !in newIds) nodesToUpdate.add(it) }
+        actionNodes.forEach { if (it.nodeId !in oldIds) nodesToUpdate.add(it) }
+
         this.mActionNodesList.apply {
             clear()
             addAll(actionNodes)
         }
-        oldList.forEach {
+        nodesToUpdate.forEach {
             notifyNodeChanged(it)
         }
     }
@@ -262,7 +265,10 @@ class NodesAdapter(
     }
 
     override fun getItemViewType(position: Int): Int {
-        return mNodeSortedList.get(position).type.ordinal
+        return when (mNodeSortedList.get(position)) {
+            is GroupInfo -> NodeType.GROUP.ordinal
+            else -> NodeType.ENTRY.ordinal
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NodeViewHolder {
@@ -283,14 +289,11 @@ class NodesAdapter(
     }
 
     override fun onBindViewHolder(holder: NodeViewHolder, position: Int) {
-        val nodeItem = mNodeSortedList.get(position)
-        // TODO All with NodeInfo
-        val node = database.getNodeInfoFrom(nodeItem)
+        val node = mNodeSortedList.get(position)
 
         // Node selection
-        holder.container.apply {
-            isSelected = mActionNodesList.any { it.nodeId == node.nodeId }
-        }
+        val isSelected = mActionNodesList.any { it.nodeId == node.nodeId }
+        holder.container.isSelected = isSelected
 
         // Assign text
         holder.text.apply {
@@ -310,7 +313,7 @@ class NodesAdapter(
                 )
                 adapter = tagsAdapter
                 tagsAdapter.setTags(tags)
-                tagsAdapter.toggleSelection(holder.container.isSelected)
+                tagsAdapter.toggleSelection(isSelected)
                 tagsAdapter.onItemClickListener = object : TagsAdapter.OnItemClickListener {
                     override fun onItemClick(item: Tag) {
                         mNodeClickCallback?.onNodeClick(database, node)
@@ -335,13 +338,13 @@ class NodesAdapter(
                 visibility = View.GONE
             }
         }
-        // Add path to virtual group
-        if (mVirtualGroup) {
+        // Add path
+        node.path?.let { path ->
             holder.path?.apply {
-                text = nodeItem.getPathString()
+                text = path
                 visibility = View.VISIBLE
             }
-        } else {
+        } ?: run {
             holder.path?.visibility = View.GONE
         }
 
@@ -399,7 +402,7 @@ class NodesAdapter(
             assignBackgroundColor(holder.container, node)
             assignBackgroundColor(holder.otpContainer, node)
             val foregroundColor = if (mShowEntryColors) node.foregroundColor else null
-            if (!holder.container.isSelected) {
+            if (!isSelected) {
                 if (foregroundColor != null) {
                     holder.text.setTextColor(foregroundColor)
                     holder.subText?.setTextColor(foregroundColor)
@@ -430,14 +433,10 @@ class NodesAdapter(
         }
 
         // Add number of entries in groups
-        if (node is GroupInfo) {
+        if (node is SortedGroupInfo) {
             if (mShowNumberEntries) {
                 holder.numberChildren?.apply {
-                    text = database.getNumberChildrenEntries(
-                        node = node,
-                        recursiveNumberOfEntries = mRecursiveNumberEntries,
-                        filter = mNodeFilter
-                    ).toString()
+                    text = node.numberOfChildEntries.toString()
                     setTextSize(mTextSizeUnit, mNumberChildrenTextDefaultDimension, mPrefSizeMultiplier)
                     visibility = View.VISIBLE
                 }
@@ -550,8 +549,8 @@ class NodesAdapter(
      * Callback listener to redefine to do an action when a node is clicked
      */
     interface NodeClickCallback {
-        fun onNodeClick(database: ContextualDatabase, node: NodeInfo)
-        fun onNodeLongClick(database: ContextualDatabase, node: NodeInfo): Boolean
+        fun onNodeClick(database: ContextualDatabase, node: SortedNodeInfo)
+        fun onNodeLongClick(database: ContextualDatabase, node: SortedNodeInfo): Boolean
     }
 
     class NodeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

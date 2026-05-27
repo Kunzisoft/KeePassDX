@@ -33,6 +33,9 @@ import com.kunzisoft.keepass.activities.GroupActivity.Companion.retrieveAutoSear
 import com.kunzisoft.keepass.activities.GroupActivity.SearchState
 import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper.retrieveSearchInfo
 import com.kunzisoft.keepass.database.ContextualDatabase
+import com.kunzisoft.keepass.database.element.node.DefaultNodeFilter
+import com.kunzisoft.keepass.database.element.node.EmptyNodeFilter
+import com.kunzisoft.keepass.database.element.node.NodeFilter
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.helper.SearchHelper
 import com.kunzisoft.keepass.database.helper.SearchHelper.getSearchParametersFromSearchInfo
@@ -41,6 +44,8 @@ import com.kunzisoft.keepass.model.GroupInfo
 import com.kunzisoft.keepass.model.NodeInfo
 import com.kunzisoft.keepass.model.SearchGroupInfo
 import com.kunzisoft.keepass.model.SearchInfo
+import com.kunzisoft.keepass.model.SortedGroupInfo
+import com.kunzisoft.keepass.model.SortedNodeInfo
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -78,6 +83,8 @@ class GroupViewModel(application: Application): AndroidViewModel(application) {
     var currentGroup: GroupInfo? = null
         private set
 
+    var children: List<SortedNodeInfo>? = null
+        private set
 
     // Group state to retrieve position, not a search
     private var mMainGroupState: GroupState? = null
@@ -102,21 +109,21 @@ class GroupViewModel(application: Application): AndroidViewModel(application) {
         private set
     var nodeActionPasteMode: PasteMode = PasteMode.UNDEFINED
         private set
-    private val listActionNodes = mutableListOf<NodeInfo>()
-    private val listPasteNodes = mutableListOf<NodeInfo>()
+    private val listActionNodes = mutableListOf<SortedNodeInfo>()
+    private val listPasteNodes = mutableListOf<SortedNodeInfo>()
     var actionNodeMode: ActionMode? = null
 
     private val _groupUIState = MutableStateFlow<GroupUISTate>(GroupUISTate())
     val groupUIState: StateFlow<GroupUISTate> = _groupUIState.asStateFlow()
 
-    private val _actionsNodes = MutableStateFlow<List<NodeInfo>>(listOf())
-    val actionsNodes: StateFlow<List<NodeInfo>> = _actionsNodes.asStateFlow()
+    private val _actionsNodes = MutableStateFlow<List<SortedNodeInfo>>(listOf())
+    val actionsNodes: StateFlow<List<SortedNodeInfo>> = _actionsNodes.asStateFlow()
 
     private val _removeNodeAction = MutableSharedFlow<Unit>(replay = 0)
     val removeNodeAction: SharedFlow<Unit> = _removeNodeAction.asSharedFlow()
 
-    private val _requestOpenNode = MutableSharedFlow<NodeInfo>(replay = 0)
-    val requestOpenNode: SharedFlow<NodeInfo> = _requestOpenNode.asSharedFlow()
+    private val _requestOpenNode = MutableSharedFlow<SortedNodeInfo>(replay = 0)
+    val requestOpenNode: SharedFlow<SortedNodeInfo> = _requestOpenNode.asSharedFlow()
 
     private val _requestEditNode = MutableSharedFlow<NodeInfo>(replay = 0)
     val requestEditNode: SharedFlow<NodeInfo> = _requestEditNode.asSharedFlow()
@@ -153,6 +160,10 @@ class GroupViewModel(application: Application): AndroidViewModel(application) {
 
     private var mDefaultSearchParameters: SearchParameters = PreferencesUtil.getDefaultSearchParameters(getApplication())
     private var mAutoFocusSearch: Boolean = PreferencesUtil.automaticallyFocusSearch(getApplication())
+    private var mRecursiveNumberEntries: Boolean = PreferencesUtil.recursiveNumberEntries(getApplication())
+    private var mShowExpiredEntries: Boolean = PreferencesUtil.showExpiredEntries(getApplication())
+    private var mShowTemplates: Boolean = PreferencesUtil.showTemplates(getApplication())
+    private var mNodeFilter: NodeFilter = EmptyNodeFilter()
 
     fun onDatabaseLoaded(
         database: ContextualDatabase,
@@ -160,6 +171,11 @@ class GroupViewModel(application: Application): AndroidViewModel(application) {
     ) {
         this.mDatabase = database
         this.mRecycleBinAllowed = recycleBinAllowed
+        this.mNodeFilter = DefaultNodeFilter(
+            database = mDatabase,
+            showExpired = mShowExpiredEntries,
+            showTemplates = mShowTemplates
+        )
     }
 
     fun loadGroup() {
@@ -192,21 +208,37 @@ class GroupViewModel(application: Application): AndroidViewModel(application) {
                     mMainGroupState = GroupState(group.nodeId, showFromPosition)
                     currentGroup = group
                     mSearchState = null
+                    // Breadcrumbs
+                    val breadcrumbs = mDatabase?.getBreadcrumbsFrom(
+                        groupId = group.nodeId,
+                        recursiveNumberOfEntries = mRecursiveNumberEntries,
+                        nodeFilter = mNodeFilter
+                    ) ?: listOf()
+                    // Children
+                    children = mDatabase?.getSortedChildrenOf(
+                        parentId = group.nodeId,
+                        recursiveNumberOfEntries = mRecursiveNumberEntries,
+                        nodeFilter = mNodeFilter
+                    ) ?: listOf()
                     // To enable add button
                     val addGroupEnabled = mDatabase?.allowAddGroupIn(group = group) ?: false
                     val addEntryEnabled = mDatabase?.allowAddEntryIn(group = group) ?: false
                     mAddGroupOrEntryAllowed = addGroupEnabled || addEntryEnabled
-                    _groupUIState.update { groupState ->
-                        groupState.copy(
-                            loaded = true,
-                            group = group,
-                            showAddGroupButton = addGroupEnabled,
-                            showAddEntryButton = addEntryEnabled,
-                            showAddNodeButton = mAddNodeButtonAllowed
-                        )
-                    }
-                    showFromPosition?.let {
-                        _showPosition.emit(showFromPosition)
+                    withContext(Dispatchers.Main) {
+                        _groupUIState.update { groupState ->
+                            groupState.copy(
+                                loaded = true,
+                                breadcrumbs = breadcrumbs,
+                                group = group,
+                                children = children,
+                                showAddGroupButton = addGroupEnabled,
+                                showAddEntryButton = addEntryEnabled,
+                                showAddNodeButton = mAddNodeButtonAllowed
+                            )
+                        }
+                        showFromPosition?.let {
+                            _showPosition.emit(showFromPosition)
+                        }
                     }
                 }
             }
@@ -233,8 +265,10 @@ class GroupViewModel(application: Application): AndroidViewModel(application) {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
                 searchState?.let {
-                    _groupUIState.update { groupState ->
-                        groupState.copy(loaded = false)
+                    withContext(Dispatchers.Main) {
+                        _groupUIState.update { groupState ->
+                            groupState.copy(loaded = false)
+                        }
                     }
                     val searchParameters = searchState.searchParameters
                     val showFromPosition = searchState.firstVisibleItem
@@ -246,15 +280,19 @@ class GroupViewModel(application: Application): AndroidViewModel(application) {
                     if (group != null) {
                         currentGroup = group
                         mSearchState = searchState
-                        _groupUIState.update { groupState ->
-                            groupState.copy(
-                                loaded = true,
-                                group = group,
-                                showAddNodeButton = false
-                            )
-                        }
-                        showFromPosition?.let {
-                            _showPosition.emit(showFromPosition)
+                        val children = group.getSearchResults()
+                        withContext(Dispatchers.Main) {
+                            _groupUIState.update { groupState ->
+                                groupState.copy(
+                                    loaded = true,
+                                    group = group,
+                                    children = children,
+                                    showAddNodeButton = false
+                                )
+                            }
+                            showFromPosition?.let {
+                                _showPosition.emit(showFromPosition)
+                            }
                         }
                     }
                 } ?: Log.e(TAG, "Search state is null")
@@ -336,20 +374,20 @@ class GroupViewModel(application: Application): AndroidViewModel(application) {
 
     fun performNodeClick(
         database: ContextualDatabase,
-        node: NodeInfo
+        node: SortedNodeInfo
     ) {
-        if (nodeActionSelectionMode) {
-            if (listActionNodes.contains(node)) {
-                // Remove selected item if already selected
-                listActionNodes.remove(node)
+        viewModelScope.launch {
+            if (nodeActionSelectionMode) {
+                if (listActionNodes.contains(node)) {
+                    // Remove selected item if already selected
+                    listActionNodes.remove(node)
+                } else {
+                    // Add selected item if not already selected
+                    listActionNodes.add(node)
+                }
+                selectNodes(database, listActionNodes)
+                _actionsNodes.value = listActionNodes.toList()
             } else {
-                // Add selected item if not already selected
-                listActionNodes.add(node)
-            }
-            selectNodes(database, listActionNodes)
-            _actionsNodes.value = listActionNodes
-        } else {
-            viewModelScope.launch {
                 _requestOpenNode.emit(node)
             }
         }
@@ -357,15 +395,15 @@ class GroupViewModel(application: Application): AndroidViewModel(application) {
 
     fun performLongNodeClick(
         database: ContextualDatabase,
-        node: NodeInfo
+        node: SortedNodeInfo
     ): Boolean {
-        if (nodeActionPasteMode == PasteMode.UNDEFINED) {
-            // Select the first item after a long click
-            if (!listActionNodes.contains(node))
-                listActionNodes.add(node)
-            selectNodes(database, listActionNodes)
-            _actionsNodes.value = listActionNodes
-            viewModelScope.launch {
+        viewModelScope.launch {
+            if (nodeActionPasteMode == PasteMode.UNDEFINED) {
+                // Select the first item after a long click
+                if (!listActionNodes.contains(node))
+                    listActionNodes.add(node)
+                selectNodes(database, listActionNodes)
+                _actionsNodes.value = listActionNodes.toList()
                 _showKeyboard.emit(false)
             }
         }
@@ -442,7 +480,8 @@ class GroupViewModel(application: Application): AndroidViewModel(application) {
                     R.id.menu_open -> {
                         finishNodeAction()
                         viewModelScope.launch {
-                            _requestOpenNode.emit(node)
+                            // TODO prevent cast
+                            _requestOpenNode.emit(node as SortedNodeInfo)
                         }
                         true
                     }
@@ -515,7 +554,7 @@ class GroupViewModel(application: Application): AndroidViewModel(application) {
 
     fun selectNodes(
         database: ContextualDatabase,
-        nodes: List<NodeInfo>
+        nodes: List<SortedNodeInfo>
     ): Boolean {
         if (nodes.isNotEmpty()) {
             if (!actionNodeInProgress()) {
@@ -523,7 +562,7 @@ class GroupViewModel(application: Application): AndroidViewModel(application) {
                     _provideNodeActionCallback.emit(
                         actionNodesCallback(
                             database,
-                            nodes
+                            nodes as List<NodeInfo> // TODO Prevent cast
                         )
                     )
                 }
@@ -591,7 +630,9 @@ class GroupViewModel(application: Application): AndroidViewModel(application) {
 
     data class GroupUISTate(
         val loaded: Boolean = false,
+        val breadcrumbs: List<SortedGroupInfo>? = null,
         val group: GroupInfo? = null,
+        val children: List<SortedNodeInfo>? = null,
         val showAddNodeButton: Boolean = false,
         val showAddGroupButton: Boolean = false,
         val showAddEntryButton: Boolean = false

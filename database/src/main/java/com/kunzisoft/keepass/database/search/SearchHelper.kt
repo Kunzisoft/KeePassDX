@@ -32,16 +32,29 @@ import com.kunzisoft.keepass.model.PasskeyEntryFields.isCredentialId
 import com.kunzisoft.keepass.model.PasskeyEntryFields.isPasskey
 import com.kunzisoft.keepass.model.PasskeyEntryFields.isRelyingParty
 import com.kunzisoft.keepass.model.SearchGroupInfo
+import com.kunzisoft.keepass.model.SortedEntryInfo
 import com.kunzisoft.keepass.otp.OtpEntryFields.isOTP
 import com.kunzisoft.keepass.otp.OtpEntryFields.isOTPURIField
 import com.kunzisoft.keepass.utils.UUIDUtils.asHexString
 import com.kunzisoft.keepass.utils.contains
 import com.kunzisoft.keepass.utils.inTheSameDomainAs
 
+/**
+ * Helper class for searching entries within a database.
+ * This class provides methods to iterate through groups and entries based on search parameters.
+ */
 class SearchHelper {
 
     private var incrementEntry = 0
 
+    /**
+     * Creates a [SearchGroupInfo] containing entries that match the specified search parameters.
+     * @param database The database info to search in.
+     * @param searchParameters The parameters defining the search query and scope.
+     * @param fromGroup The starting group ID for the search, defaults to root if null.
+     * @param max The maximum number of search results to return.
+     * @return A [SearchGroupInfo] containing the search results.
+     */
     fun createGroupInfoWithSearchResult(
         database: DatabaseInfo,
         searchParameters: SearchParameters,
@@ -70,7 +83,13 @@ class SearchHelper {
                         if (database.entryIsTemplate(node) && !searchParameters.searchInTemplates)
                             return false
                         if (entryContainsString(database, node, searchParameters)) {
-                            searchGroup.addSearchResult(database.getEntryInfoFrom(node))
+                            searchGroup.addSearchResult(
+                                SortedEntryInfo(
+                                    entryToCopy = database.getEntryInfoFrom(node),
+                                    indexInParent = node.indexInParent(),
+                                    path = node.getPathString()
+                                )
+                            )
                             incrementEntry++
                         }
                         // Stop searching when we have max entries
@@ -133,7 +152,10 @@ class SearchHelper {
     companion object {
 
         /**
-         * Return true if the search query in search parameters is found in available parameters
+         * Checks if an entry matches the specified search parameters.
+         * @param entry The entry to search in.
+         * @param searchParameters The parameters defining the search query and scope.
+         * @return True if the entry matches the search criteria, false otherwise.
          */
         fun searchInEntry(
             entry: Entry,

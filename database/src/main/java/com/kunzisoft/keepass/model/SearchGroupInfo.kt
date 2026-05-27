@@ -24,17 +24,32 @@ import android.os.Parcelable
 import com.kunzisoft.keepass.utils.readListCompat
 import com.kunzisoft.keepass.utils.writeListCompat
 
+/**
+ * Data model for a group containing search results.
+ * This class inherits from [GroupInfo] and specifically manages a list of [SortedEntryInfo] matching a search query.
+ */
 class SearchGroupInfo : GroupInfo {
 
-    private val entriesResult = mutableListOf<EntryInfo>()
+    private val entriesResult = mutableListOf<SortedEntryInfo>()
 
+    /**
+     * Default constructor.
+     */
     constructor(): super()
 
+    /**
+     * Copy constructor.
+     * @param groupToCopy The [SearchGroupInfo] instance to copy.
+     */
     constructor(groupToCopy: SearchGroupInfo): super(groupToCopy) {
         this.entriesResult.clear()
         this.entriesResult.addAll(groupToCopy.entriesResult)
     }
 
+    /**
+     * Parcelable constructor.
+     * @param parcel The parcel to read from.
+     */
     constructor(parcel: Parcel): super(parcel) {
         parcel.readListCompat(entriesResult)
     }
@@ -44,16 +59,31 @@ class SearchGroupInfo : GroupInfo {
         parcel.writeListCompat(entriesResult)
     }
 
-    fun addSearchResult(result: EntryInfo) {
+    /**
+     * Adds an entry to the search results.
+     * @param result The [SortedEntryInfo] to add.
+     */
+    fun addSearchResult(result: SortedEntryInfo) {
         this.entriesResult.add(result)
     }
 
+    /**
+     * Clears all search results.
+     */
     fun clearSearchResults() {
         this.entriesResult.clear()
     }
 
-    fun getSearchResults(): List<EntryInfo> = this.entriesResult
+    /**
+     * Retrieves the list of search results.
+     * @return A list of [SortedEntryInfo].
+     */
+    fun getSearchResults(): List<SortedEntryInfo> = this.entriesResult
 
+    /**
+     * Retrieves the number of search results.
+     * @return The size of the search results list.
+     */
     fun numberOfSearchResults(): Int = this.entriesResult.size
 
     override fun equals(other: Any?): Boolean {

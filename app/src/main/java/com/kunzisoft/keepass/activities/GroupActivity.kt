@@ -89,10 +89,10 @@ import com.kunzisoft.keepass.education.GroupActivityEducation
 import com.kunzisoft.keepass.model.DataTime
 import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.model.GroupInfo
-import com.kunzisoft.keepass.model.NodeInfo
 import com.kunzisoft.keepass.model.RegisterInfo
 import com.kunzisoft.keepass.model.SearchGroupInfo
 import com.kunzisoft.keepass.model.SearchInfo
+import com.kunzisoft.keepass.model.SortedNodeInfo
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_ENTRY_TASK
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_GROUP_TASK
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.getNewEntry
@@ -378,6 +378,9 @@ class GroupActivity : DatabaseLockActivity(),
         // Retrieve group if defined at launch
         mGroupViewModel.manageIntent(intent)
 
+        // Breadcrumb
+        mBreadcrumbAdapter = BreadcrumbAdapter(this)
+
         // Initialize the fragment with the list
         mGroupFragment =
             supportFragmentManager.findFragmentByTag(GROUP_FRAGMENT_TAG) as GroupFragment?
@@ -400,6 +403,11 @@ class GroupActivity : DatabaseLockActivity(),
                             loadingView?.hideByFading()
                         else
                             loadingView?.showByFading()
+                        // Show BreadCrumbs
+                        groupUISTate.breadcrumbs?.let { breadCrumbs ->
+                            mBreadcrumbAdapter?.setNode(breadCrumbs)
+                            breadcrumbListView?.scrollToPosition(breadCrumbs.size -1)
+                        }
                         // Show current group
                         groupUISTate.group?.let { group ->
                             if (group is SearchGroupInfo) {
@@ -417,8 +425,6 @@ class GroupActivity : DatabaseLockActivity(),
                                     enableTemplates(mDatabase?.templatesGroup != null)
                                 }
                             } else {
-                                // Add breadcrumb
-                                setBreadcrumbNode(group)
                                 refreshDatabaseViews()
                                 invalidateOptionsMenu()
                                 touchGroup(group)
@@ -681,7 +687,7 @@ class GroupActivity : DatabaseLockActivity(),
 
         mGroupViewModel.onDatabaseLoaded(database, recycleBinAllowed())
 
-        mBreadcrumbAdapter = BreadcrumbAdapter(this, database).apply {
+        mBreadcrumbAdapter?.apply {
             // Open group on breadcrumb click
             onItemClickListener = { node, _ ->
                 // If last item & not a virtual root group
@@ -811,21 +817,9 @@ class GroupActivity : DatabaseLockActivity(),
         mGroupViewModel.manageIntent(intent)
     }
 
-    private fun setBreadcrumbNode(group: GroupInfo?) {
-        mBreadcrumbAdapter?.apply {
-            // TODO Call view model
-            group?.let {
-                database?.getBreadcrumb(it)?.let { breadcrumb ->
-                    setNode(breadcrumb)
-                }
-            }
-            breadcrumbListView?.scrollToPosition(itemCount -1)
-        }
-    }
-
     private fun openNode(
         database: ContextualDatabase,
-        node: NodeInfo
+        node: SortedNodeInfo
     ) {
         when (node) {
             is GroupInfo -> {

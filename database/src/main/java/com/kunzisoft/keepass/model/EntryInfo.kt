@@ -50,7 +50,7 @@ import java.util.UUID
  * Data class representing information about an entry in the database.
  * This class is used for UI representation and data transfer.
  */
-class EntryInfo : NodeInfo {
+open class EntryInfo : NodeInfo {
 
     override var nodeId: NodeId<UUID> = NodeIdUUID()
     var username: String = ""

@@ -45,8 +45,8 @@ import com.kunzisoft.keepass.database.element.SortNodeEnum
 import com.kunzisoft.keepass.database.element.node.DefaultNodeFilter
 import com.kunzisoft.keepass.database.element.node.EmptyNodeFilter
 import com.kunzisoft.keepass.database.element.node.NodeFilter
-import com.kunzisoft.keepass.model.NodeInfo
 import com.kunzisoft.keepass.model.SearchGroupInfo
+import com.kunzisoft.keepass.model.SortedNodeInfo
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.viewmodels.GroupViewModel
@@ -111,11 +111,11 @@ class GroupFragment : DatabaseFragment(), SortDialogFragment.SortSelectionListen
         context?.let { context ->
             mAdapter = NodesAdapter(context, database).apply {
                 setOnNodeClickListener(object : NodesAdapter.NodeClickCallback {
-                    override fun onNodeClick(database: ContextualDatabase, node: NodeInfo) {
+                    override fun onNodeClick(database: ContextualDatabase, node: SortedNodeInfo) {
                         mGroupViewModel.performNodeClick(database, node)
                     }
 
-                    override fun onNodeLongClick(database: ContextualDatabase, node: NodeInfo): Boolean {
+                    override fun onNodeLongClick(database: ContextualDatabase, node: SortedNodeInfo): Boolean {
                         mGroupViewModel.performLongNodeClick(database, node)
                         return true
                     }
@@ -156,7 +156,7 @@ class GroupFragment : DatabaseFragment(), SortDialogFragment.SortSelectionListen
         context?.let {
             mNodeFilter = DefaultNodeFilter(
                 showExpired = PreferencesUtil.showExpiredEntries(it),
-                showTemplate = PreferencesUtil.showTemplates(it)
+                showTemplates = PreferencesUtil.showTemplates(it)
             )
         }
 
@@ -216,44 +216,34 @@ class GroupFragment : DatabaseFragment(), SortDialogFragment.SortSelectionListen
     }
 
     private fun rebuildList() {
-        val currentGroup = mGroupViewModel.currentGroup
         try {
-            // Add elements to the list
-            currentGroup?.let { currentGroup ->
-                // Thrown an exception when sort cannot be performed
-                // TODO In view model
-                val nodes = if (currentGroup is SearchGroupInfo) {
-                        // TODO Simplified
-                        currentGroup.getSearchResults().mapNotNull {
-                            mDatabase?.getNodeFrom(it)
-                        }
-                    } else {
-                        mDatabase?.getGroupById(currentGroup.nodeId)?.getChildren(
-                            mNodeFilter.filter
-                        ) ?: listOf()
-                    }
-                mAdapter?.rebuildList(
-                    nodes = nodes,
-                    isSearch = currentGroup is SearchGroupInfo,
-                    nodeFilter = mNodeFilter
-                )
+            mGroupViewModel.currentGroup?.let { currentGroup ->
+                mGroupViewModel.children?.let { children ->
+                    mAdapter?.rebuildList(
+                        nodes = children,
+                        isSearch = currentGroup is SearchGroupInfo,
+                        nodeFilter = mNodeFilter
+                    )
+                }
+
+                if (currentGroup is SearchGroupInfo
+                    && mAdapter != null
+                    && mAdapter!!.isEmpty) {
+                    // To show the " no search entry found "
+                    notFoundView?.visibility = View.VISIBLE
+                } else {
+                    notFoundView?.visibility = View.GONE
+                }
             }
         } catch (e:Exception) {
             Log.e(TAG, "Unable to rebuild the list", e)
         }
-
-        if (currentGroup is SearchGroupInfo
-            && mAdapter != null
-            && mAdapter!!.isEmpty) {
-            // To show the " no search entry found "
-            notFoundView?.visibility = View.VISIBLE
-        } else {
-            notFoundView?.visibility = View.GONE
-        }
     }
 
-    override fun onSortSelected(sortNodeEnum: SortNodeEnum,
-                                sortNodeParameters: SortNodeEnum.SortNodeParameters) {
+    override fun onSortSelected(
+        sortNodeEnum: SortNodeEnum,
+        sortNodeParameters: SortNodeEnum.SortNodeParameters
+    ) {
         // Save setting
         context?.let {
             PreferencesUtil.saveNodeSort(it, sortNodeEnum, sortNodeParameters)

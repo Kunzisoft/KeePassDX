@@ -195,9 +195,9 @@ class Group : Node, GroupVersionedInterface<Group, Entry> {
         return contained ?: false
     }
 
-    override fun nodeIndexInParentForNaturalOrder(): Int {
-        return groupKDB?.nodeIndexInParentForNaturalOrder()
-                ?: groupKDBX?.nodeIndexInParentForNaturalOrder()
+    override fun indexInParent(): Int {
+        return groupKDB?.indexInParent()
+                ?: groupKDBX?.indexInParent()
                 ?: -1
     }
 

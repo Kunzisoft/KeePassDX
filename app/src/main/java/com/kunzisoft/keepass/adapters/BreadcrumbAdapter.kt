@@ -30,18 +30,13 @@ import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.element.Tag
-import com.kunzisoft.keepass.database.element.node.DefaultNodeFilter
-import com.kunzisoft.keepass.database.element.node.EmptyNodeFilter
-import com.kunzisoft.keepass.database.element.node.NodeFilter
 import com.kunzisoft.keepass.icons.IconDrawableFactory
-import com.kunzisoft.keepass.model.GroupInfo
-import com.kunzisoft.keepass.model.SearchGroupInfo
+import com.kunzisoft.keepass.model.SortedGroupInfo
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.view.strikeOut
 
-class BreadcrumbAdapter(val context: Context, val database: ContextualDatabase?)
+class BreadcrumbAdapter(val context: Context)
     : RecyclerView.Adapter<BreadcrumbAdapter.BreadcrumbGroupViewHolder>() {
 
     private val inflater: LayoutInflater = LayoutInflater.from(context)
@@ -51,15 +46,14 @@ class BreadcrumbAdapter(val context: Context, val database: ContextualDatabase?)
             field = value
             notifyDataSetChanged()
         }
-    private var mNodeBreadcrumb: MutableList<GroupInfo> = mutableListOf()
-    var onItemClickListener: ((item: GroupInfo, position: Int)->Unit)? = null
-    var onLongItemClickListener: ((item: GroupInfo, position: Int)->Unit)? = null
+    private var mNodeBreadcrumb: MutableList<SortedGroupInfo> = mutableListOf()
+    var onItemClickListener: ((item: SortedGroupInfo, position: Int)->Unit)? = null
+    var onLongItemClickListener: ((item: SortedGroupInfo, position: Int)->Unit)? = null
 
     private var mShowNumberEntries = false
     private var mShowTags = false
     private var mShowUUID = false
     private var mRecursiveNumberOfEntries = false
-    private var mNodeFilter: NodeFilter = EmptyNodeFilter()
     private var mIconColor: Int = 0
 
     init {
@@ -67,11 +61,6 @@ class BreadcrumbAdapter(val context: Context, val database: ContextualDatabase?)
         mShowTags = PreferencesUtil.showTags(context)
         mShowUUID = PreferencesUtil.showUUID(context)
         mRecursiveNumberOfEntries = PreferencesUtil.recursiveNumberEntries(context)
-        mNodeFilter = DefaultNodeFilter(
-            database = database,
-            showExpired = PreferencesUtil.showExpiredEntries(context),
-            showTemplate = PreferencesUtil.showTemplates(context)
-        )
 
         // Retrieve the color to tint the icon
         val taIconColor = context.theme.obtainStyledAttributes(intArrayOf(R.attr.colorOnSurface))
@@ -80,7 +69,7 @@ class BreadcrumbAdapter(val context: Context, val database: ContextualDatabase?)
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    fun setNode(breadcrumb: List<GroupInfo>) {
+    fun setNode(breadcrumb: List<SortedGroupInfo>) {
         mNodeBreadcrumb.clear()
         mNodeBreadcrumb.addAll(breadcrumb)
         notifyDataSetChanged()
@@ -130,11 +119,7 @@ class BreadcrumbAdapter(val context: Context, val database: ContextualDatabase?)
 
         holder.groupNumbersView?.apply {
             if (mShowNumberEntries) {
-                text = database?.getNumberChildrenEntries(
-                    node = node,
-                    recursiveNumberOfEntries = mRecursiveNumberOfEntries,
-                    filter = mNodeFilter
-                ).toString()
+                text = node.numberOfChildEntries.toString()
                 visibility = View.VISIBLE
             } else {
                 visibility = View.GONE
@@ -169,10 +154,7 @@ class BreadcrumbAdapter(val context: Context, val database: ContextualDatabase?)
 
         holder.groupMetaView?.apply {
             val meta = node.nodeId.toVisualString()
-            visibility = if (meta != null
-                && node !is SearchGroupInfo
-                && mShowUUID
-            ) {
+            visibility = if (meta != null && mShowUUID) {
                 text = meta
                 View.VISIBLE
             } else {

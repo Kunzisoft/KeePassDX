@@ -175,9 +175,9 @@ class Entry : Node, EntryVersionedInterface<Group> {
         return contained ?: false
     }
 
-    override fun nodeIndexInParentForNaturalOrder(): Int {
-        return entryKDB?.nodeIndexInParentForNaturalOrder()
-                ?: entryKDBX?.nodeIndexInParentForNaturalOrder()
+    override fun indexInParent(): Int {
+        return entryKDB?.indexInParent()
+                ?: entryKDBX?.indexInParent()
                 ?: -1
     }
 

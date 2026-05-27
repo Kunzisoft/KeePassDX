@@ -26,19 +26,21 @@ import com.kunzisoft.keepass.database.element.DateInstant
 import com.kunzisoft.keepass.database.element.Tags
 import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.database.element.node.NodeId
+import com.kunzisoft.keepass.database.element.node.NodeTimeInterface
 import com.kunzisoft.keepass.utils.readBooleanCompat
 import com.kunzisoft.keepass.utils.readParcelableCompat
 import com.kunzisoft.keepass.utils.writeBooleanCompat
 
-abstract class NodeInfo() : Parcelable {
+abstract class NodeInfo() : NodeTimeInterface, Parcelable {
 
     abstract val nodeId: NodeId<*>
     var title: String = ""
     var icon: IconImage = IconImage()
-    var creationTime: DateInstant = DateInstant()
-    var lastModificationTime: DateInstant = DateInstant()
-    var expires: Boolean = false
-    var expiryTime: DateInstant = DateInstant.IN_ONE_MONTH_DATE_TIME
+    override var creationTime: DateInstant = DateInstant()
+    override var lastModificationTime: DateInstant = DateInstant()
+    override var lastAccessTime: DateInstant = DateInstant()
+    override var expires: Boolean = false
+    override var expiryTime: DateInstant = DateInstant.IN_ONE_MONTH_DATE_TIME
     var customData: CustomData = CustomData()
     var tags: Tags = Tags()
 
@@ -47,6 +49,7 @@ abstract class NodeInfo() : Parcelable {
         this.icon = IconImage(nodeToCopy.icon)
         this.creationTime = DateInstant(nodeToCopy.creationTime)
         this.lastModificationTime = DateInstant(nodeToCopy.lastModificationTime)
+        this.lastAccessTime = DateInstant(nodeToCopy.lastAccessTime)
         this.expires = nodeToCopy.expires
         this.expiryTime = DateInstant(nodeToCopy.expiryTime)
         this.customData = CustomData(nodeToCopy.customData)
@@ -58,6 +61,7 @@ abstract class NodeInfo() : Parcelable {
         icon = parcel.readParcelableCompat() ?: icon
         creationTime = parcel.readParcelableCompat() ?: creationTime
         lastModificationTime = parcel.readParcelableCompat() ?: lastModificationTime
+        lastAccessTime = parcel.readParcelableCompat() ?: lastAccessTime
         expires = parcel.readBooleanCompat()
         expiryTime = parcel.readParcelableCompat() ?: expiryTime
         customData = parcel.readParcelableCompat() ?: customData
@@ -69,13 +73,14 @@ abstract class NodeInfo() : Parcelable {
         parcel.writeParcelable(icon, flags)
         parcel.writeParcelable(creationTime, flags)
         parcel.writeParcelable(lastModificationTime, flags)
+        parcel.writeParcelable(lastAccessTime, flags)
         parcel.writeBooleanCompat(expires)
         parcel.writeParcelable(expiryTime, flags)
         parcel.writeParcelable(customData, flags)
         parcel.writeParcelable(tags, flags)
     }
 
-    val isCurrentlyExpires: Boolean =
+    override val isCurrentlyExpires: Boolean =
         expires && expiryTime.isCurrentlyExpire()
 
     override fun describeContents(): Int {
