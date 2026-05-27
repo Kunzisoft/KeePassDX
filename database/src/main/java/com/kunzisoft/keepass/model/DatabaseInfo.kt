@@ -285,11 +285,13 @@ open class DatabaseInfo: Database() {
             var currentNode = it
             listBreadcrumb.add(0,
                SortedGroupInfo(
-                    groupToCopy = getGroupInfoFrom(currentNode),
-                    numberChildrenEntries = it.getNumberOfChildEntries(
-                        recursive = recursiveNumberOfEntries,
-                        filter = nodeFilter.filter
-                    )
+                   groupToCopy = getGroupInfoFrom(currentNode),
+                   numberChildrenEntries = it.getNumberOfChildEntries(
+                       recursive = recursiveNumberOfEntries,
+                       filter = nodeFilter.filter
+                    ),
+                   indexInParent = it.indexInParent(),
+                   path = it.getPathString()
                 )
             )
             while (currentNode.containsParent()) {
@@ -301,7 +303,9 @@ open class DatabaseInfo: Database() {
                             numberChildrenEntries = parent.getNumberOfChildEntries(
                                 recursive = recursiveNumberOfEntries,
                                 filter = nodeFilter.filter
-                            )
+                            ),
+                            indexInParent = it.indexInParent(),
+                            path = it.getPathString()
                         )
                     )
                 }
@@ -331,10 +335,12 @@ open class DatabaseInfo: Database() {
                             recursive = recursiveNumberOfEntries,
                             filter = nodeFilter.filter
                         ),
+                        // No path here | path = it.getPathString(),
                         indexInParent = it.indexInParent()
                     )
                     is Entry -> SortedEntryInfo(
                         entryToCopy = getEntryInfoFrom(it),
+                        // No path here | path = it.getPathString(),
                         indexInParent = it.indexInParent()
                     )
                     else -> null

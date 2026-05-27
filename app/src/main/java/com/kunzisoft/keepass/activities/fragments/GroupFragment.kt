@@ -171,8 +171,8 @@ class GroupFragment : DatabaseFragment(), SortDialogFragment.SortSelectionListen
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 launch {
-                    mGroupViewModel.groupUIState.collect { superGroup ->
-                        superGroup.group?.let {
+                    mGroupViewModel.groupUIState.collect { groupUIState ->
+                        groupUIState.group?.let {
                             rebuildList()
                         }
                     }

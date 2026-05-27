@@ -222,6 +222,8 @@ class NodesAdapter(
                     && oldItem.expiryTime == newItem.expiryTime
                     && oldItem.expires == newItem.expires
                     && oldItem.isCurrentlyExpires == newItem.isCurrentlyExpires
+                    && oldItem.tags == newItem.tags
+                    && oldItem.path == newItem.path
         }
 
         override fun areItemsTheSame(item1: SortedNodeInfo, item2: SortedNodeInfo): Boolean {

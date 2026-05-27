@@ -286,7 +286,7 @@ class GroupViewModel(application: Application): AndroidViewModel(application) {
                     if (group != null) {
                         currentGroup = group
                         mSearchState = searchState
-                        val children = group.getSearchResults()
+                        children = group.getSearchResults()
                         withContext(Dispatchers.Main) {
                             _groupUIState.update { groupState ->
                                 groupState.copy(
