@@ -536,9 +536,9 @@
     <string name="unavailable_feature_version">此裝置使用 Android %1$s, 但需要 %2$s 或更高。</string>
     <string name="underline">強調</string>
     <string name="unit_byte">B</string>
-    <string name="unit_gibibyte">GB</string>
+    <string name="unit_gibibyte">GiB</string>
     <string name="unit_kibibyte">KB</string>
-    <string name="unit_mebibyte">MB</string>
+    <string name="unit_mebibyte">MiB</string>
     <string name="unsupported_db_version">不支援的資料庫版本。</string>
     <string name="upload_attachment">上傳 %1$s</string>
     <string name="uppercase">大寫</string>
@@ -744,4 +744,10 @@
     <string name="user_verification_database_credential">請輸入資料庫密碼的前四個字符</string>
     <string name="first_chars">首個字元</string>
     <string name="check">檢查</string>
+    <string name="content_description_share_url">分享網址</string>
+    <string name="show_tags_title">顯示標籤</string>
+    <string name="show_tags_summary">在條目列表中顯示標籤</string>
+    <string name="benchmark_calculation">計算 %1$s 秒</string>
+    <string name="benchmarking">正在進行基準測試…</string>
+    <string name="keyboard_share_browser">從 %1$s 分享到 KeePassDX</string>
 </resources>

@@ -751,4 +751,12 @@
     <string name="passkeys_missing_signature_app_ask_title">Thiếu chữ ký</string>
     <string name="passkeys_missing_signature_app_ask_message">Không thể nhận dạng %1$s để sử dụng khóa truy cập có sẵn.</string>
     <string name="passkeys_auto_select_title">Tự động chọn</string>
+    <string name="passkeys_backup_state_title">Trạng thái bản sao lưu</string>
+    <string name="credential_provider_service_subtitle">Dịch vụ cung cấp khoá truy cập, tự động điền</string>
+    <string name="user_verification">Xác minh người dùng</string>
+    <string name="user_verification_device_credential_title">Sử dụng thông tin xác minh người dùng</string>
+    <string name="user_verification_device_credential_summary">Sử dụng thông tin đăng nhập thiết bị để xác minh danh tính người dùng nếu có thể</string>
+    <string name="menu_user_verification_enabled">Đã bật xác minh danh tính người dùng</string>
+    <string name="menu_user_verification_disabled">Đã tắt xác minh danh tính người dùng</string>
+    <string name="check">Kiểm tra</string>
 </resources>
