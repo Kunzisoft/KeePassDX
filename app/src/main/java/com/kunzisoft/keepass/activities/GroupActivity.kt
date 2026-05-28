@@ -108,7 +108,9 @@ import com.kunzisoft.keepass.timeout.TimeoutHelper
 import com.kunzisoft.keepass.utils.BACK_PREVIOUS_KEYBOARD_ACTION
 import com.kunzisoft.keepass.utils.KeyboardUtil.showKeyboard
 import com.kunzisoft.keepass.utils.TimeUtil.datePickerToDataDate
+import com.kunzisoft.keepass.keeshare.KeeShareObserver
 import com.kunzisoft.keepass.utils.UriUtil.openUrl
+import com.kunzisoft.keepass.utils.UriUtil.takeUriPermission
 import com.kunzisoft.keepass.utils.getParcelableCompat
 import com.kunzisoft.keepass.utils.getParcelableExtraCompat
 import com.kunzisoft.keepass.utils.getParcelableList
@@ -140,6 +142,7 @@ class GroupActivity : DatabaseLockActivity(),
         GroupFragment.NodesActionMenuListener,
         GroupFragment.OnScrollListener,
         GroupFragment.GroupRefreshedListener,
+        GroupFragment.KeeShareIconClickListener,
         SortDialogFragment.SortSelectionListener {
 
     // Views
@@ -181,6 +184,9 @@ class GroupActivity : DatabaseLockActivity(),
 
     // Manage merge
     private var mExternalFileHelper: ExternalFileHelper? = null
+    private var mPendingKeeShareGroupUuid: String? = null
+    private var mKeeShareFileHelper: ExternalFileHelper? = null
+    private var mKeeShareObserver: KeeShareObserver? = null
 
     // Manage group
     private var mSearchState: SearchState? = null
@@ -352,6 +358,17 @@ class GroupActivity : DatabaseLockActivity(),
         mExternalFileHelper?.buildCreateDocument("application/x-keepass") { uri ->
             uri?.let {
                 saveDatabaseTo(it)
+            }
+        }
+
+        mKeeShareFileHelper = ExternalFileHelper(this)
+        mKeeShareFileHelper?.buildOpenDocument { uri ->
+            uri?.let { selectedUri ->
+                mPendingKeeShareGroupUuid?.let { groupUuid ->
+                    contentResolver?.takeUriPermission(selectedUri)
+                    PreferencesUtil.setKeeShareContainerUri(this, groupUuid, selectedUri.toString())
+                    mPendingKeeShareGroupUuid = null
+                }
             }
         }
 
@@ -672,6 +689,7 @@ class GroupActivity : DatabaseLockActivity(),
 
     override fun onDatabaseRetrieved(database: ContextualDatabase) {
         super.onDatabaseRetrieved(database)
+        startKeeShareObservers(database)
 
         mBreadcrumbAdapter = BreadcrumbAdapter(this, database).apply {
             // Open group on breadcrumb click
@@ -917,6 +935,25 @@ class GroupActivity : DatabaseLockActivity(),
     override fun onScrolled(dy: Int) {
         if (actionNodeMode == null)
             addNodeButtonView?.hideOrShowButtonOnScrollListener(dy)
+    }
+
+    private fun startKeeShareObservers(database: ContextualDatabase) {
+        mKeeShareObserver?.stopAll(contentResolver)
+        if (!database.supportsKeeShare) return
+        mKeeShareObserver = KeeShareObserver {
+            mDatabaseViewModel.mergeDatabase(false)
+        }
+        database.forEachGroupWithCustomData { group ->
+            val uriString = PreferencesUtil.getKeeShareContainerUri(this, group.nodeId.toString())
+            if (uriString != null) {
+                mKeeShareObserver?.observe(contentResolver, Uri.parse(uriString))
+            }
+        }
+    }
+
+    override fun onKeeShareIconClick(database: ContextualDatabase, group: Group) {
+        mPendingKeeShareGroupUuid = group.nodeId.toString()
+        mKeeShareFileHelper?.openDocument()
     }
 
     override fun onNodeClick(
@@ -1268,6 +1305,7 @@ class GroupActivity : DatabaseLockActivity(),
 
     override fun onPause() {
         super.onPause()
+        mKeeShareObserver?.stopAll(contentResolver)
 
         finishNodeAction()
         searchView?.setOnQueryTextListener(null)
