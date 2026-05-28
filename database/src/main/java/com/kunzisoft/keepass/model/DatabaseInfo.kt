@@ -30,7 +30,11 @@ import com.kunzisoft.keepass.database.element.node.Node
 import com.kunzisoft.keepass.database.element.node.NodeFilter
 import com.kunzisoft.keepass.database.search.SearchHelper
 import com.kunzisoft.keepass.database.search.SearchParameters
+import com.kunzisoft.keepass.model.CreditCardEntryFields.setCreditCard
+import com.kunzisoft.keepass.model.PasskeyEntryFields.setPasskey
+import com.kunzisoft.keepass.otp.OtpElement
 import com.kunzisoft.keepass.otp.OtpEntryFields
+import com.kunzisoft.keepass.otp.OtpEntryFields.setOtp
 
 /**
  * Database utility class to manage database information and conversion between elements and info objects.
@@ -461,6 +465,20 @@ open class DatabaseInfo: Database() {
         private fun Entry.saveEntryInfo(database: DatabaseInfo, newEntryInfo: EntryInfo) {
             database.startManageEntry(this)
 
+            // Ensure custom fields are populated from custom objects if they are missing
+            newEntryInfo.passkey?.let {
+                newEntryInfo.setPasskey(it)
+            }
+            newEntryInfo.creditCard?.let {
+                newEntryInfo.setCreditCard(it)
+            }
+            newEntryInfo.otpModel?.let {
+                newEntryInfo.setOtp(OtpEntryFields.buildOtpField(OtpElement(it)).protectedValue.toString())
+            }
+            newEntryInfo.appOrigin?.let {
+                newEntryInfo.saveAppOrigin(it, database.allowEntryCustomFields())
+            }
+
             removeAllFields()
             removeAllAttachments()
             // NodeId stay as is
@@ -481,8 +499,7 @@ open class DatabaseInfo: Database() {
             customData = newEntryInfo.customData
             autoType = newEntryInfo.autoType
             addExtraFields(newEntryInfo.customFields)
-            // WARNING : Custom objects like creditCard, passkey and appOrigin are not directly saved
-            // Priority to custom fields
+
             newEntryInfo.attachments.forEach { attachment ->
                 putAttachment(attachment, database.attachmentPool)
             }

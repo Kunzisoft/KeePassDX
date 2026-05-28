@@ -745,4 +745,10 @@
     <string name="menu_user_verification_disabled">אימות משתמש מכובה</string>
     <string name="education_user_verification_title">אימות עבור פעולות רגישות</string>
     <string name="education_user_verification_summary">שינוי מצב אימות משתמש עבור ההפעלה.\n\n\"אימות משתמש מופעל\" מאמת פעולה על שדות מוגנים והגדרות מסד נתונים.\n\"אימות משתמש מושבת\" מאפשר לך לשנות את כל הנתונים במסד הנתונים שלך ללא אימות.</string>
+    <string name="content_description_share_url">שתף URL</string>
+    <string name="show_tags_title">הצג תגיות</string>
+    <string name="show_tags_summary">מציג תגיות ברשימת הערכים</string>
+    <string name="benchmark_calculation">חשב עבור %1$s s</string>
+    <string name="benchmarking">מבצע מדידת ביצועים…</string>
+    <string name="keyboard_share_browser">שתף מ־ %1$s ל־KeePassDX</string>
 </resources>
