@@ -119,6 +119,7 @@ class GroupFragment : DatabaseFragment(), SortDialogFragment.SortSelectionListen
                         return true
                     }
                 })
+                setActionNodes(mGroupViewModel.actionsNodes.value)
             }
             mNodesRecyclerView?.adapter = mAdapter
         }

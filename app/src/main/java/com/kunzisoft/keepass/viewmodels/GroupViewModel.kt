@@ -23,12 +23,8 @@ import android.app.Application
 import android.app.SearchManager
 import android.content.Intent
 import android.util.Log
-import android.view.Menu
-import android.view.MenuItem
-import androidx.appcompat.view.ActionMode
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
-import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.GroupActivity.Companion.retrieveAutoSearch
 import com.kunzisoft.keepass.activities.GroupActivity.SearchState
 import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper.retrieveSearchInfo
@@ -42,7 +38,6 @@ import com.kunzisoft.keepass.database.helper.SearchHelper.getSearchParametersFro
 import com.kunzisoft.keepass.database.search.SearchParameters
 import com.kunzisoft.keepass.model.GroupInfo
 import com.kunzisoft.keepass.model.NodeInfo
-import com.kunzisoft.keepass.model.SearchGroupInfo
 import com.kunzisoft.keepass.model.SearchInfo
 import com.kunzisoft.keepass.model.SortedGroupInfo
 import com.kunzisoft.keepass.model.SortedNodeInfo
@@ -102,13 +97,11 @@ class GroupViewModel(application: Application): AndroidViewModel(application) {
     /*
      * Manage action in group
      */
-    var nodeActionSelectionMode = false
-        private set
-    var nodeActionPasteMode: PasteMode = PasteMode.UNDEFINED
-        private set
-    private val listActionNodes = mutableListOf<SortedNodeInfo>()
-    private val listPasteNodes = mutableListOf<SortedNodeInfo>()
-    var actionNodeMode: ActionMode? = null
+    private val _nodeActionState = MutableStateFlow(NodeActionState())
+    val nodeActionState: StateFlow<NodeActionState> = _nodeActionState.asStateFlow()
+
+    val nodeActionSelectionMode: Boolean
+        get() = _nodeActionState.value.selectionMode
 
     private val _groupUIState = MutableStateFlow<GroupUISTate>(GroupUISTate())
     val groupUIState: StateFlow<GroupUISTate> = _groupUIState.asStateFlow()
@@ -136,9 +129,6 @@ class GroupViewModel(application: Application): AndroidViewModel(application) {
 
     private val _requestPaste = MutableSharedFlow<PasteAction>(replay = 0)
     val requestPasteNodes: SharedFlow<PasteAction> = _requestPaste.asSharedFlow()
-
-    private val _provideNodeActionCallback = MutableSharedFlow<ActionMode.Callback>(replay = 0)
-    val provideNodeActionCallback: SharedFlow<ActionMode.Callback> = _provideNodeActionCallback.asSharedFlow()
 
     private val _requestAddSearch = MutableSharedFlow<Unit>(replay = 0)
     val addSearch: SharedFlow<Unit> = _requestAddSearch.asSharedFlow()
@@ -421,16 +411,18 @@ class GroupViewModel(application: Application): AndroidViewModel(application) {
         node: SortedNodeInfo
     ) {
         viewModelScope.launch {
-            if (nodeActionSelectionMode) {
-                if (listActionNodes.contains(node)) {
+            val state = _nodeActionState.value
+            if (state.selectionMode) {
+                val selectedNodes = state.selectedNodes.toMutableList()
+                if (selectedNodes.contains(node)) {
                     // Remove selected item if already selected
-                    listActionNodes.remove(node)
+                    selectedNodes.remove(node)
                 } else {
                     // Add selected item if not already selected
-                    listActionNodes.add(node)
+                    selectedNodes.add(node)
                 }
-                selectNodes(database, listActionNodes)
-                _actionsNodes.value = listActionNodes.toList()
+                selectNodes(database, selectedNodes)
+                _actionsNodes.value = selectedNodes.toList()
             } else {
                 _requestOpenNode.emit(node)
             }
@@ -442,158 +434,17 @@ class GroupViewModel(application: Application): AndroidViewModel(application) {
         node: SortedNodeInfo
     ): Boolean {
         viewModelScope.launch {
-            if (nodeActionPasteMode == PasteMode.UNDEFINED) {
+            if (_nodeActionState.value.pasteMode == PasteMode.UNDEFINED) {
                 // Select the first item after a long click
-                if (!listActionNodes.contains(node))
-                    listActionNodes.add(node)
-                selectNodes(database, listActionNodes)
-                _actionsNodes.value = listActionNodes.toList()
+                val selectedNodes = _nodeActionState.value.selectedNodes.toMutableList()
+                if (!selectedNodes.contains(node))
+                    selectedNodes.add(node)
+                selectNodes(database, selectedNodes)
+                _actionsNodes.value = selectedNodes.toList()
                 _showKeyboard.emit(false)
             }
         }
         return true
-    }
-
-    private fun containsRecycleBin(
-        database: ContextualDatabase?,
-        nodes: List<NodeInfo>
-    ): Boolean {
-        return nodes.any { it is GroupInfo && it.isRecycleBin(database) }
-    }
-
-    private fun actionNodesCallback(
-        database: ContextualDatabase,
-        nodes: List<NodeInfo>
-    ) : ActionMode.Callback {
-
-        return object : ActionMode.Callback {
-
-            override fun onCreateActionMode(mode: ActionMode?, menu: Menu?): Boolean {
-                _groupUIState.update { groupState ->
-                    groupState.copy(showAddNodeButton = false)
-                }
-                nodeActionSelectionMode = false
-                nodeActionPasteMode = PasteMode.UNDEFINED
-                return true
-            }
-
-            override fun onPrepareActionMode(mode: ActionMode?, menu: Menu?): Boolean {
-                menu?.clear()
-                if (nodeActionPasteMode != PasteMode.UNDEFINED) {
-                    mode?.menuInflater?.inflate(R.menu.node_paste_menu, menu)
-                } else {
-                    nodeActionSelectionMode = true
-                    mode?.menuInflater?.inflate(R.menu.node_menu, menu)
-
-                    // Open and Edit for a single item
-                    if (nodes.size == 1) {
-                        // Edition
-                        if (database.isReadOnly || containsRecycleBin(database, nodes)) {
-                            menu?.removeItem(R.id.menu_edit)
-                        }
-                    } else {
-                        menu?.removeItem(R.id.menu_open)
-                        menu?.removeItem(R.id.menu_edit)
-                    }
-
-                    // Move
-                    if (database.isReadOnly) {
-                        menu?.removeItem(R.id.menu_move)
-                    }
-
-                    // Copy (not allowed for group)
-                    if (database.isReadOnly
-                        || nodes.any { it is GroupInfo }) {
-                        menu?.removeItem(R.id.menu_copy)
-                    }
-
-                    // Deletion
-                    if (database.isReadOnly || containsRecycleBin(database, nodes)) {
-                        menu?.removeItem(R.id.menu_delete)
-                    }
-                }
-
-                // Add the number of items selected in title
-                mode?.title = nodes.size.toString()
-                return true
-            }
-
-            override fun onActionItemClicked(mode: ActionMode?, item: MenuItem?): Boolean {
-                val node = nodes[0]
-                return when (item?.itemId) {
-                    R.id.menu_open -> {
-                        finishNodeAction()
-                        viewModelScope.launch {
-                            // TODO prevent cast
-                            _requestOpenNode.emit(node as SortedNodeInfo)
-                        }
-                        true
-                    }
-                    R.id.menu_edit -> {
-                        finishNodeAction()
-                        viewModelScope.launch {
-                            _requestEditNode.emit(node)
-                        }
-                        true
-                    }
-                    R.id.menu_copy -> {
-                        nodeActionPasteMode = PasteMode.PASTE_FROM_COPY
-                        //_removeNodeAction.emit(Unit)
-                        invalidateNodeAction()
-                        viewModelScope.launch {
-                            _requestCopyNodes.emit(nodes)
-                        }
-                        nodeActionSelectionMode = false
-                        true
-                    }
-                    R.id.menu_move -> {
-                        nodeActionPasteMode = PasteMode.PASTE_FROM_MOVE
-                        //_removeNodeAction.emit(Unit)
-                        invalidateNodeAction()
-                        viewModelScope.launch {
-                            _requestMoveNodes.emit(nodes)
-                        }
-                        nodeActionSelectionMode = false
-                        true
-                    }
-                    R.id.menu_delete -> {
-                        viewModelScope.launch {
-                            _requestDeleteNodes.emit(nodes)
-                        }
-                        finishNodeAction()
-                        true
-                    }
-                    R.id.menu_paste -> {
-                        mainGroup?.nodeId?.let { parentId ->
-                            viewModelScope.launch {
-                                _requestPaste.emit(
-                                    PasteAction(
-                                        nodeActionPasteMode,
-                                        parentId,
-                                        nodes
-                                    )
-                                )
-                            }
-                            finishNodeAction()
-                            nodeActionPasteMode = PasteMode.UNDEFINED
-                            nodeActionSelectionMode = false
-                        }
-                        true
-                    }
-                    else -> false
-                }
-            }
-
-            override fun onDestroyActionMode(mode: ActionMode?) {
-                viewModelScope.launch {
-                    _removeNodeAction.emit(Unit)
-                }
-                clearNodeAction()
-                _groupUIState.update { groupState ->
-                    groupState.copy(showAddNodeButton = mAddNodeButtonAllowed)
-                }
-            }
-        }
     }
 
     fun selectNodes(
@@ -601,17 +452,12 @@ class GroupViewModel(application: Application): AndroidViewModel(application) {
         nodes: List<SortedNodeInfo>
     ): Boolean {
         if (nodes.isNotEmpty()) {
-            if (!actionNodeInProgress()) {
-                viewModelScope.launch {
-                    _provideNodeActionCallback.emit(
-                        actionNodesCallback(
-                            database,
-                            nodes as List<NodeInfo> // TODO Prevent cast
-                        )
-                    )
-                }
-            } else {
-                invalidateNodeAction()
+            _nodeActionState.update {
+                it.copy(
+                    isActive = true,
+                    selectionMode = it.pasteMode == PasteMode.UNDEFINED,
+                    selectedNodes = nodes
+                )
             }
         } else {
             finishNodeAction()
@@ -619,30 +465,119 @@ class GroupViewModel(application: Application): AndroidViewModel(application) {
         return true
     }
 
-    fun recycleBinActionsAllowed(): Boolean = mRecycleBinAllowed && mRecyclingBinIsCurrentGroup
+    fun onOpenNodeClicked() {
+        val nodes = _nodeActionState.value.selectedNodes
+        if (nodes.isNotEmpty()) {
+            finishNodeAction()
+            viewModelScope.launch {
+                _requestOpenNode.emit(nodes[0])
+            }
+        }
+    }
+
+    fun onEditNodeClicked() {
+        val nodes = _nodeActionState.value.selectedNodes
+        if (nodes.isNotEmpty()) {
+            finishNodeAction()
+            viewModelScope.launch {
+                (nodes[0] as? NodeInfo)?.let {
+                    _requestEditNode.emit(it)
+                }
+            }
+        }
+    }
+
+    fun onCopyNodesClicked() {
+        val nodes = _nodeActionState.value.selectedNodes
+        if (nodes.isNotEmpty()) {
+            _nodeActionState.update {
+                it.copy(
+                    selectionMode = false,
+                    pasteMode = PasteMode.PASTE_FROM_COPY
+                )
+            }
+            viewModelScope.launch {
+                _requestCopyNodes.emit(nodes.filterIsInstance<NodeInfo>())
+            }
+        }
+    }
+
+    fun onMoveNodesClicked() {
+        val nodes = _nodeActionState.value.selectedNodes
+        if (nodes.isNotEmpty()) {
+            _nodeActionState.update {
+                it.copy(
+                    selectionMode = false,
+                    pasteMode = PasteMode.PASTE_FROM_MOVE
+                )
+            }
+            viewModelScope.launch {
+                _requestMoveNodes.emit(nodes.filterIsInstance<NodeInfo>())
+            }
+        }
+    }
+
+    fun onDeleteNodesClicked() {
+        val nodes = _nodeActionState.value.selectedNodes
+        if (nodes.isNotEmpty()) {
+            viewModelScope.launch {
+                _requestDeleteNodes.emit(nodes.filterIsInstance<NodeInfo>())
+            }
+            finishNodeAction()
+        }
+    }
+
+    fun onPasteNodesClicked() {
+        val state = _nodeActionState.value
+        mainGroup?.nodeId?.let { parentId ->
+            viewModelScope.launch {
+                _requestPaste.emit(
+                    PasteAction(
+                        state.pasteMode,
+                        parentId,
+                        state.selectedNodes.filterIsInstance<NodeInfo>()
+                    )
+                )
+            }
+            finishNodeAction()
+        }
+    }
+
+    fun onActionCreated() {
+        _groupUIState.update { groupState ->
+            groupState.copy(showAddNodeButton = false)
+        }
+    }
+
+    fun onActionDestroyed() {
+        viewModelScope.launch {
+            _removeNodeAction.emit(Unit)
+        }
+        clearNodeAction()
+        _groupUIState.update { groupState ->
+            groupState.copy(showAddNodeButton = mAddNodeButtonAllowed)
+        }
+    }
 
     fun actionNodeInProgress(): Boolean {
-        return actionNodeMode != null
-    }
-
-    fun setNodeAction(actionNodeMode: ActionMode?) {
-        this.actionNodeMode = actionNodeMode
-    }
-
-    fun invalidateNodeAction() {
-        actionNodeMode?.invalidate()
+        return _nodeActionState.value.isActive
     }
 
     fun finishNodeAction() {
-        actionNodeMode?.finish()
+        _nodeActionState.update { it.copy(isActive = false) }
     }
 
     fun clearNodeAction() {
-        listActionNodes.clear()
-        listPasteNodes.clear()
-        actionNodeMode = null
-        nodeActionPasteMode = PasteMode.UNDEFINED
-        nodeActionSelectionMode = false
+        _nodeActionState.value = NodeActionState()
+    }
+
+    fun recycleBinActionsAllowed(): Boolean = mRecycleBinAllowed && mRecyclingBinIsCurrentGroup
+
+    fun containsRecycleBin(
+        database: ContextualDatabase?,
+        nodes: List<NodeInfo>
+    ): Boolean {
+        return nodes.any { it is GroupInfo && it.isRecycleBin(database) }
     }
 
     fun previousGroupExists(): Boolean = mPreviousGroupsStates.isNotEmpty()
@@ -667,6 +602,13 @@ class GroupViewModel(application: Application): AndroidViewModel(application) {
         mSearchState = null
         mTempSearchInfo = false
     }
+
+    data class NodeActionState(
+        val isActive: Boolean = false,
+        val selectionMode: Boolean = false,
+        val pasteMode: PasteMode = PasteMode.UNDEFINED,
+        val selectedNodes: List<SortedNodeInfo> = emptyList()
+    )
 
     data class GroupUISTate(
         val loaded: Boolean = false,

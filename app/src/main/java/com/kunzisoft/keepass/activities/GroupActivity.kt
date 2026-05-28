@@ -42,6 +42,7 @@ import android.widget.TextView
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.viewModels
 import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.view.ActionMode
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -89,6 +90,7 @@ import com.kunzisoft.keepass.education.GroupActivityEducation
 import com.kunzisoft.keepass.model.DataTime
 import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.model.GroupInfo
+import com.kunzisoft.keepass.model.NodeInfo
 import com.kunzisoft.keepass.model.RegisterInfo
 import com.kunzisoft.keepass.model.SearchGroupInfo
 import com.kunzisoft.keepass.model.SearchInfo
@@ -166,6 +168,8 @@ class GroupActivity : DatabaseLockActivity(),
 
     private var mGroupFragment: GroupFragment? = null
 
+    private var activeActionMode: ActionMode? = null
+
     // Manage merge
     private var mExternalFileHelper: ExternalFileHelper? = null
 
@@ -226,6 +230,92 @@ class GroupActivity : DatabaseLockActivity(),
             // Simply refresh the list when entry is updated
             loadGroup()
         } ?: Log.e(this.javaClass.name, "Entry cannot be retrieved in Activity Result")
+    }
+
+    private val actionModeCallback = object : ActionMode.Callback {
+        override fun onCreateActionMode(mode: ActionMode?, menu: Menu?): Boolean {
+            mGroupViewModel.onActionCreated()
+            return true
+        }
+
+        override fun onPrepareActionMode(mode: ActionMode?, menu: Menu?): Boolean {
+            val database = mDatabase ?: return false
+            val state = mGroupViewModel.nodeActionState.value
+            val nodes = state.selectedNodes
+
+            menu?.clear()
+            if (state.pasteMode != PasteMode.UNDEFINED) {
+                mode?.menuInflater?.inflate(R.menu.node_paste_menu, menu)
+            } else {
+                mode?.menuInflater?.inflate(R.menu.node_menu, menu)
+
+                // Open and Edit for a single item
+                if (nodes.size == 1) {
+                    // Edition
+                    if (database.isReadOnly || mGroupViewModel.containsRecycleBin(database, nodes.filterIsInstance<NodeInfo>())) {
+                        menu?.removeItem(R.id.menu_edit)
+                    }
+                } else {
+                    menu?.removeItem(R.id.menu_open)
+                    menu?.removeItem(R.id.menu_edit)
+                }
+
+                // Move
+                if (database.isReadOnly) {
+                    menu?.removeItem(R.id.menu_move)
+                }
+
+                // Copy (not allowed for group)
+                if (database.isReadOnly
+                    || nodes.any { it is GroupInfo }) {
+                    menu?.removeItem(R.id.menu_copy)
+                }
+
+                // Deletion
+                if (database.isReadOnly || mGroupViewModel.containsRecycleBin(database, nodes.filterIsInstance<NodeInfo>())) {
+                    menu?.removeItem(R.id.menu_delete)
+                }
+            }
+
+            // Add the number of items selected in title
+            mode?.title = nodes.size.toString()
+            return true
+        }
+
+        override fun onActionItemClicked(mode: ActionMode?, item: MenuItem?): Boolean {
+            return when (item?.itemId) {
+                R.id.menu_open -> {
+                    mGroupViewModel.onOpenNodeClicked()
+                    true
+                }
+                R.id.menu_edit -> {
+                    mGroupViewModel.onEditNodeClicked()
+                    true
+                }
+                R.id.menu_copy -> {
+                    mGroupViewModel.onCopyNodesClicked()
+                    true
+                }
+                R.id.menu_move -> {
+                    mGroupViewModel.onMoveNodesClicked()
+                    true
+                }
+                R.id.menu_delete -> {
+                    mGroupViewModel.onDeleteNodesClicked()
+                    true
+                }
+                R.id.menu_paste -> {
+                    mGroupViewModel.onPasteNodesClicked()
+                    true
+                }
+                else -> false
+            }
+        }
+
+        override fun onDestroyActionMode(mode: ActionMode?) {
+            mGroupViewModel.onActionDestroyed()
+            activeActionMode = null
+        }
     }
 
     private fun addSearch() {
@@ -521,15 +611,15 @@ class GroupActivity : DatabaseLockActivity(),
                     }
                 }
                 launch {
-                    mGroupViewModel.provideNodeActionCallback.collect { callback ->
-                        mGroupViewModel.setNodeAction(
-                            toolbarAction?.startSupportActionMode(callback)
-                        )
-                    }
-                }
-                launch {
-                    mGroupViewModel.removeNodeAction.collect {
-                        toolbarAction?.stopSupportActionMode()
+                    mGroupViewModel.nodeActionState.collect { state ->
+                        if (state.isActive) {
+                            if (activeActionMode == null) {
+                                activeActionMode = toolbarAction?.startSupportActionMode(actionModeCallback)
+                            }
+                            activeActionMode?.invalidate()
+                        } else {
+                            activeActionMode?.finish()
+                        }
                     }
                 }
                 launch {
@@ -1005,7 +1095,6 @@ class GroupActivity : DatabaseLockActivity(),
     override fun onPause() {
         super.onPause()
 
-        finishNodeAction()
         searchView?.setOnQueryTextListener(null)
         if (!mGroupViewModel.mTempSearchInfo) {
             searchFiltersView?.saveSearchParameters()
