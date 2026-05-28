@@ -167,6 +167,8 @@ class GroupFragment : DatabaseFragment(), SortDialogFragment.SortSelectionListen
                                         nodeFilter = mNodeFilter
                                     )
                                 }
+                                // Direct action node selection after rebuild
+                                mAdapter?.setActionNodes(mGroupViewModel.actionsNodes.value)
                                 if (currentGroup is SearchGroupInfo
                                     && mAdapter != null
                                     && mAdapter!!.isEmpty) {

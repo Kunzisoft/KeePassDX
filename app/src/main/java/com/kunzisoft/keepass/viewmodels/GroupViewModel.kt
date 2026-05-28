@@ -46,9 +46,12 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -100,14 +103,16 @@ class GroupViewModel(application: Application): AndroidViewModel(application) {
     private val _nodeActionState = MutableStateFlow(NodeActionState())
     val nodeActionState: StateFlow<NodeActionState> = _nodeActionState.asStateFlow()
 
+    // Derived StateFlow from nodeActionState.selectedNodes to keep sync
+    val actionsNodes: StateFlow<List<SortedNodeInfo>> = nodeActionState
+        .map { it.selectedNodes }
+        .stateIn(viewModelScope, SharingStarted.Lazily, listOf())
+
     val nodeActionSelectionMode: Boolean
         get() = _nodeActionState.value.selectionMode
 
     private val _groupUIState = MutableStateFlow<GroupUISTate>(GroupUISTate())
     val groupUIState: StateFlow<GroupUISTate> = _groupUIState.asStateFlow()
-
-    private val _actionsNodes = MutableStateFlow<List<SortedNodeInfo>>(listOf())
-    val actionsNodes: StateFlow<List<SortedNodeInfo>> = _actionsNodes.asStateFlow()
 
     private val _removeNodeAction = MutableSharedFlow<Unit>(replay = 0)
     val removeNodeAction: SharedFlow<Unit> = _removeNodeAction.asSharedFlow()
@@ -173,7 +178,6 @@ class GroupViewModel(application: Application): AndroidViewModel(application) {
 
     fun loadGroup() {
         if (mSearchState != null) {
-            finishNodeAction()
             loadSearch(mDatabase)
         } else loadMainGroup(mDatabase)
     }
@@ -350,7 +354,6 @@ class GroupViewModel(application: Application): AndroidViewModel(application) {
     }
 
     fun assignSearchParameters(searchParameters: SearchParameters?) {
-        finishNodeAction()
         if (mSearchState == null) {
             mSearchState = SearchState(
                 searchParameters ?: mDefaultSearchParameters,
@@ -414,15 +417,15 @@ class GroupViewModel(application: Application): AndroidViewModel(application) {
             val state = _nodeActionState.value
             if (state.selectionMode) {
                 val selectedNodes = state.selectedNodes.toMutableList()
-                if (selectedNodes.contains(node)) {
+                val existingNode = selectedNodes.find { it.nodeId == node.nodeId }
+                if (existingNode != null) {
                     // Remove selected item if already selected
-                    selectedNodes.remove(node)
+                    selectedNodes.remove(existingNode)
                 } else {
                     // Add selected item if not already selected
                     selectedNodes.add(node)
                 }
                 selectNodes(database, selectedNodes)
-                _actionsNodes.value = selectedNodes.toList()
             } else {
                 _requestOpenNode.emit(node)
             }
@@ -437,10 +440,9 @@ class GroupViewModel(application: Application): AndroidViewModel(application) {
             if (_nodeActionState.value.pasteMode == PasteMode.UNDEFINED) {
                 // Select the first item after a long click
                 val selectedNodes = _nodeActionState.value.selectedNodes.toMutableList()
-                if (!selectedNodes.contains(node))
+                if (selectedNodes.none { it.nodeId == node.nodeId })
                     selectedNodes.add(node)
                 selectNodes(database, selectedNodes)
-                _actionsNodes.value = selectedNodes.toList()
                 _showKeyboard.emit(false)
             }
         }

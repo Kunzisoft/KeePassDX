@@ -42,6 +42,7 @@ import com.kunzisoft.keepass.database.element.SortNodeEnum
 import com.kunzisoft.keepass.database.element.Tag
 import com.kunzisoft.keepass.database.element.node.EmptyNodeFilter
 import com.kunzisoft.keepass.database.element.node.NodeFilter
+import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.node.NodeType
 import com.kunzisoft.keepass.database.element.template.TemplateField
 import com.kunzisoft.keepass.database.helper.getLocalizedName
@@ -92,6 +93,7 @@ class NodesAdapter(
     private var mVirtualGroup = false
 
     private var mActionNodesList = mutableListOf<SortedNodeInfo>()
+    private var mActionNodeIds = mutableSetOf<NodeId<*>>()
     private var mNodeClickCallback: NodeClickCallback? = null
     private var mClipboardHelper = ClipboardHelper(context)
 
@@ -227,25 +229,36 @@ class NodesAdapter(
         }
 
         override fun areItemsTheSame(item1: SortedNodeInfo, item2: SortedNodeInfo): Boolean {
-            return item1 == item2
+            return item1.nodeId == item2.nodeId
         }
     }
 
     fun notifyNodeChanged(node: SortedNodeInfo) {
-        notifyItemChanged(mNodeSortedList.indexOf(node))
+        for (i in 0 until mNodeSortedList.size()) {
+            if (mNodeSortedList.get(i).nodeId == node.nodeId) {
+                notifyItemChanged(i)
+                break
+            }
+        }
     }
 
     fun setActionNodes(actionNodes: List<SortedNodeInfo>) {
-        val oldIds = mActionNodesList.map { it.nodeId }.toSet()
+        val oldIds = mActionNodeIds.toSet()
         val newIds = actionNodes.map { it.nodeId }.toSet()
 
         val nodesToUpdate = mutableSetOf<SortedNodeInfo>()
+        // Items that were selected and now are not
         mActionNodesList.forEach { if (it.nodeId !in newIds) nodesToUpdate.add(it) }
+        // Items that were not selected and now are
         actionNodes.forEach { if (it.nodeId !in oldIds) nodesToUpdate.add(it) }
 
         this.mActionNodesList.apply {
             clear()
             addAll(actionNodes)
+        }
+        this.mActionNodeIds.apply {
+            clear()
+            addAll(newIds)
         }
         nodesToUpdate.forEach {
             notifyNodeChanged(it)
@@ -294,7 +307,7 @@ class NodesAdapter(
         val node = mNodeSortedList.get(position)
 
         // Node selection
-        val isSelected = mActionNodesList.any { it.nodeId == node.nodeId }
+        val isSelected = mActionNodeIds.contains(node.nodeId)
         holder.container.isSelected = isSelected
 
         // Assign text

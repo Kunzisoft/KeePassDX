@@ -20,7 +20,6 @@
 package com.kunzisoft.keepass.model
 
 import com.kunzisoft.keepass.database.element.Database
-import com.kunzisoft.keepass.database.element.DateInstant
 import com.kunzisoft.keepass.database.element.Entry
 import com.kunzisoft.keepass.database.element.EntryId
 import com.kunzisoft.keepass.database.element.Group
@@ -488,7 +487,7 @@ open class DatabaseInfo: Database() {
             password = newEntryInfo.password
             // Update date time, creation time stay as is
             lastModificationTime = newEntryInfo.lastModificationTime
-            lastAccessTime = DateInstant()
+            lastAccessTime = newEntryInfo.lastAccessTime
             expires = newEntryInfo.expires
             expiryTime = newEntryInfo.expiryTime
             url = newEntryInfo.url
@@ -519,7 +518,7 @@ open class DatabaseInfo: Database() {
             icon = groupInfo.icon
             creationTime = groupInfo.creationTime
             lastModificationTime = groupInfo.lastModificationTime
-            lastAccessTime = DateInstant()
+            lastAccessTime = groupInfo.lastAccessTime
             expires = groupInfo.expires
             expiryTime = groupInfo.expiryTime
             customData = groupInfo.customData
