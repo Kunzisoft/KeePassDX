@@ -37,11 +37,14 @@ import com.kunzisoft.keepass.model.AppOrigin
 import com.kunzisoft.keepass.model.AppOriginEntryField
 import com.kunzisoft.keepass.model.CreditCard
 import com.kunzisoft.keepass.model.CreditCardEntryFields
+import com.kunzisoft.keepass.model.CreditCardEntryFields.setCreditCard
 import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.model.Passkey
 import com.kunzisoft.keepass.model.PasskeyEntryFields
+import com.kunzisoft.keepass.model.PasskeyEntryFields.setPasskey
 import com.kunzisoft.keepass.otp.OtpElement
 import com.kunzisoft.keepass.otp.OtpEntryFields
+import com.kunzisoft.keepass.otp.OtpEntryFields.setOtp
 import com.kunzisoft.keepass.utils.StringUtil.toFormattedColorInt
 import com.kunzisoft.keepass.utils.StringUtil.toFormattedColorString
 import com.kunzisoft.keepass.utils.readParcelableCompat
@@ -525,6 +528,20 @@ class Entry : Node, EntryVersionedInterface<Group> {
     fun setEntryInfo(database: Database?, newEntryInfo: EntryInfo) {
         database?.startManageEntry(this)
 
+        // Ensure custom fields are populated from custom objects if they are missing
+        newEntryInfo.passkey?.let {
+            newEntryInfo.setPasskey(it)
+        }
+        newEntryInfo.creditCard?.let {
+            newEntryInfo.setCreditCard(it)
+        }
+        newEntryInfo.otpModel?.let {
+            newEntryInfo.setOtp(OtpEntryFields.buildOtpField(OtpElement(it)).protectedValue.toString())
+        }
+        newEntryInfo.appOrigin?.let {
+            newEntryInfo.saveAppOrigin(database, it)
+        }
+
         removeAllFields()
         removeAllAttachments()
         // NodeId stay as is
@@ -545,8 +562,7 @@ class Entry : Node, EntryVersionedInterface<Group> {
         customData = newEntryInfo.customData
         autoType = newEntryInfo.autoType
         addExtraFields(newEntryInfo.customFields)
-        // WARNING : Custom objects like creditCard, passkey and appOrigin are not directly saved
-        // Priority to custom fields
+
         database?.attachmentPool?.let { binaryPool ->
             newEntryInfo.attachments.forEach { attachment ->
                 putAttachment(attachment, binaryPool)

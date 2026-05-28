@@ -397,7 +397,7 @@
     <string name="contact">Kontakt</string>
     <string name="contribution">Bidrag</string>
     <string name="feedback">Tilbagemelding</string>
-    <string name="html_about_licence">KeePassDX ©%1$d Kunzisoft er &lt;strong&gt;open source&lt;/strong&gt; og &lt;strong&gt;uden reklamer&lt;/strong&gt;.
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft er &lt;strong&gt;open source&lt;/strong&gt; og &lt;strong&gt;uden reklamer&lt;/strong&gt;.
 \nDen leveres som den er, under &lt;strong&gt;GPLv3&lt;/strong&gt; licens, uden nogen form for garanti.</string>
     <string name="html_about_contribution">For at &lt;strong&gt;vi kan bevare vores frihed&lt;/strong&gt;, &lt;strong&gt;rette fejl&lt;/strong&gt;, &lt;strong&gt;tilføje funktioner&lt;/strong&gt; og &lt;strong&gt;altid være aktive&lt;/strong&gt;, er vi afhængige af &lt;strong&gt;bidrag&lt;/strong&gt;.</string>
     <string name="auto_focus_search_title">Hurtig søgning</string>

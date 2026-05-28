@@ -1,0 +1,3 @@
+ * Fix a Passkey reference #2554
+ * Add browser in the list of privileged apps #2533
+ * Small fixes
