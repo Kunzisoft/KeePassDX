@@ -46,6 +46,7 @@ import com.kunzisoft.keepass.database.element.node.Node
 import com.kunzisoft.keepass.database.element.node.NodeVersionedInterface
 import com.kunzisoft.keepass.database.element.node.Type
 import com.kunzisoft.keepass.database.element.template.TemplateField
+import com.kunzisoft.keepass.database.keeshare.KeeShareReference
 import com.kunzisoft.keepass.database.helper.getLocalizedName
 import com.kunzisoft.keepass.otp.OtpElement
 import com.kunzisoft.keepass.otp.OtpType
@@ -91,6 +92,7 @@ class NodesAdapter (
 
     private var mActionNodesList = mutableListOf<Node>()
     private var mNodeClickCallback: NodeClickCallback? = null
+    private var mKeeShareIconClickCallback: KeeShareIconClickCallback? = null
     private var mClipboardHelper = ClipboardHelper(context)
 
     @ColorInt
@@ -525,6 +527,23 @@ class NodesAdapter (
             } else {
                 holder.numberChildren?.visibility = View.GONE
             }
+            holder.keeShareIcon?.apply {
+                val group = subNode as Group
+                val ref = KeeShareReference.fromCustomData(group.customData)
+                if (ref != null) {
+                    visibility = View.VISIBLE
+                    val configured = PreferencesUtil.getKeeShareContainerUri(
+                        context, group.nodeId.toString()
+                    ) != null
+                    setColorFilter(if (configured) iconColor else Color.RED)
+                    setOnClickListener {
+                        mKeeShareIconClickCallback?.onKeeShareIconClick(database, group)
+                    }
+                } else {
+                    visibility = View.GONE
+                    setOnClickListener(null)
+                }
+            }
         }
 
         // Assign image
@@ -627,12 +646,17 @@ class NodesAdapter (
         this.mNodeClickCallback = nodeClickCallback
     }
 
-    /**
-     * Callback listener to redefine to do an action when a node is click
-     */
+    fun setOnKeeShareIconClickListener(callback: KeeShareIconClickCallback?) {
+        this.mKeeShareIconClickCallback = callback
+    }
+
     interface NodeClickCallback {
         fun onNodeClick(database: ContextualDatabase, node: Node)
         fun onNodeLongClick(database: ContextualDatabase, node: Node): Boolean
+    }
+
+    interface KeeShareIconClickCallback {
+        fun onKeeShareIconClick(database: ContextualDatabase, group: Group)
     }
 
     class NodeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -651,6 +675,7 @@ class NodesAdapter (
         var numberChildren: TextView? = itemView.findViewById(R.id.node_child_numbers)
         var attachmentIcon: ImageView? = itemView.findViewById(R.id.node_attachment_icon)
         var passkeyIcon: ImageView? = itemView.findViewById(R.id.node_passkey_icon)
+        var keeShareIcon: ImageView? = itemView.findViewById(R.id.node_keeshare_icon)
     }
 
     companion object {

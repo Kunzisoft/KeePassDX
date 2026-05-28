@@ -60,6 +60,7 @@ import com.kunzisoft.keepass.database.element.Group
 import com.kunzisoft.keepass.database.element.database.CompressionAlgorithm
 import com.kunzisoft.keepass.database.element.node.Node
 import com.kunzisoft.keepass.database.element.node.NodeId
+import com.kunzisoft.keepass.database.element.node.NodeIdUUID
 import com.kunzisoft.keepass.database.element.node.Type
 import com.kunzisoft.keepass.hardware.HardwareKey
 import com.kunzisoft.keepass.model.CipherEncryptDatabase
@@ -346,6 +347,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
             ACTION_DATABASE_CREATE_TASK -> buildDatabaseCreateActionTask(intent, database)
             ACTION_DATABASE_LOAD_TASK -> buildDatabaseLoadActionTask(intent, database)
             ACTION_DATABASE_MERGE_TASK -> buildDatabaseMergeActionTask(intent, database)
+            ACTION_KEESHARE_MERGE_TASK -> buildKeeShareMergeActionTask(intent, database)
             ACTION_DATABASE_RELOAD_TASK -> buildDatabaseReloadActionTask(database)
             ACTION_DATABASE_ASSIGN_CREDENTIAL_TASK -> buildDatabaseAssignCredentialActionTask(intent, database)
             ACTION_DATABASE_CREATE_GROUP_TASK -> buildDatabaseCreateGroupActionTask(intent, database)
@@ -380,6 +382,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
 
         // Sub action is an action in another action, don't perform pre and post action
         val isMainAction = intentAction != ACTION_CHALLENGE_RESPONDED
+                && intentAction != ACTION_KEESHARE_MERGE_TASK
 
         // Build and launch the action
         if (actionRunnable != null) {
@@ -409,17 +412,16 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                         actionRunnable
                     },
                     { result ->
+                        mActionTaskListeners.forEach { actionTaskListener ->
+                            actionTaskListener.onActionFinished(
+                                database,
+                                intentAction!!,
+                                result
+                            )
+                        }
                         if (isMainAction) {
                             try {
-                                mActionTaskListeners.forEach { actionTaskListener ->
-                                    mTaskRemovedRequested = false
-                                    actionTaskListener.onActionFinished(
-                                        database,
-                                        intentAction!!,
-                                        result
-                                    )
-                                }
-                            } finally {
+                                mTaskRemovedRequested = false
                                 // Save the database info before performing action
                                 when (intentAction) {
                                     ACTION_DATABASE_LOAD_TASK,
@@ -472,8 +474,9 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                                     }
                                 }
                                 mTaskRemovedRequested = false
+                            } finally {
+                                sendBroadcast(Intent(DATABASE_STOP_TASK_ACTION))
                             }
-                            sendBroadcast(Intent(DATABASE_STOP_TASK_ACTION))
                         }
                         mActionRunning--
                     }
@@ -895,6 +898,22 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                 result.data = Bundle()
             }
         }
+    }
+
+    private fun buildKeeShareMergeActionTask(
+        intent: Intent,
+        database: ContextualDatabase,
+    ): ActionRunnable {
+        val containerUri: Uri? = intent.getParcelableExtraCompat(DATABASE_URI_KEY)
+        val mainCredential: MainCredential? = intent.getParcelableExtraCompat(MAIN_CREDENTIAL_KEY)
+        val targetGroupId: NodeIdUUID? = intent.getParcelableExtraCompat(TARGET_GROUP_ID_KEY)
+        return MergeDatabaseRunnable(
+            this, containerUri, mainCredential,
+            { hardwareKey, seed -> retrieveResponseFromChallenge(hardwareKey, seed) },
+            database, false,
+            { hardwareKey, seed -> retrieveResponseFromChallenge(hardwareKey, seed) },
+            null, targetGroupId, true,
+        )
     }
 
     private fun buildDatabaseReloadActionTask(
@@ -1336,6 +1355,8 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         const val ACTION_DATABASE_CREATE_TASK = "ACTION_DATABASE_CREATE_TASK"
         const val ACTION_DATABASE_LOAD_TASK = "ACTION_DATABASE_LOAD_TASK"
         const val ACTION_DATABASE_MERGE_TASK = "ACTION_DATABASE_MERGE_TASK"
+        const val ACTION_KEESHARE_MERGE_TASK = "ACTION_KEESHARE_MERGE_TASK"
+        const val TARGET_GROUP_ID_KEY = "TARGET_GROUP_ID_KEY"
         const val ACTION_DATABASE_RELOAD_TASK = "ACTION_DATABASE_RELOAD_TASK"
         const val ACTION_DATABASE_ASSIGN_CREDENTIAL_TASK = "ACTION_DATABASE_ASSIGN_CREDENTIAL_TASK"
         const val ACTION_DATABASE_CREATE_GROUP_TASK = "ACTION_DATABASE_CREATE_GROUP_TASK"

@@ -24,6 +24,7 @@ import android.net.Uri
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.MainCredential
 import com.kunzisoft.keepass.database.element.MasterCredential
+import com.kunzisoft.keepass.database.element.node.NodeIdUUID
 import com.kunzisoft.keepass.database.element.binary.BinaryData
 import com.kunzisoft.keepass.database.exception.DatabaseException
 import com.kunzisoft.keepass.database.exception.UnknownDatabaseLocationException
@@ -40,6 +41,8 @@ class MergeDatabaseRunnable(
     saveDatabase: Boolean,
     challengeResponseRetriever: (HardwareKey, ByteArray?) -> ByteArray,
     private val progressTaskUpdater: ProgressTaskUpdater?,
+    private val mTargetGroupId: NodeIdUUID? = null,
+    private val mSilent: Boolean = false,
 ) : SaveDatabaseRunnable(
     context,
     database,
@@ -51,7 +54,7 @@ class MergeDatabaseRunnable(
     private var mMergeMasterCredential: MasterCredential? = null
 
     override fun onStartRun() {
-        database.wasReloaded = true
+        if (!mSilent) database.wasReloaded = true
         super.onStartRun()
     }
 
@@ -59,6 +62,7 @@ class MergeDatabaseRunnable(
         try {
             val contentResolver = context.contentResolver
             mMergeMasterCredential = mDatabaseToMergeMainCredential?.toMasterCredential(contentResolver)
+            val targetGroup = mTargetGroupId?.let { database.getGroupById(it) }
             database.mergeData(
                 databaseToMergeStream = contentResolver.getUriInputStream(
                     mDatabaseToMergeUri ?: database.fileUri
@@ -68,7 +72,8 @@ class MergeDatabaseRunnable(
                 isRAMSufficient = { memoryWanted ->
                     BinaryData.canMemoryBeAllocatedInRAM(context, memoryWanted)
                 },
-                progressTaskUpdater = progressTaskUpdater
+                progressTaskUpdater = progressTaskUpdater,
+                targetGroup = targetGroup,
             )
         } catch (e: DatabaseException) {
             setError(e)
