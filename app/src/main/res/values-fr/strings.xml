@@ -347,7 +347,7 @@
     <string name="disable">Désactiver</string>
     <string name="biometric">Biométrie</string>
     <string name="biometric_auto_open_prompt_title">Ouvrir automatiquement l’invite biométrique</string>
-    <string name="biometric_auto_open_prompt_summary">Demande automatiquement le deverouillage de l\'appareil si la base de données est configurée pour l’utiliser</string>
+    <string name="biometric_auto_open_prompt_summary">Demande automatiquement le déverouillage de l\'appareil si la base de données est configurée pour l\'utiliser</string>
     <string name="master_key">Clé principale</string>
     <string name="security">Sécurité</string>
     <string name="entry_history">Historique</string>
@@ -514,7 +514,7 @@
     <string name="device_unlock_timeout">Délai du déverrouillage de l\'appareil</string>
     <string name="temp_device_unlock_timeout_summary">Durée d\'utilisation du déverrouillage de l\'appareil avant de supprimer son contenu</string>
     <string name="temp_device_unlock_timeout_title">Expiration du déverrouillage de l\'appareil</string>
-    <string name="temp_device_unlock_enable_summary">Ne stocker aucun contenu crypté pour utiliser le déverrouillage de l\'appareil</string>
+    <string name="temp_device_unlock_enable_summary">Ne stocker aucun contenu chiffré pour utiliser le déverrouillage de l\'appareil</string>
     <string name="temp_device_unlock_enable_title">Déverrouillage de l\'appareil temporaire</string>
     <string name="device_unlock_tap_delete">Appuyez pour supprimer les clés de déverrouillage de l\'appareil</string>
     <string name="content">Contenu</string>

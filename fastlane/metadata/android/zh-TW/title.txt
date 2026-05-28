@@ -1,1 +1,1 @@
-KeePassDX 密碼（金鑰/單字）保險庫
+KeePassDX 密碼金鑰保險庫

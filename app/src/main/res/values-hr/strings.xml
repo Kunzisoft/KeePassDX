@@ -239,7 +239,7 @@
     <string name="error_create_database_file">Nije moguće stvoriti bazu podataka s ovom lozinkom i datotekom ključa.</string>
     <string name="error_save_database">Nije moguće spremiti bazu podataka.</string>
     <string name="error_otp_period">Razdoblje mora biti između %1$d i %2$d sekundi.</string>
-    <string name="file_not_found_content">Nije moguće pronaći datoteku. Probaj je ponovo otvoriti iz upravitelja datoteka.</string>
+    <string name="file_not_found_content">Nije bilo moguće pronaći datoteku</string>
     <string name="invalid_credentials">Nije moguće čitati podatke za prijavu.</string>
     <string name="list_size_title">Veličina elemenata popisa</string>
     <string name="list_size_summary">Veličina teksta u popisu elemenata</string>
@@ -474,7 +474,7 @@
     <string name="device_unlock_delete_all_key_warning">Izbrisati sve ključeve šifriranja povezane s prepoznavanjem otključavanja uređaja\?</string>
     <string name="credential_before_click_device_unlock_button">Upiši lozinku, zatim pritisni ovaj gumb.</string>
     <string name="device_unlock_prompt_extract_credential_title">Prepoznavanje otključavanja uređaja</string>
-    <string name="device_unlock_prompt_store_credential_message">Ako koristiš prepoznavanje otključavanja uređaja morat ćeš i dalje znati tvoj glavni podatak za prijavu za trezor.</string>
+    <string name="device_unlock_prompt_store_credential_message">UPOZORENJE: I dalje moraš zapamtiti svoje glavne podatke prijave za trezor</string>
     <string name="menu_keystore_remove_key">Izbriši ključ za otključavanje uređaja</string>
     <string name="device_unlock_prompt_store_credential_title">Poveznica za otključavanje uređaja</string>
     <string name="device_unlock_prompt_not_initialized">Nije moguće pokrenuti prozor za otključavanje uređaja.</string>
@@ -654,7 +654,7 @@
     <string name="menu_form_filling_settings_summary">Tipkovnica, automatsko ispunjavanje, međuspremnik</string>
     <string name="menu_database_settings_summary">Metapodaci, koš za smeće, predlošci, povijest</string>
     <string name="menu_security_settings_summary">Šifriranje, funkcija derivacije ključa</string>
-    <string name="warning_permission">Dozvola za obavijesti je potrebna za korištenje funkcije obavijesti međuspremnika.</string>
+    <string name="warning_permission">Potrebna je dozvola za prikaz obavijesti</string>
     <string name="later">Kasnije</string>
     <string name="ask">Pitaj</string>
     <string name="warning_database_notification_permission">Dozvola za obavijesti omogućuje prikaz stanja baze podataka i zaključavanje pomoću lako dostupnog gumba.
