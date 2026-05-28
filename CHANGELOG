@@ -1,3 +1,8 @@
+KeePassDX(4.4.3)
+ * Fix a Passkey reference #2554
+ * Add browser in the list of privileged apps #2533
+ * Small fixes
+
 KeePassDX(4.4.2)
  * Fixed duplication of UUIDs by restoring the old behavior of sorting by access #2527 #1911
 

@@ -1,0 +1,3 @@
+ * Correction d'une référence de clé Passkey #2554
+ * Ajout de navigateur dans la liste des apps privilégiés #2533
+ * Petites corrections
