@@ -39,7 +39,9 @@ import com.kunzisoft.keepass.database.MainCredential
 import com.kunzisoft.keepass.database.ProgressMessage
 import com.kunzisoft.keepass.database.action.CreateDatabaseRunnable
 import com.kunzisoft.keepass.database.action.LoadDatabaseRunnable
+import com.kunzisoft.keepass.database.action.KeeShareSyncRunnable
 import com.kunzisoft.keepass.database.action.MergeDatabaseRunnable
+import com.kunzisoft.keepass.keeshare.KeeShareSyncManager
 import com.kunzisoft.keepass.database.action.ReloadDatabaseRunnable
 import com.kunzisoft.keepass.database.action.RemoveUnlinkedDataDatabaseRunnable
 import com.kunzisoft.keepass.database.action.SaveDatabaseRunnable
@@ -113,6 +115,9 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
     private var mSaveState = false
 
     private var mProgressMessage: ProgressMessage = ProgressMessage(R.string.database_opened)
+
+    // KeeShare auto-sync
+    private var keeShareSyncManager: KeeShareSyncManager? = null
 
     override fun retrieveChannelId(): String {
         return CHANNEL_DATABASE_ID
@@ -346,6 +351,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
             ACTION_DATABASE_CREATE_TASK -> buildDatabaseCreateActionTask(intent, database)
             ACTION_DATABASE_LOAD_TASK -> buildDatabaseLoadActionTask(intent, database)
             ACTION_DATABASE_MERGE_TASK -> buildDatabaseMergeActionTask(intent, database)
+            ACTION_DATABASE_KEESHARE_SYNC_TASK -> buildKeeShareSyncActionTask(intent, database)
             ACTION_DATABASE_RELOAD_TASK -> buildDatabaseReloadActionTask(database)
             ACTION_DATABASE_ASSIGN_CREDENTIAL_TASK -> buildDatabaseAssignCredentialActionTask(intent, database)
             ACTION_DATABASE_CREATE_GROUP_TASK -> buildDatabaseCreateGroupActionTask(intent, database)
@@ -424,8 +430,22 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                                 when (intentAction) {
                                     ACTION_DATABASE_LOAD_TASK,
                                     ACTION_DATABASE_MERGE_TASK,
+                                    ACTION_DATABASE_KEESHARE_SYNC_TASK,
                                     ACTION_DATABASE_RELOAD_TASK -> {
                                         saveDatabaseInfo()
+                                    }
+                                }
+                                // Start KeeShare auto-sync after database load/reload
+                                if (intentAction == ACTION_DATABASE_LOAD_TASK
+                                    || intentAction == ACTION_DATABASE_RELOAD_TASK) {
+                                    if (result.isSuccess) {
+                                        keeShareSyncManager?.stopAutoSync()
+                                        keeShareSyncManager = KeeShareSyncManager(
+                                            applicationContext, mainScope,
+                                            { mActionRunning > 0 },
+                                            { startDatabaseServiceForKeeShareSync() }
+                                        )
+                                        keeShareSyncManager?.startAutoSync(database)
                                     }
                                 }
                                 val save = !database.isReadOnly
@@ -443,6 +463,12 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                                             )
                                         mLastLocalSaveTime = System.currentTimeMillis()
                                         mSnapFileDatabaseInfo = newSnapFileDatabaseInfo
+                                    }
+                                    // Export KeeShare containers after every save
+                                    // (except during KeeShare sync which already exports)
+                                    if (result.isSuccess
+                                        && intentAction != ACTION_DATABASE_KEESHARE_SYNC_TASK) {
+                                        keeShareSyncManager?.triggerExportAfterSave(database)
                                     }
                                 }
                                 removeIntentData(intent)
@@ -484,6 +510,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         return when (intentAction) {
             ACTION_DATABASE_LOAD_TASK,
             ACTION_DATABASE_MERGE_TASK,
+            ACTION_DATABASE_KEESHARE_SYNC_TASK,
             ACTION_DATABASE_RELOAD_TASK,
             null,
             -> {
@@ -500,6 +527,11 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         // Assign elements for updates
         val intentAction = intent?.action
 
+        // Skip notification update for silent background KeeShare syncs
+        val isSilentSync = intentAction == ACTION_DATABASE_KEESHARE_SYNC_TASK
+            && intent?.getBooleanExtra(KEESHARE_SILENT_SYNC_KEY, false) == true
+        if (isSilentSync) return
+
         // Get icon depending action state
         val iconId = if (intentAction == null)
             R.drawable.notification_ic_database_open
@@ -515,6 +547,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                 ACTION_DATABASE_LOAD_TASK,
                 ACTION_DATABASE_MERGE_TASK,
                 ACTION_DATABASE_RELOAD_TASK, -> R.string.loading_database
+                ACTION_DATABASE_KEESHARE_SYNC_TASK -> R.string.keeshare_syncing
                 ACTION_DATABASE_ASSIGN_CREDENTIAL_TASK,
                 ACTION_DATABASE_SAVE, -> R.string.saving_database
                 else -> {
@@ -671,8 +704,24 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         updateMessage(R.string.decrypting_db)
     }
 
+    private fun startDatabaseServiceForKeeShareSync() {
+        try {
+            val syncIntent = Intent(applicationContext, DatabaseTaskNotificationService::class.java).apply {
+                action = ACTION_DATABASE_KEESHARE_SYNC_TASK
+                putExtra(SAVE_DATABASE_KEY, true)
+                putExtra(KEESHARE_SILENT_SYNC_KEY, true)
+                putExtra(KEESHARE_IMPORT_ONLY_KEY, true)
+            }
+            startService(syncIntent)
+        } catch (e: Exception) {
+            Log.w(TAG, "Unable to start KeeShare sync service", e)
+        }
+    }
+
     override fun stopService() {
         if (!TimeoutHelper.temporarilyDisableLock) {
+            keeShareSyncManager?.stopAutoSync()
+            keeShareSyncManager = null
             closeDatabase(mDatabase)
             // Remove the database during the lock
             // And notify each subscriber
@@ -893,6 +942,32 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                 }
                 // No need to add each info to merge database
                 result.data = Bundle()
+            }
+        }
+    }
+
+    private fun buildKeeShareSyncActionTask(
+        intent: Intent,
+        database: ContextualDatabase
+    ): ActionRunnable {
+        val saveDatabase = intent.getBooleanExtra(SAVE_DATABASE_KEY, false)
+        val silentSync = intent.getBooleanExtra(KEESHARE_SILENT_SYNC_KEY, false)
+        val importOnly = intent.getBooleanExtra(KEESHARE_IMPORT_ONLY_KEY, false)
+        return KeeShareSyncRunnable(
+            this,
+            database,
+            !database.isReadOnly && saveDatabase,
+            { hardwareKey, seed ->
+                retrieveResponseFromChallenge(hardwareKey, seed)
+            },
+            this,
+            silentSync,
+            importOnly
+        ).apply {
+            afterSaveDatabase = { result ->
+                if (result.isSuccess) {
+                    PreferencesUtil.saveCurrentTime(applicationContext)
+                }
             }
         }
     }
@@ -1336,6 +1411,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         const val ACTION_DATABASE_CREATE_TASK = "ACTION_DATABASE_CREATE_TASK"
         const val ACTION_DATABASE_LOAD_TASK = "ACTION_DATABASE_LOAD_TASK"
         const val ACTION_DATABASE_MERGE_TASK = "ACTION_DATABASE_MERGE_TASK"
+        const val ACTION_DATABASE_KEESHARE_SYNC_TASK = "ACTION_DATABASE_KEESHARE_SYNC_TASK"
         const val ACTION_DATABASE_RELOAD_TASK = "ACTION_DATABASE_RELOAD_TASK"
         const val ACTION_DATABASE_ASSIGN_CREDENTIAL_TASK = "ACTION_DATABASE_ASSIGN_CREDENTIAL_TASK"
         const val ACTION_DATABASE_CREATE_GROUP_TASK = "ACTION_DATABASE_CREATE_GROUP_TASK"
@@ -1385,6 +1461,8 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         const val PARENT_ID_KEY = "PARENT_ID_KEY"
         const val ENTRY_HISTORY_POSITION_KEY = "ENTRY_HISTORY_POSITION_KEY"
         const val SAVE_DATABASE_KEY = "SAVE_DATABASE_KEY"
+        const val KEESHARE_SILENT_SYNC_KEY = "KEESHARE_SILENT_SYNC_KEY"
+        const val KEESHARE_IMPORT_ONLY_KEY = "KEESHARE_IMPORT_ONLY_KEY"
         const val OLD_NODES_KEY = "OLD_NODES_KEY"
         const val NEW_NODES_KEY = "NEW_NODES_KEY"
         const val OLD_ELEMENT_KEY = "OLD_ELEMENT_KEY" // Warning type of this thing change every time

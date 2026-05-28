@@ -108,6 +108,19 @@
         </LinearLayout>
 
         <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/node_keeshare_icon"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_toStartOf="@+id/node_image_identifier"
+            android:layout_toLeftOf="@+id/node_image_identifier"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="4dp"
+            android:layout_marginRight="4dp"
+            android:src="@drawable/ic_keeshare_indicator_white_16dp"
+            android:visibility="gone"
+            android:contentDescription="@string/keeshare_settings_title" />
+
+        <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/node_image_identifier"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
