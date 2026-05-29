@@ -20,7 +20,7 @@
 --><resources>
     <string name="feedback">Synpunkter</string>
     <string name="homepage">Hemsida</string>
-    <string name="about_description">Android-implementation av KeePass password manager.</string>
+    <string name="about_description">Android-implementation av lösenordshanteraren KeePass.</string>
     <string name="accept">OK</string>
     <string name="add_entry">Ny post</string>
     <string name="add_group">Ny grupp</string>
@@ -268,7 +268,7 @@
     <string name="menu_file_selection_read_only">Skrivskyddad</string>
     <string name="menu_open_file_read_and_write">Ändringsbar</string>
     <string name="education_read_only_title">Skrivskydda din databas</string>
-    <string name="education_read_only_summary">Ändra öppningsläge för sessionen. \n \n\"Skrivskyddad\" förhindrar oavsiktliga ändringar till databasen.\n\"Ändringsbar\" låter dig lägga till, radera eller ändra alla element.</string>
+    <string name="education_read_only_summary">Ändra öppningsläge för sessionen. \n \n\"Skrivskyddad\" förhindrar oavsiktliga ändringar i databasen. \n\"Ändringsbar\" låter dig lägga till, radera eller ändra alla element.</string>
     <string name="error_load_database">Kunde inte ladda in databasen.</string>
     <string name="error_load_database_KDF_memory">Kunde inte ladda in nyckeln. Prova att sänka KDF \"Minnesanvändning\".</string>
     <string name="list_entries_show_username_title">Visa användarnamn</string>
@@ -307,16 +307,16 @@
     <string name="error_copy_entry_here">Du kan inte kopiera en post här.</string>
     <string name="list_groups_show_number_entries_title">Visa antal poster</string>
     <string name="list_groups_show_number_entries_summary">Visa antalet poster i en grupp</string>
-    <string name="error_create_database_file">Det går inte att skapa en databas med det här lösenordet och nyckelfil.</string>
+    <string name="error_create_database_file">Det går inte att skapa en databas med det här lösenordet och den här nyckelfilen.</string>
     <string name="menu_device_unlock_settings">Enhetsupplåsning</string>
     <string name="unavailable">Inte tillgänglig</string>
     <string name="menu_appearance_settings">Utseende</string>
     <string name="biometric">Biometri</string>
     <string name="device_unlock">Enhetsupplåsning</string>
     <string name="biometric_unlock_enable_title">Biometrisk upplåsning</string>
-    <string name="biometric_unlock_enable_summary">Låter dig skanna din biometrik för att öppna databasen</string>
+    <string name="biometric_unlock_enable_summary">Låter dig skanna dina biometriska uppgifter för att öppna databasen</string>
     <string name="biometric_auto_open_prompt_title">Öppna biometrisk prompt automatiskt</string>
-    <string name="biometric_auto_open_prompt_summary">Öppna biometrisk prompt automatiskt när en biometrisk nyckel är definierad för en databas</string>
+    <string name="biometric_auto_open_prompt_summary">Öppna biometrisk upplåsningsdialog automatiskt när en biometrisk nyckel är definierad för en databas</string>
     <string name="biometric_delete_all_key_title">Radera krypteringsnycklar</string>
     <string name="biometric_delete_all_key_summary">Radera alla krypteringsnycklar som hör till den biometriska igenkänningen</string>
     <string name="enable">Aktivera</string>
@@ -347,7 +347,7 @@
     <string name="autofill_explanation_summary">Aktivera autofyll för att snabbt kunna fylla i formulär i andra appar</string>
     <string name="database_opened">Databas öppnad</string>
     <string name="clipboard_explanation_summary">Kopiera postfält med hjälp av enhetens urklipp</string>
-    <string name="device_unlock_explanation_summary">Använd avancerad upplåsning för att öppna en databas enklare</string>
+    <string name="device_unlock_explanation_summary">Använd enhetsupplåsning för att öppna en databas enklare</string>
     <string name="database_data_compression_title">Datakomprimering</string>
     <string name="database_data_compression_summary">Datakomprimering reducerar databasens storlek</string>
     <string name="max_history_items_title">Max. historikobjekt</string>
@@ -370,7 +370,7 @@
     <string name="error_save_database">Kunde inte spara databasen.</string>
     <string name="menu_save_database">Spara data</string>
     <string name="menu_empty_recycle_bin">Töm papperskorgen</string>
-    <string name="command_execution">Utför kommandot …</string>
+    <string name="command_execution">Kommandot körs…</string>
     <string name="warning_permanently_delete_nodes">Radera de valda noderna permanent?</string>
     <string name="keystore_not_accessible">Keystore har inte initierats korrekt.</string>
     <string name="recycle_bin_group_title">Papperskorgsgruppen</string>
@@ -378,8 +378,8 @@
     <string name="enable_auto_save_database_summary">Spara databasen automatiskt efter varje viktig händelse (endast i läget \"Ändringsbar\")</string>
     <string name="show_recent_files_title">Visa senaste filer</string>
     <string name="remember_keyfile_locations_summary">Kom ihåg var nyckelfiler lagras</string>
-    <string name="remember_keyfile_locations_title">Spara plats för nyckelfiler</string>
-    <string name="remember_database_locations_summary">Kom ihåg platsen för databaser</string>
+    <string name="remember_keyfile_locations_title">Kom ihåg nyckelfilsplatser</string>
+    <string name="remember_database_locations_summary">Kom ihåg var databaser lagras</string>
     <string name="auto_focus_search_summary">Begär en sökning när du öppnar en databas</string>
     <string name="auto_focus_search_title">Snabbsökning</string>
     <string name="menu_delete_entry_history">Ta bort historik</string>
@@ -530,7 +530,7 @@
     <string name="success_export_app_properties">Appinställningar exporterades</string>
     <string name="error_export_app_properties">Fel inträffade när appinställningar exporterades.</string>
     <string name="filter">Filter</string>
-    <string name="warning_database_already_opened">En databas är redan öppen, stäng den för att öppna en ny</string>
+    <string name="warning_database_already_opened">En databas är redan öppen, stäng den först för att öppna en ny</string>
     <string name="warning_empty_recycle_bin">Radera alla noder i papperskorgen permanent?</string>
     <string name="clipboard_otp_notifications_title">OTP-notifikation</string>
     <string name="entry_application_id">App-Id</string>
