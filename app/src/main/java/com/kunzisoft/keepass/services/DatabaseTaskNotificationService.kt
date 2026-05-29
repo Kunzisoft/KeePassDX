@@ -109,6 +109,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
     private var mResponseChallengeChannel: Channel<ByteArray?>? = null
 
     private var mActionRunning = 0
+    private var mSavingActionsRunning = 0
     private var mTaskRemovedRequested = false
     private var mSaveState = false
 
@@ -310,6 +311,13 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         return mActionTaskBinder
     }
 
+    private fun updateSavingActionRunning(isSavingAction: Boolean, increment: Boolean) {
+        if (isSavingAction) {
+            if (increment) mSavingActionsRunning++ else mSavingActionsRunning--
+        }
+        mSaveState = mSavingActionsRunning > 0
+    }
+
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         super.onStartCommand(intent, flags, startId)
 
@@ -321,22 +329,24 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
             }
         }
 
+        val intentAction = intent?.action
+
         // Get save state
-        mSaveState = if (intent != null) {
+        val isSavingAction = if (intent != null && !database.isReadOnly) {
             if (intent.hasExtra(SAVE_DATABASE_KEY)) {
-                !database.isReadOnly && intent.getBooleanExtra(
+                intent.getBooleanExtra(
                     SAVE_DATABASE_KEY,
-                    mSaveState
+                    false
                 )
-            } else (intent.action == ACTION_DATABASE_CREATE_TASK
-                    || intent.action == ACTION_DATABASE_ASSIGN_CREDENTIAL_TASK
-                    || intent.action == ACTION_DATABASE_SAVE)
+            } else (intentAction == ACTION_DATABASE_CREATE_TASK
+                    || intentAction == ACTION_DATABASE_ASSIGN_CREDENTIAL_TASK
+                    || intentAction == ACTION_DATABASE_SAVE)
         } else false
+
+        updateSavingActionRunning(isSavingAction, increment = true)
 
         // Create the notification
         buildNotification(intent)
-
-        val intentAction = intent?.action
 
         if (intentAction == null && !database.loaded) {
             stopService()
@@ -448,6 +458,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                                     }
                                 }
                                 removeIntentData(intent)
+                                updateSavingActionRunning(isSavingAction, increment = false)
                                 TimeoutHelper.releaseTemporarilyDisableTimeout()
                                 // Stop service after save if user remove task
                                 if (save && mTaskRemovedRequested) {
@@ -478,9 +489,16 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                             sendBroadcast(Intent(DATABASE_STOP_TASK_ACTION))
                         }
                         mActionRunning--
+                        if (mActionRunning == 0) {
+                            mActionTaskListeners.forEach { actionTaskListener ->
+                                actionTaskListener.onActionStopped(database)
+                            }
+                        }
                     }
                 )
             }
+        } else {
+            updateSavingActionRunning(isSavingAction, increment = false)
         }
 
         return when (intentAction) {
@@ -509,7 +527,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
             R.drawable.notification_ic_database_action
 
         // Title depending on action
-        mProgressMessage.titleId =
+        val newTitleId =
             if (intentAction == null) {
                 R.string.database_opened
             } else when (intentAction) {
@@ -526,6 +544,12 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                         R.string.command_execution
                 }
             }
+
+        if (mActionRunning == 0 ||
+            (intentAction != ACTION_DATABASE_TOUCH_ENTRY_TASK
+                    && intentAction != ACTION_DATABASE_TOUCH_GROUP_TASK)) {
+            mProgressMessage.titleId = newTitleId
+        }
 
         // Updated later
         mProgressMessage.messageId = null

@@ -162,7 +162,6 @@ abstract class DatabaseActivity : StylishActivity(), DatabaseRetrieval {
                                     uiState.actionTask,
                                     uiState.result
                                 )
-                                progressTaskViewModel.hide()
                             }
                         }
                     }
