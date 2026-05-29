@@ -47,8 +47,9 @@ import androidx.core.graphics.BlendModeColorFilterCompat
 import androidx.core.graphics.BlendModeCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ServiceLifecycleDispatcher
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -82,6 +83,8 @@ import com.kunzisoft.keepass.utils.UPDATE_TIMEOUT_PROGRESS_ACTION
 import com.kunzisoft.keepass.utils.clear
 import com.kunzisoft.keepass.utils.registerLockReceiver
 import com.kunzisoft.keepass.utils.unregisterLockReceiver
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.launch
 import java.util.UUID
 
 class MagikeyboardService : InputMethodService(),
@@ -174,37 +177,45 @@ class MagikeyboardService : InputMethodService(),
             }
         }
 
-        entryUUIDList.observe(this) { entryIdList ->
-            entryIdList?.let {
-                if (entryIdList.isNotEmpty()) {
-                    entriesAdapter?.setEntries(
-                        entryIdList.mapNotNull {
-                            getEntryInfo(it)?.let { entry ->
-                                KeyboardEntriesAdapter.KeyboardEntry(
-                                    id = entry.nodeId.id,
-                                    icon = mDatabase?.let { database ->
-                                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                                            entry.buildIcon(
-                                                this@MagikeyboardService,
-                                                database
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                launch {
+                    _entryUUIDList.collect { entryIdList ->
+                        entryIdList?.let {
+                            if (entryIdList.isNotEmpty()) {
+                                entriesAdapter?.setEntries(
+                                    entryIdList.mapNotNull {
+                                        getEntryInfo(it)?.let { entry ->
+                                            KeyboardEntriesAdapter.KeyboardEntry(
+                                                id = entry.nodeId.id,
+                                                icon = mDatabase?.let { database ->
+                                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                                                        entry.buildIcon(
+                                                            this@MagikeyboardService,
+                                                            database
+                                                        )
+                                                    } else null
+                                                },
+                                                title = entry.getVisualTitle(),
+                                                subtitle = entry.username
                                             )
-                                        } else null
-                                    },
-                                    title = entry.getVisualTitle(),
-                                    subtitle = entry.username
+                                        }
+                                    }
                                 )
+                            } else {
+                                entriesAdapter?.clear()
                             }
-                        }
-                    )
-                } else {
-                    entriesAdapter?.clear()
+                        } ?: entriesAdapter?.clear()
+                        assignKeyboardView()
+                    }
                 }
-            } ?: entriesAdapter?.clear()
-            assignKeyboardView()
-        }
 
-        searchInfo.observe(this) { _ ->
-            assignKeyboardView()
+                launch {
+                    _searchInfo.collect {
+                        assignKeyboardView()
+                    }
+                }
+            }
         }
 
         PreferenceManager.getDefaultSharedPreferences(this)
@@ -294,8 +305,8 @@ class MagikeyboardService : InputMethodService(),
     }
 
     private fun assignKeyboardView() {
-        val entryListEmpty = entryUUIDList.value.isNullOrEmpty()
-        val searchInfo: SearchInfo? = searchInfo.value
+        val entryListEmpty = _entryUUIDList.value.isNullOrEmpty()
+        val searchInfo: SearchInfo? = _searchInfo.value
         val searchString = searchInfo?.toString()
         if (searchInfo != null
             && searchString.isNullOrEmpty().not()
@@ -315,10 +326,10 @@ class MagikeyboardService : InputMethodService(),
             containerShareText?.visibility = GONE
         } else {
             containerPackageText?.visibility = GONE
-            shareBrowserText?.text = shareBrowser.value?.let {
+            shareBrowserText?.text = _shareBrowser.value?.let {
                 getString(R.string.keyboard_share_browser, it)
             } ?: ""
-            containerShareText?.visibility = if (entryListEmpty && shareBrowser.value != null)
+            containerShareText?.visibility = if (entryListEmpty && _shareBrowser.value != null)
                 VISIBLE else GONE
         }
         dismissCustomKeys()
@@ -416,7 +427,7 @@ class MagikeyboardService : InputMethodService(),
             }
             KEY_ENTRY -> {
                 // Filter browser and app blocked to prevent unwanted auto save
-                actionKeyEntry(searchInfo.value?.withoutBrowserOrAppBlocked(this) ?: SearchInfo())
+                actionKeyEntry(_searchInfo.value?.withoutBrowserOrAppBlocked(this) ?: SearchInfo())
             }
             KEY_ENTRY_ALT -> {
                 actionKeyEntry(SearchInfo())
@@ -606,16 +617,17 @@ class MagikeyboardService : InputMethodService(),
         const val KEY_URL = 520
         const val KEY_FIELDS = 530
 
-        private val searchInfo = MutableLiveData<SearchInfo?>()
-        private val shareBrowser = MutableLiveData<String?>()
-        private val entryUUIDList = MutableLiveData<List<UUID>?>()
+        private val _searchInfo = MutableStateFlow<SearchInfo?>(null)
+        private val _shareBrowser = MutableStateFlow<String?>(null)
+        private val _entryUUIDList = MutableStateFlow<List<UUID>?>(null)
+
         private var onlyAllowedFromMagikeyboard: Boolean = false
 
         private const val SWITCH_KEYBOARD_ACTION = "com.android.keyboard.SWITCH_KEYBOARD"
         private const val KEYBOARD_ID = "KEYBOARD_ID"
 
         private fun removeEntryInfo() {
-            this.entryUUIDList.value = null
+            _entryUUIDList.value = null
         }
 
         fun removeEntry(context: Context) {
@@ -635,16 +647,16 @@ class MagikeyboardService : InputMethodService(),
                     TypeMode.AUTOFILL -> {
                         newSearchInfo?.let {
                             // Condition to manually select another entry
-                            if (this.searchInfo.value != newSearchInfo) {
+                            if (_searchInfo.value != newSearchInfo) {
                                 this.onlyAllowedFromMagikeyboard = false
-                                this.searchInfo.value = newSearchInfo
+                                _searchInfo.value = newSearchInfo
                             }
                         }
                     }
                     TypeMode.MAGIKEYBOARD -> {
                         newSearchInfo?.let {
                             this.onlyAllowedFromMagikeyboard = false
-                            this.searchInfo.value = newSearchInfo
+                            _searchInfo.value = newSearchInfo
                         }
                     }
                     else -> {}
@@ -652,8 +664,8 @@ class MagikeyboardService : InputMethodService(),
             } else {
                 // Without context sharing, Magikeyboard manages itself and filter browsers
                 this.onlyAllowedFromMagikeyboard = false
-                this.searchInfo.value = newSearchInfo
-                this.shareBrowser.value = if (isElementAllowed(
+                _searchInfo.value = newSearchInfo
+                _shareBrowser.value = if (isElementAllowed(
                         value.applicationId,
                         PreferencesUtil.applicationIdBlocklist(context)))
                     value.applicationId else null
@@ -662,18 +674,18 @@ class MagikeyboardService : InputMethodService(),
 
         fun removeSearchInfo() {
             this.onlyAllowedFromMagikeyboard = false
-            this.searchInfo.value = null
+            _searchInfo.value = null
         }
 
         private fun preventAutoFill() {
-            if (this.searchInfo.value != null && !entryUUIDList.value.isNullOrEmpty())
+            if (_searchInfo.value != null && !_entryUUIDList.value.isNullOrEmpty())
                 this.onlyAllowedFromMagikeyboard = true
         }
 
         private fun entriesAlreadyRetrieved(entries: List<UUID>): Boolean {
-            if (entryUUIDList.value == null || entries.isEmpty())
+            if (_entryUUIDList.value == null || entries.isEmpty())
                 return false
-            return entryUUIDList.value?.equals(entries) == true
+            return _entryUUIDList.value?.equals(entries) == true
         }
 
         fun addEntry(
@@ -705,7 +717,7 @@ class MagikeyboardService : InputMethodService(),
                 if (context.isMagikeyboardActivated()) {
                     val newList = entryList.map { it.nodeId.id }
                     if (entriesAlreadyRetrieved(newList).not()) {
-                        this.entryUUIDList.value = newList
+                        _entryUUIDList.value = newList
                         // Auto switch to the Magikeyboard
                         if (autoSwitchKeyboard
                             && isAutoSwitchMagikeyboardAllowed(context)
