@@ -36,7 +36,7 @@
     <string name="clipboard_error">Vissa enheter låter inte appar använda urklipp.</string>
     <string name="clipboard_error_clear">Det gick inte att rensa urklipp</string>
     <string name="clipboard_timeout">Tidsgräns för urklipp</string>
-    <string name="clipboard_timeout_summary">Lagringens varaktighet i urklippet</string>
+    <string name="clipboard_timeout_summary">Hur länge data lagras i urklipp, om enheten stöder det</string>
     <string name="select_to_copy">Kopiera %1$s till urklipp</string>
     <string name="retrieving_db_key">Hämtar databasnyckel…</string>
     <string name="database">Databas</string>
@@ -241,7 +241,7 @@
     <string name="html_text_ad_free">Till skillnad från många andra lösenordshanterare är den här &lt;strong&gt;reklamfri&lt;/strong&gt;, &lt;strong&gt;copyleftad fri mjukvara&lt;/strong&gt; och samlar inte in någon personlig data på servrar, oavsett vilken version du använder.</string>
     <string name="html_text_buy_pro">Genom att köpa pro-versionen får du tillgång till den här &lt;strong&gt;visuella stilen&lt;/strong&gt; och du hjälper särskilt till med &lt;strong&gt;genomförandet av community-projekt.&lt;/strong&gt;</string>
     <string name="html_text_feature_generosity">Den här &lt;strong&gt;visuella stilen&lt;/strong&gt; är tillgänglig tack vare din generositet.</string>
-    <string name="html_text_donation">Genom att &lt;strong&gt;bidra&lt;/strong&gt; till projektet &lt;i&gt;(ekonomiskt, kod, översättning)&lt;/i&gt; hjälper du det att fortsätta leva och blomstra, och du kommer också att vara berättigad till &lt;strong&gt;temaupplåsningsproceduren&lt;/strong&gt;.</string>
+    <string name="html_text_donation">Genom att &lt;strong&gt;bidra&lt;/strong&gt; till projektet &lt;i&gt;(ekonomiskt, kod, översättning)&lt;/i&gt; hjälper du det att fortsätta leva och blomstra, och du kommer också att vara får du också möjlighet att låsa upp &lt;strong&gt;temat&lt;/strong&gt;.</string>
     <string name="html_text_dev_feature">Den här funktionen är under &lt;strong&gt;utveckling&lt;/strong&gt; och kräver ditt &lt;strong&gt;bidrag&lt;/strong&gt; för att vara tillgänglig snart.</string>
     <string name="html_text_dev_feature_buy_pro">Genom att köpa &lt;strong&gt;pro&lt;/strong&gt;-versionen,</string>
     <string name="html_text_dev_feature_contibute">Genom att &lt;strong&gt;bidra&lt;/strong&gt;,</string>
@@ -354,9 +354,9 @@
     <string name="max_history_items_summary">Begränsar antalet historikobjekt per post</string>
     <string name="max_history_size_title">Max. historikstorlek</string>
     <string name="max_history_size_summary">Begränsa historikens storlek per post</string>
-    <string name="settings_database_recommend_changing_master_key_title">Rekommenderas att ändra</string>
-    <string name="settings_database_recommend_changing_master_key_summary">Rekommenderas att ändra huvudnyckeln (dagar)</string>
-    <string name="settings_database_force_changing_master_key_title">Tvingad ändring</string>
+    <string name="settings_database_recommend_changing_master_key_title">Rekommendera byte</string>
+    <string name="settings_database_recommend_changing_master_key_summary">Rekommendera byte av huvudnyckeln efter angivet antal dagar</string>
+    <string name="settings_database_force_changing_master_key_title">Kräv byte</string>
     <string name="settings_database_force_changing_master_key_summary">Kräv byte av huvudnyckeln (dagar)</string>
     <string name="settings_database_force_changing_master_key_next_time_title">Tvinga ändring nästa gång</string>
     <string name="settings_database_force_changing_master_key_next_time_summary">Tvinga ändring av huvudnyckeln nästa gång (en gång)</string>
@@ -396,7 +396,7 @@
     <string name="download_attachment">Ladda ner %1$s</string>
     <string name="education_setup_OTP_summary">Konfigurera hantering av engångslösenord (HOTP/TOTP) för att generera en kod som begärs vid tvåfaktorsautentisering (2FA).</string>
     <string name="education_setup_OTP_title">Ställ in OTP</string>
-    <string name="keyboard_auto_go_action_summary">\"Gå\"-knappens åtgärd efter tryck på en fältknapp</string>
+    <string name="keyboard_auto_go_action_summary">\"Gå\"-knappens åtgärd efter tryck på fältknapp</string>
     <string name="keyboard_auto_go_action_title">Automatisk knappåtgärd</string>
     <string name="lock_database_show_button_summary">Visa låsknappen i gränssnittet</string>
     <string name="lock_database_show_button_title">Visa låsknappen</string>
