@@ -104,7 +104,7 @@
     <string name="menu_search">Sök</string>
     <string name="menu_showpass">Visa lösenord</string>
     <string name="menu_url">Gå till URL</string>
-    <string name="minus">Bindestreck</string>
+    <string name="minus">Minustecken</string>
     <string name="never">Aldrig</string>
     <string name="no_results">Inget sökresultat</string>
     <string name="no_url_handler">Installera en webbläsare för att öppna denna URL.</string>
@@ -137,7 +137,7 @@
     <string name="allow">Tillåt</string>
     <string name="content_description_open_file">Öppna fil</string>
     <string name="content_description_add_node">Lägg till nod</string>
-    <string name="content_description_add_entry">Ny post</string>
+    <string name="content_description_add_entry">Lägg till post</string>
     <string name="content_description_add_group">Lägg till grupp</string>
     <string name="content_description_file_information">Filinformation</string>
     <string name="content_description_password_checkbox">Lösenordskryssruta</string>
@@ -301,7 +301,7 @@
     <string name="keyboard_selection_entry_summary">Visa inmatningsfält i Magikeyboard när en post visas</string>
     <string name="delete_entered_password_title">Radera lösenord</string>
     <string name="delete_entered_password_summary">Raderar det skrivna lösenordet efter ett anslutningsförsök till en databas</string>
-    <string name="content_description_node_children">Under-noder</string>
+    <string name="content_description_node_children">Undernoder</string>
     <string name="entry_UUID">UUID</string>
     <string name="error_move_entry_here">Du kan inte flytta en post hit.</string>
     <string name="error_copy_entry_here">Du kan inte kopiera en post här.</string>
@@ -357,7 +357,7 @@
     <string name="settings_database_recommend_changing_master_key_title">Rekommenderas att ändra</string>
     <string name="settings_database_recommend_changing_master_key_summary">Rekommenderas att ändra huvudnyckeln (dagar)</string>
     <string name="settings_database_force_changing_master_key_title">Tvingad ändring</string>
-    <string name="settings_database_force_changing_master_key_summary">Tvungen att ändra huvudnyckeln (dagar)</string>
+    <string name="settings_database_force_changing_master_key_summary">Kräv byte av huvudnyckeln (dagar)</string>
     <string name="settings_database_force_changing_master_key_next_time_title">Tvinga ändring nästa gång</string>
     <string name="settings_database_force_changing_master_key_next_time_summary">Tvinga ändring av huvudnyckeln nästa gång (en gång)</string>
     <string name="database_default_username_title">Standardanvändarnamn</string>
@@ -409,7 +409,7 @@
     <string name="remember_database_locations_title">Kom ihåg databasplatser</string>
     <string name="error_label_exists">Den här etiketten finns redan.</string>
     <string name="entry_attachments">Bilagor</string>
-    <string name="html_about_contribution">För att &lt;strong&gt;behålla vår frihet&lt;/strong&gt;, &lt;strong&gt;rätta fel&lt;/strong&gt;, &lt;strong&gt;lägga till funktioner&lt;/strong&gt; och &lt;strong&gt;alltid vara aktiva&lt;/strong&gt;, så räknar vi med ditt &lt;strong&gt;bidrag&lt;/strong&gt;.</string>
+    <string name="html_about_contribution">För att &lt;strong&gt;behålla vår frihet&lt;/strong&gt;, &lt;strong&gt;rätta fel&lt;/strong&gt;, &lt;strong&gt;lägga till funktioner&lt;/strong&gt; och &lt;strong&gt;alltid vara aktiva&lt;/strong&gt;, räknar vi med ditt &lt;strong&gt;bidrag&lt;/strong&gt;.</string>
     <string name="entry_add_attachment">Bifoga fil</string>
     <string name="discard_changes">Ignorera ändringar\?</string>
     <string name="validate">Bekräfta</string>
@@ -445,7 +445,7 @@
     <string name="search_filters">Sökfilter</string>
     <string name="current_group">Nuvarande grupp</string>
     <string name="case_sensitive">Skiftlägeskänslig</string>
-    <string name="content_description_hardware_key_checkbox">Hårdvarunyckelruta</string>
+    <string name="content_description_hardware_key_checkbox">Hårdvarunyckelkryssruta</string>
     <string name="hardware_key">Hårdvarunyckel</string>
     <string name="searchable">Sökbar</string>
     <string name="error_no_hardware_key">Välj hårdvarunyckel.</string>
