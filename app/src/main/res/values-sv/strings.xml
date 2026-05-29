@@ -24,13 +24,13 @@
     <string name="accept">OK</string>
     <string name="add_entry">Ny post</string>
     <string name="add_group">Ny grupp</string>
-    <string name="encryption_algorithm">Krypterings algoritm</string>
+    <string name="encryption_algorithm">Krypteringsalgoritm</string>
     <string name="app_timeout">Tidsgräns</string>
     <string name="app_timeout_summary">Inaktivitet innan databasen låses</string>
     <string name="application">App</string>
     <string name="menu_app_settings">App-inställningar</string>
     <string name="brackets">Parenteser</string>
-    <string name="file_manager_install_description">En filhanterare som accepterar avsiktlig åtgärd ACTION_CREATE_DOCUMENT och ACTION_OPEN_DOCUMENT krävs för att skapa, öppna och spara databasfiler.</string>
+    <string name="file_manager_install_description">En filhanterare som accepterar intent-åtgärderna ACTION_CREATE_DOCUMENT och ACTION_OPEN_DOCUMENT krävs för att skapa, öppna och spara databasfiler.</string>
     <string name="clipboard_cleared">Urklipp har rensats</string>
     <string name="clipboard_error_title">Urklippsfel</string>
     <string name="clipboard_error">Vissa enheter låter inte appar använda urklipp.</string>
@@ -38,7 +38,7 @@
     <string name="clipboard_timeout">Tidsgräns för urklipp</string>
     <string name="clipboard_timeout_summary">Lagringens varaktighet i urklippet</string>
     <string name="select_to_copy">Kopiera %1$s till urklipp</string>
-    <string name="retrieving_db_key">Skapar databasnyckel…</string>
+    <string name="retrieving_db_key">Hämtar databasnyckel…</string>
     <string name="database">Databas</string>
     <string name="decrypting_db">Dekrypterar databasinnehåll…</string>
     <string name="default_checkbox">Använd som standarddatabas</string>
@@ -67,7 +67,7 @@
     <string name="error_no_name">Ange ett namn.</string>
     <string name="error_nokeyfile">Välj en nyckelfil.</string>
     <string name="error_out_of_memory">Otillräckligt minne för att ladda hela databasen.</string>
-    <string name="error_pass_gen_type">Minst en lösenords-genereringstyp måste väljas.</string>
+    <string name="error_pass_gen_type">Minst en typ av lösenordsgenerering måste väljas.</string>
     <string name="error_pass_match">Lösenorden matchar inte.</string>
     <string name="error_rounds_too_large">\"Transformationsrundor\" är för stort. Sätter värdet till 2147483648.</string>
     <string name="error_string_key">Varje sträng måste ha ett fältnamn.</string>
@@ -114,19 +114,17 @@
     <string name="content_description_remove_from_list">Ta bort</string>
     <string name="root">Root</string>
     <string name="rounds">Transformationsrundor</string>
-    <string name="rounds_explanation">Högre antal krypteringsrundor ger ytterligare skydd mot bruteforce-attacker, men kan göra det betydligt långsammare att ladda och spara.</string>
+    <string name="rounds_explanation">Högre antal krypteringsrundor ger ytterligare skydd mot brute force-attacker, men kan göra det betydligt långsammare att ladda och spara.</string>
     <string name="saving_database">Sparar databas…</string>
     <string name="space">Mellanslag</string>
     <string name="sort_db">Naturlig ordning</string>
     <string name="special">Specialtecken</string>
-    <string name="search">Postens titel/beskrivning</string>
+    <string name="search">Sök</string>
     <string name="underline">Understreck</string>
     <string name="unsupported_db_version">Databasversionen stöds ej.</string>
     <string name="uppercase">Versaler</string>
     <string name="version_label">Version %1$s</string>
-    <string name="education_unlock_summary">Ange lösenord och/eller nyckelfil för att öppna databasen.
-\n
-\nBacka upp databasfilen på ett säkert ställe efter varje ändring.</string>
+    <string name="education_unlock_summary">Ange lösenord och/eller nyckelfil för att öppna databasen.\n\nBacka upp databasfilen på ett säkert ställe efter varje ändring.</string>
     <string-array name="list_size_options">
         <item>Liten</item>
         <item>Medium</item>
@@ -145,9 +143,9 @@
     <string name="content_description_password_checkbox">Lösenordskryssruta</string>
     <string name="content_description_keyfile_checkbox">Nyckelfilskryssruta</string>
     <string name="content_description_repeat_toggle_password_visibility">Repetera växla lösenordssynlighet</string>
-    <string name="content_description_entry_icon">Post-ikon</string>
+    <string name="content_description_entry_icon">Postikon</string>
     <string name="entry_password_generator">Lösenordsgenerator</string>
-    <string name="content_description_password_length">Lösenords längd</string>
+    <string name="content_description_password_length">Lösenordslängd</string>
     <string name="entry_add_field">Lägg till fält</string>
     <string name="content_description_remove_field">Ta bort fält</string>
     <string name="content_description_background">Bakgrund</string>
@@ -159,7 +157,7 @@
     <string name="error_autofill_enable_service">Kunde inte aktivera autofyll-tjänsten.</string>
     <string name="file_not_found_content">Kunde inte hitta filen. Försök att öppna den igen från din filhanterare.</string>
     <string name="copy_field">Kopia av %1$s</string>
-    <string name="menu_form_filling_settings">Formulär-ifyllning</string>
+    <string name="menu_form_filling_settings">Formulärifyllning</string>
     <string name="read_only">Skrivskyddad</string>
     <string name="read_only_warning">Beroende på din filhanterare så kanske inte KeePassDX har skrivbehörighet för att skriva till din enhet.</string>
     <string name="encryption_explanation">Krypteringsalgoritm som används för all data i databasen</string>
@@ -167,14 +165,14 @@
     <string name="memory_usage">Minnesanvändning</string>
     <string name="memory_usage_explanation">Mängd minne som ska användas av nyckelderivatsfunktionen.</string>
     <string name="parallelism">Parallellism</string>
-    <string name="parallelism_explanation">Grad av parallellism (dvs. antal trådar) som används av nyckelderivatsfuntionen.</string>
+    <string name="parallelism_explanation">Grad av parallellism (dvs. antal trådar) som används av nyckelderivatsfunktionen.</string>
     <string name="sort_menu">Sortera</string>
     <string name="sort_ascending">Stigande ↓</string>
     <string name="sort_groups_before">Grupper först</string>
     <string name="sort_recycle_bin_bottom">Papperskorg längst ner</string>
     <string name="sort_title">Titel</string>
     <string name="sort_username">Användarnamn</string>
-    <string name="sort_creation_time">Skapelse</string>
+    <string name="sort_creation_time">Skapad</string>
     <string name="sort_last_modify_time">Ändring</string>
     <string name="sort_last_access_time">Åtkomst</string>
     <string name="warning">Varning</string>
@@ -194,7 +192,7 @@
     <string name="lock_database_screen_off_title">Skärmlås</string>
     <string name="lock_database_screen_off_summary">Lås databasen när skärmen är av</string>
     <string name="unavailable_feature_text">Kunde inte starta denna funktion.</string>
-    <string name="unavailable_feature_version">Din Androidversion %1$s möter inte minimumversionen %2$s.</string>
+    <string name="unavailable_feature_version">Enheten kör Android %1$s, men kräver %2$s eller senare.</string>
     <string name="unavailable_feature_hardware">Kunde inte hitta motsvarande hårdvara.</string>
     <string name="file_name">Filnamn</string>
     <string name="path">Sökväg</string>
@@ -222,9 +220,7 @@
     <string name="education_select_database_title">Öppna en befintlig databas</string>
     <string name="education_select_database_summary">Öppna din tidigare databasfil från din filhanterare för att fortsätta använda den.</string>
     <string name="education_new_node_title">Lägg till objekt i din databas</string>
-    <string name="education_new_node_summary">Poster hjälper dig att hålla reda på dina digitala identiteter.
-\n
-\nGrupper (~ folders) organiserar poster i din databas.</string>
+    <string name="education_new_node_summary">Poster hjälper dig att hålla reda på dina digitala identiteter.\n\nGrupper (~folders) organiserar poster i din databas.</string>
     <string name="education_search_title">Sök igenom poster</string>
     <string name="education_search_summary">Skriv in titel, användarnamn eller innehåll från andra fält för att hämta dina lösenord.</string>
     <string name="education_entry_edit_title">Redigera posten</string>
@@ -232,12 +228,10 @@
     <string name="education_generate_password_title">Skapa ett starkt lösenord</string>
     <string name="education_generate_password_summary">Generera ett starkt lösenord för att associera med din post, definiera det enkelt enligt kriterierna för formuläret och glöm inte ett säkert lösenord.</string>
     <string name="education_entry_new_field_title">Lägg till anpassade fält</string>
-    <string name="education_entry_new_field_summary">Regstrera et extra fält, fyll i ett värde och eventuellt skydda det.</string>
+    <string name="education_entry_new_field_summary">Regstrera ett extra fält, fyll i ett värde och eventuellt skydda det.</string>
     <string name="education_unlock_title">Lås upp din databas</string>
     <string name="education_field_copy_title">Kopiera ett fält</string>
-    <string name="education_field_copy_summary">Kopierade fält kan klistras in vart som helst.
-\n
-\nAnvänd den formulärfyllningsmetoden som du föredrar.</string>
+    <string name="education_field_copy_summary">Kopierade fält kan klistras in vart som helst.\n\nAnvänd den formulärfyllningsmetoden som du föredrar.</string>
     <string name="education_lock_title">Lås databasen</string>
     <string name="education_lock_summary">Lås databasen snabbt, du kan ställa in att appen låser den efter en stund och när skärmen släcks.</string>
     <string name="education_sort_title">Objektsortering</string>
@@ -261,7 +255,7 @@
     <string name="style_choose_summary">Tema som används i appen</string>
     <string name="icon_pack_choose_title">Ikonpaket</string>
     <string name="icon_pack_choose_summary">Ikonpaket som används i appen</string>
-    <string name="menu_copy">Kopia</string>
+    <string name="menu_copy">Kopiera</string>
     <string name="menu_move">Flytta</string>
     <string name="menu_paste">Klistra in</string>
     <string name="menu_cancel">Avbryt</string>
@@ -317,10 +311,10 @@
     <string name="list_groups_show_number_entries_title">Visa antal poster</string>
     <string name="list_groups_show_number_entries_summary">Visa antalet poster i en grupp</string>
     <string name="error_create_database_file">Det går inte att skapa en databas med det här lösenordet och nyckelfil.</string>
-    <string name="menu_device_unlock_settings">Enhets upplåsning</string>
-    <string name="unavailable">Den här databasen har inga sparade autentiseringsuppgifter ännu.</string>
+    <string name="menu_device_unlock_settings">Enhetsupplåsning</string>
+    <string name="unavailable">Inte tillgänglig</string>
     <string name="menu_appearance_settings">Utseende</string>
-    <string name="biometric">Biometrik</string>
+    <string name="biometric">Biometri</string>
     <string name="device_unlock">Avancerad upplåsning</string>
     <string name="biometric_unlock_enable_title">Biometrisk upplåsning</string>
     <string name="biometric_unlock_enable_summary">Låter dig skanna din biometrik för att öppna databasen</string>
@@ -343,9 +337,9 @@
     <string name="error_disallow_no_credentials">Minst en användaruppgift måste anges.</string>
     <string name="error_copy_group_here">Du kan inte kopiera en grupp här.</string>
     <string name="error_otp_secret_key">Hemlighet måste vara i Base32-format.</string>
-    <string name="error_otp_counter">Räknare måste vara mellan %1$d and %2$d.</string>
-    <string name="error_otp_period">Period måste vara mellan %1$d and %2$d sekunder.</string>
-    <string name="error_otp_digits">Pollett måste innehålla %1$d till %2$d siffror.</string>
+    <string name="error_otp_counter">Räknare måste vara mellan %1$d och %2$d.</string>
+    <string name="error_otp_period">Period måste vara mellan %1$d och %2$d sekunder.</string>
+    <string name="error_otp_digits">Token måste innehålla %1$d till %2$d siffror.</string>
     <string name="invalid_db_same_uuid">%1$s med samma UUID %2$s finns redan.</string>
     <string name="creating_database">Skapar databas…</string>
     <string name="menu_security_settings">Säkerhetsinställningar</string>
@@ -355,7 +349,7 @@
     <string name="database_history">Historik</string>
     <string name="autofill_explanation_summary">Aktivera autofyll för att snabbt kunna fylla i formulär i andra appar</string>
     <string name="database_opened">Databas öppnad</string>
-    <string name="clipboard_explanation_summary">Kopiera post-fält med hjälp av enhetens urklipp</string>
+    <string name="clipboard_explanation_summary">Kopiera postfält med hjälp av enhetens urklipp</string>
     <string name="device_unlock_explanation_summary">Använd avancerad upplåsning för att öppna en databas enklare</string>
     <string name="database_data_compression_title">Datakomprimering</string>
     <string name="database_data_compression_summary">Datakomprimering reducerar databasens storlek</string>
@@ -400,7 +394,7 @@
     <string name="hide_expired_entries_title">Dölj utgångna poster</string>
     <string name="download_complete">Färdigt!</string>
     <string name="download_finalization">Färdigställande…</string>
-    <string name="download_progression">Händelse %1$d%%</string>
+    <string name="download_progression">Pågår: %1$d%%</string>
     <string name="download_initialization">Initiering…</string>
     <string name="download_attachment">Ladda ner %1$s</string>
     <string name="education_setup_OTP_summary">Inställning av OTP (One-Time Password (Engångslösenord))-hantering av (HOTP/TOTP) för att skapa tecken begärda av Tvåstegs autentisering (2FA).</string>
@@ -411,14 +405,14 @@
     <string name="lock_database_show_button_title">Visa låsknappen</string>
     <string name="autofill_preference_title">Autofyllinställningar</string>
     <string name="warning_database_link_revoked">Åtkomst till filen nekas av filhanteraren</string>
-    <string name="warning_database_read_only">Tillåt att skriva databasändringar</string>
+    <string name="warning_database_read_only">Ge filen skrivåtkomst för att spara databasändringar</string>
     <string name="hide_broken_locations_summary">Dölj felaktiga länkar i listan över senaste databaser</string>
     <string name="hide_broken_locations_title">Dölj felaktiga databaslänkar</string>
     <string name="show_recent_files_summary">Visa sökväg till senaste databaser</string>
     <string name="remember_database_locations_title">Spara platsen för databaser</string>
     <string name="error_label_exists">Den här etiketten finns redan.</string>
-    <string name="entry_attachments">Bifogat</string>
-    <string name="html_about_contribution">För att &lt;strong&gt;behålla vår frihet&lt;/strong&gt;, &lt;strong&gt;fixa buggfixar&lt;/strong&gt;, &lt;strong&gt;lägga till funktioner&lt;/strong&gt; och &lt;strong&gt; alltid vara aktiv&lt;/strong&gt;, så räknar vi med ditt &lt;strong&gt;bidrag&lt;/strong&gt;.</string>
+    <string name="entry_attachments">Bilagor</string>
+    <string name="html_about_contribution">För att &lt;strong&gt;behålla vår frihet&lt;/strong&gt;, &lt;strong&gt;rätta fel&lt;/strong&gt;, &lt;strong&gt;lägga till funktioner&lt;/strong&gt; och &lt;strong&gt;alltid vara aktiva&lt;/strong&gt;, så räknar vi med ditt &lt;strong&gt;bidrag&lt;/strong&gt;.</string>
     <string name="entry_add_attachment">Bifoga fil</string>
     <string name="discard_changes">Ignorera ändringar\?</string>
     <string name="validate">Bekräfta</string>
@@ -432,13 +426,13 @@
     <string name="international_bank_account_number">IBAN</string>
     <string name="standard">Standard</string>
     <string name="template">Mall</string>
-    <string name="wireless">WiFI</string>
+    <string name="wireless">Wi-Fi</string>
     <string name="content_description_database_color">Databasfärg</string>
     <string name="card_verification_value">CVV</string>
     <string name="number">Nummer</string>
     <string name="personal_identification_number">PIN</string>
     <string name="email">E-post</string>
-    <string name="email_address">Epostadress</string>
+    <string name="email_address">E-postadress</string>
     <string name="ssid">SSID</string>
     <string name="bank">Bank</string>
     <string name="bank_name">Banknamn</string>
@@ -476,20 +470,20 @@
     <string name="navigation_drawer_open">Navigeringspanelen är öppen</string>
     <string name="navigation_drawer_close">Stäng navigeringspanelen</string>
     <string name="custom_data">Anpassade data</string>
-    <string name="content_description_entry_foreground_color">Förgrundsfärg för inmatning</string>
-    <string name="content_description_entry_background_color">Förgrundsfärg för inmatning</string>
+    <string name="content_description_entry_foreground_color">Förgrundsfärg för post</string>
+    <string name="content_description_entry_background_color">Bakgrundsfärg för post</string>
     <string name="waiting_challenge_request">Väntar på utmaningsförfrågan…</string>
     <string name="waiting_challenge_response">Väntar på utmaningssvaret…</string>
     <string name="inherited">Ärva</string>
-    <string name="auto_type_sequence">Sekvens för automatisk typ</string>
+    <string name="auto_type_sequence">Autoskrivsekvens</string>
     <string name="regex">Reguljärt uttryck</string>
     <string name="place_of_issue">Plats för utfärdande</string>
-    <string name="token">Bevis</string>
+    <string name="token">Token</string>
     <string name="secure_note">Säker anteckning</string>
     <string name="error_XML_malformed">XML-filen är felaktig.</string>
     <string name="error_registration_read_only">Det är inte tillåtet att spara ett nytt objekt i en skrivskyddad databas.</string>
     <string name="error_field_name_already_exists">Fältnamnet finns redan.</string>
-    <string name="auto_type">Auto-typ</string>
+    <string name="auto_type">Autoskriv</string>
     <string name="error_file_to_big">Filen du försöker ladda upp är för stor.</string>
     <string name="error_upload_file">Ett fel inträffade när filens data laddades upp.</string>
     <string name="error_duplicate_file">Filens data existerar redan.</string>
@@ -506,7 +500,7 @@
     <string name="nodes">Noder</string>
     <string name="colorize_password_title">Färglägg lösenord</string>
     <string name="show_otp_token_title">Visa OTP token</string>
-    <string name="show_otp_token_summary">Visa OTP token i post-listan</string>
+    <string name="show_otp_token_summary">OTP-token i postlistan</string>
     <string name="show_uuid_title">Visa UUID</string>
     <string name="error_otp_secret_length">Hemlighet måste vara minst %1$d tecken.</string>
     <string name="error_start_database_action">Ett fel inträffade under databasoperationen.</string>
@@ -540,7 +534,7 @@
     <string name="error_export_app_properties">Fel inträffade när appinställningar exporterades.</string>
     <string name="filter">Filter</string>
     <string name="warning_database_already_opened">En databas är redan öppen, stäng den för att öppna en ny</string>
-    <string name="warning_empty_recycle_bin">Raders papperskorgens alla noder permanent?</string>
+    <string name="warning_empty_recycle_bin">Radera alla noder i papperskorgen permanent?</string>
     <string name="clipboard_otp_notifications_title">OTP-notifikation</string>
     <string name="entry_application_id">App-Id</string>
     <string name="error_no_response_from_challenge">Kunde inte hämta svaret från utmaningen.</string>
