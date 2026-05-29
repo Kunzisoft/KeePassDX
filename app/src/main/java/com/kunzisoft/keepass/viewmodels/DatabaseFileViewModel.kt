@@ -3,17 +3,20 @@ package com.kunzisoft.keepass.viewmodels
 import android.app.Application
 import android.net.Uri
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.viewModelScope
 import com.kunzisoft.keepass.app.App
 import com.kunzisoft.keepass.app.database.FileDatabaseHistoryAction
 import com.kunzisoft.keepass.database.MainCredential
 import com.kunzisoft.keepass.model.CipherEncryptDatabase
 import com.kunzisoft.keepass.model.DatabaseFile
 import com.kunzisoft.keepass.settings.PreferencesUtil
-import com.kunzisoft.keepass.utils.IOActionTask
 import com.kunzisoft.keepass.utils.parseUri
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 /**
  * ViewModel for managing a single database file.
@@ -44,31 +47,27 @@ class DatabaseFileViewModel(application: Application) : AndroidViewModel(applica
      * Checks if the given database URI corresponds to the default database.
      */
     fun checkIfIsDefaultDatabase(databaseUri: Uri) {
-        IOActionTask(
-            {
-                (PreferencesUtil.getDefaultDatabasePath(getApplication<App>().applicationContext)
-                    ?.parseUri() == databaseUri)
-            },
-            {
-                _isDefaultDatabase.value = it
-            },
-        ).execute()
+        viewModelScope.launch {
+            val isDefault = withContext(Dispatchers.IO) {
+                PreferencesUtil.getDefaultDatabasePath(getApplication<App>().applicationContext)
+                    ?.parseUri() == databaseUri
+            }
+            _isDefaultDatabase.value = isDefault
+        }
     }
 
     /**
      * Removes the default database path from preferences.
      */
     fun removeDefaultDatabase() {
-        IOActionTask(
-            {
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
                 PreferencesUtil.saveDefaultDatabasePath(
                     getApplication<App>().applicationContext,
                     null,
                 )
-            },
-            {
-            },
-        ).execute()
+            }
+        }
     }
 
     /**

@@ -4,18 +4,21 @@ import android.app.Application
 import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.viewModelScope
 import com.kunzisoft.keepass.app.App
 import com.kunzisoft.keepass.app.database.FileDatabaseHistoryAction
 import com.kunzisoft.keepass.hardware.HardwareKey
 import com.kunzisoft.keepass.model.DatabaseFile
 import com.kunzisoft.keepass.settings.PreferencesUtil
-import com.kunzisoft.keepass.utils.IOActionTask
 import com.kunzisoft.keepass.utils.UriUtil.releaseUriPermission
 import com.kunzisoft.keepass.utils.parseUri
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class DatabaseFilesViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -56,29 +59,25 @@ class DatabaseFilesViewModel(application: Application) : AndroidViewModel(applic
     }
 
     private fun checkDefaultDatabase() {
-        IOActionTask(
-            {
+        viewModelScope.launch {
+            val uri = withContext(Dispatchers.IO) {
                 PreferencesUtil.getDefaultDatabasePath(getApplication<App>().applicationContext)
                     ?.parseUri()
-            },
-            {
-                _defaultDatabase.value = it
             }
-        ).execute()
+            _defaultDatabase.value = uri
+        }
     }
 
     fun setDefaultDatabase(databaseFile: DatabaseFile?) {
-        IOActionTask(
-            {
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
                 PreferencesUtil.saveDefaultDatabasePath(
                     getApplication<App>().applicationContext,
                     databaseFile?.databaseUri,
                 )
-            },
-            {
-                checkDefaultDatabase()
             }
-        ).execute()
+            checkDefaultDatabase()
+        }
     }
 
     fun loadListOfDatabases() {
