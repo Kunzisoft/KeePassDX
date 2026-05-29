@@ -46,17 +46,17 @@
     <string name="html_about_licence">KeePassDX © %1$d Kunzisoft är &lt;strong&gt;öppen källkod&lt;/strong&gt; och &lt;strong&gt;utan reklam&lt;/strong&gt;.
 \nDen tillhandahålls i befintligt skick, under &lt;strong&gt;GPLv3-licens&lt;/strong&gt;, utan någon garanti.</string>
     <string name="select_database_file">Öppna befintligt valv</string>
-    <string name="entry_accessed">Åtkomst</string>
+    <string name="entry_accessed">Senast åtkommen</string>
     <string name="entry_cancel">Avbryt</string>
     <string name="entry_notes">Anteckningar</string>
     <string name="entry_confpassword">Bekräfta lösenord</string>
     <string name="entry_created">Skapad</string>
-    <string name="entry_expires">Upphör</string>
+    <string name="entry_expires">Förfaller</string>
     <string name="entry_keyfile">Nyckelfil</string>
     <string name="entry_modified">Ändrad</string>
     <string name="entry_password">Lösenord</string>
     <string name="save">Spara</string>
-    <string name="entry_title">Namn</string>
+    <string name="entry_title">Titel</string>
     <string name="entry_url">URL</string>
     <string name="entry_user_name">Användarnamn</string>
     <string name="error_arc4">Strömchiffret Arcfour stöds inte.</string>
@@ -88,8 +88,8 @@
     <string name="invalid_db_sig">Det gick inte att känna igen databasformatet.</string>
     <string name="keyfile_is_empty">Nyckelfilen är tom.</string>
     <string name="length">Längd</string>
-    <string name="list_size_title">Storlek på grupplista</string>
-    <string name="list_size_summary">Textstorlek i grupplistan</string>
+    <string name="list_size_title">Storlek på listobjekt</string>
+    <string name="list_size_summary">Textstorlek i listan</string>
     <string name="loading_database">Laddar databas…</string>
     <string name="lowercase">Gemener</string>
     <string name="about">Om</string>
@@ -142,7 +142,7 @@
     <string name="content_description_file_information">Filinformation</string>
     <string name="content_description_password_checkbox">Lösenordskryssruta</string>
     <string name="content_description_keyfile_checkbox">Nyckelfilskryssruta</string>
-    <string name="content_description_repeat_toggle_password_visibility">Repetera växla lösenordssynlighet</string>
+    <string name="content_description_repeat_toggle_password_visibility">Växla synlighet för upprepat lösenord</string>
     <string name="content_description_entry_icon">Postikon</string>
     <string name="entry_password_generator">Lösenordsgenerator</string>
     <string name="content_description_password_length">Lösenordslängd</string>
@@ -161,7 +161,7 @@
     <string name="read_only">Skrivskyddad</string>
     <string name="read_only_warning">Beroende på din filhanterare så kanske inte KeePassDX har skrivbehörighet för att skriva till din enhet.</string>
     <string name="encryption_explanation">Krypteringsalgoritm som används för all data i databasen</string>
-    <string name="kdf_explanation">För att generera nyckeln till krypteringsalgoritmen kommer huvudnyckeln transformeras med en slumpmässigt saltad nyckelhärledningsfunktion.</string>
+    <string name="kdf_explanation">För att generera nyckeln till krypteringsalgoritmen transformeras huvudnyckeln med en slumpmässigt saltad nyckelhärledningsfunktion.</string>
     <string name="memory_usage">Minnesanvändning</string>
     <string name="memory_usage_explanation">Mängd minne som ska användas av nyckelhärledningsfunktionen.</string>
     <string name="parallelism">Parallellism</string>
@@ -177,13 +177,13 @@
     <string name="sort_last_access_time">Åtkomst</string>
     <string name="warning">Varning</string>
     <string name="warning_password_encoding">Undvik lösenordstecken utöver textkodningsformatet i databasfilen (okända tecken konverteras till samma bokstav).</string>
-    <string name="warning_empty_password">Fortsätt utan lösenord för att låsa upp?</string>
+    <string name="warning_empty_password">Fortsätt utan lösenordsskydd för upplåsning?</string>
     <string name="warning_no_encryption_key">Fortsätt utan en krypteringsnyckel?</string>
     <string name="encrypted_value_stored">Krypterat lösenord sparat</string>
     <string name="general">Allmänt</string>
     <string name="autofill">Autofyll</string>
     <string name="autofill_sign_in_prompt">Logga in med KeePassDX</string>
-    <string name="set_credential_provider_service_title">Välj standardtjänst för autofyll</string>
+    <string name="set_credential_provider_service_title">Tjänst för inloggningsuppgifter</string>
     <string name="password_size_title">Längd på genererat lösenord</string>
     <string name="password_size_summary">Anger standardlängden för de genererade lösenorden</string>
     <string name="list_password_generator_options_title">Lösenordstecken</string>
@@ -200,7 +200,7 @@
     <string name="create_keepass_file">Skapa nytt valv</string>
     <string name="recycle_bin_title">Använd papperskorg</string>
     <string name="recycle_bin_summary">Flyttar grupper och poster till gruppen \"Papperskorg\" innan de raderas</string>
-    <string name="monospace_font_fields_enable_title">Fälttypsnitt</string>
+    <string name="monospace_font_fields_enable_title">Fältteckensnitt</string>
     <string name="monospace_font_fields_enable_summary">Ändra typsnitt som används i fält för att se tecknen bättre</string>
     <string name="allow_copy_password_title">Lita på urklipp</string>
     <string name="allow_copy_password_summary">Tillåt postens lösenord och skyddade fält att kopieras till urklipp</string>
@@ -226,7 +226,7 @@
     <string name="education_entry_edit_title">Redigera posten</string>
     <string name="education_entry_edit_summary">Redigera posten med anpassade fält. Pooldata kan refereras mellan olika inmatningsfält.</string>
     <string name="education_generate_password_title">Skapa ett starkt lösenord</string>
-    <string name="education_generate_password_summary">Generera ett starkt lösenord för att associera med din post, definiera det enkelt enligt kriterierna för formuläret och glöm inte ett säkert lösenord.</string>
+    <string name="education_generate_password_summary">Generera ett starkt lösenord för att associera med din post, definiera det enkelt enligt kriterierna för formuläret och spara lösenordet på ett säkert sätt.</string>
     <string name="education_entry_new_field_title">Lägg till anpassade fält</string>
     <string name="education_entry_new_field_summary">Registrera ett extra fält, fyll i ett värde och skydda det vid behov.</string>
     <string name="education_unlock_title">Lås upp din databas</string>
@@ -237,7 +237,7 @@
     <string name="education_sort_title">Objektsortering</string>
     <string name="education_sort_summary">Välj hur poster och grupper sorteras.</string>
     <string name="education_donation_title">Delta</string>
-    <string name="education_donation_summary">Hjälp till att öka stabilitet, säkerhet och med att lägga till fler funktioner.</string>
+    <string name="education_donation_summary">Hjälp till att öka stabiliteten och säkerheten samt lägga till fler funktioner.</string>
     <string name="html_text_ad_free">Till skillnad från många andra lösenordshanterare är den här &lt;strong&gt;reklamfri&lt;/strong&gt;, &lt;strong&gt;copyleftad fri mjukvara&lt;/strong&gt; och samlar inte in någon personlig data på servrar, oavsett vilken version du använder.</string>
     <string name="html_text_buy_pro">Genom att köpa pro-versionen får du tillgång till den här &lt;strong&gt;visuella funktionen&lt;/strong&gt; och du hjälper särskilt till med &lt;strong&gt;genomförandet av community-projekt.&lt;/strong&gt;</string>
     <string name="html_text_feature_generosity">Den här &lt;strong&gt;visuella funktionen&lt;/strong&gt; är tillgänglig tack vare din generositet.</string>
@@ -268,10 +268,7 @@
     <string name="menu_file_selection_read_only">Skrivskyddad</string>
     <string name="menu_open_file_read_and_write">Ändringsbar</string>
     <string name="education_read_only_title">Skrivskydda din databas</string>
-    <string name="education_read_only_summary">Ändra öppningsläge för sessionen.
-\n
-\n\"Skrivskyddad\" förhindrar oavsiktliga ändringar till databasen.
-\n\"Ändringsbar\" låter dig lägga till, radera eller ändra alla element.</string>
+    <string name="education_read_only_summary">Ändra öppningsläge för sessionen. \n \n\"Skrivskyddad\" förhindrar oavsiktliga ändringar till databasen.\n\"Ändringsbar\" låter dig lägga till, radera eller ändra alla element.</string>
     <string name="error_load_database">Kunde inte ladda in databasen.</string>
     <string name="error_load_database_KDF_memory">Kunde inte ladda in nyckeln. Prova att sänka KDF \"Minnesanvändning\".</string>
     <string name="list_entries_show_username_title">Visa användarnamn</string>
@@ -315,7 +312,7 @@
     <string name="unavailable">Inte tillgänglig</string>
     <string name="menu_appearance_settings">Utseende</string>
     <string name="biometric">Biometri</string>
-    <string name="device_unlock">Avancerad upplåsning</string>
+    <string name="device_unlock">Enhetsupplåsning</string>
     <string name="biometric_unlock_enable_title">Biometrisk upplåsning</string>
     <string name="biometric_unlock_enable_summary">Låter dig skanna din biometrik för att öppna databasen</string>
     <string name="biometric_auto_open_prompt_title">Öppna biometrisk prompt automatiskt</string>
@@ -323,7 +320,7 @@
     <string name="biometric_delete_all_key_title">Radera krypteringsnycklar</string>
     <string name="biometric_delete_all_key_summary">Radera alla krypteringsnycklar som hör till den biometriska igenkänningen</string>
     <string name="enable">Aktivera</string>
-    <string name="disable">Avaktivera</string>
+    <string name="disable">Inaktivera</string>
     <string name="entry_history">Historik</string>
     <string name="entry_setup_otp">Konfigurera engångslösenord</string>
     <string name="otp_type">OTP-typ</string>
@@ -336,7 +333,7 @@
     <string name="error_invalid_OTP">Ogiltig OTP-hemlighet.</string>
     <string name="error_disallow_no_credentials">Minst en användaruppgift måste anges.</string>
     <string name="error_copy_group_here">Du kan inte kopiera en grupp här.</string>
-    <string name="error_otp_secret_key">Hemlighet måste vara i Base32-format.</string>
+    <string name="error_otp_secret_key">Hemlig nyckel måste vara i Base32-format.</string>
     <string name="error_otp_counter">Räknare måste vara mellan %1$d och %2$d.</string>
     <string name="error_otp_period">Period måste vara mellan %1$d och %2$d sekunder.</string>
     <string name="error_otp_digits">Token måste innehålla %1$d till %2$d siffror.</string>
@@ -380,7 +377,7 @@
     <string name="enable_auto_save_database_title">Autospara databas</string>
     <string name="enable_auto_save_database_summary">Spara databasen automatiskt efter varje viktig händelse (endast i läget \"Ändringsbar\")</string>
     <string name="show_recent_files_title">Visa senaste filer</string>
-    <string name="remember_keyfile_locations_summary">Kom ihåg platsen för databasens nyckelfil</string>
+    <string name="remember_keyfile_locations_summary">Kom ihåg var nyckelfiler lagras</string>
     <string name="remember_keyfile_locations_title">Spara plats för nyckelfiler</string>
     <string name="remember_database_locations_summary">Kom ihåg platsen för databaser</string>
     <string name="auto_focus_search_summary">Begär en sökning när du öppnar en databas</string>
@@ -390,7 +387,7 @@
     <string name="error_create_database">Det gick inte att skapa databasfilen.</string>
     <string name="discard">Förkasta</string>
     <string name="contact">Kontakt</string>
-    <string name="hide_expired_entries_summary">Utgångna poster visas ej</string>
+    <string name="hide_expired_entries_summary">Utgångna poster visas inte</string>
     <string name="hide_expired_entries_title">Dölj utgångna poster</string>
     <string name="download_complete">Färdigt!</string>
     <string name="download_finalization">Färdigställande…</string>
@@ -404,12 +401,12 @@
     <string name="lock_database_show_button_summary">Visa låsknappen i gränssnittet</string>
     <string name="lock_database_show_button_title">Visa låsknappen</string>
     <string name="autofill_preference_title">Autofyllinställningar</string>
-    <string name="warning_database_link_revoked">Åtkomst till filen nekas av filhanteraren</string>
+    <string name="warning_database_link_revoked">Åtkomsten till filen har återkallats av filhanteraren</string>
     <string name="warning_database_read_only">Ge filen skrivåtkomst för att spara databasändringar</string>
     <string name="hide_broken_locations_summary">Dölj felaktiga länkar i listan över senaste databaser</string>
     <string name="hide_broken_locations_title">Dölj felaktiga databaslänkar</string>
     <string name="show_recent_files_summary">Visa sökväg till senaste databaser</string>
-    <string name="remember_database_locations_title">Spara platsen för databaser</string>
+    <string name="remember_database_locations_title">Kom ihåg databasplatser</string>
     <string name="error_label_exists">Den här etiketten finns redan.</string>
     <string name="entry_attachments">Bilagor</string>
     <string name="html_about_contribution">För att &lt;strong&gt;behålla vår frihet&lt;/strong&gt;, &lt;strong&gt;rätta fel&lt;/strong&gt;, &lt;strong&gt;lägga till funktioner&lt;/strong&gt; och &lt;strong&gt;alltid vara aktiva&lt;/strong&gt;, så räknar vi med ditt &lt;strong&gt;bidrag&lt;/strong&gt;.</string>
@@ -418,8 +415,8 @@
     <string name="validate">Bekräfta</string>
     <string name="contribution">Bidrag</string>
     <string name="expired">Utgånget</string>
-    <string name="date_of_issue">Utgivningsdatum</string>
-    <string name="debit_credit_card">Betal- / kreditkort</string>
+    <string name="date_of_issue">Utfärdandedatum</string>
+    <string name="debit_credit_card">Betal-/kreditkort</string>
     <string name="id_card">ID-kort</string>
     <string name="name">Namn</string>
     <string name="bank_identifier_code">SWIFT / BIC</string>
@@ -447,12 +444,12 @@
     <string name="template_group_name">Mallar</string>
     <string name="search_filters">Sökfilter</string>
     <string name="current_group">Nuvarande grupp</string>
-    <string name="case_sensitive">Versalkänslig</string>
+    <string name="case_sensitive">Skiftlägeskänslig</string>
     <string name="content_description_hardware_key_checkbox">Hårdvarunyckelruta</string>
     <string name="hardware_key">Hårdvarunyckel</string>
     <string name="searchable">Sökbar</string>
     <string name="error_no_hardware_key">Välj hårdvarunyckel.</string>
-    <string name="content_description_add_item">Lägg till ny</string>
+    <string name="content_description_add_item">Lägg till objekt</string>
     <string name="content_description_credentials_information">Inloggningsuppgifter</string>
     <string name="info">Information</string>
     <string name="type">Typ</string>
@@ -463,7 +460,7 @@
     <string name="error_rebuild_list">Kunde inte bygga om listan på rätt sätt.</string>
     <string name="seed">Frö</string>
     <string name="error_otp_type">Den befintliga OTP-typen känns inte igen av det här formuläret och dess validering kanske inte längre genererar token korrekt.</string>
-    <string name="holder">Hållare</string>
+    <string name="holder">Innehavare</string>
     <string name="error_word_reserved">Detta ord är reserverat och kan inte användas.</string>
     <string name="error_string_type">Den här texten stämmer inte överens med det begärda objektet.</string>
     <string name="content_description_nav_header">Rubrik för navigering</string>
@@ -502,7 +499,7 @@
     <string name="show_otp_token_title">Visa OTP-token</string>
     <string name="show_otp_token_summary">OTP-token i postlistan</string>
     <string name="show_uuid_title">Visa UUID</string>
-    <string name="error_otp_secret_length">Hemlighet måste vara minst %1$d tecken.</string>
+    <string name="error_otp_secret_length">Hemlig nyckel måste vara minst %1$d tecken.</string>
     <string name="error_start_database_action">Ett fel inträffade under databasoperationen.</string>
     <string name="error_challenge_already_requested">Utmaning har redan efterfrågats.</string>
     <string name="error_driver_required">Drivrutin för %1$s krävs.</string>
