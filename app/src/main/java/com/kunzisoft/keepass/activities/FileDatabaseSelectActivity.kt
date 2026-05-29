@@ -35,6 +35,9 @@ import androidx.activity.viewModels
 import androidx.appcompat.widget.Toolbar
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.view.isVisible
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
@@ -68,6 +71,7 @@ import com.kunzisoft.keepass.utils.getParcelableCompat
 import com.kunzisoft.keepass.view.asError
 import com.kunzisoft.keepass.view.showActionErrorIfNeeded
 import com.kunzisoft.keepass.viewmodels.DatabaseFilesViewModel
+import kotlinx.coroutines.launch
 import java.io.FileNotFoundException
 
 class FileDatabaseSelectActivity : DatabaseModeActivity(),
@@ -180,39 +184,48 @@ class FileDatabaseSelectActivity : DatabaseModeActivity(),
             mDatabaseFileUri = savedInstanceState.getParcelableCompat(EXTRA_DATABASE_URI)
         }
 
-        // Observe list of databases
-        databaseFilesViewModel.databaseFilesLoaded.observe(this) { databaseFiles ->
-            try {
-                when (databaseFiles.databaseFileAction) {
-                    DatabaseFilesViewModel.DatabaseFileAction.NONE -> {
-                        mAdapterDatabaseHistory?.replaceAllDatabaseFileHistoryList(databaseFiles.databaseFileList)
+        // Observe databases
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                launch {
+                    databaseFilesViewModel.defaultDatabase.collect {
+                        // Retrieve settings for default database
+                        mAdapterDatabaseHistory?.setDefaultDatabase(it)
                     }
-                    DatabaseFilesViewModel.DatabaseFileAction.ADD -> {
-                        databaseFiles.databaseFileToActivate?.let { databaseFileToAdd ->
-                            mAdapterDatabaseHistory?.addDatabaseFileHistory(databaseFileToAdd)
-                        }
-                    }
-                    DatabaseFilesViewModel.DatabaseFileAction.UPDATE -> {
-                        databaseFiles.databaseFileToActivate?.let { databaseFileToUpdate ->
-                            mAdapterDatabaseHistory?.updateDatabaseFileHistory(databaseFileToUpdate)
-                        }
-                    }
-                    DatabaseFilesViewModel.DatabaseFileAction.DELETE -> {
-                        databaseFiles.databaseFileToActivate?.let { databaseFileToDelete ->
-                            mAdapterDatabaseHistory?.deleteDatabaseFileHistory(databaseFileToDelete)
+                }
+                launch {
+                    databaseFilesViewModel.databaseFilesLoaded.collect { databaseFiles ->
+                        try {
+                            when (databaseFiles.databaseFileAction) {
+                                DatabaseFilesViewModel.DatabaseFileAction.NONE -> {
+                                    mAdapterDatabaseHistory?.replaceAllDatabaseFileHistoryList(databaseFiles.databaseFileList)
+                                }
+
+                                DatabaseFilesViewModel.DatabaseFileAction.ADD -> {
+                                    databaseFiles.databaseFileToActivate?.let { databaseFileToAdd ->
+                                        mAdapterDatabaseHistory?.addDatabaseFileHistory(databaseFileToAdd)
+                                    }
+                                }
+
+                                DatabaseFilesViewModel.DatabaseFileAction.UPDATE -> {
+                                    databaseFiles.databaseFileToActivate?.let { databaseFileToUpdate ->
+                                        mAdapterDatabaseHistory?.updateDatabaseFileHistory(databaseFileToUpdate)
+                                    }
+                                }
+
+                                DatabaseFilesViewModel.DatabaseFileAction.DELETE -> {
+                                    databaseFiles.databaseFileToActivate?.let { databaseFileToDelete ->
+                                        mAdapterDatabaseHistory?.deleteDatabaseFileHistory(databaseFileToDelete)
+                                    }
+                                }
+                            }
+                            databaseFilesViewModel.consumeAction()
+                        } catch (e: Exception) {
+                            Log.e(TAG, "Unable to observe database action", e)
                         }
                     }
                 }
-                databaseFilesViewModel.consumeAction()
-            } catch (e: Exception) {
-                Log.e(TAG, "Unable to observe database action", e)
             }
-        }
-
-        // Observe default database
-        databaseFilesViewModel.defaultDatabase.observe(this) {
-            // Retrieve settings for default database
-            mAdapterDatabaseHistory?.setDefaultDatabase(it)
         }
 
         // Remove all the remember locations if needed

@@ -4,7 +4,6 @@ import android.app.Application
 import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.MutableLiveData
 import com.kunzisoft.keepass.app.App
 import com.kunzisoft.keepass.app.database.FileDatabaseHistoryAction
 import com.kunzisoft.keepass.hardware.HardwareKey
@@ -13,6 +12,10 @@ import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.utils.IOActionTask
 import com.kunzisoft.keepass.utils.UriUtil.releaseUriPermission
 import com.kunzisoft.keepass.utils.parseUri
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 
 class DatabaseFilesViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -22,15 +25,19 @@ class DatabaseFilesViewModel(application: Application) : AndroidViewModel(applic
         mFileDatabaseHistoryAction = FileDatabaseHistoryAction.getInstance(application.applicationContext)
     }
 
-    val databaseFilesLoaded: MutableLiveData<DatabaseFileData> by lazy {
-        MutableLiveData<DatabaseFileData>()
-    }
+    /**
+     * StateFlow representing the loaded database files and associated actions.
+     */
+    private val _databaseFilesLoaded = MutableStateFlow(DatabaseFileData())
+    val databaseFilesLoaded: StateFlow<DatabaseFileData> = _databaseFilesLoaded.asStateFlow()
 
     private var mDefaultDatabaseAlreadyChecked : Boolean = false
 
-    val defaultDatabase: MutableLiveData<Uri?> by lazy {
-        MutableLiveData<Uri?>()
-    }
+    /**
+     * StateFlow representing the URI of the default database.
+     */
+    private val _defaultDatabase = MutableStateFlow<Uri?>(null)
+    val defaultDatabase: StateFlow<Uri?> = _defaultDatabase.asStateFlow()
 
     fun doForDefaultDatabase(action: (defaultDatabaseUri: Uri) -> Unit) {
         if (!mDefaultDatabaseAlreadyChecked) {
@@ -50,64 +57,65 @@ class DatabaseFilesViewModel(application: Application) : AndroidViewModel(applic
 
     private fun checkDefaultDatabase() {
         IOActionTask(
-                {
-                    PreferencesUtil.getDefaultDatabasePath(getApplication<App>().applicationContext)
-                        ?.parseUri()
-                },
-                {
-                    defaultDatabase.value = it
-                }
+            {
+                PreferencesUtil.getDefaultDatabasePath(getApplication<App>().applicationContext)
+                    ?.parseUri()
+            },
+            {
+                _defaultDatabase.value = it
+            }
         ).execute()
     }
 
     fun setDefaultDatabase(databaseFile: DatabaseFile?) {
         IOActionTask(
-                {
-                    PreferencesUtil.saveDefaultDatabasePath(getApplication<App>().applicationContext,
-                            databaseFile?.databaseUri)
-                },
-                {
-                    checkDefaultDatabase()
-                }
+            {
+                PreferencesUtil.saveDefaultDatabasePath(
+                    getApplication<App>().applicationContext,
+                    databaseFile?.databaseUri,
+                )
+            },
+            {
+                checkDefaultDatabase()
+            }
         ).execute()
-    }
-
-    private fun getDatabaseFilesLoadedValue(): DatabaseFileData {
-        var newValue = databaseFilesLoaded.value
-        if (newValue == null) {
-            newValue = DatabaseFileData()
-        }
-        return newValue
     }
 
     fun loadListOfDatabases() {
         checkDefaultDatabase()
         mFileDatabaseHistoryAction?.getDatabaseFileList { databaseFileListRetrieved ->
-            databaseFilesLoaded.value = getDatabaseFilesLoadedValue().apply {
-                databaseFileAction = DatabaseFileAction.NONE
-                databaseFileToActivate = null
-                databaseFileList.apply {
-                    clear()
-                    addAll(databaseFileListRetrieved)
-                }
+            _databaseFilesLoaded.update { currentState ->
+                currentState.copy(
+                    databaseFileAction = DatabaseFileAction.NONE,
+                    databaseFileToActivate = null,
+                    databaseFileList = databaseFileListRetrieved,
+                )
             }
         }
     }
 
-    fun addDatabaseFile(databaseUri: Uri, keyFileUri: Uri?, hardwareKey: HardwareKey?) {
+    fun addDatabaseFile(
+        databaseUri: Uri,
+        keyFileUri: Uri?,
+        hardwareKey: HardwareKey?,
+    ) {
         mFileDatabaseHistoryAction?.addOrUpdateDatabaseUri(
             databaseUri,
             keyFileUri,
-            hardwareKey
+            hardwareKey,
         ) { databaseFileAdded ->
             databaseFileAdded?.let { _ ->
-                databaseFilesLoaded.value = getDatabaseFilesLoadedValue().apply {
-                    this.databaseFileAction = DatabaseFileAction.ADD
-                    if (this.databaseFileList.contains(databaseFileAdded)) {
-                        this.databaseFileList.remove(databaseFileAdded)
+                _databaseFilesLoaded.update { currentState ->
+                    val newList = currentState.databaseFileList.toMutableList()
+                    if (newList.contains(databaseFileAdded)) {
+                        newList.remove(databaseFileAdded)
                     }
-                    this.databaseFileList.add(databaseFileAdded)
-                    this.databaseFileToActivate = databaseFileAdded
+                    newList.add(databaseFileAdded)
+                    currentState.copy(
+                        databaseFileAction = DatabaseFileAction.ADD,
+                        databaseFileList = newList,
+                        databaseFileToActivate = databaseFileAdded,
+                    )
                 }
             }
         }
@@ -116,19 +124,19 @@ class DatabaseFilesViewModel(application: Application) : AndroidViewModel(applic
     fun updateDatabaseFile(databaseFileToUpdate: DatabaseFile) {
         mFileDatabaseHistoryAction?.addOrUpdateDatabaseFile(databaseFileToUpdate) { databaseFileUpdated ->
             databaseFileUpdated?.let { _ ->
-                databaseFilesLoaded.value = getDatabaseFilesLoadedValue().apply {
-                    this.databaseFileAction = DatabaseFileAction.UPDATE
-                    this.databaseFileList
-                            .find { it.databaseUri == databaseFileUpdated.databaseUri }
-                            ?.apply {
-                                keyFileUri = databaseFileUpdated.keyFileUri
-                                hardwareKey = databaseFileUpdated.hardwareKey
-                                databaseAlias = databaseFileUpdated.databaseAlias
-                                databaseFileExists = databaseFileUpdated.databaseFileExists
-                                databaseLastModified = databaseFileUpdated.databaseLastModified
-                                databaseSize = databaseFileUpdated.databaseSize
-                            }
-                    this.databaseFileToActivate = databaseFileUpdated
+                _databaseFilesLoaded.update { currentState ->
+                    val newList = currentState.databaseFileList.map {
+                        if (it.databaseUri == databaseFileUpdated.databaseUri) {
+                            databaseFileUpdated
+                        } else {
+                            it
+                        }
+                    }
+                    currentState.copy(
+                        databaseFileAction = DatabaseFileAction.UPDATE,
+                        databaseFileList = newList,
+                        databaseFileToActivate = databaseFileUpdated,
+                    )
                 }
             }
         }
@@ -142,28 +150,40 @@ class DatabaseFilesViewModel(application: Application) : AndroidViewModel(applic
                 contentResolver.releaseUriPermission(databaseFileDeleted.databaseUri)
                 contentResolver.releaseUriPermission(databaseFileDeleted.keyFileUri)
                 // Call the feedback
-                databaseFilesLoaded.value = getDatabaseFilesLoadedValue().apply {
-                    databaseFileAction = DatabaseFileAction.DELETE
-                    databaseFileToActivate = databaseFileDeleted
-                    databaseFileList.remove(databaseFileDeleted)
+                _databaseFilesLoaded.update { currentState ->
+                    val newList = currentState.databaseFileList.toMutableList()
+                    newList.remove(databaseFileDeleted)
+                    currentState.copy(
+                        databaseFileAction = DatabaseFileAction.DELETE,
+                        databaseFileToActivate = databaseFileDeleted,
+                        databaseFileList = newList,
+                    )
                 }
             }
         }
     }
 
     fun consumeAction() {
-        databaseFilesLoaded.value?.apply {
-            databaseFileAction = DatabaseFileAction.NONE
-            databaseFileToActivate = null
+        _databaseFilesLoaded.update { currentState ->
+            currentState.copy(
+                databaseFileAction = DatabaseFileAction.NONE,
+                databaseFileToActivate = null,
+            )
         }
     }
 
-    class DatabaseFileData {
-        val databaseFileList = mutableListOf<DatabaseFile>()
-
-        var databaseFileToActivate: DatabaseFile? = null
-        var databaseFileAction: DatabaseFileAction = DatabaseFileAction.NONE
-    }
+    /**
+     * Data representing the state of database files.
+     *
+     * @property databaseFileList The list of known database files.
+     * @property databaseFileToActivate The database file currently targeted by an action.
+     * @property databaseFileAction The type of action performed on the database files.
+     */
+    data class DatabaseFileData(
+        val databaseFileList: List<DatabaseFile> = listOf(),
+        val databaseFileToActivate: DatabaseFile? = null,
+        val databaseFileAction: DatabaseFileAction = DatabaseFileAction.NONE,
+    )
 
     enum class DatabaseFileAction {
         NONE, ADD, UPDATE, DELETE
