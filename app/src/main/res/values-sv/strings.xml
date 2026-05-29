@@ -208,7 +208,7 @@
     <string name="database_description_title">Beskrivning på databas</string>
     <string name="database_version_title">Version på databas</string>
     <string name="text_appearance">Text</string>
-    <string name="application_appearance">App</string>
+    <string name="application_appearance">Gränssnitt</string>
     <string name="other">Annan</string>
     <string name="keyboard">Tangentbord</string>
     <string name="magic_keyboard_title">Magikeyboard</string>
@@ -239,9 +239,9 @@
     <string name="education_donation_title">Delta</string>
     <string name="education_donation_summary">Hjälp till att öka stabiliteten och säkerheten samt lägga till fler funktioner.</string>
     <string name="html_text_ad_free">Till skillnad från många andra lösenordshanterare är den här &lt;strong&gt;reklamfri&lt;/strong&gt;, &lt;strong&gt;copyleftad fri mjukvara&lt;/strong&gt; och samlar inte in någon personlig data på servrar, oavsett vilken version du använder.</string>
-    <string name="html_text_buy_pro">Genom att köpa pro-versionen får du tillgång till den här &lt;strong&gt;visuella funktionen&lt;/strong&gt; och du hjälper särskilt till med &lt;strong&gt;genomförandet av community-projekt.&lt;/strong&gt;</string>
-    <string name="html_text_feature_generosity">Den här &lt;strong&gt;visuella funktionen&lt;/strong&gt; är tillgänglig tack vare din generositet.</string>
-    <string name="html_text_donation">För att behålla vår frihet och alltid vara aktiva räknar vi med ditt &lt;strong&gt;bidrag.&lt;/strong&gt;</string>
+    <string name="html_text_buy_pro">Genom att köpa pro-versionen får du tillgång till den här &lt;strong&gt;visuella stilen&lt;/strong&gt; och du hjälper särskilt till med &lt;strong&gt;genomförandet av community-projekt.&lt;/strong&gt;</string>
+    <string name="html_text_feature_generosity">Den här &lt;strong&gt;visuella stilen&lt;/strong&gt; är tillgänglig tack vare din generositet.</string>
+    <string name="html_text_donation">Genom att &lt;strong&gt;bidra&lt;/strong&gt; till projektet &lt;i&gt;(ekonomiskt, kod, översättning)&lt;/i&gt; hjälper du det att fortsätta leva och blomstra, och du kommer också att vara berättigad till &lt;strong&gt;temaupplåsningsproceduren&lt;/strong&gt;.</string>
     <string name="html_text_dev_feature">Den här funktionen är under &lt;strong&gt;utveckling&lt;/strong&gt; och kräver ditt &lt;strong&gt;bidrag&lt;/strong&gt; för att vara tillgänglig snart.</string>
     <string name="html_text_dev_feature_buy_pro">Genom att köpa &lt;strong&gt;pro&lt;/strong&gt;-versionen,</string>
     <string name="html_text_dev_feature_contibute">Genom att &lt;strong&gt;bidra&lt;/strong&gt;,</string>
@@ -396,7 +396,7 @@
     <string name="download_attachment">Ladda ner %1$s</string>
     <string name="education_setup_OTP_summary">Konfigurera hantering av engångslösenord (HOTP/TOTP) för att generera en kod som begärs vid tvåfaktorsautentisering (2FA).</string>
     <string name="education_setup_OTP_title">Ställ in OTP</string>
-    <string name="keyboard_auto_go_action_summary">\"Gå\"-knappens åtgärd efter tryck på en \"fält\"-knapp</string>
+    <string name="keyboard_auto_go_action_summary">\"Gå\"-knappens åtgärd efter tryck på en fältknapp</string>
     <string name="keyboard_auto_go_action_title">Automatisk knappåtgärd</string>
     <string name="lock_database_show_button_summary">Visa låsknappen i gränssnittet</string>
     <string name="lock_database_show_button_title">Visa låsknappen</string>
