@@ -203,126 +203,127 @@ class MainCredentialActivity : DatabaseModeActivity() {
             enableConfirmationButton()
         }
 
-        // Observe if default database
-        mDatabaseFileViewModel.isDefaultDatabase.observe(this) { isDefaultDatabase ->
-            mDefaultDatabase = isDefaultDatabase
-        }
-
-        // Observe database file change
-        mDatabaseFileViewModel.databaseFileLoaded.observe(this) { databaseFile ->
-
-            // Force read only if the file does not exist
-            val databaseFileNotExists = databaseFile?.let {
-                !it.databaseFileExists
-            } ?: true
-            infoContainerView?.visibility = if (databaseFileNotExists) {
-                mReadOnly = true
-                View.VISIBLE
-            } else {
-                View.GONE
-            }
-            mForceReadOnly = databaseFileNotExists
-
-            // Restore read-only state from database file if not forced
-            if (!mForceReadOnly) {
-                databaseFile?.readOnly?.let { savedReadOnlyState ->
-                    mReadOnly = savedReadOnlyState
-                }
-            }
-            // Restore User Verification state
-            if (!mForceUserVerificationAllowed) {
-                databaseFile?.userVerification?.let { savedUserVerificationState ->
-                    mUserVerificationAllowed = savedUserVerificationState
-                }
-            }
-
-            invalidateOptionsMenu()
-
-            // Post init uri with KeyFile only if needed
-            getMainCredentialFromViews()
-            val databaseKeyFileUri = mMainCredential.keyFileUri
-            val keyFileUri =
-                    if (mRememberKeyFile
-                            && (databaseKeyFileUri == null || databaseKeyFileUri.toString().isEmpty())) {
-                        databaseFile?.keyFileUri
-                    } else {
-                        databaseKeyFileUri
-                    }
-
-            val databaseHardwareKey = mMainCredential.hardwareKey
-            val hardwareKey =
-                if (mRememberHardwareKey
-                    && databaseHardwareKey == null) {
-                    databaseFile?.hardwareKey
-                } else {
-                    databaseHardwareKey
-                }
-
-            // Define title
-            filenameView?.text = databaseFile?.databaseAlias ?: ""
-
-            onDatabaseFileLoaded(databaseFile?.databaseUri, keyFileUri, hardwareKey)
-        }
-
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                mDatabaseFileViewModel.databaseFileState.collect { databaseFileState ->
-                    when (databaseFileState) {
-                        is DatabaseFileViewModel.DatabaseFileState.Loading -> {}
-                        is DatabaseFileViewModel.DatabaseFileState.ShowLoadDatabaseDuplicateUuidMessage -> {
-                            AlertDialog.Builder(this@MainCredentialActivity).apply {
-                                val message = getString(R.string.contains_duplicate_uuid) +
-                                        "\n\n" + getString(R.string.contains_duplicate_uuid_procedure)
-                                setMessage(message)
-                                setPositiveButton(getString(android.R.string.ok)) { _, _ ->
-                                    databaseFileState.databaseUri?.let { databaseFileUri ->
-                                        mDatabaseViewModel.loadDatabase(
-                                            databaseUri = databaseFileUri,
-                                            mainCredential = databaseFileState.mainCredential,
-                                            readOnly = databaseFileState.readOnly,
-                                            allowUserVerification = databaseFileState.allowUserVerification,
-                                            cipherEncryptDatabase = databaseFileState.cipherEncryptDatabase,
-                                            fixDuplicateUuid = true
-                                        )
-                                    }
-                                }
-                                setNegativeButton(getString(android.R.string.cancel)) { _, _ -> }
-                                create().show()
+                launch {
+                    mDatabaseFileViewModel.isDefaultDatabase.collect { isDefaultDatabase ->
+                        mDefaultDatabase = isDefaultDatabase == true
+                    }
+                }
+                launch {
+                    mDatabaseFileViewModel.databaseFileLoaded.collect { databaseFile ->
+                        // Force read only if the file does not exist
+                        val databaseFileNotExists = databaseFile?.let {
+                            !it.databaseFileExists
+                        } ?: true
+                        infoContainerView?.visibility = if (databaseFileNotExists) {
+                            mReadOnly = true
+                            View.VISIBLE
+                        } else {
+                            View.GONE
+                        }
+                        mForceReadOnly = databaseFileNotExists
+
+                        // Restore read-only state from database file if not forced
+                        if (!mForceReadOnly) {
+                            databaseFile?.readOnly?.let { savedReadOnlyState ->
+                                mReadOnly = savedReadOnlyState
                             }
-                            mDatabaseFileViewModel.actionPerformed()
+                        }
+                        // Restore User Verification state
+                        if (!mForceUserVerificationAllowed) {
+                            databaseFile?.userVerification?.let { savedUserVerificationState ->
+                                mUserVerificationAllowed = savedUserVerificationState
+                            }
+                        }
+
+                        invalidateOptionsMenu()
+
+                        // Post init uri with KeyFile only if needed
+                        getMainCredentialFromViews()
+                        val databaseKeyFileUri = mMainCredential.keyFileUri
+                        val keyFileUri =
+                            if (mRememberKeyFile
+                                && (databaseKeyFileUri == null || databaseKeyFileUri.toString()
+                                    .isEmpty())
+                            ) {
+                                databaseFile?.keyFileUri
+                            } else {
+                                databaseKeyFileUri
+                            }
+
+                        val databaseHardwareKey = mMainCredential.hardwareKey
+                        val hardwareKey =
+                            if (mRememberHardwareKey
+                                && databaseHardwareKey == null
+                            ) {
+                                databaseFile?.hardwareKey
+                            } else {
+                                databaseHardwareKey
+                            }
+
+                        // Define title
+                        filenameView?.text = databaseFile?.databaseAlias ?: ""
+
+                        onDatabaseFileLoaded(databaseFile?.databaseUri, keyFileUri, hardwareKey)
+                    }
+                }
+                launch {
+                    mDatabaseFileViewModel.databaseFileState.collect { databaseFileState ->
+                        when (databaseFileState) {
+                            is DatabaseFileViewModel.DatabaseFileState.Loading -> {}
+                            is DatabaseFileViewModel.DatabaseFileState.ShowLoadDatabaseDuplicateUuidMessage -> {
+                                AlertDialog.Builder(this@MainCredentialActivity).apply {
+                                    val message = getString(R.string.contains_duplicate_uuid) +
+                                            "\n\n" + getString(R.string.contains_duplicate_uuid_procedure)
+                                    setMessage(message)
+                                    setPositiveButton(getString(android.R.string.ok)) { _, _ ->
+                                        databaseFileState.databaseUri?.let { databaseFileUri ->
+                                            mDatabaseViewModel.loadDatabase(
+                                                databaseUri = databaseFileUri,
+                                                mainCredential = databaseFileState.mainCredential,
+                                                readOnly = databaseFileState.readOnly,
+                                                allowUserVerification = databaseFileState.allowUserVerification,
+                                                cipherEncryptDatabase = databaseFileState.cipherEncryptDatabase,
+                                                fixDuplicateUuid = true,
+                                            )
+                                        }
+                                    }
+                                    setNegativeButton(getString(android.R.string.cancel)) { _, _ -> }
+                                    create().show()
+                                }
+                                mDatabaseFileViewModel.actionPerformed()
+                            }
                         }
                     }
                 }
-            }
-        }
-
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    mDeviceUnlockViewModel?.let { deviceUnlockViewModel ->
-                        deviceUnlockViewModel.uiState.collect { uiState ->
-                            // New value received
-                            uiState.credentialRequiredCipher?.let { cipher ->
-                                deviceUnlockViewModel.encryptCredential(
-                                    credential = getCredentialForEncryption(),
-                                    cipher = cipher
-                                )
-                            }
-                            uiState.cipherEncryptDatabase?.let { cipherEncryptDatabase ->
-                                onCredentialEncrypted(cipherEncryptDatabase)
-                                deviceUnlockViewModel.consumeCredentialEncrypted()
-                            }
-                            uiState.cipherDecryptDatabase?.let { cipherDecryptDatabase ->
-                                onCredentialDecrypted(cipherDecryptDatabase)
-                                deviceUnlockViewModel.consumeCredentialDecrypted()
-                            }
-                            uiState.exception?.let { error ->
-                                Snackbar.make(
-                                    coordinatorLayout,
-                                    deviceUnlockError(error, this@MainCredentialActivity),
-                                    Snackbar.LENGTH_LONG
-                                ).asError().show()
-                                deviceUnlockViewModel.exceptionShown()
+                launch {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        mDeviceUnlockViewModel?.let { deviceUnlockViewModel ->
+                            deviceUnlockViewModel.uiState.collect { uiState ->
+                                // New value received
+                                uiState.credentialRequiredCipher?.let { cipher ->
+                                    deviceUnlockViewModel.encryptCredential(
+                                        credential = getCredentialForEncryption(),
+                                        cipher = cipher
+                                    )
+                                }
+                                uiState.cipherEncryptDatabase?.let { cipherEncryptDatabase ->
+                                    onCredentialEncrypted(cipherEncryptDatabase)
+                                    deviceUnlockViewModel.consumeCredentialEncrypted()
+                                }
+                                uiState.cipherDecryptDatabase?.let { cipherDecryptDatabase ->
+                                    onCredentialDecrypted(cipherDecryptDatabase)
+                                    deviceUnlockViewModel.consumeCredentialDecrypted()
+                                }
+                                uiState.exception?.let { error ->
+                                    Snackbar.make(
+                                        coordinatorLayout,
+                                        deviceUnlockError(error, this@MainCredentialActivity),
+                                        Snackbar.LENGTH_LONG
+                                    ).asError().show()
+                                    deviceUnlockViewModel.exceptionShown()
+                                }
                             }
                         }
                     }
