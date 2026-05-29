@@ -31,7 +31,9 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.DeleteNodesDialogFragment
 import com.kunzisoft.keepass.activities.dialogs.PasswordEncodingDialogFragment
@@ -86,8 +88,12 @@ abstract class DatabaseLockActivity : DatabaseModeActivity(),
                     intent.getBooleanExtra(TIMEOUT_ENABLE_KEY, TIMEOUT_ENABLE_KEY_DEFAULT)
         }
 
-        mNodesViewModel.nodesToPermanentlyDelete.observe(this) { nodes ->
-            deleteDatabaseNodes(nodes)
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                mNodesViewModel.nodesToPermanentlyDelete.collect { nodes ->
+                    deleteDatabaseNodes(nodes)
+                }
+            }
         }
 
         mExitLock = false

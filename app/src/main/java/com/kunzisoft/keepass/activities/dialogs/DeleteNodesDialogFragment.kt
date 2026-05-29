@@ -23,9 +23,11 @@ import android.app.Dialog
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.element.node.Nodes
 import com.kunzisoft.keepass.viewmodels.NodesViewModel
+import kotlinx.coroutines.launch
 
 class DeleteNodesDialogFragment : DatabaseDialogFragment() {
 
@@ -33,8 +35,10 @@ class DeleteNodesDialogFragment : DatabaseDialogFragment() {
     private val mNodesViewModel: NodesViewModel by activityViewModels()
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        mNodesViewModel.nodesToDelete.observe(this) { nodes ->
-            this.mNodesToDelete = nodes
+        lifecycleScope.launch {
+            mNodesViewModel.nodesToDelete.collect { nodes ->
+                this@DeleteNodesDialogFragment.mNodesToDelete = nodes
+            }
         }
         var recycleBin = false
         arguments?.apply {

@@ -19,26 +19,52 @@
  */
 package com.kunzisoft.keepass.viewmodels
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.kunzisoft.keepass.database.element.node.Nodes
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
 
-class NodesViewModel: ViewModel() {
+/**
+ * View model for nodes.
+ */
+class NodesViewModel : ViewModel() {
 
-    // TODO Flows
-    val nodesToDelete : LiveData<Nodes> get() = _nodesToDelete
-    private val _nodesToDelete = MutableLiveData<Nodes>()
+    private val _nodesToDelete = MutableStateFlow(Nodes())
 
-    val nodesToPermanentlyDelete : LiveData<Nodes> get() = _nodesToPermanentlyDelete
-    private val _nodesToPermanentlyDelete = SingleLiveEvent<Nodes>()
+    /**
+     * Nodes to delete.
+     */
+    val nodesToDelete: StateFlow<Nodes> = _nodesToDelete.asStateFlow()
 
+    private val _nodesToPermanentlyDelete = MutableSharedFlow<Nodes>()
+
+    /**
+     * Nodes to permanently delete.
+     */
+    val nodesToPermanentlyDelete: SharedFlow<Nodes> = _nodesToPermanentlyDelete.asSharedFlow()
+
+    /**
+     * Delete nodes.
+     * @param nodes Nodes to delete.
+     */
     fun deleteNodes(nodes: Nodes) {
-        this._nodesToDelete.value = nodes
+        _nodesToDelete.value = nodes
     }
 
+    /**
+     * Permanently delete nodes.
+     * @param nodes Nodes to permanently delete.
+     */
     fun permanentlyDeleteNodes(nodes: Nodes) {
-        this._nodesToDelete.value = Nodes()
-        this._nodesToPermanentlyDelete.value = nodes
+        _nodesToDelete.value = Nodes()
+        viewModelScope.launch {
+            _nodesToPermanentlyDelete.emit(nodes)
+        }
     }
 }
