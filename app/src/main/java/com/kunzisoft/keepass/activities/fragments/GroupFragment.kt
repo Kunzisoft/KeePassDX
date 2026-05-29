@@ -42,9 +42,6 @@ import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper.retrieveSpe
 import com.kunzisoft.keepass.credentialprovider.SpecialMode
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.element.SortNodeEnum
-import com.kunzisoft.keepass.database.element.node.DefaultNodeFilter
-import com.kunzisoft.keepass.database.element.node.EmptyNodeFilter
-import com.kunzisoft.keepass.database.element.node.NodeFilter
 import com.kunzisoft.keepass.model.SearchGroupInfo
 import com.kunzisoft.keepass.model.SortedNodeInfo
 import com.kunzisoft.keepass.settings.PreferencesUtil
@@ -62,9 +59,6 @@ class GroupFragment : DatabaseFragment(), SortDialogFragment.SortSelectionListen
     private val mGroupViewModel: GroupViewModel by activityViewModels()
 
     private var specialMode: SpecialMode = SpecialMode.DEFAULT
-
-
-    private var mNodeFilter: NodeFilter = EmptyNodeFilter()
 
     private var mRecycleViewScrollListener = object : RecyclerView.OnScrollListener() {
         override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
@@ -139,13 +133,6 @@ class GroupFragment : DatabaseFragment(), SortDialogFragment.SortSelectionListen
         mNodesRecyclerView = view.findViewById(R.id.nodes_list)
         notFoundView = view.findViewById(R.id.not_found_container)
 
-        context?.let {
-            mNodeFilter = DefaultNodeFilter(
-                showExpired = PreferencesUtil.showExpiredEntries(it),
-                showTemplates = PreferencesUtil.showTemplates(it)
-            )
-        }
-
         mLayoutManager = LinearLayoutManager(context)
         mNodesRecyclerView?.apply {
             scrollBarStyle = View.SCROLLBARS_INSIDE_INSET
@@ -163,8 +150,7 @@ class GroupFragment : DatabaseFragment(), SortDialogFragment.SortSelectionListen
                                 groupUIState.children?.let { children ->
                                     mAdapter?.rebuildList(
                                         nodes = children,
-                                        isSearch = currentGroup is SearchGroupInfo,
-                                        nodeFilter = mNodeFilter
+                                        isSearch = currentGroup is SearchGroupInfo
                                     )
                                 }
                                 // Direct action node selection after rebuild

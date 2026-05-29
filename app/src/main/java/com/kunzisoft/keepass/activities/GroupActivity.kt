@@ -487,6 +487,7 @@ class GroupActivity : DatabaseLockActivity(),
 
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
+                mGroupViewModel.assignPreferences()
                 launch {
                     mGroupViewModel.groupUIState.collect { groupUISTate ->
                         // Load

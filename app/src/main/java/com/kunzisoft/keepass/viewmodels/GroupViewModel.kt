@@ -156,12 +156,20 @@ class GroupViewModel(application: Application): AndroidViewModel(application) {
     private val _scrollTo = MutableSharedFlow<Int>(replay = 0)
     val scrollTo: SharedFlow<Int> = _scrollTo.asSharedFlow()
 
-    private var mDefaultSearchParameters: SearchParameters = PreferencesUtil.getDefaultSearchParameters(getApplication())
-    private var mAutoFocusSearch: Boolean = PreferencesUtil.automaticallyFocusSearch(getApplication())
-    private var mRecursiveNumberEntries: Boolean = PreferencesUtil.recursiveNumberEntries(getApplication())
-    private var mShowExpiredEntries: Boolean = PreferencesUtil.showExpiredEntries(getApplication())
-    private var mShowTemplates: Boolean = PreferencesUtil.showTemplates(getApplication())
+    private var mDefaultSearchParameters: SearchParameters = SearchParameters()
+    private var mAutoFocusSearch: Boolean = false
+    private var mRecursiveNumberEntries: Boolean = false
+    private var mShowExpiredEntries: Boolean = false
+    private var mShowTemplates: Boolean = false
     private var mNodeFilter: NodeFilter = EmptyNodeFilter()
+
+    fun assignPreferences() {
+        mDefaultSearchParameters = PreferencesUtil.getDefaultSearchParameters(getApplication())
+        mAutoFocusSearch = PreferencesUtil.automaticallyFocusSearch(getApplication())
+        mRecursiveNumberEntries = PreferencesUtil.recursiveNumberEntries(getApplication())
+        mShowExpiredEntries = PreferencesUtil.showExpiredEntries(getApplication())
+        mShowTemplates = PreferencesUtil.showTemplates(getApplication())
+    }
 
     fun onDatabaseLoaded(
         database: ContextualDatabase,

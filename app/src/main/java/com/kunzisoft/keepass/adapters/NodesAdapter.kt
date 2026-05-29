@@ -40,8 +40,6 @@ import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.element.SortNodeEnum
 import com.kunzisoft.keepass.database.element.Tag
-import com.kunzisoft.keepass.database.element.node.EmptyNodeFilter
-import com.kunzisoft.keepass.database.element.node.NodeFilter
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.node.NodeType
 import com.kunzisoft.keepass.database.element.template.TemplateField
@@ -96,8 +94,6 @@ class NodesAdapter(
     private var mActionNodeIds = mutableSetOf<NodeId<*>>()
     private var mNodeClickCallback: NodeClickCallback? = null
     private var mClipboardHelper = ClipboardHelper(context)
-
-    private var mNodeFilter: NodeFilter = EmptyNodeFilter()
 
     @ColorInt
     private val mColorSurfaceContainer: Int
@@ -179,14 +175,11 @@ class NodesAdapter(
     /**
      * Rebuild the list by clear and build children from the list of [nodes]
      * @param isSearch If the list is a search list
-     * @param nodeFilter Node filter to apply
      */
     fun rebuildList(
         nodes: List<SortedNodeInfo>,
-        isSearch: Boolean = false,
-        nodeFilter: NodeFilter = EmptyNodeFilter()
+        isSearch: Boolean = false
     ) {
-        mNodeFilter = nodeFilter
         mOldVirtualGroup = mVirtualGroup
         mVirtualGroup = isSearch
         assignPreferences()
