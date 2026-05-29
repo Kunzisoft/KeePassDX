@@ -27,6 +27,7 @@ import com.kunzisoft.keepass.database.element.GroupId
 import com.kunzisoft.keepass.database.element.node.EmptyNodeFilter
 import com.kunzisoft.keepass.database.element.node.Node
 import com.kunzisoft.keepass.database.element.node.NodeFilter
+import com.kunzisoft.keepass.database.element.node.Nodes
 import com.kunzisoft.keepass.database.search.SearchHelper
 import com.kunzisoft.keepass.database.search.SearchParameters
 import com.kunzisoft.keepass.model.CreditCardEntryFields.setCreditCard
@@ -352,6 +353,42 @@ open class DatabaseInfo: Database() {
     }
 
     /**
+     * Get the children of a group represented by its ID.
+     * @param parentId The group ID.
+     * @param nodeFilter Filter to apply to entries.
+     */
+    fun getChildrenNodes(
+        parentId: GroupId,
+        nodeFilter: NodeFilter = EmptyNodeFilter()
+    ): Nodes {
+        val groupsIds = mutableListOf<GroupId>()
+        val entriesIds = mutableListOf<EntryId>()
+        getGroupById(parentId)
+            ?.getChildren(nodeFilter.filter)
+            ?.mapNotNull {
+                when (it) {
+                    is Group -> groupsIds.add(it.nodeId)
+                    is Entry -> entriesIds.add(it.nodeId)
+                    else -> null
+                }
+            }
+        return Nodes(
+            listGroupsIds = groupsIds,
+            listEntriesIds = entriesIds
+        )
+    }
+
+    /**
+     * Get the Nodes in the recycle bin.
+     */
+    fun getNodesInRecycleBin(): Nodes {
+        recycleBin?.nodeId?.let { recycleBinId ->
+            return getChildrenNodes(recycleBinId)
+        }
+        return Nodes()
+    }
+
+    /**
      * Check if adding a group is allowed in the specified group.
      * @param group The parent group info.
      * @return True if allowed, false otherwise.
@@ -385,26 +422,26 @@ open class DatabaseInfo: Database() {
     }
 
     /**
-     * Check if an entry can be moved to the recycle bin.
-     * @param entryInfo The entry info to check.
+     * Check if a group can be moved to the recycle bin.
+     * @param groupId The group ID to check.
      * @return True if it can be recycled, false otherwise.
      */
-    fun canRecycle(entryInfo: EntryInfo): Boolean {
+    fun canRecycleGroup(groupId: GroupId): Boolean {
         var canRecycle = false
-        getEntryById(entryInfo.nodeId)?.let {
+        getGroupById(groupId)?.let {
             canRecycle = canRecycle(it)
         }
         return canRecycle
     }
 
     /**
-     * Check if a group can be moved to the recycle bin.
-     * @param groupInfo The group info to check.
+     * Check if an entry can be moved to the recycle bin.
+     * @param entryId The entry ID to check.
      * @return True if it can be recycled, false otherwise.
      */
-    fun canRecycle(groupInfo: GroupInfo): Boolean {
+    fun canRecycleEntry(entryId: EntryId): Boolean {
         var canRecycle = false
-        getGroupById(groupInfo.nodeId)?.let {
+        getEntryById(entryId)?.let {
             canRecycle = canRecycle(it)
         }
         return canRecycle
@@ -412,22 +449,15 @@ open class DatabaseInfo: Database() {
 
     /**
      * Check if all nodes in the list are recyclable.
-     * @param nodes List of node info to check.
+     * @param nodes List of nodes to check.
      * @return True if all nodes can be recycled, false otherwise.
      */
-    fun eachNodeRecyclable(nodes: List<NodeInfo>): Boolean {
-        return nodes.find { node ->
-            var cannotRecycle = true
-            when (node) {
-                is EntryInfo -> {
-                    cannotRecycle = !canRecycle(node)
-                }
-                is GroupInfo -> {
-                    cannotRecycle = !canRecycle(node)
-                }
-            }
-            cannotRecycle
-        } == null
+    fun eachNodeRecyclable(nodes: Nodes): Boolean {
+        if (nodes.listGroupsIds.any { !canRecycleGroup(it) })
+            return false
+        if (nodes.listEntriesIds.any { !canRecycleEntry(it) })
+            return false
+        return true
     }
 
     /**

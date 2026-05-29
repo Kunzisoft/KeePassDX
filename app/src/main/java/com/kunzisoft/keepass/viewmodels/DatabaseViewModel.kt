@@ -34,10 +34,10 @@ import com.kunzisoft.keepass.database.element.Group
 import com.kunzisoft.keepass.database.element.GroupId
 import com.kunzisoft.keepass.database.element.binary.BinaryData
 import com.kunzisoft.keepass.database.element.database.CompressionAlgorithm
+import com.kunzisoft.keepass.database.element.node.Nodes
 import com.kunzisoft.keepass.model.CipherEncryptDatabase
 import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.model.GroupInfo
-import com.kunzisoft.keepass.model.NodeInfo
 import com.kunzisoft.keepass.model.SnapFileDatabaseInfo
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService
 import com.kunzisoft.keepass.tasks.ActionRunnable
@@ -272,7 +272,7 @@ class DatabaseViewModel(application: Application): AndroidViewModel(application)
 
     fun copyNodes(
         newParentId: GroupId,
-        nodesToCopy: List<NodeInfo>,
+        nodesToCopy: Nodes,
         save: Boolean
     ) {
         mDatabaseTaskProvider.startDatabaseCopyNodes(
@@ -284,7 +284,7 @@ class DatabaseViewModel(application: Application): AndroidViewModel(application)
 
     fun moveNodes(
         newParentId: GroupId,
-        nodesToMove: List<NodeInfo>,
+        nodesToMove: Nodes,
         save: Boolean
     ) {
         mDatabaseTaskProvider.startDatabaseMoveNodes(
@@ -295,11 +295,11 @@ class DatabaseViewModel(application: Application): AndroidViewModel(application)
     }
 
     fun deleteNodes(
-        nodes: List<NodeInfo>,
+        nodesToDelete: Nodes,
         save: Boolean
     ) {
         mDatabaseTaskProvider.startDatabaseDeleteNodes(
-            nodesToDelete = nodes,
+            nodesToDelete = nodesToDelete,
             save = save
         )
     }

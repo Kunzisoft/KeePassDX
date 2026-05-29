@@ -94,7 +94,6 @@ import com.kunzisoft.keepass.model.NodeInfo
 import com.kunzisoft.keepass.model.RegisterInfo
 import com.kunzisoft.keepass.model.SearchGroupInfo
 import com.kunzisoft.keepass.model.SearchInfo
-import com.kunzisoft.keepass.model.SortedNodeInfo
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_TOUCH_ENTRY_TASK
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_TOUCH_GROUP_TASK
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_ENTRY_TASK
@@ -533,9 +532,92 @@ class GroupActivity : DatabaseLockActivity(),
                     }
                 }
                 launch {
-                    mGroupViewModel.requestOpenNode.collect {
+                    mGroupViewModel.requestOpenGroup.collect { groupId ->
                         mDatabase?.let { database ->
-                            openNode(database, it)
+                            mGroupViewModel.loadGroup(database, groupId)
+                        }
+                    }
+                }
+                launch {
+                    // TODO In View Model
+                    mGroupViewModel.requestOpenEntry.collect { entry ->
+                        mDatabase?.let { database ->
+                            EntrySelectionHelper.doSpecialAction(
+                                intent = intent,
+                                defaultAction = {
+                                    EntryActivity.launch(
+                                        activity = this@GroupActivity,
+                                        database = database,
+                                        entryId = entry.nodeId,
+                                        activityResultLauncher = mEntryActivityResultLauncher
+                                    )
+                                    // Do not reload group here
+                                },
+                                searchAction = {
+                                    // Nothing here, a search is simply performed
+                                },
+                                selectionAction = { _, typeMode, searchInfo ->
+                                    when (typeMode) {
+                                        TypeMode.DEFAULT -> {}
+                                        TypeMode.MAGIKEYBOARD -> {
+                                            if (!database.isReadOnly
+                                                && entry.allowedToSaveSearchInfo(searchInfo)
+                                                && PreferencesUtil.isKeyboardSaveSearchInfoEnable(
+                                                    this@GroupActivity
+                                                )
+                                            ) {
+                                                updateEntryWithRegisterInfo(
+                                                    database = database,
+                                                    entry = entry,
+                                                    registerInfo = searchInfo!!.toRegisterInfo()
+                                                )
+                                            } else {
+                                                entrySelectedForSelection(entry)
+                                            }
+                                        }
+
+                                        TypeMode.AUTOFILL -> {
+                                            if (!database.isReadOnly
+                                                && entry.allowedToSaveSearchInfo(searchInfo)
+                                                && PreferencesUtil.isAutofillSaveSearchInfoEnable(
+                                                    this@GroupActivity
+                                                )
+                                            ) {
+                                                updateEntryWithRegisterInfo(
+                                                    database = database,
+                                                    entry = entry,
+                                                    registerInfo = searchInfo!!.toRegisterInfo()
+                                                )
+                                            } else {
+                                                entrySelectedForSelection(entry)
+                                            }
+                                        }
+
+                                        TypeMode.PASSWORD -> {
+                                            entrySelectedForPasswordSelection(entry)
+                                        }
+
+                                        TypeMode.PASSKEY -> {
+                                            entrySelectedForPasskeySelection(entry)
+                                        }
+                                    }
+                                    loadGroup()
+                                },
+                                registrationAction = { intentSenderMode, typeMode, registerInfo ->
+                                    if (!database.isReadOnly) {
+                                        entrySelectedForRegistration(
+                                            database = database,
+                                            entry = entry,
+                                            registerInfo = registerInfo,
+                                            typeMode = typeMode,
+                                            activityResultLauncher = if (intentSenderMode)
+                                                mCredentialActivityResultLauncher else null
+                                        )
+                                        loadGroup()
+                                    } else
+                                        finish()
+                                }
+                            )
                         }
                     }
                 }
@@ -588,8 +670,8 @@ class GroupActivity : DatabaseLockActivity(),
                     }
                 }
                 launch {
-                    mGroupViewModel.requestDeleteNodes.collect { nodes ->
-                        deleteNodes(nodes)
+                    mGroupViewModel.requestDeleteNodes.collect { deleteState ->
+                        deleteNodes(deleteState.nodes, deleteState.isRecycleBin)
                     }
                 }
                 launch {
@@ -901,88 +983,6 @@ class GroupActivity : DatabaseLockActivity(),
         mGroupViewModel.manageIntent(intent)
     }
 
-    private fun openNode(
-        database: ContextualDatabase,
-        node: SortedNodeInfo
-    ) {
-        when (node) {
-            is GroupInfo -> {
-                // Open child group
-                mGroupViewModel.loadChildGroup(database, node.nodeId)
-            }
-            is EntryInfo -> {
-                EntrySelectionHelper.doSpecialAction(
-                    intent = intent,
-                    defaultAction = {
-                        EntryActivity.launch(
-                            activity = this@GroupActivity,
-                            database = database,
-                            entryId = node.nodeId,
-                            activityResultLauncher = mEntryActivityResultLauncher
-                        )
-                        // Do not reload group here
-                    },
-                    searchAction = {
-                        // Nothing here, a search is simply performed
-                    },
-                    selectionAction = { _, typeMode, searchInfo ->
-                        when (typeMode) {
-                            TypeMode.DEFAULT -> {}
-                            TypeMode.MAGIKEYBOARD -> {
-                                if (!database.isReadOnly
-                                    && node.allowedToSaveSearchInfo(searchInfo)
-                                    && PreferencesUtil.isKeyboardSaveSearchInfoEnable(this@GroupActivity)
-                                ) {
-                                    updateEntryWithRegisterInfo(
-                                        database = database,
-                                        entry = node,
-                                        registerInfo = searchInfo!!.toRegisterInfo()
-                                    )
-                                } else {
-                                    entrySelectedForSelection(node)
-                                }
-                            }
-                            TypeMode.AUTOFILL -> {
-                                if (!database.isReadOnly
-                                    && node.allowedToSaveSearchInfo(searchInfo)
-                                    && PreferencesUtil.isAutofillSaveSearchInfoEnable(this@GroupActivity)
-                                ) {
-                                    updateEntryWithRegisterInfo(
-                                        database = database,
-                                        entry = node,
-                                        registerInfo = searchInfo!!.toRegisterInfo()
-                                    )
-                                } else {
-                                    entrySelectedForSelection(node)
-                                }
-                            }
-                            TypeMode.PASSWORD -> {
-                                entrySelectedForPasswordSelection(node)
-                            }
-                            TypeMode.PASSKEY -> {
-                                entrySelectedForPasskeySelection(node)
-                            }
-                        }
-                        loadGroup()
-                    },
-                    registrationAction = { intentSenderMode, typeMode, registerInfo ->
-                        if (!database.isReadOnly) {
-                            entrySelectedForRegistration(
-                                database = database,
-                                entry = node,
-                                registerInfo = registerInfo,
-                                typeMode = typeMode,
-                                activityResultLauncher = if (intentSenderMode)
-                                    mCredentialActivityResultLauncher else null
-                            )
-                            loadGroup()
-                        } else
-                            finish()
-                    })
-            }
-        }
-    }
-
     private fun entrySelectedForSelection(entry: EntryInfo) {
         removeSearch()
         // Build response with the entry selected
@@ -1274,10 +1274,7 @@ class GroupActivity : DatabaseLockActivity(),
                 return true
             }
             R.id.menu_empty_recycle_bin -> {
-                if (mGroupViewModel.recycleBinActionsAllowed()) {
-                    emptyRecycleBin()
-                    finishNodeAction()
-                }
+                mGroupViewModel.emptyRecycleBin()
                 return true
             }
             else -> {

@@ -24,6 +24,7 @@ import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.node.NodeNaturalOrderInterface
 import com.kunzisoft.keepass.database.element.node.NodeTimeInterface
+import com.kunzisoft.keepass.database.element.node.Nodes
 
 /**
  * Interface for node information that includes sorting and hierarchy data.
@@ -54,4 +55,26 @@ interface SortedNodeInfo : NodeTimeInterface, NodeNaturalOrderInterface {
      * The path of the node in the database.
      */
     val path: String?
+}
+
+/**
+ * Extension function to convert a list of [SortedNodeInfo] to [Nodes].
+ */
+fun List<SortedNodeInfo>.toNodes(): Nodes {
+    return Nodes(
+        listGroupsIds =
+            this.mapNotNull {
+                when (it) {
+                    is SortedGroupInfo -> it.nodeId
+                    else -> null
+                }
+            },
+        listEntriesIds =
+            this.mapNotNull {
+                when (it) {
+                    is SortedEntryInfo -> it.nodeId
+                    else -> null
+                }
+            }
+    )
 }

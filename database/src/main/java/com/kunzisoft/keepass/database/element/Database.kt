@@ -34,7 +34,6 @@ import com.kunzisoft.keepass.database.element.icon.IconImageStandard
 import com.kunzisoft.keepass.database.element.icon.IconImageStandard.Companion.NUMBER_STANDARD_ICONS
 import com.kunzisoft.keepass.database.element.icon.IconsManager
 import com.kunzisoft.keepass.database.element.node.NodeHandler
-import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.node.NodeIdInt
 import com.kunzisoft.keepass.database.element.node.NodeIdUUID
 import com.kunzisoft.keepass.database.element.template.Template
@@ -1046,15 +1045,19 @@ open class Database {
         return entriesIds.mapNotNull { getEntryById(it) }
     }
 
-    fun getGroupById(id: GroupId): Group? {
-        if (id is NodeIdInt)
-            mDatabaseKDB?.getGroupById(id)?.let {
-                return Group(it)
+    fun getGroupById(groupId: GroupId): Group? {
+        when (groupId) {
+            is NodeIdInt -> {
+                mDatabaseKDB?.getGroupById(groupId)?.let {
+                    return Group(it)
+                }
             }
-        else if (id is NodeIdUUID)
-            mDatabaseKDBX?.getGroupById(id)?.let {
-                return Group(it)
+            is NodeIdUUID -> {
+                mDatabaseKDBX?.getGroupById(groupId)?.let {
+                    return Group(it)
+                }
             }
+        }
         return null
     }
 

@@ -24,10 +24,10 @@ import android.os.ParcelUuid
 import android.os.Parcelable
 import com.kunzisoft.keepass.database.element.CustomData
 import com.kunzisoft.keepass.database.element.DateInstant
-import com.kunzisoft.keepass.database.element.GroupId
 import com.kunzisoft.keepass.database.element.Tags
 import com.kunzisoft.keepass.database.element.database.DatabaseVersioned
 import com.kunzisoft.keepass.database.element.entry.EntryKDBX
+import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.node.NodeIdUUID
 import com.kunzisoft.keepass.database.element.node.NodeKDBXInterface
 import com.kunzisoft.keepass.database.element.node.NodeType
@@ -57,11 +57,11 @@ class GroupKDBX : GroupVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
     override val type: NodeType
         get() = NodeType.GROUP
 
-    override fun initNodeId(): GroupId {
+    override fun initNodeId(): NodeId<UUID> {
         return NodeIdUUID()
     }
 
-    override fun copyNodeId(nodeId: GroupId): GroupId {
+    override fun copyNodeId(nodeId: NodeId<UUID>): NodeId<UUID> {
         return NodeIdUUID(nodeId.id)
     }
 

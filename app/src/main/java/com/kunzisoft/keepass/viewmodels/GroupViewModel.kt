@@ -33,14 +33,18 @@ import com.kunzisoft.keepass.database.element.GroupId
 import com.kunzisoft.keepass.database.element.node.DefaultNodeFilter
 import com.kunzisoft.keepass.database.element.node.EmptyNodeFilter
 import com.kunzisoft.keepass.database.element.node.NodeFilter
+import com.kunzisoft.keepass.database.element.node.Nodes
 import com.kunzisoft.keepass.database.helper.SearchHelper
 import com.kunzisoft.keepass.database.helper.SearchHelper.getSearchParametersFromSearchInfo
 import com.kunzisoft.keepass.database.search.SearchParameters
+import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.model.GroupInfo
 import com.kunzisoft.keepass.model.NodeInfo
 import com.kunzisoft.keepass.model.SearchInfo
+import com.kunzisoft.keepass.model.SortedEntryInfo
 import com.kunzisoft.keepass.model.SortedGroupInfo
 import com.kunzisoft.keepass.model.SortedNodeInfo
+import com.kunzisoft.keepass.model.toNodes
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -117,20 +121,23 @@ class GroupViewModel(application: Application): AndroidViewModel(application) {
     private val _removeNodeAction = MutableSharedFlow<Unit>(replay = 0)
     val removeNodeAction: SharedFlow<Unit> = _removeNodeAction.asSharedFlow()
 
-    private val _requestOpenNode = MutableSharedFlow<SortedNodeInfo>(replay = 0)
-    val requestOpenNode: SharedFlow<SortedNodeInfo> = _requestOpenNode.asSharedFlow()
+    private val _requestOpenGroup = MutableSharedFlow<GroupId>(replay = 0)
+    val requestOpenGroup: SharedFlow<GroupId> = _requestOpenGroup.asSharedFlow()
+
+    private val _requestOpenEntry = MutableSharedFlow<EntryInfo>(replay = 0)
+    val requestOpenEntry: SharedFlow<EntryInfo> = _requestOpenEntry.asSharedFlow()
 
     private val _requestEditNode = MutableSharedFlow<NodeInfo>(replay = 0)
     val requestEditNode: SharedFlow<NodeInfo> = _requestEditNode.asSharedFlow()
 
-    private val _requestCopyNodes = MutableSharedFlow<List<NodeInfo>>(replay = 0)
-    val requestCopyNodes: SharedFlow<List<NodeInfo>> = _requestCopyNodes.asSharedFlow()
+    private val _requestCopyNodes = MutableSharedFlow<Nodes>(replay = 0)
+    val requestCopyNodes: SharedFlow<Nodes> = _requestCopyNodes.asSharedFlow()
 
-    private val _requestMoveNodes = MutableSharedFlow<List<NodeInfo>>(replay = 0)
-    val requestMoveNodes: SharedFlow<List<NodeInfo>> = _requestMoveNodes.asSharedFlow()
+    private val _requestMoveNodes = MutableSharedFlow<Nodes>(replay = 0)
+    val requestMoveNodes: SharedFlow<Nodes> = _requestMoveNodes.asSharedFlow()
 
-    private val _requestDeleteNodes = MutableSharedFlow<List<NodeInfo>>(replay = 0)
-    val requestDeleteNodes: SharedFlow<List<NodeInfo>> = _requestDeleteNodes.asSharedFlow()
+    private val _requestDeleteNodes = MutableSharedFlow<DeleteActionState>(replay = 0)
+    val requestDeleteNodes: SharedFlow<DeleteActionState> = _requestDeleteNodes.asSharedFlow()
 
     private val _requestPaste = MutableSharedFlow<PasteAction>(replay = 0)
     val requestPasteNodes: SharedFlow<PasteAction> = _requestPaste.asSharedFlow()
@@ -251,7 +258,7 @@ class GroupViewModel(application: Application): AndroidViewModel(application) {
         }
     }
 
-    fun loadChildGroup(
+    fun loadGroup(
         database: ContextualDatabase?,
         groupId: GroupId?
     ) {
@@ -393,7 +400,10 @@ class GroupViewModel(application: Application): AndroidViewModel(application) {
                 if (nodeActionSelectionMode) {
                     finishNodeAction()
                 }
-                _requestOpenNode.emit(node)
+                when (node) {
+                    is SortedGroupInfo -> _requestOpenGroup.emit(node.nodeId)
+                    is SortedEntryInfo -> _requestOpenEntry.emit(node)
+                }
             }
         }
     }
@@ -435,7 +445,10 @@ class GroupViewModel(application: Application): AndroidViewModel(application) {
                 }
                 selectNodes(database, selectedNodes)
             } else {
-                _requestOpenNode.emit(node)
+                when (node) {
+                    is SortedGroupInfo -> _requestOpenGroup.emit(node.nodeId)
+                    is SortedEntryInfo -> _requestOpenEntry.emit(node)
+                }
             }
         }
     }
@@ -480,7 +493,10 @@ class GroupViewModel(application: Application): AndroidViewModel(application) {
         if (nodes.isNotEmpty()) {
             finishNodeAction()
             viewModelScope.launch {
-                _requestOpenNode.emit(nodes[0])
+                when (val node = nodes[0]) {
+                    is SortedGroupInfo -> _requestOpenGroup.emit(node.nodeId)
+                    is SortedEntryInfo -> _requestOpenEntry.emit(node)
+                }
             }
         }
     }
@@ -507,7 +523,7 @@ class GroupViewModel(application: Application): AndroidViewModel(application) {
                 )
             }
             viewModelScope.launch {
-                _requestCopyNodes.emit(nodes.filterIsInstance<NodeInfo>())
+                _requestCopyNodes.emit(nodes.toNodes())
             }
         }
     }
@@ -522,7 +538,7 @@ class GroupViewModel(application: Application): AndroidViewModel(application) {
                 )
             }
             viewModelScope.launch {
-                _requestMoveNodes.emit(nodes.filterIsInstance<NodeInfo>())
+                _requestMoveNodes.emit(nodes.toNodes())
             }
         }
     }
@@ -531,7 +547,10 @@ class GroupViewModel(application: Application): AndroidViewModel(application) {
         val nodes = _nodeActionState.value.selectedNodes
         if (nodes.isNotEmpty()) {
             viewModelScope.launch {
-                _requestDeleteNodes.emit(nodes.filterIsInstance<NodeInfo>())
+                _requestDeleteNodes.emit(DeleteActionState(
+                    nodes = nodes.toNodes(),
+                    isRecycleBin = false
+                ))
             }
             finishNodeAction()
         }
@@ -545,7 +564,7 @@ class GroupViewModel(application: Application): AndroidViewModel(application) {
                     PasteAction(
                         state.pasteMode,
                         parentId,
-                        state.selectedNodes.filterIsInstance<NodeInfo>()
+                        state.selectedNodes.toNodes()
                     )
                 )
             }
@@ -582,6 +601,29 @@ class GroupViewModel(application: Application): AndroidViewModel(application) {
     }
 
     fun recycleBinActionsAllowed(): Boolean = mRecycleBinAllowed && mRecyclingBinIsCurrentGroup
+
+    fun emptyRecycleBin() {
+        viewModelScope.launch {
+            if (recycleBinActionsAllowed()) {
+                withContext(Dispatchers.IO) {
+                    mDatabase?.getNodesInRecycleBin()?.let { nodesToDelete ->
+                        // Automatically delete all elements
+                        if (!nodesToDelete.isEmpty()) {
+                            withContext(Dispatchers.Main) {
+                                _requestDeleteNodes.emit(
+                                    DeleteActionState(
+                                        nodes = nodesToDelete,
+                                        isRecycleBin = true
+                                    )
+                                )
+                            }
+                        }
+                    }
+                }
+                finishNodeAction()
+            }
+        }
+    }
 
     fun containsRecycleBin(
         database: ContextualDatabase?,
@@ -620,6 +662,11 @@ class GroupViewModel(application: Application): AndroidViewModel(application) {
         val selectedNodes: List<SortedNodeInfo> = emptyList()
     )
 
+    data class DeleteActionState(
+        val nodes: Nodes,
+        val isRecycleBin: Boolean
+    )
+
     data class GroupUISTate(
         val loaded: Boolean = false,
         val breadcrumbs: List<SortedGroupInfo>? = null,
@@ -638,7 +685,7 @@ class GroupViewModel(application: Application): AndroidViewModel(application) {
     data class PasteAction(
         val pasteMode: PasteMode,
         val parentId: GroupId,
-        val nodes: List<NodeInfo>
+        val nodes: Nodes
     )
 
     enum class PasteMode {

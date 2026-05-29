@@ -22,22 +22,23 @@ package com.kunzisoft.keepass.viewmodels
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.kunzisoft.keepass.model.NodeInfo
+import com.kunzisoft.keepass.database.element.node.Nodes
 
 class NodesViewModel: ViewModel() {
 
-    val nodesToDelete : LiveData<List<NodeInfo>> get() = _nodesToDelete
-    private val _nodesToDelete = MutableLiveData<List<NodeInfo>>()
+    // TODO Flows
+    val nodesToDelete : LiveData<Nodes> get() = _nodesToDelete
+    private val _nodesToDelete = MutableLiveData<Nodes>()
 
-    val nodesToPermanentlyDelete : LiveData<List<NodeInfo>> get() = _nodesToPermanentlyDelete
-    private val _nodesToPermanentlyDelete = SingleLiveEvent<List<NodeInfo>>()
+    val nodesToPermanentlyDelete : LiveData<Nodes> get() = _nodesToPermanentlyDelete
+    private val _nodesToPermanentlyDelete = SingleLiveEvent<Nodes>()
 
-    fun deleteNodes(nodes: List<NodeInfo>) {
-        this._nodesToDelete.value = nodes.toList()
+    fun deleteNodes(nodes: Nodes) {
+        this._nodesToDelete.value = nodes
     }
 
-    fun permanentlyDeleteNodes(nodes: List<NodeInfo>) {
-        this._nodesToDelete.value = listOf()
+    fun permanentlyDeleteNodes(nodes: Nodes) {
+        this._nodesToDelete.value = Nodes()
         this._nodesToPermanentlyDelete.value = nodes
     }
 }

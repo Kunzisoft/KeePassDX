@@ -42,10 +42,10 @@ import com.kunzisoft.keepass.database.element.EntryId
 import com.kunzisoft.keepass.database.element.Group
 import com.kunzisoft.keepass.database.element.GroupId
 import com.kunzisoft.keepass.database.element.database.CompressionAlgorithm
+import com.kunzisoft.keepass.database.element.node.Nodes
 import com.kunzisoft.keepass.model.CipherEncryptDatabase
 import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.model.GroupInfo
-import com.kunzisoft.keepass.model.NodeInfo
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_CHALLENGE_RESPONDED
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_ASSIGN_CREDENTIAL_TASK
@@ -386,24 +386,12 @@ class DatabaseTaskProvider(
     private fun startDatabaseActionListNodes(
         actionTask: String,
         newParentId: GroupId?,
-        nodes: List<NodeInfo>,
+        nodes: Nodes,
         save: Boolean
     ) {
-        val groupsIdToCopy = mutableListOf<GroupId>()
-        val entriesIdToCopy = mutableListOf<EntryId>()
-        nodes.forEach { nodeVersioned ->
-            when (nodeVersioned) {
-                is GroupInfo -> {
-                    groupsIdToCopy.add(nodeVersioned.nodeId)
-                }
-                is EntryInfo -> {
-                    entriesIdToCopy.add(nodeVersioned.nodeId)
-                }
-            }
-        }
         start(Bundle().apply {
-            putParcelableList(GROUPS_ID_KEY, groupsIdToCopy)
-            putParcelableList(ENTRIES_ID_KEY, entriesIdToCopy)
+            putParcelableList(GROUPS_ID_KEY, nodes.listGroupsIds)
+            putParcelableList(ENTRIES_ID_KEY, nodes.listEntriesIds)
             if (newParentId != null)
                 putParcelable(DatabaseTaskNotificationService.PARENT_ID_KEY, newParentId)
             putBoolean(DatabaseTaskNotificationService.SAVE_DATABASE_KEY, save)
@@ -412,7 +400,7 @@ class DatabaseTaskProvider(
 
     fun startDatabaseCopyNodes(
         newParentId: GroupId,
-        nodesToCopy: List<NodeInfo>,
+        nodesToCopy: Nodes,
         save: Boolean
     ) {
         startDatabaseActionListNodes(
@@ -425,7 +413,7 @@ class DatabaseTaskProvider(
 
     fun startDatabaseMoveNodes(
         newParentId: GroupId,
-        nodesToMove: List<NodeInfo>,
+        nodesToMove: Nodes,
         save: Boolean
     ) {
         startDatabaseActionListNodes(
@@ -437,7 +425,7 @@ class DatabaseTaskProvider(
     }
 
     fun startDatabaseDeleteNodes(
-        nodesToDelete: List<NodeInfo>,
+        nodesToDelete: Nodes,
         save: Boolean
     ) {
         startDatabaseActionListNodes(

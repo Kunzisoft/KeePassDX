@@ -41,9 +41,9 @@ import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.MainCredential
 import com.kunzisoft.keepass.database.element.EntryId
 import com.kunzisoft.keepass.database.element.GroupId
+import com.kunzisoft.keepass.database.element.node.Nodes
 import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.model.GroupInfo
-import com.kunzisoft.keepass.model.NodeInfo
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.tasks.ActionRunnable
@@ -274,19 +274,23 @@ abstract class DatabaseLockActivity : DatabaseModeActivity(),
 
     fun copyNodes(
         newParentId: GroupId,
-        nodesToCopy: List<NodeInfo>
+        nodesToCopy: Nodes
     ) {
         mDatabaseViewModel.copyNodes(newParentId, nodesToCopy, mAutoSaveEnable)
     }
 
     fun moveNodes(
         newParentId: GroupId,
-        nodesToMove: List<NodeInfo>
+        nodesToMove: Nodes
     ) {
         mDatabaseViewModel.moveNodes(newParentId, nodesToMove, mAutoSaveEnable)
     }
 
-    fun deleteNodes(nodes: List<NodeInfo>, recycleBin: Boolean = false) {
+    fun recycleBinAllowed(): Boolean {
+        return !mDatabaseReadOnly && mDatabase?.isRecycleBinEnabled == true
+    }
+
+    fun deleteNodes(nodes: Nodes, recycleBin: Boolean = false) {
         // TODO Move in ViewModel
         mDatabase?.let { database ->
             // If recycle bin enabled, ensure it exists
@@ -306,25 +310,7 @@ abstract class DatabaseLockActivity : DatabaseModeActivity(),
         }
     }
 
-    fun recycleBinAllowed(): Boolean {
-        return !mDatabaseReadOnly && mDatabase?.isRecycleBinEnabled == true
-    }
-
-    // TODO Only with NodeInfo
-    fun emptyRecycleBin() {
-        mDatabase?.recycleBin?.getChildren()?.let { listChildren ->
-            // Automatically delete all elements
-            val nodesToDelete = listChildren.mapNotNull { mDatabase?.getNodeInfoFrom(it) }
-            if (nodesToDelete.isNotEmpty()) {
-                deleteNodes(
-                    nodes = nodesToDelete,
-                    recycleBin = true
-                )
-            }
-        }
-    }
-
-    private fun deleteDatabaseNodes(nodes: List<NodeInfo>) {
+    private fun deleteDatabaseNodes(nodes: Nodes) {
         mDatabaseViewModel.deleteNodes(nodes, mAutoSaveEnable)
     }
 
