@@ -112,7 +112,7 @@
     <string name="progress_title">Arbetar…</string>
     <string name="protection">Skydd</string>
     <string name="content_description_remove_from_list">Ta bort</string>
-    <string name="root">Root</string>
+    <string name="root">Rot</string>
     <string name="rounds">Transformationsrundor</string>
     <string name="rounds_explanation">Högre antal krypteringsrundor ger ytterligare skydd mot brute force-attacker, men kan göra det betydligt långsammare att ladda och spara.</string>
     <string name="saving_database">Sparar databas…</string>
@@ -121,10 +121,10 @@
     <string name="special">Specialtecken</string>
     <string name="search">Sök</string>
     <string name="underline">Understreck</string>
-    <string name="unsupported_db_version">Databasversionen stöds ej.</string>
+    <string name="unsupported_db_version">Databasversionen stöds inte.</string>
     <string name="uppercase">Versaler</string>
     <string name="version_label">Version %1$s</string>
-    <string name="education_unlock_summary">Ange lösenord och/eller nyckelfil för att öppna databasen.\n\nBacka upp databasfilen på ett säkert ställe efter varje ändring.</string>
+    <string name="education_unlock_summary">Ange lösenord och/eller nyckelfil för att låsa upp databasen.\n\nSäkerhetskopiera databasfilen på ett säkert ställe efter varje ändring.</string>
     <string-array name="list_size_options">
         <item>Liten</item>
         <item>Medium</item>
@@ -161,11 +161,11 @@
     <string name="read_only">Skrivskyddad</string>
     <string name="read_only_warning">Beroende på din filhanterare så kanske inte KeePassDX har skrivbehörighet för att skriva till din enhet.</string>
     <string name="encryption_explanation">Krypteringsalgoritm som används för all data i databasen</string>
-    <string name="kdf_explanation">För att generera nyckeln till krypteringsalgoritmen kommer huvudnyckeln transformeras med en slumpmässigt saltad nyckelderivatsfunktion.</string>
+    <string name="kdf_explanation">För att generera nyckeln till krypteringsalgoritmen kommer huvudnyckeln transformeras med en slumpmässigt saltad nyckelhärledningsfunktion.</string>
     <string name="memory_usage">Minnesanvändning</string>
-    <string name="memory_usage_explanation">Mängd minne som ska användas av nyckelderivatsfunktionen.</string>
+    <string name="memory_usage_explanation">Mängd minne som ska användas av nyckelhärledningsfunktionen.</string>
     <string name="parallelism">Parallellism</string>
-    <string name="parallelism_explanation">Grad av parallellism (dvs. antal trådar) som används av nyckelderivatsfunktionen.</string>
+    <string name="parallelism_explanation">Grad av parallellism (dvs. antal trådar) som används av nyckelhärledningsfunktionen.</string>
     <string name="sort_menu">Sortera</string>
     <string name="sort_ascending">Stigande ↓</string>
     <string name="sort_groups_before">Grupper först</string>
@@ -180,7 +180,7 @@
     <string name="warning_empty_password">Fortsätt utan lösenord för att låsa upp?</string>
     <string name="warning_no_encryption_key">Fortsätt utan en krypteringsnyckel?</string>
     <string name="encrypted_value_stored">Krypterat lösenord sparat</string>
-    <string name="general">Generellt</string>
+    <string name="general">Allmänt</string>
     <string name="autofill">Autofyll</string>
     <string name="autofill_sign_in_prompt">Logga in med KeePassDX</string>
     <string name="set_credential_provider_service_title">Välj standardtjänst för autofyll</string>
@@ -200,7 +200,7 @@
     <string name="create_keepass_file">Skapa nytt valv</string>
     <string name="recycle_bin_title">Använd papperskorg</string>
     <string name="recycle_bin_summary">Flyttar grupper och poster till gruppen \"Papperskorg\" innan de raderas</string>
-    <string name="monospace_font_fields_enable_title">Fält-typsnitt</string>
+    <string name="monospace_font_fields_enable_title">Fälttypsnitt</string>
     <string name="monospace_font_fields_enable_summary">Ändra typsnitt som används i fält för att se tecknen bättre</string>
     <string name="allow_copy_password_title">Lita på urklipp</string>
     <string name="allow_copy_password_summary">Tillåt postens lösenord och skyddade fält att kopieras till urklipp</string>
@@ -220,7 +220,7 @@
     <string name="education_select_database_title">Öppna en befintlig databas</string>
     <string name="education_select_database_summary">Öppna din tidigare databasfil från din filhanterare för att fortsätta använda den.</string>
     <string name="education_new_node_title">Lägg till objekt i din databas</string>
-    <string name="education_new_node_summary">Poster hjälper dig att hålla reda på dina digitala identiteter.\n\nGrupper (~folders) organiserar poster i din databas.</string>
+    <string name="education_new_node_summary">Poster hjälper dig att hålla reda på dina digitala identiteter.\n\nGrupper (~mappar) organiserar poster i din databas.</string>
     <string name="education_search_title">Sök igenom poster</string>
     <string name="education_search_summary">Skriv in titel, användarnamn eller innehåll från andra fält för att hämta dina lösenord.</string>
     <string name="education_entry_edit_title">Redigera posten</string>
@@ -228,10 +228,10 @@
     <string name="education_generate_password_title">Skapa ett starkt lösenord</string>
     <string name="education_generate_password_summary">Generera ett starkt lösenord för att associera med din post, definiera det enkelt enligt kriterierna för formuläret och glöm inte ett säkert lösenord.</string>
     <string name="education_entry_new_field_title">Lägg till anpassade fält</string>
-    <string name="education_entry_new_field_summary">Regstrera ett extra fält, fyll i ett värde och eventuellt skydda det.</string>
+    <string name="education_entry_new_field_summary">Registrera ett extra fält, fyll i ett värde och skydda det vid behov.</string>
     <string name="education_unlock_title">Lås upp din databas</string>
     <string name="education_field_copy_title">Kopiera ett fält</string>
-    <string name="education_field_copy_summary">Kopierade fält kan klistras in vart som helst.\n\nAnvänd den formulärfyllningsmetoden som du föredrar.</string>
+    <string name="education_field_copy_summary">Kopierade fält kan klistras in vart som helst.\n\nAnvänd den formulärifyllningsmetod som du föredrar.</string>
     <string name="education_lock_title">Lås databasen</string>
     <string name="education_lock_summary">Lås databasen snabbt, du kan ställa in att appen låser den efter en stund och när skärmen släcks.</string>
     <string name="education_sort_title">Objektsortering</string>
@@ -239,13 +239,13 @@
     <string name="education_donation_title">Delta</string>
     <string name="education_donation_summary">Hjälp till att öka stabilitet, säkerhet och med att lägga till fler funktioner.</string>
     <string name="html_text_ad_free">Till skillnad från många andra lösenordshanterare är den här &lt;strong&gt;reklamfri&lt;/strong&gt;, &lt;strong&gt;copyleftad fri mjukvara&lt;/strong&gt; och samlar inte in någon personlig data på servrar, oavsett vilken version du använder.</string>
-    <string name="html_text_buy_pro">Genom att köpa proffsversionen får du tillgång till den här &lt;strong&gt;visuella funktionen&lt;/strong&gt; och du hjälper särskilt till med &lt;strong&gt;genomförandet av community-projekt.&lt;/strong&gt;</string>
+    <string name="html_text_buy_pro">Genom att köpa pro-versionen får du tillgång till den här &lt;strong&gt;visuella funktionen&lt;/strong&gt; och du hjälper särskilt till med &lt;strong&gt;genomförandet av community-projekt.&lt;/strong&gt;</string>
     <string name="html_text_feature_generosity">Den här &lt;strong&gt;visuella funktionen&lt;/strong&gt; är tillgänglig tack vare din generositet.</string>
     <string name="html_text_donation">För att behålla vår frihet och alltid vara aktiva räknar vi med ditt &lt;strong&gt;bidrag.&lt;/strong&gt;</string>
     <string name="html_text_dev_feature">Den här funktionen är under &lt;strong&gt;utveckling&lt;/strong&gt; och kräver ditt &lt;strong&gt;bidrag&lt;/strong&gt; för att vara tillgänglig snart.</string>
     <string name="html_text_dev_feature_buy_pro">Genom att köpa &lt;strong&gt;pro&lt;/strong&gt;-versionen,</string>
     <string name="html_text_dev_feature_contibute">Genom att &lt;strong&gt;bidra&lt;/strong&gt;,</string>
-    <string name="html_text_dev_feature_encourage">så uppmuntrar du utvecklare att skapa &lt;strong&gt;nya funktioner&lt;/strong&gt; och att &lt;strong&gt;fixa buggar&lt;/strong&gt; efter dina anmärkningar.</string>
+    <string name="html_text_dev_feature_encourage">så uppmuntrar du utvecklare att skapa &lt;strong&gt;nya funktioner&lt;/strong&gt; och att &lt;strong&gt;rätta fel&lt;/strong&gt; utifrån din återkoppling.</string>
     <string name="html_text_dev_feature_thanks">Stort tack för ditt bidrag.</string>
     <string name="html_text_dev_feature_work_hard">Vi jobbar hårt med att introducera den här funktionen snart.</string>
     <string name="html_text_dev_feature_upgrade">Glöm inte att hålla appen uppdaterad genom att installera nya versioner.</string>
@@ -266,7 +266,7 @@
     <string name="enable_education_screens_title">Hjälpskärmar</string>
     <string name="enable_education_screens_summary">Markerar element för att lära dig hur appen fungerar</string>
     <string name="menu_file_selection_read_only">Skrivskyddad</string>
-    <string name="menu_open_file_read_and_write">Modifierbar</string>
+    <string name="menu_open_file_read_and_write">Ändringsbar</string>
     <string name="education_read_only_title">Skrivskydda din databas</string>
     <string name="education_read_only_summary">Ändra öppningsläge för sessionen.
 \n
@@ -275,9 +275,9 @@
     <string name="error_load_database">Kunde inte ladda in databasen.</string>
     <string name="error_load_database_KDF_memory">Kunde inte ladda in nyckeln. Prova att sänka KDF \"Minnesanvändning\".</string>
     <string name="list_entries_show_username_title">Visa användarnamn</string>
-    <string name="list_entries_show_username_summary">Visa användarnamn i post-listor</string>
+    <string name="list_entries_show_username_summary">Visa användarnamn i postlistor</string>
     <string name="clipboard">Urklipp</string>
-    <string name="build_label">Build %1$s</string>
+    <string name="build_label">Bygge %1$s</string>
     <string name="keyboard_name">Magikeyboard</string>
     <string name="keyboard_label">Magikeyboard (KeePassDX)</string>
     <string name="keyboard_setting_label">Inställningar för Magikeyboard</string>
@@ -345,7 +345,7 @@
     <string name="menu_security_settings">Säkerhetsinställningar</string>
     <string name="menu_master_key_settings">Inställningar för huvudnyckel</string>
     <string name="contains_duplicate_uuid">Databasen innehåller dubbla UUID:er.</string>
-    <string name="contains_duplicate_uuid_procedure">Generera nya UUID-er för dubbletter för att fortsätta?</string>
+    <string name="contains_duplicate_uuid_procedure">Generera nya UUID:er för dubbletter för att fortsätta?</string>
     <string name="database_history">Historik</string>
     <string name="autofill_explanation_summary">Aktivera autofyll för att snabbt kunna fylla i formulär i andra appar</string>
     <string name="database_opened">Databas öppnad</string>
@@ -363,7 +363,7 @@
     <string name="settings_database_force_changing_master_key_summary">Tvungen att ändra huvudnyckeln (dagar)</string>
     <string name="settings_database_force_changing_master_key_next_time_title">Tvinga ändring nästa gång</string>
     <string name="settings_database_force_changing_master_key_next_time_summary">Tvinga ändring av huvudnyckeln nästa gång (en gång)</string>
-    <string name="database_default_username_title">Standard-användarnamn</string>
+    <string name="database_default_username_title">Standardanvändarnamn</string>
     <string name="database_custom_color_title">Anpassad databasfärg</string>
     <string name="compression">Komprimering</string>
     <string name="compression_none">Ingen</string>
@@ -378,7 +378,7 @@
     <string name="keystore_not_accessible">Keystore har inte initierats korrekt.</string>
     <string name="recycle_bin_group_title">Papperskorgsgruppen</string>
     <string name="enable_auto_save_database_title">Autospara databas</string>
-    <string name="enable_auto_save_database_summary">Spara databasen automatiskt efter varje viktig händelse (endast i läget \"Modifierbar\")</string>
+    <string name="enable_auto_save_database_summary">Spara databasen automatiskt efter varje viktig händelse (endast i läget \"Ändringsbar\")</string>
     <string name="show_recent_files_title">Visa senaste filer</string>
     <string name="remember_keyfile_locations_summary">Kom ihåg platsen för databasens nyckelfil</string>
     <string name="remember_keyfile_locations_title">Spara plats för nyckelfiler</string>
@@ -397,9 +397,9 @@
     <string name="download_progression">Pågår: %1$d%%</string>
     <string name="download_initialization">Initiering…</string>
     <string name="download_attachment">Ladda ner %1$s</string>
-    <string name="education_setup_OTP_summary">Inställning av OTP (One-Time Password (Engångslösenord))-hantering av (HOTP/TOTP) för att skapa tecken begärda av Tvåstegs autentisering (2FA).</string>
+    <string name="education_setup_OTP_summary">Konfigurera hantering av engångslösenord (HOTP/TOTP) för att generera en kod som begärs vid tvåfaktorsautentisering (2FA).</string>
     <string name="education_setup_OTP_title">Ställ in OTP</string>
-    <string name="keyboard_auto_go_action_summary">\"Goknappens\" åtgärd när en \"Fältknapp\" trycks ner</string>
+    <string name="keyboard_auto_go_action_summary">\"Gå\"-knappens åtgärd efter tryck på en \"fält\"-knapp</string>
     <string name="keyboard_auto_go_action_title">Automatisk knappåtgärd</string>
     <string name="lock_database_show_button_summary">Visa låsknappen i gränssnittet</string>
     <string name="lock_database_show_button_title">Visa låsknappen</string>
@@ -419,7 +419,7 @@
     <string name="contribution">Bidrag</string>
     <string name="expired">Utgånget</string>
     <string name="date_of_issue">Utgivningsdatum</string>
-    <string name="debit_credit_card">Debit / Kreditkort</string>
+    <string name="debit_credit_card">Betal- / kreditkort</string>
     <string name="id_card">ID-kort</string>
     <string name="name">Namn</string>
     <string name="bank_identifier_code">SWIFT / BIC</string>
@@ -456,7 +456,7 @@
     <string name="content_description_credentials_information">Inloggningsuppgifter</string>
     <string name="info">Information</string>
     <string name="type">Typ</string>
-    <string name="content_description_passphrase_word_count">Antal ord i Lösenordsfras</string>
+    <string name="content_description_passphrase_word_count">Antal ord i lösenordsfras</string>
     <string name="public_key">Offentlig nyckel</string>
     <string name="private_key">Privat nyckel</string>
     <string name="error_database_uri_null">Det går inte att hämta databas-URI.</string>
@@ -499,7 +499,7 @@
     <string name="passphrase">Lösenordsfras</string>
     <string name="nodes">Noder</string>
     <string name="colorize_password_title">Färglägg lösenord</string>
-    <string name="show_otp_token_title">Visa OTP token</string>
+    <string name="show_otp_token_title">Visa OTP-token</string>
     <string name="show_otp_token_summary">OTP-token i postlistan</string>
     <string name="show_uuid_title">Visa UUID</string>
     <string name="error_otp_secret_length">Hemlighet måste vara minst %1$d tecken.</string>
@@ -508,7 +508,7 @@
     <string name="error_driver_required">Drivrutin för %1$s krävs.</string>
     <string name="colorize_password_summary">Färglägg lösenordstecken per typ</string>
     <string name="menu_app_settings_summary">Sök, lås, historik, egenskaper</string>
-    <string name="menu_form_filling_settings_summary">Tangentbord, autofill, urklipp</string>
+    <string name="menu_form_filling_settings_summary">Tangentbord, autofyll, urklipp</string>
     <string name="menu_device_unlock_settings_summary">Biometri, enhetsuppgifter</string>
     <string name="menu_database_settings_summary">Metadata, papperskorg, mallar, historik</string>
     <string name="master_key_settings_summary">Ändra, förnya</string>
