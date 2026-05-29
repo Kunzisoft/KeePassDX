@@ -90,8 +90,16 @@ abstract class DatabaseLockActivity : DatabaseModeActivity(),
 
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                mNodesViewModel.nodesToPermanentlyDelete.collect { nodes ->
-                    deleteDatabaseNodes(nodes)
+                launch {
+                    mNodesViewModel.nodesToPermanentlyDelete.collect { nodes ->
+                        deleteDatabaseNodes(nodes)
+                    }
+                }
+                launch {
+                    mNodesViewModel.shouldShowDeleteDialog.collect { recycleBin ->
+                        DeleteNodesDialogFragment.getInstance(recycleBin)
+                            .show(supportFragmentManager, "deleteNodesDialogFragment")
+                    }
                 }
             }
         }
@@ -189,21 +197,7 @@ abstract class DatabaseLockActivity : DatabaseModeActivity(),
     }
 
     fun assignMainCredential(mainCredential: MainCredential) {
-        // TODO Move in ViewModel
-        mDatabase?.let { database ->
-            database.fileUri?.let { databaseUri ->
-                // Show the progress dialog now or after dialog confirmation
-                val masterCredential = mainCredential.toMasterCredential(contentResolver)
-                val validCredential = database.isValidCredential(masterCredential)
-                masterCredential.clear()
-                if (validCredential) {
-                    mDatabaseViewModel.assignMainCredential(databaseUri, mainCredential)
-                } else {
-                    PasswordEncodingDialogFragment.getInstance(databaseUri, mainCredential)
-                        .show(supportFragmentManager, "passwordEncodingTag")
-                }
-            }
-        }
+        mDatabaseViewModel.assignMainCredential(mainCredential)
     }
 
     fun saveDatabase() {
@@ -297,22 +291,13 @@ abstract class DatabaseLockActivity : DatabaseModeActivity(),
     }
 
     fun deleteNodes(nodes: Nodes, recycleBin: Boolean = false) {
-        // TODO Move in ViewModel
         mDatabase?.let { database ->
-            // If recycle bin enabled, ensure it exists
-            if (database.isRecycleBinEnabled) {
-                database.ensureRecycleBinExists(resources.getString(R.string.recycle_bin))
-            }
-            // If recycle bin enabled and not in recycle bin, move in recycle bin
-            if (database.eachNodeRecyclable(nodes)) {
-                deleteDatabaseNodes(nodes)
-            }
-            // else open the dialog to confirm deletion
-            else {
-                DeleteNodesDialogFragment.getInstance(recycleBin)
-                    .show(supportFragmentManager, "deleteNodesDialogFragment")
-                mNodesViewModel.deleteNodes(nodes)
-            }
+            mNodesViewModel.requestNodesDeletion(
+                database = database,
+                nodes = nodes,
+                recycleBinName = resources.getString(R.string.recycle_bin),
+                recycleBin = recycleBin
+            )
         }
     }
 

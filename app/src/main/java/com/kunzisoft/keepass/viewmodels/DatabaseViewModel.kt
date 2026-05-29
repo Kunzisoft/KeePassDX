@@ -147,6 +147,21 @@ class DatabaseViewModel(application: Application): AndroidViewModel(application)
         mDatabaseTaskProvider.startDatabaseCreate(databaseUri, mainCredential)
     }
 
+    fun assignMainCredential(mainCredential: MainCredential) {
+        database?.let { database ->
+            database.fileUri?.let { databaseUri ->
+                val masterCredential = mainCredential.toMasterCredential(getApplication<Application>().contentResolver)
+                val validCredential = database.isValidCredential(masterCredential)
+                masterCredential.clear()
+                if (validCredential) {
+                    assignMainCredential(databaseUri, mainCredential)
+                } else {
+                    mActionState.value = ActionState.ShowPasswordEncodingDialog(databaseUri, mainCredential)
+                }
+            }
+        }
+    }
+
     fun assignMainCredential(
         databaseUri: Uri?,
         mainCredential: MainCredential
@@ -539,6 +554,10 @@ class DatabaseViewModel(application: Application): AndroidViewModel(application)
             var database: ContextualDatabase,
             val actionTask: String,
             val result: ActionRunnable.Result
+        ): ActionState()
+        data class ShowPasswordEncodingDialog(
+            val databaseUri: Uri,
+            val mainCredential: MainCredential
         ): ActionState()
     }
 }

@@ -21,6 +21,7 @@ package com.kunzisoft.keepass.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.element.node.Nodes
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -35,26 +36,50 @@ import kotlinx.coroutines.launch
  */
 class NodesViewModel : ViewModel() {
 
-    private val _nodesToDelete = MutableStateFlow(Nodes())
-
     /**
      * Nodes to delete.
      */
-    val nodesToDelete: StateFlow<Nodes> = _nodesToDelete.asStateFlow()
+    private val _nodesToDelete = MutableStateFlow(Nodes())
 
-    private val _nodesToPermanentlyDelete = MutableSharedFlow<Nodes>()
+    val nodesToDelete: StateFlow<Nodes> = _nodesToDelete.asStateFlow()
 
     /**
      * Nodes to permanently delete.
      */
+    private val _nodesToPermanentlyDelete = MutableSharedFlow<Nodes>()
     val nodesToPermanentlyDelete: SharedFlow<Nodes> = _nodesToPermanentlyDelete.asSharedFlow()
 
+
     /**
-     * Delete nodes.
-     * @param nodes Nodes to delete.
+     * Shared flow for requesting to show the delete dialog.
      */
-    fun deleteNodes(nodes: Nodes) {
-        _nodesToDelete.value = nodes
+    private val _shouldShowDeleteDialog = MutableSharedFlow<Boolean>()
+    val shouldShowDeleteDialog: SharedFlow<Boolean> = _shouldShowDeleteDialog.asSharedFlow()
+
+    /**
+     * Start the deletion process of nodes.
+     * @param database The database where nodes are located.
+     * @param nodes Nodes to delete.
+     * @param recycleBinName The name of the recycle bin to ensure it exists.
+     * @param recycleBin Boolean to indicate if it's a recycle bin action.
+     */
+    fun requestNodesDeletion(
+        database: ContextualDatabase,
+        nodes: Nodes,
+        recycleBinName: String,
+        recycleBin: Boolean
+    ) {
+        if (database.isRecycleBinEnabled) {
+            database.ensureRecycleBinExists(recycleBinName)
+        }
+        if (database.eachNodeRecyclable(nodes)) {
+            permanentlyDeleteNodes(nodes)
+        } else {
+            _nodesToDelete.value = nodes
+            viewModelScope.launch {
+                _shouldShowDeleteDialog.emit(recycleBin)
+            }
+        }
     }
 
     /**

@@ -3,6 +3,7 @@ package com.kunzisoft.keepass.activities.legacy
 import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import androidx.activity.result.ActivityResultLauncher
@@ -19,10 +20,12 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.DatabaseChangedDialogFragment
 import com.kunzisoft.keepass.activities.dialogs.DatabaseChangedDialogFragment.Companion.DATABASE_CHANGED_DIALOG_TAG
+import com.kunzisoft.keepass.activities.dialogs.PasswordEncodingDialogFragment
 import com.kunzisoft.keepass.activities.stylish.StylishActivity
 import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper.setActivityResult
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.DatabaseTaskProvider.Companion.startDatabaseService
+import com.kunzisoft.keepass.database.MainCredential
 import com.kunzisoft.keepass.model.SnapFileDatabaseInfo
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.tasks.ProgressTaskDialogFragment
@@ -163,6 +166,12 @@ abstract class DatabaseActivity : StylishActivity(), DatabaseRetrieval {
                                     uiState.result
                                 )
                             }
+                            is DatabaseViewModel.ActionState.ShowPasswordEncodingDialog -> {
+                                showPasswordEncodingDialog(
+                                    uiState.databaseUri,
+                                    uiState.mainCredential
+                                )
+                            }
                         }
                     }
                 }
@@ -250,6 +259,11 @@ abstract class DatabaseActivity : StylishActivity(), DatabaseRetrieval {
         } else {
             startDatabaseService(bundle, actionTask)
         }
+    }
+
+    private fun showPasswordEncodingDialog(databaseUri: Uri, mainCredential: MainCredential) {
+        PasswordEncodingDialogFragment.getInstance(databaseUri, mainCredential)
+            .show(supportFragmentManager, "passwordEncodingTag")
     }
 
     private fun showDatabaseChangedDialog(
