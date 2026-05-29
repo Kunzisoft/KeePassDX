@@ -224,7 +224,7 @@
     <string name="education_search_title">Sök igenom poster</string>
     <string name="education_search_summary">Skriv in titel, användarnamn eller innehåll från andra fält för att hämta dina lösenord.</string>
     <string name="education_entry_edit_title">Redigera posten</string>
-    <string name="education_entry_edit_summary">Redigera posten med anpassade fält. Pooldata kan refereras mellan olika inmatningsfält.</string>
+    <string name="education_entry_edit_summary">Redigera posten med anpassade fält. Pooldata kan hänvisas till mellan olika postfält.</string>
     <string name="education_generate_password_title">Skapa ett starkt lösenord</string>
     <string name="education_generate_password_summary">Generera ett starkt lösenord för att associera med din post, definiera det enkelt enligt kriterierna för formuläret och spara lösenordet på ett säkert sätt.</string>
     <string name="education_entry_new_field_title">Lägg till anpassade fält</string>
@@ -279,8 +279,8 @@
     <string name="keyboard_label">Magikeyboard (KeePassDX)</string>
     <string name="keyboard_setting_label">Inställningar för Magikeyboard</string>
     <string name="keyboard_entry_category">Post</string>
-    <string name="keyboard_entry_timeout_title">Timeout</string>
-    <string name="keyboard_entry_timeout_summary">Timeout för att rensa tangentbordsposten</string>
+    <string name="keyboard_entry_timeout_title">Tidsgräns</string>
+    <string name="keyboard_entry_timeout_summary">Tidsgräns för rensning av tangentbordsposten</string>
     <string name="keyboard_notification_entry_title">Aviseringsinformation</string>
     <string name="keyboard_notification_entry_summary">Visa en avisering när en post är tillgänglig</string>
     <string name="keyboard_notification_entry_content_title_text">Post</string>
@@ -315,7 +315,7 @@
     <string name="device_unlock">Enhetsupplåsning</string>
     <string name="biometric_unlock_enable_title">Biometrisk upplåsning</string>
     <string name="biometric_unlock_enable_summary">Låter dig skanna dina biometriska uppgifter för att öppna databasen</string>
-    <string name="biometric_auto_open_prompt_title">Öppna biometrisk prompt automatiskt</string>
+    <string name="biometric_auto_open_prompt_title">Öppna biometrisk upplåsningsdialog automatiskt</string>
     <string name="biometric_auto_open_prompt_summary">Öppna biometrisk upplåsningsdialog automatiskt när en biometrisk nyckel är definierad för en databas</string>
     <string name="biometric_delete_all_key_title">Radera krypteringsnycklar</string>
     <string name="biometric_delete_all_key_summary">Radera alla krypteringsnycklar som hör till den biometriska igenkänningen</string>
@@ -372,7 +372,7 @@
     <string name="menu_empty_recycle_bin">Töm papperskorgen</string>
     <string name="command_execution">Kommandot körs…</string>
     <string name="warning_permanently_delete_nodes">Radera de valda noderna permanent?</string>
-    <string name="keystore_not_accessible">Keystore har inte initierats korrekt.</string>
+    <string name="keystore_not_accessible">Nyckellagret har inte initierats korrekt.</string>
     <string name="recycle_bin_group_title">Papperskorgsgruppen</string>
     <string name="enable_auto_save_database_title">Autospara databas</string>
     <string name="enable_auto_save_database_summary">Spara databasen automatiskt efter varje viktig händelse (endast i läget \"Ändringsbar\")</string>
@@ -450,7 +450,7 @@
     <string name="searchable">Sökbar</string>
     <string name="error_no_hardware_key">Välj hårdvarunyckel.</string>
     <string name="content_description_add_item">Lägg till objekt</string>
-    <string name="content_description_credentials_information">Inloggningsuppgifter</string>
+    <string name="content_description_credentials_information">Information om inloggningsuppgifter</string>
     <string name="info">Information</string>
     <string name="type">Typ</string>
     <string name="content_description_passphrase_word_count">Antal ord i lösenordsfras</string>
@@ -506,7 +506,7 @@
     <string name="colorize_password_summary">Färglägg lösenordstecken per typ</string>
     <string name="menu_app_settings_summary">Sök, lås, historik, egenskaper</string>
     <string name="menu_form_filling_settings_summary">Tangentbord, autofyll, urklipp</string>
-    <string name="menu_device_unlock_settings_summary">Biometri, enhetsuppgifter</string>
+    <string name="menu_device_unlock_settings_summary">Biometri, enhetsinloggning</string>
     <string name="menu_database_settings_summary">Metadata, papperskorg, mallar, historik</string>
     <string name="master_key_settings_summary">Ändra, förnya</string>
     <string name="menu_merge_database">Sammanfoga data</string>
@@ -516,7 +516,7 @@
     <string name="menu_keystore_remove_key">Radera enhetens upplåsningsnyckel</string>
     <string name="menu_external_icon">Extern ikon</string>
     <string name="subdomain_search_title">Subdomänsök</string>
-    <string name="subdomain_search_summary">Sök webbdomän med subdomänbegränsning</string>
+    <string name="subdomain_search_summary">Sök webbdomäner med begränsningar för subdomäner</string>
     <string name="search_mode">Sökläge</string>
     <string name="remember_hardware_key_title">Kom ihåg hårdvarunycklar</string>
     <string name="remember_hardware_key_summary">Kom ihåg hårdvarunycklar som används</string>
@@ -532,7 +532,7 @@
     <string name="filter">Filter</string>
     <string name="warning_database_already_opened">En databas är redan öppen, stäng den först för att öppna en ny</string>
     <string name="warning_empty_recycle_bin">Radera alla noder i papperskorgen permanent?</string>
-    <string name="clipboard_otp_notifications_title">OTP-notifikation</string>
-    <string name="entry_application_id">App-Id</string>
+    <string name="clipboard_otp_notifications_title">OTP-avisering</string>
+    <string name="entry_application_id">App-ID</string>
     <string name="error_no_response_from_challenge">Kunde inte hämta svaret från utmaningen.</string>
 </resources>
