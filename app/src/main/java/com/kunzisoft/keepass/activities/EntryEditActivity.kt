@@ -53,7 +53,6 @@ import com.kunzisoft.keepass.activities.dialogs.EntryCustomFieldDialogFragment
 import com.kunzisoft.keepass.activities.dialogs.FileTooBigDialogFragment
 import com.kunzisoft.keepass.activities.dialogs.FileTooBigDialogFragment.Companion.MAX_WARNING_BINARY_FILE
 import com.kunzisoft.keepass.activities.dialogs.OverwriteDataDialogFragment
-import com.kunzisoft.keepass.activities.dialogs.ReplaceFileDialogFragment
 import com.kunzisoft.keepass.activities.fragments.EntryEditFragment
 import com.kunzisoft.keepass.activities.helpers.ExternalFileHelper
 import com.kunzisoft.keepass.activities.legacy.DatabaseLockActivity
@@ -69,7 +68,6 @@ import com.kunzisoft.keepass.credentialprovider.UserVerificationHelper.Companion
 import com.kunzisoft.keepass.credentialprovider.passkey.util.PasskeyHelper.buildPasskeyResponseAndSetResult
 import com.kunzisoft.keepass.credentialprovider.passkey.util.PasswordHelper.buildPasswordResponseAndSetResult
 import com.kunzisoft.keepass.database.ContextualDatabase
-import com.kunzisoft.keepass.database.element.Attachment
 import com.kunzisoft.keepass.database.element.DateInstant
 import com.kunzisoft.keepass.database.element.EntryId
 import com.kunzisoft.keepass.database.element.Field
@@ -113,8 +111,7 @@ import com.kunzisoft.keepass.viewmodels.UserVerificationViewModel
 import kotlinx.coroutines.launch
 import java.util.EnumSet
 
-class EntryEditActivity : DatabaseLockActivity(),
-        ReplaceFileDialogFragment.ActionChooseListener {
+class EntryEditActivity : DatabaseLockActivity() {
 
     // Views
     private var container: View? = null
@@ -627,12 +624,6 @@ class EntryEditActivity : DatabaseLockActivity(),
      */
     private fun addNewAttachment() {
         mExternalFileHelper?.openDocument()
-    }
-
-    override fun onValidateReplaceFile(attachmentToUploadUri: Uri?, attachment: Attachment?) {
-        if (attachmentToUploadUri != null && attachment != null) {
-            mEntryEditViewModel.startUploadAttachment(attachmentToUploadUri, attachment)
-        }
     }
 
     /**
