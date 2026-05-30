@@ -146,14 +146,11 @@ class GroupViewModel(application: Application): AndroidViewModel(application) {
     private val _requestPaste = MutableSharedFlow<PasteActionState>(replay = 0)
     val requestPasteNodes: SharedFlow<PasteActionState> = _requestPaste.asSharedFlow()
 
-    private val _removeSearch = MutableSharedFlow<Unit>(replay = 0)
-    val removeSearch: SharedFlow<Unit> = _removeSearch.asSharedFlow()
-
     private val _requestShowGroup = MutableSharedFlow<GroupInfo>(replay = 0)
     val requestShowGroup: SharedFlow<GroupInfo> = _requestShowGroup.asSharedFlow()
 
-    private val _showKeyboard = MutableSharedFlow<Boolean>(replay = 0)
-    val showKeyboard: SharedFlow<Boolean> = _showKeyboard.asSharedFlow()
+    private val _hideKeyboard = MutableSharedFlow<Unit>(replay = 0)
+    val hideKeyboard: SharedFlow<Unit> = _hideKeyboard.asSharedFlow()
 
     private val _showPosition = MutableSharedFlow<Int>(replay = 0)
     val showPosition: SharedFlow<Int> = _showPosition.asSharedFlow()
@@ -481,7 +478,7 @@ class GroupViewModel(application: Application): AndroidViewModel(application) {
                 if (selectedNodes.none { it.nodeId == node.nodeId })
                     selectedNodes.add(node)
                 selectNodes(selectedNodes)
-                _showKeyboard.emit(false)
+                _hideKeyboard.emit(Unit)
             }
         }
         return true

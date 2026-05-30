@@ -701,7 +701,7 @@ class GroupActivity : DatabaseLockActivity() {
                     }
                 }
                 launch {
-                    mGroupViewModel.showKeyboard.collect {
+                    mGroupViewModel.hideKeyboard.collect {
                         hideKeyboard()
                     }
                 }
