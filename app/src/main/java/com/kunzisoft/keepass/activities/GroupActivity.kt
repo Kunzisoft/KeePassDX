@@ -853,11 +853,11 @@ class GroupActivity : DatabaseLockActivity() {
 
         mBreadcrumbAdapter?.apply {
             // Open group on breadcrumb click
-            onItemClickListener = { node ->
-                mGroupViewModel.onBreadcrumbClicked(node)
+            onItemClickListener = { group ->
+                mGroupViewModel.onBreadcrumbClicked(group)
             }
-            onLongItemClickListener = { node ->
-                mGroupViewModel.onBreadcrumbLongClicked(node)
+            onLongItemClickListener = { group ->
+                mGroupViewModel.onBreadcrumbLongClicked(group)
             }
         }
         breadcrumbListView?.apply {

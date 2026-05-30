@@ -412,11 +412,11 @@ class GroupViewModel(application: Application): AndroidViewModel(application) {
      * Breadcrumbs
      */
 
-    fun onBreadcrumbClicked(node: SortedNodeInfo) {
+    fun onBreadcrumbClicked(group: SortedGroupInfo) {
         viewModelScope.launch {
             // If last item & not a virtual root group
             val currentGroup = mainGroup
-            if (currentGroup != null && node.nodeId == currentGroup.nodeId
+            if (currentGroup != null && group.nodeId == currentGroup.nodeId
                 && (currentGroup.nodeId != mDatabase?.rootGroup?.nodeId
                         || mDatabase?.rootGroupIsVirtual != true)
             ) {
@@ -426,25 +426,22 @@ class GroupViewModel(application: Application): AndroidViewModel(application) {
                 if (nodeActionSelectionMode) {
                     finishNodeAction()
                 }
-                when (node) {
-                    is SortedGroupInfo -> _requestOpenGroup.emit(node.nodeId)
-                    is SortedEntryInfo -> _requestOpenEntry.emit(node)
-                }
+                _requestOpenGroup.emit(group.nodeId)
             }
         }
     }
 
-    fun onBreadcrumbLongClicked(node: SortedNodeInfo) {
+    fun onBreadcrumbLongClicked(group: SortedGroupInfo) {
         viewModelScope.launch {
             val currentGroup = mainGroup
-            if (currentGroup != null && node.nodeId == currentGroup.nodeId
+            if (currentGroup != null && group.nodeId == currentGroup.nodeId
                 && (currentGroup.nodeId != mDatabase?.rootGroup?.nodeId
                         || mDatabase?.rootGroupIsVirtual != true)
             ) {
                 finishNodeAction()
                 _requestEditGroup.emit(currentGroup)
             } else {
-                onBreadcrumbClicked(node)
+                onBreadcrumbClicked(group)
             }
         }
     }
