@@ -128,8 +128,11 @@ class GroupViewModel(application: Application): AndroidViewModel(application) {
     private val _requestOpenEntry = MutableSharedFlow<EntryInfo>(replay = 0)
     val requestOpenEntry: SharedFlow<EntryInfo> = _requestOpenEntry.asSharedFlow()
 
-    private val _requestEditNode = MutableSharedFlow<NodeInfo>(replay = 0)
-    val requestEditNode: SharedFlow<NodeInfo> = _requestEditNode.asSharedFlow()
+    private val _requestEditGroup = MutableSharedFlow<GroupInfo>(replay = 0)
+    val requestEditGroup: SharedFlow<GroupInfo> = _requestEditGroup.asSharedFlow()
+
+    private val _requestEditEntry = MutableSharedFlow<EntryInfo>(replay = 0)
+    val requestEditEntry: SharedFlow<EntryInfo> = _requestEditEntry.asSharedFlow()
 
     private val _requestCopyNodes = MutableSharedFlow<Nodes>(replay = 0)
     val requestCopyNodes: SharedFlow<Nodes> = _requestCopyNodes.asSharedFlow()
@@ -151,9 +154,6 @@ class GroupViewModel(application: Application): AndroidViewModel(application) {
 
     private val _requestShowGroup = MutableSharedFlow<GroupInfo>(replay = 0)
     val requestShowGroup: SharedFlow<GroupInfo> = _requestShowGroup.asSharedFlow()
-
-    private val _requestUpdateGroup = MutableSharedFlow<GroupInfo>(replay = 0)
-    val requestUpdateGroup: SharedFlow<GroupInfo> = _requestUpdateGroup.asSharedFlow()
 
     private val _showKeyboard = MutableSharedFlow<Boolean>(replay = 0)
     val showKeyboard: SharedFlow<Boolean> = _showKeyboard.asSharedFlow()
@@ -444,7 +444,7 @@ class GroupViewModel(application: Application): AndroidViewModel(application) {
                         || mDatabase?.rootGroupIsVirtual != true)
             ) {
                 finishNodeAction()
-                _requestUpdateGroup.emit(currentGroup)
+                _requestEditGroup.emit(currentGroup)
             } else {
                 onBreadcrumbClicked(node)
             }
@@ -525,8 +525,9 @@ class GroupViewModel(application: Application): AndroidViewModel(application) {
         if (nodes.isNotEmpty()) {
             finishNodeAction()
             viewModelScope.launch {
-                (nodes[0] as? NodeInfo)?.let {
-                    _requestEditNode.emit(it)
+                when (val node = nodes[0]) {
+                    is GroupInfo -> _requestEditGroup.emit(node)
+                    is EntryInfo -> _requestEditEntry.emit(node)
                 }
             }
         }

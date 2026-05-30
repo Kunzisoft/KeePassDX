@@ -536,7 +536,6 @@ class GroupActivity : DatabaseLockActivity() {
                     }
                 }
                 launch {
-                    // TODO In View Model
                     mGroupViewModel.requestOpenEntry.collect { entry ->
                         mDatabase?.let { database ->
                             EntrySelectionHelper.doSpecialAction(
@@ -619,27 +618,25 @@ class GroupActivity : DatabaseLockActivity() {
                     }
                 }
                 launch {
-                    mGroupViewModel.requestEditNode.collect { node ->
-                        when (node) {
-                            is GroupInfo -> {
-                                launchDialogForGroupUpdate(node)
-                            }
-                            is EntryInfo -> {
-                                mDatabase?.let { database ->
-                                    val entryId = node.nodeId
-                                    if (mDatabaseAllowUserVerification) {
-                                        checkUserVerification(
-                                            userVerificationViewModel = mUserVerificationViewModel,
-                                            dataToVerify = UserVerificationData(
-                                                actionType = UserVerificationActionType.EDIT_ENTRY,
-                                                database = database,
-                                                entryId = entryId
-                                            )
-                                        )
-                                    } else {
-                                        editEntry(database, entryId)
-                                    }
-                                }
+                    mGroupViewModel.requestEditGroup.collect { group ->
+                        launchDialogForGroupUpdate(group)
+                    }
+                }
+                launch {
+                    mGroupViewModel.requestEditEntry.collect { entry ->
+                        mDatabase?.let { database ->
+                            val entryId = entry.nodeId
+                            if (mDatabaseAllowUserVerification) {
+                                checkUserVerification(
+                                    userVerificationViewModel = mUserVerificationViewModel,
+                                    dataToVerify = UserVerificationData(
+                                        actionType = UserVerificationActionType.EDIT_ENTRY,
+                                        database = database,
+                                        entryId = entryId
+                                    )
+                                )
+                            } else {
+                                editEntry(database, entryId)
                             }
                         }
                     }
@@ -647,11 +644,6 @@ class GroupActivity : DatabaseLockActivity() {
                 launch {
                     mGroupViewModel.requestShowGroup.collect { group ->
                         launchDialogToShowGroupInfo(group)
-                    }
-                }
-                launch {
-                    mGroupViewModel.requestUpdateGroup.collect { group ->
-                        launchDialogForGroupUpdate(group)
                     }
                 }
                 launch {
