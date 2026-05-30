@@ -32,19 +32,17 @@ import android.view.View
 import android.widget.CompoundButton
 import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
-import com.google.android.material.textfield.TextInputLayout
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import com.google.android.material.textfield.TextInputLayout
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.helpers.ExternalFileHelper
 import com.kunzisoft.keepass.activities.helpers.setOpenDocumentClickListener
 import com.kunzisoft.keepass.credentialprovider.activity.HardwareKeyActivity
 import com.kunzisoft.keepass.database.MainCredential
 import com.kunzisoft.keepass.database.element.MasterCredential
-import com.kunzisoft.keepass.hardware.HardwareKey
-import com.kunzisoft.keepass.password.PasswordEntropy
 import com.kunzisoft.keepass.utils.UriUtil.getDocumentFile
 import com.kunzisoft.keepass.utils.UriUtil.openUrl
 import com.kunzisoft.keepass.utils.clear
@@ -60,10 +58,6 @@ import java.io.IOException
 
 
 class SetMainCredentialDialogFragment : DatabaseDialogFragment() {
-
-    private var mMasterPassword: CharArray? = null
-    private var mKeyFileUri: Uri? = null
-    private var mHardwareKey: HardwareKey? = null
 
     private lateinit var rootView: View
 
@@ -82,7 +76,6 @@ class SetMainCredentialDialogFragment : DatabaseDialogFragment() {
     private var mListener: AssignMainCredentialDialogListener? = null
 
     private var mExternalFileHelper: ExternalFileHelper? = null
-    private var mPasswordEntropyCalculator: PasswordEntropy? = null
 
     private val mSetMainCredentialViewModel: SetMainCredentialViewModel by viewModels()
     private var mConfirmationDialog: AlertDialog? = null
@@ -123,9 +116,6 @@ class SetMainCredentialDialogFragment : DatabaseDialogFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        // Create the password entropy object
-        mPasswordEntropyCalculator = PasswordEntropy()
 
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -219,11 +209,7 @@ class SetMainCredentialDialogFragment : DatabaseDialogFragment() {
             dialog.setOnShowListener { dialog1 ->
                 val positiveButton = (dialog1 as AlertDialog).getButton(DialogInterface.BUTTON_POSITIVE)
                 positiveButton.setOnClickListener {
-
-                    mMasterPassword = null
-                    mKeyFileUri = null
-                    mHardwareKey = null
-
+                    mSetMainCredentialViewModel.clearCredentials()
                     approveMainCredential()
                 }
                 val negativeButton = dialog1.getButton(DialogInterface.BUTTON_NEGATIVE)
@@ -272,7 +258,7 @@ class SetMainCredentialDialogFragment : DatabaseDialogFragment() {
                     getString(R.string.error_disallow_no_credentials)
             }
         } else if (!error
-            && (mMasterPassword == null || mMasterPassword!!.isEmpty())
+            && mSetMainCredentialViewModel.isMasterPasswordEmpty()
             && !keyFileCheckBox.isChecked
             && !hardwareKeyCheckBox.isChecked
         ) {
@@ -298,12 +284,14 @@ class SetMainCredentialDialogFragment : DatabaseDialogFragment() {
         var error = false
         passwordRepeatTextInputLayout.error = null
         if (passwordCheckBox.isChecked) {
-            mMasterPassword = passwordEditView.passwordCharArray
+            mSetMainCredentialViewModel.assignMasterPassword(passwordEditView.passwordCharArray)
+            // TODO In ViewModel
             val confPassword = CharArray(passwordRepeatView.length())
             passwordRepeatView.text.getChars(0, passwordRepeatView.length(), confPassword, 0)
 
             // Verify that passwords match
-            val passwordsMatch = mMasterPassword?.contentEquals(confPassword) ?: confPassword.isEmpty()
+            val passwordsMatch = mSetMainCredentialViewModel.masterPassword
+                ?.contentEquals(confPassword) ?: confPassword.isEmpty()
             if (!passwordsMatch) {
                 error = true
                 // Passwords do not match
@@ -319,7 +307,7 @@ class SetMainCredentialDialogFragment : DatabaseDialogFragment() {
         keyFileSelectionView.error = null
         if (keyFileCheckBox.isChecked) {
             keyFileSelectionView.uri?.let { uri ->
-                mKeyFileUri = uri
+                mSetMainCredentialViewModel.assignKeyFileUri(uri)
             } ?: run {
                 error = true
                 keyFileSelectionView.error = getString(R.string.error_nokeyfile)
@@ -333,7 +321,7 @@ class SetMainCredentialDialogFragment : DatabaseDialogFragment() {
         hardwareKeySelectionView.error = null
         if (hardwareKeyCheckBox.isChecked) {
             hardwareKeySelectionView.hardwareKey?.let { hardwareKey ->
-                mHardwareKey = hardwareKey
+                mSetMainCredentialViewModel.assignHardwareKey(hardwareKey)
             } ?: run {
                 error = true
                 hardwareKeySelectionView.error = getString(R.string.error_no_hardware_key)
@@ -343,9 +331,15 @@ class SetMainCredentialDialogFragment : DatabaseDialogFragment() {
     }
 
     private fun retrieveMainCredential(): MainCredential {
-        val masterPassword = if (passwordCheckBox.isChecked) mMasterPassword else null
-        val keyFileUri = if (keyFileCheckBox.isChecked) mKeyFileUri else null
-        val hardwareKey = if (hardwareKeyCheckBox.isChecked) mHardwareKey else null
+        val masterPassword = if (passwordCheckBox.isChecked) {
+            mSetMainCredentialViewModel.masterPassword ?: passwordEditView.passwordCharArray
+        } else null
+        val keyFileUri = if (keyFileCheckBox.isChecked) {
+            mSetMainCredentialViewModel.keyFileUri ?: keyFileSelectionView.uri
+        } else null
+        val hardwareKey = if (hardwareKeyCheckBox.isChecked) {
+            mSetMainCredentialViewModel.hardwareKey ?: hardwareKeySelectionView.hardwareKey
+        } else null
         return MainCredential(masterPassword, keyFileUri, hardwareKey)
     }
 

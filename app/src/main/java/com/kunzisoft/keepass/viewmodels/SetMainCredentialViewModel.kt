@@ -19,7 +19,10 @@
 
 package com.kunzisoft.keepass.viewmodels
 
+import android.net.Uri
 import androidx.lifecycle.ViewModel
+import com.kunzisoft.keepass.hardware.HardwareKey
+import com.kunzisoft.keepass.utils.clear
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -29,6 +32,10 @@ import kotlinx.coroutines.flow.asStateFlow
  * Manages the UI state and confirmation dialogs to survive orientation changes.
  */
 class SetMainCredentialViewModel : ViewModel() {
+
+    var masterPassword: CharArray? = null
+    var keyFileUri: Uri? = null
+    var hardwareKey: HardwareKey? = null
 
     private val _confirmationState = MutableStateFlow<ConfirmationState>(ConfirmationState.None)
     val confirmationState: StateFlow<ConfirmationState> = _confirmationState.asStateFlow()
@@ -60,6 +67,53 @@ class SetMainCredentialViewModel : ViewModel() {
      */
     fun dismissConfirmation() {
         _confirmationState.value = ConfirmationState.None
+    }
+
+    /**
+     * Assign the master password.
+     * @param password The master password.
+     */
+    fun assignMasterPassword(password: CharArray?) {
+        this.masterPassword = password
+    }
+
+    /**
+     * Assign the key file URI.
+     * @param uri The key file URI.
+     */
+    fun assignKeyFileUri(uri: Uri?) {
+        this.keyFileUri = uri
+    }
+
+    /**
+     * Assign the hardware key.
+     * @param hardwareKey The hardware key.
+     */
+    fun assignHardwareKey(hardwareKey: HardwareKey?) {
+        this.hardwareKey = hardwareKey
+    }
+
+    /**
+     * Check if the master password is empty.
+     * @return True if the master password is empty, false otherwise.
+     */
+    fun isMasterPasswordEmpty(): Boolean {
+        return masterPassword?.isEmpty() ?: true
+    }
+
+    /**
+     * Clear all credentials.
+     */
+    fun clearCredentials() {
+        masterPassword?.clear()
+        masterPassword = null
+        keyFileUri = null
+        hardwareKey = null
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        clearCredentials()
     }
 
     /**
