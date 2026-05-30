@@ -83,7 +83,6 @@ import com.kunzisoft.keepass.model.EntryAttachmentState
 import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.model.RegisterInfo
 import com.kunzisoft.keepass.model.SearchInfo
-import com.kunzisoft.keepass.otp.OtpElement
 import com.kunzisoft.keepass.services.AttachmentFileNotificationService
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_CREATE_ENTRY_TASK
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_ENTRY_TASK
@@ -115,7 +114,6 @@ import kotlinx.coroutines.launch
 import java.util.EnumSet
 
 class EntryEditActivity : DatabaseLockActivity(),
-        FileTooBigDialogFragment.ActionChooseListener,
         ReplaceFileDialogFragment.ActionChooseListener {
 
     // Views
@@ -629,12 +627,6 @@ class EntryEditActivity : DatabaseLockActivity(),
      */
     private fun addNewAttachment() {
         mExternalFileHelper?.openDocument()
-    }
-
-    override fun onValidateUploadFileTooBig(attachmentToUploadUri: Uri?, fileName: String?) {
-        if (attachmentToUploadUri != null && fileName != null) {
-            mEntryEditViewModel.buildNewAttachment(attachmentToUploadUri, fileName)
-        }
     }
 
     override fun onValidateReplaceFile(attachmentToUploadUri: Uri?, attachment: Attachment?) {
