@@ -33,6 +33,10 @@ import android.widget.CompoundButton
 import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
 import com.google.android.material.textfield.TextInputLayout
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.helpers.ExternalFileHelper
 import com.kunzisoft.keepass.activities.helpers.setOpenDocumentClickListener
@@ -48,6 +52,7 @@ import com.kunzisoft.keepass.view.HardwareKeySelectionView
 import com.kunzisoft.keepass.view.KeyFileSelectionView
 import com.kunzisoft.keepass.view.PasswordEditView
 import com.kunzisoft.keepass.view.applyFontVisibility
+import com.kunzisoft.keepass.viewmodels.SetMainCredentialViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -79,9 +84,8 @@ class SetMainCredentialDialogFragment : DatabaseDialogFragment() {
     private var mExternalFileHelper: ExternalFileHelper? = null
     private var mPasswordEntropyCalculator: PasswordEntropy? = null
 
-    private var mEmptyPasswordConfirmationDialog: AlertDialog? = null
-    private var mNoKeyConfirmationDialog: AlertDialog? = null
-    private var mEmptyKeyFileConfirmationDialog: AlertDialog? = null
+    private val mSetMainCredentialViewModel: SetMainCredentialViewModel by viewModels()
+    private var mConfirmationDialog: AlertDialog? = null
 
     private var mAllowNoMasterKey: Boolean  = false
 
@@ -112,12 +116,8 @@ class SetMainCredentialDialogFragment : DatabaseDialogFragment() {
 
     override fun onDetach() {
         mListener = null
-        mEmptyPasswordConfirmationDialog?.dismiss()
-        mEmptyPasswordConfirmationDialog = null
-        mNoKeyConfirmationDialog?.dismiss()
-        mNoKeyConfirmationDialog = null
-        mEmptyKeyFileConfirmationDialog?.dismiss()
-        mEmptyKeyFileConfirmationDialog = null
+        mConfirmationDialog?.dismiss()
+        mConfirmationDialog = null
         super.onDetach()
     }
 
@@ -126,6 +126,24 @@ class SetMainCredentialDialogFragment : DatabaseDialogFragment() {
 
         // Create the password entropy object
         mPasswordEntropyCalculator = PasswordEntropy()
+
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                mSetMainCredentialViewModel.confirmationState.collect { state ->
+                    mConfirmationDialog?.dismiss()
+                    if (state is SetMainCredentialViewModel.ConfirmationState.Showing) {
+                        when (state.type) {
+                            SetMainCredentialViewModel.ConfirmationType.EMPTY_PASSWORD ->
+                                showEmptyPasswordConfirmationDialog()
+                            SetMainCredentialViewModel.ConfirmationType.NO_KEY ->
+                                showNoKeyConfirmationDialog()
+                            SetMainCredentialViewModel.ConfirmationType.KEYFILE_LENGTH ->
+                                state.data?.let { showLengthKeyFileConfirmationDialog(it) }
+                        }
+                    }
+                }
+            }
+        }
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -177,7 +195,7 @@ class SetMainCredentialDialogFragment : DatabaseDialogFragment() {
                         keyFileSelectionView.error = null
                         keyFileCheckBox.isChecked = true
                         keyFileSelectionView.uri = pathUri
-                        showLengthKeyFileConfirmationDialog(lengthFile)
+                        mSetMainCredentialViewModel.showKeyFileLengthConfirmation(lengthFile)
                     }
                 }
             }
@@ -248,7 +266,7 @@ class SetMainCredentialDialogFragment : DatabaseDialogFragment() {
             error = true
             if (mAllowNoMasterKey) {
                 // show no key dialog if required
-                showNoKeyConfirmationDialog()
+                mSetMainCredentialViewModel.showNoKeyConfirmation()
             } else {
                 passwordRepeatTextInputLayout.error =
                     getString(R.string.error_disallow_no_credentials)
@@ -260,7 +278,7 @@ class SetMainCredentialDialogFragment : DatabaseDialogFragment() {
         ) {
             // show empty password dialog if required
             error = true
-            showEmptyPasswordConfirmationDialog()
+            mSetMainCredentialViewModel.showEmptyPasswordConfirmation()
         } else if (!error
             && hardwareKey != null
             && !HardwareKeyActivity.isHardwareKeyAvailable(requireActivity(), hardwareKey)
@@ -350,11 +368,14 @@ class SetMainCredentialDialogFragment : DatabaseDialogFragment() {
             builder.setMessage(R.string.warning_empty_password)
                     .setPositiveButton(android.R.string.ok) { _, _ ->
                         mListener?.onAssignKeyDialogPositiveClick(retrieveMainCredential())
+                        mSetMainCredentialViewModel.dismissConfirmation()
                         this@SetMainCredentialDialogFragment.dismiss()
                     }
-                    .setNegativeButton(android.R.string.cancel) { _, _ -> }
-            mEmptyPasswordConfirmationDialog = builder.create()
-            mEmptyPasswordConfirmationDialog?.show()
+                    .setNegativeButton(android.R.string.cancel) { _, _ ->
+                        mSetMainCredentialViewModel.dismissConfirmation()
+                    }
+            mConfirmationDialog = builder.create()
+            mConfirmationDialog?.show()
         }
     }
 
@@ -364,11 +385,14 @@ class SetMainCredentialDialogFragment : DatabaseDialogFragment() {
             builder.setMessage(R.string.warning_no_encryption_key)
                     .setPositiveButton(android.R.string.ok) { _, _ ->
                         mListener?.onAssignKeyDialogPositiveClick(retrieveMainCredential())
+                        mSetMainCredentialViewModel.dismissConfirmation()
                         this@SetMainCredentialDialogFragment.dismiss()
                     }
-                    .setNegativeButton(android.R.string.cancel) { _, _ -> }
-            mNoKeyConfirmationDialog = builder.create()
-            mNoKeyConfirmationDialog?.show()
+                    .setNegativeButton(android.R.string.cancel) { _, _ ->
+                        mSetMainCredentialViewModel.dismissConfirmation()
+                    }
+            mConfirmationDialog = builder.create()
+            mConfirmationDialog?.show()
         }
     }
 
@@ -392,13 +416,16 @@ class SetMainCredentialDialogFragment : DatabaseDialogFragment() {
                     append(getString(R.string.warning_sure_add_file))
                 }
             })
-                .setPositiveButton(android.R.string.ok) { _, _ -> }
+                .setPositiveButton(android.R.string.ok) { _, _ ->
+                    mSetMainCredentialViewModel.dismissConfirmation()
+                }
                 .setNegativeButton(android.R.string.cancel) { _, _ ->
                     keyFileCheckBox.isChecked = false
                     keyFileSelectionView.uri = null
+                    mSetMainCredentialViewModel.dismissConfirmation()
                 }
-            mEmptyKeyFileConfirmationDialog = builder.create()
-            mEmptyKeyFileConfirmationDialog?.show()
+            mConfirmationDialog = builder.create()
+            mConfirmationDialog?.show()
         }
     }
 
