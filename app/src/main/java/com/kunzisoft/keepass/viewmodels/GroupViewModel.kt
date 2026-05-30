@@ -140,8 +140,8 @@ class GroupViewModel(application: Application): AndroidViewModel(application) {
     private val _requestDeleteNodes = MutableSharedFlow<DeleteActionState>(replay = 0)
     val requestDeleteNodes: SharedFlow<DeleteActionState> = _requestDeleteNodes.asSharedFlow()
 
-    private val _requestPaste = MutableSharedFlow<PasteAction>(replay = 0)
-    val requestPasteNodes: SharedFlow<PasteAction> = _requestPaste.asSharedFlow()
+    private val _requestPaste = MutableSharedFlow<PasteActionState>(replay = 0)
+    val requestPasteNodes: SharedFlow<PasteActionState> = _requestPaste.asSharedFlow()
 
     private val _requestAddSearch = MutableSharedFlow<Unit>(replay = 0)
     val addSearch: SharedFlow<Unit> = _requestAddSearch.asSharedFlow()
@@ -574,7 +574,7 @@ class GroupViewModel(application: Application): AndroidViewModel(application) {
         mainGroup?.nodeId?.let { parentId ->
             viewModelScope.launch {
                 _requestPaste.emit(
-                    PasteAction(
+                    PasteActionState(
                         state.pasteMode,
                         parentId,
                         state.selectedNodes.toNodes()
@@ -695,7 +695,7 @@ class GroupViewModel(application: Application): AndroidViewModel(application) {
         var firstVisibleItem: Int?
     )
 
-    data class PasteAction(
+    data class PasteActionState(
         val pasteMode: PasteMode,
         val parentId: GroupId,
         val nodes: Nodes

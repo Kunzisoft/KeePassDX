@@ -147,15 +147,16 @@ class GroupFragment : DatabaseFragment() {
                     mGroupViewModel.groupUIState.collect { groupUIState ->
                         try {
                             groupUIState.group?.let { currentGroup ->
+                                val isSearchInfo = currentGroup is SearchGroupInfo
                                 groupUIState.children?.let { children ->
                                     mAdapter?.rebuildList(
                                         nodes = children,
-                                        isSearch = currentGroup is SearchGroupInfo
+                                        isSearch = isSearchInfo
                                     )
                                 }
                                 // Direct action node selection after rebuild
                                 mAdapter?.setActionNodes(mGroupViewModel.actionsNodes.value)
-                                if (currentGroup is SearchGroupInfo
+                                if (isSearchInfo
                                     && mAdapter != null
                                     && mAdapter!!.isEmpty) {
                                     // To show the " no search entry found "

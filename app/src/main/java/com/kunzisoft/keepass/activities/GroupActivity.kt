@@ -673,18 +673,18 @@ class GroupActivity : DatabaseLockActivity() {
                     }
                 }
                 launch {
-                    mGroupViewModel.requestPasteNodes.collect { pasteAction ->
-                        when (pasteAction.pasteMode) {
+                    mGroupViewModel.requestPasteNodes.collect { pasteState ->
+                        when (pasteState.pasteMode) {
                             PasteMode.PASTE_FROM_COPY -> {
                                 copyNodes(
-                                    newParentId = pasteAction.parentId,
-                                    nodesToCopy = pasteAction.nodes
+                                    newParentId = pasteState.parentId,
+                                    nodesToCopy = pasteState.nodes
                                 )
                             }
                             PasteMode.PASTE_FROM_MOVE -> {
                                 moveNodes(
-                                    newParentId = pasteAction.parentId,
-                                    nodesToMove = pasteAction.nodes
+                                    newParentId = pasteState.parentId,
+                                    nodesToMove = pasteState.nodes
                                 )
                             }
                             else -> {}
