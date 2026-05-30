@@ -197,7 +197,7 @@ class GroupActivity : DatabaseLockActivity() {
             searchView?.setOnQueryTextListener(mOnSearchQueryTextListener)
             searchFiltersView?.onParametersChangeListener = mOnSearchFiltersChangeListener
 
-            addSearch()
+            mGroupViewModel.assignSearchParameters(searchFiltersView?.searchParameters)
             return true
         }
 
@@ -312,10 +312,6 @@ class GroupActivity : DatabaseLockActivity() {
             mGroupViewModel.onActionDestroyed()
             activeActionMode = null
         }
-    }
-
-    private fun addSearch() {
-        mGroupViewModel.assignSearchParameters(searchFiltersView?.searchParameters)
     }
 
     private fun removeSearch() {
@@ -462,6 +458,7 @@ class GroupActivity : DatabaseLockActivity() {
 
         searchFiltersView?.closeAdvancedFilters()
 
+        mGroupViewModel.assignPreferences()
         // Retrieve group if defined at launch
         mGroupViewModel.manageIntent(intent)
 
@@ -483,7 +480,6 @@ class GroupActivity : DatabaseLockActivity() {
 
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                mGroupViewModel.assignPreferences()
                 launch {
                     mGroupViewModel.groupUIState.collect { groupUISTate ->
                         // Load
@@ -692,11 +688,6 @@ class GroupActivity : DatabaseLockActivity() {
                         } else {
                             activeActionMode?.finish()
                         }
-                    }
-                }
-                launch {
-                    mGroupViewModel.addSearch.collect {
-                        addSearch()
                     }
                 }
                 launch {

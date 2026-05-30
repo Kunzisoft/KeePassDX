@@ -146,9 +146,6 @@ class GroupViewModel(application: Application): AndroidViewModel(application) {
     private val _requestPaste = MutableSharedFlow<PasteActionState>(replay = 0)
     val requestPasteNodes: SharedFlow<PasteActionState> = _requestPaste.asSharedFlow()
 
-    private val _requestAddSearch = MutableSharedFlow<Unit>(replay = 0)
-    val addSearch: SharedFlow<Unit> = _requestAddSearch.asSharedFlow()
-
     private val _removeSearch = MutableSharedFlow<Unit>(replay = 0)
     val removeSearch: SharedFlow<Unit> = _removeSearch.asSharedFlow()
 
@@ -346,9 +343,10 @@ class GroupViewModel(application: Application): AndroidViewModel(application) {
                 // Expand the search view if defined in settings
                 // To request search only one time
                 mRequestStartupSearch = false
-                viewModelScope.launch {
-                    _requestAddSearch.emit(Unit)
-                }
+                mSearchState = SearchState(
+                    searchParameters = mDefaultSearchParameters,
+                    firstVisibleItem = mSearchState?.firstVisibleItem ?: 0
+                )
             }
             intent.action = Intent.ACTION_DEFAULT
             intent.removeExtra(SearchManager.QUERY)
