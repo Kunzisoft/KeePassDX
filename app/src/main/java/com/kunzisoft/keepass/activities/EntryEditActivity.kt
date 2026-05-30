@@ -116,7 +116,6 @@ import kotlinx.coroutines.launch
 import java.util.EnumSet
 
 class EntryEditActivity : DatabaseLockActivity(),
-        EntryCustomFieldDialogFragment.EntryCustomFieldListener,
         SetOTPDialogFragment.CreateOtpListener,
         FileTooBigDialogFragment.ActionChooseListener,
         ReplaceFileDialogFragment.ActionChooseListener {
@@ -625,18 +624,6 @@ class EntryEditActivity : DatabaseLockActivity(),
 
     private fun editCustomField(field: Field) {
         EntryCustomFieldDialogFragment.getInstance(field).show(supportFragmentManager, "customFieldDialog")
-    }
-
-    override fun onNewCustomFieldApproved(newField: Field) {
-        mEntryEditViewModel.addCustomField(newField)
-    }
-
-    override fun onEditCustomFieldApproved(oldField: Field, newField: Field) {
-        mEntryEditViewModel.editCustomField(oldField, newField)
-    }
-
-    override fun onDeleteCustomFieldApproved(oldField: Field) {
-        mEntryEditViewModel.removeCustomField(oldField)
     }
 
     /**
