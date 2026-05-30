@@ -81,7 +81,6 @@ import com.kunzisoft.keepass.credentialprovider.passkey.util.PasswordHelper.buil
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.element.DateInstant
 import com.kunzisoft.keepass.database.element.EntryId
-import com.kunzisoft.keepass.database.element.SortNodeEnum
 import com.kunzisoft.keepass.database.exception.RegisterInReadOnlyDatabaseException
 import com.kunzisoft.keepass.database.helper.SearchHelper
 import com.kunzisoft.keepass.database.search.SearchParameters

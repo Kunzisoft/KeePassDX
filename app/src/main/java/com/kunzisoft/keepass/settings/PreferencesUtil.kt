@@ -61,15 +61,30 @@ object PreferencesUtil {
         return prefs.getString(context.getString(R.string.default_database_path_key), "")
     }
 
-    fun saveNodeSort(context: Context,
-                     sortNodeEnum: SortNodeEnum,
-                     sortNodeParameters: SortNodeEnum.SortNodeParameters) {
+    fun saveNodeSort(
+        context: Context,
+        sortNodeEnum: SortNodeEnum?,
+        sortNodeParameters: SortNodeEnum.SortNodeParameters?
+    ) {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
         prefs?.edit()?.apply {
-            putString(context.getString(R.string.sort_node_key), sortNodeEnum.name)
-            putBoolean(context.getString(R.string.sort_ascending_key), sortNodeParameters.ascending)
-            putBoolean(context.getString(R.string.sort_group_before_key), sortNodeParameters.groupsBefore)
-            putBoolean(context.getString(R.string.sort_recycle_bin_bottom_key), sortNodeParameters.recycleBinBottom)
+            sortNodeEnum?.let {
+                putString(context.getString(R.string.sort_node_key), sortNodeEnum.name)
+            }
+            sortNodeParameters?.let {
+                putBoolean(
+                    context.getString(R.string.sort_ascending_key),
+                    sortNodeParameters.ascending
+                )
+                putBoolean(
+                    context.getString(R.string.sort_group_before_key),
+                    sortNodeParameters.groupsBefore
+                )
+                putBoolean(
+                    context.getString(R.string.sort_recycle_bin_bottom_key),
+                    sortNodeParameters.recycleBinBottom
+                )
+            }
             apply()
         }
     }

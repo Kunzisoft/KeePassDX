@@ -43,21 +43,20 @@ enum class SortNodeEnum {
 
     /**
      * Returns a comparator corresponding to the sort type.
-     * @param database The database context for sorting.
      * @param sortNodeParameters Parameters for the sorting behavior.
      * @return A [Comparator] for [SortedNodeInfo].
      */
     fun getNodeComparator(
-        database: Database,
+        sortDatabaseParameters: SortDatabaseParameters,
         sortNodeParameters: SortNodeParameters,
     ) : Comparator<SortedNodeInfo> {
         return when (this) {
-            DB -> NodeNaturalComparator(database, sortNodeParameters) // Force false because natural order contains recycle bin
-            TITLE -> NodeTitleComparator(database, sortNodeParameters)
-            USERNAME -> NodeUsernameComparator(database, sortNodeParameters)
-            CREATION_TIME -> NodeCreationComparator(database, sortNodeParameters)
-            LAST_MODIFY_TIME -> NodeLastModificationComparator(database, sortNodeParameters)
-            LAST_ACCESS_TIME -> NodeLastAccessComparator(database, sortNodeParameters)
+            DB -> NodeNaturalComparator(sortDatabaseParameters, sortNodeParameters) // Force false because natural order contains recycle bin
+            TITLE -> NodeTitleComparator(sortDatabaseParameters, sortNodeParameters)
+            USERNAME -> NodeUsernameComparator(sortDatabaseParameters, sortNodeParameters)
+            CREATION_TIME -> NodeCreationComparator(sortDatabaseParameters, sortNodeParameters)
+            LAST_MODIFY_TIME -> NodeLastModificationComparator(sortDatabaseParameters, sortNodeParameters)
+            LAST_ACCESS_TIME -> NodeLastAccessComparator(sortDatabaseParameters, sortNodeParameters)
         }
     }
 
@@ -70,18 +69,28 @@ enum class SortNodeEnum {
     data class SortNodeParameters(
         var ascending: Boolean = true,
         var groupsBefore: Boolean = true,
-        var recycleBinBottom: Boolean = true,
+        var recycleBinBottom: Boolean = true
+    )
+
+    /**
+     * Database parameters for node sorting.
+     * @param recycleBinId The id of the recycle bin.
+     * @param recycleBinEnabled Whether the recycle bin is enabled.
+     */
+    data class SortDatabaseParameters(
+        var recycleBinEnabled: Boolean = true,
+        var recycleBinId: GroupId? = null
     )
 
     /**
      * Abstract base class for node comparators.
      * @param T The type of node info.
-     * @property database The database context.
      * @property sortNodeParameters The sorting parameters.
      */
     abstract class NodeComparator
-            <T: SortedNodeInfo>(var database: Database, var sortNodeParameters: SortNodeParameters)
-        : Comparator<T> {
+            <T: SortedNodeInfo>(
+        var sortDatabaseParameters: SortDatabaseParameters,
+        var sortNodeParameters: SortNodeParameters) : Comparator<T> {
 
         abstract fun compareBySpecificOrder(object1: T, object2: T): Int
 
@@ -103,10 +112,10 @@ enum class SortNodeEnum {
                     when (object2) {
                         is GroupInfo -> {
                             // RecycleBin at end of groups
-                            if (database.isRecycleBinEnabled && sortNodeParameters.recycleBinBottom) {
-                                if (database.recycleBin == object1)
+                            if (sortDatabaseParameters.recycleBinEnabled && sortNodeParameters.recycleBinBottom) {
+                                if (sortDatabaseParameters.recycleBinId == object1.nodeId)
                                     return 1
-                                if (database.recycleBin == object2)
+                                if (sortDatabaseParameters.recycleBinId == object2.nodeId)
                                     return -1
                             }
                             return specificOrderOrHashIfEquals(object1, object2)
@@ -140,9 +149,9 @@ enum class SortNodeEnum {
      * Comparator of node by natural database placement
      */
     class NodeNaturalComparator<T: SortedNodeInfo>(
-        database: Database,
+        sortDatabaseParameters: SortDatabaseParameters,
         sortNodeParameters: SortNodeParameters
-    ) : NodeComparator<T>(database, sortNodeParameters) {
+    ) : NodeComparator<T>(sortDatabaseParameters, sortNodeParameters) {
 
         override fun compareBySpecificOrder(object1: T, object2: T): Int {
             return object1.indexInParent
@@ -154,14 +163,14 @@ enum class SortNodeEnum {
      * Comparator of Node by Title
      */
     class NodeTitleComparator<T: SortedNodeInfo>(
-        database: Database,
+        sortDatabaseParameters: SortDatabaseParameters,
         sortNodeParameters: SortNodeParameters
-    ) : NodeComparator<T>(database, sortNodeParameters) {
+    ) : NodeComparator<T>(sortDatabaseParameters, sortNodeParameters) {
 
         override fun compareBySpecificOrder(object1: T, object2: T): Int {
             val titleCompare = object1.title.compareTo(object2.title, ignoreCase = true)
             return if (titleCompare == 0)
-                NodeNaturalComparator<T>(database, sortNodeParameters)
+                NodeNaturalComparator<T>(sortDatabaseParameters, sortNodeParameters)
                         .compare(object1, object2)
             else
                 titleCompare
@@ -172,9 +181,9 @@ enum class SortNodeEnum {
      * Comparator of Node by Username, Groups by title
      */
     class NodeUsernameComparator<T: SortedNodeInfo>(
-        database: Database,
+        sortDatabaseParameters: SortDatabaseParameters,
         sortNodeParameters: SortNodeParameters
-    ) : NodeComparator<T>(database, sortNodeParameters) {
+    ) : NodeComparator<T>(sortDatabaseParameters, sortNodeParameters) {
 
         override fun compareBySpecificOrder(object1: T, object2: T): Int {
             return if (object1 is EntryInfo && object2 is EntryInfo) {
@@ -182,12 +191,12 @@ enum class SortNodeEnum {
                 val usernameCompare = object1.username
                         .compareTo(object2.username, ignoreCase = true)
                 if (usernameCompare == 0)
-                    NodeTitleComparator<T>(database, sortNodeParameters)
+                    NodeTitleComparator<T>(sortDatabaseParameters, sortNodeParameters)
                             .compare(object1, object2)
                 else
                     usernameCompare
             } else {
-                NodeTitleComparator<T>(database, sortNodeParameters)
+                NodeTitleComparator<T>(sortDatabaseParameters, sortNodeParameters)
                         .compare(object1, object2)
             }
         }
@@ -197,15 +206,15 @@ enum class SortNodeEnum {
      * Comparator of node by creation
      */
     class NodeCreationComparator<T: SortedNodeInfo>(
-        database: Database,
+        sortDatabaseParameters: SortDatabaseParameters,
         sortNodeParameters: SortNodeParameters
-    ) : NodeComparator<T>(database, sortNodeParameters) {
+    ) : NodeComparator<T>(sortDatabaseParameters, sortNodeParameters) {
 
         override fun compareBySpecificOrder(object1: T, object2: T): Int {
             val creationCompare = object1.creationTime
                     .compareTo(object2.creationTime)
             return if (creationCompare == 0)
-                NodeNaturalComparator<T>(database, sortNodeParameters)
+                NodeNaturalComparator<T>(sortDatabaseParameters, sortNodeParameters)
                         .compare(object1, object2)
             else
                 creationCompare
@@ -216,15 +225,15 @@ enum class SortNodeEnum {
      * Comparator of node by last modification
      */
     class NodeLastModificationComparator<T: SortedNodeInfo>(
-        database: Database,
+        sortDatabaseParameters: SortDatabaseParameters,
         sortNodeParameters: SortNodeParameters
-    ) : NodeComparator<T>(database, sortNodeParameters) {
+    ) : NodeComparator<T>(sortDatabaseParameters, sortNodeParameters) {
 
         override fun compareBySpecificOrder(object1: T, object2: T): Int {
             val lastModificationCompare = object1.lastModificationTime
                     .compareTo(object2.lastModificationTime)
             return if (lastModificationCompare == 0)
-                NodeNaturalComparator<T>(database, sortNodeParameters)
+                NodeNaturalComparator<T>(sortDatabaseParameters, sortNodeParameters)
                         .compare(object1, object2)
             else
                 lastModificationCompare
@@ -235,15 +244,15 @@ enum class SortNodeEnum {
      * Comparator of node by last access
      */
     class NodeLastAccessComparator<T: SortedNodeInfo>(
-        database: Database,
+        sortDatabaseParameters: SortDatabaseParameters,
         sortNodeParameters: SortNodeParameters
-    ) : NodeComparator<T>(database, sortNodeParameters) {
+    ) : NodeComparator<T>(sortDatabaseParameters, sortNodeParameters) {
 
         override fun compareBySpecificOrder(object1: T, object2: T): Int {
             val lastAccessCompare = object1.lastAccessTime
                     .compareTo(object2.lastAccessTime)
             return if (lastAccessCompare == 0)
-                NodeNaturalComparator<T>(database, sortNodeParameters)
+                NodeNaturalComparator<T>(sortDatabaseParameters, sortNodeParameters)
                         .compare(object1, object2)
             else
                 lastAccessCompare

@@ -102,14 +102,20 @@ class GroupFragment : DatabaseFragment() {
 
     override fun onDatabaseRetrieved(database: ContextualDatabase) {
         context?.let { context ->
-            mAdapter = NodesAdapter(context, database).apply {
+            mAdapter = NodesAdapter(
+                context,
+                database.iconDrawableFactory,
+                SortNodeEnum.SortDatabaseParameters(
+                    recycleBinEnabled = database.isRecycleBinEnabled,
+                    recycleBinId = database.recycleBin?.nodeId
+                )
+            ).apply {
                 setOnNodeClickListener(object : NodesAdapter.NodeClickCallback {
-                    override fun onNodeClick(database: ContextualDatabase, node: SortedNodeInfo) {
-                        mGroupViewModel.performNodeClick(database, node)
+                    override fun onNodeClick(node: SortedNodeInfo) {
+                        mGroupViewModel.performNodeClick(node)
                     }
-
-                    override fun onNodeLongClick(database: ContextualDatabase, node: SortedNodeInfo): Boolean {
-                        mGroupViewModel.performLongNodeClick(database, node)
+                    override fun onNodeLongClick(node: SortedNodeInfo): Boolean {
+                        mGroupViewModel.performLongNodeClick(node)
                         return true
                     }
                 })
@@ -186,8 +192,18 @@ class GroupFragment : DatabaseFragment() {
                     }
                 }
                 launch {
-                    mGroupViewModel.onSortSelected.collect { (sortNodeEnum, sortNodeParameters) ->
-                        onSortSelected(sortNodeEnum, sortNodeParameters)
+                    mGroupViewModel.onSortSelected.collect { sort ->
+                        // Tell the adapter to refresh its list
+                        try {
+                            mAdapter?.notifyChangeSort(
+                                sortNodeEnum = sort.sortNodeEnum,
+                                sortNodeParameters = sort.sortNodeParameters,
+                                sortDatabaseParameters = sort.sortDatabaseParameters
+                            )
+                            mGroupViewModel.loadGroup()
+                        } catch (e:Exception) {
+                            Log.e(TAG, "Unable to sort the list", e)
+                        }
                     }
                 }
             }
@@ -211,24 +227,6 @@ class GroupFragment : DatabaseFragment() {
 
     fun getFirstVisiblePosition(): Int {
         return mLayoutManager?.findFirstVisibleItemPosition() ?: 0
-    }
-
-    private fun onSortSelected(
-        sortNodeEnum: SortNodeEnum,
-        sortNodeParameters: SortNodeEnum.SortNodeParameters
-    ) {
-        // Save setting
-        context?.let {
-            PreferencesUtil.saveNodeSort(it, sortNodeEnum, sortNodeParameters)
-        }
-
-        // Tell the adapter to refresh its list
-        try {
-            mAdapter?.notifyChangeSort(sortNodeEnum, sortNodeParameters)
-            mGroupViewModel.loadGroup()
-        } catch (e:Exception) {
-            Log.e(TAG, "Unable to sort the list", e)
-        }
     }
 
     companion object {

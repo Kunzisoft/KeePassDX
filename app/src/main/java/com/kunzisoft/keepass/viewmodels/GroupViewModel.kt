@@ -164,8 +164,8 @@ class GroupViewModel(application: Application): AndroidViewModel(application) {
     private val _scrollTo = MutableSharedFlow<Int>(replay = 0)
     val scrollTo: SharedFlow<Int> = _scrollTo.asSharedFlow()
 
-    private val _onSortSelected = MutableSharedFlow<Pair<SortNodeEnum, SortNodeEnum.SortNodeParameters>>(replay = 0)
-    val onSortSelected: SharedFlow<Pair<SortNodeEnum, SortNodeEnum.SortNodeParameters>> = _onSortSelected.asSharedFlow()
+    private val _onSortSelected = MutableSharedFlow<SortNode>(replay = 0)
+    val onSortSelected: SharedFlow<SortNode> = _onSortSelected.asSharedFlow()
 
     private var mDefaultSearchParameters: SearchParameters = SearchParameters()
     private var mAutoFocusSearch: Boolean = false
@@ -356,11 +356,26 @@ class GroupViewModel(application: Application): AndroidViewModel(application) {
     }
 
     fun onSortSelected(
-        sortNodeEnum: SortNodeEnum,
-        sortNodeParameters: SortNodeEnum.SortNodeParameters,
+        sortNode: SortNodeEnum? = null,
+        sortNodeParameters: SortNodeEnum.SortNodeParameters? = null
     ) {
+        PreferencesUtil.saveNodeSort(
+            context = getApplication(),
+            sortNodeEnum = sortNode,
+            sortNodeParameters = sortNodeParameters
+        )
         viewModelScope.launch {
-            _onSortSelected.emit(sortNodeEnum to sortNodeParameters)
+            val sortDatabaseParameters = mDatabase?.let { database ->
+                SortNodeEnum.SortDatabaseParameters(
+                    recycleBinEnabled = database.isRecycleBinEnabled,
+                    recycleBinId = database.recycleBin?.nodeId
+                )
+            }
+            _onSortSelected.emit(SortNode(
+                sortNodeEnum = sortNode,
+                sortNodeParameters = sortNodeParameters,
+                sortDatabaseParameters = sortDatabaseParameters
+            ))
         }
     }
 
@@ -440,10 +455,7 @@ class GroupViewModel(application: Application): AndroidViewModel(application) {
      * Actions
      */
 
-    fun performNodeClick(
-        database: ContextualDatabase,
-        node: SortedNodeInfo
-    ) {
+    fun performNodeClick(node: SortedNodeInfo) {
         viewModelScope.launch {
             val state = _nodeActionState.value
             if (state.selectionMode) {
@@ -456,7 +468,7 @@ class GroupViewModel(application: Application): AndroidViewModel(application) {
                     // Add selected item if not already selected
                     selectedNodes.add(node)
                 }
-                selectNodes(database, selectedNodes)
+                selectNodes(selectedNodes)
             } else {
                 when (node) {
                     is SortedGroupInfo -> _requestOpenGroup.emit(node.nodeId)
@@ -466,27 +478,21 @@ class GroupViewModel(application: Application): AndroidViewModel(application) {
         }
     }
 
-    fun performLongNodeClick(
-        database: ContextualDatabase,
-        node: SortedNodeInfo
-    ): Boolean {
+    fun performLongNodeClick(node: SortedNodeInfo): Boolean {
         viewModelScope.launch {
             if (_nodeActionState.value.pasteMode == PasteMode.UNDEFINED) {
                 // Select the first item after a long click
                 val selectedNodes = _nodeActionState.value.selectedNodes.toMutableList()
                 if (selectedNodes.none { it.nodeId == node.nodeId })
                     selectedNodes.add(node)
-                selectNodes(database, selectedNodes)
+                selectNodes(selectedNodes)
                 _showKeyboard.emit(false)
             }
         }
         return true
     }
 
-    fun selectNodes(
-        database: ContextualDatabase,
-        nodes: List<SortedNodeInfo>
-    ): Boolean {
+    fun selectNodes(nodes: List<SortedNodeInfo>): Boolean {
         if (nodes.isNotEmpty()) {
             _nodeActionState.update {
                 it.copy(
@@ -699,6 +705,12 @@ class GroupViewModel(application: Application): AndroidViewModel(application) {
         val pasteMode: PasteMode,
         val parentId: GroupId,
         val nodes: Nodes
+    )
+
+    data class SortNode(
+        val sortNodeEnum: SortNodeEnum? = null,
+        val sortNodeParameters: SortNodeEnum.SortNodeParameters? = null,
+        val sortDatabaseParameters: SortNodeEnum.SortDatabaseParameters? = null
     )
 
     enum class PasteMode {

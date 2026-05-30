@@ -37,13 +37,13 @@ import androidx.recyclerview.widget.SortedList
 import androidx.recyclerview.widget.SortedListAdapterCallback
 import com.google.android.material.progressindicator.CircularProgressIndicator
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.element.SortNodeEnum
 import com.kunzisoft.keepass.database.element.Tag
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.node.NodeType
 import com.kunzisoft.keepass.database.element.template.TemplateField
 import com.kunzisoft.keepass.database.helper.getLocalizedName
+import com.kunzisoft.keepass.icons.IconDrawableFactory
 import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.model.GroupInfo
 import com.kunzisoft.keepass.model.SortedEntryInfo
@@ -59,14 +59,16 @@ import com.kunzisoft.keepass.view.strikeOut
 /**
  * Create node list adapter.
  * @param context Context to use
- * @param database Associated database to manage the nodes
  */
 class NodesAdapter(
     private val context: Context,
-    private val database: ContextualDatabase
+    private val iconDrawableFactory: IconDrawableFactory,
+    private var sortDatabaseParameters: SortNodeEnum.SortDatabaseParameters
 ) : RecyclerView.Adapter<NodesAdapter.NodeViewHolder>() {
 
-    private var mNodeComparator: Comparator<SortedNodeInfo>? = null
+    private var sortNode: SortNodeEnum = SortNodeEnum.DB
+    private var sortNodeParameters: SortNodeEnum.SortNodeParameters = SortNodeEnum.SortNodeParameters()
+    private var mNodeComparator: Comparator<SortedNodeInfo> = buildNodeComparator()
     private val mNodeSortedListCallback: NodeSortedListCallback
     private val mNodeSortedList: SortedList<SortedNodeInfo>
     private val mInflater: LayoutInflater = LayoutInflater.from(context)
@@ -152,13 +154,14 @@ class NodesAdapter(
         this.mPrefSizeMultiplier = PreferencesUtil.getListTextSize(context)
 
         notifyChangeSort(
-                PreferencesUtil.getListSort(context),
-                        SortNodeEnum.SortNodeParameters(
-                            PreferencesUtil.getAscendingSort(context),
-                            PreferencesUtil.getGroupsBeforeSort(context),
-                            PreferencesUtil.getRecycleBinBottomSort(context)
-                        )
-                )
+            sortNodeEnum = PreferencesUtil.getListSort(context),
+            sortDatabaseParameters = sortDatabaseParameters,
+            sortNodeParameters = SortNodeEnum.SortNodeParameters(
+                ascending = PreferencesUtil.getAscendingSort(context),
+                groupsBefore = PreferencesUtil.getGroupsBeforeSort(context),
+                recycleBinBottom = PreferencesUtil.getRecycleBinBottomSort(context)
+            )
+        )
 
         this.mShowEntryColors = PreferencesUtil.showEntryColors(context)
         this.mShowUserNames = PreferencesUtil.showUsernamesListEntries(context)
@@ -188,7 +191,7 @@ class NodesAdapter(
 
     private inner class NodeSortedListCallback: SortedListAdapterCallback<SortedNodeInfo>(this) {
         override fun compare(item1: SortedNodeInfo, item2: SortedNodeInfo): Int {
-            return mNodeComparator!!.compare(item1, item2)
+            return mNodeComparator.compare(item1, item2)
         }
 
         override fun areContentsTheSame(oldItem: SortedNodeInfo, newItem: SortedNodeInfo): Boolean {
@@ -262,14 +265,25 @@ class NodesAdapter(
         setActionNodes(listOf())
     }
 
+    fun buildNodeComparator(): Comparator<SortedNodeInfo> {
+        return this.sortNode.getNodeComparator(
+            this.sortDatabaseParameters,
+            this.sortNodeParameters
+        )
+    }
+
     /**
      * Notify a change sort of the list
      */
     fun notifyChangeSort(
-        sortNodeEnum: SortNodeEnum,
-        sortNodeParameters: SortNodeEnum.SortNodeParameters
+        sortNodeEnum: SortNodeEnum? = null,
+        sortDatabaseParameters: SortNodeEnum.SortDatabaseParameters? = null,
+        sortNodeParameters: SortNodeEnum.SortNodeParameters? = null
     ) {
-        this.mNodeComparator = sortNodeEnum.getNodeComparator(database, sortNodeParameters)
+        this.sortNode = sortNodeEnum ?: this.sortNode
+        this.sortDatabaseParameters = sortDatabaseParameters ?: this.sortDatabaseParameters
+        this.sortNodeParameters = sortNodeParameters ?: this.sortNodeParameters
+        this.mNodeComparator = buildNodeComparator()
     }
 
     override fun getItemViewType(position: Int): Int {
@@ -324,11 +338,11 @@ class NodesAdapter(
                 tagsAdapter.toggleSelection(isSelected)
                 tagsAdapter.onItemClickListener = object : TagsAdapter.OnItemClickListener {
                     override fun onItemClick(item: Tag) {
-                        mNodeClickCallback?.onNodeClick(database, node)
+                        mNodeClickCallback?.onNodeClick(node)
                     }
 
                     override fun onItemLongClick(item: Tag): Boolean {
-                        mNodeClickCallback?.onNodeLongClick(database, node)
+                        mNodeClickCallback?.onNodeLongClick(node)
                         return true
                     }
                 }
@@ -456,7 +470,7 @@ class NodesAdapter(
         // Assign image
         holder.imageIdentifier?.setColorFilter(iconColor)
         holder.icon.apply {
-            database.iconDrawableFactory.assignDatabaseIcon(this, node.icon, iconColor)
+            iconDrawableFactory.assignDatabaseIcon(this, node.icon, iconColor)
             // Relative size of the icon
             layoutParams?.apply {
                 height = (mIconDefaultDimension * mPrefSizeMultiplier).toInt()
@@ -466,10 +480,10 @@ class NodesAdapter(
 
         // Assign click
         holder.container.setOnClickListener {
-            mNodeClickCallback?.onNodeClick(database, node)
+            mNodeClickCallback?.onNodeClick(node)
         }
         holder.container.setOnLongClickListener {
-            mNodeClickCallback?.onNodeLongClick(database, node) ?: false
+            mNodeClickCallback?.onNodeLongClick(node) ?: false
         }
     }
 
@@ -557,8 +571,8 @@ class NodesAdapter(
      * Callback listener to redefine to do an action when a node is clicked
      */
     interface NodeClickCallback {
-        fun onNodeClick(database: ContextualDatabase, node: SortedNodeInfo)
-        fun onNodeLongClick(database: ContextualDatabase, node: SortedNodeInfo): Boolean
+        fun onNodeClick(node: SortedNodeInfo)
+        fun onNodeLongClick(node: SortedNodeInfo): Boolean
     }
 
     class NodeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

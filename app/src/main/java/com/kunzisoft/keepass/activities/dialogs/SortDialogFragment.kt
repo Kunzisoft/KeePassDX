@@ -74,8 +74,12 @@ class SortDialogFragment : DatabaseDialogFragment() {
                     .setPositiveButton(android.R.string.ok
                     ) { _, _ ->
                         mGroupViewModel.onSortSelected(
-                            mSortNodeEnum,
-                            SortNodeEnum.SortNodeParameters(mAscending, mGroupsBefore, mRecycleBinBottom)
+                            sortNode = mSortNodeEnum,
+                            sortNodeParameters = SortNodeEnum.SortNodeParameters(
+                                ascending = mAscending,
+                                groupsBefore = mGroupsBefore,
+                                recycleBinBottom = mRecycleBinBottom
+                            )
                         )
                     }
                     .setNegativeButton(android.R.string.cancel) { _, _ -> }
