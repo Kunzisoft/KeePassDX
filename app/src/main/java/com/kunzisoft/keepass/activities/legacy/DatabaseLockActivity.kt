@@ -36,7 +36,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.DeleteNodesDialogFragment
-import com.kunzisoft.keepass.activities.dialogs.PasswordEncodingDialogFragment
 import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper.removeModes
 import com.kunzisoft.keepass.credentialprovider.SpecialMode
 import com.kunzisoft.keepass.database.ContextualDatabase
@@ -60,8 +59,7 @@ import com.kunzisoft.keepass.viewmodels.NodesViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-abstract class DatabaseLockActivity : DatabaseModeActivity(),
-    PasswordEncodingDialogFragment.Listener {
+abstract class DatabaseLockActivity : DatabaseModeActivity() {
 
     private val mNodesViewModel: NodesViewModel by viewModels()
 
@@ -187,13 +185,6 @@ abstract class DatabaseLockActivity : DatabaseModeActivity(),
                 }
             }
         }
-    }
-
-    override fun onPasswordEncodingValidateListener(
-        databaseUri: Uri?,
-        mainCredential: MainCredential
-    ) {
-        mDatabaseViewModel.assignMainCredential(databaseUri, mainCredential)
     }
 
     fun assignMainCredential(mainCredential: MainCredential) {
