@@ -37,15 +37,14 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.activities.dialogs.SetMainCredentialDialogFragment
 import com.kunzisoft.keepass.activities.helpers.ExternalFileHelper
 import com.kunzisoft.keepass.activities.legacy.DatabaseLockActivity
 import com.kunzisoft.keepass.database.ContextualDatabase
-import com.kunzisoft.keepass.database.MainCredential
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.timeout.TimeoutHelper
 import com.kunzisoft.keepass.view.showActionErrorIfNeeded
 import com.kunzisoft.keepass.view.showError
+import com.kunzisoft.keepass.viewmodels.SetMainCredentialViewModel
 import com.kunzisoft.keepass.viewmodels.SettingsViewModel
 import kotlinx.coroutines.launch
 import org.joda.time.DateTime
@@ -53,10 +52,10 @@ import java.util.Properties
 
 open class SettingsActivity
     : DatabaseLockActivity(),
-        MainPreferenceFragment.Callback,
-        SetMainCredentialDialogFragment.AssignMainCredentialDialogListener {
+        MainPreferenceFragment.Callback {
 
     private val mSettingsViewModel: SettingsViewModel by viewModels()
+    private val mSetMainCredentialViewModel: SetMainCredentialViewModel by viewModels()
 
     private var backupManager: BackupManager? = null
     private var mExternalFileHelper: ExternalFileHelper? = null
@@ -157,12 +156,19 @@ open class SettingsActivity
 
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.RESUMED) {
-                mSettingsViewModel.settingsState.collect { settingsState ->
-                    when (settingsState) {
-                        is SettingsViewModel.SettingsState.Wait -> {}
-                        is SettingsViewModel.SettingsState.ShowError -> {
-                            coordinatorLayout?.showError(settingsState.error)
-                            mSettingsViewModel.errorShown()
+                launch {
+                    mSetMainCredentialViewModel.onMainCredentialAssigned.collect { mainCredential ->
+                        assignMainCredential(mainCredential)
+                    }
+                }
+                launch {
+                    mSettingsViewModel.settingsState.collect { settingsState ->
+                        when (settingsState) {
+                            is SettingsViewModel.SettingsState.Wait -> {}
+                            is SettingsViewModel.SettingsState.ShowError -> {
+                                coordinatorLayout?.showError(settingsState.error)
+                                mSettingsViewModel.errorShown()
+                            }
                         }
                     }
                 }
@@ -209,12 +215,6 @@ open class SettingsActivity
         backupManager?.dataChanged()
         super.onStop()
     }
-
-    override fun onAssignKeyDialogPositiveClick(mainCredential: MainCredential) {
-        assignMainCredential(mainCredential)
-    }
-
-    override fun onAssignKeyDialogNegativeClick(mainCredential: MainCredential) {}
 
     private fun hideOrShowLockButton(key: NestedSettingsFragment.Screen) {
         if (PreferencesUtil.showLockDatabaseButton(this)) {

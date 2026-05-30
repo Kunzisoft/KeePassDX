@@ -21,11 +21,17 @@ package com.kunzisoft.keepass.viewmodels
 
 import android.net.Uri
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.kunzisoft.keepass.database.MainCredential
 import com.kunzisoft.keepass.hardware.HardwareKey
 import com.kunzisoft.keepass.utils.clear
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
 
 /**
  * ViewModel for the Set Main Credential Dialog
@@ -39,6 +45,9 @@ class SetMainCredentialViewModel : ViewModel() {
 
     private val _confirmationState = MutableStateFlow<ConfirmationState>(ConfirmationState.None)
     val confirmationState: StateFlow<ConfirmationState> = _confirmationState.asStateFlow()
+
+    private val _onMainCredentialAssigned = MutableSharedFlow<MainCredential>(replay = 0)
+    val onMainCredentialAssigned: SharedFlow<MainCredential> = _onMainCredentialAssigned.asSharedFlow()
 
     /**
      * Show empty password confirmation dialog.
@@ -99,6 +108,16 @@ class SetMainCredentialViewModel : ViewModel() {
      */
     fun isMasterPasswordEmpty(): Boolean {
         return masterPassword?.isEmpty() ?: true
+    }
+
+    /**
+     * Validate the main credential.
+     * @param mainCredential The main credential.
+     */
+    fun validateMainCredential(mainCredential: MainCredential) {
+        viewModelScope.launch {
+            _onMainCredentialAssigned.emit(mainCredential)
+        }
     }
 
     /**

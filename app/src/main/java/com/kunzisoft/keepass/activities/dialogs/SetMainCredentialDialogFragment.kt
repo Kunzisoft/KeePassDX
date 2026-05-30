@@ -20,7 +20,6 @@
 package com.kunzisoft.keepass.activities.dialogs
 
 import android.app.Dialog
-import android.content.Context
 import android.content.DialogInterface
 import android.net.Uri
 import android.os.Bundle
@@ -32,7 +31,7 @@ import android.view.View
 import android.widget.CompoundButton
 import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -73,11 +72,9 @@ class SetMainCredentialDialogFragment : DatabaseDialogFragment() {
     private lateinit var hardwareKeyCheckBox: CompoundButton
     private lateinit var hardwareKeySelectionView: HardwareKeySelectionView
 
-    private var mListener: AssignMainCredentialDialogListener? = null
-
     private var mExternalFileHelper: ExternalFileHelper? = null
 
-    private val mSetMainCredentialViewModel: SetMainCredentialViewModel by viewModels()
+    private val mSetMainCredentialViewModel: SetMainCredentialViewModel by activityViewModels()
     private var mConfirmationDialog: AlertDialog? = null
 
     private var mAllowNoMasterKey: Boolean  = false
@@ -92,23 +89,7 @@ class SetMainCredentialDialogFragment : DatabaseDialogFragment() {
         }
     }
 
-    interface AssignMainCredentialDialogListener {
-        fun onAssignKeyDialogPositiveClick(mainCredential: MainCredential)
-        fun onAssignKeyDialogNegativeClick(mainCredential: MainCredential)
-    }
-
-    override fun onAttach(activity: Context) {
-        super.onAttach(activity)
-        try {
-            mListener = activity as AssignMainCredentialDialogListener
-        } catch (_: ClassCastException) {
-            throw ClassCastException(activity.toString()
-                    + " must implement " + AssignMainCredentialDialogListener::class.java.name)
-        }
-    }
-
     override fun onDetach() {
-        mListener = null
         mConfirmationDialog?.dismiss()
         mConfirmationDialog = null
         super.onDetach()
@@ -214,7 +195,6 @@ class SetMainCredentialDialogFragment : DatabaseDialogFragment() {
                 }
                 val negativeButton = dialog1.getButton(DialogInterface.BUTTON_NEGATIVE)
                 negativeButton.setOnClickListener {
-                    mListener?.onAssignKeyDialogNegativeClick(retrieveMainCredential())
                     dismiss()
                 }
             }
@@ -275,7 +255,7 @@ class SetMainCredentialDialogFragment : DatabaseDialogFragment() {
                 getString(R.string.error_driver_required, hardwareKey.toString())
         }
         if (!error) {
-            mListener?.onAssignKeyDialogPositiveClick(retrieveMainCredential())
+            mSetMainCredentialViewModel.validateMainCredential(retrieveMainCredential())
             dismiss()
         }
     }
@@ -361,7 +341,7 @@ class SetMainCredentialDialogFragment : DatabaseDialogFragment() {
             val builder = AlertDialog.Builder(it)
             builder.setMessage(R.string.warning_empty_password)
                     .setPositiveButton(android.R.string.ok) { _, _ ->
-                        mListener?.onAssignKeyDialogPositiveClick(retrieveMainCredential())
+                        mSetMainCredentialViewModel.validateMainCredential(retrieveMainCredential())
                         mSetMainCredentialViewModel.dismissConfirmation()
                         this@SetMainCredentialDialogFragment.dismiss()
                     }
@@ -378,7 +358,7 @@ class SetMainCredentialDialogFragment : DatabaseDialogFragment() {
             val builder = AlertDialog.Builder(it)
             builder.setMessage(R.string.warning_no_encryption_key)
                     .setPositiveButton(android.R.string.ok) { _, _ ->
-                        mListener?.onAssignKeyDialogPositiveClick(retrieveMainCredential())
+                        mSetMainCredentialViewModel.validateMainCredential(retrieveMainCredential())
                         mSetMainCredentialViewModel.dismissConfirmation()
                         this@SetMainCredentialDialogFragment.dismiss()
                     }

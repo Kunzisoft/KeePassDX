@@ -71,11 +71,11 @@ import com.kunzisoft.keepass.utils.getParcelableCompat
 import com.kunzisoft.keepass.view.asError
 import com.kunzisoft.keepass.view.showActionErrorIfNeeded
 import com.kunzisoft.keepass.viewmodels.DatabaseFilesViewModel
+import com.kunzisoft.keepass.viewmodels.SetMainCredentialViewModel
 import kotlinx.coroutines.launch
 import java.io.FileNotFoundException
 
-class FileDatabaseSelectActivity : DatabaseModeActivity(),
-        SetMainCredentialDialogFragment.AssignMainCredentialDialogListener {
+class FileDatabaseSelectActivity : DatabaseModeActivity() {
 
     // Views
     private lateinit var coordinatorLayout: CoordinatorLayout
@@ -95,6 +95,8 @@ class FileDatabaseSelectActivity : DatabaseModeActivity(),
     private var mDatabaseFileUri: Uri? = null
 
     private var mExternalFileHelper: ExternalFileHelper? = null
+
+    private val mSetMainCredentialViewModel: SetMainCredentialViewModel by viewModels()
 
     override fun manageDatabaseInfo(): Boolean  = false
 
@@ -187,6 +189,11 @@ class FileDatabaseSelectActivity : DatabaseModeActivity(),
         // Observe databases
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
+                launch {
+                    mSetMainCredentialViewModel.onMainCredentialAssigned.collect { mainCredential ->
+                        onAssignKeyDialogPositiveClick(mainCredential)
+                    }
+                }
                 launch {
                     databaseFilesViewModel.defaultDatabase.collect {
                         // Retrieve settings for default database
@@ -382,7 +389,7 @@ class FileDatabaseSelectActivity : DatabaseModeActivity(),
         outState.putParcelable(EXTRA_DATABASE_URI, mDatabaseFileUri)
     }
 
-    override fun onAssignKeyDialogPositiveClick(mainCredential: MainCredential) {
+    private fun onAssignKeyDialogPositiveClick(mainCredential: MainCredential) {
         try {
             mDatabaseFileUri?.let { databaseUri ->
                 // Create the new database
@@ -394,8 +401,6 @@ class FileDatabaseSelectActivity : DatabaseModeActivity(),
             Log.e(TAG, error, e)
         }
     }
-
-    override fun onAssignKeyDialogNegativeClick(mainCredential: MainCredential) {}
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         super.onCreateOptionsMenu(menu)
