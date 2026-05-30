@@ -54,7 +54,6 @@ import com.kunzisoft.keepass.activities.dialogs.FileTooBigDialogFragment
 import com.kunzisoft.keepass.activities.dialogs.FileTooBigDialogFragment.Companion.MAX_WARNING_BINARY_FILE
 import com.kunzisoft.keepass.activities.dialogs.OverwriteDataDialogFragment
 import com.kunzisoft.keepass.activities.dialogs.ReplaceFileDialogFragment
-import com.kunzisoft.keepass.activities.dialogs.SetOTPDialogFragment
 import com.kunzisoft.keepass.activities.fragments.EntryEditFragment
 import com.kunzisoft.keepass.activities.helpers.ExternalFileHelper
 import com.kunzisoft.keepass.activities.legacy.DatabaseLockActivity
@@ -116,7 +115,6 @@ import kotlinx.coroutines.launch
 import java.util.EnumSet
 
 class EntryEditActivity : DatabaseLockActivity(),
-        SetOTPDialogFragment.CreateOtpListener,
         FileTooBigDialogFragment.ActionChooseListener,
         ReplaceFileDialogFragment.ActionChooseListener {
 
@@ -650,10 +648,6 @@ class EntryEditActivity : DatabaseLockActivity(),
      */
     private fun setupOtp() {
         mEntryEditViewModel.setupOtp()
-    }
-
-    override fun onOtpCreated(otpElement: OtpElement) {
-        mEntryEditViewModel.createOtp(otpElement)
     }
 
     /**
