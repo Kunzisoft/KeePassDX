@@ -48,7 +48,7 @@ import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.viewmodels.GroupViewModel
 import kotlinx.coroutines.launch
 
-class GroupFragment : DatabaseFragment(), SortDialogFragment.SortSelectionListener {
+class GroupFragment : DatabaseFragment() {
 
     private var mNodesRecyclerView: RecyclerView? = null
     private var mLayoutManager: LinearLayoutManager? = null
@@ -184,6 +184,11 @@ class GroupFragment : DatabaseFragment(), SortDialogFragment.SortSelectionListen
                         mAdapter?.unselectActionNodes()
                     }
                 }
+                launch {
+                    mGroupViewModel.onSortSelected.collect { (sortNodeEnum, sortNodeParameters) ->
+                        onSortSelected(sortNodeEnum, sortNodeParameters)
+                    }
+                }
             }
         }
     }
@@ -207,7 +212,7 @@ class GroupFragment : DatabaseFragment(), SortDialogFragment.SortSelectionListen
         return mLayoutManager?.findFirstVisibleItemPosition() ?: 0
     }
 
-    override fun onSortSelected(
+    private fun onSortSelected(
         sortNodeEnum: SortNodeEnum,
         sortNodeParameters: SortNodeEnum.SortNodeParameters
     ) {

@@ -62,7 +62,6 @@ import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.GroupDialogFragment
 import com.kunzisoft.keepass.activities.dialogs.GroupEditDialogFragment
 import com.kunzisoft.keepass.activities.dialogs.MainCredentialDialogFragment
-import com.kunzisoft.keepass.activities.dialogs.SortDialogFragment
 import com.kunzisoft.keepass.activities.fragments.GroupFragment
 import com.kunzisoft.keepass.activities.helpers.ExternalFileHelper
 import com.kunzisoft.keepass.activities.legacy.DatabaseLockActivity
@@ -132,8 +131,7 @@ import org.joda.time.LocalDateTime
 import java.util.EnumSet
 
 
-class GroupActivity : DatabaseLockActivity(),
-        SortDialogFragment.SortSelectionListener {
+class GroupActivity : DatabaseLockActivity() {
 
     // Views
     private var header: ViewGroup? = null
@@ -1281,13 +1279,6 @@ class GroupActivity : DatabaseLockActivity(),
                 return super.onOptionsItemSelected(item)
             }
         }
-    }
-
-    override fun onSortSelected(
-        sortNodeEnum: SortNodeEnum,
-        sortNodeParameters: SortNodeEnum.SortNodeParameters
-    ) {
-        mGroupFragment?.onSortSelected(sortNodeEnum, sortNodeParameters)
     }
 
     override fun onCancelSpecialMode() {

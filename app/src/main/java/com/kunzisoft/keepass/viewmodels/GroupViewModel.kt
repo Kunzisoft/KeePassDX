@@ -30,6 +30,7 @@ import com.kunzisoft.keepass.activities.GroupActivity.SearchState
 import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper.retrieveSearchInfo
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.element.GroupId
+import com.kunzisoft.keepass.database.element.SortNodeEnum
 import com.kunzisoft.keepass.database.element.node.DefaultNodeFilter
 import com.kunzisoft.keepass.database.element.node.EmptyNodeFilter
 import com.kunzisoft.keepass.database.element.node.NodeFilter
@@ -162,6 +163,9 @@ class GroupViewModel(application: Application): AndroidViewModel(application) {
 
     private val _scrollTo = MutableSharedFlow<Int>(replay = 0)
     val scrollTo: SharedFlow<Int> = _scrollTo.asSharedFlow()
+
+    private val _onSortSelected = MutableSharedFlow<Pair<SortNodeEnum, SortNodeEnum.SortNodeParameters>>(replay = 0)
+    val onSortSelected: SharedFlow<Pair<SortNodeEnum, SortNodeEnum.SortNodeParameters>> = _onSortSelected.asSharedFlow()
 
     private var mDefaultSearchParameters: SearchParameters = SearchParameters()
     private var mAutoFocusSearch: Boolean = false
@@ -348,6 +352,15 @@ class GroupViewModel(application: Application): AndroidViewModel(application) {
             }
             intent.action = Intent.ACTION_DEFAULT
             intent.removeExtra(SearchManager.QUERY)
+        }
+    }
+
+    fun onSortSelected(
+        sortNodeEnum: SortNodeEnum,
+        sortNodeParameters: SortNodeEnum.SortNodeParameters,
+    ) {
+        viewModelScope.launch {
+            _onSortSelected.emit(sortNodeEnum to sortNodeParameters)
         }
     }
 
