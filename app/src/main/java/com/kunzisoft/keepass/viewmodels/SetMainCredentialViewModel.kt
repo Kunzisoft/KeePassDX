@@ -43,11 +43,18 @@ class SetMainCredentialViewModel : ViewModel() {
     var keyFileUri: Uri? = null
     var hardwareKey: HardwareKey? = null
 
+    var passwordChecked: Boolean = false
+    var keyFileChecked: Boolean = false
+    var hardwareKeyChecked: Boolean = false
+
     private val _confirmationState = MutableStateFlow<ConfirmationState>(ConfirmationState.None)
     val confirmationState: StateFlow<ConfirmationState> = _confirmationState.asStateFlow()
 
     private val _onMainCredentialAssigned = MutableSharedFlow<MainCredential>(replay = 0)
     val onMainCredentialAssigned: SharedFlow<MainCredential> = _onMainCredentialAssigned.asSharedFlow()
+
+    private val _validationError = MutableSharedFlow<ValidationError>(replay = 0)
+    val validationError: SharedFlow<ValidationError> = _validationError.asSharedFlow()
 
     /**
      * Show empty password confirmation dialog.
@@ -79,26 +86,18 @@ class SetMainCredentialViewModel : ViewModel() {
     }
 
     /**
-     * Assign the master password.
+     * Assign the main credential.
      * @param password The master password.
-     */
-    fun assignMasterPassword(password: CharArray?) {
-        this.masterPassword = password
-    }
-
-    /**
-     * Assign the key file URI.
      * @param uri The key file URI.
-     */
-    fun assignKeyFileUri(uri: Uri?) {
-        this.keyFileUri = uri
-    }
-
-    /**
-     * Assign the hardware key.
      * @param hardwareKey The hardware key.
      */
-    fun assignHardwareKey(hardwareKey: HardwareKey?) {
+    fun assignCredential(
+        password: CharArray?,
+        uri: Uri?,
+        hardwareKey: HardwareKey?
+    ) {
+        this.masterPassword = password
+        this.keyFileUri = uri
         this.hardwareKey = hardwareKey
     }
 
@@ -111,10 +110,80 @@ class SetMainCredentialViewModel : ViewModel() {
     }
 
     /**
+     * Validate and approve the main credential.
+     */
+    fun validateAndApprove(
+        passwordChecked: Boolean,
+        keyFileChecked: Boolean,
+        hardwareKeyChecked: Boolean,
+        repeatPassword: CharArray?,
+        allowNoMasterKey: Boolean,
+        isHardwareKeyAvailable: (HardwareKey) -> Boolean
+    ) {
+        this.passwordChecked = passwordChecked
+        this.keyFileChecked = keyFileChecked
+        this.hardwareKeyChecked = hardwareKeyChecked
+
+        viewModelScope.launch {
+            var error = false
+
+            // Verify Password
+            if (passwordChecked) {
+                val passwordsMatch = masterPassword?.contentEquals(repeatPassword)
+                    ?: (repeatPassword?.isEmpty() == true)
+                if (!passwordsMatch) {
+                    _validationError.emit(ValidationError.PasswordsDoNotMatch)
+                    error = true
+                }
+            }
+
+            // Verify KeyFile
+            if (keyFileChecked && keyFileUri == null) {
+                _validationError.emit(ValidationError.NoKeyFileSelected)
+                error = true
+            }
+
+            // Verify HardwareKey
+            if (hardwareKeyChecked && hardwareKey == null) {
+                _validationError.emit(ValidationError.NoHardwareKeySelected)
+                error = true
+            }
+
+            if (error) return@launch
+
+            // Global logic
+            if (!passwordChecked && !keyFileChecked && !hardwareKeyChecked) {
+                if (allowNoMasterKey) {
+                    showNoKeyConfirmation()
+                } else {
+                    _validationError.emit(ValidationError.NoCredentialsDisallowed)
+                }
+            } else if (passwordChecked && isMasterPasswordEmpty() && !keyFileChecked && !hardwareKeyChecked) {
+                showEmptyPasswordConfirmation()
+            } else if (hardwareKey != null && !isHardwareKeyAvailable(hardwareKey!!)) {
+                _validationError.emit(ValidationError.HardwareDriverRequired(hardwareKey.toString()))
+            } else {
+                confirmMainCredential()
+            }
+        }
+    }
+
+    /**
+     * Confirm the main credential after successful validation or user confirmation.
+     */
+    fun confirmMainCredential() {
+        validateMainCredential(MainCredential(
+            if (passwordChecked) masterPassword else null,
+            if (keyFileChecked) keyFileUri else null,
+            if (hardwareKeyChecked) hardwareKey else null
+        ))
+    }
+
+    /**
      * Validate the main credential.
      * @param mainCredential The main credential.
      */
-    fun validateMainCredential(mainCredential: MainCredential) {
+    private fun validateMainCredential(mainCredential: MainCredential) {
         viewModelScope.launch {
             _onMainCredentialAssigned.emit(mainCredential)
         }
@@ -159,5 +228,16 @@ class SetMainCredentialViewModel : ViewModel() {
         EMPTY_PASSWORD,
         NO_KEY,
         KEYFILE_LENGTH
+    }
+
+    /**
+     * Types of validation errors.
+     */
+    sealed class ValidationError {
+        object PasswordsDoNotMatch : ValidationError()
+        object NoKeyFileSelected : ValidationError()
+        object NoHardwareKeySelected : ValidationError()
+        object NoCredentialsDisallowed : ValidationError()
+        data class HardwareDriverRequired(val hardwareKeyName: String) : ValidationError()
     }
 }

@@ -40,7 +40,6 @@ import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.helpers.ExternalFileHelper
 import com.kunzisoft.keepass.activities.helpers.setOpenDocumentClickListener
 import com.kunzisoft.keepass.credentialprovider.activity.HardwareKeyActivity
-import com.kunzisoft.keepass.database.MainCredential
 import com.kunzisoft.keepass.database.element.MasterCredential
 import com.kunzisoft.keepass.utils.UriUtil.getDocumentFile
 import com.kunzisoft.keepass.utils.UriUtil.openUrl
@@ -77,8 +76,6 @@ class SetMainCredentialDialogFragment : DatabaseDialogFragment() {
     private val mSetMainCredentialViewModel: SetMainCredentialViewModel by activityViewModels()
     private var mConfirmationDialog: AlertDialog? = null
 
-    private var mAllowNoMasterKey: Boolean  = false
-
     private val passwordTextWatcher = object : TextWatcher {
         override fun beforeTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {}
 
@@ -100,16 +97,34 @@ class SetMainCredentialDialogFragment : DatabaseDialogFragment() {
 
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                mSetMainCredentialViewModel.confirmationState.collect { state ->
-                    mConfirmationDialog?.dismiss()
-                    if (state is SetMainCredentialViewModel.ConfirmationState.Showing) {
-                        when (state.type) {
-                            SetMainCredentialViewModel.ConfirmationType.EMPTY_PASSWORD ->
-                                showEmptyPasswordConfirmationDialog()
-                            SetMainCredentialViewModel.ConfirmationType.NO_KEY ->
-                                showNoKeyConfirmationDialog()
-                            SetMainCredentialViewModel.ConfirmationType.KEYFILE_LENGTH ->
-                                state.data?.let { showLengthKeyFileConfirmationDialog(it) }
+                launch {
+                    mSetMainCredentialViewModel.confirmationState.collect { state ->
+                        mConfirmationDialog?.dismiss()
+                        if (state is SetMainCredentialViewModel.ConfirmationState.Showing) {
+                            when (state.type) {
+                                SetMainCredentialViewModel.ConfirmationType.EMPTY_PASSWORD ->
+                                    showEmptyPasswordConfirmationDialog()
+                                SetMainCredentialViewModel.ConfirmationType.NO_KEY ->
+                                    showNoKeyConfirmationDialog()
+                                SetMainCredentialViewModel.ConfirmationType.KEYFILE_LENGTH ->
+                                    state.data?.let { showLengthKeyFileConfirmationDialog(it) }
+                            }
+                        }
+                    }
+                }
+                launch {
+                    mSetMainCredentialViewModel.validationError.collect { error ->
+                        when (error) {
+                            SetMainCredentialViewModel.ValidationError.PasswordsDoNotMatch ->
+                                passwordRepeatTextInputLayout.error = getString(R.string.error_pass_match)
+                            SetMainCredentialViewModel.ValidationError.NoKeyFileSelected ->
+                                keyFileSelectionView.error = getString(R.string.error_nokeyfile)
+                            SetMainCredentialViewModel.ValidationError.NoHardwareKeySelected ->
+                                hardwareKeySelectionView.error = getString(R.string.error_no_hardware_key)
+                            SetMainCredentialViewModel.ValidationError.NoCredentialsDisallowed ->
+                                passwordRepeatTextInputLayout.error = getString(R.string.error_disallow_no_credentials)
+                            is SetMainCredentialViewModel.ValidationError.HardwareDriverRequired ->
+                                hardwareKeySelectionView.error = getString(R.string.error_driver_required, error.hardwareKeyName)
                         }
                     }
                 }
@@ -120,9 +135,10 @@ class SetMainCredentialDialogFragment : DatabaseDialogFragment() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         activity?.let { activity ->
 
+            var allowNoMasterKey  = false
             arguments?.apply {
                 if (containsKey(ALLOW_NO_MASTER_KEY_ARG))
-                    mAllowNoMasterKey = getBoolean(ALLOW_NO_MASTER_KEY_ARG, false)
+                    allowNoMasterKey = getBoolean(ALLOW_NO_MASTER_KEY_ARG, false)
             }
 
             val builder = AlertDialog.Builder(activity)
@@ -190,8 +206,25 @@ class SetMainCredentialDialogFragment : DatabaseDialogFragment() {
             dialog.setOnShowListener { dialog1 ->
                 val positiveButton = (dialog1 as AlertDialog).getButton(DialogInterface.BUTTON_POSITIVE)
                 positiveButton.setOnClickListener {
-                    mSetMainCredentialViewModel.clearCredentials()
-                    approveMainCredential()
+                    mSetMainCredentialViewModel.assignCredential(
+                        password = passwordEditView.passwordCharArray,
+                        uri = keyFileSelectionView.uri,
+                        hardwareKey = hardwareKeySelectionView.hardwareKey
+                    )
+
+                    val repeatPassword = CharArray(passwordRepeatView.length())
+                    passwordRepeatView.text.getChars(0, passwordRepeatView.length(), repeatPassword, 0)
+
+                    mSetMainCredentialViewModel.validateAndApprove(
+                        passwordChecked = passwordCheckBox.isChecked,
+                        keyFileChecked = keyFileCheckBox.isChecked,
+                        hardwareKeyChecked = hardwareKeyCheckBox.isChecked,
+                        repeatPassword,
+                        allowNoMasterKey
+                    ) { hardwareKey ->
+                        HardwareKeyActivity.isHardwareKeyAvailable(requireActivity(), hardwareKey)
+                    }
+                    repeatPassword.clear()
                 }
                 val negativeButton = dialog1.getButton(DialogInterface.BUTTON_NEGATIVE)
                 negativeButton.setOnClickListener {
@@ -217,112 +250,6 @@ class SetMainCredentialDialogFragment : DatabaseDialogFragment() {
         }
     }
 
-    private fun approveMainCredential() {
-        val errorPassword = verifyPassword()
-        val errorKeyFile = verifyKeyFile()
-        val errorHardwareKey = verifyHardwareKey()
-        // Check all to fill error
-        var error = errorPassword || errorKeyFile || errorHardwareKey
-        val hardwareKey = hardwareKeySelectionView.hardwareKey
-        if (!error
-            && (!passwordCheckBox.isChecked)
-            && (!keyFileCheckBox.isChecked)
-            && (!hardwareKeyCheckBox.isChecked)
-        ) {
-            error = true
-            if (mAllowNoMasterKey) {
-                // show no key dialog if required
-                mSetMainCredentialViewModel.showNoKeyConfirmation()
-            } else {
-                passwordRepeatTextInputLayout.error =
-                    getString(R.string.error_disallow_no_credentials)
-            }
-        } else if (!error
-            && mSetMainCredentialViewModel.isMasterPasswordEmpty()
-            && !keyFileCheckBox.isChecked
-            && !hardwareKeyCheckBox.isChecked
-        ) {
-            // show empty password dialog if required
-            error = true
-            mSetMainCredentialViewModel.showEmptyPasswordConfirmation()
-        } else if (!error
-            && hardwareKey != null
-            && !HardwareKeyActivity.isHardwareKeyAvailable(requireActivity(), hardwareKey)
-        ) {
-            // show hardware driver dialog if required
-            error = true
-            hardwareKeySelectionView.error =
-                getString(R.string.error_driver_required, hardwareKey.toString())
-        }
-        if (!error) {
-            mSetMainCredentialViewModel.validateMainCredential(retrieveMainCredential())
-            dismiss()
-        }
-    }
-
-    private fun verifyPassword(): Boolean {
-        var error = false
-        passwordRepeatTextInputLayout.error = null
-        if (passwordCheckBox.isChecked) {
-            mSetMainCredentialViewModel.assignMasterPassword(passwordEditView.passwordCharArray)
-            // TODO In ViewModel
-            val confPassword = CharArray(passwordRepeatView.length())
-            passwordRepeatView.text.getChars(0, passwordRepeatView.length(), confPassword, 0)
-
-            // Verify that passwords match
-            val passwordsMatch = mSetMainCredentialViewModel.masterPassword
-                ?.contentEquals(confPassword) ?: confPassword.isEmpty()
-            if (!passwordsMatch) {
-                error = true
-                // Passwords do not match
-                passwordRepeatTextInputLayout.error = getString(R.string.error_pass_match)
-            }
-            confPassword.clear()
-        }
-        return error
-    }
-
-    private fun verifyKeyFile(): Boolean {
-        var error = false
-        keyFileSelectionView.error = null
-        if (keyFileCheckBox.isChecked) {
-            keyFileSelectionView.uri?.let { uri ->
-                mSetMainCredentialViewModel.assignKeyFileUri(uri)
-            } ?: run {
-                error = true
-                keyFileSelectionView.error = getString(R.string.error_nokeyfile)
-            }
-        }
-        return error
-    }
-
-    private fun verifyHardwareKey(): Boolean {
-        var error = false
-        hardwareKeySelectionView.error = null
-        if (hardwareKeyCheckBox.isChecked) {
-            hardwareKeySelectionView.hardwareKey?.let { hardwareKey ->
-                mSetMainCredentialViewModel.assignHardwareKey(hardwareKey)
-            } ?: run {
-                error = true
-                hardwareKeySelectionView.error = getString(R.string.error_no_hardware_key)
-            }
-        }
-        return error
-    }
-
-    private fun retrieveMainCredential(): MainCredential {
-        val masterPassword = if (passwordCheckBox.isChecked) {
-            mSetMainCredentialViewModel.masterPassword ?: passwordEditView.passwordCharArray
-        } else null
-        val keyFileUri = if (keyFileCheckBox.isChecked) {
-            mSetMainCredentialViewModel.keyFileUri ?: keyFileSelectionView.uri
-        } else null
-        val hardwareKey = if (hardwareKeyCheckBox.isChecked) {
-            mSetMainCredentialViewModel.hardwareKey ?: hardwareKeySelectionView.hardwareKey
-        } else null
-        return MainCredential(masterPassword, keyFileUri, hardwareKey)
-    }
-
     override fun onResume() {
         super.onResume()
 
@@ -341,7 +268,7 @@ class SetMainCredentialDialogFragment : DatabaseDialogFragment() {
             val builder = AlertDialog.Builder(it)
             builder.setMessage(R.string.warning_empty_password)
                     .setPositiveButton(android.R.string.ok) { _, _ ->
-                        mSetMainCredentialViewModel.validateMainCredential(retrieveMainCredential())
+                        mSetMainCredentialViewModel.confirmMainCredential()
                         mSetMainCredentialViewModel.dismissConfirmation()
                         this@SetMainCredentialDialogFragment.dismiss()
                     }
@@ -358,7 +285,7 @@ class SetMainCredentialDialogFragment : DatabaseDialogFragment() {
             val builder = AlertDialog.Builder(it)
             builder.setMessage(R.string.warning_no_encryption_key)
                     .setPositiveButton(android.R.string.ok) { _, _ ->
-                        mSetMainCredentialViewModel.validateMainCredential(retrieveMainCredential())
+                        mSetMainCredentialViewModel.confirmMainCredential()
                         mSetMainCredentialViewModel.dismissConfirmation()
                         this@SetMainCredentialDialogFragment.dismiss()
                     }
