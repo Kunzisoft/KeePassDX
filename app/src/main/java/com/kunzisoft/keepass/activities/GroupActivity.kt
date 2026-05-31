@@ -526,154 +526,150 @@ class GroupActivity : DatabaseLockActivity() {
                     }
                 }
                 launch {
-                    mGroupViewModel.requestOpenGroup.collect { groupId ->
-                        mDatabase?.let { database ->
-                            mGroupViewModel.loadGroup(database, groupId)
-                        }
-                    }
-                }
-                launch {
-                    mGroupViewModel.requestOpenEntry.collect { entry ->
-                        mDatabase?.let { database ->
-                            EntrySelectionHelper.doSpecialAction(
-                                intent = intent,
-                                defaultAction = {
-                                    EntryActivity.launch(
-                                        activity = this@GroupActivity,
-                                        database = database,
-                                        entryId = entry.nodeId,
-                                        activityResultLauncher = mEntryActivityResultLauncher
-                                    )
-                                    // Do not reload group here
-                                },
-                                searchAction = {
-                                    // Nothing here, a search is simply performed
-                                },
-                                selectionAction = { _, typeMode, searchInfo ->
-                                    when (typeMode) {
-                                        TypeMode.DEFAULT -> {}
-                                        TypeMode.MAGIKEYBOARD -> {
-                                            if (!database.isReadOnly
-                                                && entry.allowedToSaveSearchInfo(searchInfo)
-                                                && PreferencesUtil.isKeyboardSaveSearchInfoEnable(
-                                                    this@GroupActivity
-                                                )
-                                            ) {
-                                                updateEntryWithRegisterInfo(
-                                                    database = database,
-                                                    entry = entry,
-                                                    registerInfo = searchInfo!!.toRegisterInfo()
-                                                )
-                                            } else {
-                                                entrySelectedForSelection(entry)
-                                            }
-                                        }
-
-                                        TypeMode.AUTOFILL -> {
-                                            if (!database.isReadOnly
-                                                && entry.allowedToSaveSearchInfo(searchInfo)
-                                                && PreferencesUtil.isAutofillSaveSearchInfoEnable(
-                                                    this@GroupActivity
-                                                )
-                                            ) {
-                                                updateEntryWithRegisterInfo(
-                                                    database = database,
-                                                    entry = entry,
-                                                    registerInfo = searchInfo!!.toRegisterInfo()
-                                                )
-                                            } else {
-                                                entrySelectedForSelection(entry)
-                                            }
-                                        }
-
-                                        TypeMode.PASSWORD -> {
-                                            entrySelectedForPasswordSelection(entry)
-                                        }
-
-                                        TypeMode.PASSKEY -> {
-                                            entrySelectedForPasskeySelection(entry)
-                                        }
-                                    }
-                                    loadGroup()
-                                },
-                                registrationAction = { intentSenderMode, typeMode, registerInfo ->
-                                    if (!database.isReadOnly) {
-                                        entrySelectedForRegistration(
-                                            database = database,
-                                            entry = entry,
-                                            registerInfo = registerInfo,
-                                            typeMode = typeMode,
-                                            activityResultLauncher = if (intentSenderMode)
-                                                mCredentialActivityResultLauncher else null
-                                        )
-                                        loadGroup()
-                                    } else
-                                        finish()
+                    mGroupViewModel.viewEvent.collect { event ->
+                        when (event) {
+                            is GroupViewModel.GroupEvent.OpenGroup -> {
+                                mDatabase?.let { database ->
+                                    mGroupViewModel.loadGroup(database, event.groupId)
                                 }
-                            )
-                        }
-                    }
-                }
-                launch {
-                    mGroupViewModel.requestEditGroup.collect { group ->
-                        launchDialogForGroupUpdate(group)
-                    }
-                }
-                launch {
-                    mGroupViewModel.requestEditEntry.collect { entry ->
-                        mDatabase?.let { database ->
-                            val entryId = entry.nodeId
-                            if (mDatabaseAllowUserVerification) {
-                                checkUserVerification(
-                                    userVerificationViewModel = mUserVerificationViewModel,
-                                    dataToVerify = UserVerificationData(
-                                        actionType = UserVerificationActionType.EDIT_ENTRY,
-                                        database = database,
-                                        entryId = entryId
+                            }
+                            is GroupViewModel.GroupEvent.OpenEntry -> {
+                                mDatabase?.let { database ->
+                                    val entry = event.entry
+                                    EntrySelectionHelper.doSpecialAction(
+                                        intent = intent,
+                                        defaultAction = {
+                                            EntryActivity.launch(
+                                                activity = this@GroupActivity,
+                                                database = database,
+                                                entryId = entry.nodeId,
+                                                activityResultLauncher = mEntryActivityResultLauncher
+                                            )
+                                            // Do not reload group here
+                                        },
+                                        searchAction = {
+                                            // Nothing here, a search is simply performed
+                                        },
+                                        selectionAction = { _, typeMode, searchInfo ->
+                                            when (typeMode) {
+                                                TypeMode.DEFAULT -> {}
+                                                TypeMode.MAGIKEYBOARD -> {
+                                                    if (!database.isReadOnly
+                                                        && entry.allowedToSaveSearchInfo(searchInfo)
+                                                        && PreferencesUtil.isKeyboardSaveSearchInfoEnable(
+                                                            this@GroupActivity
+                                                        )
+                                                    ) {
+                                                        updateEntryWithRegisterInfo(
+                                                            database = database,
+                                                            entry = entry,
+                                                            registerInfo = searchInfo!!.toRegisterInfo()
+                                                        )
+                                                    } else {
+                                                        entrySelectedForSelection(entry)
+                                                    }
+                                                }
+
+                                                TypeMode.AUTOFILL -> {
+                                                    if (!database.isReadOnly
+                                                        && entry.allowedToSaveSearchInfo(searchInfo)
+                                                        && PreferencesUtil.isAutofillSaveSearchInfoEnable(
+                                                            this@GroupActivity
+                                                        )
+                                                    ) {
+                                                        updateEntryWithRegisterInfo(
+                                                            database = database,
+                                                            entry = entry,
+                                                            registerInfo = searchInfo!!.toRegisterInfo()
+                                                        )
+                                                    } else {
+                                                        entrySelectedForSelection(entry)
+                                                    }
+                                                }
+
+                                                TypeMode.PASSWORD -> {
+                                                    entrySelectedForPasswordSelection(entry)
+                                                }
+
+                                                TypeMode.PASSKEY -> {
+                                                    entrySelectedForPasskeySelection(entry)
+                                                }
+                                            }
+                                            loadGroup()
+                                        },
+                                        registrationAction = { intentSenderMode, typeMode, registerInfo ->
+                                            if (!database.isReadOnly) {
+                                                entrySelectedForRegistration(
+                                                    database = database,
+                                                    entry = entry,
+                                                    registerInfo = registerInfo,
+                                                    typeMode = typeMode,
+                                                    activityResultLauncher = if (intentSenderMode)
+                                                        mCredentialActivityResultLauncher else null
+                                                )
+                                                loadGroup()
+                                            } else
+                                                finish()
+                                        }
                                     )
-                                )
-                            } else {
-                                editEntry(database, entryId)
+                                }
                             }
-                        }
-                    }
-                }
-                launch {
-                    mGroupViewModel.requestShowGroup.collect { group ->
-                        launchDialogToShowGroupInfo(group)
-                    }
-                }
-                launch {
-                    mGroupViewModel.requestCopyNodes.collect {
-                        removeSearch()
-                        loadGroup()
-                    }
-                }
-                launch {
-                    mGroupViewModel.requestMoveNodes.collect {
-                        removeSearch()
-                        loadGroup()
-                    }
-                }
-                launch {
-                    mGroupViewModel.requestDeleteNodes.collect { deleteState ->
-                        deleteNodes(deleteState.nodes, deleteState.isRecycleBin)
-                    }
-                }
-                launch {
-                    mGroupViewModel.requestPasteNodes.collect { pasteState ->
-                        when (pasteState.pasteMode) {
-                            PasteMode.PASTE_FROM_COPY -> {
-                                copyNodes(
-                                    newParentId = pasteState.parentId,
-                                    nodesToCopy = pasteState.nodes
-                                )
+                            is GroupViewModel.GroupEvent.EditGroup -> {
+                                launchDialogForGroupUpdate(event.group)
                             }
-                            PasteMode.PASTE_FROM_MOVE -> {
-                                moveNodes(
-                                    newParentId = pasteState.parentId,
-                                    nodesToMove = pasteState.nodes
-                                )
+                            is GroupViewModel.GroupEvent.EditEntry -> {
+                                mDatabase?.let { database ->
+                                    val entryId = event.entry.nodeId
+                                    if (mDatabaseAllowUserVerification) {
+                                        checkUserVerification(
+                                            userVerificationViewModel = mUserVerificationViewModel,
+                                            dataToVerify = UserVerificationData(
+                                                actionType = UserVerificationActionType.EDIT_ENTRY,
+                                                database = database,
+                                                entryId = entryId
+                                            )
+                                        )
+                                    } else {
+                                        editEntry(database, entryId)
+                                    }
+                                }
+                            }
+                            is GroupViewModel.GroupEvent.ShowGroup -> {
+                                launchDialogToShowGroupInfo(event.group)
+                            }
+                            is GroupViewModel.GroupEvent.CopyNodes -> {
+                                removeSearch()
+                                loadGroup()
+                            }
+                            is GroupViewModel.GroupEvent.MoveNodes -> {
+                                removeSearch()
+                                loadGroup()
+                            }
+                            is GroupViewModel.GroupEvent.DeleteNodes -> {
+                                deleteNodes(event.deleteActionState.nodes, event.deleteActionState.isRecycleBin)
+                            }
+                            is GroupViewModel.GroupEvent.PasteNodes -> {
+                                when (event.pasteActionState.pasteMode) {
+                                    PasteMode.PASTE_FROM_COPY -> {
+                                        copyNodes(
+                                            newParentId = event.pasteActionState.parentId,
+                                            nodesToCopy = event.pasteActionState.nodes
+                                        )
+                                    }
+                                    PasteMode.PASTE_FROM_MOVE -> {
+                                        moveNodes(
+                                            newParentId = event.pasteActionState.parentId,
+                                            nodesToMove = event.pasteActionState.nodes
+                                        )
+                                    }
+                                    else -> {}
+                                }
+                            }
+                            is GroupViewModel.GroupEvent.ScrollTo -> {
+                                addNodeButtonView?.hideOrShowButtonOnScrollListener(event.dy)
+                            }
+                            is GroupViewModel.GroupEvent.HideKeyboard -> {
+                                hideKeyboard()
                             }
                             else -> {}
                         }
@@ -689,16 +685,6 @@ class GroupActivity : DatabaseLockActivity() {
                         } else {
                             activeActionMode?.finish()
                         }
-                    }
-                }
-                launch {
-                    mGroupViewModel.scrollTo.collect { dy ->
-                        addNodeButtonView?.hideOrShowButtonOnScrollListener(dy)
-                    }
-                }
-                launch {
-                    mGroupViewModel.hideKeyboard.collect {
-                        hideKeyboard()
                     }
                 }
                 launch {

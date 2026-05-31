@@ -177,33 +177,37 @@ class GroupFragment : DatabaseFragment() {
                     }
                 }
                 launch {
-                    mGroupViewModel.showPosition.collect { position ->
-                        mNodesRecyclerView?.scrollToPosition(position)
+                    mGroupViewModel.viewEvent.collect { event ->
+                        when (event) {
+                            is GroupViewModel.GroupEvent.ShowPosition -> {
+                                mNodesRecyclerView?.scrollToPosition(event.position)
+                            }
+
+                            is GroupViewModel.GroupEvent.RemoveNodeAction -> {
+                                mAdapter?.unselectActionNodes()
+                            }
+
+                            is GroupViewModel.GroupEvent.SortSelected -> {
+                                // Tell the adapter to refresh its list
+                                try {
+                                    mAdapter?.notifyChangeSort(
+                                        sortNodeEnum = event.sortNode.sortNodeEnum,
+                                        sortNodeParameters = event.sortNode.sortNodeParameters,
+                                        sortDatabaseParameters = event.sortNode.sortDatabaseParameters
+                                    )
+                                    mGroupViewModel.loadGroup()
+                                } catch (e: Exception) {
+                                    Log.e(TAG, "Unable to sort the list", e)
+                                }
+                            }
+
+                            else -> {}
+                        }
                     }
                 }
                 launch {
                     mGroupViewModel.actionsNodes.collect { actionsNodes ->
                         mAdapter?.setActionNodes(actionsNodes)
-                    }
-                }
-                launch {
-                    mGroupViewModel.removeNodeAction.collect {
-                        mAdapter?.unselectActionNodes()
-                    }
-                }
-                launch {
-                    mGroupViewModel.onSortSelected.collect { sort ->
-                        // Tell the adapter to refresh its list
-                        try {
-                            mAdapter?.notifyChangeSort(
-                                sortNodeEnum = sort.sortNodeEnum,
-                                sortNodeParameters = sort.sortNodeParameters,
-                                sortDatabaseParameters = sort.sortDatabaseParameters
-                            )
-                            mGroupViewModel.loadGroup()
-                        } catch (e:Exception) {
-                            Log.e(TAG, "Unable to sort the list", e)
-                        }
                     }
                 }
             }

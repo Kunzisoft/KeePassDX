@@ -115,47 +115,8 @@ class GroupViewModel(application: Application): AndroidViewModel(application) {
     private val _groupUIState = MutableStateFlow<GroupUISTate>(GroupUISTate())
     val groupUIState: StateFlow<GroupUISTate> = _groupUIState.asStateFlow()
 
-    private val _removeNodeAction = MutableSharedFlow<Unit>(replay = 0)
-    val removeNodeAction: SharedFlow<Unit> = _removeNodeAction.asSharedFlow()
-
-    private val _requestOpenGroup = MutableSharedFlow<GroupId>(replay = 0)
-    val requestOpenGroup: SharedFlow<GroupId> = _requestOpenGroup.asSharedFlow()
-
-    private val _requestOpenEntry = MutableSharedFlow<EntryInfo>(replay = 0)
-    val requestOpenEntry: SharedFlow<EntryInfo> = _requestOpenEntry.asSharedFlow()
-
-    private val _requestEditGroup = MutableSharedFlow<GroupInfo>(replay = 0)
-    val requestEditGroup: SharedFlow<GroupInfo> = _requestEditGroup.asSharedFlow()
-
-    private val _requestEditEntry = MutableSharedFlow<EntryInfo>(replay = 0)
-    val requestEditEntry: SharedFlow<EntryInfo> = _requestEditEntry.asSharedFlow()
-
-    private val _requestCopyNodes = MutableSharedFlow<Nodes>(replay = 0)
-    val requestCopyNodes: SharedFlow<Nodes> = _requestCopyNodes.asSharedFlow()
-
-    private val _requestMoveNodes = MutableSharedFlow<Nodes>(replay = 0)
-    val requestMoveNodes: SharedFlow<Nodes> = _requestMoveNodes.asSharedFlow()
-
-    private val _requestDeleteNodes = MutableSharedFlow<DeleteActionState>(replay = 0)
-    val requestDeleteNodes: SharedFlow<DeleteActionState> = _requestDeleteNodes.asSharedFlow()
-
-    private val _requestPaste = MutableSharedFlow<PasteActionState>(replay = 0)
-    val requestPasteNodes: SharedFlow<PasteActionState> = _requestPaste.asSharedFlow()
-
-    private val _requestShowGroup = MutableSharedFlow<GroupInfo>(replay = 0)
-    val requestShowGroup: SharedFlow<GroupInfo> = _requestShowGroup.asSharedFlow()
-
-    private val _hideKeyboard = MutableSharedFlow<Unit>(replay = 0)
-    val hideKeyboard: SharedFlow<Unit> = _hideKeyboard.asSharedFlow()
-
-    private val _showPosition = MutableSharedFlow<Int>(replay = 0)
-    val showPosition: SharedFlow<Int> = _showPosition.asSharedFlow()
-
-    private val _scrollTo = MutableSharedFlow<Int>(replay = 0)
-    val scrollTo: SharedFlow<Int> = _scrollTo.asSharedFlow()
-
-    private val _onSortSelected = MutableSharedFlow<SortNode>(replay = 0)
-    val onSortSelected: SharedFlow<SortNode> = _onSortSelected.asSharedFlow()
+    private val _viewEvent = MutableSharedFlow<GroupEvent>(replay = 0)
+    val viewEvent: SharedFlow<GroupEvent> = _viewEvent.asSharedFlow()
 
     private var mDefaultSearchParameters: SearchParameters = SearchParameters()
     private var mAutoFocusSearch: Boolean = false
@@ -244,7 +205,7 @@ class GroupViewModel(application: Application): AndroidViewModel(application) {
                             )
                         }
                         showFromPosition?.let {
-                            _showPosition.emit(showFromPosition)
+                            _viewEvent.emit(GroupEvent.ShowPosition(showFromPosition))
                         }
                     }
                 }
@@ -299,7 +260,7 @@ class GroupViewModel(application: Application): AndroidViewModel(application) {
                                 )
                             }
                             showFromPosition?.let {
-                                _showPosition.emit(showFromPosition)
+                                _viewEvent.emit(GroupEvent.ShowPosition(showFromPosition))
                             }
                         }
                     }
@@ -357,11 +318,11 @@ class GroupViewModel(application: Application): AndroidViewModel(application) {
                     recycleBinId = database.recycleBin?.nodeId
                 )
             }
-            _onSortSelected.emit(SortNode(
+            _viewEvent.emit(GroupEvent.SortSelected(SortNode(
                 sortNodeEnum = sortNode,
                 sortNodeParameters = sortNodeParameters,
                 sortDatabaseParameters = sortDatabaseParameters
-            ))
+            )))
         }
     }
 
@@ -409,12 +370,12 @@ class GroupViewModel(application: Application): AndroidViewModel(application) {
                         || mDatabase?.rootGroupIsVirtual != true)
             ) {
                 finishNodeAction()
-                _requestShowGroup.emit(currentGroup)
+                _viewEvent.emit(GroupEvent.ShowGroup(currentGroup))
             } else {
                 if (nodeActionSelectionMode) {
                     finishNodeAction()
                 }
-                _requestOpenGroup.emit(group.nodeId)
+                _viewEvent.emit(GroupEvent.OpenGroup(group.nodeId))
             }
         }
     }
@@ -427,7 +388,7 @@ class GroupViewModel(application: Application): AndroidViewModel(application) {
                         || mDatabase?.rootGroupIsVirtual != true)
             ) {
                 finishNodeAction()
-                _requestEditGroup.emit(currentGroup)
+                _viewEvent.emit(GroupEvent.EditGroup(currentGroup))
             } else {
                 onBreadcrumbClicked(group)
             }
@@ -454,8 +415,8 @@ class GroupViewModel(application: Application): AndroidViewModel(application) {
                 selectNodes(selectedNodes)
             } else {
                 when (node) {
-                    is SortedGroupInfo -> _requestOpenGroup.emit(node.nodeId)
-                    is SortedEntryInfo -> _requestOpenEntry.emit(node)
+                    is SortedGroupInfo -> _viewEvent.emit(GroupEvent.OpenGroup(node.nodeId))
+                    is SortedEntryInfo -> _viewEvent.emit(GroupEvent.OpenEntry(node))
                 }
             }
         }
@@ -469,7 +430,7 @@ class GroupViewModel(application: Application): AndroidViewModel(application) {
                 if (selectedNodes.none { it.nodeId == node.nodeId })
                     selectedNodes.add(node)
                 selectNodes(selectedNodes)
-                _hideKeyboard.emit(Unit)
+                _viewEvent.emit(GroupEvent.HideKeyboard)
             }
         }
         return true
@@ -496,8 +457,8 @@ class GroupViewModel(application: Application): AndroidViewModel(application) {
             finishNodeAction()
             viewModelScope.launch {
                 when (val node = nodes[0]) {
-                    is SortedGroupInfo -> _requestOpenGroup.emit(node.nodeId)
-                    is SortedEntryInfo -> _requestOpenEntry.emit(node)
+                    is SortedGroupInfo -> _viewEvent.emit(GroupEvent.OpenGroup(node.nodeId))
+                    is SortedEntryInfo -> _viewEvent.emit(GroupEvent.OpenEntry(node))
                 }
             }
         }
@@ -509,8 +470,8 @@ class GroupViewModel(application: Application): AndroidViewModel(application) {
             finishNodeAction()
             viewModelScope.launch {
                 when (val node = nodes[0]) {
-                    is GroupInfo -> _requestEditGroup.emit(node)
-                    is EntryInfo -> _requestEditEntry.emit(node)
+                    is GroupInfo -> _viewEvent.emit(GroupEvent.EditGroup(node))
+                    is EntryInfo -> _viewEvent.emit(GroupEvent.EditEntry(node))
                 }
             }
         }
@@ -526,7 +487,7 @@ class GroupViewModel(application: Application): AndroidViewModel(application) {
                 )
             }
             viewModelScope.launch {
-                _requestCopyNodes.emit(nodes.toNodes())
+                _viewEvent.emit(GroupEvent.CopyNodes(nodes.toNodes()))
             }
         }
     }
@@ -541,7 +502,7 @@ class GroupViewModel(application: Application): AndroidViewModel(application) {
                 )
             }
             viewModelScope.launch {
-                _requestMoveNodes.emit(nodes.toNodes())
+                _viewEvent.emit(GroupEvent.MoveNodes(nodes.toNodes()))
             }
         }
     }
@@ -550,10 +511,10 @@ class GroupViewModel(application: Application): AndroidViewModel(application) {
         val nodes = _nodeActionState.value.selectedNodes
         if (nodes.isNotEmpty()) {
             viewModelScope.launch {
-                _requestDeleteNodes.emit(DeleteActionState(
+                _viewEvent.emit(GroupEvent.DeleteNodes(DeleteActionState(
                     nodes = nodes.toNodes(),
                     isRecycleBin = false
-                ))
+                )))
             }
             finishNodeAction()
         }
@@ -563,11 +524,13 @@ class GroupViewModel(application: Application): AndroidViewModel(application) {
         val state = _nodeActionState.value
         mainGroup?.nodeId?.let { parentId ->
             viewModelScope.launch {
-                _requestPaste.emit(
-                    PasteActionState(
-                        state.pasteMode,
-                        parentId,
-                        state.selectedNodes.toNodes()
+                _viewEvent.emit(
+                    GroupEvent.PasteNodes(
+                        PasteActionState(
+                            state.pasteMode,
+                            parentId,
+                            state.selectedNodes.toNodes()
+                        )
                     )
                 )
             }
@@ -583,7 +546,7 @@ class GroupViewModel(application: Application): AndroidViewModel(application) {
 
     fun onActionDestroyed() {
         viewModelScope.launch {
-            _removeNodeAction.emit(Unit)
+            _viewEvent.emit(GroupEvent.RemoveNodeAction)
         }
         clearNodeAction()
         _groupUIState.update { groupState ->
@@ -613,10 +576,12 @@ class GroupViewModel(application: Application): AndroidViewModel(application) {
                         // Automatically delete all elements
                         if (!nodesToDelete.isEmpty()) {
                             withContext(Dispatchers.Main) {
-                                _requestDeleteNodes.emit(
-                                    DeleteActionState(
-                                        nodes = nodesToDelete,
-                                        isRecycleBin = true
+                                _viewEvent.emit(
+                                    GroupEvent.DeleteNodes(
+                                        DeleteActionState(
+                                            nodes = nodesToDelete,
+                                            isRecycleBin = true
+                                        )
                                     )
                                 )
                             }
@@ -649,7 +614,7 @@ class GroupViewModel(application: Application): AndroidViewModel(application) {
     fun scrollTo(dy: Int) {
         viewModelScope.launch {
             if (!actionNodeInProgress())
-                _scrollTo.emit(dy)
+                _viewEvent.emit(GroupEvent.ScrollTo(dy))
         }
     }
 
@@ -664,6 +629,23 @@ class GroupViewModel(application: Application): AndroidViewModel(application) {
         val pasteMode: PasteMode = PasteMode.UNDEFINED,
         val selectedNodes: List<SortedNodeInfo> = emptyList()
     )
+
+    sealed class GroupEvent {
+        object RemoveNodeAction : GroupEvent()
+        data class OpenGroup(val groupId: GroupId) : GroupEvent()
+        data class OpenEntry(val entry: EntryInfo) : GroupEvent()
+        data class EditGroup(val group: GroupInfo) : GroupEvent()
+        data class EditEntry(val entry: EntryInfo) : GroupEvent()
+        data class CopyNodes(val nodes: Nodes) : GroupEvent()
+        data class MoveNodes(val nodes: Nodes) : GroupEvent()
+        data class DeleteNodes(val deleteActionState: DeleteActionState) : GroupEvent()
+        data class PasteNodes(val pasteActionState: PasteActionState) : GroupEvent()
+        data class ShowGroup(val group: GroupInfo) : GroupEvent()
+        object HideKeyboard : GroupEvent()
+        data class ShowPosition(val position: Int) : GroupEvent()
+        data class ScrollTo(val dy: Int) : GroupEvent()
+        data class SortSelected(val sortNode: SortNode) : GroupEvent()
+    }
 
     data class DeleteActionState(
         val nodes: Nodes,
