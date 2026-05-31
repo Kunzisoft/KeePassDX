@@ -71,6 +71,7 @@ import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper.addSearchIn
 import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper.buildSpecialModeResponseAndSetResult
 import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper.removeInfo
 import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper.removeModes
+import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper.retrieveSearchInfo
 import com.kunzisoft.keepass.credentialprovider.SpecialMode
 import com.kunzisoft.keepass.credentialprovider.TypeMode
 import com.kunzisoft.keepass.credentialprovider.UserVerificationActionType
@@ -460,7 +461,7 @@ class GroupActivity : DatabaseLockActivity() {
 
         mGroupViewModel.assignPreferences()
         // Retrieve group if defined at launch
-        mGroupViewModel.manageIntent(intent)
+        manageIntent(intent)
 
         // Breadcrumb
         mBreadcrumbAdapter = BreadcrumbAdapter(this)
@@ -688,11 +689,6 @@ class GroupActivity : DatabaseLockActivity() {
                         } else {
                             activeActionMode?.finish()
                         }
-                    }
-                }
-                launch {
-                    mGroupViewModel.removeSearch.collect {
-                        removeSearch()
                     }
                 }
                 launch {
@@ -960,7 +956,25 @@ class GroupActivity : DatabaseLockActivity() {
         super.onNewIntent(intent)
         Log.d(TAG, "setNewIntent: $intent")
         setIntent(intent)
-        mGroupViewModel.manageIntent(intent)
+        manageIntent(intent)
+    }
+
+    private fun manageIntent(intent: Intent?) {
+        intent?.let {
+            // Info search
+            val searchInfo = if (it.retrieveAutoSearch()) it.retrieveSearchInfo() else null
+            // External search
+            val searchQuery = if (Intent.ACTION_SEARCH == it.action)
+                it.getStringExtra(SearchManager.QUERY) else null
+
+            mGroupViewModel.processSearchData(
+                searchInfo,
+                searchQuery
+            )
+
+            it.action = Intent.ACTION_DEFAULT
+            it.removeExtra(SearchManager.QUERY)
+        }
     }
 
     private fun entrySelectedForSelection(entry: EntryInfo) {

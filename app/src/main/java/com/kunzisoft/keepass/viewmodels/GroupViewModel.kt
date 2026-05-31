@@ -20,14 +20,10 @@
 package com.kunzisoft.keepass.viewmodels
 
 import android.app.Application
-import android.app.SearchManager
-import android.content.Intent
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
-import com.kunzisoft.keepass.activities.GroupActivity.Companion.retrieveAutoSearch
 import com.kunzisoft.keepass.activities.GroupActivity.SearchState
-import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper.retrieveSearchInfo
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.element.GroupId
 import com.kunzisoft.keepass.database.element.SortNodeEnum
@@ -312,41 +308,36 @@ class GroupViewModel(application: Application): AndroidViewModel(application) {
         }
     }
 
-    fun manageIntent(intent: Intent?) {
-        intent?.let {
-            // To get the form filling search as temp search
-            val searchInfo: SearchInfo? = intent.retrieveSearchInfo()
-            val autoSearch = intent.retrieveAutoSearch()
-            // Get search query
-            if (searchInfo != null && autoSearch) {
-                mAutoSearch = true
-                mTempSearchInfo = true
-                searchInfo.getSearchParametersFromSearchInfo(getApplication()) {
-                    mSearchState = SearchState(
-                        searchParameters = it,
-                        firstVisibleItem = mSearchState?.firstVisibleItem ?: 0
-                    )
-                }
-            } else if (intent.action == Intent.ACTION_SEARCH) {
-                mAutoSearch = true
+    fun processSearchData(
+        searchInfo: SearchInfo?,
+        searchQuery: String?
+    ) {
+        // Get search query
+        if (searchInfo != null) {
+            mAutoSearch = true
+            mTempSearchInfo = true
+            searchInfo.getSearchParametersFromSearchInfo(getApplication()) {
                 mSearchState = SearchState(
-                    searchParameters = mDefaultSearchParameters.apply {
-                        searchQuery = intent.getStringExtra(SearchManager.QUERY)
-                            ?.trim { it <= ' ' } ?: ""
-                    },
-                    firstVisibleItem = mSearchState?.firstVisibleItem ?: 0
-                )
-            } else if (mRequestStartupSearch && mAutoFocusSearch) {
-                // Expand the search view if defined in settings
-                // To request search only one time
-                mRequestStartupSearch = false
-                mSearchState = SearchState(
-                    searchParameters = mDefaultSearchParameters,
+                    searchParameters = it,
                     firstVisibleItem = mSearchState?.firstVisibleItem ?: 0
                 )
             }
-            intent.action = Intent.ACTION_DEFAULT
-            intent.removeExtra(SearchManager.QUERY)
+        } else if (searchQuery != null) {
+            mAutoSearch = true
+            mSearchState = SearchState(
+                searchParameters = mDefaultSearchParameters.apply {
+                    this.searchQuery = searchQuery.trim { it <= ' ' }
+                },
+                firstVisibleItem = mSearchState?.firstVisibleItem ?: 0
+            )
+        } else if (mRequestStartupSearch && mAutoFocusSearch) {
+            // Expand the search view if defined in settings
+            // To request search only one time
+            mRequestStartupSearch = false
+            mSearchState = SearchState(
+                searchParameters = mDefaultSearchParameters,
+                firstVisibleItem = mSearchState?.firstVisibleItem ?: 0
+            )
         }
     }
 
