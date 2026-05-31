@@ -51,12 +51,8 @@ class EntryHistoryFragment: Fragment() {
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.RESUMED) {
-                mEntryViewModel.entryHistoryState.collect { entryState ->
-                    when(entryState) {
-                        is EntryViewModel.EntryHistoryState -> {
-                            assignHistory(entryState.entryHistory)
-                        }
-                    }
+                mEntryViewModel.entryUIState.collect { uiState ->
+                    assignHistory(uiState.entryHistory)
                 }
             }
         }

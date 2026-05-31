@@ -58,6 +58,7 @@ import com.kunzisoft.keepass.credentialprovider.SpecialMode
 import com.kunzisoft.keepass.credentialprovider.UserVerificationActionType
 import com.kunzisoft.keepass.credentialprovider.UserVerificationData
 import com.kunzisoft.keepass.credentialprovider.UserVerificationHelper.Companion.checkUserVerification
+import com.kunzisoft.keepass.credentialprovider.magikeyboard.MagikeyboardService
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.element.Attachment
 import com.kunzisoft.keepass.database.element.EntryId
@@ -71,6 +72,7 @@ import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.tasks.AttachmentFileBinderManager
+import com.kunzisoft.keepass.timeout.ClipboardHelper
 import com.kunzisoft.keepass.timeout.TimeoutHelper
 import com.kunzisoft.keepass.utils.getParcelableExtraCompat
 import com.kunzisoft.keepass.view.WindowInsetPosition
@@ -274,17 +276,92 @@ class EntryActivity : DatabaseLockActivity() {
                         historyView?.visibility = if (entryState.showHistoryView) View.VISIBLE else View.GONE
                         // Refresh Menu
                         invalidateOptionsMenu()
+
+                        // Update section selection
+                        entryContentTab?.getTabAt(entryState.sectionSelected.position)?.select()
                     }
                 }
                 launch {
-                    mEntryViewModel.sectionSelected.collect { entrySection ->
-                        entryContentTab?.getTabAt(entrySection.position)?.select()
-                    }
-                }
-                launch {
-                    mEntryViewModel.onEntryLoaded.collect { entry ->
-                        // To sort by access
-                        touchEntry(entry)
+                    mEntryViewModel.entryEvents.collect { event ->
+                        when (event) {
+                            is EntryViewModel.EntryEvent.EntryLoaded -> {
+                                // To sort by access
+                                touchEntry(event.entryInfo)
+                            }
+                            is EntryViewModel.EntryEvent.AddToMagikeyboard -> {
+                                MagikeyboardService.addEntry(
+                                    context = this@EntryActivity,
+                                    entry = event.entryInfo,
+                                    autoSwitchKeyboard = event.autoSwitch
+                                )
+                            }
+                            is EntryViewModel.EntryEvent.CopyToClipboard -> {
+                                ClipboardHelper(this@EntryActivity).timeoutCopyToClipboard(
+                                    label = event.label,
+                                    value = event.content,
+                                    sensitive = event.isProtected
+                                )
+                            }
+                            is EntryViewModel.EntryEvent.AttachmentSelected -> {
+                                mAttachmentSelected = event.attachment
+                                mExternalFileHelper?.createDocument(event.attachment.name)
+                            }
+                            is EntryViewModel.EntryEvent.HistorySelected -> {
+                                mDatabase?.let { database ->
+                                    launch(
+                                        activity = this@EntryActivity,
+                                        database = database,
+                                        entryId = event.entryHistory.nodeId,
+                                        historyPosition = event.entryHistory.historyPosition,
+                                        activityResultLauncher = mEntryActivityResultLauncher
+                                    )
+                                }
+                            }
+                            is EntryViewModel.EntryEvent.RequestCopyProtectedField -> {
+                                if (mDatabaseAllowUserVerification) {
+                                    mDatabase?.let { database ->
+                                        checkUserVerification(
+                                            userVerificationViewModel = mUserVerificationViewModel,
+                                            dataToVerify = UserVerificationData(
+                                                actionType = UserVerificationActionType.COPY_PROTECTED_FIELD,
+                                                database = database,
+                                                fieldProtection = event.fieldProtection,
+                                            )
+                                        )
+                                    }
+                                } else {
+                                    // Copy field value directly without user verification
+                                    mEntryViewModel.copyToClipboard(event.fieldProtection.field)
+                                }
+                            }
+                            is EntryViewModel.EntryEvent.ChangeFieldProtectionRequested -> {
+                                mDatabase?.let { database ->
+                                    if (mDatabaseAllowUserVerification) {
+                                        if (event.fieldProtection.isCurrentlyProtected) {
+                                            checkUserVerification(
+                                                userVerificationViewModel = mUserVerificationViewModel,
+                                                dataToVerify = UserVerificationData(
+                                                    actionType = UserVerificationActionType.SHOW_PROTECTED_FIELD,
+                                                    database = database,
+                                                    fieldProtection = event.fieldProtection
+                                                )
+                                            )
+                                        } else {
+                                            mEntryViewModel.updateProtectionField(
+                                                fieldProtection = event.fieldProtection,
+                                                value = true
+                                            )
+                                        }
+                                    } else {
+                                        // Toggle field protection directly without user verification
+                                        mEntryViewModel.updateProtectionField(
+                                            fieldProtection = event.fieldProtection,
+                                            value = !event.fieldProtection.isCurrentlyProtected
+                                        )
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
                 launch {
@@ -303,75 +380,6 @@ class EntryActivity : DatabaseLockActivity() {
                                     setProgressCompat(otpElement.secondsRemaining, true)
                                     visibility = View.VISIBLE
                                 }
-                            }
-                        }
-                    }
-                }
-                launch {
-                    mEntryViewModel.attachmentSelected.collect { attachmentSelected ->
-                        mAttachmentSelected = attachmentSelected
-                        mExternalFileHelper?.createDocument(attachmentSelected.name)
-                    }
-                }
-                launch {
-                    mEntryViewModel.historySelected.collect { historySelected ->
-                        mDatabase?.let { database ->
-                            launch(
-                                activity = this@EntryActivity,
-                                database = database,
-                                entryId = historySelected.nodeId,
-                                historyPosition = historySelected.historyPosition,
-                                activityResultLauncher = mEntryActivityResultLauncher
-                            )
-                        }
-                    }
-                }
-                launch {
-                    mEntryViewModel.requestCopyProtectedField.collect { fieldProtection ->
-                        if (mDatabaseAllowUserVerification) {
-                            mDatabase?.let { database ->
-                                checkUserVerification(
-                                    userVerificationViewModel = mUserVerificationViewModel,
-                                    dataToVerify = UserVerificationData(
-                                        actionType = UserVerificationActionType.COPY_PROTECTED_FIELD,
-                                        database = database,
-                                        fieldProtection = fieldProtection,
-                                    )
-                                )
-                            }
-                        } else {
-                            // Copy field value directly without user verification
-                            fieldProtection.field.let {
-                                mEntryViewModel.copyToClipboard(it)
-                            }
-                        }
-                    }
-                }
-                launch {
-                    mEntryViewModel.onChangeFieldProtectionRequested.collect { fieldProtection ->
-                        mDatabase?.let { database ->
-                            if (mDatabaseAllowUserVerification) {
-                                if (fieldProtection.isCurrentlyProtected) {
-                                    checkUserVerification(
-                                        userVerificationViewModel = mUserVerificationViewModel,
-                                        dataToVerify = UserVerificationData(
-                                            actionType = UserVerificationActionType.SHOW_PROTECTED_FIELD,
-                                            database = database,
-                                            fieldProtection = fieldProtection
-                                        )
-                                    )
-                                } else {
-                                    mEntryViewModel.updateProtectionField(
-                                        fieldProtection = fieldProtection,
-                                        value = true
-                                    )
-                                }
-                            } else {
-                                // Toggle field protection directly without user verification
-                                mEntryViewModel.updateProtectionField(
-                                    fieldProtection = fieldProtection,
-                                    value = !fieldProtection.isCurrentlyProtected
-                                )
                             }
                         }
                     }

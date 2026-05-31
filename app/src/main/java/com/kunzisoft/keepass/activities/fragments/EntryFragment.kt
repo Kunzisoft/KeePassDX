@@ -118,17 +118,14 @@ class EntryFragment: DatabaseFragment() {
         lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 launch {
-                    mEntryViewModel.entryUIState.collect { entryState ->
-                        entryState.entryInfo?.let { entryInfo ->
+                    mEntryViewModel.entryUIState.collect { uiState ->
+                        uiState.entryInfo?.let { entryInfo ->
                             assignEntryInfo(entryInfo)
                             // Smooth appearing
                             rootView.showByFading()
                         }
-                    }
-                }
-                launch {
-                    mEntryViewModel.sectionSelected.collect { entrySection ->
-                        when (entrySection) {
+                        // Update section visibility
+                        when (uiState.sectionSelected) {
                             EntryViewModel.EntrySection.MAIN -> {
                                 mainSection.showByFading()
                                 advancedSection.hideByFading()
@@ -141,8 +138,10 @@ class EntryFragment: DatabaseFragment() {
                     }
                 }
                 launch {
-                    mEntryViewModel.onEntryLoaded.collect { _ ->
-                        resetAppTimeoutWhenViewFocusedOrChanged(rootView)
+                    mEntryViewModel.entryEvents.collect { event ->
+                        if (event is EntryViewModel.EntryEvent.EntryLoaded) {
+                            resetAppTimeoutWhenViewFocusedOrChanged(rootView)
+                        }
                     }
                 }
                 launch {
