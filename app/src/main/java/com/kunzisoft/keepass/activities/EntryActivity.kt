@@ -20,6 +20,7 @@ package com.kunzisoft.keepass.activities
 
 import android.app.Activity
 import android.content.Intent
+import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
@@ -160,7 +161,18 @@ class EntryActivity : DatabaseLockActivity() {
         toolbar?.title = " "
 
         // Set the theme to retrieve the toolbar color
-        mEntryViewModel.setTheme(theme)
+        theme.obtainStyledAttributes(intArrayOf(R.attr.colorSecondary)).also { taColorSecondary ->
+            mEntryViewModel.colorSecondary = taColorSecondary.getColor(0, Color.BLACK)
+        }.recycle()
+        theme.obtainStyledAttributes(intArrayOf(R.attr.colorSurface)).also { taColorSurface ->
+            mEntryViewModel.colorSurface = taColorSurface.getColor(0, Color.BLACK)
+        }.recycle()
+        theme.obtainStyledAttributes(intArrayOf(R.attr.colorOnSurface)).also { taColorOnSurface ->
+            mEntryViewModel.colorOnSurface = taColorOnSurface.getColor(0, Color.BLACK)
+        }.recycle()
+        theme.obtainStyledAttributes(intArrayOf(android.R.attr.windowBackground)).also { taColorBackground ->
+            mEntryViewModel.colorBackground = taColorBackground.getColor(0, Color.BLACK)
+        }.recycle()
 
         // Init Tags adapter
         tagsAdapter = TagsAdapter(this)

@@ -20,13 +20,11 @@
 package com.kunzisoft.keepass.viewmodels
 
 import android.app.Application
-import android.content.res.Resources
 import android.graphics.Color
 import androidx.annotation.ColorInt
 import androidx.core.graphics.ColorUtils
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
-import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.credentialprovider.magikeyboard.MagikeyboardService
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.element.Attachment
@@ -67,13 +65,13 @@ class EntryViewModel(application: Application): AndroidViewModel(application) {
         get() = entryUIState.value.loaded
 
     @ColorInt
-    private var colorSecondary: Int = 0
+    var colorSecondary: Int = 0
     @ColorInt
-    private var colorSurface: Int = 0
+    var colorSurface: Int = 0
     @ColorInt
-    private var colorOnSurface: Int = 0
+    var colorOnSurface: Int = 0
     @ColorInt
-    private var colorBackground: Int = 0
+    var colorBackground: Int = 0
     @ColorInt
     private var backgroundColor: Int? = null
     @ColorInt
@@ -125,22 +123,6 @@ class EntryViewModel(application: Application): AndroidViewModel(application) {
         autoSwitchToMagikeyboard = PreferencesUtil.isAutoSwitchToMagikeyboardEnable(application)
         keyboardEntrySelectionEnabled = PreferencesUtil.isKeyboardEntrySelectionEnable(application)
         showEntryColors = PreferencesUtil.showEntryColors(application)
-    }
-
-    fun setTheme(theme: Resources.Theme) {
-        // Retrieve the textColor to tint the toolbar
-        theme.obtainStyledAttributes(intArrayOf(R.attr.colorSecondary)).also { taColorSecondary ->
-            colorSecondary = taColorSecondary.getColor(0, Color.BLACK)
-        }.recycle()
-        theme.obtainStyledAttributes(intArrayOf(R.attr.colorSurface)).also { taColorSurface ->
-            colorSurface = taColorSurface.getColor(0, Color.BLACK)
-        }.recycle()
-        theme.obtainStyledAttributes(intArrayOf(R.attr.colorOnSurface)).also { taColorOnSurface ->
-            colorOnSurface = taColorOnSurface.getColor(0, Color.BLACK)
-        }.recycle()
-        theme.obtainStyledAttributes(intArrayOf(android.R.attr.windowBackground)).also { taColorBackground ->
-            colorBackground = taColorBackground.getColor(0, Color.BLACK)
-        }.recycle()
     }
 
     fun loadDatabase(database: ContextualDatabase?) {
