@@ -344,7 +344,7 @@
     <string name="contains_duplicate_uuid">Databasen innehåller dubbla UUID:er.</string>
     <string name="contains_duplicate_uuid_procedure">Generera nya UUID:er för dubbletter för att fortsätta?</string>
     <string name="database_history">Historik</string>
-    <string name="autofill_explanation_summary">Aktivera autofyll för att snabbt kunna fylla i formulär i andra appar</string>
+    <string name="autofill_explanation_summary">Konfigurera autofyll för att snabbt kunna fylla i formulär i andra appar</string>
     <string name="database_opened">Databas öppnad</string>
     <string name="clipboard_explanation_summary">Kopiera postfält med hjälp av enhetens urklipp</string>
     <string name="device_unlock_explanation_summary">Använd enhetsupplåsning för att öppna en databas enklare</string>
