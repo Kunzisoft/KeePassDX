@@ -47,6 +47,7 @@ import com.kunzisoft.keepass.view.DateTimeEditFieldView
 import com.kunzisoft.keepass.view.InheritedCompletionView
 import com.kunzisoft.keepass.view.TagsCompletionView
 import com.kunzisoft.keepass.viewmodels.GroupEditViewModel
+import com.kunzisoft.keepass.viewmodels.NodeEditViewModel
 import com.tokenautocomplete.FilteredArrayAdapter
 import kotlinx.coroutines.launch
 
@@ -90,29 +91,30 @@ class GroupEditDialogFragment : DatabaseDialogFragment() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 launch {
-                    mGroupEditViewModel.onIconSelected.collect { iconImage ->
-                        mGroupInfo.icon = iconImage
-                        mPopulateIconMethod?.invoke(iconButtonView, mGroupInfo.icon)
-                    }
-                }
-                launch {
-                    mGroupEditViewModel.onDateSelected.collect { date ->
-                        // Save the date
-                        mGroupInfo.expiryTime.setDate(date.year, date.month, date.day)
-                        expirationView.dateTime = mGroupInfo.expiryTime
-                        if (expirationView.dateTime.type == DateInstant.Type.DATE_TIME) {
-                            // Trick to recall selection with time
-                            mGroupEditViewModel.requestDateTimeSelection(
-                                DateInstant(mGroupInfo.expiryTime.instant, DateInstant.Type.TIME)
-                            )
+                    mGroupEditViewModel.nodeEditEvents.collect { event ->
+                        when (event) {
+                            is NodeEditViewModel.NodeEditEvent.OnIconSelected -> {
+                                mGroupInfo.icon = event.icon
+                                mPopulateIconMethod?.invoke(iconButtonView, mGroupInfo.icon)
+                            }
+                            is NodeEditViewModel.NodeEditEvent.OnDateSelected -> {
+                                // Save the date
+                                mGroupInfo.expiryTime.setDate(event.date.year, event.date.month, event.date.day)
+                                expirationView.dateTime = mGroupInfo.expiryTime
+                                if (expirationView.dateTime.type == DateInstant.Type.DATE_TIME) {
+                                    // Trick to recall selection with time
+                                    mGroupEditViewModel.requestDateTimeSelection(
+                                        DateInstant(mGroupInfo.expiryTime.instant, DateInstant.Type.TIME)
+                                    )
+                                }
+                            }
+                            is NodeEditViewModel.NodeEditEvent.OnTimeSelected -> {
+                                // Save the time
+                                mGroupInfo.expiryTime.setTime(event.time.hour, event.time.minute)
+                                expirationView.dateTime = mGroupInfo.expiryTime
+                            }
+                            else -> {}
                         }
-                    }
-                }
-                launch {
-                    mGroupEditViewModel.onTimeSelected.collect { viewModelTime ->
-                        // Save the time
-                        mGroupInfo.expiryTime.setTime(viewModelTime.hour, viewModelTime.minute)
-                        expirationView.dateTime = mGroupInfo.expiryTime
                     }
                 }
             }

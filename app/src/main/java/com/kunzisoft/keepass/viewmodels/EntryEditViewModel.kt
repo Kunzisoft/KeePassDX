@@ -75,14 +75,8 @@ class EntryEditViewModel: NodeEditViewModel() {
     private val _entryEditUIState = MutableStateFlow(EntryEditState())
     val entryEditUIState: StateFlow<EntryEditState> = _entryEditUIState.asStateFlow()
 
-    private val _onEntryLoaded = MutableSharedFlow<EntryInfo>(replay = 0)
-    val onEntryLoaded: SharedFlow<EntryInfo> = _onEntryLoaded.asSharedFlow()
-
-    private val _onTemplatesInitialized = MutableSharedFlow<Templates>(replay = 0)
-    val onTemplatesInitialized: SharedFlow<Templates> = _onTemplatesInitialized.asSharedFlow()
-
-    private val _onTemplateChanged = MutableSharedFlow<Template>(replay = 0)
-    val onTemplateChanged: SharedFlow<Template> = _onTemplateChanged.asSharedFlow()
+    private val _entryEditEvents = MutableSharedFlow<EntryEditEvent>(replay = 0)
+    val entryEditEvents: SharedFlow<EntryEditEvent> = _entryEditEvents.asSharedFlow()
 
     private val _onEntryValidationRequested = MutableSharedFlow<Unit>(
         replay = 0,
@@ -90,27 +84,6 @@ class EntryEditViewModel: NodeEditViewModel() {
         onBufferOverflow = BufferOverflow.DROP_OLDEST
     )
     val onEntryValidationRequested: SharedFlow<Unit> = _onEntryValidationRequested.asSharedFlow()
-
-    private val _requestPasswordSelection = MutableSharedFlow<Unit>(replay = 0)
-    val requestPasswordSelection: SharedFlow<Unit> = _requestPasswordSelection.asSharedFlow()
-
-    private val _onPasswordSelected = MutableSharedFlow<Field>(replay = 0)
-    val onPasswordSelected: SharedFlow<Field> = _onPasswordSelected.asSharedFlow()
-
-    private val _requestCustomFieldEdition = MutableSharedFlow<Field>(replay = 0)
-    val requestCustomFieldEdition: SharedFlow<Field> = _requestCustomFieldEdition.asSharedFlow()
-
-    private val _onCustomFieldEdited = MutableSharedFlow<FieldEdition>(replay = 0)
-    val onCustomFieldEdited: SharedFlow<FieldEdition> = _onCustomFieldEdited.asSharedFlow()
-
-    private val _onCustomFieldError = MutableSharedFlow<Unit>(replay = 0)
-    val onCustomFieldError: SharedFlow<Unit> = _onCustomFieldError.asSharedFlow()
-
-    private val _requestSetupOtp = MutableSharedFlow<Unit>(replay = 0)
-    val requestSetupOtp: SharedFlow<Unit> = _requestSetupOtp.asSharedFlow()
-
-    private val _onOtpCreated = MutableSharedFlow<OtpElement>(replay = 0)
-    val onOtpCreated: SharedFlow<OtpElement> = _onOtpCreated.asSharedFlow()
 
     private val _onBuildNewAttachment = MutableSharedFlow<AttachmentBuild>(replay = 0)
     val onBuildNewAttachment: SharedFlow<AttachmentBuild> = _onBuildNewAttachment.asSharedFlow()
@@ -126,30 +99,6 @@ class EntryEditViewModel: NodeEditViewModel() {
 
     private val _onBinaryPreviewLoaded = MutableSharedFlow<AttachmentPosition>(replay = 0)
     val onBinaryPreviewLoaded: SharedFlow<AttachmentPosition> = _onBinaryPreviewLoaded.asSharedFlow()
-
-    private val _createEntry = MutableSharedFlow<CreateEntryAction>(replay = 0)
-    val createEntry: SharedFlow<CreateEntryAction> = _createEntry.asSharedFlow()
-
-    private val _updateEntry = MutableSharedFlow<EntryInfo>(replay = 0)
-    val updateEntry: SharedFlow<EntryInfo> = _updateEntry.asSharedFlow()
-
-    private val _closeEntry = MutableSharedFlow<CloseType>(replay = 0)
-    val closeEntry: SharedFlow<CloseType> = _closeEntry.asSharedFlow()
-
-    private val _askToDiscardChanges = MutableSharedFlow<CloseType>(replay = 0)
-    val askToDiscardChanges: SharedFlow<CloseType> = _askToDiscardChanges.asSharedFlow()
-
-    private val _showOverwriteMessage = MutableSharedFlow<Unit>(replay = 0)
-    val showOverwriteMessage: SharedFlow<Unit> = _showOverwriteMessage.asSharedFlow()
-
-    private val _onChangeFieldProtectionRequested = MutableSharedFlow<FieldProtection>(replay = 0)
-    val onChangeFieldProtectionRequested: SharedFlow<FieldProtection> = _onChangeFieldProtectionRequested.asSharedFlow()
-
-    private val _onFieldProtectionUpdated = MutableSharedFlow<FieldProtection>(replay = 0)
-    val onFieldProtectionUpdated: SharedFlow<FieldProtection> = _onFieldProtectionUpdated.asSharedFlow()
-
-    private val _retrieveEntryInfoForClosing = MutableSharedFlow<CloseType>(replay = 0)
-    val retrieveEntryInfoForClosing: SharedFlow<CloseType> = _retrieveEntryInfoForClosing.asSharedFlow()
 
     val entryLoaded: Boolean
         get() = entryEditUIState.value.loaded
@@ -178,8 +127,8 @@ class EntryEditViewModel: NodeEditViewModel() {
 
         viewModelScope.launch {
             // Just to compensate TemplateView bug
-            mTemplates?.let {
-                _onTemplatesInitialized.emit(it)
+            mTemplates?.let { templates ->
+                _entryEditEvents.emit(EntryEditEvent.OnTemplatesInitialized(templates))
             }
             withContext(Dispatchers.IO) {
                 mDatabase?.let { database ->
@@ -190,7 +139,7 @@ class EntryEditViewModel: NodeEditViewModel() {
                             registerInfo = registerInfo
                         ) {
                             // Action to perform when data is overwritten
-                            _showOverwriteMessage.emit(Unit)
+                            _entryEditEvents.emit(EntryEditEvent.ShowOverwriteMessage)
                         })
                     }
                     // Create the entry
@@ -211,7 +160,7 @@ class EntryEditViewModel: NodeEditViewModel() {
         }
         isTemplate = database.entryIsTemplate(entryInfo)
         entryInfo?.let {
-            _onEntryLoaded.emit(entryInfo)
+            _entryEditEvents.emit(EntryEditEvent.EntryLoaded(entryInfo))
         }
         val selectedTemplate = entryInfo?.template ?: Template.STANDARD
         val templates = Templates(
@@ -219,8 +168,8 @@ class EntryEditViewModel: NodeEditViewModel() {
             defaultTemplate = selectedTemplate
         )
         mTemplates = templates
-        _onTemplatesInitialized.emit(templates)
-        _onTemplateChanged.emit(selectedTemplate)
+        _entryEditEvents.emit(EntryEditEvent.OnTemplatesInitialized(templates))
+        _entryEditEvents.emit(EntryEditEvent.OnTemplateChanged(selectedTemplate))
         _entryEditUIState.update { entryEdit ->
             entryEdit.copy(
                 loaded = true,
@@ -231,7 +180,7 @@ class EntryEditViewModel: NodeEditViewModel() {
 
     fun changeTemplate(template: Template) {
         viewModelScope.launch {
-            _onTemplateChanged.emit(template)
+            _entryEditEvents.emit(EntryEditEvent.OnTemplateChanged(template))
         }
     }
 
@@ -252,12 +201,16 @@ class EntryEditViewModel: NodeEditViewModel() {
             mDatabase?.removeTempAttachmentsNotCompleted(entryInfo)
             viewModelScope.launch {
                 mEntryId?.let {
-                    _updateEntry.emit(entryInfo)
+                    _entryEditEvents.emit(
+                        EntryEditEvent.UpdateEntry(entryInfo)
+                    )
                 } ?: mParentId?.let { parentId ->
-                    _createEntry.emit(CreateEntryAction(
-                        parentId = parentId,
-                        newEntry = entryInfo
-                    ))
+                    _entryEditEvents.emit(
+                        EntryEditEvent.CreateEntry(
+                            parentId = parentId,
+                            newEntry = entryInfo
+                        )
+                    )
                 } ?: run {
                     actionLocked = false
                 }
@@ -268,61 +221,67 @@ class EntryEditViewModel: NodeEditViewModel() {
     fun requestPasswordSelection(passwordField: Field) {
         this.passwordField = passwordField
         viewModelScope.launch {
-            _requestPasswordSelection.emit(Unit)
+            _entryEditEvents.emit(EntryEditEvent.RequestPasswordSelection)
         }
     }
 
     fun selectPassword(passwordField: Field) {
         viewModelScope.launch {
-            _onPasswordSelected.emit(passwordField)
+            _entryEditEvents.emit(EntryEditEvent.OnPasswordSelected(passwordField))
         }
     }
 
     fun requestChangeFieldProtection(fieldProtection: FieldProtection) {
         viewModelScope.launch {
-            _onChangeFieldProtectionRequested.emit(fieldProtection)
+            _entryEditEvents.emit(EntryEditEvent.OnChangeFieldProtectionRequested(fieldProtection))
         }
     }
 
     fun requestCustomFieldEdition(customField: Field) {
         viewModelScope.launch {
-            _requestCustomFieldEdition.emit(customField)
+            _entryEditEvents.emit(EntryEditEvent.RequestCustomFieldEdition(customField))
         }
     }
 
     fun addCustomField(newField: Field) {
         viewModelScope.launch {
-            _onCustomFieldEdited.emit(FieldEdition(null, newField))
+            _entryEditEvents.emit(
+                EntryEditEvent.OnCustomFieldEdited(oldField = null, newField = newField)
+            )
         }
     }
 
     fun editCustomField(oldField: Field, newField: Field) {
         viewModelScope.launch {
-            _onCustomFieldEdited.emit(FieldEdition(oldField, newField))
+            _entryEditEvents.emit(
+                EntryEditEvent.OnCustomFieldEdited(oldField = oldField, newField = newField)
+            )
         }
     }
 
     fun removeCustomField(oldField: Field) {
         viewModelScope.launch {
-            _onCustomFieldEdited.emit(FieldEdition(oldField, null))
+            _entryEditEvents.emit(
+                EntryEditEvent.OnCustomFieldEdited(oldField = oldField, newField = null)
+            )
         }
     }
 
     fun showCustomFieldEditionError() {
         viewModelScope.launch {
-            _onCustomFieldError.emit(Unit)
+            _entryEditEvents.emit(EntryEditEvent.OnCustomFieldError)
         }
     }
 
     fun setupOtp() {
         viewModelScope.launch {
-            _requestSetupOtp.emit(Unit)
+            _entryEditEvents.emit(EntryEditEvent.RequestSetupOTP)
         }
     }
 
     fun createOtp(otpElement: OtpElement) {
         viewModelScope.launch {
-            _onOtpCreated.emit(otpElement)
+            _entryEditEvents.emit(EntryEditEvent.OnOtpCreated(otpElement))
         }
     }
 
@@ -361,13 +320,13 @@ class EntryEditViewModel: NodeEditViewModel() {
     fun updateFieldProtection(fieldProtection: FieldProtection, value: Boolean) {
         fieldProtection.isCurrentlyProtected = value
         viewModelScope.launch {
-            _onFieldProtectionUpdated.emit(fieldProtection)
+            _entryEditEvents.emit(EntryEditEvent.OnFieldProtectionUpdated(fieldProtection))
         }
     }
 
     fun askToClose(closeType: CloseType) {
         viewModelScope.launch {
-            _retrieveEntryInfoForClosing.emit(closeType)
+            _entryEditEvents.emit(EntryEditEvent.RetrieveEntryInfoForClosing(closeType))
         }
     }
 
@@ -375,16 +334,16 @@ class EntryEditViewModel: NodeEditViewModel() {
         if (backPressedAlreadyApproved.not()) {
             if (mInitialEntryInfo != currentEntryInfo) {
                 viewModelScope.launch {
-                    _askToDiscardChanges.emit(closeType)
+                    _entryEditEvents.emit(EntryEditEvent.AskToDiscardChanges(closeType))
                 }
             } else {
                 viewModelScope.launch {
-                    _closeEntry.emit(closeType)
+                    _entryEditEvents.emit(EntryEditEvent.CloseEntry(closeType))
                 }
             }
         } else {
             viewModelScope.launch {
-                _closeEntry.emit(closeType)
+                _entryEditEvents.emit(EntryEditEvent.CloseEntry(closeType))
             }
         }
     }
@@ -392,7 +351,7 @@ class EntryEditViewModel: NodeEditViewModel() {
     fun approveDiscardChanges(closeType: CloseType) {
         backPressedAlreadyApproved = true
         viewModelScope.launch {
-            _closeEntry.emit(closeType)
+            _entryEditEvents.emit(EntryEditEvent.CloseEntry(closeType))
         }
     }
 
@@ -403,14 +362,6 @@ class EntryEditViewModel: NodeEditViewModel() {
     data class Templates(
         val templates: List<Template>,
         val defaultTemplate: Template,
-    )
-    data class CreateEntryAction(
-        val parentId: GroupId,
-        val newEntry: EntryInfo
-    )
-    data class FieldEdition(
-        val oldField: Field?,
-        val newField: Field?
     )
     data class AttachmentBuild(
         val attachmentToUploadUri: Uri,
@@ -428,6 +379,74 @@ class EntryEditViewModel: NodeEditViewModel() {
     enum class CloseType {
         DATABASE_BACK_PRESSED,
         CANCEL_SPECIAL_MODE
+    }
+
+    sealed class EntryEditEvent {
+        data class EntryLoaded(
+            val entryInfo: EntryInfo,
+        ) : EntryEditEvent()
+
+        data class OnTemplatesInitialized(
+            val templates: Templates,
+        ) : EntryEditEvent()
+
+        data class OnTemplateChanged(
+            val template: Template,
+        ) : EntryEditEvent()
+
+        object RequestPasswordSelection : EntryEditEvent()
+
+        data class OnPasswordSelected(
+            val field: Field
+        ) : EntryEditEvent()
+
+        data class RequestCustomFieldEdition(
+            val field: Field
+        ) : EntryEditEvent()
+
+        data class OnCustomFieldEdited(
+            val oldField: Field?,
+            val newField: Field?
+        ) : EntryEditEvent()
+
+        object OnCustomFieldError : EntryEditEvent()
+
+        object RequestSetupOTP : EntryEditEvent()
+
+        data class OnOtpCreated(
+            val otpElement: OtpElement
+        ) : EntryEditEvent()
+
+        data class CreateEntry(
+            val parentId: GroupId,
+            val newEntry: EntryInfo
+        ) : EntryEditEvent()
+
+        data class UpdateEntry(
+            val entry: EntryInfo
+        ) : EntryEditEvent()
+
+        data class CloseEntry(
+            val closeType: CloseType
+        ) : EntryEditEvent()
+
+        data class AskToDiscardChanges(
+            val closeType: CloseType
+        ) : EntryEditEvent()
+
+        object ShowOverwriteMessage : EntryEditEvent()
+
+        data class OnChangeFieldProtectionRequested(
+            val fieldProtection: FieldProtection
+        ) : EntryEditEvent()
+
+        data class OnFieldProtectionUpdated(
+            val fieldProtection: FieldProtection
+        ) : EntryEditEvent()
+
+        data class RetrieveEntryInfoForClosing(
+            val closeType: CloseType
+        ) : EntryEditEvent()
     }
 
     companion object {

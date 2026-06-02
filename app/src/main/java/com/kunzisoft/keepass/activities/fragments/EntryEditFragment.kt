@@ -53,6 +53,7 @@ import com.kunzisoft.keepass.view.collapse
 import com.kunzisoft.keepass.view.expand
 import com.kunzisoft.keepass.view.showByFading
 import com.kunzisoft.keepass.viewmodels.EntryEditViewModel
+import com.kunzisoft.keepass.viewmodels.NodeEditViewModel
 import com.tokenautocomplete.FilteredArrayAdapter
 import kotlinx.coroutines.launch
 
@@ -155,87 +156,92 @@ class EntryEditFragment: DatabaseFragment() {
                     }
                 }
                 launch {
-                    mEntryEditViewModel.onTemplateChanged.collect { template ->
-                        templateView.setTemplate(template)
+                    mEntryEditViewModel.entryEditEvents.collect { event ->
+                        when (event) {
+                            is EntryEditViewModel.EntryEditEvent.OnTemplateChanged -> {
+                                templateView.setTemplate(event.template)
+                            }
+                            is EntryEditViewModel.EntryEditEvent.OnPasswordSelected -> {
+                                templateView.setPasswordField(event.field)
+                            }
+                            is EntryEditViewModel.EntryEditEvent.OnCustomFieldEdited -> {
+                                val oldField = event.oldField
+                                val newField = event.newField
+                                // Field to add
+                                if (oldField == null) {
+                                    newField?.let {
+                                        if (!templateView.putCustomField(it)) {
+                                            mEntryEditViewModel.showCustomFieldEditionError()
+                                        }
+                                    }
+                                }
+                                // Field to replace
+                                oldField?.let {
+                                    newField?.let {
+                                        if (!templateView.replaceCustomField(oldField, newField)) {
+                                            mEntryEditViewModel.showCustomFieldEditionError()
+                                        }
+                                    }
+                                }
+                                // Field to remove
+                                if (newField == null) {
+                                    oldField?.let {
+                                        templateView.removeCustomField(it)
+                                    }
+                                }
+                            }
+                            is EntryEditViewModel.EntryEditEvent.RequestSetupOTP -> {
+                                // Retrieve the current otpElement if exists
+                                // and open the dialog to set up the OTP
+                                SetOTPDialogFragment.build(templateView.getEntryInfo().otpModel)
+                                    .show(parentFragmentManager, "addOTPDialog")
+                            }
+                            is EntryEditViewModel.EntryEditEvent.OnOtpCreated -> {
+                                // Update the otp field with otpauth:// url
+                                templateView.putOtpElement(event.otpElement)
+                            }
+                            is EntryEditViewModel.EntryEditEvent.OnFieldProtectionUpdated -> {
+                                updateFieldProtection(event.fieldProtection)
+                            }
+                            is EntryEditViewModel.EntryEditEvent.RetrieveEntryInfoForClosing -> {
+                                mEntryEditViewModel.askToCloseEntry(
+                                    currentEntryInfo = retrieveEntryInfo(),
+                                    closeType = event.closeType
+                                )
+                            }
+                            else -> {}
+                        }
+                    }
+                }
+                launch {
+                    mEntryEditViewModel.nodeEditEvents.collect { event ->
+                        when(event) {
+                            is NodeEditViewModel.NodeEditEvent.OnIconSelected -> {
+                                templateView.setIcon(event.icon)
+                            }
+                            is NodeEditViewModel.NodeEditEvent.RequestColorSelection -> {}
+                            is NodeEditViewModel.NodeEditEvent.RequestIconSelection -> {}
+                            is NodeEditViewModel.NodeEditEvent.OnBackgroundColorSelected -> {
+                                templateView.setBackgroundColor(event.color)
+                            }
+                            is NodeEditViewModel.NodeEditEvent.OnForegroundColorSelected -> {
+                                templateView.setForegroundColor(event.color)
+                            }
+                            is NodeEditViewModel.NodeEditEvent.RequestDateTimeSelection -> {}
+                            is NodeEditViewModel.NodeEditEvent.OnDateSelected -> {
+                                // Save the date
+                                templateView.setCurrentDateTimeValue(event.date)
+                            }
+                            is NodeEditViewModel.NodeEditEvent.OnTimeSelected -> {
+                                // Save the time
+                                templateView.setCurrentTimeValue(event.time)
+                            }
+                        }
                     }
                 }
                 launch {
                     mEntryEditViewModel.onEntryValidationRequested.collect {
                         mEntryEditViewModel.saveEntryInfo(retrieveEntryInfo())
-                    }
-                }
-                launch {
-                    mEntryEditViewModel.onIconSelected.collect { iconImage ->
-                        templateView.setIcon(iconImage)
-                    }
-                }
-                launch {
-                    mEntryEditViewModel.onBackgroundColorSelected.collect { color ->
-                        templateView.setBackgroundColor(color)
-                    }
-                }
-                launch {
-                    mEntryEditViewModel.onForegroundColorSelected.collect { color ->
-                        templateView.setForegroundColor(color)
-                    }
-                }
-                launch {
-                    mEntryEditViewModel.onPasswordSelected.collect { passwordField ->
-                        templateView.setPasswordField(passwordField)
-                    }
-                }
-                launch {
-                    mEntryEditViewModel.onDateSelected.collect { viewModelDate ->
-                        // Save the date
-                        templateView.setCurrentDateTimeValue(viewModelDate)
-                    }
-                }
-                launch {
-                    mEntryEditViewModel.onTimeSelected.collect { viewModelTime ->
-                        // Save the time
-                        templateView.setCurrentTimeValue(viewModelTime)
-                    }
-                }
-                launch {
-                    mEntryEditViewModel.onCustomFieldEdited.collect { fieldAction ->
-                        val oldField = fieldAction.oldField
-                        val newField = fieldAction.newField
-                        // Field to add
-                        if (oldField == null) {
-                            newField?.let {
-                                if (!templateView.putCustomField(it)) {
-                                    mEntryEditViewModel.showCustomFieldEditionError()
-                                }
-                            }
-                        }
-                        // Field to replace
-                        oldField?.let {
-                            newField?.let {
-                                if (!templateView.replaceCustomField(oldField, newField)) {
-                                    mEntryEditViewModel.showCustomFieldEditionError()
-                                }
-                            }
-                        }
-                        // Field to remove
-                        if (newField == null) {
-                            oldField?.let {
-                                templateView.removeCustomField(it)
-                            }
-                        }
-                    }
-                }
-                launch {
-                    mEntryEditViewModel.requestSetupOtp.collect {
-                        // Retrieve the current otpElement if exists
-                        // and open the dialog to set up the OTP
-                        SetOTPDialogFragment.build(templateView.getEntryInfo().otpModel)
-                            .show(parentFragmentManager, "addOTPDialog")
-                    }
-                }
-                launch {
-                    mEntryEditViewModel.onOtpCreated.collect {
-                        // Update the otp field with otpauth:// url
-                        templateView.putOtpElement(it)
                     }
                 }
                 launch {
@@ -284,19 +290,6 @@ class EntryEditFragment: DatabaseFragment() {
                             }
                             else -> {}
                         }
-                    }
-                }
-                launch {
-                    mEntryEditViewModel.onFieldProtectionUpdated.collect { fieldProtection ->
-                        updateFieldProtection(fieldProtection)
-                    }
-                }
-                launch {
-                    mEntryEditViewModel.retrieveEntryInfoForClosing.collect { closeType ->
-                        mEntryEditViewModel.askToCloseEntry(
-                            currentEntryInfo = retrieveEntryInfo(),
-                            closeType = closeType
-                        )
                     }
                 }
             }

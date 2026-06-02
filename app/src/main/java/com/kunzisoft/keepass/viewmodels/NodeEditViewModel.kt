@@ -16,85 +16,99 @@ import kotlinx.coroutines.launch
  */
 abstract class NodeEditViewModel : ViewModel() {
 
-    private val _requestIconSelection = MutableSharedFlow<IconImage>(replay = 0)
-    val requestIconSelection: SharedFlow<IconImage> = _requestIconSelection.asSharedFlow()
-
-    private val _onIconSelected = MutableSharedFlow<IconImage>(replay = 0)
-    val onIconSelected: SharedFlow<IconImage> = _onIconSelected.asSharedFlow()
+    private val _nodeEditEvents = MutableSharedFlow<NodeEditEvent>(replay = 0)
+    val nodeEditEvents: SharedFlow<NodeEditEvent> = _nodeEditEvents.asSharedFlow()
 
     private var mColorRequest: ColorRequest = ColorRequest.BACKGROUND
-    private val _requestColorSelection = MutableSharedFlow<Int?>(replay = 0)
-    val requestColorSelection: SharedFlow<Int?> = _requestColorSelection.asSharedFlow()
-
-    private val _onBackgroundColorSelected = MutableSharedFlow<Int?>(replay = 0)
-    val onBackgroundColorSelected: SharedFlow<Int?> = _onBackgroundColorSelected.asSharedFlow()
-
-    private val _onForegroundColorSelected = MutableSharedFlow<Int?>(replay = 0)
-    val onForegroundColorSelected: SharedFlow<Int?> = _onForegroundColorSelected.asSharedFlow()
-
-    private val _requestDateTimeSelection = MutableSharedFlow<DateInstant>(replay = 0)
-    val requestDateTimeSelection: SharedFlow<DateInstant> = _requestDateTimeSelection.asSharedFlow()
-
-    private val _onDateSelected = MutableSharedFlow<DataDate>(replay = 0)
-    val onDateSelected: SharedFlow<DataDate> = _onDateSelected.asSharedFlow()
-
-    private val _onTimeSelected = MutableSharedFlow<DataTime>(replay = 0)
-    val onTimeSelected: SharedFlow<DataTime> = _onTimeSelected.asSharedFlow()
 
     fun requestIconSelection(oldIconImage: IconImage) {
         viewModelScope.launch {
-            _requestIconSelection.emit(oldIconImage)
+            _nodeEditEvents.emit(NodeEditEvent.RequestIconSelection(oldIconImage))
         }
     }
 
     fun selectIcon(iconImage: IconImage) {
         viewModelScope.launch {
-            _onIconSelected.emit(iconImage)
+            _nodeEditEvents.emit(NodeEditEvent.OnIconSelected(iconImage))
         }
     }
 
     fun requestBackgroundColorSelection(initialColor: Int?) {
         mColorRequest = ColorRequest.BACKGROUND
         viewModelScope.launch {
-            _requestColorSelection.emit(initialColor)
+            _nodeEditEvents.emit(NodeEditEvent.RequestColorSelection(initialColor))
         }
     }
 
     fun requestForegroundColorSelection(initialColor: Int?) {
         mColorRequest = ColorRequest.FOREGROUND
         viewModelScope.launch {
-            _requestColorSelection.emit(initialColor)
+            _nodeEditEvents.emit(NodeEditEvent.RequestColorSelection(initialColor))
         }
     }
 
     fun selectColor(color: Int?) {
         viewModelScope.launch {
             when (mColorRequest) {
-                ColorRequest.BACKGROUND -> _onBackgroundColorSelected.emit(color)
-                ColorRequest.FOREGROUND -> _onForegroundColorSelected.emit(color)
+                ColorRequest.BACKGROUND -> _nodeEditEvents.emit(NodeEditEvent.OnBackgroundColorSelected(color))
+                ColorRequest.FOREGROUND -> _nodeEditEvents.emit(NodeEditEvent.OnForegroundColorSelected(color))
             }
         }
     }
 
     fun requestDateTimeSelection(dateInstant: DateInstant) {
         viewModelScope.launch {
-            _requestDateTimeSelection.emit(dateInstant)
+            _nodeEditEvents.emit(NodeEditEvent.RequestDateTimeSelection(dateInstant))
         }
     }
 
     fun selectDate(date: DataDate) {
         viewModelScope.launch {
-            _onDateSelected.emit(date)
+            _nodeEditEvents.emit(NodeEditEvent.OnDateSelected(date))
         }
     }
 
     fun selectTime(dataTime: DataTime) {
         viewModelScope.launch {
-            _onTimeSelected.emit(dataTime)
+            _nodeEditEvents.emit(NodeEditEvent.OnTimeSelected(dataTime))
         }
     }
 
     private enum class ColorRequest {
         BACKGROUND, FOREGROUND
+    }
+
+    sealed class NodeEditEvent {
+        data class RequestIconSelection(
+            val icon: IconImage,
+        ) : NodeEditEvent()
+
+        data class OnIconSelected(
+            val icon: IconImage
+        ) : NodeEditEvent()
+
+        data class RequestColorSelection(
+            val color: Int?
+        ) : NodeEditEvent()
+
+        data class OnBackgroundColorSelected(
+            val color: Int?
+        ) : NodeEditEvent()
+
+        data class OnForegroundColorSelected(
+            val color: Int?
+        ) : NodeEditEvent()
+
+        data class RequestDateTimeSelection(
+            val dateInstant: DateInstant
+        ) : NodeEditEvent()
+
+        data class OnDateSelected(
+            val date: DataDate
+        ) : NodeEditEvent()
+
+        data class OnTimeSelected(
+            val time: DataTime
+        ) : NodeEditEvent()
     }
 }

@@ -57,7 +57,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.datepicker.MaterialDatePicker
-import com.google.android.material.timepicker.MaterialTimePicker
+import com.google.android.material.timepicker.MaterialTimePicker.Builder
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.GroupDialogFragment
 import com.kunzisoft.keepass.activities.dialogs.GroupEditDialogFragment
@@ -125,6 +125,7 @@ import com.kunzisoft.keepass.viewmodels.GroupEditViewModel
 import com.kunzisoft.keepass.viewmodels.GroupViewModel
 import com.kunzisoft.keepass.viewmodels.GroupViewModel.PasteMode
 import com.kunzisoft.keepass.viewmodels.MainCredentialViewModel
+import com.kunzisoft.keepass.viewmodels.NodeEditViewModel
 import com.kunzisoft.keepass.viewmodels.UserVerificationViewModel
 import kotlinx.coroutines.launch
 import org.joda.time.LocalDateTime
@@ -688,28 +689,41 @@ class GroupActivity : DatabaseLockActivity() {
                     }
                 }
                 launch {
-                    mGroupEditViewModel.requestIconSelection.collect { iconImage ->
-                        IconPickerActivity.launch(this@GroupActivity, iconImage, mIconSelectionActivityResultLauncher)
-                    }
-                }
-                launch {
-                    mGroupEditViewModel.requestDateTimeSelection.collect { dateInstant ->
-                        if (dateInstant.type == DateInstant.Type.TIME) {
-                            // Launch the time picker
-                            MaterialTimePicker.Builder().build().apply {
-                                addOnPositiveButtonClickListener {
-                                    mGroupEditViewModel.selectTime(DataTime(this.hour, this.minute))
-                                }
-                                show(supportFragmentManager, "TimePickerFragment")
+                    mGroupEditViewModel.nodeEditEvents.collect { event ->
+                        when (event) {
+                            is NodeEditViewModel.NodeEditEvent.RequestIconSelection -> {
+                                IconPickerActivity.launch(
+                                    context = this@GroupActivity,
+                                    previousIcon = event.icon,
+                                    resultLauncher = mIconSelectionActivityResultLauncher
+                                )
                             }
-                        } else {
-                            // Launch the date picker
-                            MaterialDatePicker.Builder.datePicker().build().apply {
-                                addOnPositiveButtonClickListener {
-                                    mGroupEditViewModel.selectDate(datePickerToDataDate(it))
-                                }
-                                show(supportFragmentManager, "DatePickerFragment")
+                            is NodeEditViewModel.NodeEditEvent.OnBackgroundColorSelected -> {
+                                // TODO Group background color
                             }
+                            is NodeEditViewModel.NodeEditEvent.OnForegroundColorSelected -> {
+                                // TODO Group foreground color
+                            }
+                            is NodeEditViewModel.NodeEditEvent.RequestDateTimeSelection -> {
+                                if (event.dateInstant.type == DateInstant.Type.TIME) {
+                                    // Launch the time picker
+                                    Builder().build().apply {
+                                        addOnPositiveButtonClickListener {
+                                            mGroupEditViewModel.selectTime(DataTime(this.hour, this.minute))
+                                        }
+                                        show(supportFragmentManager, "TimePickerFragment")
+                                    }
+                                } else {
+                                    // Launch the date picker
+                                    MaterialDatePicker.Builder.datePicker().build().apply {
+                                        addOnPositiveButtonClickListener {
+                                            mGroupEditViewModel.selectDate(datePickerToDataDate(it))
+                                        }
+                                        show(supportFragmentManager, "DatePickerFragment")
+                                    }
+                                }
+                            }
+                            else -> {}
                         }
                     }
                 }
