@@ -394,38 +394,34 @@ class EntryEditActivity : DatabaseLockActivity() {
                     }
                 }
                 launch {
-                    mEntryEditViewModel.onStartUploadAttachment.collect {
-                        // Start uploading in service
-                        mAttachmentFileBinderManager?.startUploadAttachment(it.attachmentToUploadUri, it.attachment)
-                    }
-                }
-                launch {
-                    mEntryEditViewModel.onAttachmentAction.collect { attachmentState ->
-                        when (attachmentState?.downloadState) {
-                            AttachmentState.ERROR -> {
-                                coordinatorLayout?.let {
-                                    Snackbar.make(it, R.string.error_file_not_create, Snackbar.LENGTH_LONG).asError().show()
+                    mEntryEditViewModel.attachmentEvents.collect { event ->
+                        when (event) {
+                            is EntryEditViewModel.AttachmentEvent.OnStartUploadAttachment -> {
+                                // Start uploading in service
+                                mAttachmentFileBinderManager?.startUploadAttachment(
+                                    uploadFileUri = event.attachmentToUploadUri,
+                                    attachment = event.attachment
+                                )
+                            }
+                            is EntryEditViewModel.AttachmentEvent.DeleteAttachment -> {
+                                mAttachmentFileBinderManager?.removeBinaryAttachment(event.attachment)
+                            }
+                            is EntryEditViewModel.AttachmentEvent.OnAttachmentAction -> {
+                                when (event.attachmentState.downloadState) {
+                                    AttachmentState.ERROR -> {
+                                        coordinatorLayout?.let {
+                                            Snackbar.make(it, R.string.error_file_not_create, Snackbar.LENGTH_LONG).asError().show()
+                                        }
+                                    }
+                                    else -> {}
                                 }
                             }
-                            else -> {}
-                        }
-                    }
-                }
-                launch {
-                    mEntryEditViewModel.onBinaryPreviewLoaded.collect {
-                        // Scroll to the attachment position
-                        when (it.entryAttachmentState.downloadState) {
-                            AttachmentState.START,
-                            AttachmentState.COMPLETE -> {
-                                scrollView?.smoothScrollTo(0, it.viewPosition.toInt())
+                            is EntryEditViewModel.AttachmentEvent.ScrollTo -> {
+                                // Scroll to the attachment position
+                                scrollView?.smoothScrollTo(0, event.viewPosition)
                             }
                             else -> {}
                         }
-                    }
-                }
-                launch {
-                    mEntryEditViewModel.attachmentDeleted.collect {
-                        mAttachmentFileBinderManager?.removeBinaryAttachment(it)
                     }
                 }
                 launch {

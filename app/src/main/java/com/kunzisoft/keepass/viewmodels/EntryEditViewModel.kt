@@ -27,6 +27,7 @@ import com.kunzisoft.keepass.database.element.EntryId
 import com.kunzisoft.keepass.database.element.Field
 import com.kunzisoft.keepass.database.element.GroupId
 import com.kunzisoft.keepass.database.element.template.Template
+import com.kunzisoft.keepass.model.AttachmentState
 import com.kunzisoft.keepass.model.EntryAttachmentState
 import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.model.FieldProtection
@@ -78,27 +79,15 @@ class EntryEditViewModel: NodeEditViewModel() {
     private val _entryEditEvents = MutableSharedFlow<EntryEditEvent>(replay = 0)
     val entryEditEvents: SharedFlow<EntryEditEvent> = _entryEditEvents.asSharedFlow()
 
+    private val _attachmentEvents = MutableSharedFlow<AttachmentEvent>(replay = 0)
+    val attachmentEvents: SharedFlow<AttachmentEvent> = _attachmentEvents.asSharedFlow()
+
     private val _onEntryValidationRequested = MutableSharedFlow<Unit>(
         replay = 0,
         extraBufferCapacity = 1,
         onBufferOverflow = BufferOverflow.DROP_OLDEST
     )
     val onEntryValidationRequested: SharedFlow<Unit> = _onEntryValidationRequested.asSharedFlow()
-
-    private val _onBuildNewAttachment = MutableSharedFlow<AttachmentBuild>(replay = 0)
-    val onBuildNewAttachment: SharedFlow<AttachmentBuild> = _onBuildNewAttachment.asSharedFlow()
-
-    private val _onStartUploadAttachment = MutableSharedFlow<AttachmentUpload>(replay = 0)
-    val onStartUploadAttachment: SharedFlow<AttachmentUpload> = _onStartUploadAttachment.asSharedFlow()
-
-    private val _attachmentDeleted = MutableSharedFlow<Attachment>(replay = 0)
-    val attachmentDeleted: SharedFlow<Attachment> = _attachmentDeleted.asSharedFlow()
-
-    private val _onAttachmentAction = MutableStateFlow<EntryAttachmentState?>(null)
-    val onAttachmentAction: StateFlow<EntryAttachmentState?> = _onAttachmentAction.asStateFlow()
-
-    private val _onBinaryPreviewLoaded = MutableSharedFlow<AttachmentPosition>(replay = 0)
-    val onBinaryPreviewLoaded: SharedFlow<AttachmentPosition> = _onBinaryPreviewLoaded.asSharedFlow()
 
     val entryLoaded: Boolean
         get() = entryEditUIState.value.loaded
@@ -287,33 +276,41 @@ class EntryEditViewModel: NodeEditViewModel() {
 
     fun buildNewAttachment(attachmentToUploadUri: Uri, fileName: String) {
         viewModelScope.launch {
-            _onBuildNewAttachment.emit(AttachmentBuild(attachmentToUploadUri, fileName))
+            _attachmentEvents.emit(AttachmentEvent.OnBuildNewAttachment(attachmentToUploadUri, fileName))
         }
     }
 
     fun startUploadAttachment(attachmentToUploadUri: Uri, attachment: Attachment) {
         viewModelScope.launch {
-            _onStartUploadAttachment.emit(AttachmentUpload(attachmentToUploadUri, attachment)
-            )
+            _attachmentEvents.emit(AttachmentEvent.OnStartUploadAttachment(attachmentToUploadUri, attachment))
         }
     }
 
     fun deleteAttachment(attachment: Attachment) {
         viewModelScope.launch {
-            _attachmentDeleted.emit(attachment)
+            _attachmentEvents.emit(AttachmentEvent.DeleteAttachment(attachment))
         }
     }
 
     fun onAttachmentAction(entryAttachmentState: EntryAttachmentState?) {
         entryAttachmentState?.let {
             mDatabase?.addTempAttachment(entryAttachmentState)
+            viewModelScope.launch {
+                _attachmentEvents.emit(AttachmentEvent.OnAttachmentAction(entryAttachmentState))
+            }
         }
-        _onAttachmentAction.value = entryAttachmentState
     }
 
     fun binaryPreviewLoaded(entryAttachmentState: EntryAttachmentState, viewPosition: Float) {
         viewModelScope.launch {
-            _onBinaryPreviewLoaded.emit(AttachmentPosition(entryAttachmentState, viewPosition))
+            // Scroll to the attachment position
+            when (entryAttachmentState.downloadState) {
+                AttachmentState.START,
+                AttachmentState.COMPLETE -> {
+                    _attachmentEvents.emit(AttachmentEvent.ScrollTo(viewPosition.toInt()))
+                }
+                else -> {}
+            }
         }
     }
 
@@ -362,18 +359,6 @@ class EntryEditViewModel: NodeEditViewModel() {
     data class Templates(
         val templates: List<Template>,
         val defaultTemplate: Template,
-    )
-    data class AttachmentBuild(
-        val attachmentToUploadUri: Uri,
-        val fileName: String
-    )
-    data class AttachmentUpload(
-        val attachmentToUploadUri: Uri,
-        val attachment: Attachment
-    )
-    data class AttachmentPosition(
-        val entryAttachmentState: EntryAttachmentState,
-        val viewPosition: Float
     )
 
     enum class CloseType {
@@ -447,6 +432,31 @@ class EntryEditViewModel: NodeEditViewModel() {
         data class RetrieveEntryInfoForClosing(
             val closeType: CloseType
         ) : EntryEditEvent()
+    }
+
+    sealed class AttachmentEvent {
+
+        data class OnBuildNewAttachment(
+            val attachmentToUploadUri: Uri,
+            val fileName: String
+        ) : AttachmentEvent()
+
+        data class OnStartUploadAttachment(
+            val attachmentToUploadUri: Uri,
+            val attachment: Attachment
+        ) : AttachmentEvent()
+
+        data class DeleteAttachment(
+            val attachment: Attachment
+        ) : AttachmentEvent()
+
+        data class OnAttachmentAction(
+            val attachmentState: EntryAttachmentState
+        ) : AttachmentEvent()
+
+        data class ScrollTo(
+            val viewPosition: Int
+        ) : AttachmentEvent()
     }
 
     companion object {

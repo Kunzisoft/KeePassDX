@@ -240,56 +240,59 @@ class EntryEditFragment: DatabaseFragment() {
                     }
                 }
                 launch {
-                    mEntryEditViewModel.onEntryValidationRequested.collect {
-                        mEntryEditViewModel.saveEntryInfo(retrieveEntryInfo())
-                    }
-                }
-                launch {
-                    mEntryEditViewModel.onBuildNewAttachment.collect {
-                        val attachmentToUploadUri = it.attachmentToUploadUri
-                        val fileName = it.fileName
-
-                        mDatabaseViewModel.buildNewAttachment()?.let { binaryAttachment ->
-                            val entryAttachment = Attachment(fileName, binaryAttachment)
-                            // Ask to replace the current attachment
-                            if ((!mAllowMultipleAttachments
-                                        && containsAttachment()) ||
-                                containsAttachment(EntryAttachmentState(entryAttachment, StreamDirection.UPLOAD))) {
-                                ReplaceFileDialogFragment.build(attachmentToUploadUri, entryAttachment)
-                                    .show(parentFragmentManager, "replacementFileFragment")
-                            } else {
-                                mEntryEditViewModel.startUploadAttachment(attachmentToUploadUri, entryAttachment)
-                            }
-                        }
-                    }
-                }
-                launch {
-                    mEntryEditViewModel.onAttachmentAction.collect { entryAttachmentState ->
-                        when (entryAttachmentState?.downloadState) {
-                            AttachmentState.START -> {
-                                putAttachment(entryAttachmentState)
-                                getAttachmentViewPosition(entryAttachmentState) { attachment, position ->
-                                    mEntryEditViewModel.binaryPreviewLoaded(attachment, position)
-                                }
-                            }
-                            AttachmentState.IN_PROGRESS -> {
-                                putAttachment(entryAttachmentState)
-                            }
-                            AttachmentState.COMPLETE -> {
-                                putAttachment(entryAttachmentState) { entryAttachment ->
-                                    getAttachmentViewPosition(entryAttachment) { attachment, position ->
-                                        mEntryEditViewModel.binaryPreviewLoaded(attachment, position)
+                    mEntryEditViewModel.attachmentEvents.collect { event ->
+                        when (event) {
+                            is EntryEditViewModel.AttachmentEvent.OnBuildNewAttachment -> {
+                                val attachmentToUploadUri = event.attachmentToUploadUri
+                                val fileName = event.fileName
+                                mDatabaseViewModel.buildNewAttachment()?.let { binaryAttachment ->
+                                    val entryAttachment = Attachment(fileName, binaryAttachment)
+                                    // Ask to replace the current attachment
+                                    if ((!mAllowMultipleAttachments
+                                                && containsAttachment()) ||
+                                        containsAttachment(EntryAttachmentState(entryAttachment, StreamDirection.UPLOAD))) {
+                                        ReplaceFileDialogFragment.build(attachmentToUploadUri, entryAttachment)
+                                            .show(parentFragmentManager, "replacementFileFragment")
+                                    } else {
+                                        mEntryEditViewModel.startUploadAttachment(attachmentToUploadUri, entryAttachment)
                                     }
                                 }
-                                mEntryEditViewModel.onAttachmentAction(null)
                             }
-                            AttachmentState.CANCELED,
-                            AttachmentState.ERROR -> {
-                                removeAttachment(entryAttachmentState)
-                                mEntryEditViewModel.onAttachmentAction(null)
+                            is EntryEditViewModel.AttachmentEvent.OnAttachmentAction -> {
+                                val entryAttachmentState = event.attachmentState
+                                when (entryAttachmentState.downloadState) {
+                                    AttachmentState.START -> {
+                                        putAttachment(entryAttachmentState)
+                                        getAttachmentViewPosition(entryAttachmentState) { attachment, position ->
+                                            mEntryEditViewModel.binaryPreviewLoaded(attachment, position)
+                                        }
+                                    }
+                                    AttachmentState.IN_PROGRESS -> {
+                                        putAttachment(entryAttachmentState)
+                                    }
+                                    AttachmentState.COMPLETE -> {
+                                        putAttachment(entryAttachmentState) { entryAttachment ->
+                                            getAttachmentViewPosition(entryAttachment) { attachment, position ->
+                                                mEntryEditViewModel.binaryPreviewLoaded(attachment, position)
+                                            }
+                                        }
+                                        mEntryEditViewModel.onAttachmentAction(null)
+                                    }
+                                    AttachmentState.CANCELED,
+                                    AttachmentState.ERROR -> {
+                                        removeAttachment(entryAttachmentState)
+                                        mEntryEditViewModel.onAttachmentAction(null)
+                                    }
+                                    else -> {}
+                                }
                             }
                             else -> {}
                         }
+                    }
+                }
+                launch {
+                    mEntryEditViewModel.onEntryValidationRequested.collect {
+                        mEntryEditViewModel.saveEntryInfo(retrieveEntryInfo())
                     }
                 }
             }
