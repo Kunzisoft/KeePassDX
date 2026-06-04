@@ -28,14 +28,14 @@ import androidx.fragment.app.activityViewModels
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.element.Attachment
 import com.kunzisoft.keepass.utils.getParcelableCompat
-import com.kunzisoft.keepass.viewmodels.EntryEditViewModel
+import com.kunzisoft.keepass.viewmodels.AttachmentsViewModel
 
 /**
  * Custom Dialog to confirm big file to upload
  */
 class ReplaceFileDialogFragment : DatabaseDialogFragment() {
 
-    private val entryEditViewModel: EntryEditViewModel by activityViewModels()
+    private val attachmentsViewModel: AttachmentsViewModel by activityViewModels()
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         activity?.let { activity ->
@@ -50,7 +50,7 @@ class ReplaceFileDialogFragment : DatabaseDialogFragment() {
                 val uri = arguments?.getParcelableCompat<Uri>(KEY_FILE_URI)
                 val attachment = arguments?.getParcelableCompat<Attachment>(KEY_ENTRY_ATTACHMENT)
                 if (uri != null && attachment != null) {
-                    entryEditViewModel.startUploadAttachment(uri, attachment)
+                    attachmentsViewModel.startUploadAttachment(uri, attachment)
                 }
             }
             builder.setNegativeButton(android.R.string.cancel) { _, _ ->

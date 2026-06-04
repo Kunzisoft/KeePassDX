@@ -323,7 +323,7 @@ class DatabaseViewModel(application: Application): AndroidViewModel(application)
      * Attributes
      */
 
-    fun buildNewAttachment(): BinaryData? {
+    fun buildNewBinaryAttachment(): BinaryData? {
         return database?.buildNewBinaryAttachment()
     }
 

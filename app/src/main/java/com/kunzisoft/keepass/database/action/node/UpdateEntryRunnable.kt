@@ -41,9 +41,7 @@ class UpdateEntryRunnable(
         database.getEntryById(newEntry.nodeId)?.let { oldEntry ->
             mOldEntry = oldEntry
             // Create a clone
-            mNewEntry = database.updateEntry(Entry(oldEntry), newEntry).apply {
-                database.removeTempAttachmentsNotUsed(this)
-            }
+            mNewEntry = database.updateEntry(Entry(oldEntry), newEntry)
         }
     }
 

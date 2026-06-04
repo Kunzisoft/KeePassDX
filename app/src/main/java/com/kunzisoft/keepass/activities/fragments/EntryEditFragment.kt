@@ -34,24 +34,20 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
 import com.google.android.material.textfield.TextInputLayout
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.activities.dialogs.ReplaceFileDialogFragment
 import com.kunzisoft.keepass.activities.dialogs.SetOTPDialogFragment
 import com.kunzisoft.keepass.adapters.EntryAttachmentsItemsAdapter
 import com.kunzisoft.keepass.adapters.TagsProposalAdapter
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.element.Attachment
-import com.kunzisoft.keepass.model.AttachmentState
 import com.kunzisoft.keepass.model.EntryAttachmentState
 import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.model.FieldProtection
-import com.kunzisoft.keepass.model.StreamDirection
-import com.kunzisoft.keepass.utils.getParcelableList
-import com.kunzisoft.keepass.utils.putParcelableList
 import com.kunzisoft.keepass.view.TagsCompletionView
 import com.kunzisoft.keepass.view.TemplateEditView
 import com.kunzisoft.keepass.view.collapse
 import com.kunzisoft.keepass.view.expand
 import com.kunzisoft.keepass.view.showByFading
+import com.kunzisoft.keepass.viewmodels.AttachmentsViewModel
 import com.kunzisoft.keepass.viewmodels.EntryEditViewModel
 import com.kunzisoft.keepass.viewmodels.NodeEditViewModel
 import com.tokenautocomplete.FilteredArrayAdapter
@@ -61,6 +57,7 @@ import kotlinx.coroutines.launch
 class EntryEditFragment: DatabaseFragment() {
 
     private val mEntryEditViewModel: EntryEditViewModel by activityViewModels()
+    private val mAttachmentsViewModel: AttachmentsViewModel by activityViewModels()
 
     private lateinit var rootView: View
     private lateinit var templateView: TemplateEditView
@@ -110,6 +107,16 @@ class EntryEditFragment: DatabaseFragment() {
             adapter = attachmentsAdapter
             (itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
         }
+        attachmentsAdapter?.onDeleteButtonClickListener = { item ->
+            mAttachmentsViewModel.deleteAttachment(item)
+        }
+        attachmentsAdapter?.onListSizeChangedListener = { previousSize, newSize ->
+            if (previousSize > 0 && newSize == 0) {
+                attachmentsContainerView.collapse(true)
+            } else if (previousSize == 0 && newSize == 1) {
+                attachmentsContainerView.expand(true)
+            }
+        }
 
         templateView.apply {
             setOnIconClickListener {
@@ -135,29 +142,31 @@ class EntryEditFragment: DatabaseFragment() {
             }
         }
 
-        if (savedInstanceState != null) {
-            val attachments: List<Attachment> =
-                savedInstanceState.getParcelableList(ATTACHMENTS_TAG) ?: listOf()
-            setAttachments(attachments)
-        }
-
         lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 launch {
-                    mEntryEditViewModel.entryEditUIState.collect { templateEntry ->
-                        // Load entry info only the first time to keep change locally
-                        if (savedInstanceState == null) {
-                            assignEntryInfo(templateEntry.entryInfo)
-                        }
+                    mEntryEditViewModel.entryEditUIState.collect { uiState ->
                         // To prevent flickering
-                        rootView.showByFading()
+                        if (uiState.loaded)
+                            rootView.showByFading()
                         // Apply timeout reset
                         resetAppTimeoutWhenViewFocusedOrChanged(rootView)
                     }
                 }
                 launch {
+                    mAttachmentsViewModel.attachmentsUIState.collect { state ->
+                        val attachments = state.attachments
+                        attachmentsContainerView.visibility = if (attachments.isEmpty()) View.GONE else View.VISIBLE
+                        attachmentsAdapter?.assignItems(attachments)
+                    }
+                }
+                launch {
                     mEntryEditViewModel.entryEditEvents.collect { event ->
                         when (event) {
+                            is EntryEditViewModel.EntryEditEvent.EntryLoaded -> {
+                                // Load entry info only the first time to keep change locally
+                                assignEntryInfo(event.entryInfo)
+                            }
                             is EntryEditViewModel.EntryEditEvent.OnTemplateChanged -> {
                                 templateView.setTemplate(event.template)
                             }
@@ -240,50 +249,23 @@ class EntryEditFragment: DatabaseFragment() {
                     }
                 }
                 launch {
-                    mEntryEditViewModel.attachmentEvents.collect { event ->
+                    mAttachmentsViewModel.attachmentEvents.collect { event ->
                         when (event) {
-                            is EntryEditViewModel.AttachmentEvent.OnBuildNewAttachment -> {
-                                val attachmentToUploadUri = event.attachmentToUploadUri
-                                val fileName = event.fileName
-                                mDatabaseViewModel.buildNewAttachment()?.let { binaryAttachment ->
-                                    val entryAttachment = Attachment(fileName, binaryAttachment)
-                                    // Ask to replace the current attachment
-                                    if ((!mAllowMultipleAttachments
-                                                && containsAttachment()) ||
-                                        containsAttachment(EntryAttachmentState(entryAttachment, StreamDirection.UPLOAD))) {
-                                        ReplaceFileDialogFragment.build(attachmentToUploadUri, entryAttachment)
-                                            .show(parentFragmentManager, "replacementFileFragment")
-                                    } else {
-                                        mEntryEditViewModel.startUploadAttachment(attachmentToUploadUri, entryAttachment)
-                                    }
+                            is AttachmentsViewModel.AttachmentEvent.OnBuildNewAttachment -> {
+                                mDatabaseViewModel.buildNewBinaryAttachment()?.let { binaryAttachment ->
+                                    mAttachmentsViewModel.onNewBinaryAttachmentBuilt(
+                                        attachment = Attachment(event.fileName, binaryAttachment),
+                                        allowMultipleAttachment = mAllowMultipleAttachments,
+                                        attachmentToUploadUri = event.attachmentToUploadUri
+                                    )
                                 }
                             }
-                            is EntryEditViewModel.AttachmentEvent.OnAttachmentAction -> {
-                                val entryAttachmentState = event.attachmentState
-                                when (entryAttachmentState.downloadState) {
-                                    AttachmentState.START -> {
-                                        putAttachment(entryAttachmentState)
-                                        getAttachmentViewPosition(entryAttachmentState) { attachment, position ->
-                                            mEntryEditViewModel.binaryPreviewLoaded(attachment, position)
-                                        }
-                                    }
-                                    AttachmentState.IN_PROGRESS -> {
-                                        putAttachment(entryAttachmentState)
-                                    }
-                                    AttachmentState.COMPLETE -> {
-                                        putAttachment(entryAttachmentState) { entryAttachment ->
-                                            getAttachmentViewPosition(entryAttachment) { attachment, position ->
-                                                mEntryEditViewModel.binaryPreviewLoaded(attachment, position)
-                                            }
-                                        }
-                                        mEntryEditViewModel.onAttachmentAction(null)
-                                    }
-                                    AttachmentState.CANCELED,
-                                    AttachmentState.ERROR -> {
-                                        removeAttachment(entryAttachmentState)
-                                        mEntryEditViewModel.onAttachmentAction(null)
-                                    }
-                                    else -> {}
+                            is AttachmentsViewModel.AttachmentEvent.OnEntryReadyForSave -> {
+                                mEntryEditViewModel.saveEntryInfo(event.entryInfo)
+                            }
+                            is AttachmentsViewModel.AttachmentEvent.HighlightAttachment -> {
+                                getAttachmentViewPosition(event.attachment) { _, position ->
+                                    mEntryEditViewModel.scrollTo(position)
                                 }
                             }
                             else -> {}
@@ -292,7 +274,11 @@ class EntryEditFragment: DatabaseFragment() {
                 }
                 launch {
                     mEntryEditViewModel.onEntryValidationRequested.collect {
-                        mEntryEditViewModel.saveEntryInfo(retrieveEntryInfo())
+                        // Delete temp attachment if not completely downloaded
+                        mAttachmentsViewModel.removeTempAttachmentsNotCompleted(
+                            database = mDatabase,
+                            entryInfo = retrieveEntryInfo()
+                        )
                     }
                 }
             }
@@ -307,14 +293,7 @@ class EntryEditFragment: DatabaseFragment() {
 
         mAllowMultipleAttachments = database.allowMultipleAttachments == true
 
-        attachmentsAdapter?.database = database
-        attachmentsAdapter?.onListSizeChangedListener = { previousSize, newSize ->
-            if (previousSize > 0 && newSize == 0) {
-                attachmentsContainerView.collapse(true)
-            } else if (previousSize == 0 && newSize == 1) {
-                attachmentsContainerView.expand(true)
-            }
-        }
+        attachmentsAdapter?.binaryCache = database.binaryCache
 
         tagsAdapter = TagsProposalAdapter(
             requireContext(),
@@ -339,14 +318,14 @@ class EntryEditFragment: DatabaseFragment() {
             }
         }
 
-        // Manage attachments
-        setAttachments(entryInfo?.attachments ?: listOf())
+        // Add attachments only the first time
+        mAttachmentsViewModel.initializeAttachments(entryInfo?.attachments ?: listOf())
     }
 
     private fun retrieveEntryInfo(): EntryInfo {
         val entryInfo = templateView.getEntryInfo()
         entryInfo.tags = tagsCompletionView.getTags()
-        entryInfo.attachments = getAttachments().toMutableList()
+        entryInfo.attachments = mAttachmentsViewModel.getAttachments().toMutableList()
         return entryInfo
     }
 
@@ -359,50 +338,10 @@ class EntryEditFragment: DatabaseFragment() {
      * -------------
      */
 
-    private fun getAttachments(): List<Attachment> {
-        return attachmentsAdapter?.itemsList?.map { it.attachment } ?: listOf()
-    }
-
-    private fun setAttachments(attachments: List<Attachment>) {
-        attachmentsContainerView.visibility = if (attachments.isEmpty()) View.GONE else View.VISIBLE
-        attachmentsAdapter?.assignItems(attachments.map {
-            EntryAttachmentState(it, StreamDirection.UPLOAD)
-        })
-        attachmentsAdapter?.onDeleteButtonClickListener = { item ->
-            val attachment = item.attachment
-            removeAttachment(EntryAttachmentState(attachment, StreamDirection.DOWNLOAD))
-            mEntryEditViewModel.deleteAttachment(attachment)
-        }
-    }
-
-    private fun containsAttachment(): Boolean {
-        return attachmentsAdapter?.isEmpty() != true
-    }
-
-    private fun containsAttachment(attachment: EntryAttachmentState): Boolean {
-        return attachmentsAdapter?.contains(attachment) ?: false
-    }
-
-    private fun putAttachment(attachment: EntryAttachmentState,
-                              onPreviewLoaded: ((attachment: EntryAttachmentState) -> Unit)? = null) {
-        // When only one attachment is allowed
-        if (!mAllowMultipleAttachments
-            && attachment.downloadState == AttachmentState.START) {
-            attachmentsAdapter?.clear()
-        }
-        attachmentsContainerView.visibility = View.VISIBLE
-        attachmentsAdapter?.putItem(attachment)
-        attachmentsAdapter?.onBinaryPreviewLoaded = {
-            onPreviewLoaded?.invoke(attachment)
-        }
-    }
-
-    private fun removeAttachment(attachment: EntryAttachmentState) {
-        attachmentsAdapter?.removeItem(attachment)
-    }
-
-    private fun getAttachmentViewPosition(attachment: EntryAttachmentState,
-                                          position: (attachment: EntryAttachmentState, Float) -> Unit) {
+    private fun getAttachmentViewPosition(
+        attachment: EntryAttachmentState,
+        position: (attachment: EntryAttachmentState, Float) -> Unit
+    ) {
         attachmentsListView.postDelayed({
             attachmentsAdapter?.indexOf(attachment)?.let { index ->
                 position.invoke(attachment,
@@ -413,11 +352,6 @@ class EntryEditFragment: DatabaseFragment() {
                 )
             }
         }, 250)
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        outState.putParcelableList(ATTACHMENTS_TAG, getAttachments())
     }
 
     /* -------------
@@ -435,8 +369,6 @@ class EntryEditFragment: DatabaseFragment() {
 
     companion object {
         private val TAG = EntryEditFragment::class.java.name
-
-        private const val ATTACHMENTS_TAG = "ATTACHMENTS_TAG"
     }
 
 }

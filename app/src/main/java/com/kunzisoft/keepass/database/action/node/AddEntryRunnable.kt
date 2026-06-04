@@ -51,9 +51,7 @@ class AddEntryRunnable(
         }
 
         // Create the new entry
-        mNewEntry = database.createEntry(newEntry)?.apply {
-            database.removeTempAttachmentsNotUsed(this)
-        }
+        mNewEntry = database.createEntry(newEntry)
     }
 
     override fun nodeAction() {

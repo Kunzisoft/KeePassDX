@@ -28,14 +28,14 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.utils.getParcelableCompat
-import com.kunzisoft.keepass.viewmodels.EntryEditViewModel
+import com.kunzisoft.keepass.viewmodels.AttachmentsViewModel
 
 /**
  * Custom Dialog to confirm big file to upload
  */
 class FileTooBigDialogFragment : DialogFragment() {
 
-    private val entryEditViewModel: EntryEditViewModel by activityViewModels()
+    private val attachmentsViewModel: AttachmentsViewModel by activityViewModels()
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         activity?.let { activity ->
@@ -50,7 +50,7 @@ class FileTooBigDialogFragment : DialogFragment() {
                 val uri = arguments?.getParcelableCompat<Uri>(KEY_FILE_URI)
                 val fileName = arguments?.getString(KEY_FILE_NAME)
                 if (uri != null && fileName != null) {
-                    entryEditViewModel.buildNewAttachment(uri, fileName)
+                    attachmentsViewModel.buildNewAttachment(uri, fileName)
                 } // TODO Error
             }
             builder.setNegativeButton(android.R.string.cancel) { _, _ ->

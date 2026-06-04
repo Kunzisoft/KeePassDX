@@ -53,6 +53,7 @@ import com.kunzisoft.keepass.activities.dialogs.EntryCustomFieldDialogFragment
 import com.kunzisoft.keepass.activities.dialogs.FileTooBigDialogFragment
 import com.kunzisoft.keepass.activities.dialogs.FileTooBigDialogFragment.Companion.MAX_WARNING_BINARY_FILE
 import com.kunzisoft.keepass.activities.dialogs.OverwriteDataDialogFragment
+import com.kunzisoft.keepass.activities.dialogs.ReplaceFileDialogFragment
 import com.kunzisoft.keepass.activities.fragments.EntryEditFragment
 import com.kunzisoft.keepass.activities.helpers.ExternalFileHelper
 import com.kunzisoft.keepass.activities.legacy.DatabaseLockActivity
@@ -75,7 +76,6 @@ import com.kunzisoft.keepass.database.element.GroupId
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.security.ProtectedString
 import com.kunzisoft.keepass.education.EntryEditActivityEducation
-import com.kunzisoft.keepass.model.AttachmentState
 import com.kunzisoft.keepass.model.DataTime
 import com.kunzisoft.keepass.model.EntryAttachmentState
 import com.kunzisoft.keepass.model.EntryInfo
@@ -105,6 +105,7 @@ import com.kunzisoft.keepass.view.showByFading
 import com.kunzisoft.keepass.view.showError
 import com.kunzisoft.keepass.view.updateButtonPaddingEnd
 import com.kunzisoft.keepass.view.updateButtonPaddingStart
+import com.kunzisoft.keepass.viewmodels.AttachmentsViewModel
 import com.kunzisoft.keepass.viewmodels.ColorPickerViewModel
 import com.kunzisoft.keepass.viewmodels.EntryEditViewModel
 import com.kunzisoft.keepass.viewmodels.NodeEditViewModel
@@ -125,6 +126,7 @@ class EntryEditActivity : DatabaseLockActivity() {
     private var loadingView: ProgressBar? = null
 
     private val mEntryEditViewModel: EntryEditViewModel by viewModels()
+    private val mAttachmentsViewModel: AttachmentsViewModel by viewModels()
     private var mTemplatesSelectorAdapter: TemplatesSelectorAdapter? = null
 
     private val mColorPickerViewModel: ColorPickerViewModel by viewModels()
@@ -211,7 +213,7 @@ class EntryEditActivity : DatabaseLockActivity() {
                             FileTooBigDialogFragment.build(attachmentToUploadUri, fileName)
                                 .show(supportFragmentManager, "fileTooBigFragment")
                         } else {
-                            mEntryEditViewModel.buildNewAttachment(attachmentToUploadUri, fileName)
+                            mAttachmentsViewModel.buildNewAttachment(attachmentToUploadUri, fileName)
                         }
                     }
                 }
@@ -228,19 +230,17 @@ class EntryEditActivity : DatabaseLockActivity() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 launch {
-                    mEntryEditViewModel.entryEditUIState.collect { entryEditState ->
-                        if (entryEditState.loaded)
+                    mEntryEditViewModel.entryEditUIState.collect { uiState ->
+                        if (uiState.loaded)
                             loadingView?.hideByFading()
                         else
                             loadingView?.showByFading()
+                        invalidateOptionsMenu()
                     }
                 }
                 launch {
                     mEntryEditViewModel.entryEditEvents.collect { event ->
                         when (event) {
-                            is EntryEditViewModel.EntryEditEvent.EntryLoaded -> {
-                                invalidateOptionsMenu()
-                            }
                             is EntryEditViewModel.EntryEditEvent.OnTemplatesInitialized -> {
                                 val templates = event.templates.templates
                                 val defaultTemplate = event.templates.defaultTemplate
@@ -309,6 +309,10 @@ class EntryEditActivity : DatabaseLockActivity() {
                                         finish()
                                     }
                                 }
+                            }
+                            is EntryEditViewModel.EntryEditEvent.ScrollTo -> {
+                                // Scroll to the attachment position
+                                scrollView?.smoothScrollTo(0, event.viewPosition)
                             }
                             is EntryEditViewModel.EntryEditEvent.AskToDiscardChanges -> {
                                 DiscardChangesDialogFragment.newInstance(event.closeType)
@@ -394,31 +398,28 @@ class EntryEditActivity : DatabaseLockActivity() {
                     }
                 }
                 launch {
-                    mEntryEditViewModel.attachmentEvents.collect { event ->
+                    mAttachmentsViewModel.attachmentEvents.collect { event ->
                         when (event) {
-                            is EntryEditViewModel.AttachmentEvent.OnStartUploadAttachment -> {
+                            is AttachmentsViewModel.AttachmentEvent.OnStartUploadAttachment -> {
                                 // Start uploading in service
                                 mAttachmentFileBinderManager?.startUploadAttachment(
                                     uploadFileUri = event.attachmentToUploadUri,
                                     attachment = event.attachment
                                 )
                             }
-                            is EntryEditViewModel.AttachmentEvent.DeleteAttachment -> {
+                            is AttachmentsViewModel.AttachmentEvent.DeleteAttachment -> {
                                 mAttachmentFileBinderManager?.removeBinaryAttachment(event.attachment)
                             }
-                            is EntryEditViewModel.AttachmentEvent.OnAttachmentAction -> {
-                                when (event.attachmentState.downloadState) {
-                                    AttachmentState.ERROR -> {
-                                        coordinatorLayout?.let {
-                                            Snackbar.make(it, R.string.error_file_not_create, Snackbar.LENGTH_LONG).asError().show()
-                                        }
-                                    }
-                                    else -> {}
+                            is AttachmentsViewModel.AttachmentEvent.OnAttachmentError -> {
+                                coordinatorLayout?.let {
+                                    Snackbar.make(it, R.string.error_file_not_create, Snackbar.LENGTH_LONG).asError().show()
                                 }
                             }
-                            is EntryEditViewModel.AttachmentEvent.ScrollTo -> {
-                                // Scroll to the attachment position
-                                scrollView?.smoothScrollTo(0, event.viewPosition)
+                            is AttachmentsViewModel.AttachmentEvent.ShowReplaceFile -> {
+                                ReplaceFileDialogFragment.build(
+                                    event.attachmentToUploadUri,
+                                    event.attachment
+                                ).show(supportFragmentManager, "replacementFileFragment")
                             }
                             else -> {}
                         }
@@ -582,7 +583,7 @@ class EntryEditActivity : DatabaseLockActivity() {
             registerProgressTask()
             onActionTaskListener = object : AttachmentFileNotificationService.ActionTaskListener {
                 override fun onAttachmentAction(fileUri: Uri, entryAttachmentState: EntryAttachmentState) {
-                    mEntryEditViewModel.onAttachmentAction(entryAttachmentState)
+                    mAttachmentsViewModel.onAttachmentAction(entryAttachmentState)
                 }
             }
         }

@@ -19,16 +19,12 @@
  */
 package com.kunzisoft.keepass.viewmodels
 
-import android.net.Uri
 import androidx.lifecycle.viewModelScope
 import com.kunzisoft.keepass.database.ContextualDatabase
-import com.kunzisoft.keepass.database.element.Attachment
 import com.kunzisoft.keepass.database.element.EntryId
 import com.kunzisoft.keepass.database.element.Field
 import com.kunzisoft.keepass.database.element.GroupId
 import com.kunzisoft.keepass.database.element.template.Template
-import com.kunzisoft.keepass.model.AttachmentState
-import com.kunzisoft.keepass.model.EntryAttachmentState
 import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.model.FieldProtection
 import com.kunzisoft.keepass.model.RegisterInfo
@@ -78,9 +74,6 @@ class EntryEditViewModel: NodeEditViewModel() {
 
     private val _entryEditEvents = MutableSharedFlow<EntryEditEvent>(replay = 0)
     val entryEditEvents: SharedFlow<EntryEditEvent> = _entryEditEvents.asSharedFlow()
-
-    private val _attachmentEvents = MutableSharedFlow<AttachmentEvent>(replay = 0)
-    val attachmentEvents: SharedFlow<AttachmentEvent> = _attachmentEvents.asSharedFlow()
 
     private val _onEntryValidationRequested = MutableSharedFlow<Unit>(
         replay = 0,
@@ -179,6 +172,13 @@ class EntryEditViewModel: NodeEditViewModel() {
         }
     }
 
+    fun scrollTo(viewPosition: Float) {
+        viewModelScope.launch {
+            // Scroll to the attachment position
+            _entryEditEvents.emit(EntryEditEvent.ScrollTo(viewPosition.toInt()))
+        }
+    }
+
     fun unlockAction() {
         actionLocked = false
     }
@@ -186,8 +186,6 @@ class EntryEditViewModel: NodeEditViewModel() {
     fun saveEntryInfo(entryInfo: EntryInfo) {
         if (actionLocked.not()) {
             actionLocked = true
-            // Delete temp attachment if not completely downloaded
-            mDatabase?.removeTempAttachmentsNotCompleted(entryInfo)
             viewModelScope.launch {
                 mEntryId?.let {
                     _entryEditEvents.emit(
@@ -274,46 +272,6 @@ class EntryEditViewModel: NodeEditViewModel() {
         }
     }
 
-    fun buildNewAttachment(attachmentToUploadUri: Uri, fileName: String) {
-        viewModelScope.launch {
-            _attachmentEvents.emit(AttachmentEvent.OnBuildNewAttachment(attachmentToUploadUri, fileName))
-        }
-    }
-
-    fun startUploadAttachment(attachmentToUploadUri: Uri, attachment: Attachment) {
-        viewModelScope.launch {
-            _attachmentEvents.emit(AttachmentEvent.OnStartUploadAttachment(attachmentToUploadUri, attachment))
-        }
-    }
-
-    fun deleteAttachment(attachment: Attachment) {
-        viewModelScope.launch {
-            _attachmentEvents.emit(AttachmentEvent.DeleteAttachment(attachment))
-        }
-    }
-
-    fun onAttachmentAction(entryAttachmentState: EntryAttachmentState?) {
-        entryAttachmentState?.let {
-            mDatabase?.addTempAttachment(entryAttachmentState)
-            viewModelScope.launch {
-                _attachmentEvents.emit(AttachmentEvent.OnAttachmentAction(entryAttachmentState))
-            }
-        }
-    }
-
-    fun binaryPreviewLoaded(entryAttachmentState: EntryAttachmentState, viewPosition: Float) {
-        viewModelScope.launch {
-            // Scroll to the attachment position
-            when (entryAttachmentState.downloadState) {
-                AttachmentState.START,
-                AttachmentState.COMPLETE -> {
-                    _attachmentEvents.emit(AttachmentEvent.ScrollTo(viewPosition.toInt()))
-                }
-                else -> {}
-            }
-        }
-    }
-
     fun updateFieldProtection(fieldProtection: FieldProtection, value: Boolean) {
         fieldProtection.isCurrentlyProtected = value
         viewModelScope.launch {
@@ -394,6 +352,10 @@ class EntryEditViewModel: NodeEditViewModel() {
             val newField: Field?
         ) : EntryEditEvent()
 
+        data class ScrollTo(
+            val viewPosition: Int
+        ) : EntryEditEvent()
+
         object OnCustomFieldError : EntryEditEvent()
 
         object RequestSetupOTP : EntryEditEvent()
@@ -432,31 +394,6 @@ class EntryEditViewModel: NodeEditViewModel() {
         data class RetrieveEntryInfoForClosing(
             val closeType: CloseType
         ) : EntryEditEvent()
-    }
-
-    sealed class AttachmentEvent {
-
-        data class OnBuildNewAttachment(
-            val attachmentToUploadUri: Uri,
-            val fileName: String
-        ) : AttachmentEvent()
-
-        data class OnStartUploadAttachment(
-            val attachmentToUploadUri: Uri,
-            val attachment: Attachment
-        ) : AttachmentEvent()
-
-        data class DeleteAttachment(
-            val attachment: Attachment
-        ) : AttachmentEvent()
-
-        data class OnAttachmentAction(
-            val attachmentState: EntryAttachmentState
-        ) : AttachmentEvent()
-
-        data class ScrollTo(
-            val viewPosition: Int
-        ) : AttachmentEvent()
     }
 
     companion object {

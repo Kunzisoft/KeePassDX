@@ -115,6 +115,14 @@ class EntryFragment: DatabaseFragment() {
         }
         uuidReferenceView = view.findViewById(R.id.entry_UUID_reference)
 
+        context?.let { context ->
+            attachmentsAdapter = EntryAttachmentsItemsAdapter(context)
+            attachmentsAdapter?.onItemClickListener = { item ->
+                mEntryViewModel.onAttachmentSelected(item.attachment)
+            }
+            attachmentsListView.adapter = attachmentsAdapter
+        }
+
         lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 launch {
@@ -145,9 +153,10 @@ class EntryFragment: DatabaseFragment() {
                     }
                 }
                 launch {
+                    // TODO Replace by AttachmentViewModel
                     mEntryViewModel.onAttachmentAction.collect { entryAttachmentState ->
                         entryAttachmentState?.let {
-                            if (it.streamDirection != StreamDirection.UPLOAD) {
+                            if (it.streamDirection == StreamDirection.DOWNLOAD) {
                                 putAttachment(it)
                             }
                         }
@@ -163,12 +172,7 @@ class EntryFragment: DatabaseFragment() {
     }
 
     override fun onDatabaseRetrieved(database: ContextualDatabase) {
-        context?.let { context ->
-            attachmentsAdapter = EntryAttachmentsItemsAdapter(context)
-            attachmentsAdapter?.database = database
-        }
-
-        attachmentsListView.adapter = attachmentsAdapter
+        attachmentsAdapter?.binaryCache = database.binaryCache
     }
 
     private fun loadTemplateSettings() {
@@ -259,9 +263,6 @@ class EntryFragment: DatabaseFragment() {
         attachmentsAdapter?.assignItems(attachments.map {
             EntryAttachmentState(it, StreamDirection.DOWNLOAD)
         })
-        attachmentsAdapter?.onItemClickListener = { item ->
-            mEntryViewModel.onAttachmentSelected(item.attachment)
-        }
     }
 
     fun putAttachment(attachmentToDownload: EntryAttachmentState) {

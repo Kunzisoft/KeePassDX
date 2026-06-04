@@ -200,7 +200,7 @@ class EntryViewModel(application: Application): AndroidViewModel(application) {
 
     fun onAttachmentAction(entryAttachmentState: EntryAttachmentState?) {
         viewModelScope.launch {
-            _onAttachmentAction.emit(entryAttachmentState)
+            _onAttachmentAction.emit(entryAttachmentState?.copy())
         }
     }
 

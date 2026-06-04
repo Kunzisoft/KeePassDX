@@ -24,15 +24,18 @@ import android.content.res.TypedArray
 import android.graphics.Color
 import android.text.format.Formatter
 import android.util.TypedValue
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.SortedList
+import androidx.recyclerview.widget.SortedListAdapterCallback
 import com.google.android.material.progressindicator.CircularProgressIndicator
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.ImageViewerActivity
-import com.kunzisoft.keepass.database.ContextualDatabase
+import com.kunzisoft.keepass.database.element.binary.BinaryCache
 import com.kunzisoft.keepass.database.element.database.CompressionAlgorithm
 import com.kunzisoft.keepass.database.helper.getLocalizedName
 import com.kunzisoft.keepass.model.AttachmentState
@@ -40,16 +43,51 @@ import com.kunzisoft.keepass.model.EntryAttachmentState
 import com.kunzisoft.keepass.model.StreamDirection
 import com.kunzisoft.keepass.services.AttachmentFileNotificationService.Companion.FILE_PROGRESSION_MAX
 import com.kunzisoft.keepass.tasks.BinaryDatabaseManager
+import com.kunzisoft.keepass.view.collapse
 import com.kunzisoft.keepass.view.expand
 import kotlin.math.max
 
 
-class EntryAttachmentsItemsAdapter(context: Context)
-    : AnimatedItemsAdapter<EntryAttachmentState, EntryAttachmentsItemsAdapter.EntryBinariesViewHolder>(context) {
+class EntryAttachmentsItemsAdapter(val context: Context)
+    : RecyclerView.Adapter<EntryAttachmentsItemsAdapter.EntryBinariesViewHolder>() {
 
-    var database: ContextualDatabase? = null
+    private val inflater: LayoutInflater = LayoutInflater.from(context)
+
+    private val itemsSortedList: SortedList<EntryAttachmentState> = SortedList(
+        EntryAttachmentState::class.java,
+        object: SortedListAdapterCallback<EntryAttachmentState>(this) {
+        override fun compare(
+            p0: EntryAttachmentState,
+            p1: EntryAttachmentState
+        ): Int {
+            return p0.attachment.name.compareTo(p1.attachment.name)
+        }
+
+        override fun areContentsTheSame(
+            p0: EntryAttachmentState,
+            p1: EntryAttachmentState
+        ): Boolean {
+            return p0.attachment.name == p1.attachment.name
+                    && p0.downloadState == p1.downloadState
+                    && p0.downloadProgression == p1.downloadProgression
+                    && p0.streamDirection == p1.streamDirection
+                    && p0.attachment.binaryData.getSize() == p1.attachment.binaryData.getSize()
+        }
+
+        override fun areItemsTheSame(
+            p0: EntryAttachmentState,
+            p1: EntryAttachmentState
+        ): Boolean {
+            return p0.attachment.name == p1.attachment.name
+        }
+    })
+
+    var onDeleteButtonClickListener: ((item: EntryAttachmentState)->Unit)? = null
+
+    var onListSizeChangedListener: ((previousSize: Int, newSize: Int)->Unit)? = null
+
+    var binaryCache: BinaryCache? = null
     var onItemClickListener: ((item: EntryAttachmentState)->Unit)? = null
-    var onBinaryPreviewLoaded: ((item: EntryAttachmentState) -> Unit)? = null
 
     // Approximately
     private val mImagePreviewMaxWidth = max(
@@ -62,46 +100,44 @@ class EntryAttachmentsItemsAdapter(context: Context)
         // Get the primary text color of the theme
         val typedValue = TypedValue()
         context.theme.resolveAttribute(android.R.attr.textColorPrimary, typedValue, true)
-        val typedArray: TypedArray = context.obtainStyledAttributes(typedValue.data, intArrayOf(
-                android.R.attr.textColor))
+        val typedArray: TypedArray = context.obtainStyledAttributes(
+            typedValue.data, intArrayOf(android.R.attr.textColor)
+        )
         mTitleColor = typedArray.getColor(0, -1)
         typedArray.recycle()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EntryBinariesViewHolder {
-        return EntryBinariesViewHolder(inflater.inflate(R.layout.item_attachment, parent, false))
+        return EntryBinariesViewHolder(
+            inflater.inflate(R.layout.item_attachment,
+                parent,
+                false)
+        )
     }
 
     override fun onBindViewHolder(holder: EntryBinariesViewHolder, position: Int) {
-        val entryAttachmentState = itemsList[position]
+        val entryAttachmentState = itemsSortedList.get(position)
 
         holder.itemView.visibility = View.VISIBLE
         holder.binaryFileThumbnail.apply {
             // Perform image loading only if upload is finished
-            if (entryAttachmentState.downloadState != AttachmentState.START
-                    && entryAttachmentState.downloadState != AttachmentState.IN_PROGRESS) {
-                // Show the bitmap image if loaded
-                if (entryAttachmentState.previewState == AttachmentState.NULL) {
-                    entryAttachmentState.previewState = AttachmentState.IN_PROGRESS
-                    // Load the bitmap image
-                    database?.let { database ->
-                        BinaryDatabaseManager.loadBitmap(
-                                database,
-                                entryAttachmentState.attachment.binaryData,
-                                mImagePreviewMaxWidth
-                        ) { imageLoaded ->
-                            if (imageLoaded == null) {
-                                entryAttachmentState.previewState = AttachmentState.ERROR
-                                visibility = View.GONE
-                                onBinaryPreviewLoaded?.invoke(entryAttachmentState)
-                            } else {
-                                entryAttachmentState.previewState = AttachmentState.COMPLETE
-                                setImageBitmap(imageLoaded)
-                                if (visibility != View.VISIBLE) {
-                                    expand(true, resources.getDimensionPixelSize(R.dimen.item_file_info_height)) {
-                                        onBinaryPreviewLoaded?.invoke(entryAttachmentState)
-                                    }
-                                }
+            if (entryAttachmentState.downloadState == AttachmentState.COMPLETE) {
+                // Load the bitmap image
+                binaryCache?.let { binaryCache ->
+                    BinaryDatabaseManager.loadBitmap(
+                        binaryCache,
+                        entryAttachmentState.attachment.binaryData,
+                        mImagePreviewMaxWidth
+                    ) { imageLoaded ->
+                        if (imageLoaded == null) {
+                            visibility = View.GONE
+                        } else {
+                            setImageBitmap(imageLoaded)
+                            if (visibility != View.VISIBLE) {
+                                expand(
+                                    animate = true,
+                                    defaultHeight = resources.getDimensionPixelSize(R.dimen.image_preview_height)
+                                )
                             }
                         }
                     }
@@ -156,7 +192,6 @@ class EntryAttachmentsItemsAdapter(context: Context)
                             setOnClickListener(null)
                         }
                     }
-                    AttachmentState.NULL,
                     AttachmentState.ERROR,
                     AttachmentState.CANCELED,
                     AttachmentState.COMPLETE -> {
@@ -176,7 +211,6 @@ class EntryAttachmentsItemsAdapter(context: Context)
                 holder.binaryFileDeleteButton.visibility = View.GONE
                 holder.binaryFileProgress.apply {
                     visibility = when (entryAttachmentState.downloadState) {
-                        AttachmentState.NULL,
                         AttachmentState.COMPLETE,
                         AttachmentState.CANCELED,
                         AttachmentState.ERROR -> View.GONE
@@ -191,6 +225,44 @@ class EntryAttachmentsItemsAdapter(context: Context)
                 }
             }
         }
+    }
+
+    override fun getItemCount(): Int {
+        return itemsSortedList.size()
+    }
+
+    fun assignItems(items: List<EntryAttachmentState>) {
+        val previousSize = itemCount
+        itemsSortedList.clear()
+        itemsSortedList.addAll(items)
+        notifyDataSetChanged()
+        onListSizeChangedListener?.invoke(previousSize, itemCount)
+    }
+
+    fun indexOf(item: EntryAttachmentState): Int {
+        return itemsSortedList.indexOf(item)
+    }
+
+    fun putItem(item: EntryAttachmentState) {
+        val previousSize = itemCount
+        itemsSortedList.add(item)
+        notifyItemChanged(itemsSortedList.indexOf(item))
+        onListSizeChangedListener?.invoke(previousSize, itemCount)
+    }
+
+    fun onBindDeleteButton(holder: EntryBinariesViewHolder, deleteButton: View, item: EntryAttachmentState, position: Int) {
+        deleteButton.apply {
+            visibility = View.VISIBLE
+            setOnClickListener {
+                holder.itemView.collapse(true) {
+                    onDeleteButtonClickListener?.invoke(item)
+                }
+            }
+        }
+    }
+
+    fun clear() {
+        itemsSortedList.clear()
     }
 
     class EntryBinariesViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

@@ -20,19 +20,15 @@
 package com.kunzisoft.keepass.database
 
 import android.net.Uri
-import com.kunzisoft.keepass.database.element.Entry
 import com.kunzisoft.keepass.database.element.EntryId
 import com.kunzisoft.keepass.database.element.GroupId
 import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.database.element.icon.IconImageCustom
 import com.kunzisoft.keepass.database.element.icon.IconImageStandard
 import com.kunzisoft.keepass.icons.IconDrawableFactory
-import com.kunzisoft.keepass.model.AttachmentState
 import com.kunzisoft.keepass.model.DatabaseInfo
-import com.kunzisoft.keepass.model.EntryAttachmentState
 import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.model.RegisterInfo
-import com.kunzisoft.keepass.model.StreamDirection
 import com.kunzisoft.keepass.utils.SingletonHolder
 import java.io.File
 
@@ -44,8 +40,6 @@ class ContextualDatabase: DatabaseInfo() {
         retrieveBinaryCache = { binaryCache },
         retrieveCustomIconBinary = { iconId -> getBinaryForCustomIcon(iconId) }
     )
-
-    private val tempAttachments = mutableListOf<EntryAttachmentState>()
 
     /**
      * Build entry info to create.
@@ -114,44 +108,6 @@ class ContextualDatabase: DatabaseInfo() {
     override fun removeCustomIcon(customIcon: IconImageCustom) {
         iconDrawableFactory.clearFromCache(customIcon)
         super.removeCustomIcon(customIcon)
-    }
-
-    fun addTempAttachment(entryAttachmentState: EntryAttachmentState) {
-        if (tempAttachments.contains(entryAttachmentState)) {
-            tempAttachments.remove(entryAttachmentState)
-        }
-        tempAttachments.add(entryAttachmentState)
-    }
-
-    fun removeTempAttachmentsNotCompleted(entryInfo: EntryInfo) {
-        // Do not save entry in upload progression
-        tempAttachments.forEach { attachmentState ->
-            if (attachmentState.streamDirection == StreamDirection.UPLOAD) {
-                when (attachmentState.downloadState) {
-                    AttachmentState.START,
-                    AttachmentState.IN_PROGRESS,
-                    AttachmentState.CANCELED,
-                    AttachmentState.ERROR -> {
-                        // Remove attachment not finished from info
-                        entryInfo.attachments = entryInfo.attachments.toMutableList().apply {
-                            remove(attachmentState.attachment)
-                        }
-                    }
-                    else -> {}
-                }
-            }
-        }
-    }
-
-    fun removeTempAttachmentsNotUsed(entry: Entry) {
-        tempAttachments.forEach { tempAttachmentState ->
-            val tempAttachment = tempAttachmentState.attachment
-            attachmentPool.let { binaryPool ->
-                if (!entry.getAttachments(binaryPool).contains(tempAttachment)) {
-                    removeAttachmentIfNotUsed(tempAttachment)
-                }
-            }
-        }
     }
 
     override fun clearIndexesAndBinaries(filesDirectory: File?) {

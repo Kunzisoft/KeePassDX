@@ -931,10 +931,21 @@ open class Database {
                         false)
     }
 
-    fun removeAttachmentIfNotUsed(attachment: Attachment) {
+    /**
+     * Remove the [binaryData] from the binary pool if not used
+     * @param clearCache Clear the cache if true
+     */
+    fun removeBinaryIfNotUsed(binaryData: BinaryData, clearCache: Boolean = false) {
         // No need in KDB database because unique attachment by entry
         // Don't clear to fix upload multiple times
-        mDatabaseKDBX?.removeUnlinkedAttachment(attachment.binaryData, false)
+        mDatabaseKDBX?.removeUnlinkedAttachment(binaryData, clearCache)
+    }
+    /**
+     * Remove the binary data of an [Attachment] from the binary pool if not used
+     * @param clearCache Clear the cache if true
+     */
+    fun removeAttachmentIfNotUsed(attachment: Attachment, clearCache: Boolean = false) {
+        removeBinaryIfNotUsed(attachment.binaryData, clearCache)
     }
 
     fun removeUnlinkedAttachments() {
