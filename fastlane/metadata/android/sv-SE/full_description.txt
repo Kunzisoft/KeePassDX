@@ -1,27 +1,25 @@
-KeePassDX är en <b>hanterare av lösenordsnycklar och lösenord </b> med öppen källkod som låter dig redigera <b>krypterad data i en enda fil</b> i det öppna KeePass-formatet och <b>fylla i formulär på ett säkert sätt</b>. Appen kräver <b>ingen internetanslutning</b> och integrerar Android-designstandarder. Appen är <b>öppen källkod, utan reklam</b>.
+KeePassDX är en <b>lösenordsnyckel- och lösenordshanterare</b> med öppen källkod som låter dig redigera <b>krypterad data i en enda fil</b> i det öppna KeePass-formatet och <b>fylla i formulär på ett säkert sätt</b>. Appen kräver <b>ingen internetanslutning</b> och följer Androids designstandarder. Appen är <b>öppen källkod och reklamfri</b>.
 
+<b>Funktioner</b>
 
-*Funktioner**
-
-
-- Lösenord för autentisering och lokal lagring av privata nycklar.
-- Biometrisk igenkänning för snabb upplåsning (fingeravtryck/ansiktslåsning/…).
+- Lösenordsnycklar för autentisering och lokal lagring av privata nycklar.
+- Biometrisk igenkänning för snabb upplåsning (fingeravtryck/ansiktsupplåsning/…).
 - Engångslösenordshantering (HOTP/TOTP) för tvåfaktorsautentisering (2FA).
-- Autofyllning för enkel ifyllning av formulär med lösenord.
+- Autofyll för enkel formulärifyllning med lösenord.
 - Magikeyboard för att effektivt fylla i valfritt fält.
 - Skapa krypterade databasfiler.
-- Organisering av inloggningsuppgifter efter post och i gruppträd.
-- Möjliggör snabb öppning och kopiering av URI/URL-fält.
+- Organisering av inloggningsuppgifter i poster och gruppträd.
+- Öppna och kopiera URI-/URL-fält snabbt.
 - Dynamiska mallar för varje typ av post.
 - Historik för varje post.
-- Exakt hantering av inställningar.
+- Detaljerad hantering av inställningar.
 - Materialdesign med teman.
-- Stöd för .kdb- och .kdbx-filer (version 1 till 4) med AES - Twofish - ChaCha20 - Argon2-algoritm.
-- Kompatibel med de flesta alternativa program (KeePass, KeePassXC, KeeWeb, ...).
-- Kod skriven på inhemska språk (Kotlin / Java / JNI / C).
+- Stöd för .kdb- och .kdbx-filer (version 1 till 4) med AES-, Twofish-, ChaCha20- och Argon2-algoritmer.
+- Kompatibel med de flesta andra program (KeePass, KeePassXC, KeeWeb, ...).
+- Kod skriven i nativa språk (Kotlin / Java / JNI / C).
 
 Du kan donera eller köpa pro-versionen för bättre service och snabb utveckling av funktioner du vill ha: <a href="https://play.google.com/store/apps/details?id=com.kunzisoft.keepass.pro">https://play.google.com/store/apps/details?id=com.kunzisoft.keepass.pro</a>
 
-Projektet utvecklas ständigt. Tveka inte att kontrollera utvecklingsstatusen för kommande uppdateringar: <a href="https://github.com/Kunzisoft/KeePassDX/projects">https://github.com/Kunzisoft/KeePassDX/projects</a>
+Projektet utvecklas ständigt. Kontrollera gärna utvecklingsstatusen för kommande uppdateringar: <a href="https://github.com/Kunzisoft/KeePassDX/projects">https://github.com/Kunzisoft/KeePassDX/projects</a>
 
-Skicka ärenden till: <a href="https://github.com/Kunzisoft/KeePassDX/issues">https://github.com/Kunzisoft/KeePassDX/issues</a>
+Rapportera problem på: <a href="https://github.com/Kunzisoft/KeePassDX/issues">https://github.com/Kunzisoft/KeePassDX/issues</a>
