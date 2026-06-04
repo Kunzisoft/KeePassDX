@@ -199,7 +199,7 @@ class EntryAttachmentsItemsAdapter(val context: Context)
                         holder.binaryFileProgress.visibility = View.GONE
                         holder.binaryFileDeleteButton.apply {
                             visibility = View.VISIBLE
-                            onBindDeleteButton(holder, this, entryAttachmentState, position)
+                            onBindDeleteButton(holder, this, entryAttachmentState)
                         }
                     }
                 }
@@ -233,9 +233,7 @@ class EntryAttachmentsItemsAdapter(val context: Context)
 
     fun assignItems(items: List<EntryAttachmentState>) {
         val previousSize = itemCount
-        itemsSortedList.clear()
-        itemsSortedList.addAll(items)
-        notifyDataSetChanged()
+        itemsSortedList.replaceAll(items)
         onListSizeChangedListener?.invoke(previousSize, itemCount)
     }
 
@@ -243,14 +241,7 @@ class EntryAttachmentsItemsAdapter(val context: Context)
         return itemsSortedList.indexOf(item)
     }
 
-    fun putItem(item: EntryAttachmentState) {
-        val previousSize = itemCount
-        itemsSortedList.add(item)
-        notifyItemChanged(itemsSortedList.indexOf(item))
-        onListSizeChangedListener?.invoke(previousSize, itemCount)
-    }
-
-    fun onBindDeleteButton(holder: EntryBinariesViewHolder, deleteButton: View, item: EntryAttachmentState, position: Int) {
+    fun onBindDeleteButton(holder: EntryBinariesViewHolder, deleteButton: View, item: EntryAttachmentState) {
         deleteButton.apply {
             visibility = View.VISIBLE
             setOnClickListener {

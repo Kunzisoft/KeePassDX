@@ -85,6 +85,8 @@ class EntryEditViewModel: NodeEditViewModel() {
     val entryLoaded: Boolean
         get() = entryEditUIState.value.loaded
 
+    private var initialized = false
+
     fun loadTemplateEntry(database: ContextualDatabase) {
         mDatabase = database
         allowCustomFields = database.allowEntryCustomFields() == true
@@ -141,8 +143,11 @@ class EntryEditViewModel: NodeEditViewModel() {
             EntryInfo(entryInfo)
         }
         isTemplate = database.entryIsTemplate(entryInfo)
-        entryInfo?.let {
-            _entryEditEvents.emit(EntryEditEvent.EntryLoaded(entryInfo))
+        if (!initialized) {
+            initialized = true
+            entryInfo?.let {
+                _entryEditEvents.emit(EntryEditEvent.EntryLoaded(entryInfo))
+            }
         }
         val selectedTemplate = entryInfo?.template ?: Template.STANDARD
         val templates = Templates(

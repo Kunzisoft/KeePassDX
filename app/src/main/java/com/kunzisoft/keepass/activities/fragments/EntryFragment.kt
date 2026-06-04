@@ -37,16 +37,17 @@ import androidx.recyclerview.widget.SimpleItemAnimator
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.adapters.EntryAttachmentsItemsAdapter
 import com.kunzisoft.keepass.database.ContextualDatabase
-import com.kunzisoft.keepass.database.element.Attachment
-import com.kunzisoft.keepass.model.EntryAttachmentState
 import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.model.FieldProtection
 import com.kunzisoft.keepass.model.StreamDirection
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.utils.TimeUtil.getDateTimeString
 import com.kunzisoft.keepass.view.TemplateView
+import com.kunzisoft.keepass.view.collapse
+import com.kunzisoft.keepass.view.expand
 import com.kunzisoft.keepass.view.hideByFading
 import com.kunzisoft.keepass.view.showByFading
+import com.kunzisoft.keepass.viewmodels.AttachmentsViewModel
 import com.kunzisoft.keepass.viewmodels.EntryViewModel
 import kotlinx.coroutines.launch
 
@@ -71,6 +72,7 @@ class EntryFragment: DatabaseFragment() {
     private lateinit var uuidReferenceView: TextView
 
     private val mEntryViewModel: EntryViewModel by activityViewModels()
+    private val mAttachmentsViewModel: AttachmentsViewModel by activityViewModels()
 
     override fun onCreateView(inflater: LayoutInflater,
                               container: ViewGroup?,
@@ -120,6 +122,15 @@ class EntryFragment: DatabaseFragment() {
             attachmentsAdapter?.onItemClickListener = { item ->
                 mEntryViewModel.onAttachmentSelected(item.attachment)
             }
+            attachmentsAdapter?.onListSizeChangedListener = { previousSize, newSize ->
+                if (previousSize > 0 && newSize == 0) {
+                    attachmentsContainerView.collapse(true)
+                } else if (previousSize == 0 && newSize == 1) {
+                    attachmentsContainerView.expand(true)
+                } else {
+                    attachmentsContainerView.isVisible = newSize != 0
+                }
+            }
             attachmentsListView.adapter = attachmentsAdapter
         }
 
@@ -146,19 +157,14 @@ class EntryFragment: DatabaseFragment() {
                     }
                 }
                 launch {
-                    mEntryViewModel.entryEvents.collect { event ->
-                        if (event is EntryViewModel.EntryEvent.EntryLoaded) {
-                            resetAppTimeoutWhenViewFocusedOrChanged(rootView)
-                        }
+                    mAttachmentsViewModel.attachmentsUIState.collect { state ->
+                        attachmentsAdapter?.assignItems(state.attachments)
                     }
                 }
                 launch {
-                    // TODO Replace by AttachmentViewModel
-                    mEntryViewModel.onAttachmentAction.collect { entryAttachmentState ->
-                        entryAttachmentState?.let {
-                            if (it.streamDirection == StreamDirection.DOWNLOAD) {
-                                putAttachment(it)
-                            }
+                    mEntryViewModel.entryEvents.collect { event ->
+                        if (event is EntryViewModel.EntryEvent.EntryLoaded) {
+                            resetAppTimeoutWhenViewFocusedOrChanged(rootView)
                         }
                     }
                 }
@@ -207,8 +213,11 @@ class EntryFragment: DatabaseFragment() {
             mEntryViewModel.onOtpElementUpdated(otpElementUpdated)
         }
 
-        // Manage attachments
-        assignAttachments(entryInfo.attachments)
+        // Assign attachments
+        mAttachmentsViewModel.setAttachments(
+            attachments = entryInfo.attachments,
+            direction = StreamDirection.DOWNLOAD
+        )
 
         // Assign dates
         creationDateView.text = entryInfo.creationTime.getDateTimeString(resources)
@@ -251,22 +260,6 @@ class EntryFragment: DatabaseFragment() {
         dialog.dismiss()
         loadTemplateSettings()
         templateView.reload()
-    }
-
-    /* -------------
-     * Attachments
-     * -------------
-     */
-
-    private fun assignAttachments(attachments: List<Attachment>) {
-        attachmentsContainerView.visibility = if (attachments.isEmpty()) View.GONE else View.VISIBLE
-        attachmentsAdapter?.assignItems(attachments.map {
-            EntryAttachmentState(it, StreamDirection.DOWNLOAD)
-        })
-    }
-
-    fun putAttachment(attachmentToDownload: EntryAttachmentState) {
-        attachmentsAdapter?.putItem(attachmentToDownload)
     }
 
     /* -------------

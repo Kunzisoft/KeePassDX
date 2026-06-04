@@ -42,6 +42,7 @@ import com.kunzisoft.keepass.database.element.Attachment
 import com.kunzisoft.keepass.model.EntryAttachmentState
 import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.model.FieldProtection
+import com.kunzisoft.keepass.model.StreamDirection
 import com.kunzisoft.keepass.view.TagsCompletionView
 import com.kunzisoft.keepass.view.TemplateEditView
 import com.kunzisoft.keepass.view.collapse
@@ -115,6 +116,8 @@ class EntryEditFragment: DatabaseFragment() {
                 attachmentsContainerView.collapse(true)
             } else if (previousSize == 0 && newSize == 1) {
                 attachmentsContainerView.expand(true)
+            } else {
+                attachmentsContainerView.isVisible = newSize != 0
             }
         }
 
@@ -155,9 +158,7 @@ class EntryEditFragment: DatabaseFragment() {
                 }
                 launch {
                     mAttachmentsViewModel.attachmentsUIState.collect { state ->
-                        val attachments = state.attachments
-                        attachmentsContainerView.visibility = if (attachments.isEmpty()) View.GONE else View.VISIBLE
-                        attachmentsAdapter?.assignItems(attachments)
+                        attachmentsAdapter?.assignItems(state.attachments)
                     }
                 }
                 launch {
@@ -318,8 +319,11 @@ class EntryEditFragment: DatabaseFragment() {
             }
         }
 
-        // Add attachments only the first time
-        mAttachmentsViewModel.initializeAttachments(entryInfo?.attachments ?: listOf())
+        // Add attachments
+        mAttachmentsViewModel.setAttachments(
+            attachments = entryInfo?.attachments ?: listOf(),
+            direction = StreamDirection.UPLOAD
+        )
     }
 
     private fun retrieveEntryInfo(): EntryInfo {

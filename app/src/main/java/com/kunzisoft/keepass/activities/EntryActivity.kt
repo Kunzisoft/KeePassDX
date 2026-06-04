@@ -84,6 +84,7 @@ import com.kunzisoft.keepass.view.setTransparentNavigationBar
 import com.kunzisoft.keepass.view.showActionErrorIfNeeded
 import com.kunzisoft.keepass.view.showByFading
 import com.kunzisoft.keepass.view.showError
+import com.kunzisoft.keepass.viewmodels.AttachmentsViewModel
 import com.kunzisoft.keepass.viewmodels.EntryViewModel
 import com.kunzisoft.keepass.viewmodels.UserVerificationViewModel
 import kotlinx.coroutines.launch
@@ -107,6 +108,7 @@ class EntryActivity : DatabaseLockActivity() {
     private var editFab: FloatingActionButton? = null
 
     private val mEntryViewModel: EntryViewModel by viewModels()
+    private val mAttachmentsViewModel: AttachmentsViewModel by viewModels()
     private val mUserVerificationViewModel: UserVerificationViewModel by viewModels()
 
     private val mEntryActivityEducation = EntryActivityEducation(this)
@@ -466,7 +468,7 @@ class EntryActivity : DatabaseLockActivity() {
             registerProgressTask()
             onActionTaskListener = object : AttachmentFileNotificationService.ActionTaskListener {
                 override fun onAttachmentAction(fileUri: Uri, entryAttachmentState: EntryAttachmentState) {
-                    mEntryViewModel.onAttachmentAction(entryAttachmentState)
+                    mAttachmentsViewModel.onAttachmentAction(entryAttachmentState)
                 }
             }
         }

@@ -55,29 +55,26 @@ class AttachmentsViewModel : ViewModel() {
     private val tempAttachments: List<EntryAttachmentState>
         get() = attachmentsUIState.value.attachments
 
-
-    private var initialized = false
-
     fun getAttachments(): List<Attachment> {
         return tempAttachments.map { it.attachment }
     }
 
     /**
-     * Initialize attachments, has only effect the first time
+     * Assign attachments, has only effect the first time
      */
-    fun initializeAttachments(attachments: List<Attachment>) {
-        if (!initialized) {
-            initialized = true
-            _attachmentsUIState.update { state ->
-                state.copy(
-                    attachments = state.attachments.toMutableList().apply {
-                        clear()
-                        addAll(attachments.map {
-                            EntryAttachmentState(it, StreamDirection.UPLOAD)
-                        })
-                    }
-                )
-            }
+    fun setAttachments(
+        attachments: List<Attachment>,
+        direction: StreamDirection
+    ) {
+        _attachmentsUIState.update { state ->
+            state.copy(
+                attachments = state.attachments.toMutableList().apply {
+                    clear()
+                    addAll(attachments.map {
+                        EntryAttachmentState(it, direction)
+                    })
+                }
+            )
         }
     }
 

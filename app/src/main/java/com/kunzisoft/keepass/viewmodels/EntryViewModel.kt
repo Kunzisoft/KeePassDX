@@ -31,7 +31,6 @@ import com.kunzisoft.keepass.database.element.EntryId
 import com.kunzisoft.keepass.database.element.Field
 import com.kunzisoft.keepass.database.element.template.TemplateField
 import com.kunzisoft.keepass.database.helper.getLocalizedName
-import com.kunzisoft.keepass.model.EntryAttachmentState
 import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.model.FieldProtection
 import com.kunzisoft.keepass.otp.OtpElement
@@ -87,9 +86,6 @@ class EntryViewModel(application: Application): AndroidViewModel(application) {
 
     private val _onOtpElementUpdated = MutableSharedFlow<OtpElement?>(replay = 0)
     val onOtpElementUpdated: SharedFlow<OtpElement?> = _onOtpElementUpdated.asSharedFlow()
-
-    private val _onAttachmentAction = MutableSharedFlow<EntryAttachmentState?>(replay = 0)
-    val onAttachmentAction: SharedFlow<EntryAttachmentState?> = _onAttachmentAction.asSharedFlow()
 
     private val _onFieldProtectionUpdated = MutableSharedFlow<FieldProtection>(replay = 0)
     val onFieldProtectionUpdated: SharedFlow<FieldProtection> = _onFieldProtectionUpdated.asSharedFlow()
@@ -195,12 +191,6 @@ class EntryViewModel(application: Application): AndroidViewModel(application) {
     fun onAttachmentSelected(attachment: Attachment) {
         viewModelScope.launch {
             _entryEvents.emit(EntryEvent.AttachmentSelected(attachment))
-        }
-    }
-
-    fun onAttachmentAction(entryAttachmentState: EntryAttachmentState?) {
-        viewModelScope.launch {
-            _onAttachmentAction.emit(entryAttachmentState?.copy())
         }
     }
 
