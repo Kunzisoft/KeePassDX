@@ -214,8 +214,10 @@ class EntryFragment: DatabaseFragment() {
         }
 
         // Assign attachments
+        val attachments = entryInfo.attachments
+        attachmentsContainerView.isVisible = attachments.isNotEmpty()
         mAttachmentsViewModel.setAttachments(
-            attachments = entryInfo.attachments,
+            attachments = attachments,
             direction = StreamDirection.DOWNLOAD
         )
 

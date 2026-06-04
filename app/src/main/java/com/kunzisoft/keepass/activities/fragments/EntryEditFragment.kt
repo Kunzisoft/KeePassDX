@@ -320,8 +320,10 @@ class EntryEditFragment: DatabaseFragment() {
         }
 
         // Add attachments
+        val attachments = entryInfo?.attachments
+        attachmentsContainerView.isVisible = attachments?.isNotEmpty() ?: false
         mAttachmentsViewModel.setAttachments(
-            attachments = entryInfo?.attachments ?: listOf(),
+            attachments = attachments ?: listOf(),
             direction = StreamDirection.UPLOAD
         )
     }
