@@ -21,7 +21,7 @@
     <string name="feedback">Synpunkter</string>
     <string name="homepage">Hemsida</string>
     <string name="about_description">Android-implementation av lösenordshanteraren KeePass.</string>
-    <string name="accept">OK</string>
+    <string name="accept">Acceptera</string>
     <string name="add_entry">Ny post</string>
     <string name="add_group">Ny grupp</string>
     <string name="encryption_algorithm">Krypteringsalgoritm</string>
@@ -601,7 +601,7 @@
     <string name="passkeys_auto_select_title">Automatiskt val</string>
     <string name="passkeys_auto_select_summary">Välj automatiskt om det bara finns en post och databasen är öppen – endast om den begärande appen är kompatibel</string>
     <string name="passkeys_backup_eligibility_title">Kan säkerhetskopieras</string>
-    <string name="passkeys_backup_eligibility_summary">Avgör vid skapandet om lösenordsnyckelns autentiseringskälla får säkerhetskopieras</string>
+    <string name="passkeys_backup_eligibility_summary">Avgör vid skapandet om autentiseringskällan för lösenordsnyckeln får säkerhetskopieras</string>
     <string name="passkeys_backup_state_title">Säkerhetskopieringsstatus</string>
     <string name="passkeys_backup_state_summary">Ange att inloggningsuppgifterna säkerhetskopieras och skyddas om en enskild enhet går förlorad</string>
     <string name="credential_provider_service_subtitle">Lösenordsnycklar och autofyll</string>
@@ -624,7 +624,7 @@
     <string name="temp_device_unlock_timeout_summary">Hur länge enhetsupplåsning får användas innan innehållet tas bort</string>
     <string name="device_unlock_timeout">Tidsgräns för enhetsupplåsning</string>
     <string name="device_unlock_delete_all_key_warning">Ta bort alla krypteringsnycklar som hör till enhetsupplåsning?</string>
-    <string name="device_unlock_keystore_warning">Den här funktionen lagrar krypterade autentiseringsuppgifter i enhetens säkra KeyStore.\n\nBeroende på operativsystemets inbyggda API-implementering kanske den inte fungerar fullt ut.\n\nKontrollera kompatibiliteten och säkerheten för KeyStore med tillverkaren av din enhet och skaparen av den ROM du använder.</string>
+    <string name="device_unlock_keystore_warning">Den här funktionen lagrar krypterad inloggningsdata i enhetens säkra KeyStore.\n\nBeroende på operativsystemets inbyggda API-implementering kanske den inte fungerar fullt ut.\n\nKontrollera kompatibiliteten och säkerheten för KeyStore med tillverkaren av din enhet och skaparen av den ROM du använder.</string>
     <string name="benchmark_calculation">Beräkna i %1$s s</string>
     <string name="benchmarking">Prestandatest…</string>
     <string name="data">Data</string>
@@ -679,7 +679,7 @@
     <string name="enable_screenshot_mode_title">Skärmdumpsläge</string>
     <string name="enable_screenshot_mode_summary">Tillåt tredjepartsappar att spela in eller ta skärmdumpar av appen</string>
     <string name="education_device_unlock_title">Lås upp databasen med enheten</string>
-    <string name="education_device_unlock_summary">Koppla ditt lösenord till din biometri eller enhetens inloggningsuppgifter för att snabbt låsa upp databasen.</string>
+    <string name="education_device_unlock_summary">Koppla ditt lösenord till dina biometriska uppgifter eller enhetens inloggningsuppgifter för att snabbt låsa upp databasen.</string>
     <string name="education_validate_entry_title">Validera posten</string>
     <string name="education_validate_entry_summary">Kom ihåg att validera posten och spara databasen.\n\nOm ett automatiskt lås aktiveras och du glömmer att du höll på att göra en ändring riskerar du att förlora dina data.</string>
     <string name="education_add_attachment_title">Lägg till bilaga</string>
@@ -729,7 +729,7 @@
     <string name="credential_provider_database_username">KeePassDX-databas</string>
     <string name="credential_provider_locked_database_description">Välj för att låsa upp</string>
     <string name="passkey_creation_description">Spara lösenordsnyckeln i en ny post</string>
-    <string name="passkey_update_description">Uppdatera lösenordsnyckeln i %1$s</string>
+    <string name="passkey_update_description">Uppdatera lösenordsnyckeln i posten \"%1$s\"</string>
     <string name="passkey_selection_username">Ingen lösenordsnyckel hittades</string>
     <string name="passkey_selection_description">Välj en befintlig lösenordsnyckel</string>
     <string name="passkey_username">Användarnamn för lösenordsnyckel</string>
