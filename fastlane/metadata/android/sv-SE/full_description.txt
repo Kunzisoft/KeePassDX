@@ -1,0 +1,27 @@
+KeePassDX är en <b>hanterare av lösenordsnycklar och lösenord </b> med öppen källkod som låter dig redigera <b>krypterad data i en enda fil</b> i det öppna KeePass-formatet och <b>fylla i formulär på ett säkert sätt</b>. Appen kräver <b>ingen internetanslutning</b> och integrerar Android-designstandarder. Appen är <b>öppen källkod, utan reklam</b>.
+
+
+*Funktioner**
+
+
+- Lösenord för autentisering och lokal lagring av privata nycklar.
+- Biometrisk igenkänning för snabb upplåsning (fingeravtryck/ansiktslåsning/…).
+- Engångslösenordshantering (HOTP/TOTP) för tvåfaktorsautentisering (2FA).
+- Autofyllning för enkel ifyllning av formulär med lösenord.
+- Magikeyboard för att effektivt fylla i valfritt fält.
+- Skapa krypterade databasfiler.
+- Organisering av inloggningsuppgifter efter post och i gruppträd.
+- Möjliggör snabb öppning och kopiering av URI/URL-fält.
+- Dynamiska mallar för varje typ av post.
+- Historik för varje post.
+- Exakt hantering av inställningar.
+- Materialdesign med teman.
+- Stöd för .kdb- och .kdbx-filer (version 1 till 4) med AES - Twofish - ChaCha20 - Argon2-algoritm.
+- Kompatibel med de flesta alternativa program (KeePass, KeePassXC, KeeWeb, ...).
+- Kod skriven på inhemska språk (Kotlin / Java / JNI / C).
+
+Du kan donera eller köpa pro-versionen för bättre service och snabb utveckling av funktioner du vill ha: <a href="https://play.google.com/store/apps/details?id=com.kunzisoft.keepass.pro">https://play.google.com/store/apps/details?id=com.kunzisoft.keepass.pro</a>
+
+Projektet utvecklas ständigt. Tveka inte att kontrollera utvecklingsstatusen för kommande uppdateringar: <a href="https://github.com/Kunzisoft/KeePassDX/projects">https://github.com/Kunzisoft/KeePassDX/projects</a>
+
+Skicka ärenden till: <a href="https://github.com/Kunzisoft/KeePassDX/issues">https://github.com/Kunzisoft/KeePassDX/issues</a>

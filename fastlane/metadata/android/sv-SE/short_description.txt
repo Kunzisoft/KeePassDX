@@ -1,0 +1,1 @@
+Hantera lösenordsnycklar/lösenord i ett lokalt valv med öppen källkod
