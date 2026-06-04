@@ -767,4 +767,8 @@
     <string name="benchmark_calculation">Calculer pour %1$s s</string>
     <string name="benchmarking">Analyse en cours…</string>
     <string name="keyboard_share_browser">Partager depuis %1$s vers KeePassDX</string>
+    <string name="auto_backup_before_save_title">Sauvegarde automatique avant enregistrement</string>
+    <string name="auto_backup_before_save_summary">Crée une copie locale du fichier de base de données avant chaque enregistrement</string>
+    <string name="auto_backup_max_versions_title">Nombre de versions à conserver</string>
+    <string name="auto_backup_max_versions_summary">Nombre maximum de fichiers de sauvegarde à conserver</string>
 </resources>

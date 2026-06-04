@@ -501,6 +501,23 @@ object PreferencesUtil {
             context.resources.getBoolean(R.bool.enable_auto_save_database_default))
     }
 
+    fun isAutoBackupBeforeSaveEnabled(context: Context): Boolean {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        return prefs.getBoolean(context.getString(R.string.auto_backup_before_save_key),
+            context.resources.getBoolean(R.bool.auto_backup_before_save_default))
+    }
+
+    fun getAutoBackupMaxVersions(context: Context): Int {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        return try {
+            prefs.getString(context.getString(R.string.auto_backup_max_versions_key),
+                context.resources.getInteger(R.integer.auto_backup_max_versions_default).toString())
+                ?.toInt() ?: context.resources.getInteger(R.integer.auto_backup_max_versions_default)
+        } catch (_: NumberFormatException) {
+            context.resources.getInteger(R.integer.auto_backup_max_versions_default)
+        }
+    }
+
     fun isKeepScreenOnEnabled(context: Context): Boolean {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
         return prefs.getBoolean(context.getString(R.string.enable_keep_screen_on_key),

@@ -71,6 +71,10 @@
     <bool name="delete_entered_password_default" translatable="false">true</bool>
     <string name="enable_auto_save_database_key" translatable="false">enable_auto_save_database_key</string>
     <bool name="enable_auto_save_database_default" translatable="false">true</bool>
+    <string name="auto_backup_before_save_key" translatable="false">auto_backup_before_save</string>
+    <bool name="auto_backup_before_save_default" translatable="false">true</bool>
+    <string name="auto_backup_max_versions_key" translatable="false">auto_backup_max_versions</string>
+    <integer name="auto_backup_max_versions_default" translatable="false">3</integer>
     <string name="enable_keep_screen_on_key" translatable="false">enable_keep_screen_on_key</string>
     <bool name="enable_keep_screen_on_default" translatable="false">true</bool>
     <string name="enable_screenshot_mode_key" translatable="false">enable_screenshot_mode_key</string>
@@ -405,6 +409,12 @@
         <item translatable="false">1</item>
         <item translatable="false">1.2</item>
     </array>
+    <string-array name="auto_backup_max_versions_values">
+        <item translatable="false">1</item>
+        <item translatable="false">3</item>
+        <item translatable="false">5</item>
+        <item translatable="false">10</item>
+    </string-array>
 
     <!-- Style -->
     <string name="list_style_name_light" translatable="false">KeepassDXStyle_Light</string>

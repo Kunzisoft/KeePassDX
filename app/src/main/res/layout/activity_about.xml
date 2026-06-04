@@ -184,6 +184,14 @@
                         android:text="@string/contribution_url"
                         android:autoLink="web"/>
 
+                    <TextView
+                        android:id="@+id/activity_about_claude_credit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:text="@string/backup_claude_credit"
+                        android:textAppearance="@android:style/TextAppearance.Small"/>
+
                 </LinearLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>

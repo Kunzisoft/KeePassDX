@@ -51,6 +51,9 @@ open class SaveDatabaseRunnable(
             try {
                 val contentResolver = context.contentResolver
                 mMasterCredential = mainCredential?.toMasterCredential(contentResolver)
+                if (databaseCopyUri == null) {
+                    DatabaseBackupUtil.createBackup(context, database.fileUri)
+                }
                 // Build temp database file to avoid file corruption if error
                 database.saveData(
                     cacheFile = File(context.cacheDir, databaseCopyUri.hashCode().toString()),

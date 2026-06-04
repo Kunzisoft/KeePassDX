@@ -94,6 +94,7 @@
 \nIt is provided as is, under &lt;strong&gt;GPLv3&lt;/strong&gt; license, without any warranty.</string>
     <string name="html_about_privacy">&lt;strong&gt;No user data is retrieved&lt;/strong&gt;, this application does not connect to any server, works only locally and fully respects the privacy of users.</string>
     <string name="html_about_contribution">In order to &lt;strong&gt;keep our freedom&lt;/strong&gt;, &lt;strong&gt;fix bugs&lt;/strong&gt;, &lt;strong&gt;add features&lt;/strong&gt; and &lt;strong&gt;to be always active&lt;/strong&gt;, we count on your &lt;strong&gt;contribution&lt;/strong&gt;.</string>
+    <string name="backup_claude_credit">Fonctionnalité de backup développée avec Claude (Anthropic)</string>
     <string name="entry_accessed">Accessed</string>
     <string name="entry_cancel">Cancel</string>
     <string name="entry_notes">Notes</string>
@@ -611,6 +612,10 @@
     <string name="delete_entered_password_summary">Deletes the password entered after a connection attempt to a database</string>
     <string name="enable_auto_save_database_title">Autosave database</string>
     <string name="enable_auto_save_database_summary">Save the database after every important action (in \"Modifiable\" mode)</string>
+    <string name="auto_backup_before_save_title">Automatic backup before save</string>
+    <string name="auto_backup_before_save_summary">Create a local backup of the database file before each save</string>
+    <string name="auto_backup_max_versions_title">Number of versions to keep</string>
+    <string name="auto_backup_max_versions_summary">Maximum number of backup files to retain</string>
     <string name="enable_keep_screen_on_title">Keep screen on</string>
     <string name="enable_keep_screen_on_summary">Keep the screen on when watching or editing an entry</string>
     <string name="enable_screenshot_mode_title">Screenshot mode</string>
@@ -733,6 +738,12 @@
         <item>Small</item>
         <item>Medium</item>
         <item>Large</item>
+    </string-array>
+    <string-array name="auto_backup_max_versions_options">
+        <item>1</item>
+        <item>3</item>
+        <item>5</item>
+        <item>10</item>
     </string-array>
     <string name="style_choose_title">App theme</string>
     <string name="style_choose_summary">Theme used in the app</string>

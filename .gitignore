@@ -93,3 +93,4 @@ releases/*
 
 # Local scripts
 scripts/*
+build_and_install.sh

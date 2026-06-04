@@ -38,6 +38,19 @@
             android:summary="@string/enable_auto_save_database_summary"
             android:defaultValue="@bool/enable_auto_save_database_default"/>
         <SwitchPreferenceCompat
+            android:key="@string/auto_backup_before_save_key"
+            android:title="@string/auto_backup_before_save_title"
+            android:summary="@string/auto_backup_before_save_summary"
+            android:defaultValue="@bool/auto_backup_before_save_default"/>
+        <ListPreference
+            android:key="@string/auto_backup_max_versions_key"
+            android:title="@string/auto_backup_max_versions_title"
+            android:summary="@string/auto_backup_max_versions_summary"
+            android:defaultValue="3"
+            android:entries="@array/auto_backup_max_versions_options"
+            android:entryValues="@array/auto_backup_max_versions_values"
+            android:dependency="@string/auto_backup_before_save_key"/>
+        <SwitchPreferenceCompat
             android:key="@string/auto_focus_search_key"
             android:title="@string/auto_focus_search_title"
             android:summary="@string/auto_focus_search_summary"
