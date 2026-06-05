@@ -843,7 +843,7 @@ class GroupActivity : DatabaseLockActivity() {
     override fun onDatabaseRetrieved(database: ContextualDatabase) {
         super.onDatabaseRetrieved(database)
 
-        mGroupViewModel.onDatabaseLoaded(database, recycleBinAllowed())
+        mGroupViewModel.onDatabaseLoaded(database)
 
         mBreadcrumbAdapter?.apply {
             // Open group on breadcrumb click

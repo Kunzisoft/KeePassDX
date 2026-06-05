@@ -67,7 +67,7 @@ class GroupViewModel(application: Application): AndroidViewModel(application) {
 
     // Manage Recycle Bin
 
-    private var mRecycleBinAllowed = false
+    private var mRecycleBinActionsGloballyAllowed = false
     private var mRecyclingBinIsCurrentGroup = false
 
     private var mAddGroupOrEntryAllowed = false
@@ -133,12 +133,9 @@ class GroupViewModel(application: Application): AndroidViewModel(application) {
         mShowTemplates = PreferencesUtil.showTemplates(getApplication())
     }
 
-    fun onDatabaseLoaded(
-        database: ContextualDatabase,
-        recycleBinAllowed: Boolean
-    ) {
+    fun onDatabaseLoaded(database: ContextualDatabase) {
         this.mDatabase = database
-        this.mRecycleBinAllowed = recycleBinAllowed
+        this.mRecycleBinActionsGloballyAllowed = !database.isReadOnly && database.isRecycleBinEnabled
         this.mNodeFilter = DefaultNodeFilter(
             database = mDatabase,
             showExpired = mShowExpiredEntries,
@@ -567,7 +564,7 @@ class GroupViewModel(application: Application): AndroidViewModel(application) {
         _nodeActionState.value = NodeActionState()
     }
 
-    fun recycleBinActionsAllowed(): Boolean = mRecycleBinAllowed && mRecyclingBinIsCurrentGroup
+    fun recycleBinActionsAllowed(): Boolean = mRecycleBinActionsGloballyAllowed && mRecyclingBinIsCurrentGroup
 
     fun emptyRecycleBin() {
         viewModelScope.launch {

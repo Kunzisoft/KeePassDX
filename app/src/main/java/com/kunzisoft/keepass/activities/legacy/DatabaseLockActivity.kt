@@ -277,10 +277,6 @@ abstract class DatabaseLockActivity : DatabaseModeActivity() {
         mDatabaseViewModel.moveNodes(newParentId, nodesToMove, mAutoSaveEnable)
     }
 
-    fun recycleBinAllowed(): Boolean {
-        return !mDatabaseReadOnly && mDatabase?.isRecycleBinEnabled == true
-    }
-
     fun deleteNodes(nodes: Nodes, recycleBin: Boolean = false) {
         mDatabase?.let { database ->
             mNodesViewModel.requestNodesDeletion(
