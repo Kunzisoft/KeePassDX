@@ -123,7 +123,7 @@ import com.kunzisoft.keepass.view.toastError
 import com.kunzisoft.keepass.view.updateButtonPaddingStart
 import com.kunzisoft.keepass.viewmodels.GroupEditViewModel
 import com.kunzisoft.keepass.viewmodels.GroupViewModel
-import com.kunzisoft.keepass.viewmodels.GroupViewModel.PasteMode
+import com.kunzisoft.keepass.viewmodels.GroupViewModel.NodeActionMode
 import com.kunzisoft.keepass.viewmodels.MainCredentialViewModel
 import com.kunzisoft.keepass.viewmodels.NodeEditViewModel
 import com.kunzisoft.keepass.viewmodels.UserVerificationViewModel
@@ -242,37 +242,44 @@ class GroupActivity : DatabaseLockActivity() {
             val nodes = state.selectedNodes
 
             menu?.clear()
-            if (state.pasteMode != PasteMode.UNDEFINED) {
-                mode?.menuInflater?.inflate(R.menu.node_paste_menu, menu)
-            } else {
-                mode?.menuInflater?.inflate(R.menu.node_menu, menu)
+            when (state.nodeActionMode) {
+                NodeActionMode.SELECTION -> {
+                    mode?.menuInflater?.inflate(R.menu.node_menu, menu)
 
-                // Open and Edit for a single item
-                if (nodes.size == 1) {
-                    // Edition
-                    if (database.isReadOnly || mGroupViewModel.containsRecycleBin(database, nodes.filterIsInstance<NodeInfo>())) {
+                    // Open and Edit for a single item
+                    if (nodes.size == 1) {
+                        // Edition
+                        if (database.isReadOnly || mGroupViewModel.containsRecycleBin(
+                                database, nodes.filterIsInstance<NodeInfo>())) {
+                            menu?.removeItem(R.id.menu_edit)
+                        }
+                    } else {
+                        menu?.removeItem(R.id.menu_open)
                         menu?.removeItem(R.id.menu_edit)
                     }
-                } else {
-                    menu?.removeItem(R.id.menu_open)
-                    menu?.removeItem(R.id.menu_edit)
-                }
 
-                // Move
-                if (database.isReadOnly) {
-                    menu?.removeItem(R.id.menu_move)
-                }
+                    // Move
+                    if (database.isReadOnly) {
+                        menu?.removeItem(R.id.menu_move)
+                    }
 
-                // Copy (not allowed for group)
-                if (database.isReadOnly
-                    || nodes.any { it is GroupInfo }) {
-                    menu?.removeItem(R.id.menu_copy)
-                }
+                    // Copy (not allowed for group)
+                    if (database.isReadOnly
+                        || nodes.any { it is GroupInfo }) {
+                        menu?.removeItem(R.id.menu_copy)
+                    }
 
-                // Deletion
-                if (database.isReadOnly || mGroupViewModel.containsRecycleBin(database, nodes.filterIsInstance<NodeInfo>())) {
-                    menu?.removeItem(R.id.menu_delete)
+                    // Deletion
+                    if (database.isReadOnly || mGroupViewModel.containsRecycleBin(
+                            database, nodes.filterIsInstance<NodeInfo>())) {
+                        menu?.removeItem(R.id.menu_delete)
+                    }
                 }
+                NodeActionMode.PASTE_FROM_COPY,
+                NodeActionMode.PASTE_FROM_MOVE -> {
+                    mode?.menuInflater?.inflate(R.menu.node_paste_menu, menu)
+                }
+                null -> {}
             }
 
             // Add the number of items selected in title
@@ -649,13 +656,13 @@ class GroupActivity : DatabaseLockActivity() {
                             }
                             is GroupViewModel.GroupEvent.PasteNodes -> {
                                 when (event.pasteActionState.pasteMode) {
-                                    PasteMode.PASTE_FROM_COPY -> {
+                                    NodeActionMode.PASTE_FROM_COPY -> {
                                         copyNodes(
                                             newParentId = event.pasteActionState.parentId,
                                             nodesToCopy = event.pasteActionState.nodes
                                         )
                                     }
-                                    PasteMode.PASTE_FROM_MOVE -> {
+                                    NodeActionMode.PASTE_FROM_MOVE -> {
                                         moveNodes(
                                             newParentId = event.pasteActionState.parentId,
                                             nodesToMove = event.pasteActionState.nodes
@@ -1301,7 +1308,7 @@ class GroupActivity : DatabaseLockActivity() {
     }
 
     override fun onDatabaseBackPressed() {
-        if (mGroupViewModel.nodeActionSelectionMode) {
+        if (mGroupViewModel.nodeActionState.value.nodeActionMode != null) {
             finishNodeAction()
         } else {
             // Normal way when we are not in root

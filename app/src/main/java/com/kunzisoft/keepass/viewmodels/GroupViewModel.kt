@@ -108,9 +108,6 @@ class GroupViewModel(application: Application): AndroidViewModel(application) {
         .map { it.selectedNodes }
         .stateIn(viewModelScope, SharingStarted.Lazily, listOf())
 
-    val nodeActionSelectionMode: Boolean
-        get() = _nodeActionState.value.selectionMode
-
     private val _groupUIState = MutableStateFlow<GroupUISTate>(GroupUISTate())
     val groupUIState: StateFlow<GroupUISTate> = _groupUIState.asStateFlow()
 
@@ -368,8 +365,9 @@ class GroupViewModel(application: Application): AndroidViewModel(application) {
                 finishNodeAction()
                 _viewEvent.emit(GroupEvent.ShowGroup(currentGroup))
             } else {
-                if (nodeActionSelectionMode) {
-                    finishNodeAction()
+                when (nodeActionState.value.nodeActionMode) {
+                    NodeActionMode.SELECTION -> finishNodeAction()
+                    else -> {}
                 }
                 _viewEvent.emit(GroupEvent.OpenGroup(group.nodeId))
             }
@@ -397,22 +395,32 @@ class GroupViewModel(application: Application): AndroidViewModel(application) {
 
     fun performNodeClick(node: SortedNodeInfo) {
         viewModelScope.launch {
-            val state = _nodeActionState.value
-            if (state.selectionMode) {
-                val selectedNodes = state.selectedNodes.toMutableList()
-                val existingNode = selectedNodes.find { it.nodeId == node.nodeId }
-                if (existingNode != null) {
-                    // Remove selected item if already selected
-                    selectedNodes.remove(existingNode)
-                } else {
-                    // Add selected item if not already selected
-                    selectedNodes.add(node)
+            val state = nodeActionState.value
+            when (state.nodeActionMode) {
+                NodeActionMode.SELECTION -> {
+                    val selectedNodes = state.selectedNodes.toMutableList()
+                    val existingNode = selectedNodes.find { it.nodeId == node.nodeId }
+                    if (existingNode != null) {
+                        // Remove selected item if already selected
+                        selectedNodes.remove(existingNode)
+                    } else {
+                        // Add selected item if not already selected
+                        selectedNodes.add(node)
+                    }
+                    selectNodes(selectedNodes)
                 }
-                selectNodes(selectedNodes)
-            } else {
-                when (node) {
-                    is SortedGroupInfo -> _viewEvent.emit(GroupEvent.OpenGroup(node.nodeId))
-                    is SortedEntryInfo -> _viewEvent.emit(GroupEvent.OpenEntry(node))
+                NodeActionMode.PASTE_FROM_COPY,
+                NodeActionMode.PASTE_FROM_MOVE -> {
+                    when (node) {
+                        is SortedGroupInfo -> _viewEvent.emit(GroupEvent.OpenGroup(node.nodeId))
+                        else -> {}
+                    }
+                }
+                null -> {
+                    when (node) {
+                        is SortedGroupInfo -> _viewEvent.emit(GroupEvent.OpenGroup(node.nodeId))
+                        is SortedEntryInfo -> _viewEvent.emit(GroupEvent.OpenEntry(node))
+                    }
                 }
             }
         }
@@ -420,13 +428,21 @@ class GroupViewModel(application: Application): AndroidViewModel(application) {
 
     fun performLongNodeClick(node: SortedNodeInfo): Boolean {
         viewModelScope.launch {
-            if (_nodeActionState.value.pasteMode == PasteMode.UNDEFINED) {
-                // Select the first item after a long click
-                val selectedNodes = _nodeActionState.value.selectedNodes.toMutableList()
-                if (selectedNodes.none { it.nodeId == node.nodeId })
-                    selectedNodes.add(node)
-                selectNodes(selectedNodes)
-                _viewEvent.emit(GroupEvent.HideKeyboard)
+            val state = nodeActionState.value
+            when (state.nodeActionMode) {
+                NodeActionMode.SELECTION,
+                NodeActionMode.PASTE_FROM_COPY,
+                NodeActionMode.PASTE_FROM_MOVE -> {
+                    performNodeClick(node)
+                }
+                null -> {
+                    // Select the first item after a long click
+                    val selectedNodes = state.selectedNodes.toMutableList()
+                    if (selectedNodes.none { it.nodeId == node.nodeId })
+                        selectedNodes.add(node)
+                    selectNodes(selectedNodes)
+                    _viewEvent.emit(GroupEvent.HideKeyboard)
+                }
             }
         }
         return true
@@ -437,7 +453,7 @@ class GroupViewModel(application: Application): AndroidViewModel(application) {
             _nodeActionState.update {
                 it.copy(
                     isActive = true,
-                    selectionMode = it.pasteMode == PasteMode.UNDEFINED,
+                    nodeActionMode = NodeActionMode.SELECTION,
                     selectedNodes = nodes
                 )
             }
@@ -478,8 +494,7 @@ class GroupViewModel(application: Application): AndroidViewModel(application) {
         if (nodes.isNotEmpty()) {
             _nodeActionState.update {
                 it.copy(
-                    selectionMode = false,
-                    pasteMode = PasteMode.PASTE_FROM_COPY
+                    nodeActionMode = NodeActionMode.PASTE_FROM_COPY
                 )
             }
             viewModelScope.launch {
@@ -493,8 +508,7 @@ class GroupViewModel(application: Application): AndroidViewModel(application) {
         if (nodes.isNotEmpty()) {
             _nodeActionState.update {
                 it.copy(
-                    selectionMode = false,
-                    pasteMode = PasteMode.PASTE_FROM_MOVE
+                    nodeActionMode = NodeActionMode.PASTE_FROM_MOVE
                 )
             }
             viewModelScope.launch {
@@ -520,15 +534,22 @@ class GroupViewModel(application: Application): AndroidViewModel(application) {
         val state = _nodeActionState.value
         mainGroup?.nodeId?.let { parentId ->
             viewModelScope.launch {
-                _viewEvent.emit(
-                    GroupEvent.PasteNodes(
-                        PasteActionState(
-                            state.pasteMode,
-                            parentId,
-                            state.selectedNodes.toNodes()
+                state.nodeActionMode?.let { pasteMode ->
+                    _viewEvent.emit(
+                        GroupEvent.PasteNodes(
+                            PasteActionState(
+                                pasteMode,
+                                parentId,
+                                state.selectedNodes.toNodes()
+                            )
                         )
                     )
-                )
+                }
+                _nodeActionState.update {
+                    it.copy(
+                        nodeActionMode = null
+                    )
+                }
             }
             finishNodeAction()
         }
@@ -628,8 +649,7 @@ class GroupViewModel(application: Application): AndroidViewModel(application) {
 
     data class NodeActionState(
         val isActive: Boolean = false,
-        val selectionMode: Boolean = false,
-        val pasteMode: PasteMode = PasteMode.UNDEFINED,
+        val nodeActionMode: NodeActionMode? = null,
         val selectedNodes: List<SortedNodeInfo> = emptyList()
     )
 
@@ -672,7 +692,7 @@ class GroupViewModel(application: Application): AndroidViewModel(application) {
     )
 
     data class PasteActionState(
-        val pasteMode: PasteMode,
+        val pasteMode: NodeActionMode,
         val parentId: GroupId,
         val nodes: Nodes
     )
@@ -683,8 +703,8 @@ class GroupViewModel(application: Application): AndroidViewModel(application) {
         val sortDatabaseParameters: SortNodeEnum.SortDatabaseParameters? = null
     )
 
-    enum class PasteMode {
-        UNDEFINED, PASTE_FROM_COPY, PASTE_FROM_MOVE
+    enum class NodeActionMode {
+        SELECTION, PASTE_FROM_COPY, PASTE_FROM_MOVE
     }
 
     companion object {
