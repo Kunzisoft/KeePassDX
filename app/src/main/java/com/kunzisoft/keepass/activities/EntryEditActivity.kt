@@ -235,17 +235,13 @@ class EntryEditActivity : DatabaseLockActivity() {
                             loadingView?.hideByFading()
                         else
                             loadingView?.showByFading()
-                        invalidateOptionsMenu()
-                    }
-                }
-                launch {
-                    mEntryEditViewModel.entryEditEvents.collect { event ->
-                        when (event) {
-                            is EntryEditViewModel.EntryEditEvent.OnTemplatesInitialized -> {
-                                val templates = event.templates.templates
-                                val defaultTemplate = event.templates.defaultTemplate
-                                templateSelectorSpinner?.apply {
-                                    // Build template selector
+
+                        uiState.templates?.let { templatesData ->
+                            val templates = templatesData.templates
+                            val defaultTemplate = templatesData.defaultTemplate
+                            templateSelectorSpinner?.apply {
+                                // Build template selector
+                                if (adapter == null) {
                                     if (templates.isNotEmpty()) {
                                         mTemplatesSelectorAdapter = TemplatesSelectorAdapter(
                                             this@EntryEditActivity,
@@ -254,7 +250,6 @@ class EntryEditActivity : DatabaseLockActivity() {
                                             iconDrawableFactory = mDatabase?.iconDrawableFactory
                                         }
                                         adapter = mTemplatesSelectorAdapter
-                                        setSelection(templates.indexOf(defaultTemplate))
                                         onItemSelectedListener =
                                             object : AdapterView.OnItemSelectedListener {
                                                 override fun onItemSelected(
@@ -271,7 +266,15 @@ class EntryEditActivity : DatabaseLockActivity() {
                                         visibility = View.GONE
                                     }
                                 }
+                                setSelection(templates.indexOf(defaultTemplate))
                             }
+                        }
+                        invalidateOptionsMenu()
+                    }
+                }
+                launch {
+                    mEntryEditViewModel.entryEditEvents.collect { event ->
+                        when (event) {
                             is EntryEditViewModel.EntryEditEvent.RequestPasswordSelection -> {
                                 KeyGeneratorActivity.launch(
                                     context = this@EntryEditActivity,
