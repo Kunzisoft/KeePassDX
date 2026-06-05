@@ -87,7 +87,7 @@ class EntryEditViewModel: NodeEditViewModel() {
 
     private var initialized = false
 
-    fun loadTemplateEntry(database: ContextualDatabase) {
+    fun onDatabaseLoaded(database: ContextualDatabase) {
         mDatabase = database
         allowCustomFields = database.allowEntryCustomFields() == true
         allowOTP = database.allowOTP == true

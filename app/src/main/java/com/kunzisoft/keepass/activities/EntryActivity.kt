@@ -272,7 +272,7 @@ class EntryActivity : DatabaseLockActivity() {
                         toolbar?.changeControlColor(onToolbarColor)
                         collapsingToolbarLayout?.changeTitleColor(onToolbarColor)
                         // Manage FAB visibility
-                        editFab?.visibility = if (!mDatabaseReadOnly
+                        editFab?.visibility = if (!entryState.isReadOnly
                             && entryState.showFloatingActionButton) View.VISIBLE else View.GONE
                         // Assign history dedicated view
                         historyView?.visibility = if (entryState.showHistoryView) View.VISIBLE else View.GONE

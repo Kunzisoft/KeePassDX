@@ -183,13 +183,13 @@ class GroupActivity : DatabaseLockActivity() {
         }
 
         override fun onQueryTextChange(newText: String?): Boolean {
-            mGroupViewModel.searchText(mDatabase, newText)
+            mGroupViewModel.searchText(newText)
             return true
         }
     }
     private val mOnSearchFiltersChangeListener = object : ((SearchParameters) -> Unit) {
         override fun invoke(searchParameters: SearchParameters) {
-            mGroupViewModel.searchWithParameters(mDatabase, searchParameters)
+            mGroupViewModel.searchWithParameters(searchParameters)
         }
     }
     private val mOnSearchActionExpandListener = object : MenuItem.OnActionExpandListener {
@@ -530,9 +530,7 @@ class GroupActivity : DatabaseLockActivity() {
                     mGroupViewModel.viewEvent.collect { event ->
                         when (event) {
                             is GroupViewModel.GroupEvent.OpenGroup -> {
-                                mDatabase?.let { database ->
-                                    mGroupViewModel.loadGroup(database, event.groupId)
-                                }
+                                mGroupViewModel.loadGroup(event.groupId)
                             }
                             is GroupViewModel.GroupEvent.OpenEntry -> {
                                 mDatabase?.let { database ->

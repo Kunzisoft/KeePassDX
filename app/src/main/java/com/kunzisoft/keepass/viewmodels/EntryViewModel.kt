@@ -134,6 +134,7 @@ class EntryViewModel(application: Application): AndroidViewModel(application) {
                             it.copy(
                                 loaded = true,
                                 entryInfo = entryInfo,
+                                isReadOnly = database.isReadOnly,
                                 showFloatingActionButton = !isHistory,
                                 showHistoryView = isHistory,
                                 entryHistory = if (!isHistory)
@@ -307,6 +308,7 @@ class EntryViewModel(application: Application): AndroidViewModel(application) {
     data class EntryViewState(
         val loaded: Boolean = false,
         val entryInfo: EntryInfo? = null,
+        val isReadOnly: Boolean = true,
         val showFloatingActionButton: Boolean = false,
         val showHistoryView: Boolean = false,
         val toolbarColor: Int = 0,

@@ -458,7 +458,7 @@ class EntryEditActivity : DatabaseLockActivity() {
 
     override fun onDatabaseRetrieved(database: ContextualDatabase) {
         super.onDatabaseRetrieved(database)
-        mEntryEditViewModel.loadTemplateEntry(database)
+        mEntryEditViewModel.onDatabaseLoaded(database)
         mTemplatesSelectorAdapter?.apply {
             iconDrawableFactory = database.iconDrawableFactory
             notifyDataSetChanged()

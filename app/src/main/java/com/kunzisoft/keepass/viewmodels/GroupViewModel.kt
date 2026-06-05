@@ -148,64 +148,66 @@ class GroupViewModel(application: Application): AndroidViewModel(application) {
 
     fun loadGroup() {
         if (mSearchState != null) {
-            loadSearch(mDatabase)
-        } else loadMainGroup(mDatabase)
+            loadSearch()
+        } else loadMainGroup()
     }
 
     private fun loadMainGroup(
-        database: ContextualDatabase?,
         groupState: GroupState? = mMainGroupState
     ) {
         viewModelScope.launch {
-            withContext(Dispatchers.IO) {
-                _groupUIState.update { groupState ->
-                    groupState.copy(loaded = false)
-                }
-                val groupId = groupState?.groupId
-                val showFromPosition = groupState?.firstVisibleItem
-                val group = if (groupId != null) {
-                    database?.getGroupInfoById(groupId)
-                } else {
-                    database?.getRootGroupInfo()
-                }
-                if (group != null) {
-                    mRecyclingBinIsCurrentGroup = group.isRecycleBin(database)
-                    mainGroup = group
-                    // Save group state
-                    mMainGroupState = GroupState(group.nodeId, showFromPosition)
-                    isCurrentGroupIsRoot = group.isRoot(mDatabase) == true
-                    isCurrentGroupIsSearch = false
-                    mSearchState = null
-                    // Breadcrumbs
-                    val breadcrumbs = mDatabase?.getBreadcrumbsFrom(
-                        groupId = group.nodeId,
-                        recursiveNumberOfEntries = mRecursiveNumberEntries,
-                        nodeFilter = mNodeFilter
-                    ) ?: listOf()
-                    // Children
-                    val children = mDatabase?.getSortedChildrenOf(
-                        parentId = group.nodeId,
-                        recursiveNumberOfEntries = mRecursiveNumberEntries,
-                        nodeFilter = mNodeFilter
-                    ) ?: listOf()
-                    // To enable add button
-                    val addGroupEnabled = mDatabase?.allowAddGroupIn(group = group) ?: false
-                    val addEntryEnabled = mDatabase?.allowAddEntryIn(group = group) ?: false
-                    mAddGroupOrEntryAllowed = addGroupEnabled || addEntryEnabled
-                    withContext(Dispatchers.Main) {
-                        _groupUIState.update { groupState ->
-                            groupState.copy(
-                                loaded = true,
-                                breadcrumbs = breadcrumbs,
-                                group = group,
-                                children = children,
-                                showAddGroupButton = addGroupEnabled,
-                                showAddEntryButton = addEntryEnabled,
-                                showAddNodeButton = mAddNodeButtonAllowed
-                            )
-                        }
-                        showFromPosition?.let {
-                            _viewEvent.emit(GroupEvent.ShowPosition(showFromPosition))
+            mDatabase?.let { database ->
+                withContext(Dispatchers.IO) {
+                    _groupUIState.update { groupState ->
+                        groupState.copy(loaded = false)
+                    }
+                    val groupId = groupState?.groupId
+                    val showFromPosition = groupState?.firstVisibleItem
+                    val group = if (groupId != null) {
+                        database.getGroupInfoById(groupId)
+                    } else {
+                        database.getRootGroupInfo()
+                    }
+                    if (group != null) {
+                        mRecyclingBinIsCurrentGroup = group.isRecycleBin(database)
+                        mainGroup = group
+                        // Save group state
+                        mMainGroupState = GroupState(group.nodeId, showFromPosition)
+                        isCurrentGroupIsRoot = group.isRoot(mDatabase) == true
+                        isCurrentGroupIsSearch = false
+                        mSearchState = null
+                        // Breadcrumbs
+                        val breadcrumbs = mDatabase?.getBreadcrumbsFrom(
+                            groupId = group.nodeId,
+                            recursiveNumberOfEntries = mRecursiveNumberEntries,
+                            nodeFilter = mNodeFilter
+                        ) ?: listOf()
+                        // Children
+                        val children = mDatabase?.getSortedChildrenOf(
+                            parentId = group.nodeId,
+                            recursiveNumberOfEntries = mRecursiveNumberEntries,
+                            nodeFilter = mNodeFilter
+                        ) ?: listOf()
+                        // To enable add button
+                        val addGroupEnabled = database.allowAddGroupIn(group = group)
+                        val addEntryEnabled = database.allowAddEntryIn(group = group)
+                        mAddGroupOrEntryAllowed = addGroupEnabled || addEntryEnabled
+                        withContext(Dispatchers.Main) {
+                            _groupUIState.update { groupState ->
+                                groupState.copy(
+                                    loaded = true,
+                                    breadcrumbs = breadcrumbs,
+                                    group = group,
+                                    children = children,
+                                    isReadOnly = database.isReadOnly,
+                                    showAddGroupButton = addGroupEnabled,
+                                    showAddEntryButton = addEntryEnabled,
+                                    showAddNodeButton = mAddNodeButtonAllowed
+                                )
+                            }
+                            showFromPosition?.let {
+                                _viewEvent.emit(GroupEvent.ShowPosition(showFromPosition))
+                            }
                         }
                     }
                 }
@@ -214,7 +216,6 @@ class GroupViewModel(application: Application): AndroidViewModel(application) {
     }
 
     fun loadGroup(
-        database: ContextualDatabase?,
         groupId: GroupId?
     ) {
         // Save the last not virtual group and it's position
@@ -223,29 +224,28 @@ class GroupViewModel(application: Application): AndroidViewModel(application) {
                 mPreviousGroupsStates.add(it)
             }
         }
-        loadMainGroup(database, GroupState(groupId, firstVisibleItem = 0))
+        loadMainGroup(GroupState(groupId, firstVisibleItem = 0))
     }
 
     private fun loadSearch(
-        database: ContextualDatabase?,
         searchState: SearchState? = mSearchState,
     ) {
         viewModelScope.launch {
-            withContext(Dispatchers.IO) {
-                searchState?.let {
-                    withContext(Dispatchers.Main) {
-                        _groupUIState.update { groupState ->
-                            groupState.copy(loaded = false)
+            mDatabase?.let { database ->
+                withContext(Dispatchers.IO) {
+                    searchState?.let {
+                        withContext(Dispatchers.Main) {
+                            _groupUIState.update { groupState ->
+                                groupState.copy(loaded = false)
+                            }
                         }
-                    }
-                    val searchParameters = searchState.searchParameters
-                    val showFromPosition = searchState.firstVisibleItem
-                    val group = database?.createSearchGroupInfo(
-                        searchParameters = searchParameters,
-                        fromGroup = mMainGroupState?.groupId,
-                        max = SearchHelper.MAX_SEARCH_ENTRY
-                    )
-                    if (group != null) {
+                        val searchParameters = searchState.searchParameters
+                        val showFromPosition = searchState.firstVisibleItem
+                        val group = database.createSearchGroupInfo(
+                            searchParameters = searchParameters,
+                            fromGroup = mMainGroupState?.groupId,
+                            max = SearchHelper.MAX_SEARCH_ENTRY
+                        )
                         isCurrentGroupIsRoot = false
                         isCurrentGroupIsSearch = true
                         mSearchState = searchState
@@ -256,6 +256,7 @@ class GroupViewModel(application: Application): AndroidViewModel(application) {
                                     loaded = true,
                                     group = group,
                                     children = children,
+                                    isReadOnly = database.isReadOnly,
                                     showAddNodeButton = false
                                 )
                             }
@@ -263,8 +264,8 @@ class GroupViewModel(application: Application): AndroidViewModel(application) {
                                 _viewEvent.emit(GroupEvent.ShowPosition(showFromPosition))
                             }
                         }
-                    }
-                } ?: Log.e(TAG, "Search state is null")
+                    } ?: Log.e(TAG, "Search state is null")
+                }
             }
         }
     }
@@ -326,20 +327,20 @@ class GroupViewModel(application: Application): AndroidViewModel(application) {
         }
     }
 
-    fun searchText(database: ContextualDatabase?, text: String?) {
+    fun searchText(text: String?) {
         if (text != null && !mLockSearchListeners) {
             mSearchState?.let { searchState ->
                 searchState.searchParameters.searchQuery = text
-                loadSearch(database, searchState)
+                loadSearch(searchState)
             }
         }
     }
 
-    fun searchWithParameters(database: ContextualDatabase?, searchParameters: SearchParameters) {
+    fun searchWithParameters(searchParameters: SearchParameters) {
         mSearchState?.let { searchState ->
             searchParameters.searchQuery = searchState.searchParameters.searchQuery
             searchState.searchParameters = searchParameters
-            loadSearch(database, searchState)
+            loadSearch(searchState)
         }
     }
 
@@ -605,7 +606,6 @@ class GroupViewModel(application: Application): AndroidViewModel(application) {
     fun loadPreviousGroup() {
         if (previousGroupExists()) {
             return loadMainGroup(
-                database = mDatabase,
                 groupState = mPreviousGroupsStates.removeAt(mPreviousGroupsStates.lastIndex)
             )
         }
@@ -657,6 +657,7 @@ class GroupViewModel(application: Application): AndroidViewModel(application) {
         val breadcrumbs: List<SortedGroupInfo>? = null,
         val group: GroupInfo? = null,
         val children: List<SortedNodeInfo>? = null,
+        val isReadOnly: Boolean = true,
         val showAddNodeButton: Boolean = false,
         val showAddGroupButton: Boolean = false,
         val showAddEntryButton: Boolean = false
