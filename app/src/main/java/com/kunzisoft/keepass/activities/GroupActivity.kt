@@ -93,6 +93,8 @@ import com.kunzisoft.keepass.model.NodeInfo
 import com.kunzisoft.keepass.model.RegisterInfo
 import com.kunzisoft.keepass.model.SearchGroupInfo
 import com.kunzisoft.keepass.model.SearchInfo
+import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_COPY_NODES_TASK
+import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_MOVE_NODES_TASK
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_TOUCH_ENTRY_TASK
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_TOUCH_GROUP_TASK
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_ENTRY_TASK
@@ -949,11 +951,11 @@ class GroupActivity : DatabaseLockActivity() {
             loadGroup()
         }
         if (actionTask == ACTION_DATABASE_UPDATE_GROUP_TASK
-            || actionTask == ACTION_DATABASE_UPDATE_ENTRY_TASK) {
-            if (result.isSuccess) {
-                coordinatorError?.showActionErrorIfNeeded(result)
-                finishNodeAction()
-            }
+            || actionTask == ACTION_DATABASE_UPDATE_ENTRY_TASK
+            || actionTask == ACTION_DATABASE_MOVE_NODES_TASK
+            || actionTask == ACTION_DATABASE_COPY_NODES_TASK) {
+            coordinatorError?.showActionErrorIfNeeded(result)
+            finishNodeAction()
         }
     }
 
