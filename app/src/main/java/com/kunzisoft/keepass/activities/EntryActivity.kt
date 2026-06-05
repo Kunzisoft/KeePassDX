@@ -206,7 +206,7 @@ class EntryActivity : DatabaseLockActivity() {
                 val historyPosition = intent.getIntExtra(KEY_ENTRY_HISTORY_POSITION, -1)
                 intent.removeExtra(KEY_ENTRY_HISTORY_POSITION)
 
-                mEntryViewModel.loadEntry(mDatabase, mainEntryId, historyPosition)
+                mEntryViewModel.loadEntry(mainEntryId, historyPosition)
             }
         } catch (_: ClassCastException) {
             Log.e(TAG, "Unable to retrieve the entry key")
@@ -487,11 +487,11 @@ class EntryActivity : DatabaseLockActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         super.onCreateOptionsMenu(menu)
-        if (mEntryViewModel.entryLoaded) {
+        if (mEntryViewModel.databaseActionsAllowed()) {
             val inflater = menuInflater
             inflater.inflate(R.menu.database, menu)
 
-            if (mEntryViewModel.entryIsHistory && !mDatabaseReadOnly) {
+            if (mEntryViewModel.entryHistoryActionsAllowed()) {
                 inflater.inflate(R.menu.entry_history, menu)
             }
 
@@ -504,15 +504,15 @@ class EntryActivity : DatabaseLockActivity() {
     }
 
     override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
-        if (mEntryViewModel.entryIsHistory || mDatabaseReadOnly) {
+        if (!mEntryViewModel.saveDatabaseActionAllowed()) {
             menu?.findItem(R.id.menu_save_database)?.isVisible = false
+        }
+        if (!mEntryViewModel.mergeDatabaseActionAllowed()
+            || mSpecialMode != SpecialMode.DEFAULT) {
             menu?.findItem(R.id.menu_merge_database)?.isVisible = false
         }
-        if (!mMergeDataAllowed) {
-            menu?.findItem(R.id.menu_merge_database)?.isVisible = false
-        }
-        if (mSpecialMode != SpecialMode.DEFAULT) {
-            menu?.findItem(R.id.menu_merge_database)?.isVisible = false
+        if (!mEntryViewModel.reloadDatabaseActionAllowed()
+            || mSpecialMode != SpecialMode.DEFAULT) {
             menu?.findItem(R.id.menu_reload_database)?.isVisible = false
         }
         mEntryViewModel.applyToolbarColors()

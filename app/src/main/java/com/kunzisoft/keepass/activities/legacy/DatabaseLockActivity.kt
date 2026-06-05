@@ -67,10 +67,7 @@ abstract class DatabaseLockActivity : DatabaseModeActivity() {
 
     private var mLockReceiver: LockReceiver? = null
     private var mExitLock: Boolean = false
-
-    protected var mDatabaseReadOnly: Boolean = true
     protected var mDatabaseAllowUserVerification: Boolean = true
-    protected var mMergeDataAllowed: Boolean = false
     private var mAutoSaveEnable: Boolean = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -147,9 +144,7 @@ abstract class DatabaseLockActivity : DatabaseModeActivity() {
                 TimeoutHelper.recordTime(this, database.loaded)
         }
 
-        mDatabaseReadOnly = database.isReadOnly
         mDatabaseAllowUserVerification = database.allowUserVerification
-        mMergeDataAllowed = database.isMergeDataAllowed()
 
         checkRegister()
     }
@@ -176,9 +171,19 @@ abstract class DatabaseLockActivity : DatabaseModeActivity() {
                 // Reload the current activity
                 if (result.isSuccess) {
                     reloadActivity()
-                    if (actionTask == DatabaseTaskNotificationService.ACTION_DATABASE_MERGE_TASK) {
-                        Toast.makeText(this, R.string.merge_success, Toast.LENGTH_LONG).show()
-                    }
+                    Toast.makeText(
+                        this,
+                        when (actionTask) {
+                            DatabaseTaskNotificationService.ACTION_DATABASE_MERGE_TASK ->
+                                if (database.isReadOnly || !PreferencesUtil.isAutoSaveDatabaseEnabled(this))
+                                    R.string.temporary_merge_success
+                                else
+                                    R.string.merge_success
+                            else ->
+                                R.string.reload_success
+                        },
+                        Toast.LENGTH_LONG
+                    ).show()
                 } else {
                     this.showActionErrorIfNeeded(result)
                     finish()
@@ -294,7 +299,7 @@ abstract class DatabaseLockActivity : DatabaseModeActivity() {
 
     private fun checkRegister() {
         // If in registration mode, don't allow read only
-        if (mSpecialMode == SpecialMode.REGISTRATION && mDatabaseReadOnly) {
+        if (mSpecialMode == SpecialMode.REGISTRATION && mDatabase?.isReadOnly != false) {
             Toast.makeText(this, R.string.error_registration_read_only , Toast.LENGTH_LONG).show()
             intent.removeModes()
             finish()

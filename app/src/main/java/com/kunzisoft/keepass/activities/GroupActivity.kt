@@ -1108,75 +1108,78 @@ class GroupActivity : DatabaseLockActivity() {
             //  depending on current mode
             val modeCondition = mSpecialMode == SpecialMode.DEFAULT
             menu.findItem(R.id.menu_app_settings)?.isVisible = modeCondition
-            menu.findItem(R.id.menu_merge_from)?.isVisible = mMergeDataAllowed && modeCondition
-            menu.findItem(R.id.menu_save_copy_to)?.isVisible = modeCondition
+            menu.findItem(R.id.menu_merge_from)?.isVisible = mGroupViewModel.mergeFromDatabaseActionAllowed() && modeCondition
+            menu.findItem(R.id.menu_save_copy_to)?.isVisible = mGroupViewModel.copyToDatabaseActionAllowed() && modeCondition
             menu.findItem(R.id.menu_about)?.isVisible = modeCondition
             menu.findItem(R.id.menu_contribute)?.isVisible = modeCondition
         }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-
-        val inflater = menuInflater
-        inflater.inflate(R.menu.search, menu)
-        inflater.inflate(R.menu.database, menu)
-        if (mDatabaseReadOnly) {
-            menu.findItem(R.id.menu_save_database)?.isVisible = false
-            menu.findItem(R.id.menu_merge_database)?.isVisible = false
-        }
-        if (!mMergeDataAllowed) {
-            menu.findItem(R.id.menu_merge_database)?.isVisible = false
-        }
-        if (mSpecialMode != SpecialMode.DEFAULT) {
-            menu.findItem(R.id.menu_merge_database)?.isVisible = false
-            menu.findItem(R.id.menu_reload_database)?.isVisible = false
-        }
-        // Menu for recycle bin
-        if (mGroupViewModel.recycleBinActionsAllowed()) {
-            inflater.inflate(R.menu.recycle_bin, menu)
-        }
-
-        prepareDatabaseNavMenu()
-
-        // Get the SearchView and set the searchable configuration
-        menu.findItem(R.id.menu_search)?.let {
-            mGroupViewModel.mLockSearchListeners = true
-            it.setOnActionExpandListener(mOnSearchActionExpandListener)
-            searchView = it.actionView as SearchView?
-            searchView?.apply {
-                setOnQueryTextFocusChangeListener(mOnSearchTextFocusChangeListener)
-                val searchManager = getSystemService(SEARCH_SERVICE) as SearchManager?
-                (searchManager?.getSearchableInfo(
-                    ComponentName(this@GroupActivity, GroupActivity::class.java)
-                ))?.let { searchableInfo ->
-                    setSearchableInfo(searchableInfo)
-                }
-                val searchState = mGroupViewModel.mSearchState
-                // already open
-                if (searchState != null) {
-                    it.expandActionView()
-                    addSearchQueryInSearchView(searchState.searchParameters.searchQuery)
-                    if (mGroupViewModel.mTempSearchInfo.not()) {
-                        searchFiltersView?.searchParameters = searchState.searchParameters
-                    }
-                }
-            }
-            if (it.isActionViewExpanded) {
-                breadcrumbListView?.visibility = View.GONE
-                searchFiltersView?.visibility = View.VISIBLE
-            } else {
-                searchFiltersView?.visibility = View.GONE
-                breadcrumbListView?.visibility = View.VISIBLE
-            }
-            mGroupViewModel.mLockSearchListeners = false
-            mGroupViewModel.mAutoSearch = false
-        }
-
         super.onCreateOptionsMenu(menu)
 
-        // Launch education screen
-        Handler(Looper.getMainLooper()).post {
-            performedNextEducation(menu)
+        if (mGroupViewModel.databaseActionsAllowed()) {
+            val inflater = menuInflater
+            inflater.inflate(R.menu.search, menu)
+            inflater.inflate(R.menu.database, menu)
+            if (!mGroupViewModel.saveDatabaseActionAllowed()) {
+                menu.findItem(R.id.menu_save_database)?.isVisible = false
+            }
+            if (!mGroupViewModel.mergeDatabaseActionAllowed()
+                || mSpecialMode != SpecialMode.DEFAULT
+            ) {
+                menu.findItem(R.id.menu_merge_database)?.isVisible = false
+            }
+            if (!mGroupViewModel.reloadDatabaseActionAllowed()
+                || mSpecialMode != SpecialMode.DEFAULT
+            ) {
+                menu.findItem(R.id.menu_reload_database)?.isVisible = false
+            }
+            // Menu for recycle bin
+            if (mGroupViewModel.recycleBinActionsAllowed()) {
+                inflater.inflate(R.menu.recycle_bin, menu)
+            }
+
+            prepareDatabaseNavMenu()
+
+            // Get the SearchView and set the searchable configuration
+            menu.findItem(R.id.menu_search)?.let {
+                mGroupViewModel.mLockSearchListeners = true
+                it.setOnActionExpandListener(mOnSearchActionExpandListener)
+                searchView = it.actionView as SearchView?
+                searchView?.apply {
+                    setOnQueryTextFocusChangeListener(mOnSearchTextFocusChangeListener)
+                    val searchManager = getSystemService(SEARCH_SERVICE) as SearchManager?
+                    (searchManager?.getSearchableInfo(
+                        ComponentName(this@GroupActivity, GroupActivity::class.java)
+                    ))?.let { searchableInfo ->
+                        setSearchableInfo(searchableInfo)
+                    }
+                    val searchState = mGroupViewModel.mSearchState
+                    // already open
+                    if (searchState != null) {
+                        it.expandActionView()
+                        addSearchQueryInSearchView(searchState.searchParameters.searchQuery)
+                        if (mGroupViewModel.mTempSearchInfo.not()) {
+                            searchFiltersView?.searchParameters = searchState.searchParameters
+                        }
+                    }
+                }
+                if (it.isActionViewExpanded) {
+                    breadcrumbListView?.visibility = View.GONE
+                    searchFiltersView?.visibility = View.VISIBLE
+                } else {
+                    searchFiltersView?.visibility = View.GONE
+                    breadcrumbListView?.visibility = View.VISIBLE
+                }
+                mGroupViewModel.mLockSearchListeners = false
+                mGroupViewModel.mAutoSearch = false
+            }
+
+            // Launch education screen
+            Handler(Looper.getMainLooper()).post {
+                performedNextEducation(menu)
+            }
         }
 
         return true
