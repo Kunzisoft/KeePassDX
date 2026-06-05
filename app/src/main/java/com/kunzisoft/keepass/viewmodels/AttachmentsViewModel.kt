@@ -44,6 +44,8 @@ class AttachmentsViewModel : ViewModel() {
 
     private val binaries = mutableListOf<BinaryData>()
 
+    private var allowMultipleAttachment: Boolean = true
+
     private val _attachmentsUIState = MutableStateFlow<AttachmentUIState>(
         AttachmentUIState(listOf())
     )
@@ -60,7 +62,7 @@ class AttachmentsViewModel : ViewModel() {
     }
 
     /**
-     * Assign attachments, has only effect the first time
+     * Assign attachments
      */
     fun setAttachments(
         attachments: List<Attachment>,
@@ -107,6 +109,7 @@ class AttachmentsViewModel : ViewModel() {
         attachmentToUploadUri: Uri,
     ) {
         this.binaries.add(attachment.binaryData)
+        this.allowMultipleAttachment = allowMultipleAttachment
         // Ask to replace the current attachment
         if ((!allowMultipleAttachment && tempAttachments.isNotEmpty()) ||
             tempAttachments.any { it.attachment.name == attachment.name }) {
@@ -125,7 +128,9 @@ class AttachmentsViewModel : ViewModel() {
     fun onAttachmentAction(entryAttachmentState: EntryAttachmentState?) {
         entryAttachmentState?.let { newState ->
             _attachmentsUIState.update { state ->
-                val newAttachments = state.attachments.toMutableList()
+                val newAttachments = if (!allowMultipleAttachment && tempAttachments.isNotEmpty()) {
+                    mutableListOf()
+                } else state.attachments.toMutableList()
                 val index = newAttachments.indexOfFirst { it.attachment.name == newState.attachment.name }
                 val itemToAdd = newState.copy()
                 if (index != -1) {
