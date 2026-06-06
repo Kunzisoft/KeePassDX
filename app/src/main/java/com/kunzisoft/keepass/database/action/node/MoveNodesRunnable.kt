@@ -40,7 +40,13 @@ class MoveNodesRunnable(
     save: Boolean,
     afterActionNodesFinish: AfterActionNodesFinish?,
     challengeResponseRetriever: (HardwareKey, ByteArray?) -> ByteArray
-) : ActionNodeDatabaseRunnable(context, database, afterActionNodesFinish, save, challengeResponseRetriever) {
+) : ActionNodeDatabaseRunnable(
+    context,
+    database,
+    afterActionNodesFinish,
+    save,
+    challengeResponseRetriever
+) {
 
     private var mOldParent: Group? = null
     private var mNewParent: Group? = null

@@ -35,7 +35,7 @@ class UpdateCompressionBinariesDatabaseRunnable (
     context,
     database,
     save,
-    null,
+    mainCredential = null,
     challengeResponseRetriever
 ) {
 

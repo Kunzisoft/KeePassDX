@@ -36,7 +36,8 @@ class TouchGroupRunnable(
     database,
     afterActionNodesFinish,
     save = false,
-    challengeResponseRetriever
+    challengeResponseRetriever,
+    dataModified = false
 ) {
 
     private var mGroup: Group? = null
@@ -50,7 +51,7 @@ class TouchGroupRunnable(
     override fun nodeAction() {
         mGroup?.let { group ->
             group.touch(modified = false, touchParents = true)
-            database.updateGroup(group = group, dataModified = false)
+            database.updateGroup(group = group)
         }
     }
 

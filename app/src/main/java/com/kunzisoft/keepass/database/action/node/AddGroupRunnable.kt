@@ -35,7 +35,13 @@ class AddGroupRunnable(
     save: Boolean,
     afterActionNodesFinish: AfterActionNodesFinish?,
     challengeResponseRetriever: (HardwareKey, ByteArray?) -> ByteArray
-) : ActionNodeDatabaseRunnable(context, database, afterActionNodesFinish, save, challengeResponseRetriever) {
+) : ActionNodeDatabaseRunnable(
+    context,
+    database,
+    afterActionNodesFinish,
+    save,
+    challengeResponseRetriever
+) {
 
     private var mParent: Group? = null
     private var mNewGroup: Group? = null

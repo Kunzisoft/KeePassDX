@@ -32,7 +32,7 @@ class RemoveUnlinkedDataDatabaseRunnable (
     context,
     database,
     save,
-    null,
+    mainCredential = null,
     challengeResponseRetriever
 ) {
 

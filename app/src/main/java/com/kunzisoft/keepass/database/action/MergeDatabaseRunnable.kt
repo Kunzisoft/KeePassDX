@@ -44,7 +44,7 @@ class MergeDatabaseRunnable(
     context,
     database,
     save,
-    null,
+    mainCredential = null,
     challengeResponseRetriever
 ) {
 

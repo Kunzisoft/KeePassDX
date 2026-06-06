@@ -38,7 +38,7 @@ class CreateDatabaseRunnable(
 ) : SaveDatabaseRunnable(
     context,
     mDatabase,
-    true,
+    save = true,
     mainCredential,
     challengeResponseRetriever
 ) {

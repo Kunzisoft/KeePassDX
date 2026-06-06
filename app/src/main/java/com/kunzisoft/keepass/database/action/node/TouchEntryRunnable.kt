@@ -36,7 +36,8 @@ class TouchEntryRunnable(
     database,
     afterActionNodesFinish,
     save = false,
-    challengeResponseRetriever
+    challengeResponseRetriever,
+    dataModified = false
 ) {
 
     private var mEntry: Entry? = null
@@ -50,7 +51,7 @@ class TouchEntryRunnable(
     override fun nodeAction() {
         mEntry?.let { entry ->
             entry.touch(modified = false, touchParents = true)
-            database.updateEntry(entry = entry, dataModified = false)
+            database.updateEntry(entry = entry)
         }
     }
 

@@ -32,7 +32,13 @@ class UpdateEntryRunnable(
     save: Boolean,
     afterActionNodesFinish: AfterActionNodesFinish?,
     challengeResponseRetriever: (HardwareKey, ByteArray?) -> ByteArray
-) : ActionNodeDatabaseRunnable(context, database, afterActionNodesFinish, save, challengeResponseRetriever) {
+) : ActionNodeDatabaseRunnable(
+    context,
+    database,
+    afterActionNodesFinish,
+    save,
+    challengeResponseRetriever
+) {
 
     private var mOldEntry: Entry? = null
     private var mNewEntry: Entry? = null

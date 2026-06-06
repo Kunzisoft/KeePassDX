@@ -91,6 +91,7 @@ open class Database {
     var wasReloaded = false
 
     var dataModifiedSinceLastLoading = false
+        private set
 
     var loadTimestamp: Long? = null
         private set
@@ -220,7 +221,6 @@ open class Database {
         set(name) {
             mDatabaseKDBX?.name = name
             mDatabaseKDBX?.nameChanged = DateInstant()
-            dataModifiedSinceLastLoading = true
         }
 
     val allowDescription: Boolean
@@ -233,7 +233,6 @@ open class Database {
         set(description) {
             mDatabaseKDBX?.description = description
             mDatabaseKDBX?.descriptionChanged = DateInstant()
-            dataModifiedSinceLastLoading = true
         }
 
     var defaultUsername: String
@@ -244,7 +243,6 @@ open class Database {
             mDatabaseKDB?.defaultUserName = username
             mDatabaseKDBX?.defaultUserName = username
             mDatabaseKDBX?.defaultUserNameChanged = DateInstant()
-            dataModifiedSinceLastLoading = true
         }
 
     var customColor: Int?
@@ -261,7 +259,6 @@ open class Database {
             mDatabaseKDB?.color = value
             mDatabaseKDBX?.color = value?.toFormattedColorString() ?: ""
             mDatabaseKDBX?.settingsChanged = DateInstant()
-            dataModifiedSinceLastLoading = true
         }
 
     val allowOTP: Boolean
@@ -295,7 +292,6 @@ open class Database {
                 mDatabaseKDBX?.compressionAlgorithm = it
             }
             mDatabaseKDBX?.settingsChanged = DateInstant()
-            dataModifiedSinceLastLoading = true
         }
 
     fun compressionForNewEntry(): Boolean {
@@ -309,11 +305,11 @@ open class Database {
         return false
     }
 
-    fun updateDataBinaryCompression(oldCompression: CompressionAlgorithm,
-                                    newCompression: CompressionAlgorithm
+    fun updateDataBinaryCompression(
+        oldCompression: CompressionAlgorithm,
+        newCompression: CompressionAlgorithm
     ) {
         mDatabaseKDBX?.changeBinaryCompression(oldCompression, newCompression)
-        dataModifiedSinceLastLoading = true
     }
 
     val allowNoMasterKey: Boolean
@@ -353,7 +349,6 @@ open class Database {
             mDatabaseKDB?.kdfEngine = kdfEngine
             mDatabaseKDBX?.kdfEngine = kdfEngine
             mDatabaseKDBX?.settingsChanged = DateInstant()
-            dataModifiedSinceLastLoading = true
         }
 
     fun getKeyDerivationName(): String {
@@ -366,7 +361,6 @@ open class Database {
             mDatabaseKDB?.numberKeyEncryptionRounds = numberRounds
             mDatabaseKDBX?.numberKeyEncryptionRounds = numberRounds
             mDatabaseKDBX?.settingsChanged = DateInstant()
-            dataModifiedSinceLastLoading = true
         }
 
     var memoryUsage: Long
@@ -376,7 +370,6 @@ open class Database {
         set(memory) {
             mDatabaseKDBX?.memoryUsage = memory
             mDatabaseKDBX?.settingsChanged = DateInstant()
-            dataModifiedSinceLastLoading = true
         }
 
     var parallelism: Long
@@ -384,7 +377,6 @@ open class Database {
         set(parallelism) {
             mDatabaseKDBX?.parallelism = parallelism
             mDatabaseKDBX?.settingsChanged = DateInstant()
-            dataModifiedSinceLastLoading = true
         }
 
     var masterKey: ByteArray
@@ -394,7 +386,6 @@ open class Database {
             mDatabaseKDBX?.masterKey = masterKey
             mDatabaseKDBX?.keyLastChanged = DateInstant()
             mDatabaseKDBX?.settingsChanged = DateInstant()
-            dataModifiedSinceLastLoading = true
         }
 
     val transformSeed: ByteArray?
@@ -461,7 +452,6 @@ open class Database {
         set(value) {
             mDatabaseKDBX?.historyMaxItems = value
             mDatabaseKDBX?.settingsChanged = DateInstant()
-            dataModifiedSinceLastLoading = true
         }
 
     var historyMaxSize: Long
@@ -471,7 +461,6 @@ open class Database {
         set(value) {
             mDatabaseKDBX?.historyMaxSize = value
             mDatabaseKDBX?.settingsChanged = DateInstant()
-            dataModifiedSinceLastLoading = true
         }
 
     /**
@@ -493,7 +482,6 @@ open class Database {
             mDatabaseKDBX?.removeRecycleBin()
         }
         mDatabaseKDBX?.recycleBinChanged = DateInstant()
-        dataModifiedSinceLastLoading = true
     }
 
     val recycleBin: Group?
@@ -515,7 +503,6 @@ open class Database {
             mDatabaseKDBX?.removeRecycleBin()
         }
         mDatabaseKDBX?.recycleBinChanged = DateInstant()
-        dataModifiedSinceLastLoading = true
     }
 
     /**
@@ -532,7 +519,6 @@ open class Database {
     fun enableTemplates(enable: Boolean, templatesGroupName: String) {
         mDatabaseKDBX?.enableTemplatesGroup(enable, templatesGroupName)
         mDatabaseKDBX?.entryTemplatesGroupChanged = DateInstant()
-        dataModifiedSinceLastLoading = true
     }
 
     val templatesGroup: Group?
@@ -551,7 +537,6 @@ open class Database {
             mDatabaseKDBX?.removeTemplatesGroup()
         }
         mDatabaseKDBX?.entryTemplatesGroupChanged = DateInstant()
-        dataModifiedSinceLastLoading = true
     }
 
     val groupNamesNotAllowed: List<String>
@@ -575,8 +560,6 @@ open class Database {
         templateGroupName: String?
     ) {
         setDatabaseKDBX(DatabaseKDBX(databaseName, rootName, templateGroupName))
-        // Set Database state
-        this.dataModifiedSinceLastLoading = false
     }
 
     @Throws(DatabaseInputException::class)
@@ -714,11 +697,9 @@ open class Database {
                 }
                 databaseToMerge.mDatabaseKDB?.let { databaseKDBToMerge ->
                     databaseMerger.merge(databaseKDBToMerge)
-                    this.dataModifiedSinceLastLoading = true
                 }
                 databaseToMerge.mDatabaseKDBX?.let { databaseKDBXToMerge ->
                     databaseMerger.merge(databaseKDBXToMerge)
-                    this.dataModifiedSinceLastLoading = true
                 }
             }
         } catch (e: Exception) {
@@ -818,6 +799,10 @@ open class Database {
         }
     }
 
+    fun modifyDataWithoutSaving() {
+        dataModifiedSinceLastLoading = true
+    }
+
     @Throws(DatabaseOutputException::class)
     fun saveData(
         cacheFile: File,
@@ -881,6 +866,7 @@ open class Database {
             } catch (e: Exception) {
                 Log.e(TAG, "Cache file $cacheFile cannot be deleted", e)
             }
+            // Indicate data was saved only if it's not a new location
             if (isNewLocation) {
                 this.dataModifiedSinceLastLoading = false
             }
@@ -951,7 +937,6 @@ open class Database {
     fun removeUnlinkedAttachments() {
         // No check in database KDB because unique attachment by entry
         mDatabaseKDBX?.removeUnlinkedAttachments(true)
-        dataModifiedSinceLastLoading = true
     }
 
     open fun clearIndexesAndBinaries(filesDirectory: File?) {
@@ -1010,7 +995,6 @@ open class Database {
     }
 
     fun createEntry(): Entry? {
-        dataModifiedSinceLastLoading = true
         mDatabaseKDB?.let { database ->
             return Entry(database.createEntry()).apply {
                 nodeId = database.newEntryId()
@@ -1026,7 +1010,6 @@ open class Database {
     }
 
     fun createGroup(): Group? {
-        dataModifiedSinceLastLoading = true
         var group: Group? = null
         mDatabaseKDB?.let { database ->
             group = Group(database.createGroup()).apply {
@@ -1077,7 +1060,6 @@ open class Database {
     }
 
     fun addEntryTo(entry: Entry, parent: Group) {
-        dataModifiedSinceLastLoading = true
         entry.entryKDB?.let { entryKDB ->
             mDatabaseKDB?.addEntryTo(entryKDB, parent.groupKDB)
         }
@@ -1087,8 +1069,7 @@ open class Database {
         entry.afterAssignNewParent()
     }
 
-    fun updateEntry(entry: Entry, dataModified: Boolean = true) {
-        dataModifiedSinceLastLoading = dataModified
+    fun updateEntry(entry: Entry) {
         entry.entryKDB?.let { entryKDB ->
             mDatabaseKDB?.updateEntry(entryKDB)
         }
@@ -1098,7 +1079,6 @@ open class Database {
     }
 
     fun removeEntryFrom(entry: Entry, parent: Group) {
-        dataModifiedSinceLastLoading = true
         entry.entryKDB?.let { entryKDB ->
             mDatabaseKDB?.removeEntryFrom(entryKDB, parent.groupKDB)
         }
@@ -1109,7 +1089,6 @@ open class Database {
     }
 
     fun addGroupTo(group: Group, parent: Group) {
-        dataModifiedSinceLastLoading = true
         group.groupKDB?.let { groupKDB ->
             mDatabaseKDB?.addGroupTo(groupKDB, parent.groupKDB)
         }
@@ -1119,8 +1098,7 @@ open class Database {
         group.afterAssignNewParent()
     }
 
-    fun updateGroup(group: Group, dataModified: Boolean = true) {
-        dataModifiedSinceLastLoading = dataModified
+    fun updateGroup(group: Group) {
         group.groupKDB?.let { entryKDB ->
             mDatabaseKDB?.updateGroup(entryKDB)
         }
@@ -1130,7 +1108,6 @@ open class Database {
     }
 
     fun removeGroupFrom(group: Group, parent: Group) {
-        dataModifiedSinceLastLoading = true
         group.groupKDB?.let { groupKDB ->
             mDatabaseKDB?.removeGroupFrom(groupKDB, parent.groupKDB)
         }
@@ -1169,7 +1146,6 @@ open class Database {
     }
 
     fun deleteEntry(entry: Entry) {
-        dataModifiedSinceLastLoading = true
         entry.entryKDBX?.id?.let { entryId ->
             mDatabaseKDBX?.addDeletedObject(entryId)
         }
@@ -1179,7 +1155,6 @@ open class Database {
     }
 
     fun deleteGroup(group: Group) {
-        dataModifiedSinceLastLoading = true
         group.doForEachChildAndForIt(
                 object : NodeHandler<Entry>() {
                     override fun operate(node: Entry): Boolean {

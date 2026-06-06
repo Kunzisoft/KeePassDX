@@ -36,7 +36,8 @@ open class SaveDatabaseRunnable(
     private var save: Boolean,
     private var mainCredential: MainCredential?, // If null, uses composite Key
     private var challengeResponseRetriever: (HardwareKey, ByteArray?) -> ByteArray,
-    private var databaseCopyUri: Uri? = null
+    private var databaseCopyUri: Uri? = null,
+    private var dataModified: Boolean = !save
 ) : ActionRunnable() {
 
     private var mMasterCredential: MasterCredential? = null
@@ -55,8 +56,7 @@ open class SaveDatabaseRunnable(
                 database.saveData(
                     cacheFile = File(context.cacheDir, databaseCopyUri.hashCode().toString()),
                     databaseOutputStream = {
-                        contentResolver
-                            .getUriOutputStream(databaseCopyUri ?: database.fileUri)
+                        contentResolver.getUriOutputStream(databaseCopyUri ?: database.fileUri)
                     },
                     isNewLocation = databaseCopyUri == null,
                     masterCredential = mMasterCredential,
@@ -65,6 +65,8 @@ open class SaveDatabaseRunnable(
             } catch (e: DatabaseException) {
                 setError(e)
             }
+        } else if (dataModified) {
+            database.modifyDataWithoutSaving()
         }
     }
 

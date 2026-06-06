@@ -29,8 +29,16 @@ abstract class ActionNodeDatabaseRunnable(
     database: ContextualDatabase,
     private val afterActionNodesFinish: AfterActionNodesFinish?,
     save: Boolean,
-    challengeResponseRetriever: (HardwareKey, ByteArray?) -> ByteArray
-) : SaveDatabaseRunnable(context, database, save, null, challengeResponseRetriever) {
+    challengeResponseRetriever: (HardwareKey, ByteArray?) -> ByteArray,
+    dataModified: Boolean = !save,
+) : SaveDatabaseRunnable(
+    context,
+    database,
+    save,
+    mainCredential = null,
+    challengeResponseRetriever,
+    dataModified = dataModified
+) {
 
     /**
      * Function do to a node action

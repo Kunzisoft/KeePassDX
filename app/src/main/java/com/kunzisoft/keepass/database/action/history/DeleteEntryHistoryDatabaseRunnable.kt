@@ -37,7 +37,7 @@ class DeleteEntryHistoryDatabaseRunnable (
     context,
     database,
     save,
-    null,
+    mainCredential = null,
     challengeResponseRetriever
 ) {
 
