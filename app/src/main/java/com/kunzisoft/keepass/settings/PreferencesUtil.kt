@@ -716,11 +716,34 @@ object PreferencesUtil {
             context.resources.getBoolean(R.bool.passkeys_close_database_default))
     }
 
-    // Deprecated, only used to avoid confusing users who have already enabled the setting
+    /**
+     * Not in UI, corresponds to the last time the read only setting was changed in a database
+     */
+    fun isReadOnlyEnabledByDefault(context: Context): Boolean {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        return prefs.getBoolean(context.getString(R.string.read_only_key),
+            context.resources.getBoolean(R.bool.read_only_default))
+    }
+
+    fun setReadOnlyEnabledByDefault(context: Context, enabled: Boolean) {
+        PreferenceManager.getDefaultSharedPreferences(context).edit {
+            putBoolean(context.getString(R.string.read_only_key), enabled)
+        }
+    }
+
+    /**
+     * Not in UI, corresponds to the last time the UV setting was changed in a database
+     */
     fun isUserVerificationModeEnabledByDefault(context: Context): Boolean {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
         return prefs.getBoolean(context.getString(R.string.user_verification_mode_key),
             context.resources.getBoolean(R.bool.user_verification_mode_default))
+    }
+
+    fun setUserVerificationModeEnabledByDefault(context: Context, enabled: Boolean) {
+        PreferenceManager.getDefaultSharedPreferences(context).edit {
+            putBoolean(context.getString(R.string.user_verification_mode_key), enabled)
+        }
     }
 
     fun isUserVerificationDeviceCredential(context: Context): Boolean {

@@ -155,7 +155,7 @@ class MainCredentialActivity : DatabaseModeActivity() {
         mReadOnly = if (savedInstanceState != null && savedInstanceState.containsKey(KEY_READ_ONLY)) {
             savedInstanceState.getBoolean(KEY_READ_ONLY)
         } else {
-            false
+            PreferencesUtil.isReadOnlyEnabledByDefault(this)
         }
 
         mForceUserVerificationAllowed = mTypeMode.useUserVerification
@@ -226,9 +226,8 @@ class MainCredentialActivity : DatabaseModeActivity() {
 
                         // Restore read-only state from database file if not forced
                         if (!mForceReadOnly) {
-                            databaseFile?.readOnly?.let { savedReadOnlyState ->
-                                mReadOnly = savedReadOnlyState
-                            }
+                            mReadOnly = databaseFile?.readOnly
+                                ?: PreferencesUtil.isReadOnlyEnabledByDefault(this@MainCredentialActivity)
                         }
                         // Restore User Verification state
                         if (!mForceUserVerificationAllowed) {
@@ -461,7 +460,13 @@ class MainCredentialActivity : DatabaseModeActivity() {
     private fun launchGroupActivityIfLoaded(database: ContextualDatabase) {
         // Check if database really loaded
         if (database.loaded) {
+            // Save the default read-only state
+            PreferencesUtil.setReadOnlyEnabledByDefault(this, mReadOnly)
+            // Save the default user verification state
+            PreferencesUtil.setUserVerificationModeEnabledByDefault(this, mUserVerificationAllowed)
+            // Clear credentials
             clearCredentialsViews(clearKeyFile = true, clearHardwareKey = true)
+            // Open the group activity
             GroupActivity.launch(this,
                 database,
                 { onValidateSpecialMode() },
