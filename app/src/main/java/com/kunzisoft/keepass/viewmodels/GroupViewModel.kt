@@ -585,7 +585,7 @@ class GroupViewModel(application: Application): AndroidViewModel(application) {
 
     fun databaseActionsAllowed(): Boolean = groupUIState.value.loaded
     fun saveDatabaseActionAllowed(): Boolean = mDatabase?.isReadOnly == false
-    fun mergeDatabaseActionAllowed(): Boolean = mDatabase?.isMergeDataAllowed() == true
+    fun mergeDatabaseActionAllowed(): Boolean = saveDatabaseActionAllowed() && mDatabase?.isMergeDataAllowed() == true
     fun reloadDatabaseActionAllowed(): Boolean = true
     fun mergeFromDatabaseActionAllowed(): Boolean = mergeDatabaseActionAllowed()
     fun copyToDatabaseActionAllowed(): Boolean = true

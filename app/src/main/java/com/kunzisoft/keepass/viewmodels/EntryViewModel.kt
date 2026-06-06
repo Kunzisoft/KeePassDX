@@ -251,7 +251,7 @@ class EntryViewModel(application: Application): AndroidViewModel(application) {
 
     fun databaseActionsAllowed(): Boolean = entryUIState.value.loaded
     fun saveDatabaseActionAllowed(): Boolean = !entryIsHistory && mDatabase?.isReadOnly == false
-    fun mergeDatabaseActionAllowed(): Boolean = !entryIsHistory && mDatabase?.isMergeDataAllowed() == true
+    fun mergeDatabaseActionAllowed(): Boolean = !entryIsHistory && saveDatabaseActionAllowed() && mDatabase?.isMergeDataAllowed() == true
     fun reloadDatabaseActionAllowed(): Boolean = !entryIsHistory
 
             /**
