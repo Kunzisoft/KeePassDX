@@ -735,16 +735,12 @@ class GroupActivity : DatabaseLockActivity() {
                     }
                 }
                 launch {
-                    mMainCredentialViewModel.uiState.collect { credentialState ->
+                    mMainCredentialViewModel.mainCredentialEvent.collect { credentialState ->
                         when (credentialState) {
-                            is MainCredentialViewModel.UIState.Loading -> {}
-                            is MainCredentialViewModel.UIState.OnMainCredentialEntered -> {
+                            is MainCredentialViewModel.MainCredentialEvent.OnMainCredentialEntered -> {
                                 mergeDatabaseFrom(credentialState.databaseUri, credentialState.mainCredential)
-                                mMainCredentialViewModel.onActionReceived()
                             }
-                            is MainCredentialViewModel.UIState.OnMainCredentialCanceled -> {
-                                mMainCredentialViewModel.onActionReceived()
-                            }
+                            is MainCredentialViewModel.MainCredentialEvent.OnMainCredentialCanceled -> {}
                         }
                     }
                 }
