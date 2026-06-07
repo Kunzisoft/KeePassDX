@@ -42,6 +42,15 @@ class MainCredentialViewModel: ViewModel() {
         }
     }
 
+    fun clear() {
+        mainCredential.clear()
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        clear()
+    }
+
     sealed class MainCredentialEvent {
         data class OnMainCredentialEntered(
             val databaseUri: Uri,
