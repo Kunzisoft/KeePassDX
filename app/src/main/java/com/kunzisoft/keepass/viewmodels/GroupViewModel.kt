@@ -201,6 +201,8 @@ class GroupViewModel(application: Application): AndroidViewModel(application) {
                                 _viewEvent.emit(GroupEvent.ShowPosition(showFromPosition))
                             }
                         }
+                    } else {
+                        loadPreviousGroup()
                     }
                 }
             }

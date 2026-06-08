@@ -111,8 +111,11 @@ class EntryViewModel(application: Application): AndroidViewModel(application) {
 
         viewModelScope.launch {
             mDatabase?.let { database ->
-                withContext(Dispatchers.IO) {
-                    if (mainEntryId != null) {
+                _entryUIState.update { entryState ->
+                    entryState.copy(loaded = false)
+                }
+                if (mainEntryId != null) {
+                    withContext(Dispatchers.IO) {
                         database.getEntryById(mainEntryId)?.let { mainEntry ->
                             val isHistory = historyPosition > -1
                             val currentEntry = if (isHistory) {
@@ -123,36 +126,42 @@ class EntryViewModel(application: Application): AndroidViewModel(application) {
                             val entryInfo = database.getEntryInfoFrom(currentEntry)
                             this@EntryViewModel.entryIsHistory = isHistory
 
-                            _entryEvents.emit(EntryEvent.EntryLoaded(entryInfo))
+                            withContext(Dispatchers.Main) {
+                                _entryEvents.emit(EntryEvent.EntryLoaded(entryInfo))
 
-                            // Assign colors
-                            backgroundColor =
-                                if (showEntryColors) entryInfo.backgroundColor else null
-                            foregroundColor =
-                                if (showEntryColors) entryInfo.foregroundColor else null
+                                // Assign colors
+                                backgroundColor =
+                                    if (showEntryColors) entryInfo.backgroundColor else null
+                                foregroundColor =
+                                    if (showEntryColors) entryInfo.foregroundColor else null
 
-                            // To show Entry UI
-                            _entryUIState.update {
-                                it.copy(
-                                    loaded = true,
-                                    entryInfo = entryInfo,
-                                    isReadOnly = database.isReadOnly,
-                                    showFloatingActionButton = !isHistory,
-                                    showHistoryView = isHistory,
-                                    entryHistory = if (!isHistory)
-                                        database.getHistoryEntryInfoFrom(mainEntryId) ?: listOf()
-                                    else listOf()
-                                )
-                            }
-
-                            // Manage entry to populate Magikeyboard and launch keyboard notification if allowed
-                            if (keyboardEntrySelectionEnabled) {
-                                _entryEvents.emit(
-                                    EntryEvent.AddToMagikeyboard(
+                                // To show Entry UI
+                                _entryUIState.update {
+                                    it.copy(
+                                        loaded = true,
                                         entryInfo = entryInfo,
-                                        autoSwitch = autoSwitchToMagikeyboard
+                                        isReadOnly = database.isReadOnly,
+                                        showFloatingActionButton = !isHistory,
+                                        showHistoryView = isHistory,
+                                        entryHistory = if (!isHistory)
+                                            database.getHistoryEntryInfoFrom(mainEntryId) ?: listOf()
+                                        else listOf()
                                     )
-                                )
+                                }
+
+                                // Manage entry to populate Magikeyboard and launch keyboard notification if allowed
+                                if (keyboardEntrySelectionEnabled) {
+                                    _entryEvents.emit(
+                                        EntryEvent.AddToMagikeyboard(
+                                            entryInfo = entryInfo,
+                                            autoSwitch = autoSwitchToMagikeyboard
+                                        )
+                                    )
+                                }
+                            }
+                        } ?: run {
+                            withContext(Dispatchers.Main) {
+                                _entryEvents.emit(EntryEvent.Close)
                             }
                         }
                     }
@@ -288,6 +297,8 @@ class EntryViewModel(application: Application): AndroidViewModel(application) {
         data class HistorySelected(
             val entryHistory: EntryHistory,
         ) : EntryEvent()
+
+        object Close : EntryEvent()
     }
 
     /**

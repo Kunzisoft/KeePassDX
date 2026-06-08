@@ -363,6 +363,9 @@ class EntryActivity : DatabaseLockActivity() {
                                     }
                                 }
                             }
+                            is EntryViewModel.EntryEvent.Close -> {
+                                finish()
+                            }
                         }
                     }
                 }
@@ -426,7 +429,7 @@ class EntryActivity : DatabaseLockActivity() {
         }
     }
 
-    override fun finishActivityIfReloadRequested(): Boolean = true
+    override fun finishActivityIfReloadRequested(): Boolean = false
 
     override fun viewToInvalidateTimeout(): View? {
         return coordinatorLayout
