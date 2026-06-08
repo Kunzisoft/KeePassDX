@@ -20,6 +20,7 @@
 package com.kunzisoft.keepass.activities.fragments
 
 import android.graphics.Color
+import android.graphics.Rect
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -39,6 +40,7 @@ import com.kunzisoft.keepass.adapters.EntryAttachmentsItemsAdapter
 import com.kunzisoft.keepass.adapters.TagsProposalAdapter
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.element.Attachment
+import com.kunzisoft.keepass.database.element.Field
 import com.kunzisoft.keepass.model.EntryAttachmentState
 import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.model.FieldProtection
@@ -183,6 +185,10 @@ class EntryEditFragment: DatabaseFragment() {
                                     newField?.let {
                                         if (!templateView.putCustomField(it)) {
                                             mEntryEditViewModel.showCustomFieldEditionError()
+                                        } else {
+                                            getFieldViewPosition(it) { _, position ->
+                                                mEntryEditViewModel.scrollTo(position)
+                                            }
                                         }
                                     }
                                 }
@@ -339,6 +345,20 @@ class EntryEditFragment: DatabaseFragment() {
 
     private fun updateFieldProtection(fieldProtection: FieldProtection) {
         templateView.setFieldProtection(fieldProtection)
+    }
+
+    private fun getFieldViewPosition(
+        field: Field,
+        position: (field: Field, Float) -> Unit
+    ) {
+        templateView.postDelayed({
+            templateView.findViewById<View>(field.name.hashCode())?.let { view ->
+                val rect = Rect()
+                view.getDrawingRect(rect)
+                (rootView as ViewGroup).offsetDescendantRectToMyCoords(view, rect)
+                position.invoke(field, rect.top.toFloat())
+            }
+        }, 250)
     }
 
     /* -------------

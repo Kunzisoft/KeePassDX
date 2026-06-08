@@ -315,7 +315,8 @@ class EntryEditActivity : DatabaseLockActivity() {
                             }
                             is EntryEditViewModel.EntryEditEvent.ScrollTo -> {
                                 // Scroll to the attachment position
-                                scrollView?.smoothScrollTo(0, event.viewPosition)
+                                val offset = findViewById<View>(R.id.entry_edit_content).top
+                                scrollView?.smoothScrollTo(0, event.viewPosition + offset)
                             }
                             is EntryEditViewModel.EntryEditEvent.AskToDiscardChanges -> {
                                 DiscardChangesDialogFragment.newInstance(event.closeType)
