@@ -690,7 +690,7 @@ class MainCredentialActivity : DatabaseModeActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        mMainCredentialViewModel.clear()
+        mMainCredentialViewModel.clearData()
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             mDeviceUnlockViewModel?.disconnect()
         }

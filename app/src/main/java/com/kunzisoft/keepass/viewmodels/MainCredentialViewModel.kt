@@ -36,7 +36,7 @@ class MainCredentialViewModel(application: Application) : AndroidViewModel(appli
 
     private var mMainCredential: MainCredential = MainCredential()
         set(value) {
-            clear()
+            clearData()
             field = value
         }
 
@@ -277,13 +277,13 @@ class MainCredentialViewModel(application: Application) : AndroidViewModel(appli
         }
     }
 
-    fun clear() {
+    fun clearData() {
         mMainCredential.clear()
     }
 
     override fun onCleared() {
         super.onCleared()
-        clear()
+        clearData()
     }
 
     data class DatabaseFileUIState(
