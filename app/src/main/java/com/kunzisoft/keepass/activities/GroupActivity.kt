@@ -126,7 +126,7 @@ import com.kunzisoft.keepass.view.updateButtonPaddingStart
 import com.kunzisoft.keepass.viewmodels.GroupEditViewModel
 import com.kunzisoft.keepass.viewmodels.GroupViewModel
 import com.kunzisoft.keepass.viewmodels.GroupViewModel.NodeActionMode
-import com.kunzisoft.keepass.viewmodels.MainCredentialViewModel
+import com.kunzisoft.keepass.viewmodels.MainCredentialDialogViewModel
 import com.kunzisoft.keepass.viewmodels.NodeEditViewModel
 import com.kunzisoft.keepass.viewmodels.UserVerificationViewModel
 import kotlinx.coroutines.launch
@@ -159,7 +159,7 @@ class GroupActivity : DatabaseLockActivity() {
 
     private val mGroupViewModel: GroupViewModel by viewModels()
     private val mGroupEditViewModel: GroupEditViewModel by viewModels()
-    private val mMainCredentialViewModel: MainCredentialViewModel by viewModels()
+    private val mMainCredentialDialogViewModel: MainCredentialDialogViewModel by viewModels()
     private val mUserVerificationViewModel: UserVerificationViewModel by viewModels()
 
     private val mGroupActivityEducation = GroupActivityEducation(this)
@@ -735,12 +735,12 @@ class GroupActivity : DatabaseLockActivity() {
                     }
                 }
                 launch {
-                    mMainCredentialViewModel.mainCredentialEvent.collect { credentialState ->
+                    mMainCredentialDialogViewModel.mainCredentialEvent.collect { credentialState ->
                         when (credentialState) {
-                            is MainCredentialViewModel.MainCredentialEvent.OnMainCredentialEntered -> {
+                            is MainCredentialDialogViewModel.MainCredentialEvent.OnMainCredentialEntered -> {
                                 mergeDatabaseFrom(credentialState.databaseUri, credentialState.mainCredential)
                             }
-                            is MainCredentialViewModel.MainCredentialEvent.OnMainCredentialCanceled -> {}
+                            is MainCredentialDialogViewModel.MainCredentialEvent.OnMainCredentialCanceled -> {}
                         }
                     }
                 }
