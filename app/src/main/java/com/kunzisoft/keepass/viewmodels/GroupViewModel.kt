@@ -150,8 +150,10 @@ class GroupViewModel(application: Application): AndroidViewModel(application) {
         viewModelScope.launch {
             mDatabase?.let { database ->
                 withContext(Dispatchers.IO) {
-                    _groupUIState.update { groupState ->
-                        groupState.copy(loaded = false)
+                    withContext(Dispatchers.Main) {
+                        _groupUIState.update { groupState ->
+                            groupState.copy(loaded = false)
+                        }
                     }
                     val groupId = groupState?.groupId
                     val showFromPosition = groupState?.firstVisibleItem
@@ -184,23 +186,27 @@ class GroupViewModel(application: Application): AndroidViewModel(application) {
                         val addGroupEnabled = database.allowAddGroupIn(group = group)
                         val addEntryEnabled = database.allowAddEntryIn(group = group)
                         mAddGroupOrEntryAllowed = addGroupEnabled || addEntryEnabled
-                        _groupUIState.update { groupState ->
-                            groupState.copy(
-                                loaded = true,
-                                breadcrumbs = breadcrumbs,
-                                group = group,
-                                children = children,
-                                isReadOnly = database.isReadOnly,
-                                showAddGroupButton = addGroupEnabled,
-                                showAddEntryButton = addEntryEnabled,
-                                showAddNodeButton = mAddNodeButtonAllowed
-                            )
-                        }
-                        showFromPosition?.let {
-                            _viewEvent.emit(GroupEvent.ShowPosition(showFromPosition))
+                        withContext(Dispatchers.Main) {
+                            _groupUIState.update { groupState ->
+                                groupState.copy(
+                                    loaded = true,
+                                    breadcrumbs = breadcrumbs,
+                                    group = group,
+                                    children = children,
+                                    isReadOnly = database.isReadOnly,
+                                    showAddGroupButton = addGroupEnabled,
+                                    showAddEntryButton = addEntryEnabled,
+                                    showAddNodeButton = mAddNodeButtonAllowed
+                                )
+                            }
+                            showFromPosition?.let {
+                                _viewEvent.emit(GroupEvent.ShowPosition(showFromPosition))
+                            }
                         }
                     } else {
-                        loadPreviousGroup()
+                        withContext(Dispatchers.Main) {
+                            loadPreviousGroup()
+                        }
                     }
                 }
             }
@@ -240,17 +246,19 @@ class GroupViewModel(application: Application): AndroidViewModel(application) {
                         isCurrentGroupIsSearch = true
                         mSearchState = searchState
                         val children = group.getSearchResults()
-                        _groupUIState.update { groupState ->
-                            groupState.copy(
-                                loaded = true,
-                                group = group,
-                                children = children,
-                                isReadOnly = database.isReadOnly,
-                                showAddNodeButton = false
-                            )
-                        }
-                        showFromPosition?.let {
-                            _viewEvent.emit(GroupEvent.ShowPosition(showFromPosition))
+                        withContext(Dispatchers.Main) {
+                            _groupUIState.update { groupState ->
+                                groupState.copy(
+                                    loaded = true,
+                                    group = group,
+                                    children = children,
+                                    isReadOnly = database.isReadOnly,
+                                    showAddNodeButton = false
+                                )
+                            }
+                            showFromPosition?.let {
+                                _viewEvent.emit(GroupEvent.ShowPosition(showFromPosition))
+                            }
                         }
                     } ?: Log.e(TAG, "Search state is null")
                 }
