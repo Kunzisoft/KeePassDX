@@ -198,11 +198,6 @@ open class SettingsActivity
         coordinatorLayout?.showActionErrorIfNeeded(result)
     }
 
-    override fun reloadActivity() {
-        keepCurrentScreen()
-        super.reloadActivity()
-    }
-
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> onDatabaseBackPressed()
@@ -264,16 +259,6 @@ open class SettingsActivity
 
     protected fun setTitle(key: NestedSettingsFragment.Screen) {
         toolbar?.title = NestedSettingsFragment.retrieveTitle(resources, key)
-    }
-
-    /**
-     * To keep the current screen when activity is reloaded
-      */
-    private fun keepCurrentScreen() {
-        (supportFragmentManager.findFragmentByTag(TAG_NESTED) as? NestedSettingsFragment?)
-                ?.getScreen()?.let { fragmentKey ->
-            intent.putExtra(FRAGMENT_ARG, fragmentKey.name)
-        }
     }
 
     override fun onNestedPreferenceSelected(key: NestedSettingsFragment.Screen, reload: Boolean) {
