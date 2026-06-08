@@ -43,6 +43,7 @@ import com.kunzisoft.keepass.model.EntryAttachmentState
 import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.model.FieldProtection
 import com.kunzisoft.keepass.model.StreamDirection
+import com.kunzisoft.keepass.otp.OtpEntryFields
 import com.kunzisoft.keepass.view.TagsCompletionView
 import com.kunzisoft.keepass.view.TemplateEditView
 import com.kunzisoft.keepass.view.collapse
@@ -209,6 +210,7 @@ class EntryEditFragment: DatabaseFragment() {
                             is EntryEditViewModel.EntryEditEvent.OnOtpCreated -> {
                                 // Update the otp field with otpauth:// url
                                 templateView.putOtpElement(event.otpElement)
+                                tagsCompletionView.addObjectSync(OtpEntryFields.OTP_TAG)
                             }
                             is EntryEditViewModel.EntryEditEvent.OnFieldProtectionUpdated -> {
                                 updateFieldProtection(event.fieldProtection)
