@@ -85,14 +85,6 @@ open class Database {
             loadTimestamp = if (field) System.currentTimeMillis() else null
         }
 
-    /**
-     * To reload the main activity
-     */
-    var wasReloaded = false
-
-    var dataModifiedSinceLastLoading = false
-        private set
-
     var loadTimestamp: Long? = null
         private set
 
@@ -620,8 +612,6 @@ open class Database {
             if (e is DatabaseInputException)
                 throw e
             throw DatabaseInputException(e)
-        } finally {
-            dataModifiedSinceLastLoading = false
         }
     }
 
@@ -756,8 +746,6 @@ open class Database {
             if (e is DatabaseException)
                 throw e
             throw DatabaseInputException(e)
-        } finally {
-            dataModifiedSinceLastLoading = false
         }
     }
 
@@ -799,15 +787,10 @@ open class Database {
         }
     }
 
-    fun modifyDataWithoutSaving() {
-        dataModifiedSinceLastLoading = true
-    }
-
     @Throws(DatabaseOutputException::class)
     fun saveData(
         cacheFile: File,
         databaseOutputStream: () -> OutputStream?,
-        isNewLocation: Boolean,
         masterCredential: MasterCredential?,
         challengeResponseRetriever: (HardwareKey, ByteArray?) -> ByteArray
     ) {
@@ -865,10 +848,6 @@ open class Database {
                 cacheFile.delete()
             } catch (e: Exception) {
                 Log.e(TAG, "Cache file $cacheFile cannot be deleted", e)
-            }
-            // Indicate data was saved only if it's not a new location
-            if (isNewLocation) {
-                this.dataModifiedSinceLastLoading = false
             }
         }
     }

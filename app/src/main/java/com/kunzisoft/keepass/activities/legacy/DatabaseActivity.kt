@@ -44,13 +44,6 @@ abstract class DatabaseActivity : StylishActivity(), DatabaseRetrieval {
     private var progressTaskDialogFragment: ProgressTaskDialogFragment? = null
     private var databaseChangedDialogFragment: DatabaseChangedDialogFragment? = null
 
-    private val mActionDatabaseListener =
-        object : DatabaseChangedDialogFragment.ActionDatabaseChangedListener {
-            override fun onDatabaseChangeValidated() {
-                mDatabaseViewModel.onDatabaseChangeValidated()
-            }
-        }
-
     private val tempServiceParameters = mutableListOf<Pair<Bundle?, String>>()
     private val requestPermissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
@@ -204,6 +197,11 @@ abstract class DatabaseActivity : StylishActivity(), DatabaseRetrieval {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        mDatabaseViewModel.checkChanges()
+    }
+
     override fun onSaveInstanceState(outState: Bundle) {
         outState.putBoolean(CREDENTIAL_RESULT_LAUNCHER_KEY, credentialResultLaunched)
         super.onSaveInstanceState(outState)
@@ -275,17 +273,13 @@ abstract class DatabaseActivity : StylishActivity(), DatabaseRetrieval {
             if (databaseChangedDialogFragment == null) {
                 databaseChangedDialogFragment = supportFragmentManager
                     .findFragmentByTag(DATABASE_CHANGED_DIALOG_TAG) as DatabaseChangedDialogFragment?
-                databaseChangedDialogFragment?.actionDatabaseListener =
-                    mActionDatabaseListener
             }
-            if (progressTaskDialogFragment == null) {
+            if (databaseChangedDialogFragment == null) {
                 databaseChangedDialogFragment = DatabaseChangedDialogFragment.getInstance(
                     previousDatabaseInfo,
                     newDatabaseInfo,
                     readOnlyDatabase
                 )
-                databaseChangedDialogFragment?.actionDatabaseListener =
-                    mActionDatabaseListener
                 databaseChangedDialogFragment?.show(
                     supportFragmentManager,
                     DATABASE_CHANGED_DIALOG_TAG

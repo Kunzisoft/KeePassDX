@@ -58,15 +58,19 @@ open class SaveDatabaseRunnable(
                     databaseOutputStream = {
                         contentResolver.getUriOutputStream(databaseCopyUri ?: database.fileUri)
                     },
-                    isNewLocation = databaseCopyUri == null,
                     masterCredential = mMasterCredential,
                     challengeResponseRetriever = challengeResponseRetriever
                 )
             } catch (e: DatabaseException) {
                 setError(e)
+            } finally {
+                // Indicate data was saved only if it's not a new location
+                if (databaseCopyUri == null) {
+                    database.indicateUpToDateData()
+                }
             }
         } else if (dataModified) {
-            database.modifyDataWithoutSaving()
+            database.indicateNotSavedData()
         }
     }
 

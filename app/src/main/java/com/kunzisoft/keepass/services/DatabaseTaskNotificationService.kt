@@ -95,10 +95,6 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
 
     private var mDatabase: ContextualDatabase? = null
 
-    // File description
-    private var mSnapFileDatabaseInfo: SnapFileDatabaseInfo? = null
-    private var mLastLocalSaveTime: Long = 0
-
     private val mainScope = CoroutineScope(Dispatchers.Main)
 
     private var mDatabaseListeners = mutableListOf<DatabaseListener>()
@@ -195,7 +191,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
     fun checkDatabaseInfo() {
         try {
             mDatabase?.fileUri?.let {
-                val previousDatabaseInfo = mSnapFileDatabaseInfo
+                val previousDatabaseInfo = mDatabase?.snapFileDatabaseInfo
                 val lastFileDatabaseInfo = SnapFileDatabaseInfo.fromFileDatabaseInfo(
                     FileDatabaseInfo(applicationContext, it))
 
@@ -212,10 +208,11 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                             && oldDatabaseSize != null
                             && oldDatabaseModification > 0 && newDatabaseModification > 0
                             && oldDatabaseSize > 0
-                            && oldDatabaseModification < newDatabaseModification
-                            && mLastLocalSaveTime + 10000 < newDatabaseModification)
+                            && oldDatabaseModification + 10000 < newDatabaseModification)
 
                 if (conditionExists || conditionLastModification) {
+                    // Indicate a change in the database
+                    mDatabase?.indicateNotSavedData()
                     // Show the dialog only if it's real new info and not a delay after a save
                     Log.i(TAG, "Database file modified " +
                             "$previousDatabaseInfo != $lastFileDatabaseInfo ")
@@ -229,7 +226,6 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                             )
                         }
                     }
-                    mSnapFileDatabaseInfo = lastFileDatabaseInfo
                 }
             }
         } catch (e: Exception) {
@@ -238,15 +234,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
     }
 
     fun saveDatabaseInfo() {
-        try {
-            mDatabase?.fileUri?.let {
-                mSnapFileDatabaseInfo = SnapFileDatabaseInfo.fromFileDatabaseInfo(
-                    FileDatabaseInfo(applicationContext, it))
-                Log.i(TAG, "Database file saved $mSnapFileDatabaseInfo")
-            }
-        } catch (e: Exception) {
-            Log.e(TAG, "Unable to check database info", e)
-        }
+        mDatabase?.saveDatabaseInfo(applicationContext)
     }
 
     /**
@@ -263,7 +251,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                     )
                 }
             } else {
-                /* Do not stopped here, service cannot be connected
+                /* Do not stop here, service cannot be connected
                 mActionTaskListeners.forEach { actionTaskListener ->
                     actionTaskListener.onActionStopped(
                         database
@@ -432,29 +420,21 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                                     )
                                 }
                             } finally {
-                                // Save the database info before performing action
-                                when (intentAction) {
-                                    ACTION_DATABASE_LOAD_TASK,
-                                    ACTION_DATABASE_MERGE_TASK,
-                                    ACTION_DATABASE_RELOAD_TASK -> {
-                                        saveDatabaseInfo()
-                                    }
-                                }
+                                // Save the database info after performing action
                                 val save = !database.isReadOnly
                                         && (intentAction == ACTION_DATABASE_SAVE
-                                        || intent?.getBooleanExtra(
-                                    SAVE_DATABASE_KEY,
-                                    false
-                                ) == true)
-                                // Save the database info after performing save action
-                                if (save) {
-                                    database.fileUri?.let {
-                                        val newSnapFileDatabaseInfo =
-                                            SnapFileDatabaseInfo.fromFileDatabaseInfo(
-                                                FileDatabaseInfo(applicationContext, it)
-                                            )
-                                        mLastLocalSaveTime = System.currentTimeMillis()
-                                        mSnapFileDatabaseInfo = newSnapFileDatabaseInfo
+                                        || intent?.getBooleanExtra(SAVE_DATABASE_KEY, false) == true)
+                                if (save)
+                                    saveDatabaseInfo()
+                                else {
+                                    when (intentAction) {
+                                        ACTION_DATABASE_CREATE_TASK,
+                                        ACTION_DATABASE_LOAD_TASK,
+                                        ACTION_DATABASE_MERGE_TASK,
+                                        ACTION_DATABASE_RELOAD_TASK,
+                                        ACTION_DATABASE_ASSIGN_CREDENTIAL_TASK -> {
+                                            saveDatabaseInfo()
+                                        }
                                     }
                                 }
                                 removeIntentData(intent)
@@ -520,7 +500,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         // Assign elements for updates
         val intentAction = intent?.action
 
-        // Get icon depending action state
+        // Get icon depending on action state
         val iconId = if (intentAction == null)
             R.drawable.notification_ic_database_open
         else

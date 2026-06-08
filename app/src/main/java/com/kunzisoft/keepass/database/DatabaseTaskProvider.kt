@@ -123,6 +123,14 @@ class DatabaseTaskProvider(
         }
     }
 
+    fun checkChanges() {
+        mBinder?.getService()?.apply {
+            // Don't check Database to keep the first instance, only metadata are important
+            checkDatabaseInfo()
+            checkAction()
+        }
+    }
+
     private fun initServiceConnection() {
         if (serviceConnection == null) {
             serviceConnection = object : ServiceConnection {

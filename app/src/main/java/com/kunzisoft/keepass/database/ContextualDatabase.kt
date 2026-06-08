@@ -19,7 +19,9 @@
  */
 package com.kunzisoft.keepass.database
 
+import android.content.Context
 import android.net.Uri
+import android.util.Log
 import com.kunzisoft.keepass.database.element.EntryId
 import com.kunzisoft.keepass.database.element.GroupId
 import com.kunzisoft.keepass.database.element.icon.IconImage
@@ -29,17 +31,62 @@ import com.kunzisoft.keepass.icons.IconDrawableFactory
 import com.kunzisoft.keepass.model.DatabaseInfo
 import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.model.RegisterInfo
+import com.kunzisoft.keepass.model.SnapFileDatabaseInfo
 import com.kunzisoft.keepass.utils.SingletonHolder
+import com.kunzisoft.keepass.viewmodels.FileDatabaseInfo
 import java.io.File
 
 class ContextualDatabase: DatabaseInfo() {
 
+    // Database file URI
     var fileUri: Uri? = null
 
+    // Factory to draw icons
     val iconDrawableFactory = IconDrawableFactory(
         retrieveBinaryCache = { binaryCache },
         retrieveCustomIconBinary = { iconId -> getBinaryForCustomIcon(iconId) }
     )
+
+    // To reload the main activity
+    var wasReloaded = false
+
+    // To defined if unsaved data still remaining
+    var dataModifiedSinceLastLoading = false
+        private set
+
+    // File description
+    var snapFileDatabaseInfo: SnapFileDatabaseInfo? = null
+        private set
+
+    /**
+     * Save the database file info
+     */
+    fun saveDatabaseInfo(context: Context) {
+        try {
+            fileUri?.let {
+                snapFileDatabaseInfo = SnapFileDatabaseInfo.fromFileDatabaseInfo(
+                    FileDatabaseInfo(context, it))
+                Log.i(TAG, "Database file saved $snapFileDatabaseInfo")
+            }
+        } catch (e: Exception) {
+            Log.e(TAG, "Unable to save database info", e)
+        }
+    }
+
+    /**
+     * Indicate that the database has unsaved data still remaining,
+     * Data are not necessarily changed from the app
+     */
+    fun indicateNotSavedData() {
+        dataModifiedSinceLastLoading = true
+    }
+
+    /**
+     * Indicate that data in the database is up to date
+     */
+    fun indicateUpToDateData() {
+        dataModifiedSinceLastLoading = false
+    }
 
     /**
      * Build entry info to create.

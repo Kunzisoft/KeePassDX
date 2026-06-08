@@ -56,6 +56,8 @@ class ReloadDatabaseRunnable(
                 progressTaskUpdater)
         } catch (e: DatabaseException) {
             setError(e)
+        } finally {
+            mDatabase.indicateUpToDateData()
         }
 
         if (!result.isSuccess) {

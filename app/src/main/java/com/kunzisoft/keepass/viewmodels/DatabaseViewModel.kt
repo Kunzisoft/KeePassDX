@@ -56,9 +56,7 @@ class DatabaseViewModel(application: Application): AndroidViewModel(application)
     private val mActionState = MutableStateFlow<ActionState>(ActionState.Wait)
     val actionState: StateFlow<ActionState> = mActionState.asStateFlow()
 
-    private var mDatabaseTaskProvider: DatabaseTaskProvider = DatabaseTaskProvider(
-        context = application
-    )
+    private var mDatabaseTaskProvider: DatabaseTaskProvider = DatabaseTaskProvider(application)
 
     init {
         mDatabaseTaskProvider.onDatabaseRetrieved = { databaseRetrieved ->
@@ -189,6 +187,10 @@ class DatabaseViewModel(application: Application): AndroidViewModel(application)
         } else {
             mDatabaseTaskProvider.startDatabaseReload(fixDuplicateUuid)
         }
+    }
+
+    fun checkChanges() {
+        mDatabaseTaskProvider.checkChanges()
     }
 
     fun onDatabaseChangeValidated() {
