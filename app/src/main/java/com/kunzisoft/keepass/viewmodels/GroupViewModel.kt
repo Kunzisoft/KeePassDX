@@ -184,22 +184,20 @@ class GroupViewModel(application: Application): AndroidViewModel(application) {
                         val addGroupEnabled = database.allowAddGroupIn(group = group)
                         val addEntryEnabled = database.allowAddEntryIn(group = group)
                         mAddGroupOrEntryAllowed = addGroupEnabled || addEntryEnabled
-                        withContext(Dispatchers.Main) {
-                            _groupUIState.update { groupState ->
-                                groupState.copy(
-                                    loaded = true,
-                                    breadcrumbs = breadcrumbs,
-                                    group = group,
-                                    children = children,
-                                    isReadOnly = database.isReadOnly,
-                                    showAddGroupButton = addGroupEnabled,
-                                    showAddEntryButton = addEntryEnabled,
-                                    showAddNodeButton = mAddNodeButtonAllowed
-                                )
-                            }
-                            showFromPosition?.let {
-                                _viewEvent.emit(GroupEvent.ShowPosition(showFromPosition))
-                            }
+                        _groupUIState.update { groupState ->
+                            groupState.copy(
+                                loaded = true,
+                                breadcrumbs = breadcrumbs,
+                                group = group,
+                                children = children,
+                                isReadOnly = database.isReadOnly,
+                                showAddGroupButton = addGroupEnabled,
+                                showAddEntryButton = addEntryEnabled,
+                                showAddNodeButton = mAddNodeButtonAllowed
+                            )
+                        }
+                        showFromPosition?.let {
+                            _viewEvent.emit(GroupEvent.ShowPosition(showFromPosition))
                         }
                     } else {
                         loadPreviousGroup()
@@ -228,10 +226,8 @@ class GroupViewModel(application: Application): AndroidViewModel(application) {
             mDatabase?.let { database ->
                 withContext(Dispatchers.IO) {
                     searchState?.let {
-                        withContext(Dispatchers.Main) {
-                            _groupUIState.update { groupState ->
-                                groupState.copy(loaded = false)
-                            }
+                        _groupUIState.update { groupState ->
+                            groupState.copy(loaded = false)
                         }
                         val searchParameters = searchState.searchParameters
                         val showFromPosition = searchState.firstVisibleItem
@@ -244,19 +240,17 @@ class GroupViewModel(application: Application): AndroidViewModel(application) {
                         isCurrentGroupIsSearch = true
                         mSearchState = searchState
                         val children = group.getSearchResults()
-                        withContext(Dispatchers.Main) {
-                            _groupUIState.update { groupState ->
-                                groupState.copy(
-                                    loaded = true,
-                                    group = group,
-                                    children = children,
-                                    isReadOnly = database.isReadOnly,
-                                    showAddNodeButton = false
-                                )
-                            }
-                            showFromPosition?.let {
-                                _viewEvent.emit(GroupEvent.ShowPosition(showFromPosition))
-                            }
+                        _groupUIState.update { groupState ->
+                            groupState.copy(
+                                loaded = true,
+                                group = group,
+                                children = children,
+                                isReadOnly = database.isReadOnly,
+                                showAddNodeButton = false
+                            )
+                        }
+                        showFromPosition?.let {
+                            _viewEvent.emit(GroupEvent.ShowPosition(showFromPosition))
                         }
                     } ?: Log.e(TAG, "Search state is null")
                 }
@@ -598,22 +592,19 @@ class GroupViewModel(application: Application): AndroidViewModel(application) {
     fun emptyRecycleBin() {
         viewModelScope.launch {
             if (recycleBinActionsAllowed()) {
-                withContext(Dispatchers.IO) {
-                    mDatabase?.getNodesInRecycleBin()?.let { nodesToDelete ->
-                        // Automatically delete all elements
-                        if (!nodesToDelete.isEmpty()) {
-                            withContext(Dispatchers.Main) {
-                                _viewEvent.emit(
-                                    GroupEvent.DeleteNodes(
-                                        DeleteActionState(
-                                            nodes = nodesToDelete,
-                                            isRecycleBin = true
-                                        )
-                                    )
-                                )
-                            }
-                        }
-                    }
+                val nodesToDelete = withContext(Dispatchers.IO) {
+                    mDatabase?.getNodesInRecycleBin()
+                }
+                // Automatically delete all elements
+                if (nodesToDelete != null && !nodesToDelete.isEmpty()) {
+                    _viewEvent.emit(
+                        GroupEvent.DeleteNodes(
+                            DeleteActionState(
+                                nodes = nodesToDelete,
+                                isRecycleBin = true,
+                            )
+                        )
+                    )
                 }
                 finishNodeAction()
             }
