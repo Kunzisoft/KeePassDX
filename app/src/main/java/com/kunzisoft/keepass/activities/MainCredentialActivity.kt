@@ -160,12 +160,9 @@ class MainCredentialActivity : DatabaseModeActivity() {
         // Listen password checkbox to init advanced unlock and confirmation button
         mainCredentialView.onConditionToStoreCredentialChanged = { _, verified ->
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                mDeviceUnlockViewModel?.checkConditionToStoreCredential(
-                    condition = verified
-                )
+                mDeviceUnlockViewModel?.checkConditionToStoreCredential(condition = verified)
             }
-            // TODO Async by ViewModel
-            enableConfirmationButton()
+            mMainCredentialViewModel.onConditionChanged(mainCredentialView.isFill())
         }
 
         // Encapsulate function to load database
@@ -212,9 +209,9 @@ class MainCredentialActivity : DatabaseModeActivity() {
                         filenameView?.text = state.fileName
                         mainCredentialView.populateKeyFileView(state.keyFileUri)
                         mainCredentialView.populateHardwareKeyView(state.hardwareKey)
-                        enableConfirmationButton()
+                        // Enable or not the open button if setting is checked
+                        confirmButtonView?.isEnabled = state.confirmButtonEnabled
                         invalidateOptionsMenu()
-                        // TODO Check
                         mainCredentialView.focusPasswordFieldAndOpenKeyboard()
                     }
                 }
@@ -495,15 +492,6 @@ class MainCredentialActivity : DatabaseModeActivity() {
             mainCredential = tempMainCredential,
             specialMode = mSpecialMode
         )
-    }
-
-    private fun enableConfirmationButton() {
-        // Enable or not the open button if setting is checked
-        if (!PreferencesUtil.emptyPasswordAllowed(this@MainCredentialActivity)) {
-            confirmButtonView?.isEnabled = mainCredentialView.isFill()
-        } else {
-            confirmButtonView?.isEnabled = true
-        }
     }
 
     private fun clearCredentialsViews(

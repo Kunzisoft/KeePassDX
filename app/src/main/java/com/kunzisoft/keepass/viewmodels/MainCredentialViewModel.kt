@@ -77,10 +77,10 @@ class MainCredentialViewModel(application: Application) : AndroidViewModel(appli
         mEmptyPasswordAllowed = PreferencesUtil.emptyPasswordAllowed(getApplication())
     }
 
-    fun refreshUI() {
+    fun onConditionChanged(mainCredentialIsFilled: Boolean) {
         _databaseFileUIState.update {
             it.copy(
-                emptyPasswordAllowed = mEmptyPasswordAllowed
+                confirmButtonEnabled = if (mEmptyPasswordAllowed) true else mainCredentialIsFilled
             )
         }
     }
@@ -289,7 +289,7 @@ class MainCredentialViewModel(application: Application) : AndroidViewModel(appli
     data class DatabaseFileUIState(
         val loading: Boolean = false,
         val showFileRevokedErrorMessage: Boolean = false,
-        val emptyPasswordAllowed: Boolean = false,
+        val confirmButtonEnabled: Boolean = false,
         val fileName: String = "",
         val keyFileUri: Uri? = null,
         val hardwareKey: HardwareKey? = null,
