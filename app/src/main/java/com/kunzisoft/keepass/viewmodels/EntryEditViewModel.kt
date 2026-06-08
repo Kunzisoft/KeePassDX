@@ -112,7 +112,12 @@ class EntryEditViewModel: NodeEditViewModel() {
         viewModelScope.launch {
             // Just to compensate TemplateView bug
             mTemplates?.let { templates ->
-                _entryEditUIState.update { it.copy(templates = templates) }
+                _entryEditUIState.update {
+                    it.copy(
+                        loaded = false,
+                        templates = templates
+                    )
+                }
             }
             withContext(Dispatchers.IO) {
                 mDatabase?.let { database ->
@@ -146,7 +151,9 @@ class EntryEditViewModel: NodeEditViewModel() {
         if (!initialized) {
             initialized = true
             entryInfo?.let {
-                _entryEditEvents.emit(EntryEditEvent.EntryLoaded(entryInfo))
+                withContext(Dispatchers.Main) {
+                    _entryEditEvents.emit(EntryEditEvent.EntryLoaded(entryInfo))
+                }
             }
         }
         val selectedTemplate = entryInfo?.template ?: Template.STANDARD
@@ -155,13 +162,15 @@ class EntryEditViewModel: NodeEditViewModel() {
             defaultTemplate = selectedTemplate
         )
         mTemplates = templates
-        _entryEditEvents.emit(EntryEditEvent.OnTemplateChanged(selectedTemplate))
-        _entryEditUIState.update { entryEdit ->
-            entryEdit.copy(
-                loaded = true,
-                entryInfo = entryInfo,
-                templates = templates
-            )
+        withContext(Dispatchers.Main) {
+            _entryEditEvents.emit(EntryEditEvent.OnTemplateChanged(selectedTemplate))
+            _entryEditUIState.update { entryEdit ->
+                entryEdit.copy(
+                    loaded = true,
+                    entryInfo = entryInfo,
+                    templates = templates
+                )
+            }
         }
     }
 

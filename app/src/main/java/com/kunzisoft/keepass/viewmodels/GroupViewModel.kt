@@ -149,12 +149,10 @@ class GroupViewModel(application: Application): AndroidViewModel(application) {
     ) {
         viewModelScope.launch {
             mDatabase?.let { database ->
+                _groupUIState.update { groupState ->
+                    groupState.copy(loaded = false)
+                }
                 withContext(Dispatchers.IO) {
-                    withContext(Dispatchers.Main) {
-                        _groupUIState.update { groupState ->
-                            groupState.copy(loaded = false)
-                        }
-                    }
                     val groupId = groupState?.groupId
                     val showFromPosition = groupState?.firstVisibleItem
                     val group = if (groupId != null) {
