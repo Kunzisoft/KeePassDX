@@ -34,12 +34,6 @@ class MainCredentialViewModel(application: Application) : AndroidViewModel(appli
     var databaseFileUri: Uri? = null
         private set
 
-    private var mMainCredential: MainCredential = MainCredential()
-        set(value) {
-            clearData()
-            field = value
-        }
-
     private var mRememberKeyFile: Boolean = false
     private var mRememberHardwareKey: Boolean = false
     private var mIsReadOnlyEnabledByDefault: Boolean = false
@@ -97,7 +91,6 @@ class MainCredentialViewModel(application: Application) : AndroidViewModel(appli
         mainCredential: MainCredential,
         typeMode: TypeMode
     ) {
-        this.mMainCredential = mainCredential
         databaseFileUri?.let { databaseUri ->
             mFileDatabaseHistoryAction?.getDatabaseFile(databaseUri) { databaseFile ->
                 // Force read only if the file does not exist
@@ -122,20 +115,14 @@ class MainCredentialViewModel(application: Application) : AndroidViewModel(appli
                         && (databaseKeyFileUri == null || databaseKeyFileUri.toString().isEmpty())
                     ) {
                         databaseFile?.keyFileUri
-                    } else {
-                        databaseKeyFileUri
-                    }
+                    } else null
 
                 // Define Hardware Key only if needed
                 val databaseHardwareKey = mainCredential.hardwareKey
                 val hardwareKey =
-                    if (mRememberHardwareKey
-                        && databaseHardwareKey == null
-                    ) {
+                    if (mRememberHardwareKey && databaseHardwareKey == null) {
                         databaseFile?.hardwareKey
-                    } else {
-                        databaseHardwareKey
-                    }
+                    } else null
 
                 // Define title
                 val fileName = databaseFile?.databaseAlias ?: ""
@@ -185,7 +172,6 @@ class MainCredentialViewModel(application: Application) : AndroidViewModel(appli
         specialMode: SpecialMode,
         cipherEncryptDatabase: CipherEncryptDatabase? = null,
     ) {
-        this.mMainCredential = mainCredential
         viewModelScope.launch {
             if (PreferencesUtil.deletePasswordAfterConnexionAttempt(getApplication())) {
                 _databaseFileEvent.emit(DatabaseFileEvent.ClearCredentialsView(
@@ -275,15 +261,6 @@ class MainCredentialViewModel(application: Application) : AndroidViewModel(appli
                 cipherEncryptDatabase = cipherEncryptDatabase,
             ))
         }
-    }
-
-    fun clearData() {
-        mMainCredential.clear()
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-        clearData()
     }
 
     data class DatabaseFileUIState(

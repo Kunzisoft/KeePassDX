@@ -207,8 +207,12 @@ class MainCredentialActivity : DatabaseModeActivity() {
                     mMainCredentialViewModel.databaseFileUIState.collect { state ->
                         infoContainerView?.isVisible = state.showFileRevokedErrorMessage
                         filenameView?.text = state.fileName
-                        mainCredentialView.populateKeyFileView(state.keyFileUri)
-                        mainCredentialView.populateHardwareKeyView(state.hardwareKey)
+                        state.keyFileUri?.let {
+                            mainCredentialView.populateKeyFileView(it)
+                        }
+                        state.hardwareKey?.let {
+                            mainCredentialView.populateHardwareKeyView(it)
+                        }
                         // Enable or not the open button if setting is checked
                         confirmButtonView?.isEnabled = state.confirmButtonEnabled
                         invalidateOptionsMenu()
@@ -678,7 +682,6 @@ class MainCredentialActivity : DatabaseModeActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        mMainCredentialViewModel.clearData()
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             mDeviceUnlockViewModel?.disconnect()
         }
