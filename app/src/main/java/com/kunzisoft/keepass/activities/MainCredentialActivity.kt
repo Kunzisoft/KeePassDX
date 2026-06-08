@@ -351,6 +351,7 @@ class MainCredentialActivity : DatabaseModeActivity() {
 
         mMainCredentialViewModel.loadDatabaseFile(
             mainCredential = mainCredentialView.getMainCredential(),
+            specialMode = mSpecialMode,
             typeMode = mTypeMode
         )
     }

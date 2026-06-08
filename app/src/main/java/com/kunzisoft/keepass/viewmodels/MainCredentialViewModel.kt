@@ -43,6 +43,7 @@ class MainCredentialViewModel(application: Application) : AndroidViewModel(appli
     var readOnly: Boolean = false
         private set
     private var mForceReadOnly: Boolean = false
+    private var mForceWrite: Boolean = false
 
     var userVerificationMode: Boolean = false
         private set
@@ -89,6 +90,7 @@ class MainCredentialViewModel(application: Application) : AndroidViewModel(appli
      */
     fun loadDatabaseFile(
         mainCredential: MainCredential,
+        specialMode: SpecialMode,
         typeMode: TypeMode
     ) {
         databaseFileUri?.let { databaseUri ->
@@ -96,9 +98,11 @@ class MainCredentialViewModel(application: Application) : AndroidViewModel(appli
                 // Force read only if the file does not exist
                 val databaseFileExists = databaseFile?.databaseFileExists ?: false
                 mForceReadOnly = !databaseFileExists
+                mForceWrite = specialMode == SpecialMode.REGISTRATION
 
                 // Restore read-only state
                 readOnly = if (mForceReadOnly) true
+                    else if (mForceWrite) false
                     else databaseFile?.readOnly ?: mIsReadOnlyEnabledByDefault
 
                 // Force User Verification if typeMode need it
@@ -233,7 +237,7 @@ class MainCredentialViewModel(application: Application) : AndroidViewModel(appli
         }
     }
 
-    fun isReadOnlyToggleAllowed(): Boolean = !mForceReadOnly
+    fun isReadOnlyToggleAllowed(): Boolean = !mForceReadOnly && !mForceWrite
     fun toggleReadOnly() {
         readOnly = !readOnly
     }
