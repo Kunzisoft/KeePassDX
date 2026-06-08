@@ -39,13 +39,13 @@ import kotlinx.coroutines.launch
  */
 class SetMainCredentialViewModel : ViewModel() {
 
-    var masterPassword: CharArray? = null
-    var keyFileUri: Uri? = null
-    var hardwareKey: HardwareKey? = null
+    private var masterPassword: CharArray? = null
+    private var keyFileUri: Uri? = null
+    private var hardwareKey: HardwareKey? = null
 
-    var passwordChecked: Boolean = false
-    var keyFileChecked: Boolean = false
-    var hardwareKeyChecked: Boolean = false
+    private var passwordChecked: Boolean = false
+    private var keyFileChecked: Boolean = false
+    private var hardwareKeyChecked: Boolean = false
 
     private val _confirmationState = MutableStateFlow<ConfirmationState>(ConfirmationState.None)
     val confirmationState: StateFlow<ConfirmationState> = _confirmationState.asStateFlow()
@@ -55,20 +55,6 @@ class SetMainCredentialViewModel : ViewModel() {
 
     private val _validationError = MutableSharedFlow<ValidationError>(replay = 0)
     val validationError: SharedFlow<ValidationError> = _validationError.asSharedFlow()
-
-    /**
-     * Show empty password confirmation dialog.
-     */
-    fun showEmptyPasswordConfirmation() {
-        _confirmationState.value = ConfirmationState.Showing(ConfirmationType.EMPTY_PASSWORD)
-    }
-
-    /**
-     * Show no key confirmation dialog.
-     */
-    fun showNoKeyConfirmation() {
-        _confirmationState.value = ConfirmationState.Showing(ConfirmationType.NO_KEY)
-    }
 
     /**
      * Show key file length confirmation dialog.
@@ -99,14 +85,6 @@ class SetMainCredentialViewModel : ViewModel() {
         this.masterPassword = password
         this.keyFileUri = uri
         this.hardwareKey = hardwareKey
-    }
-
-    /**
-     * Check if the master password is empty.
-     * @return True if the master password is empty, false otherwise.
-     */
-    fun isMasterPasswordEmpty(): Boolean {
-        return masterPassword?.isEmpty() ?: true
     }
 
     /**
@@ -154,12 +132,15 @@ class SetMainCredentialViewModel : ViewModel() {
             // Global logic
             if (!passwordChecked && !keyFileChecked && !hardwareKeyChecked) {
                 if (allowNoMasterKey) {
-                    showNoKeyConfirmation()
+                    _confirmationState.value = ConfirmationState.Showing(ConfirmationType.NO_KEY)
                 } else {
                     _validationError.emit(ValidationError.NoCredentialsDisallowed)
                 }
-            } else if (passwordChecked && isMasterPasswordEmpty() && !keyFileChecked && !hardwareKeyChecked) {
-                showEmptyPasswordConfirmation()
+            } else if (passwordChecked
+                && masterPassword?.isEmpty() ?: true
+                && !keyFileChecked
+                && !hardwareKeyChecked) {
+                _confirmationState.value = ConfirmationState.Showing(ConfirmationType.EMPTY_PASSWORD)
             } else if (hardwareKey != null && !isHardwareKeyAvailable(hardwareKey!!)) {
                 _validationError.emit(ValidationError.HardwareDriverRequired(hardwareKey.toString()))
             } else {
@@ -172,20 +153,13 @@ class SetMainCredentialViewModel : ViewModel() {
      * Confirm the main credential after successful validation or user confirmation.
      */
     fun confirmMainCredential() {
-        validateMainCredential(MainCredential(
-            if (passwordChecked) masterPassword else null,
-            if (keyFileChecked) keyFileUri else null,
-            if (hardwareKeyChecked) hardwareKey else null
-        ))
-    }
-
-    /**
-     * Validate the main credential.
-     * @param mainCredential The main credential.
-     */
-    private fun validateMainCredential(mainCredential: MainCredential) {
         viewModelScope.launch {
-            _onMainCredentialAssigned.emit(mainCredential)
+            _onMainCredentialAssigned.emit(MainCredential(
+                if (passwordChecked) masterPassword else null,
+                if (keyFileChecked) keyFileUri else null,
+                if (hardwareKeyChecked) hardwareKey else null
+            ))
+            dismissConfirmation()
         }
     }
 

@@ -128,6 +128,11 @@ class SetMainCredentialDialogFragment : DatabaseDialogFragment() {
                         }
                     }
                 }
+                launch {
+                    mSetMainCredentialViewModel.onMainCredentialAssigned.collect {
+                        dismiss()
+                    }
+                }
             }
         }
     }
@@ -269,8 +274,6 @@ class SetMainCredentialDialogFragment : DatabaseDialogFragment() {
             builder.setMessage(R.string.warning_empty_password)
                     .setPositiveButton(android.R.string.ok) { _, _ ->
                         mSetMainCredentialViewModel.confirmMainCredential()
-                        mSetMainCredentialViewModel.dismissConfirmation()
-                        this@SetMainCredentialDialogFragment.dismiss()
                     }
                     .setNegativeButton(android.R.string.cancel) { _, _ ->
                         mSetMainCredentialViewModel.dismissConfirmation()
@@ -286,8 +289,6 @@ class SetMainCredentialDialogFragment : DatabaseDialogFragment() {
             builder.setMessage(R.string.warning_no_encryption_key)
                     .setPositiveButton(android.R.string.ok) { _, _ ->
                         mSetMainCredentialViewModel.confirmMainCredential()
-                        mSetMainCredentialViewModel.dismissConfirmation()
-                        this@SetMainCredentialDialogFragment.dismiss()
                     }
                     .setNegativeButton(android.R.string.cancel) { _, _ ->
                         mSetMainCredentialViewModel.dismissConfirmation()
