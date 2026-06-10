@@ -193,11 +193,11 @@ class GroupActivity : DatabaseLockActivity() {
     }
 
     private val mOnSearchTextFocusChangeListener = View.OnFocusChangeListener { view, hasFocus ->
-        if (!mGroupViewModel.autoSearch
-            && hasFocus
-            && PreferencesUtil.isKeyboardPreviousSearchEnable(this@GroupActivity)) {
-            // Change to the previous keyboard and show it
-            sendBroadcast(Intent(BACK_PREVIOUS_KEYBOARD_ACTION))
+        if (!mGroupViewModel.autoSearch && hasFocus) {
+            if (PreferencesUtil.isKeyboardPreviousSearchEnable(this@GroupActivity)) {
+                // Change to the previous keyboard and show it
+                sendBroadcast(Intent(BACK_PREVIOUS_KEYBOARD_ACTION))
+            }
             view.showKeyboard()
         }
     }
@@ -510,15 +510,25 @@ class GroupActivity : DatabaseLockActivity() {
                 launch {
                     mGroupViewModel.searchUIState.collect { searchState ->
                         if (searchState.show) {
+                            val isOpening = searchBar?.visibility != View.VISIBLE
+                            searchBar?.visibility = View.VISIBLE
                             breadcrumbListView?.visibility = View.GONE
                             searchState.searchParameters?.let { searchParameters ->
                                 val query = searchParameters.searchQuery
                                 if (searchState.advanceSearchAllowed) {
                                     searchTitle?.visibility = View.GONE
                                     searchView?.visibility = View.VISIBLE
-                                    searchView?.onActionViewExpanded()
-                                    searchView?.requestFocus()
-                                    searchView?.setQuery(query, false)
+                                    // Only expand the first time
+                                    if (isOpening) {
+                                        searchView?.onActionViewExpanded()
+                                        searchView?.post {
+                                            searchView?.requestFocus()
+                                        }
+                                    }
+                                    // Do not rerun cycles if it is the same request
+                                    if (searchView?.query?.toString() != query) {
+                                        searchView?.setQuery(query, false)
+                                    }
                                     searchFiltersView?.apply {
                                         setCurrentGroupText(searchState.title)
                                         allowAdvancedSearch(true)
@@ -541,7 +551,6 @@ class GroupActivity : DatabaseLockActivity() {
                                 searchFiltersView?.searchParameters = searchParameters
                             }
                             searchNumbers?.text = searchState.numberResults
-                            searchBar?.visibility = View.VISIBLE
                         } else {
                             searchFiltersView?.visibility = View.GONE
                             searchBar?.visibility = View.GONE
@@ -692,6 +701,8 @@ class GroupActivity : DatabaseLockActivity() {
                                 hideKeyboard()
                             }
                             is GroupViewModel.GroupEvent.ClearSearch -> {
+                                hideKeyboard()
+                                searchView?.onActionViewCollapsed()
                                 intent.removeAutoSearch()
                                 if (Intent.ACTION_SEARCH == intent.action) {
                                     intent.action = Intent.ACTION_DEFAULT
