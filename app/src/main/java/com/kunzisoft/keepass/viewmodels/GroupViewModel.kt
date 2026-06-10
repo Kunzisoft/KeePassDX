@@ -456,9 +456,11 @@ class GroupViewModel(application: Application): AndroidViewModel(application) {
     fun onBreadcrumbLongClicked(group: SortedGroupInfo) {
         viewModelScope.launch {
             val currentGroup = mainGroup
-            if (currentGroup != null && group.nodeId == currentGroup.nodeId
-                && (currentGroup.nodeId != mDatabase?.rootGroup?.nodeId
-                        || mDatabase?.rootGroupIsVirtual != true)
+            if (mDatabase?.isReadOnly == false
+                && currentGroup != null
+                && group.nodeId == currentGroup.nodeId
+                && (mDatabase?.rootGroupIsVirtual != true
+                        || currentGroup.nodeId != mDatabase?.rootGroup?.nodeId)
             ) {
                 finishNodeAction()
                 _viewEvent.emit(GroupEvent.EditGroup(currentGroup))
