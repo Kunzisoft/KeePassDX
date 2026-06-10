@@ -45,6 +45,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.view.GravityCompat
+import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.core.view.isVisible
@@ -171,6 +172,8 @@ class GroupActivity : DatabaseLockActivity() {
     private var mGroupFragment: GroupFragment? = null
 
     private var activeActionMode: ActionMode? = null
+
+    private var mIsImeVisible: Boolean = false
 
     // Manage merge
     private var mExternalFileHelper: ExternalFileHelper? = null
@@ -362,6 +365,18 @@ class GroupActivity : DatabaseLockActivity() {
                 // Only on the start side, since the drawer is anchored to one side of the screen
                 WindowInsetPosition.START_PADDING,
             ))
+        }
+
+        // If the keyboard was visible and is now hidden, clear focus to allow the next back gesture to work immediately
+        searchBar?.let { bar ->
+            ViewCompat.setOnApplyWindowInsetsListener(bar) { _, insets ->
+                val currentImeVisible = insets.isVisible(WindowInsetsCompat.Type.ime())
+                if (mIsImeVisible && !currentImeVisible && searchView?.hasFocus() == true) {
+                    searchView?.clearFocus()
+                }
+                mIsImeVisible = currentImeVisible
+                insets
+            }
         }
 
         lockView?.setOnClickListener {
