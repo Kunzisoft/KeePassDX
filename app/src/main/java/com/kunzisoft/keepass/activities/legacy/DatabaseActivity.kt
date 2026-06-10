@@ -112,58 +112,79 @@ abstract class DatabaseActivity : StylishActivity(), DatabaseRetrieval {
 
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                mDatabaseViewModel.actionState.collect { uiState ->
-                    if (credentialResultLaunched.not()) {
-                        when (uiState) {
-                            is DatabaseViewModel.ActionState.Wait -> {}
-                            is DatabaseViewModel.ActionState.OnDatabaseReloaded -> {
-                                if (finishActivityIfReloadRequested()) {
-                                    finish()
-                                }
+                launch {
+                    mDatabaseViewModel.databaseState.collect { database ->
+                        if (credentialResultLaunched.not()) {
+                            // Nullable function
+                            onUnknownDatabaseRetrieved(database)
+                            database?.let {
+                                onDatabaseRetrieved(database)
                             }
-                            is DatabaseViewModel.ActionState.OnDatabaseInfoChanged -> {
-                                if (manageDatabaseInfo()) {
-                                    showDatabaseChangedDialog(
-                                        uiState.previousDatabaseInfo,
-                                        uiState.newDatabaseInfo,
-                                        uiState.readOnlyDatabase
+                        }
+                    }
+                }
+                launch {
+                    mDatabaseViewModel.actionState.collect { uiState ->
+                        if (credentialResultLaunched.not()) {
+                            when (uiState) {
+                                is DatabaseViewModel.ActionState.Wait -> {}
+                                is DatabaseViewModel.ActionState.OnDatabaseReloaded -> {
+                                    if (finishActivityIfReloadRequested()) {
+                                        finish()
+                                    }
+                                }
+
+                                is DatabaseViewModel.ActionState.OnDatabaseInfoChanged -> {
+                                    if (manageDatabaseInfo()) {
+                                        showDatabaseChangedDialog(
+                                            uiState.previousDatabaseInfo,
+                                            uiState.newDatabaseInfo,
+                                            uiState.readOnlyDatabase
+                                        )
+                                    }
+                                }
+
+                                is DatabaseViewModel.ActionState.ShowDatabaseInfoReloadedDialog -> {
+                                    if (manageDatabaseInfo()) {
+                                        showDatabaseInfoReloadedDialog(
+                                            uiState.fixDuplicateUuid
+                                        )
+                                    }
+                                }
+
+                                is DatabaseViewModel.ActionState.OnDatabaseActionRequested -> {
+                                    startDatabasePermissionService(
+                                        uiState.bundle,
+                                        uiState.actionTask
                                     )
                                 }
-                            }
-                            is DatabaseViewModel.ActionState.ShowDatabaseInfoReloadedDialog -> {
-                                if (manageDatabaseInfo()) {
-                                    showDatabaseInfoReloadedDialog(
-                                        uiState.fixDuplicateUuid
+
+                                is DatabaseViewModel.ActionState.OnDatabaseActionStarted -> {
+                                    progressTaskViewModel.show(uiState.progressMessage)
+                                }
+
+                                is DatabaseViewModel.ActionState.OnDatabaseActionUpdated -> {
+                                    progressTaskViewModel.show(uiState.progressMessage)
+                                }
+
+                                is DatabaseViewModel.ActionState.OnDatabaseActionStopped -> {
+                                    progressTaskViewModel.hide()
+                                }
+
+                                is DatabaseViewModel.ActionState.OnDatabaseActionFinished -> {
+                                    onDatabaseActionFinished(
+                                        uiState.database,
+                                        uiState.actionTask,
+                                        uiState.result
                                     )
                                 }
-                            }
-                            is DatabaseViewModel.ActionState.OnDatabaseActionRequested -> {
-                                startDatabasePermissionService(
-                                    uiState.bundle,
-                                    uiState.actionTask
-                                )
-                            }
-                            is DatabaseViewModel.ActionState.OnDatabaseActionStarted -> {
-                                progressTaskViewModel.show(uiState.progressMessage)
-                            }
-                            is DatabaseViewModel.ActionState.OnDatabaseActionUpdated -> {
-                                progressTaskViewModel.show(uiState.progressMessage)
-                            }
-                            is DatabaseViewModel.ActionState.OnDatabaseActionStopped -> {
-                                progressTaskViewModel.hide()
-                            }
-                            is DatabaseViewModel.ActionState.OnDatabaseActionFinished -> {
-                                onDatabaseActionFinished(
-                                    uiState.database,
-                                    uiState.actionTask,
-                                    uiState.result
-                                )
-                            }
-                            is DatabaseViewModel.ActionState.ShowPasswordEncodingDialog -> {
-                                showPasswordEncodingDialog(
-                                    uiState.databaseUri,
-                                    uiState.mainCredential
-                                )
+
+                                is DatabaseViewModel.ActionState.ShowPasswordEncodingDialog -> {
+                                    showPasswordEncodingDialog(
+                                        uiState.databaseUri,
+                                        uiState.mainCredential
+                                    )
+                                }
                             }
                         }
                     }
@@ -178,19 +199,6 @@ abstract class DatabaseActivity : StylishActivity(), DatabaseRetrieval {
                             startDialog()
                         is ProgressTaskViewModel.ProgressTaskState.Hide ->
                             stopDialog()
-                    }
-                }
-            }
-        }
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.RESUMED) {
-                mDatabaseViewModel.databaseState.collect { database ->
-                    if (credentialResultLaunched.not()) {
-                        // Nullable function
-                        onUnknownDatabaseRetrieved(database)
-                        database?.let {
-                            onDatabaseRetrieved(database)
-                        }
                     }
                 }
             }

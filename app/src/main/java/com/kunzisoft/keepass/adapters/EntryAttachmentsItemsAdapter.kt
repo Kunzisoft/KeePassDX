@@ -71,7 +71,7 @@ class EntryAttachmentsItemsAdapter(val context: Context)
                     && p0.downloadState == p1.downloadState
                     && p0.downloadProgression == p1.downloadProgression
                     && p0.streamDirection == p1.streamDirection
-                    && p0.attachment.binaryData.getSize() == p1.attachment.binaryData.getSize()
+                    && p0.attachment.binaryData == p1.attachment.binaryData
         }
 
         override fun areItemsTheSame(
