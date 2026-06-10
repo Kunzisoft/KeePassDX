@@ -119,22 +119,21 @@ class GroupFragment : DatabaseFragment() {
                         try {
                             groupUIState.group?.let { currentGroup ->
                                 val isSearchInfo = currentGroup is SearchGroupInfo
-                                groupUIState.children?.let { children ->
+                                val children = groupUIState.children
+                                if (children != null) {
                                     mAdapter?.rebuildList(
                                         nodes = children,
                                         isSearch = isSearchInfo
                                     )
                                 }
+                                notFoundView?.visibility = if (isSearchInfo && children.isNullOrEmpty()) {
+                                    // To show the " no search entry found "
+                                    View.VISIBLE
+                                } else {
+                                    View.GONE
+                                }
                                 // Direct action node selection after rebuild
                                 mAdapter?.setActionNodes(mGroupViewModel.actionsNodes.value)
-                                if (isSearchInfo
-                                    && mAdapter != null
-                                    && mAdapter!!.isEmpty) {
-                                    // To show the " no search entry found "
-                                    notFoundView?.visibility = View.VISIBLE
-                                } else {
-                                    notFoundView?.visibility = View.GONE
-                                }
                             }
                         } catch (e:Exception) {
                             Log.e(TAG, "Unable to rebuild the list", e)
