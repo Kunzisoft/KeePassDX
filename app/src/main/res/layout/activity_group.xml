@@ -84,6 +84,72 @@
                     android:src="@drawable/ic_modified_white_12dp"
                     android:contentDescription="@string/save"/>
             </FrameLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/search_bar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@+id/special_mode_view"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:background="?attr/colorSurface"
+                android:visibility="visible">
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/search_close"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/KeepassDXStyle.ImageButton.Simple"
+                    app:srcCompat="@drawable/ic_baseline_arrow_back_white_24dp"
+                    app:tint="?attr/colorOnSurface"
+                    android:contentDescription="@android:string/cancel"/>
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/search_numbers"
+                    style="@style/KeepassDXStyle.Text.Badge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/search_close"
+                    app:layout_constraintLeft_toRightOf="@+id/search_close"
+                    tools:text="3" />
+                <androidx.appcompat.widget.SearchView
+                    android:id="@+id/search_view"
+                    app:layout_constraintStart_toEndOf="@+id/search_numbers"
+                    app:layout_constraintEnd_toStartOf="@+id/search_sort"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_marginStart="4dp"
+                    android:iconifiedByDefault="false"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:id="@+id/search_title"
+                    app:layout_constraintStart_toEndOf="@+id/search_numbers"
+                    app:layout_constraintEnd_toStartOf="@+id/search_sort"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_marginStart="@dimen/default_margin"
+                    style="@style/KeepassDXStyle.SubTitle"
+                    android:visibility="visible"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content" />
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/search_sort"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    style="@style/KeepassDXStyle.ImageButton.Simple"
+                    android:contentDescription="@string/sort_menu"
+                    app:srcCompat="@drawable/ic_sort_white_24dp"
+                    app:tint="?attr/colorOnSurface"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.coordinatorlayout.widget.CoordinatorLayout

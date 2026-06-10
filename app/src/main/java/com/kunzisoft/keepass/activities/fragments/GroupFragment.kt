@@ -22,12 +22,8 @@ package com.kunzisoft.keepass.activities.fragments
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.MenuProvider
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -36,7 +32,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.SCROLL_STATE_IDLE
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.activities.dialogs.SortDialogFragment
 import com.kunzisoft.keepass.adapters.NodesAdapter
 import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper.retrieveSpecialMode
 import com.kunzisoft.keepass.credentialprovider.SpecialMode
@@ -44,7 +39,6 @@ import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.element.SortNodeEnum
 import com.kunzisoft.keepass.model.SearchGroupInfo
 import com.kunzisoft.keepass.model.SortedNodeInfo
-import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.viewmodels.GroupViewModel
 import kotlinx.coroutines.launch
 
@@ -70,33 +64,6 @@ class GroupFragment : DatabaseFragment() {
         override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
             super.onScrolled(recyclerView, dx, dy)
             mGroupViewModel.scrollTo(dy)
-        }
-    }
-
-    private val menuProvider: MenuProvider = object: MenuProvider {
-        override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
-            menuInflater.inflate(R.menu.tree, menu)
-        }
-
-        override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
-            return when (menuItem.itemId) {
-                R.id.menu_sort -> {
-                    context?.let { context ->
-                        val sortDialogFragment: SortDialogFragment =
-                            SortDialogFragment.getInstance(
-                                PreferencesUtil.getListSort(context),
-                                PreferencesUtil.getAscendingSort(context),
-                                PreferencesUtil.getGroupsBeforeSort(context),
-                                if (mDatabase?.isRecycleBinEnabled == true) {
-                                    PreferencesUtil.getRecycleBinBottomSort(context)
-                                } else null
-                            )
-                        sortDialogFragment.show(childFragmentManager, "sortDialog")
-                    }
-                    true
-                }
-                else -> false
-            }
         }
     }
 
@@ -133,8 +100,6 @@ class GroupFragment : DatabaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        activity?.addMenuProvider(menuProvider, viewLifecycleOwner)
 
         mNodesRecyclerView = view.findViewById(R.id.nodes_list)
         notFoundView = view.findViewById(R.id.not_found_container)

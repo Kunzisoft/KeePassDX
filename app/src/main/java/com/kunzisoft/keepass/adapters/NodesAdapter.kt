@@ -433,6 +433,7 @@ class NodesAdapter(
                     holder.attachmentIcon?.setColorFilter(foregroundColor)
                     holder.passkeyIcon?.setColorFilter(foregroundColor)
                     holder.meta.setTextColor(foregroundColor)
+                    holder.path?.setTextColor(foregroundColor)
                     iconColor = foregroundColor
                 } else {
                     holder.text.setTextColor(mTextColor)
@@ -442,6 +443,7 @@ class NodesAdapter(
                     holder.attachmentIcon?.setColorFilter(mTextColorSecondary)
                     holder.passkeyIcon?.setColorFilter(mTextColorSecondary)
                     holder.meta.setTextColor(mTextColor)
+                    holder.path?.setTextColor(mTextColor)
                 }
             } else {
                 holder.text.setTextColor(mColorOnSecondary)
@@ -451,6 +453,7 @@ class NodesAdapter(
                 holder.attachmentIcon?.setColorFilter(mColorOnSecondary)
                 holder.passkeyIcon?.setColorFilter(mColorOnSecondary)
                 holder.meta.setTextColor(mColorOnSecondary)
+                holder.path?.setTextColor(mColorOnSecondary)
             }
         }
 
