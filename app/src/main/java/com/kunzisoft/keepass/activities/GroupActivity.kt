@@ -507,6 +507,7 @@ class GroupActivity : DatabaseLockActivity() {
                         state.group?.let { group ->
                             // Init search
                             if (group !is SearchGroupInfo) {
+                                refreshDatabaseViews()
                                 touchGroup(group)
                             }
                         }
@@ -909,31 +910,35 @@ class GroupActivity : DatabaseLockActivity() {
 
         mGroupEditViewModel.groupNamesNotAllowed = database.groupNamesNotAllowed
 
-        // Load the group when database is available
         loadGroup()
 
         // Update view
         mBreadcrumbAdapter?.iconDrawableFactory = database.iconDrawableFactory
+        refreshDatabaseViews()
+        invalidateOptionsMenu()
+    }
 
-        // Populate the Navigation view with database
-        val databaseName = database.name.ifEmpty { getString(R.string.database) }
-        databaseNavView?.setDatabaseName(databaseName)
-        databaseNameView?.text = databaseName
-        databaseNavView?.setDatabasePath(database.fileUri?.toString())
-        databaseNavView?.setDatabaseVersion(database.version)
-        val modified = database.dataModifiedSinceLastLoading
-        databaseNavView?.setDatabaseModifiedSinceLastLoading(modified)
-        databaseModifiedView?.isVisible = modified
-        val customColor = database.customColor
-        databaseNavView?.setDatabaseColor(customColor)
-        if (customColor != null) {
-            databaseColorView?.visibility = View.VISIBLE
-            databaseColorView?.setColorFilter(
-                customColor,
-                PorterDuff.Mode.SRC_IN
-            )
-        } else {
-            databaseColorView?.visibility = View.GONE
+    private fun refreshDatabaseViews() {
+        mDatabase?.let {
+            val databaseName = it.name.ifEmpty { getString(R.string.database) }
+            databaseNavView?.setDatabaseName(databaseName)
+            databaseNameView?.text = databaseName
+            databaseNavView?.setDatabasePath(it.fileUri?.toString())
+            databaseNavView?.setDatabaseVersion(it.version)
+            val modified = it.dataModifiedSinceLastLoading
+            databaseNavView?.setDatabaseModifiedSinceLastLoading(modified)
+            databaseModifiedView?.isVisible = modified
+            val customColor = it.customColor
+            databaseNavView?.setDatabaseColor(customColor)
+            if (customColor != null) {
+                databaseColorView?.visibility = View.VISIBLE
+                databaseColorView?.setColorFilter(
+                    customColor,
+                    PorterDuff.Mode.SRC_IN
+                )
+            } else {
+                databaseColorView?.visibility = View.GONE
+            }
         }
     }
 
