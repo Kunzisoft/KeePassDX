@@ -1,6 +1,9 @@
 package com.kunzisoft.keepass.view
 
 import android.content.Context
+import android.os.Build
+import android.os.Bundle
+import android.os.Parcelable
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
@@ -69,6 +72,9 @@ class SearchFiltersView @JvmOverloads constructor(
     private var searchGroupSearchable: CompoundButton
     private var searchRecycleBin: CompoundButton
     private var searchTemplate: CompoundButton
+
+    private var isExpanded = false
+    var onExpansionChanged: ((expanded: Boolean) -> Unit)? = null
 
     var searchParameters = SearchParameters()
         get() {
@@ -163,8 +169,8 @@ class SearchFiltersView @JvmOverloads constructor(
 
         // Expand menu with button
         searchExpandButton.setOnClickListener {
-            val isVisible = searchAdvanceFiltersContainer?.visibility == VISIBLE
-            if (isVisible)
+            val isExpanded = searchAdvanceFiltersContainer?.visibility == VISIBLE
+            if (isExpanded)
                 closeAdvancedFilters()
             else
                 openAdvancedFilters()
@@ -294,14 +300,46 @@ class SearchFiltersView @JvmOverloads constructor(
         searchTemplate.isEnabled = enable
     }
 
-    fun closeAdvancedFilters() {
-        searchAdvanceFiltersContainer?.collapse()
+    fun closeAdvancedFilters(animate: Boolean = true) {
+        isExpanded = false
+        searchAdvanceFiltersContainer?.collapse(animate) {
+            onExpansionChanged?.invoke(false)
+        }
     }
 
-    private fun openAdvancedFilters() {
-        searchAdvanceFiltersContainer?.expand(true,
+    fun openAdvancedFilters(animate: Boolean = true) {
+        isExpanded = true
+        searchAdvanceFiltersContainer?.expand(animate,
             searchAdvanceFiltersContainer?.getFullHeight()
-        )
+        ) {
+            onExpansionChanged?.invoke(true)
+        }
+    }
+
+    override fun onSaveInstanceState(): Parcelable {
+        val bundle = Bundle()
+        bundle.putParcelable("superState", super.onSaveInstanceState())
+        bundle.putBoolean("isExpanded", isExpanded)
+        return bundle
+    }
+
+    override fun onRestoreInstanceState(state: Parcelable?) {
+        var superState = state
+        if (state is Bundle) {
+            isExpanded = state.getBoolean("isExpanded")
+            if (isExpanded) {
+                searchAdvanceFiltersContainer?.post {
+                    openAdvancedFilters(animate = false)
+                }
+            }
+            superState = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                state.getParcelable("superState", Parcelable::class.java)
+            } else {
+                @Suppress("DEPRECATION")
+                state.getParcelable("superState")
+            }
+        }
+        super.onRestoreInstanceState(superState)
     }
 
     fun allowAdvancedSearch(show: Boolean) {
@@ -317,7 +355,7 @@ class SearchFiltersView @JvmOverloads constructor(
         when (visibility) {
             VISIBLE -> {
                 if (searchContainer.visibility != VISIBLE) {
-                    searchAdvanceFiltersContainer?.visibility = GONE
+                    searchAdvanceFiltersContainer?.visibility = if (isExpanded) VISIBLE else GONE
                     searchContainer.showByFading()
                 }
             }
