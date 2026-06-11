@@ -1,0 +1,1 @@
+ * Correction retour au clavier précédent #2529

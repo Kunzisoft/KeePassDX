@@ -1,0 +1,1 @@
+ * Fix back to previous keyboard #2529

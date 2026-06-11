@@ -1,3 +1,6 @@
+KeePassDX(4.4.4)
+ * Fix back to previous keyboard #2529
+
 KeePassDX(4.4.3)
  * Fix a Passkey reference #2554
  * Add browser in the list of privileged apps #2533
