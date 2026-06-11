@@ -27,6 +27,7 @@ import android.inputmethodservice.InputMethodService
 import android.media.AudioManager
 import android.os.Build
 import android.provider.Settings
+import android.util.Log
 import android.view.Gravity
 import android.view.HapticFeedbackConstants
 import android.view.KeyEvent
@@ -74,6 +75,7 @@ import com.kunzisoft.keepass.utils.AppUtil.isElementAllowed
 import com.kunzisoft.keepass.utils.AppUtil.withoutBrowserOrAppBlocked
 import com.kunzisoft.keepass.utils.EXTRA_PROGRESS
 import com.kunzisoft.keepass.utils.KeyboardUtil.currentDefaultKeyboard
+import com.kunzisoft.keepass.utils.KeyboardUtil.getSystemPreviousImeId
 import com.kunzisoft.keepass.utils.KeyboardUtil.showKeyboardPicker
 import com.kunzisoft.keepass.utils.KeyboardUtil.switchKeyboardIntent
 import com.kunzisoft.keepass.utils.KeyboardUtil.switchToPreviousKeyboard
@@ -749,14 +751,23 @@ class MagikeyboardService : InputMethodService(),
         }
 
         fun InputMethodService.switchOrAssignPreviousKeyboard() {
+            val magikeyboardId = getMagikeyboardId()
+            val systemPreviousId = getSystemPreviousImeId()
+            // Get the previous keyboardId and use the system switch back if possible
+            if (systemPreviousId != null && systemPreviousId != magikeyboardId) {
+                this.switchToPreviousKeyboard()
+                return
+            }
+            // Else switch with KeyboardSwitcher to the previous keyboard previously saved
             val previousId = PreferencesUtil.getPreviousKeyboardId(this)
             if (!previousId.isNullOrEmpty()) {
                 val intent = switchKeyboardIntent(previousId)
                 if (intent.resolveActivity(packageManager) != null) {
                     startActivity(intent)
                     return
-                }
+                } else Log.e(TAG, "Unable to manually switch to the previous IME")
             }
+            // Retry the auto switch in last resort
             this.switchToPreviousKeyboard()
         }
 

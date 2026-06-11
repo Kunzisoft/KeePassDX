@@ -64,7 +64,21 @@ object KeyboardUtil {
         return Settings.Secure.getString(
             this.contentResolver,
             Settings.Secure.DEFAULT_INPUT_METHOD
-        )
+        ) ?: ""
+    }
+
+    fun Context.getSystemPreviousImeId(): String? {
+        val history = Settings.Secure.getString(contentResolver, "input_methods_subtype_history")
+        if (history.isNullOrEmpty()) return null
+        val items = history.split(':')
+        if (items.isNotEmpty()) {
+            val item = items[0]
+            val id = item.split(';')[0]
+            if (id.isNotEmpty()) {
+                return id
+            }
+        }
+        return null
     }
 
     fun Context.showKeyboardPicker() {
