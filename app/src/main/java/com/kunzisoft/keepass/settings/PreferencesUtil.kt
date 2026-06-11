@@ -695,6 +695,17 @@ object PreferencesUtil {
             context.resources.getBoolean(R.bool.keyboard_previous_lock_default))
     }
 
+    fun savePreviousKeyboardId(context: Context, keyboardId: String) {
+        PreferenceManager.getDefaultSharedPreferences(context).edit {
+            putString(context.getString(R.string.keyboard_previous_id_key), keyboardId)
+        }
+    }
+
+    fun getPreviousKeyboardId(context: Context): String? {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        return prefs.getString(context.getString(R.string.keyboard_previous_id_key), null)
+    }
+
     fun isPasskeyCloseDatabaseEnable(context: Context): Boolean {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
         return prefs.getBoolean(context.getString(R.string.passkeys_close_database_key),

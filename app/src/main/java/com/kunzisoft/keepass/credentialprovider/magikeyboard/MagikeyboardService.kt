@@ -73,7 +73,9 @@ import com.kunzisoft.keepass.utils.AppUtil
 import com.kunzisoft.keepass.utils.AppUtil.isElementAllowed
 import com.kunzisoft.keepass.utils.AppUtil.withoutBrowserOrAppBlocked
 import com.kunzisoft.keepass.utils.EXTRA_PROGRESS
+import com.kunzisoft.keepass.utils.KeyboardUtil.currentDefaultKeyboard
 import com.kunzisoft.keepass.utils.KeyboardUtil.showKeyboardPicker
+import com.kunzisoft.keepass.utils.KeyboardUtil.switchKeyboardIntent
 import com.kunzisoft.keepass.utils.KeyboardUtil.switchToPreviousKeyboard
 import com.kunzisoft.keepass.utils.LOCK_ACTION
 import com.kunzisoft.keepass.utils.LockReceiver
@@ -150,7 +152,7 @@ class MagikeyboardService : InputMethodService(),
             }
         }
         lockReceiver?.backToPreviousKeyboardAction = {
-            switchToPreviousKeyboard()
+            switchOrAssignPreviousKeyboard()
         }
 
         entriesAdapter = KeyboardEntriesAdapter(this)
@@ -411,7 +413,7 @@ class MagikeyboardService : InputMethodService(),
 
         when (primaryCode) {
             KEY_BACK_KEYBOARD -> {
-                switchToPreviousKeyboard()
+                switchOrAssignPreviousKeyboard()
             }
             KEY_CHANGE_KEYBOARD -> {
                 showKeyboardPicker()
@@ -542,7 +544,7 @@ class MagikeyboardService : InputMethodService(),
             currentInputConnection.performEditorAction(EditorInfo.IME_ACTION_GO)
             if (switchToPreviousKeyboardIfAllowed
                     && PreferencesUtil.isKeyboardPreviousFillInEnable(this)) {
-                switchToPreviousKeyboard()
+                switchOrAssignPreviousKeyboard()
             }
         }
     }
@@ -612,9 +614,6 @@ class MagikeyboardService : InputMethodService(),
         private val shareBrowser = MutableLiveData<String?>()
         private val entryUUIDList = MutableLiveData<List<UUID>?>()
         private var onlyAllowedFromMagikeyboard: Boolean = false
-
-        private const val SWITCH_KEYBOARD_ACTION = "com.android.keyboard.SWITCH_KEYBOARD"
-        private const val KEYBOARD_ID = "KEYBOARD_ID"
 
         private fun removeEntryInfo() {
             this.entryUUIDList.value = null
@@ -710,10 +709,10 @@ class MagikeyboardService : InputMethodService(),
                         this.entryUUIDList.value = newList
                         // Auto switch to the Magikeyboard
                         if (autoSwitchKeyboard
-                            && isAutoSwitchMagikeyboardAllowed(context)
-                            && currentDefaultKeyboard(context) != getMagikeyboardId(context)
+                            && context.isAutoSwitchMagikeyboardAllowed()
+                            && context.currentDefaultKeyboard() != context.getMagikeyboardId()
                         ) {
-                            context.startActivity(getSwitchMagikeyboardIntent(context))
+                            context.startActivity(context.getSwitchMagikeyboardIntent())
                         }
                     }
                 } else {
@@ -722,27 +721,22 @@ class MagikeyboardService : InputMethodService(),
             }
         }
 
-        fun getMagikeyboardId(context: Context): String {
-            return "${context.packageName}/${MagikeyboardService::class.java.canonicalName}"
+        fun Context.getMagikeyboardId(): String {
+            return "${this.packageName}/${MagikeyboardService::class.java.canonicalName}"
         }
 
-        fun getSwitchMagikeyboardIntent(context: Context): Intent {
-            return Intent(SWITCH_KEYBOARD_ACTION).apply {
-                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                putExtra(KEYBOARD_ID, getMagikeyboardId(context))
+        fun Context.getSwitchMagikeyboardIntent(): Intent {
+            val currentIme = this.currentDefaultKeyboard()
+            val magikeyboardId = this.getMagikeyboardId()
+            if (currentIme != magikeyboardId) {
+                PreferencesUtil.savePreviousKeyboardId(this, currentIme)
             }
+            return switchKeyboardIntent(magikeyboardId)
         }
 
-        fun isAutoSwitchMagikeyboardAllowed(context: Context): Boolean {
-            return getSwitchMagikeyboardIntent(context)
-                .resolveActivity(context.packageManager) != null
-        }
-
-        fun currentDefaultKeyboard(context: Context): String {
-            return Settings.Secure.getString(
-                context.contentResolver,
-                Settings.Secure.DEFAULT_INPUT_METHOD
-            )
+        fun Context.isAutoSwitchMagikeyboardAllowed(): Boolean {
+            return this.getSwitchMagikeyboardIntent()
+                .resolveActivity(this.packageManager) != null
         }
 
         fun Context.isMagikeyboardActivated(): Boolean {
@@ -752,6 +746,18 @@ class MagikeyboardService : InputMethodService(),
             )?.enabledInputMethodList?.any { inputMethod ->
                 inputMethod.packageName == this.packageName
             } ?: false
+        }
+
+        fun InputMethodService.switchOrAssignPreviousKeyboard() {
+            val previousId = PreferencesUtil.getPreviousKeyboardId(this)
+            if (!previousId.isNullOrEmpty()) {
+                val intent = switchKeyboardIntent(previousId)
+                if (intent.resolveActivity(packageManager) != null) {
+                    startActivity(intent)
+                    return
+                }
+            }
+            this.switchToPreviousKeyboard()
         }
 
         fun Context.showKeyboardDeviceSettings() {

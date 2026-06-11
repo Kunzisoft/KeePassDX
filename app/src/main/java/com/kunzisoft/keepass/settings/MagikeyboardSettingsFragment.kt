@@ -37,7 +37,7 @@ class MagikeyboardSettingsFragment : PreferenceFragmentCompat() {
         // Disable the switch preference if KeyboardSwitcher app not installed
         context?.let { context ->
             val keyboardSwitchPreference: TwoStatePreference? = findPreference(getString(R.string.keyboard_auto_switch_key))
-            keyboardSwitchPreference?.isEnabled = isAutoSwitchMagikeyboardAllowed(context)
+            keyboardSwitchPreference?.isEnabled = context.isAutoSwitchMagikeyboardAllowed()
         }
     }
 

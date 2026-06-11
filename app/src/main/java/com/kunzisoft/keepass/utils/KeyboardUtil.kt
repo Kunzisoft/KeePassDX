@@ -2,8 +2,10 @@ package com.kunzisoft.keepass.utils
 
 import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.inputmethodservice.InputMethodService
 import android.os.Build
+import android.provider.Settings
 import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
@@ -51,6 +53,20 @@ object KeyboardUtil {
         }
     }
 
+    fun switchKeyboardIntent(keyboardId: String): Intent {
+        return Intent(SWITCH_KEYBOARD_ACTION).apply {
+            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            putExtra(KEYBOARD_ID, keyboardId)
+        }
+    }
+
+    fun Context.currentDefaultKeyboard(): String {
+        return Settings.Secure.getString(
+            this.contentResolver,
+            Settings.Secure.DEFAULT_INPUT_METHOD
+        )
+    }
+
     fun Context.showKeyboardPicker() {
         ContextCompat.getSystemService(this, InputMethodManager::class.java)
             ?.showInputMethodPicker()
@@ -65,4 +81,7 @@ object KeyboardUtil {
     }
 
     private const val TAG = "KeyboardUtil"
+
+    private const val SWITCH_KEYBOARD_ACTION = "com.android.keyboard.SWITCH_KEYBOARD"
+    private const val KEYBOARD_ID = "KEYBOARD_ID"
 }
