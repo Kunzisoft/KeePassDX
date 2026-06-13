@@ -329,7 +329,7 @@
     <string name="entry_history">Geçmiş</string>
     <string name="entry_setup_otp">Tek seferlik parola ayarla</string>
     <string name="otp_type">OTP türü</string>
-    <string name="otp_secret">Gizli</string>
+    <string name="otp_secret">Kod</string>
     <string name="otp_period">Dönem (saniye)</string>
     <string name="otp_counter">Sayaç</string>
     <string name="otp_digits">Basamak</string>
@@ -735,7 +735,7 @@
     <string name="user_verification_device_credential_title">Kullanıcı Doğrulama kimlik bilgisi</string>
     <string name="user_verification_device_credential_summary">Eğer varsa kimlik bilgilerini kullanıcı doğrulaması için kullan</string>
     <string name="menu_user_verification_enabled">Kullanıcı Doğrulama etkinleştirildi</string>
-    <string name="menu_user_verification_disabled">Kullanıcı Doğrulama devre dışı bırakıldı</string>
+    <string name="menu_user_verification_disabled">Kullanıcı doğrulaması kapatıldı</string>
     <string name="user_verification_preferred_summary">Güvenilen taraf \"tercih edilen\" yöntemi talep ettiğinde kullanıcı doğrulamasını gerçekleştir</string>
     <string name="keyboard_auto_switch_title">Otomatik Magikeyboard geçişi</string>
     <string name="keyboard_auto_switch_summary">Girişler doldurulduğunda otomatik olarak Magikeyboard\'a geçmeyi dene</string>
