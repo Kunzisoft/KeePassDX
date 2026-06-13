@@ -197,7 +197,7 @@
     <string name="style_name_sun">Saule</string>
     <string name="style_name_reply">Atbilde</string>
     <string name="create_keepass_file">Izveidot jaunu seifglabātavu</string>
-    <string name="device_unlock_prompt_store_credential_message">Jums joprojām ir jāiegaumē jūsu seifglabātavas galvenie piekļuves dati, ja izmantojat ierīces atpazīšanas atbloķēšanu.</string>
+    <string name="device_unlock_prompt_store_credential_message">BRĪDINĀJUMS: Jums joprojām ir jāiegaumē savas seifglabātavas galvenie piekļuves dati</string>
     <string name="read_only">Aizsargāts pret rakstīšanu (tikai lasāms)</string>
     <string name="path">Ceļš</string>
     <string name="contribute">Dot savu artavu</string>
@@ -317,4 +317,5 @@
     <string name="keyboard_entry_timeout_summary">Gaidīšanas laiks, pēc kura jānotīra tastatūras ieraksts</string>
     <string name="select_entry">Atlasīt ierakstu</string>
     <string name="autofill_manual_selection_summary">Rāda iespēju ļaut lietotājam pašrocīgi atlasīt datubāzes ierakstu</string>
+    <string name="contribution">Sniegt savu artavu</string>
 </resources>

@@ -27,6 +27,7 @@ import android.inputmethodservice.InputMethodService
 import android.media.AudioManager
 import android.os.Build
 import android.provider.Settings
+import android.util.Log
 import android.view.Gravity
 import android.view.HapticFeedbackConstants
 import android.view.KeyEvent
@@ -73,7 +74,10 @@ import com.kunzisoft.keepass.utils.AppUtil
 import com.kunzisoft.keepass.utils.AppUtil.isElementAllowed
 import com.kunzisoft.keepass.utils.AppUtil.withoutBrowserOrAppBlocked
 import com.kunzisoft.keepass.utils.EXTRA_PROGRESS
+import com.kunzisoft.keepass.utils.KeyboardUtil.currentDefaultKeyboard
+import com.kunzisoft.keepass.utils.KeyboardUtil.getSystemPreviousImeId
 import com.kunzisoft.keepass.utils.KeyboardUtil.showKeyboardPicker
+import com.kunzisoft.keepass.utils.KeyboardUtil.switchKeyboardIntent
 import com.kunzisoft.keepass.utils.KeyboardUtil.switchToPreviousKeyboard
 import com.kunzisoft.keepass.utils.LOCK_ACTION
 import com.kunzisoft.keepass.utils.LockReceiver
@@ -91,6 +95,7 @@ class MagikeyboardService : InputMethodService(),
     private var mDatabaseTaskProvider: DatabaseTaskProvider? = null
     private var mDatabase: ContextualDatabase? = null
 
+    private var rootView: View? = null
     private var keyboardView: KeyboardView? = null
     private var entryContainer: View? = null
     private var databaseText: TextView? = null
@@ -150,7 +155,7 @@ class MagikeyboardService : InputMethodService(),
             }
         }
         lockReceiver?.backToPreviousKeyboardAction = {
-            switchToPreviousKeyboard()
+            switchOrAssignPreviousKeyboard()
         }
 
         entriesAdapter = KeyboardEntriesAdapter(this)
@@ -224,20 +229,21 @@ class MagikeyboardService : InputMethodService(),
 
     override fun onCreateInputView(): View {
 
-        val rootKeyboardView = layoutInflater.inflate(R.layout.keyboard_container, null)
-        entryContainer = rootKeyboardView.findViewById(R.id.magikeyboard_entry_container)
-        entryListView = rootKeyboardView.findViewById(R.id.magikeyboard_entry_list)
-        databaseText = rootKeyboardView.findViewById(R.id.magikeyboard_database_text)
-        databaseColorView = rootKeyboardView.findViewById(R.id.magikeyboard_database_color)
-        containerPackageText = rootKeyboardView.findViewById(R.id.magikeyboard_container_package)
-        containerShareText = rootKeyboardView.findViewById(R.id.magikeyboard_share_browser)
-        shareBrowserText = rootKeyboardView.findViewById(R.id.magikeyboard_share_browser_text)
-        packageText = rootKeyboardView.findViewById(R.id.magikeyboard_package_text)
-        appIdIcon = rootKeyboardView.findViewById(R.id.magikeyboard_app_id_icon)
-        webDomainIcon = rootKeyboardView.findViewById(R.id.magikeyboard_web_domain_icon)
-        keyboardView = rootKeyboardView.findViewById(R.id.magikeyboard_view)
-        screenshotModeView = rootKeyboardView.findViewById(R.id.screenshot_mode_banner)
-        timeoutProgressBar = rootKeyboardView.findViewById(R.id.magikeyboard_timeout_progress)
+        rootView = layoutInflater.inflate(R.layout.keyboard_container, null)
+        val root = rootView!!
+        entryContainer = root.findViewById(R.id.magikeyboard_entry_container)
+        entryListView = root.findViewById(R.id.magikeyboard_entry_list)
+        databaseText = root.findViewById(R.id.magikeyboard_database_text)
+        databaseColorView = root.findViewById(R.id.magikeyboard_database_color)
+        containerPackageText = root.findViewById(R.id.magikeyboard_container_package)
+        containerShareText = root.findViewById(R.id.magikeyboard_share_browser)
+        shareBrowserText = root.findViewById(R.id.magikeyboard_share_browser_text)
+        packageText = root.findViewById(R.id.magikeyboard_package_text)
+        appIdIcon = root.findViewById(R.id.magikeyboard_app_id_icon)
+        webDomainIcon = root.findViewById(R.id.magikeyboard_web_domain_icon)
+        keyboardView = root.findViewById(R.id.magikeyboard_view)
+        screenshotModeView = root.findViewById(R.id.screenshot_mode_banner)
+        timeoutProgressBar = root.findViewById(R.id.magikeyboard_timeout_progress)
 
         if (keyboardView != null) {
             keyboard = Keyboard(this, R.xml.keyboard_password)
@@ -279,10 +285,10 @@ class MagikeyboardService : InputMethodService(),
             assignKeyboardView()
             keyboardView?.onKeyboardActionListener = this
 
-            return rootKeyboardView
+            return root
         }
 
-        return rootKeyboardView
+        return root
     }
 
     private fun getEntryInfo(entryId: UUID? = entriesAdapter?.selectedEntry?.id): EntryInfo? {
@@ -342,6 +348,8 @@ class MagikeyboardService : InputMethodService(),
         }
         setDatabaseViews()
         entriesAdapter?.notifyDataSetChanged()
+        // To fix height calculation
+        rootView?.post { rootView?.requestLayout() }
     }
 
     private fun setDatabaseViews() {
@@ -411,7 +419,7 @@ class MagikeyboardService : InputMethodService(),
 
         when (primaryCode) {
             KEY_BACK_KEYBOARD -> {
-                switchToPreviousKeyboard()
+                switchOrAssignPreviousKeyboard()
             }
             KEY_CHANGE_KEYBOARD -> {
                 showKeyboardPicker()
@@ -542,7 +550,7 @@ class MagikeyboardService : InputMethodService(),
             currentInputConnection.performEditorAction(EditorInfo.IME_ACTION_GO)
             if (switchToPreviousKeyboardIfAllowed
                     && PreferencesUtil.isKeyboardPreviousFillInEnable(this)) {
-                switchToPreviousKeyboard()
+                switchOrAssignPreviousKeyboard()
             }
         }
     }
@@ -612,9 +620,6 @@ class MagikeyboardService : InputMethodService(),
         private val shareBrowser = MutableLiveData<String?>()
         private val entryUUIDList = MutableLiveData<List<UUID>?>()
         private var onlyAllowedFromMagikeyboard: Boolean = false
-
-        private const val SWITCH_KEYBOARD_ACTION = "com.android.keyboard.SWITCH_KEYBOARD"
-        private const val KEYBOARD_ID = "KEYBOARD_ID"
 
         private fun removeEntryInfo() {
             this.entryUUIDList.value = null
@@ -710,10 +715,10 @@ class MagikeyboardService : InputMethodService(),
                         this.entryUUIDList.value = newList
                         // Auto switch to the Magikeyboard
                         if (autoSwitchKeyboard
-                            && isAutoSwitchMagikeyboardAllowed(context)
-                            && currentDefaultKeyboard(context) != getMagikeyboardId(context)
+                            && context.isAutoSwitchMagikeyboardAllowed()
+                            && context.currentDefaultKeyboard() != context.getMagikeyboardId()
                         ) {
-                            context.startActivity(getSwitchMagikeyboardIntent(context))
+                            context.startActivity(context.getSwitchMagikeyboardIntent())
                         }
                     }
                 } else {
@@ -722,27 +727,22 @@ class MagikeyboardService : InputMethodService(),
             }
         }
 
-        fun getMagikeyboardId(context: Context): String {
-            return "${context.packageName}/${MagikeyboardService::class.java.canonicalName}"
+        fun Context.getMagikeyboardId(): String {
+            return "${this.packageName}/${MagikeyboardService::class.java.canonicalName}"
         }
 
-        fun getSwitchMagikeyboardIntent(context: Context): Intent {
-            return Intent(SWITCH_KEYBOARD_ACTION).apply {
-                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                putExtra(KEYBOARD_ID, getMagikeyboardId(context))
+        fun Context.getSwitchMagikeyboardIntent(): Intent {
+            val currentIme = this.currentDefaultKeyboard()
+            val magikeyboardId = this.getMagikeyboardId()
+            if (currentIme != magikeyboardId) {
+                PreferencesUtil.savePreviousKeyboardId(this, currentIme)
             }
+            return switchKeyboardIntent(magikeyboardId)
         }
 
-        fun isAutoSwitchMagikeyboardAllowed(context: Context): Boolean {
-            return getSwitchMagikeyboardIntent(context)
-                .resolveActivity(context.packageManager) != null
-        }
-
-        fun currentDefaultKeyboard(context: Context): String {
-            return Settings.Secure.getString(
-                context.contentResolver,
-                Settings.Secure.DEFAULT_INPUT_METHOD
-            )
+        fun Context.isAutoSwitchMagikeyboardAllowed(): Boolean {
+            return this.getSwitchMagikeyboardIntent()
+                .resolveActivity(this.packageManager) != null
         }
 
         fun Context.isMagikeyboardActivated(): Boolean {
@@ -752,6 +752,27 @@ class MagikeyboardService : InputMethodService(),
             )?.enabledInputMethodList?.any { inputMethod ->
                 inputMethod.packageName == this.packageName
             } ?: false
+        }
+
+        fun InputMethodService.switchOrAssignPreviousKeyboard() {
+            val magikeyboardId = getMagikeyboardId()
+            val systemPreviousId = getSystemPreviousImeId()
+            // Get the previous keyboardId and use the system switch back if possible
+            if (systemPreviousId != null && systemPreviousId != magikeyboardId) {
+                this.switchToPreviousKeyboard()
+                return
+            }
+            // Else switch with KeyboardSwitcher to the previous keyboard previously saved
+            val previousId = PreferencesUtil.getPreviousKeyboardId(this)
+            if (!previousId.isNullOrEmpty()) {
+                val intent = switchKeyboardIntent(previousId)
+                if (intent.resolveActivity(packageManager) != null) {
+                    startActivity(intent)
+                    return
+                } else Log.e(TAG, "Unable to manually switch to the previous IME")
+            }
+            // Retry the auto switch in last resort
+            this.switchToPreviousKeyboard()
         }
 
         fun Context.showKeyboardDeviceSettings() {
