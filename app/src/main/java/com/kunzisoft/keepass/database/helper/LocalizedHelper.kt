@@ -38,6 +38,7 @@ import com.kunzisoft.keepass.database.exception.InvalidCredentialsDatabaseExcept
 import com.kunzisoft.keepass.database.exception.KDFMemoryDatabaseException
 import com.kunzisoft.keepass.database.exception.LocalizedException
 import com.kunzisoft.keepass.database.exception.MergeDatabaseKDBException
+import com.kunzisoft.keepass.database.exception.MissingParentDatabaseException
 import com.kunzisoft.keepass.database.exception.MoveEntryDatabaseException
 import com.kunzisoft.keepass.database.exception.MoveGroupDatabaseException
 import com.kunzisoft.keepass.database.exception.NoMemoryDatabaseException
@@ -76,6 +77,7 @@ fun LocalizedException.getLocalizedMessage(resources: Resources): String? =
         is MoveGroupDatabaseException -> resources.getString(R.string.error_move_group_here)
         is CopyEntryDatabaseException -> resources.getString(R.string.error_copy_entry_here)
         is CopyGroupDatabaseException -> resources.getString(R.string.error_copy_group_here)
+        is MissingParentDatabaseException -> resources.getString(R.string.error_missing_parent)
         is DatabaseInputException -> resources.getString(R.string.error_load_database)
         is DatabaseOutputException -> resources.getString(R.string.error_save_database)
         else -> localizedMessage

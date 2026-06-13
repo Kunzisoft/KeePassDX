@@ -19,59 +19,38 @@
  */
 package com.kunzisoft.keepass.activities.fragments
 
-import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.view.ActionMode
-import androidx.core.view.MenuProvider
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.SCROLL_STATE_IDLE
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.activities.dialogs.SortDialogFragment
 import com.kunzisoft.keepass.adapters.NodesAdapter
 import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper.retrieveSpecialMode
 import com.kunzisoft.keepass.credentialprovider.SpecialMode
 import com.kunzisoft.keepass.database.ContextualDatabase
-import com.kunzisoft.keepass.database.element.Group
 import com.kunzisoft.keepass.database.element.SortNodeEnum
-import com.kunzisoft.keepass.database.element.node.Node
-import com.kunzisoft.keepass.database.element.node.Type
-import com.kunzisoft.keepass.settings.PreferencesUtil
-import com.kunzisoft.keepass.tasks.ActionRunnable
-import com.kunzisoft.keepass.utils.KeyboardUtil.hideKeyboard
+import com.kunzisoft.keepass.model.SearchGroupInfo
+import com.kunzisoft.keepass.model.SortedNodeInfo
 import com.kunzisoft.keepass.viewmodels.GroupViewModel
+import kotlinx.coroutines.launch
 
-class GroupFragment : DatabaseFragment(), SortDialogFragment.SortSelectionListener {
-
-    private var nodeClickListener: NodeClickListener? = null
-    private var onScrollListener: OnScrollListener? = null
-    private var groupRefreshed: GroupRefreshedListener? = null
+class GroupFragment : DatabaseFragment() {
 
     private var mNodesRecyclerView: RecyclerView? = null
     private var mLayoutManager: LinearLayoutManager? = null
+
+    private var notFoundView: View? = null
     private var mAdapter: NodesAdapter? = null
 
     private val mGroupViewModel: GroupViewModel by activityViewModels()
-
-    private var mCurrentGroup: Group? = null
-
-    var nodeActionSelectionMode = false
-        private set
-    var nodeActionPasteMode: PasteMode = PasteMode.UNDEFINED
-        private set
-    private val listActionNodes = mutableListOf<Node>()
-    private val listPasteNodes = mutableListOf<Node>()
-
-    private var notFoundView: View? = null
-    private var isASearchResult: Boolean = false
 
     private var specialMode: SpecialMode = SpecialMode.DEFAULT
 
@@ -84,127 +63,32 @@ class GroupFragment : DatabaseFragment(), SortDialogFragment.SortSelectionListen
         }
         override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
             super.onScrolled(recyclerView, dx, dy)
-            onScrollListener?.onScrolled(dy)
+            mGroupViewModel.scrollTo(dy)
         }
-    }
-
-    private val menuProvider: MenuProvider = object: MenuProvider {
-        override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
-            menuInflater.inflate(R.menu.tree, menu)
-        }
-
-        override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
-            return when (menuItem.itemId) {
-                R.id.menu_sort -> {
-                    context?.let { context ->
-                        val sortDialogFragment: SortDialogFragment =
-                            SortDialogFragment.getInstance(
-                                PreferencesUtil.getListSort(context),
-                                PreferencesUtil.getAscendingSort(context),
-                                PreferencesUtil.getGroupsBeforeSort(context),
-                                if (mDatabase?.isRecycleBinEnabled == true) {
-                                    PreferencesUtil.getRecycleBinBottomSort(context)
-                                } else null
-                            )
-                        sortDialogFragment.show(childFragmentManager, "sortDialog")
-                    }
-                    true
-                }
-                else -> false
-            }
-        }
-    }
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-
-        // TODO Change to ViewModel
-        try {
-            nodeClickListener = context as NodeClickListener
-        } catch (e: ClassCastException) {
-            // The activity doesn't implement the interface, throw exception
-            throw ClassCastException(context.toString()
-                    + " must implement " + NodesAdapter.NodeClickCallback::class.java.name)
-        }
-
-        try {
-            onScrollListener = context as OnScrollListener
-        } catch (e: ClassCastException) {
-            onScrollListener = null
-            // Context menu can be omit
-            Log.w(
-                TAG, context.toString()
-                    + " must implement " + RecyclerView.OnScrollListener::class.java.name)
-        }
-
-        try {
-            groupRefreshed = context as GroupRefreshedListener
-        } catch (e: ClassCastException) {
-            // The activity doesn't implement the interface, throw exception
-            throw ClassCastException(context.toString()
-                    + " must implement " + GroupRefreshedListener::class.java.name)
-        }
-    }
-
-    override fun onDetach() {
-        nodeClickListener = null
-        onScrollListener = null
-        groupRefreshed = null
-        super.onDetach()
     }
 
     override fun onDatabaseRetrieved(database: ContextualDatabase) {
         context?.let { context ->
-            mAdapter = NodesAdapter(context, database).apply {
+            mAdapter = NodesAdapter(
+                context,
+                database.iconDrawableFactory,
+                SortNodeEnum.SortDatabaseParameters(
+                    recycleBinEnabled = database.isRecycleBinEnabled,
+                    recycleBinId = database.recycleBin?.nodeId
+                )
+            ).apply {
                 setOnNodeClickListener(object : NodesAdapter.NodeClickCallback {
-                    override fun onNodeClick(database: ContextualDatabase, node: Node) {
-                        if (nodeActionSelectionMode) {
-                            if (listActionNodes.contains(node)) {
-                                // Remove selected item if already selected
-                                listActionNodes.remove(node)
-                            } else {
-                                // Add selected item if not already selected
-                                listActionNodes.add(node)
-                            }
-                            nodeClickListener?.onNodeSelected(database, listActionNodes)
-                            setActionNodes(listActionNodes)
-                            notifyNodeChanged(node)
-                        } else {
-                            nodeClickListener?.onNodeClick(database, node)
-                        }
+                    override fun onNodeClick(node: SortedNodeInfo) {
+                        mGroupViewModel.performNodeClick(node)
                     }
-
-                    override fun onNodeLongClick(database: ContextualDatabase, node: Node): Boolean {
-                        if (nodeActionPasteMode == PasteMode.UNDEFINED) {
-                            // Select the first item after a long click
-                            if (!listActionNodes.contains(node))
-                                listActionNodes.add(node)
-
-                            nodeClickListener?.onNodeSelected(database, listActionNodes)
-
-                            setActionNodes(listActionNodes)
-                            notifyNodeChanged(node)
-                            activity?.hideKeyboard()
-                        }
+                    override fun onNodeLongClick(node: SortedNodeInfo): Boolean {
+                        mGroupViewModel.performLongNodeClick(node)
                         return true
                     }
                 })
+                setActionNodes(mGroupViewModel.actionsNodes.value)
             }
             mNodesRecyclerView?.adapter = mAdapter
-        }
-    }
-
-    override fun onDatabaseActionFinished(
-        database: ContextualDatabase,
-        actionTask: String,
-        result: ActionRunnable.Result
-    ) {
-        super.onDatabaseActionFinished(database, actionTask, result)
-
-        // Too many special cases to make specific additions or deletions,
-        // rebuilt the list works well.
-        if (result.isSuccess) {
-            rebuildList()
         }
     }
 
@@ -217,8 +101,6 @@ class GroupFragment : DatabaseFragment(), SortDialogFragment.SortSelectionListen
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        activity?.addMenuProvider(menuProvider, viewLifecycleOwner)
-
         mNodesRecyclerView = view.findViewById(R.id.nodes_list)
         notFoundView = view.findViewById(R.id.not_found_container)
 
@@ -230,12 +112,68 @@ class GroupFragment : DatabaseFragment(), SortDialogFragment.SortSelectionListen
         }
         resetAppTimeoutWhenViewFocusedOrChanged(view)
 
-        mGroupViewModel.group.observe(viewLifecycleOwner) {
-            mCurrentGroup = it.group
-            isASearchResult = it.group.isVirtual
-            rebuildList()
-            it.showFromPosition?.let { position ->
-                mNodesRecyclerView?.scrollToPosition(position)
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                launch {
+                    mGroupViewModel.groupUIState.collect { groupUIState ->
+                        try {
+                            groupUIState.group?.let { currentGroup ->
+                                val isSearchInfo = currentGroup is SearchGroupInfo
+                                val children = groupUIState.children
+                                if (children != null) {
+                                    mAdapter?.rebuildList(
+                                        nodes = children,
+                                        isSearch = isSearchInfo
+                                    )
+                                }
+                                notFoundView?.visibility = if (isSearchInfo && children.isNullOrEmpty()) {
+                                    // To show the " no search entry found "
+                                    View.VISIBLE
+                                } else {
+                                    View.GONE
+                                }
+                                // Direct action node selection after rebuild
+                                mAdapter?.setActionNodes(mGroupViewModel.actionsNodes.value)
+                            }
+                        } catch (e:Exception) {
+                            Log.e(TAG, "Unable to rebuild the list", e)
+                        }
+                    }
+                }
+                launch {
+                    mGroupViewModel.viewEvent.collect { event ->
+                        when (event) {
+                            is GroupViewModel.GroupEvent.ShowPosition -> {
+                                mNodesRecyclerView?.scrollToPosition(event.position)
+                            }
+
+                            is GroupViewModel.GroupEvent.RemoveNodeAction -> {
+                                mAdapter?.unselectActionNodes()
+                            }
+
+                            is GroupViewModel.GroupEvent.SortSelected -> {
+                                // Tell the adapter to refresh its list
+                                try {
+                                    mAdapter?.notifyChangeSort(
+                                        sortNodeEnum = event.sortNode.sortNodeEnum,
+                                        sortNodeParameters = event.sortNode.sortNodeParameters,
+                                        sortDatabaseParameters = event.sortNode.sortDatabaseParameters
+                                    )
+                                    mGroupViewModel.loadGroup()
+                                } catch (e: Exception) {
+                                    Log.e(TAG, "Unable to sort the list", e)
+                                }
+                            }
+
+                            else -> {}
+                        }
+                    }
+                }
+                launch {
+                    mGroupViewModel.actionsNodes.collect { actionsNodes ->
+                        mAdapter?.setActionNodes(actionsNodes)
+                    }
+                }
             }
         }
     }
@@ -257,183 +195,6 @@ class GroupFragment : DatabaseFragment(), SortDialogFragment.SortSelectionListen
 
     fun getFirstVisiblePosition(): Int {
         return mLayoutManager?.findFirstVisibleItemPosition() ?: 0
-    }
-
-    private fun rebuildList() {
-        try {
-            // Add elements to the list
-            mCurrentGroup?.let { currentGroup ->
-                // Thrown an exception when sort cannot be performed
-                mAdapter?.rebuildList(currentGroup)
-            }
-        } catch (e:Exception) {
-            Log.e(TAG, "Unable to rebuild the list", e)
-        }
-
-        if (isASearchResult && mAdapter != null && mAdapter!!.isEmpty) {
-            // To show the " no search entry found "
-            notFoundView?.visibility = View.VISIBLE
-        } else {
-            notFoundView?.visibility = View.GONE
-        }
-
-        groupRefreshed?.onGroupRefreshed()
-    }
-
-    override fun onSortSelected(sortNodeEnum: SortNodeEnum,
-                                sortNodeParameters: SortNodeEnum.SortNodeParameters) {
-        // Save setting
-        context?.let {
-            PreferencesUtil.saveNodeSort(it, sortNodeEnum, sortNodeParameters)
-        }
-
-        // Tell the adapter to refresh it's list
-        try {
-            mAdapter?.notifyChangeSort(sortNodeEnum, sortNodeParameters)
-            rebuildList()
-        } catch (e:Exception) {
-            Log.e(TAG, "Unable to sort the list", e)
-        }
-    }
-
-    private fun containsRecycleBin(database: ContextualDatabase?, nodes: List<Node>): Boolean {
-        return database?.isRecycleBinEnabled == true
-                && nodes.any { it == database.recycleBin }
-    }
-
-    fun actionNodesCallback(database: ContextualDatabase,
-                            nodes: List<Node>,
-                            menuListener: NodesActionMenuListener?,
-                            onDestroyActionMode: (mode: ActionMode?) -> Unit) : ActionMode.Callback {
-
-        return object : ActionMode.Callback {
-
-            override fun onCreateActionMode(mode: ActionMode?, menu: Menu?): Boolean {
-                nodeActionSelectionMode = false
-                nodeActionPasteMode = PasteMode.UNDEFINED
-                return true
-            }
-
-            override fun onPrepareActionMode(mode: ActionMode?, menu: Menu?): Boolean {
-                menu?.clear()
-                if (nodeActionPasteMode != PasteMode.UNDEFINED) {
-                    mode?.menuInflater?.inflate(R.menu.node_paste_menu, menu)
-                } else {
-                    nodeActionSelectionMode = true
-                    mode?.menuInflater?.inflate(R.menu.node_menu, menu)
-
-                    // Open and Edit for a single item
-                    if (nodes.size == 1) {
-                        // Edition
-                        if (database.isReadOnly || containsRecycleBin(database, nodes)) {
-                            menu?.removeItem(R.id.menu_edit)
-                        }
-                    } else {
-                        menu?.removeItem(R.id.menu_open)
-                        menu?.removeItem(R.id.menu_edit)
-                    }
-
-                    // Move
-                    if (database.isReadOnly) {
-                        menu?.removeItem(R.id.menu_move)
-                    }
-
-                    // Copy (not allowed for group)
-                    if (database.isReadOnly
-                            || nodes.any { it.type == Type.GROUP }) {
-                        menu?.removeItem(R.id.menu_copy)
-                    }
-
-                    // Deletion
-                    if (database.isReadOnly || containsRecycleBin(database, nodes)) {
-                        menu?.removeItem(R.id.menu_delete)
-                    }
-                }
-
-                // Add the number of items selected in title
-                mode?.title = nodes.size.toString()
-                return true
-            }
-
-            override fun onActionItemClicked(mode: ActionMode?, item: MenuItem?): Boolean {
-                if (menuListener == null)
-                    return false
-                return when (item?.itemId) {
-                    R.id.menu_open -> menuListener.onOpenMenuClick(database, nodes[0])
-                    R.id.menu_edit -> menuListener.onEditMenuClick(database, nodes[0])
-                    R.id.menu_copy -> {
-                        nodeActionPasteMode = PasteMode.PASTE_FROM_COPY
-                        mAdapter?.unselectActionNodes()
-                        val returnValue = menuListener.onCopyMenuClick(database, nodes)
-                        nodeActionSelectionMode = false
-                        returnValue
-                    }
-                    R.id.menu_move -> {
-                        nodeActionPasteMode = PasteMode.PASTE_FROM_MOVE
-                        mAdapter?.unselectActionNodes()
-                        val returnValue = menuListener.onMoveMenuClick(database, nodes)
-                        nodeActionSelectionMode = false
-                        returnValue
-                    }
-                    R.id.menu_delete -> menuListener.onDeleteMenuClick(database, nodes)
-                    R.id.menu_paste -> {
-                        val returnValue = menuListener.onPasteMenuClick(database, nodeActionPasteMode, nodes)
-                        nodeActionPasteMode = PasteMode.UNDEFINED
-                        nodeActionSelectionMode = false
-                        returnValue
-                    }
-                    else -> false
-                }
-            }
-
-            override fun onDestroyActionMode(mode: ActionMode?) {
-                listActionNodes.clear()
-                listPasteNodes.clear()
-                mAdapter?.unselectActionNodes()
-                nodeActionPasteMode = PasteMode.UNDEFINED
-                nodeActionSelectionMode = false
-                onDestroyActionMode(mode)
-            }
-        }
-    }
-
-    /**
-     * Callback listener to redefine to do an action when a node is click
-     */
-    interface NodeClickListener {
-        fun onNodeClick(database: ContextualDatabase, node: Node)
-        fun onNodeSelected(database: ContextualDatabase, nodes: List<Node>): Boolean
-    }
-
-    /**
-     * Menu listener to redefine to do an action in menu
-     */
-    interface NodesActionMenuListener {
-        fun onOpenMenuClick(database: ContextualDatabase, node: Node): Boolean
-        fun onEditMenuClick(database: ContextualDatabase, node: Node): Boolean
-        fun onCopyMenuClick(database: ContextualDatabase, nodes: List<Node>): Boolean
-        fun onMoveMenuClick(database: ContextualDatabase, nodes: List<Node>): Boolean
-        fun onDeleteMenuClick(database: ContextualDatabase, nodes: List<Node>): Boolean
-        fun onPasteMenuClick(database: ContextualDatabase, pasteMode: PasteMode?, nodes: List<Node>): Boolean
-    }
-
-    enum class PasteMode {
-        UNDEFINED, PASTE_FROM_COPY, PASTE_FROM_MOVE
-    }
-
-    interface OnScrollListener {
-
-        /**
-         * Callback method to be invoked when the RecyclerView has been scrolled. This will be
-         * called after the scroll has completed.
-         *
-         * @param dy The amount of vertical scroll.
-         */
-        fun onScrolled(dy: Int)
-    }
-
-    interface GroupRefreshedListener {
-        fun onGroupRefreshed()
     }
 
     companion object {

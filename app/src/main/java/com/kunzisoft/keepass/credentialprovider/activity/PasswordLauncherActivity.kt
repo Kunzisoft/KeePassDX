@@ -44,13 +44,13 @@ import com.kunzisoft.keepass.credentialprovider.passkey.util.PassHelper.addAuthC
 import com.kunzisoft.keepass.credentialprovider.viewmodel.CredentialLauncherViewModel
 import com.kunzisoft.keepass.credentialprovider.viewmodel.PasswordLauncherViewModel
 import com.kunzisoft.keepass.database.ContextualDatabase
+import com.kunzisoft.keepass.database.element.EntryId
 import com.kunzisoft.keepass.model.SearchInfo
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_ENTRY_TASK
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.utils.AppUtil.randomRequestCode
 import com.kunzisoft.keepass.view.toastError
 import kotlinx.coroutines.launch
-import java.util.UUID
 
 @RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
 class PasswordLauncherActivity : AuthenticationLauncherActivity() {
@@ -77,17 +77,6 @@ class PasswordLauncherActivity : AuthenticationLauncherActivity() {
         lifecycleScope.launch {
             // Initialize the parameters
             passwordLauncherViewModel.initialize()
-            // Retrieve the UI
-            passwordLauncherViewModel.uiState.collect { uiState ->
-                when (uiState) {
-                    is PasswordLauncherViewModel.UIState.Loading -> {
-                        // Nothing to do
-                    }
-                    is PasswordLauncherViewModel.UIState.UpdateEntry -> {
-                        updateEntry(uiState.oldEntry, uiState.newEntry)
-                    }
-                }
-            }
         }
         lifecycleScope.launch {
             passwordLauncherViewModel.credentialUiState.collect { uiState ->
@@ -189,7 +178,7 @@ class PasswordLauncherActivity : AuthenticationLauncherActivity() {
             context: Context,
             specialMode: SpecialMode,
             searchInfo: SearchInfo? = null,
-            nodeId: UUID? = null,
+            nodeId: EntryId? = null,
             userVerifiedWithAuth: Boolean = true
         ): PendingIntent? {
             return PendingIntent.getActivity(
@@ -200,7 +189,7 @@ class PasswordLauncherActivity : AuthenticationLauncherActivity() {
                     addTypeMode(TypeMode.PASSWORD)
                     addSearchInfo(searchInfo)
                     addNodeId(nodeId)
-                    addAuthCode(nodeId)
+                    addAuthCode(nodeId?.id)
                     // User Verification request is always preferred for password,
                     // Allows to configure whether it is necessary or not with the corresponding setting
                     addUserVerification(UserVerificationRequirement.PREFERRED, userVerifiedWithAuth)

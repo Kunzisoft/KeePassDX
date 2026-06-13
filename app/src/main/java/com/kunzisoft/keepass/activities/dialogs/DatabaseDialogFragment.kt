@@ -19,7 +19,7 @@ import kotlinx.coroutines.launch
 
 abstract class DatabaseDialogFragment : DialogFragment(), DatabaseRetrieval {
 
-    private val mDatabaseViewModel: DatabaseViewModel by activityViewModels()
+    protected val mDatabaseViewModel: DatabaseViewModel by activityViewModels()
     private val mDatabase: ContextualDatabase?
         get() = mDatabaseViewModel.database
 

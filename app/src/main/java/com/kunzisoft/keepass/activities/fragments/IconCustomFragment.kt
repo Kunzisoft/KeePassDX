@@ -21,9 +21,13 @@ package com.kunzisoft.keepass.activities.fragments
 
 import android.os.Bundle
 import android.view.View
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.element.icon.IconImageCustom
+import kotlinx.coroutines.launch
 
 
 class IconCustomFragment : IconFragment<IconImageCustom>() {
@@ -41,39 +45,52 @@ class IconCustomFragment : IconFragment<IconImageCustom>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        iconPickerViewModel.customIconsSelected.observe(viewLifecycleOwner) { customIconsSelected ->
-            if (customIconsSelected.isEmpty()) {
-                iconActionSelectionMode = false
-                iconPickerAdapter.deselectAllIcons()
-            } else {
-                iconActionSelectionMode = true
-                iconPickerAdapter.updateIconSelectedState(customIconsSelected)
-            }
-        }
-        iconPickerViewModel.customIconAdded.observe(viewLifecycleOwner) { iconCustomAdded ->
-            if (!iconCustomAdded.error) {
-                iconCustomAdded?.iconCustom?.let { icon ->
-                    iconPickerAdapter.addIcon(icon)
-                    iconCustomAdded.iconCustom = null
-                    try {
-                        iconsGridView.smoothScrollToPosition(iconPickerAdapter.lastPosition)
-                    } catch (ignore: Exception) {}
+        lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                launch {
+                    iconPickerViewModel.customIconsSelected.collect { customIconsSelected ->
+                        if (customIconsSelected.isEmpty()) {
+                            iconActionSelectionMode = false
+                            iconPickerAdapter.deselectAllIcons()
+                        } else {
+                            iconActionSelectionMode = true
+                            iconPickerAdapter.updateIconSelectedState(customIconsSelected)
+                        }
+                    }
                 }
-            }
-        }
-        iconPickerViewModel.customIconRemoved.observe(viewLifecycleOwner) { iconCustomRemoved ->
-            if (!iconCustomRemoved.error) {
-                iconCustomRemoved?.iconCustom?.let { icon ->
-                    iconPickerAdapter.removeIcon(icon)
-                    iconCustomRemoved.iconCustom = null
+                launch {
+                    iconPickerViewModel.customIconAdded.collect { iconCustomAdded ->
+                        if (!iconCustomAdded.error) {
+                            iconCustomAdded.iconCustom?.let { icon ->
+                                iconPickerAdapter.addIcon(icon)
+                                iconCustomAdded.iconCustom = null
+                                try {
+                                    iconsGridView.smoothScrollToPosition(iconPickerAdapter.lastPosition)
+                                } catch (ignore: Exception) {
+                                }
+                            }
+                        }
+                    }
                 }
-            }
-        }
-        iconPickerViewModel.customIconUpdated.observe(viewLifecycleOwner) { iconCustomUpdated ->
-            if (!iconCustomUpdated.error) {
-                iconCustomUpdated?.iconCustom?.let { icon ->
-                    iconPickerAdapter.updateIcon(icon)
-                    iconCustomUpdated.iconCustom = null
+                launch {
+                    iconPickerViewModel.customIconRemoved.collect { iconCustomRemoved ->
+                        if (!iconCustomRemoved.error) {
+                            iconCustomRemoved.iconCustom?.let { icon ->
+                                iconPickerAdapter.removeIcon(icon)
+                                iconCustomRemoved.iconCustom = null
+                            }
+                        }
+                    }
+                }
+                launch {
+                    iconPickerViewModel.customIconUpdated.collect { iconCustomUpdated ->
+                        if (!iconCustomUpdated.error) {
+                            iconCustomUpdated.iconCustom?.let { icon ->
+                                iconPickerAdapter.updateIcon(icon)
+                                iconCustomUpdated.iconCustom = null
+                            }
+                        }
+                    }
                 }
             }
         }

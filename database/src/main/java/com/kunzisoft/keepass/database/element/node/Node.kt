@@ -50,11 +50,4 @@ interface Node: NodeVersionedInterface<Group> {
     }
 }
 
-/**
- * Type of available Nodes
- */
-enum class Type {
-    GROUP, ENTRY
-}
-
 

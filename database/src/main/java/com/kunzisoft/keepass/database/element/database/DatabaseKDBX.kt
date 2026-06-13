@@ -31,6 +31,7 @@ import com.kunzisoft.keepass.database.element.CompositeKey
 import com.kunzisoft.keepass.database.element.CustomData
 import com.kunzisoft.keepass.database.element.DateInstant
 import com.kunzisoft.keepass.database.element.DeletedObject
+import com.kunzisoft.keepass.database.element.EntryId
 import com.kunzisoft.keepass.database.element.MasterCredential
 import com.kunzisoft.keepass.database.element.Tags
 import com.kunzisoft.keepass.database.element.binary.BinaryData
@@ -41,7 +42,6 @@ import com.kunzisoft.keepass.database.element.group.GroupKDBX
 import com.kunzisoft.keepass.database.element.icon.IconImageCustom
 import com.kunzisoft.keepass.database.element.icon.IconImageStandard
 import com.kunzisoft.keepass.database.element.node.NodeHandler
-import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.node.NodeIdUUID
 import com.kunzisoft.keepass.database.element.node.NodeKDBXInterface
 import com.kunzisoft.keepass.database.element.node.NodeVersioned
@@ -802,7 +802,7 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
         return false
     }
 
-    fun getDeletedObject(nodeId: NodeId<UUID>): DeletedObject? {
+    fun getDeletedObject(nodeId: EntryId): DeletedObject? {
         return deletedObjects.find { it.uuid == nodeId.id }
     }
 
@@ -864,17 +864,17 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
         }.binary
     }
 
-    fun removeUnlinkedAttachment(binary: BinaryData, clear: Boolean) {
+    fun removeUnlinkedAttachment(binary: BinaryData, clearCache: Boolean) {
         val listBinaries = mutableListOf<BinaryData>()
         listBinaries.add(binary)
-        removeUnlinkedAttachments(listBinaries, clear)
+        removeUnlinkedAttachments(listBinaries, clearCache)
     }
 
-    fun removeUnlinkedAttachments(clear: Boolean) {
-        removeUnlinkedAttachments(emptyList(), clear)
+    fun removeUnlinkedAttachments(clearCache: Boolean) {
+        removeUnlinkedAttachments(emptyList(), clearCache)
     }
 
-    private fun removeUnlinkedAttachments(binaries: List<BinaryData>, clear: Boolean) {
+    private fun removeUnlinkedAttachments(binaries: List<BinaryData>, clearCache: Boolean) {
         // TODO check in icon pool
         // Build binaries to remove with all binaries known
         val binariesToRemove = mutableListOf<BinaryData>()
@@ -898,7 +898,7 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
         binariesToRemove.forEach {
             try {
                 attachmentPool.remove(it)
-                if (clear)
+                if (clearCache)
                     it.clear(binaryCache)
             } catch (e: Exception) {
                 Log.w(TAG, "Unable to clean binaries", e)

@@ -251,7 +251,7 @@ class DeviceUnlockFragment: Fragment() {
                         context?.startActivity(Intent(Settings.ACTION_SECURITY_SETTINGS))
                     }
                 }
-            } catch (e: Exception) {
+            } catch (_: Exception) {
                 // ACTION_SECURITY_SETTINGS does not contain fingerprint enrollment on some devices...
                 context?.startActivity(Intent(Settings.ACTION_SETTINGS))
             }
@@ -349,7 +349,7 @@ class DeviceUnlockFragment: Fragment() {
     override fun onPause() {
         super.onPause()
         cancelBiometricPrompt()
-        mDeviceUnlockViewModel.clear()
+        mDeviceUnlockViewModel.clearData()
     }
 
     override fun onDestroyView() {

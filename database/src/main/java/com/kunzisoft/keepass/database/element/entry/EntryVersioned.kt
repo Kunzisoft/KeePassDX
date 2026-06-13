@@ -23,6 +23,9 @@ import android.os.Parcel
 import com.kunzisoft.keepass.database.element.group.GroupVersioned
 import com.kunzisoft.keepass.database.element.node.NodeVersioned
 
+/**
+ * Interface for entry versioned.
+ */
 abstract class EntryVersioned
         <
         GroupId,
@@ -40,14 +43,14 @@ abstract class EntryVersioned
         super.writeToParcel(dest, flags)
     }
 
-    override fun nodeIndexInParentForNaturalOrder(): Int {
-        if (nodeIndexInParentForNaturalOrder == -1) {
+    override fun indexInParent(): Int {
+        if (indexInParent == -1) {
             val numberOfGroups = parent?.getChildGroups()?.size
             val indexInEntries = parent?.getChildEntries()?.indexOf(this)
             if (numberOfGroups != null && indexInEntries != null)
                 return numberOfGroups + indexInEntries
         }
-        return nodeIndexInParentForNaturalOrder
+        return indexInParent
     }
 
 }

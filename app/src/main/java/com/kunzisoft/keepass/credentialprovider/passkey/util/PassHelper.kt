@@ -1,3 +1,22 @@
+/*
+ * Copyright 2025 Jeremy Jamet / Kunzisoft.
+ *
+ * This file is part of KeePassDX.
+ *
+ *  KeePassDX is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  KeePassDX is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
 package com.kunzisoft.keepass.credentialprovider.passkey.util
 
 import android.content.Context
@@ -11,6 +30,7 @@ import androidx.annotation.RequiresApi
 import androidx.credentials.exceptions.CreateCredentialUnknownException
 import androidx.credentials.provider.CallingAppInfo
 import com.kunzisoft.encrypt.Signature.getApplicationFingerprints
+import com.kunzisoft.keepass.database.element.EntryId
 import com.kunzisoft.keepass.model.AndroidOrigin
 import com.kunzisoft.keepass.model.AppOrigin
 import com.kunzisoft.keepass.utils.AppUtil
@@ -95,7 +115,7 @@ object PassHelper {
     /**
      * Check the timestamp and authentication code transmitted via PendingIntent
      */
-    fun checkSecurity(intent: Intent, nodeId: UUID?) {
+    fun checkSecurity(intent: Intent, nodeId: EntryId?) {
         val timestampString = intent.getStringExtra(EXTRA_TIMESTAMP)
         if (timestampString.isNullOrEmpty())
             throw CreateCredentialUnknownException("Timestamp null")
@@ -109,7 +129,7 @@ object PassHelper {
         }
         verifyAuthenticationCode(
             intent.getStringExtra(EXTRA_AUTHENTICATION_CODE),
-            generatedAuthenticationCode(nodeId, timestamp)
+            generatedAuthenticationCode(nodeId?.id, timestamp)
         )
     }
 

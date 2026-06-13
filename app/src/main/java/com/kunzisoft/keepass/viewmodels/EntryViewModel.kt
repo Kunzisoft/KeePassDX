@@ -20,199 +20,299 @@
 package com.kunzisoft.keepass.viewmodels
 
 import android.app.Application
+import android.graphics.Color
+import androidx.annotation.ColorInt
+import androidx.core.graphics.ColorUtils
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.element.Attachment
+import com.kunzisoft.keepass.database.element.EntryId
 import com.kunzisoft.keepass.database.element.Field
-import com.kunzisoft.keepass.database.element.node.NodeId
-import com.kunzisoft.keepass.database.element.node.NodeIdUUID
-import com.kunzisoft.keepass.database.element.template.Template
 import com.kunzisoft.keepass.database.element.template.TemplateField
 import com.kunzisoft.keepass.database.helper.getLocalizedName
-import com.kunzisoft.keepass.model.EntryAttachmentState
 import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.model.FieldProtection
 import com.kunzisoft.keepass.otp.OtpElement
-import com.kunzisoft.keepass.timeout.ClipboardHelper
-import com.kunzisoft.keepass.utils.IOActionTask
+import com.kunzisoft.keepass.settings.PreferencesUtil
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
-import java.util.UUID
+import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 
+/**
+ * ViewModel for managing entry data and state.
+ */
 class EntryViewModel(application: Application): AndroidViewModel(application) {
 
-    var mainEntryId: NodeId<UUID>? = null
-        private set
-    var entryInfo: EntryInfo? = null
+    private var mDatabase: ContextualDatabase? = null
+    var mainEntryId: EntryId? = null
         private set
     var historyPosition: Int = -1
         private set
     var entryIsHistory: Boolean = false
         private set
-    var entryLoaded = false
-        private set
 
-    private var mClipboardHelper: ClipboardHelper = ClipboardHelper(application)
+    @ColorInt
+    var colorSecondary: Int = 0
+    @ColorInt
+    var colorSurface: Int = 0
+    @ColorInt
+    var colorOnSurface: Int = 0
+    @ColorInt
+    var colorBackground: Int = 0
+    @ColorInt
+    private var backgroundColor: Int? = null
+    @ColorInt
+    private var foregroundColor: Int? = null
 
-    val entryInfoHistory : LiveData<EntryInfoHistory?> get() = _entryInfoHistory
-    private val _entryInfoHistory = MutableLiveData<EntryInfoHistory?>()
+    private var autoSwitchToMagikeyboard: Boolean = false
+    private var keyboardEntrySelectionEnabled: Boolean = false
+    private var showEntryColors: Boolean = false
 
-    val entryHistory : LiveData<List<EntryInfo>?> get() = _entryHistory
-    private val _entryHistory = MutableLiveData<List<EntryInfo>?>()
+    private val _entryUIState = MutableStateFlow(EntryViewState())
+    val entryUIState: StateFlow<EntryViewState> = _entryUIState.asStateFlow()
 
-    val onOtpElementUpdated : LiveData<OtpElement?> get() = _onOtpElementUpdated
-    private val _onOtpElementUpdated = SingleLiveEvent<OtpElement?>()
+    private val _entryEvents = MutableSharedFlow<EntryEvent>(replay = 0)
+    val entryEvents: SharedFlow<EntryEvent> = _entryEvents.asSharedFlow()
 
-    val attachmentSelected : LiveData<Attachment> get() = _attachmentSelected
-    private val _attachmentSelected = SingleLiveEvent<Attachment>()
-    val onAttachmentAction : LiveData<EntryAttachmentState?> get() = _onAttachmentAction
-    private val _onAttachmentAction = MutableLiveData<EntryAttachmentState?>()
+    private val _onOtpElementUpdated = MutableSharedFlow<OtpElement?>(replay = 0)
+    val onOtpElementUpdated: SharedFlow<OtpElement?> = _onOtpElementUpdated.asSharedFlow()
 
-    val sectionSelected : LiveData<EntrySection> get() = _sectionSelected
-    private val _sectionSelected = MutableLiveData<EntrySection>()
+    private val _onFieldProtectionUpdated = MutableSharedFlow<FieldProtection>(replay = 0)
+    val onFieldProtectionUpdated: SharedFlow<FieldProtection> = _onFieldProtectionUpdated.asSharedFlow()
 
-    val historySelected : LiveData<EntryHistory> get() = _historySelected
-    private val _historySelected = SingleLiveEvent<EntryHistory>()
 
-    private val mEntryState = MutableStateFlow<EntryState>(EntryState.Loading)
-    val entryState: StateFlow<EntryState> = mEntryState.asStateFlow()
-
-    fun loadDatabase(database: ContextualDatabase?) {
-        loadEntry(database, mainEntryId, historyPosition)
+    init {
+        // Init preferences
+        autoSwitchToMagikeyboard = PreferencesUtil.isAutoSwitchToMagikeyboardEnable(application)
+        keyboardEntrySelectionEnabled = PreferencesUtil.isKeyboardEntrySelectionEnable(application)
+        showEntryColors = PreferencesUtil.showEntryColors(application)
     }
 
-    fun loadEntry(database: ContextualDatabase?, mainEntryId: NodeId<UUID>?, historyPosition: Int = -1) {
+    fun loadDatabase(database: ContextualDatabase?) {
+        this.mDatabase = database
+        loadEntry(mainEntryId, historyPosition)
+    }
+
+    fun loadEntry(
+        mainEntryId: EntryId?,
+        historyPosition: Int = -1,
+    ) {
         this.mainEntryId = mainEntryId
         this.historyPosition = historyPosition
 
-        if (database != null && mainEntryId != null) {
-            IOActionTask(
-                {
-                    val mainEntry = database.getEntryById(mainEntryId)
-                    // To sort by access
-                    /* TODO Sort by access #1911, revert because of #2527
-                    if (database.isReadOnly) {
-                        mainEntry?.let {
-                            it.touch(modified = false, touchParents = false)
-                            database.updateEntry(entry = it)
-                        }
-                    }*/
-                    val currentEntry = if (historyPosition > -1) {
-                        mainEntry?.getHistory()?.get(historyPosition)
-                    } else {
-                        mainEntry
-                    }
-
-                    val entryTemplate = currentEntry?.let {
-                        database.getTemplate(it)
-                    } ?: Template.STANDARD
-
-                    // To simplify template field visibility
-                    currentEntry?.let { entry ->
-                        // Add mainEntry to check the parent and define the template state
-                        database.decodeEntryWithTemplateConfiguration(entry, mainEntry).let {
-                            // To update current modification time
-                            it.touch(modified = false, touchParents = false)
-
-                            // Build history info
-                            val entryInfoHistory = it.getHistory().map { entryHistory ->
-                                entryHistory.getEntryInfo(database)
-                            }
-
-                            EntryInfoHistory(
-                                mainEntry!!.nodeId,
-                                historyPosition,
-                                entryTemplate,
-                                it.getEntryInfo(database),
-                                entryInfoHistory
-                            )
-                        }
-                    }
-                },
-                { entryInfoHistory ->
-                    if (entryInfoHistory != null) {
-                        this.mainEntryId = entryInfoHistory.mainEntryId
-                        this.entryInfo = entryInfoHistory.entryInfo
-                        this.historyPosition = historyPosition
-                        this.entryIsHistory = historyPosition > -1
-                        this.entryLoaded = true
-                    }
-                    _entryInfoHistory.value = entryInfoHistory
-                    _entryHistory.value = entryInfoHistory?.entryHistory
+        viewModelScope.launch {
+            mDatabase?.let { database ->
+                _entryUIState.update { entryState ->
+                    entryState.copy(loaded = false)
                 }
-            ).execute()
+                if (mainEntryId != null) {
+                    withContext(Dispatchers.IO) {
+                        database.getEntryById(mainEntryId)?.let { mainEntry ->
+                            val isHistory = historyPosition > -1
+                            val currentEntry = if (isHistory) {
+                                mainEntry.getHistory()[historyPosition]
+                            } else {
+                                mainEntry
+                            }
+                            val entryInfo = database.getEntryInfoFrom(currentEntry)
+                            this@EntryViewModel.entryIsHistory = isHistory
+
+                            withContext(Dispatchers.Main) {
+                                _entryEvents.emit(EntryEvent.EntryLoaded(entryInfo))
+
+                                // Assign colors
+                                backgroundColor =
+                                    if (showEntryColors) entryInfo.backgroundColor else null
+                                foregroundColor =
+                                    if (showEntryColors) entryInfo.foregroundColor else null
+
+                                // To show Entry UI
+                                _entryUIState.update {
+                                    it.copy(
+                                        loaded = true,
+                                        entryInfo = entryInfo,
+                                        isReadOnly = database.isReadOnly,
+                                        showFloatingActionButton = !isHistory,
+                                        showHistoryView = isHistory,
+                                        entryHistory = if (!isHistory)
+                                            database.getHistoryEntryInfoFrom(mainEntryId) ?: listOf()
+                                        else listOf()
+                                    )
+                                }
+
+                                // Manage entry to populate Magikeyboard and launch keyboard notification if allowed
+                                if (keyboardEntrySelectionEnabled) {
+                                    _entryEvents.emit(
+                                        EntryEvent.AddToMagikeyboard(
+                                            entryInfo = entryInfo,
+                                            autoSwitch = autoSwitchToMagikeyboard
+                                        )
+                                    )
+                                }
+                            }
+                        } ?: run {
+                            withContext(Dispatchers.Main) {
+                                _entryEvents.emit(EntryEvent.Close)
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 
     fun updateProtectionField(fieldProtection: FieldProtection, value: Boolean) {
         fieldProtection.isCurrentlyProtected = value
-        mEntryState.value = EntryState.OnFieldProtectionUpdated(fieldProtection)
+        viewModelScope.launch {
+            _onFieldProtectionUpdated.emit(fieldProtection)
+        }
     }
 
     fun requestChangeFieldProtection(fieldProtection: FieldProtection) {
-        mEntryState.value = EntryState.OnChangeFieldProtectionRequested(fieldProtection)
+        viewModelScope.launch {
+            _entryEvents.emit(EntryEvent.ChangeFieldProtectionRequested(fieldProtection))
+        }
     }
 
     fun requestCopyField(fieldProtection: FieldProtection) {
         // Only request the User Verification if the field is protected and not shown
         val field = fieldProtection.field
-        if (field.protectedValue.isProtected && fieldProtection.isCurrentlyProtected)
-            mEntryState.value = EntryState.RequestCopyProtectedField(fieldProtection)
-        else
+        if (field.protectedValue.isProtected && fieldProtection.isCurrentlyProtected) {
+            viewModelScope.launch {
+                _entryEvents.emit(EntryEvent.RequestCopyProtectedField(fieldProtection))
+            }
+        } else {
             copyToClipboard(field)
+        }
     }
 
     fun onOtpElementUpdated(optElement: OtpElement?) {
-        _onOtpElementUpdated.value = optElement
+        viewModelScope.launch {
+            _onOtpElementUpdated.emit(optElement)
+        }
     }
 
     fun onAttachmentSelected(attachment: Attachment) {
-        _attachmentSelected.value = attachment
-    }
-
-    fun onAttachmentAction(entryAttachmentState: EntryAttachmentState?) {
-        _onAttachmentAction.value = entryAttachmentState
+        viewModelScope.launch {
+            _entryEvents.emit(EntryEvent.AttachmentSelected(attachment))
+        }
     }
 
     fun onHistorySelected(item: EntryInfo, position: Int) {
-        _historySelected.value = EntryHistory(NodeIdUUID(item.id), null, item, position)
+        viewModelScope.launch {
+            _entryEvents.emit(EntryEvent.HistorySelected(EntryHistory(item.nodeId, item, position)))
+        }
     }
 
     fun selectSection(section: EntrySection) {
-        _sectionSelected.value = section
+        _entryUIState.update { it.copy(sectionSelected = section) }
     }
 
     fun copyToClipboard(field: Field) {
-        mClipboardHelper.timeoutCopyToClipboard(
-            TemplateField.getLocalizedName(getApplication(), field.name),
-            field.protectedValue.toString(),
-            field.protectedValue.isProtected
-        )
+        viewModelScope.launch {
+            _entryEvents.emit(
+                EntryEvent.CopyToClipboard(
+                    label = TemplateField.getLocalizedName(getApplication(), field.name),
+                    content = field.protectedValue.toString(),
+                    isProtected = field.protectedValue.isProtected
+                )
+            )
+        }
     }
 
     fun copyToClipboard(text: String) {
-        mClipboardHelper.timeoutCopyToClipboard(text, text)
+        viewModelScope.launch {
+            _entryEvents.emit(
+                EntryEvent.CopyToClipboard(
+                    label = text,
+                    content = text,
+                    isProtected = false
+                )
+            )
+        }
     }
 
-    fun actionPerformed() {
-        mEntryState.value = EntryState.Loading
+    fun applyToolbarColors() {
+        viewModelScope.launch {
+            _entryUIState.update {
+                it.copy(
+                    toolbarColor = backgroundColor ?: colorSurface,
+                    onToolbarColor = foregroundColor ?: colorOnSurface,
+                    iconColor = foregroundColor ?: colorSecondary,
+                    iconBackgroundColor = backgroundColor?.let { background ->
+                        ColorUtils.blendARGB(background, Color.WHITE, 0.1f)
+                    } ?: colorBackground
+                )
+            }
+        }
     }
 
-    data class EntryInfoHistory(var mainEntryId: NodeId<UUID>,
-                                var historyPosition: Int,
-                                val template: Template,
-                                val entryInfo: EntryInfo,
-                                val entryHistory: List<EntryInfo>)
-    // Custom data class to manage entry to retrieve and define is it's an history item (!= -1)
-    data class EntryHistory(var nodeId: NodeId<UUID>,
-                            var template: Template?,
-                            var entryInfo: EntryInfo,
-                            var historyPosition: Int = -1)
+    fun entryHistoryActionsAllowed(): Boolean = entryUIState.value.loaded && entryIsHistory && mDatabase?.isReadOnly == false
 
+    fun databaseActionsAllowed(): Boolean = entryUIState.value.loaded
+    fun saveDatabaseActionAllowed(): Boolean = !entryIsHistory && mDatabase?.isReadOnly == false
+    fun mergeDatabaseActionAllowed(): Boolean = !entryIsHistory && saveDatabaseActionAllowed() && mDatabase?.isMergeDataAllowed() == true
+    fun reloadDatabaseActionAllowed(): Boolean = !entryIsHistory
+
+            /**
+     * Sealed class for entry events.
+     */
+    sealed class EntryEvent {
+        data class EntryLoaded(
+            val entryInfo: EntryInfo,
+        ) : EntryEvent()
+
+        data class AddToMagikeyboard(
+            val entryInfo: EntryInfo,
+            val autoSwitch: Boolean,
+        ) : EntryEvent()
+
+        data class CopyToClipboard(
+            val label: String,
+            val content: String,
+            val isProtected: Boolean,
+        ) : EntryEvent()
+
+        data class RequestCopyProtectedField(
+            val fieldProtection: FieldProtection,
+        ) : EntryEvent()
+
+        data class ChangeFieldProtectionRequested(
+            val fieldProtection: FieldProtection,
+        ) : EntryEvent()
+
+        data class AttachmentSelected(
+            val attachment: Attachment,
+        ) : EntryEvent()
+
+        data class HistorySelected(
+            val entryHistory: EntryHistory,
+        ) : EntryEvent()
+
+        object Close : EntryEvent()
+    }
+
+    /**
+     * Custom data class to manage entry history.
+     */
+    data class EntryHistory(
+        var nodeId: EntryId,
+        var entryInfo: EntryInfo,
+        var historyPosition: Int = -1
+    )
+
+    /**
+     * Enum for entry sections.
+     */
     enum class EntrySection(var position: Int) {
         MAIN(0), ADVANCED(1);
 
@@ -223,18 +323,22 @@ class EntryViewModel(application: Application): AndroidViewModel(application) {
         }
     }
 
-    sealed class EntryState {
-        object Loading: EntryState()
-        data class OnChangeFieldProtectionRequested(
-            val fieldProtection: FieldProtection
-        ): EntryState()
-        data class OnFieldProtectionUpdated(
-            val fieldProtection: FieldProtection
-        ): EntryState()
-        data class RequestCopyProtectedField(
-            val fieldProtection: FieldProtection
-        ): EntryState()
-    }
+    /**
+     * Data class for entry view state.
+     */
+    data class EntryViewState(
+        val loaded: Boolean = false,
+        val entryInfo: EntryInfo? = null,
+        val isReadOnly: Boolean = true,
+        val showFloatingActionButton: Boolean = false,
+        val showHistoryView: Boolean = false,
+        val toolbarColor: Int = 0,
+        val onToolbarColor: Int = 0,
+        val iconColor: Int = 0,
+        val iconBackgroundColor: Int = 0,
+        val entryHistory: List<EntryInfo> = listOf(),
+        val sectionSelected: EntrySection = EntrySection.MAIN
+    )
 
     companion object {
         private val TAG = EntryViewModel::class.java.name

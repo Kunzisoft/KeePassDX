@@ -26,7 +26,7 @@ import com.kunzisoft.keepass.database.element.entry.EntryKDB
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.node.NodeIdInt
 import com.kunzisoft.keepass.database.element.node.NodeKDBInterface
-import com.kunzisoft.keepass.database.element.node.Type
+import com.kunzisoft.keepass.database.element.node.NodeType
 import com.kunzisoft.keepass.utils.readParcelableCompat
 import java.util.UUID
 
@@ -60,8 +60,8 @@ class GroupKDB : GroupVersioned<Int, UUID, GroupKDB, EntryKDB>, NodeKDBInterface
         groupFlags = source.groupFlags
     }
 
-    override val type: Type
-        get() = Type.GROUP
+    override val type: NodeType
+        get() = NodeType.GROUP
 
     override fun initNodeId(): NodeId<Int> {
         return NodeIdInt()

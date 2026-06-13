@@ -5,7 +5,6 @@ import com.kunzisoft.keepass.database.ProgressMessage
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
 
 class ProgressTaskViewModel: ViewModel() {
 
@@ -13,9 +12,7 @@ class ProgressTaskViewModel: ViewModel() {
     val progressTaskState: StateFlow<ProgressTaskState> = mProgressTaskState.asStateFlow()
 
     fun show(value: ProgressMessage) {
-        mProgressTaskState.update { currentState ->
-            ProgressTaskState.Show(value)
-        }
+        mProgressTaskState.value = ProgressTaskState.Show(value)
     }
 
     fun hide() {

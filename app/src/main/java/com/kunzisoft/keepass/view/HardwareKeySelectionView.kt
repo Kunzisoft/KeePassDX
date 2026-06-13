@@ -119,7 +119,7 @@ class HardwareKeySelectionView @JvmOverloads constructor(context: Context,
             return
         }
         super.onRestoreInstanceState(state.superState)
-        this.mHardwareKey = state.mHardwareKey
+        this.hardwareKey = state.mHardwareKey
     }
 
     internal class SavedState : BaseSavedState {

@@ -22,15 +22,16 @@ package com.kunzisoft.keepass.database.action.node
 import android.content.Context
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.element.Entry
+import com.kunzisoft.keepass.database.element.EntryId
 import com.kunzisoft.keepass.database.element.Group
-import com.kunzisoft.keepass.database.element.node.Node
-import com.kunzisoft.keepass.database.element.node.Type
+import com.kunzisoft.keepass.database.element.GroupId
 import com.kunzisoft.keepass.hardware.HardwareKey
 
 class DeleteNodesRunnable(
     context: Context,
     database: ContextualDatabase,
-    private val mNodesToDelete: List<Node>,
+    groupsIdsToDelete: List<GroupId>,
+    entriesIdsToDelete: List<EntryId>,
     private val recyclerBinTitle: String,
     save: Boolean,
     afterActionNodesFinish: AfterActionNodesFinish,
@@ -40,47 +41,51 @@ class DeleteNodesRunnable(
     private var mOldParent: Group? = null
     private var mCanRecycle: Boolean = false
 
-    private var mNodesToDeleteBackup = mutableListOf<Node>()
+    private var mGroupsToDelete: List<Group> = listOf()
+    private var mEntriesToDelete: List<Entry> = listOf()
+    private var mGroupsToDeleteBackup = mutableListOf<Group>()
+    private var mEntriesToDeleteBackup = mutableListOf<Entry>()
+
+    init {
+        mGroupsToDelete = database.getGroupsByIds(groupsIdsToDelete)
+        mEntriesToDelete = database.getEntriesByIds(entriesIdsToDelete)
+    }
 
     override fun nodeAction() {
 
-        foreachNode@ for(nodeToDelete in mNodesToDelete) {
+        for(nodeToDelete in mGroupsToDelete) {
             mOldParent = nodeToDelete.parent
             nodeToDelete.touch(modified = true, touchParents = true)
+            // Create a copy to keep the old ref and remove it visually
+            mGroupsToDeleteBackup.add(Group(nodeToDelete))
+            // Remove Node from parent
+            mCanRecycle = database.canRecycle(nodeToDelete)
+            if (mCanRecycle) {
+                database.recycle(nodeToDelete, recyclerBinTitle)
+                nodeToDelete.setPreviousParentGroup(mOldParent)
+                nodeToDelete.touch(modified = true, touchParents = true)
+            } else {
+                database.deleteGroup(nodeToDelete)
+            }
+        }
 
-            when (nodeToDelete.type) {
-                Type.GROUP -> {
-                    val groupToDelete = nodeToDelete as Group
-                    // Create a copy to keep the old ref and remove it visually
-                    mNodesToDeleteBackup.add(Group(groupToDelete))
-                    // Remove Node from parent
-                    mCanRecycle = database.canRecycle(groupToDelete)
-                    if (mCanRecycle) {
-                        database.recycle(groupToDelete, recyclerBinTitle)
-                        groupToDelete.setPreviousParentGroup(mOldParent)
-                        groupToDelete.touch(modified = true, touchParents = true)
-                    } else {
-                        database.deleteGroup(groupToDelete)
-                    }
-                }
-                Type.ENTRY -> {
-                    val entryToDelete = nodeToDelete as Entry
-                    // Create a copy to keep the old ref and remove it visually
-                    mNodesToDeleteBackup.add(Entry(entryToDelete))
-                    // Remove Node from parent
-                    mCanRecycle = database.canRecycle(entryToDelete)
-                    if (mCanRecycle) {
-                        database.recycle(entryToDelete, recyclerBinTitle)
-                        entryToDelete.setPreviousParentGroup(mOldParent)
-                        entryToDelete.touch(modified = true, touchParents = true)
-                    } else {
-                        database.deleteEntry(entryToDelete)
-                    }
-                    // Remove the oldest attachments
-                    entryToDelete.getAttachments(database.attachmentPool).forEach {
-                        database.removeAttachmentIfNotUsed(it)
-                    }
-                }
+        for(nodeToDelete in mEntriesToDelete) {
+            mOldParent = nodeToDelete.parent
+            nodeToDelete.touch(modified = true, touchParents = true)
+            // Create a copy to keep the old ref and remove it visually
+            mEntriesToDeleteBackup.add(Entry(nodeToDelete))
+            // Remove Node from parent
+            mCanRecycle = database.canRecycle(nodeToDelete)
+            if (mCanRecycle) {
+                database.recycle(nodeToDelete, recyclerBinTitle)
+                nodeToDelete.setPreviousParentGroup(mOldParent)
+                nodeToDelete.touch(modified = true, touchParents = true)
+            } else {
+                database.deleteEntry(nodeToDelete)
+            }
+            // Remove the oldest attachments
+            nodeToDelete.getAttachments(database.attachmentPool).forEach {
+                database.removeAttachmentIfNotUsed(it)
             }
         }
     }
@@ -89,15 +94,11 @@ class DeleteNodesRunnable(
         if (!result.isSuccess) {
             if (mCanRecycle) {
                 mOldParent?.let {
-                    mNodesToDeleteBackup.forEach { backupNode ->
-                        when (backupNode.type) {
-                            Type.GROUP -> {
-                                database.undoRecycle(backupNode as Group, it)
-                            }
-                            Type.ENTRY -> {
-                                database.undoRecycle(backupNode as Entry, it)
-                            }
-                        }
+                    mGroupsToDeleteBackup.forEach { backupNode ->
+                        database.undoRecycle(backupNode, it)
+                    }
+                    mEntriesToDeleteBackup.forEach { backupNode ->
+                        database.undoRecycle(backupNode, it)
                     }
                 }
             }
@@ -109,6 +110,11 @@ class DeleteNodesRunnable(
 
         // Return a copy of unchanged nodes as old param
         // and nodes deleted or moved in recycle bin as new param
-        return ActionNodesValues(mNodesToDeleteBackup, mNodesToDelete)
+        return ActionNodesValues(
+            oldGroupsIds = mGroupsToDeleteBackup.map { it.nodeId },
+            oldEntriesIds = mEntriesToDeleteBackup.map { it.nodeId },
+            newGroupsIds = mGroupsToDelete.map { it.nodeId },
+            newEntriesIds = mEntriesToDelete.map { it.nodeId }
+        )
     }
 }

@@ -147,7 +147,6 @@ class PasswordEditView @JvmOverloads constructor(context: Context,
 
     var passwordCharArray: CharArray?
         get() {
-            if (passwordText.length() == 0) return null
             val password = CharArray(passwordText.length())
             passwordText.text.getChars(0, passwordText.length(), password, 0)
             return password

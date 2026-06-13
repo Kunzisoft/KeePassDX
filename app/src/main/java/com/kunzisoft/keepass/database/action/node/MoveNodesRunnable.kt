@@ -23,9 +23,10 @@ import android.content.Context
 import android.util.Log
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.element.Entry
+import com.kunzisoft.keepass.database.element.EntryId
 import com.kunzisoft.keepass.database.element.Group
-import com.kunzisoft.keepass.database.element.node.Node
-import com.kunzisoft.keepass.database.element.node.Type
+import com.kunzisoft.keepass.database.element.GroupId
+import com.kunzisoft.keepass.database.exception.MissingParentDatabaseException
 import com.kunzisoft.keepass.database.exception.MoveEntryDatabaseException
 import com.kunzisoft.keepass.database.exception.MoveGroupDatabaseException
 import com.kunzisoft.keepass.hardware.HardwareKey
@@ -33,68 +34,88 @@ import com.kunzisoft.keepass.hardware.HardwareKey
 class MoveNodesRunnable(
     context: Context,
     database: ContextualDatabase,
-    private val mNodesToMove: List<Node>,
-    private val mNewParent: Group,
+    parentId: GroupId,
+    groupsIdsToMove: List<GroupId>,
+    entriesIdsToMove: List<EntryId>,
     save: Boolean,
     afterActionNodesFinish: AfterActionNodesFinish?,
     challengeResponseRetriever: (HardwareKey, ByteArray?) -> ByteArray
-) : ActionNodeDatabaseRunnable(context, database, afterActionNodesFinish, save, challengeResponseRetriever) {
+) : ActionNodeDatabaseRunnable(
+    context,
+    database,
+    afterActionNodesFinish,
+    save,
+    challengeResponseRetriever
+) {
 
     private var mOldParent: Group? = null
+    private var mNewParent: Group? = null
+    private var mGroupsToMove: List<Group> = listOf()
+    private var mEntriesToMove: List<Entry> = listOf()
+
+    init {
+        database.getGroupById(parentId)?.let { newParent ->
+            mNewParent = newParent
+        }
+        mGroupsToMove = database.getGroupsByIds(groupsIdsToMove)
+        mEntriesToMove = database.getEntriesByIds(entriesIdsToMove)
+    }
 
     override fun nodeAction() {
-
-        foreachNode@ for(nodeToMove in mNodesToMove) {
-            // Move node in new parent
-            mOldParent = nodeToMove.parent
-            nodeToMove.touch(modified = true, touchParents = true)
-
-            when (nodeToMove.type) {
-                Type.GROUP -> {
-                    val groupToMove = nodeToMove as Group
-                    // Move group if the parent change
-                    if (mOldParent != mNewParent
-                            // and if not in the current group
-                            && groupToMove != mNewParent
-                            && !mNewParent.isContainedIn(groupToMove)) {
-                        database.moveGroupTo(groupToMove, mNewParent)
-                        groupToMove.setPreviousParentGroup(mOldParent)
-                        groupToMove.touch(modified = true, touchParents = true)
-                    } else {
-                        // Only finish thread
-                        setError(MoveGroupDatabaseException())
-                        break@foreachNode
-                    }
-                }
-                Type.ENTRY -> {
-                    val entryToMove = nodeToMove as Entry
-                    // Move only if the parent change
-                    if (mOldParent != mNewParent
-                            // and root can contains entry
-                            && (mNewParent != database.rootGroup || database.rootCanContainsEntry())) {
-                        database.moveEntryTo(entryToMove, mNewParent)
-                        entryToMove.setPreviousParentGroup(mOldParent)
-                        entryToMove.touch(modified = true, touchParents = true)
-                    } else {
-                        // Only finish thread
-                        setError(MoveEntryDatabaseException())
-                        break@foreachNode
-                    }
+        mNewParent?.let { newParent ->
+            foreachGroup@ for (nodeToMove in mGroupsToMove) {
+                // Move node in new parent
+                mOldParent = nodeToMove.parent
+                nodeToMove.touch(modified = true, touchParents = true)
+                // Move group if the parent change
+                if (mOldParent != newParent
+                    // and if not in the current group
+                    && nodeToMove != newParent
+                    && !newParent.isContainedIn(nodeToMove)
+                ) {
+                    database.moveGroupTo(nodeToMove, newParent)
+                    nodeToMove.setPreviousParentGroup(mOldParent)
+                    nodeToMove.touch(modified = true, touchParents = true)
+                } else {
+                    // Only finish thread
+                    setError(MoveGroupDatabaseException())
+                    break@foreachGroup
                 }
             }
-        }
+            foreachEntry@ for (nodeToMove in mEntriesToMove) {
+                // Move node in new parent
+                mOldParent = nodeToMove.parent
+                nodeToMove.touch(modified = true, touchParents = true)
+                // Move only if the parent change
+                if (mOldParent != newParent
+                    // and root can contain entry
+                    && (newParent != database.rootGroup || database.rootCanContainsEntry())
+                ) {
+                    database.moveEntryTo(nodeToMove, newParent)
+                    nodeToMove.setPreviousParentGroup(mOldParent)
+                    nodeToMove.touch(modified = true, touchParents = true)
+                } else {
+                    // Only finish thread
+                    setError(MoveEntryDatabaseException())
+                    break@foreachEntry
+                }
+            }
+        } ?: setError(MissingParentDatabaseException())
     }
 
     override fun nodeFinish(): ActionNodesValues {
         if (!result.isSuccess) {
             try {
-                mNodesToMove.forEach { nodeToMove ->
+                mOldParent?.let { oldParent ->
                     // If we fail to save, try to move in the first place
-                    if (mOldParent != null &&
-                            mOldParent != nodeToMove.parent) {
-                        when (nodeToMove.type) {
-                            Type.GROUP -> database.moveGroupTo(nodeToMove as Group, mOldParent!!)
-                            Type.ENTRY -> database.moveEntryTo(nodeToMove as Entry, mOldParent!!)
+                    mGroupsToMove.forEach { nodeToMove ->
+                        if (oldParent != nodeToMove.parent) {
+                            database.moveGroupTo(nodeToMove, oldParent)
+                        }
+                    }
+                    mEntriesToMove.forEach { nodeToMove ->
+                        if (oldParent != nodeToMove.parent) {
+                            database.moveEntryTo(nodeToMove, oldParent)
                         }
                     }
                 }
@@ -102,7 +123,10 @@ class MoveNodesRunnable(
                 Log.i(TAG, "Unable to replace the node")
             }
         }
-        return ActionNodesValues(emptyList(), mNodesToMove)
+        return ActionNodesValues(
+            newGroupsIds = mGroupsToMove.map { it.nodeId },
+            newEntriesIds = mEntriesToMove.map { it.nodeId }
+        )
     }
 
     companion object {

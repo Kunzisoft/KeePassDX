@@ -31,18 +31,19 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.DeleteNodesDialogFragment
-import com.kunzisoft.keepass.activities.dialogs.PasswordEncodingDialogFragment
 import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper.removeModes
 import com.kunzisoft.keepass.credentialprovider.SpecialMode
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.MainCredential
-import com.kunzisoft.keepass.database.element.Entry
-import com.kunzisoft.keepass.database.element.Group
-import com.kunzisoft.keepass.database.element.node.Node
-import com.kunzisoft.keepass.database.element.node.NodeId
+import com.kunzisoft.keepass.database.element.EntryId
+import com.kunzisoft.keepass.database.element.GroupId
+import com.kunzisoft.keepass.database.element.node.Nodes
+import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.model.GroupInfo
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService
 import com.kunzisoft.keepass.settings.PreferencesUtil
@@ -57,10 +58,8 @@ import com.kunzisoft.keepass.view.showActionErrorIfNeeded
 import com.kunzisoft.keepass.viewmodels.NodesViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import java.util.UUID
 
-abstract class DatabaseLockActivity : DatabaseModeActivity(),
-    PasswordEncodingDialogFragment.Listener {
+abstract class DatabaseLockActivity : DatabaseModeActivity() {
 
     private val mNodesViewModel: NodesViewModel by viewModels()
 
@@ -68,10 +67,7 @@ abstract class DatabaseLockActivity : DatabaseModeActivity(),
 
     private var mLockReceiver: LockReceiver? = null
     private var mExitLock: Boolean = false
-
-    protected var mDatabaseReadOnly: Boolean = true
     protected var mDatabaseAllowUserVerification: Boolean = true
-    protected var mMergeDataAllowed: Boolean = false
     private var mAutoSaveEnable: Boolean = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -87,8 +83,20 @@ abstract class DatabaseLockActivity : DatabaseModeActivity(),
                     intent.getBooleanExtra(TIMEOUT_ENABLE_KEY, TIMEOUT_ENABLE_KEY_DEFAULT)
         }
 
-        mNodesViewModel.nodesToPermanentlyDelete.observe(this) { nodes ->
-            deleteDatabaseNodes(nodes)
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                launch {
+                    mNodesViewModel.nodesToPermanentlyDelete.collect { nodes ->
+                        deleteDatabaseNodes(nodes)
+                    }
+                }
+                launch {
+                    mNodesViewModel.shouldShowDeleteDialog.collect { recycleBin ->
+                        DeleteNodesDialogFragment.getInstance(recycleBin)
+                            .show(supportFragmentManager, "deleteNodesDialogFragment")
+                    }
+                }
+            }
         }
 
         mExitLock = false
@@ -136,9 +144,7 @@ abstract class DatabaseLockActivity : DatabaseModeActivity(),
                 TimeoutHelper.recordTime(this, database.loaded)
         }
 
-        mDatabaseReadOnly = database.isReadOnly
         mDatabaseAllowUserVerification = database.allowUserVerification
-        mMergeDataAllowed = database.isMergeDataAllowed()
 
         checkRegister()
     }
@@ -165,9 +171,19 @@ abstract class DatabaseLockActivity : DatabaseModeActivity(),
                 // Reload the current activity
                 if (result.isSuccess) {
                     reloadActivity()
-                    if (actionTask == DatabaseTaskNotificationService.ACTION_DATABASE_MERGE_TASK) {
-                        Toast.makeText(this, R.string.merge_success, Toast.LENGTH_LONG).show()
-                    }
+                    Toast.makeText(
+                        this,
+                        when (actionTask) {
+                            DatabaseTaskNotificationService.ACTION_DATABASE_MERGE_TASK ->
+                                if (database.isReadOnly || !PreferencesUtil.isAutoSaveDatabaseEnabled(this))
+                                    R.string.temporary_merge_success
+                                else
+                                    R.string.merge_success
+                            else ->
+                                R.string.reload_success
+                        },
+                        Toast.LENGTH_LONG
+                    ).show()
                 } else {
                     this.showActionErrorIfNeeded(result)
                     finish()
@@ -176,28 +192,8 @@ abstract class DatabaseLockActivity : DatabaseModeActivity(),
         }
     }
 
-    override fun onPasswordEncodingValidateListener(
-        databaseUri: Uri?,
-        mainCredential: MainCredential
-    ) {
-        mDatabaseViewModel.assignMainCredential(databaseUri, mainCredential)
-    }
-
     fun assignMainCredential(mainCredential: MainCredential) {
-        mDatabase?.let { database ->
-            database.fileUri?.let { databaseUri ->
-                // Show the progress dialog now or after dialog confirmation
-                val masterCredential = mainCredential.toMasterCredential(contentResolver)
-                val validCredential = database.isValidCredential(masterCredential)
-                masterCredential.clear()
-                if (validCredential) {
-                    mDatabaseViewModel.assignMainCredential(databaseUri, mainCredential)
-                } else {
-                    PasswordEncodingDialogFragment.getInstance(databaseUri, mainCredential)
-                        .show(supportFragmentManager, "passwordEncodingTag")
-                }
-            }
-        }
+        mDatabaseViewModel.assignMainCredential(mainCredential)
     }
 
     fun saveDatabase() {
@@ -220,121 +216,90 @@ abstract class DatabaseLockActivity : DatabaseModeActivity(),
         mDatabaseViewModel.reloadDatabase(fixDuplicateUuid = false)
     }
 
-    fun createEntry(
-        newEntry: Entry,
-        parent: Group
-    ) {
-        mDatabaseViewModel.createEntry(newEntry, parent, mAutoSaveEnable)
-    }
-
-    fun updateEntry(
-        oldEntry: Entry,
-        entryToUpdate: Entry
-    ) {
-        mDatabaseViewModel.updateEntry(oldEntry, entryToUpdate, mAutoSaveEnable)
-    }
-
-    fun copyNodes(
-        nodesToCopy: List<Node>,
-        newParent: Group
-    ) {
-        mDatabaseViewModel.copyNodes(nodesToCopy, newParent, mAutoSaveEnable)
-    }
-
-    fun moveNodes(
-        nodesToMove: List<Node>,
-        newParent: Group
-    ) {
-        mDatabaseViewModel.moveNodes(nodesToMove, newParent, mAutoSaveEnable)
-    }
-
-    private fun eachNodeRecyclable(database: ContextualDatabase, nodes: List<Node>): Boolean {
-        return nodes.find { node ->
-            var cannotRecycle = true
-            if (node is Entry) {
-                cannotRecycle = !database.canRecycle(node)
-            } else if (node is Group) {
-                cannotRecycle = !database.canRecycle(node)
-            }
-            cannotRecycle
-        } == null
-    }
-
-    fun deleteNodes(nodes: List<Node>, recycleBin: Boolean = false) {
-        // TODO Move in ViewModel
-        mDatabase?.let { database ->
-            // If recycle bin enabled, ensure it exists
-            if (database.isRecycleBinEnabled) {
-                database.ensureRecycleBinExists(resources.getString(R.string.recycle_bin))
-            }
-
-            // If recycle bin enabled and not in recycle bin, move in recycle bin
-            if (eachNodeRecyclable(database, nodes)) {
-                deleteDatabaseNodes(nodes)
-            }
-            // else open the dialog to confirm deletion
-            else {
-                DeleteNodesDialogFragment.getInstance(recycleBin)
-                    .show(supportFragmentManager, "deleteNodesDialogFragment")
-                mNodesViewModel.deleteNodes(nodes)
-            }
-        }
-    }
-
-    private fun deleteDatabaseNodes(nodes: List<Node>) {
-        mDatabaseViewModel.deleteNodes(nodes, mAutoSaveEnable)
-    }
-
     fun createGroup(
-        parent: Group,
-        groupInfo: GroupInfo?
+        parentId: GroupId,
+        groupInfo: GroupInfo
     ) {
-        // TODO Move in ViewModel
-        // Build the group
-        mDatabase?.createGroup()?.let { newGroup ->
-            groupInfo?.let { info ->
-                newGroup.setGroupInfo(info)
-            }
-            // Not really needed here because added in runnable but safe
-            newGroup.parent = parent
-            mDatabaseViewModel.createGroup(newGroup, parent, mAutoSaveEnable)
-        }
+        mDatabaseViewModel.createGroup(parentId, groupInfo, mAutoSaveEnable)
     }
 
     fun updateGroup(
-        oldGroup: Group,
         groupInfo: GroupInfo
     ) {
-        // TODO Move in ViewModel
-        // If group updated save it in the database
-        val updateGroup = Group(oldGroup).let { updateGroup ->
-            updateGroup.apply {
-                // WARNING remove parent and children to keep memory
-                removeParent()
-                removeChildren()
-                this.setGroupInfo(groupInfo)
-            }
-        }
-        mDatabaseViewModel.updateGroup(oldGroup, updateGroup, mAutoSaveEnable)
+        mDatabaseViewModel.updateGroup(groupInfo, mAutoSaveEnable)
+    }
+
+    fun touchGroup(
+        groupInfo: GroupInfo
+    ) {
+        mDatabaseViewModel.touchGroup(groupInfo)
+    }
+
+    fun createEntry(
+        parentId: GroupId,
+        entryInfo: EntryInfo
+    ) {
+        mDatabaseViewModel.createEntry(parentId, entryInfo, mAutoSaveEnable)
+    }
+
+    fun updateEntry(
+        entryInfo: EntryInfo
+    ) {
+        mDatabaseViewModel.updateEntry(entryInfo, mAutoSaveEnable)
+    }
+
+    fun touchEntry(
+        entryInfo: EntryInfo
+    ) {
+        mDatabaseViewModel.touchEntry(entryInfo)
     }
 
     fun restoreEntryHistory(
-        mainEntryId: NodeId<UUID>,
+        mainEntryId: EntryId,
         entryHistoryPosition: Int
     ) {
         mDatabaseViewModel.restoreEntryHistory(mainEntryId, entryHistoryPosition, mAutoSaveEnable)
     }
 
     fun deleteEntryHistory(
-        mainEntryId: NodeId<UUID>,
+        mainEntryId: EntryId,
         entryHistoryPosition: Int
     ) {
         mDatabaseViewModel.deleteEntryHistory(mainEntryId, entryHistoryPosition, mAutoSaveEnable)
     }
 
+    fun copyNodes(
+        newParentId: GroupId,
+        nodesToCopy: Nodes
+    ) {
+        mDatabaseViewModel.copyNodes(newParentId, nodesToCopy, mAutoSaveEnable)
+    }
+
+    fun moveNodes(
+        newParentId: GroupId,
+        nodesToMove: Nodes
+    ) {
+        mDatabaseViewModel.moveNodes(newParentId, nodesToMove, mAutoSaveEnable)
+    }
+
+    fun deleteNodes(nodes: Nodes, recycleBin: Boolean = false) {
+        mDatabase?.let { database ->
+            mNodesViewModel.requestNodesDeletion(
+                database = database,
+                nodes = nodes,
+                recycleBinName = resources.getString(R.string.recycle_bin),
+                recycleBin = recycleBin
+            )
+        }
+    }
+
+    private fun deleteDatabaseNodes(nodes: Nodes) {
+        mDatabaseViewModel.deleteNodes(nodes, mAutoSaveEnable)
+    }
+
     private fun checkRegister() {
         // If in registration mode, don't allow read only
-        if (mSpecialMode == SpecialMode.REGISTRATION && mDatabaseReadOnly) {
+        if (mSpecialMode == SpecialMode.REGISTRATION && mDatabase?.isReadOnly != false) {
             Toast.makeText(this, R.string.error_registration_read_only , Toast.LENGTH_LONG).show()
             intent.removeModes()
             finish()

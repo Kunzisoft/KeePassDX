@@ -53,16 +53,17 @@ import com.kunzisoft.keepass.database.action.node.AfterActionNodesFinish
 import com.kunzisoft.keepass.database.action.node.CopyNodesRunnable
 import com.kunzisoft.keepass.database.action.node.DeleteNodesRunnable
 import com.kunzisoft.keepass.database.action.node.MoveNodesRunnable
+import com.kunzisoft.keepass.database.action.node.TouchEntryRunnable
+import com.kunzisoft.keepass.database.action.node.TouchGroupRunnable
 import com.kunzisoft.keepass.database.action.node.UpdateEntryRunnable
 import com.kunzisoft.keepass.database.action.node.UpdateGroupRunnable
-import com.kunzisoft.keepass.database.element.Entry
-import com.kunzisoft.keepass.database.element.Group
+import com.kunzisoft.keepass.database.element.EntryId
+import com.kunzisoft.keepass.database.element.GroupId
 import com.kunzisoft.keepass.database.element.database.CompressionAlgorithm
-import com.kunzisoft.keepass.database.element.node.Node
-import com.kunzisoft.keepass.database.element.node.NodeId
-import com.kunzisoft.keepass.database.element.node.Type
 import com.kunzisoft.keepass.hardware.HardwareKey
 import com.kunzisoft.keepass.model.CipherEncryptDatabase
+import com.kunzisoft.keepass.model.EntryInfo
+import com.kunzisoft.keepass.model.GroupInfo
 import com.kunzisoft.keepass.model.SnapFileDatabaseInfo
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.tasks.ActionRunnable
@@ -87,17 +88,12 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
-import java.util.UUID
 
 open class DatabaseTaskNotificationService : LockNotificationService(), ProgressTaskUpdater {
 
     override val notificationId: Int = 575
 
     private var mDatabase: ContextualDatabase? = null
-
-    // File description
-    private var mSnapFileDatabaseInfo: SnapFileDatabaseInfo? = null
-    private var mLastLocalSaveTime: Long = 0
 
     private val mainScope = CoroutineScope(Dispatchers.Main)
 
@@ -109,6 +105,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
     private var mResponseChallengeChannel: Channel<ByteArray?>? = null
 
     private var mActionRunning = 0
+    private var mSavingActionsRunning = 0
     private var mTaskRemovedRequested = false
     private var mSaveState = false
 
@@ -194,7 +191,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
     fun checkDatabaseInfo() {
         try {
             mDatabase?.fileUri?.let {
-                val previousDatabaseInfo = mSnapFileDatabaseInfo
+                val previousDatabaseInfo = mDatabase?.snapFileDatabaseInfo
                 val lastFileDatabaseInfo = SnapFileDatabaseInfo.fromFileDatabaseInfo(
                     FileDatabaseInfo(applicationContext, it))
 
@@ -211,10 +208,11 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                             && oldDatabaseSize != null
                             && oldDatabaseModification > 0 && newDatabaseModification > 0
                             && oldDatabaseSize > 0
-                            && oldDatabaseModification < newDatabaseModification
-                            && mLastLocalSaveTime + 10000 < newDatabaseModification)
+                            && oldDatabaseModification + 10000 < newDatabaseModification)
 
                 if (conditionExists || conditionLastModification) {
+                    // Indicate a change in the database
+                    mDatabase?.indicateNotSavedData()
                     // Show the dialog only if it's real new info and not a delay after a save
                     Log.i(TAG, "Database file modified " +
                             "$previousDatabaseInfo != $lastFileDatabaseInfo ")
@@ -228,7 +226,6 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                             )
                         }
                     }
-                    mSnapFileDatabaseInfo = lastFileDatabaseInfo
                 }
             }
         } catch (e: Exception) {
@@ -237,15 +234,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
     }
 
     fun saveDatabaseInfo() {
-        try {
-            mDatabase?.fileUri?.let {
-                mSnapFileDatabaseInfo = SnapFileDatabaseInfo.fromFileDatabaseInfo(
-                    FileDatabaseInfo(applicationContext, it))
-                Log.i(TAG, "Database file saved $mSnapFileDatabaseInfo")
-            }
-        } catch (e: Exception) {
-            Log.e(TAG, "Unable to check database info", e)
-        }
+        mDatabase?.saveDatabaseInfo(applicationContext)
     }
 
     /**
@@ -262,7 +251,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                     )
                 }
             } else {
-                /* Do not stopped here, service cannot be connected
+                /* Do not stop here, service cannot be connected
                 mActionTaskListeners.forEach { actionTaskListener ->
                     actionTaskListener.onActionStopped(
                         database
@@ -310,6 +299,13 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         return mActionTaskBinder
     }
 
+    private fun updateSavingActionRunning(isSavingAction: Boolean, increment: Boolean) {
+        if (isSavingAction) {
+            if (increment) mSavingActionsRunning++ else mSavingActionsRunning--
+        }
+        mSaveState = mSavingActionsRunning > 0
+    }
+
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         super.onStartCommand(intent, flags, startId)
 
@@ -321,22 +317,24 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
             }
         }
 
+        val intentAction = intent?.action
+
         // Get save state
-        mSaveState = if (intent != null) {
+        val isSavingAction = if (intent != null && !database.isReadOnly) {
             if (intent.hasExtra(SAVE_DATABASE_KEY)) {
-                !database.isReadOnly && intent.getBooleanExtra(
+                intent.getBooleanExtra(
                     SAVE_DATABASE_KEY,
-                    mSaveState
+                    false
                 )
-            } else (intent.action == ACTION_DATABASE_CREATE_TASK
-                    || intent.action == ACTION_DATABASE_ASSIGN_CREDENTIAL_TASK
-                    || intent.action == ACTION_DATABASE_SAVE)
+            } else (intentAction == ACTION_DATABASE_CREATE_TASK
+                    || intentAction == ACTION_DATABASE_ASSIGN_CREDENTIAL_TASK
+                    || intentAction == ACTION_DATABASE_SAVE)
         } else false
+
+        updateSavingActionRunning(isSavingAction, increment = true)
 
         // Create the notification
         buildNotification(intent)
-
-        val intentAction = intent?.action
 
         if (intentAction == null && !database.loaded) {
             stopService()
@@ -350,8 +348,10 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
             ACTION_DATABASE_ASSIGN_CREDENTIAL_TASK -> buildDatabaseAssignCredentialActionTask(intent, database)
             ACTION_DATABASE_CREATE_GROUP_TASK -> buildDatabaseCreateGroupActionTask(intent, database)
             ACTION_DATABASE_UPDATE_GROUP_TASK -> buildDatabaseUpdateGroupActionTask(intent, database)
+            ACTION_DATABASE_TOUCH_GROUP_TASK -> buildDatabaseTouchGroupActionTask(intent, database)
             ACTION_DATABASE_CREATE_ENTRY_TASK -> buildDatabaseCreateEntryActionTask(intent, database)
             ACTION_DATABASE_UPDATE_ENTRY_TASK -> buildDatabaseUpdateEntryActionTask(intent, database)
+            ACTION_DATABASE_TOUCH_ENTRY_TASK -> buildDatabaseTouchEntryActionTask(intent, database)
             ACTION_DATABASE_COPY_NODES_TASK -> buildDatabaseCopyNodesActionTask(intent, database)
             ACTION_DATABASE_MOVE_NODES_TASK -> buildDatabaseMoveNodesActionTask(intent, database)
             ACTION_DATABASE_DELETE_NODES_TASK -> buildDatabaseDeleteNodesActionTask(intent, database)
@@ -420,32 +420,25 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                                     )
                                 }
                             } finally {
-                                // Save the database info before performing action
-                                when (intentAction) {
-                                    ACTION_DATABASE_LOAD_TASK,
-                                    ACTION_DATABASE_MERGE_TASK,
-                                    ACTION_DATABASE_RELOAD_TASK -> {
-                                        saveDatabaseInfo()
-                                    }
-                                }
+                                // Save the database info after performing action
                                 val save = !database.isReadOnly
                                         && (intentAction == ACTION_DATABASE_SAVE
-                                        || intent?.getBooleanExtra(
-                                    SAVE_DATABASE_KEY,
-                                    false
-                                ) == true)
-                                // Save the database info after performing save action
-                                if (save) {
-                                    database.fileUri?.let {
-                                        val newSnapFileDatabaseInfo =
-                                            SnapFileDatabaseInfo.fromFileDatabaseInfo(
-                                                FileDatabaseInfo(applicationContext, it)
-                                            )
-                                        mLastLocalSaveTime = System.currentTimeMillis()
-                                        mSnapFileDatabaseInfo = newSnapFileDatabaseInfo
+                                        || intent?.getBooleanExtra(SAVE_DATABASE_KEY, false) == true)
+                                if (save)
+                                    saveDatabaseInfo()
+                                else {
+                                    when (intentAction) {
+                                        ACTION_DATABASE_CREATE_TASK,
+                                        ACTION_DATABASE_LOAD_TASK,
+                                        ACTION_DATABASE_MERGE_TASK,
+                                        ACTION_DATABASE_RELOAD_TASK,
+                                        ACTION_DATABASE_ASSIGN_CREDENTIAL_TASK -> {
+                                            saveDatabaseInfo()
+                                        }
                                     }
                                 }
                                 removeIntentData(intent)
+                                updateSavingActionRunning(isSavingAction, increment = false)
                                 TimeoutHelper.releaseTemporarilyDisableTimeout()
                                 // Stop service after save if user remove task
                                 if (save && mTaskRemovedRequested) {
@@ -476,9 +469,16 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                             sendBroadcast(Intent(DATABASE_STOP_TASK_ACTION))
                         }
                         mActionRunning--
+                        if (mActionRunning == 0) {
+                            mActionTaskListeners.forEach { actionTaskListener ->
+                                actionTaskListener.onActionStopped(database)
+                            }
+                        }
                     }
                 )
             }
+        } else {
+            updateSavingActionRunning(isSavingAction, increment = false)
         }
 
         return when (intentAction) {
@@ -500,14 +500,14 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         // Assign elements for updates
         val intentAction = intent?.action
 
-        // Get icon depending action state
+        // Get icon depending on action state
         val iconId = if (intentAction == null)
             R.drawable.notification_ic_database_open
         else
             R.drawable.notification_ic_database_action
 
         // Title depending on action
-        mProgressMessage.titleId =
+        val newTitleId =
             if (intentAction == null) {
                 R.string.database_opened
             } else when (intentAction) {
@@ -524,6 +524,12 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                         R.string.command_execution
                 }
             }
+
+        if (mActionRunning == 0 ||
+            (intentAction != ACTION_DATABASE_TOUCH_ENTRY_TASK
+                    && intentAction != ACTION_DATABASE_TOUCH_GROUP_TASK)) {
+            mProgressMessage.titleId = newTitleId
+        }
 
         // Updated later
         mProgressMessage.messageId = null
@@ -746,13 +752,14 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
             val mainCredential: MainCredential =
                 intent.getParcelableExtraCompat(MAIN_CREDENTIAL_KEY) ?: MainCredential()
             if (databaseUri == null) return null
-            return CreateDatabaseRunnable(this,
-                database,
-                databaseUri,
-                getString(R.string.database_default_name),
-                getString(R.string.database),
-                getString(R.string.template_group_name),
-                mainCredential
+            return CreateDatabaseRunnable(
+                context = this,
+                mDatabase = database,
+                databaseUri = databaseUri,
+                databaseName = getString(R.string.database_default_name),
+                rootName = getString(R.string.database),
+                templateGroupName = getString(R.string.template_group_name),
+                mainCredential = mainCredential
             ) { hardwareKey, seed ->
                 retrieveResponseFromChallenge(hardwareKey, seed)
             }.apply {
@@ -874,18 +881,18 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         }
         val saveDatabase = intent.getBooleanExtra(SAVE_DATABASE_KEY, false)
         return MergeDatabaseRunnable(
-            this,
-            databaseToMergeUri,
-            databaseToMergeMainCredential,
-            { hardwareKey, seed ->
+            context = this,
+            mDatabaseToMergeUri = databaseToMergeUri,
+            mDatabaseToMergeMainCredential = databaseToMergeMainCredential,
+            mDatabaseToMergeChallengeResponseRetriever = { hardwareKey, seed ->
                 retrieveResponseFromChallenge(hardwareKey, seed)
             },
-            database,
-            !database.isReadOnly && saveDatabase,
-            { hardwareKey, seed ->
+            database = database,
+            save = !database.isReadOnly && saveDatabase,
+            challengeResponseRetriever = { hardwareKey, seed ->
                 retrieveResponseFromChallenge(hardwareKey, seed)
             },
-            this
+            progressTaskUpdater = this
         ).apply {
             afterSaveDatabase = { result ->
                 if (result.isSuccess) {
@@ -901,9 +908,9 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         database: ContextualDatabase
     ): ActionRunnable {
         return ReloadDatabaseRunnable(
-            this,
-            database,
-            this
+            context = this,
+            mDatabase = database,
+            progressTaskUpdater = this
         ).apply {
             afterReloadDatabase = { result ->
                 if (result.isSuccess) {
@@ -924,14 +931,14 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         ) {
             val databaseUri: Uri = intent.getParcelableExtraCompat(DATABASE_URI_KEY) ?: return null
             SaveDatabaseRunnable(
-                this,
-                database,
-                saveDatabase = true,
-                intent.getParcelableExtraCompat(MAIN_CREDENTIAL_KEY) ?: MainCredential(),
-                { hardwareKey, seed ->
+                context = this,
+                database = database,
+                save = true,
+                mainCredential = intent.getParcelableExtraCompat(MAIN_CREDENTIAL_KEY) ?: MainCredential(),
+                challengeResponseRetriever = { hardwareKey, seed ->
                     retrieveResponseFromChallenge(hardwareKey, seed)
                 },
-                null
+                databaseCopyUri = null
             ).apply {
                 afterSaveDatabase = {
                     eraseCredentials(databaseUri)
@@ -957,8 +964,14 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
             actionNodesValues: ActionNodesValues,
         ) {
             val bundle = result.data ?: Bundle()
-            bundle.putBundle(OLD_NODES_KEY, getBundleFromListNodes(actionNodesValues.oldNodes))
-            bundle.putBundle(NEW_NODES_KEY, getBundleFromListNodes(actionNodesValues.newNodes))
+            bundle.putBundle(OLD_NODES_KEY, Bundle().apply {
+                putParcelableList(GROUPS_ID_KEY, actionNodesValues.oldGroupsIds ?: listOf())
+                putParcelableList(ENTRIES_ID_KEY, actionNodesValues.oldEntriesIds ?: listOf())
+            })
+            bundle.putBundle(NEW_NODES_KEY, Bundle().apply {
+                putParcelableList(GROUPS_ID_KEY, actionNodesValues.newGroupsIds ?: listOf())
+                putParcelableList(ENTRIES_ID_KEY, actionNodesValues.newEntriesIds ?: listOf())
+            })
             result.data = bundle
         }
     }
@@ -971,20 +984,19 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
             && intent.hasExtra(PARENT_ID_KEY)
             && intent.hasExtra(SAVE_DATABASE_KEY)
         ) {
-            val parentId: NodeId<*>? = intent.getParcelableExtraCompat(PARENT_ID_KEY)
-            val newGroup: Group? = intent.getParcelableExtraCompat(GROUP_KEY)
+            val parentId: GroupId? = intent.getParcelableExtraCompat(PARENT_ID_KEY)
+            val newGroup: GroupInfo? = intent.getParcelableExtraCompat(GROUP_KEY)
             if (parentId == null || newGroup == null) return null
             val saveDatabase = intent.getBooleanExtra(SAVE_DATABASE_KEY, false)
-            database.getGroupById(parentId)?.let { parent ->
-                AddGroupRunnable(this,
-                    database,
-                    newGroup,
-                    parent,
-                    !database.isReadOnly && saveDatabase,
-                    AfterActionNodesRunnable()
-                ) { hardwareKey, seed ->
-                    retrieveResponseFromChallenge(hardwareKey, seed)
-                }
+            AddGroupRunnable(
+                context = this,
+                database = database,
+                parentId = parentId,
+                newGroup = newGroup,
+                save = !database.isReadOnly && saveDatabase,
+                afterActionNodesFinish = AfterActionNodesRunnable()
+            ) { hardwareKey, seed ->
+                retrieveResponseFromChallenge(hardwareKey, seed)
             }
         } else {
             null
@@ -995,24 +1007,38 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         intent: Intent,
         database: ContextualDatabase,
     ): ActionRunnable? {
-        return if (intent.hasExtra(GROUP_ID_KEY)
-            && intent.hasExtra(GROUP_KEY)
+        return if (intent.hasExtra(GROUP_KEY)
             && intent.hasExtra(SAVE_DATABASE_KEY)
         ) {
-            val groupId: NodeId<*>? = intent.getParcelableExtraCompat(GROUP_ID_KEY)
-            val newGroup: Group? = intent.getParcelableExtraCompat(GROUP_KEY)
-            if (groupId == null || newGroup == null) return null
+            val newGroup: GroupInfo = intent.getParcelableExtraCompat(GROUP_KEY) ?: return null
             val saveDatabase = intent.getBooleanExtra(SAVE_DATABASE_KEY, false)
-            database.getGroupById(groupId)?.let { oldGroup ->
-                UpdateGroupRunnable(this,
-                    database,
-                    oldGroup,
-                    newGroup,
-                    !database.isReadOnly && saveDatabase,
-                    AfterActionNodesRunnable()
-                ) { hardwareKey, seed ->
-                    retrieveResponseFromChallenge(hardwareKey, seed)
-                }
+            UpdateGroupRunnable(
+                context = this,
+                database = database,
+                newGroup = newGroup,
+                save = !database.isReadOnly && saveDatabase,
+                afterActionNodesFinish = AfterActionNodesRunnable()
+            ) { hardwareKey, seed ->
+                retrieveResponseFromChallenge(hardwareKey, seed)
+            }
+        } else {
+            null
+        }
+    }
+
+    private fun buildDatabaseTouchGroupActionTask(
+        intent: Intent,
+        database: ContextualDatabase,
+    ): ActionRunnable? {
+        return if (intent.hasExtra(GROUP_ID_KEY)) {
+            val groupId: GroupId = intent.getParcelableExtraCompat(GROUP_ID_KEY) ?: return null
+            TouchGroupRunnable(
+                context = this,
+                database = database,
+                groupId = groupId,
+                afterActionNodesFinish = AfterActionNodesRunnable()
+            ) { hardwareKey, seed ->
+                retrieveResponseFromChallenge(hardwareKey, seed)
             }
         } else {
             null
@@ -1027,20 +1053,19 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
             && intent.hasExtra(PARENT_ID_KEY)
             && intent.hasExtra(SAVE_DATABASE_KEY)
         ) {
-            val parentId: NodeId<*>? = intent.getParcelableExtraCompat(PARENT_ID_KEY)
-            val newEntry: Entry? = intent.getParcelableExtraCompat(ENTRY_KEY)
+            val parentId: GroupId? = intent.getParcelableExtraCompat(PARENT_ID_KEY)
+            val newEntry: EntryInfo? = intent.getParcelableExtraCompat(ENTRY_KEY)
             if (parentId == null || newEntry == null) return null
             val saveDatabase = intent.getBooleanExtra(SAVE_DATABASE_KEY, false)
-            database.getGroupById(parentId)?.let { parent ->
-                AddEntryRunnable(this,
-                    database,
-                    newEntry,
-                    parent,
-                    !database.isReadOnly && saveDatabase,
-                    AfterActionNodesRunnable()
-                ) { hardwareKey, seed ->
-                    retrieveResponseFromChallenge(hardwareKey, seed)
-                }
+            AddEntryRunnable(
+                context = this,
+                database = database,
+                parentId = parentId,
+                newEntry = newEntry,
+                save = !database.isReadOnly && saveDatabase,
+                afterActionNodesFinish = AfterActionNodesRunnable()
+            ) { hardwareKey, seed ->
+                retrieveResponseFromChallenge(hardwareKey, seed)
             }
         } else {
             null
@@ -1051,24 +1076,39 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         intent: Intent,
         database: ContextualDatabase,
     ): ActionRunnable? {
-        return if (intent.hasExtra(ENTRY_ID_KEY)
-            && intent.hasExtra(ENTRY_KEY)
+        return if (intent.hasExtra(ENTRY_KEY)
             && intent.hasExtra(SAVE_DATABASE_KEY)
         ) {
-            val entryId: NodeId<UUID>? = intent.getParcelableExtraCompat(ENTRY_ID_KEY)
-            val newEntry: Entry? = intent.getParcelableExtraCompat(ENTRY_KEY)
-            if (entryId == null || newEntry == null) return null
+            val newEntry: EntryInfo = intent.getParcelableExtraCompat(ENTRY_KEY) ?: return null
             val saveDatabase = intent.getBooleanExtra(SAVE_DATABASE_KEY, false)
-            database.getEntryById(entryId)?.let { oldEntry ->
-                UpdateEntryRunnable(this,
-                    database,
-                    oldEntry,
-                    newEntry,
-                    !database.isReadOnly && saveDatabase,
-                    AfterActionNodesRunnable()
-                ) { hardwareKey, seed ->
-                    retrieveResponseFromChallenge(hardwareKey, seed)
-                }
+             UpdateEntryRunnable(
+                 context = this,
+                 database = database,
+                 newEntry = newEntry,
+                 save = !database.isReadOnly && saveDatabase,
+                 afterActionNodesFinish = AfterActionNodesRunnable()
+            ) { hardwareKey, seed ->
+                retrieveResponseFromChallenge(hardwareKey, seed)
+            }
+        } else {
+            null
+        }
+    }
+
+    private fun buildDatabaseTouchEntryActionTask(
+        intent: Intent,
+        database: ContextualDatabase,
+    ): ActionRunnable? {
+        return if (intent.hasExtra(ENTRY_ID_KEY)
+        ) {
+            val entryId: EntryId = intent.getParcelableExtraCompat(ENTRY_ID_KEY) ?: return null
+            TouchEntryRunnable(
+                context = this,
+                database = database,
+                oldEntryId = entryId,
+                afterActionNodesFinish = AfterActionNodesRunnable()
+            ) { hardwareKey, seed ->
+                retrieveResponseFromChallenge(hardwareKey, seed)
             }
         } else {
             null
@@ -1079,23 +1119,25 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         intent: Intent,
         database: ContextualDatabase,
     ): ActionRunnable? {
-        return if (intent.hasExtra(GROUPS_ID_KEY)
+        return if (intent.hasExtra(PARENT_ID_KEY)
+            && intent.hasExtra(GROUPS_ID_KEY)
             && intent.hasExtra(ENTRIES_ID_KEY)
-            && intent.hasExtra(PARENT_ID_KEY)
             && intent.hasExtra(SAVE_DATABASE_KEY)
         ) {
-            val parentId: NodeId<*> = intent.getParcelableExtraCompat(PARENT_ID_KEY) ?: return null
+            val parentId: GroupId = intent.getParcelableExtraCompat(PARENT_ID_KEY) ?: return null
+            val groupsIds = intent.getParcelableList<GroupId>(GROUPS_ID_KEY) ?: listOf()
+            val entriesIds = intent.getParcelableList<EntryId>(ENTRIES_ID_KEY) ?: listOf()
             val saveDatabase = intent.getBooleanExtra(SAVE_DATABASE_KEY, false)
-            database.getGroupById(parentId)?.let { newParent ->
-                CopyNodesRunnable(this,
-                    database,
-                    getListNodesFromBundle(database, intent.extras!!),
-                    newParent,
-                    !database.isReadOnly && saveDatabase,
-                    AfterActionNodesRunnable()
-                ) { hardwareKey, seed ->
-                    retrieveResponseFromChallenge(hardwareKey, seed)
-                }
+            CopyNodesRunnable(
+                context = this,
+                database = database,
+                newParentId = parentId,
+                groupsIdsToCopy = groupsIds,
+                entriesIdsToCopy = entriesIds,
+                save = !database.isReadOnly && saveDatabase,
+                afterActionNodesFinish = AfterActionNodesRunnable()
+            ) { hardwareKey, seed ->
+                retrieveResponseFromChallenge(hardwareKey, seed)
             }
         } else {
             null
@@ -1106,23 +1148,25 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         intent: Intent,
         database: ContextualDatabase,
     ): ActionRunnable? {
-        return if (intent.hasExtra(GROUPS_ID_KEY)
+        return if (intent.hasExtra(PARENT_ID_KEY)
+            && intent.hasExtra(GROUPS_ID_KEY)
             && intent.hasExtra(ENTRIES_ID_KEY)
-            && intent.hasExtra(PARENT_ID_KEY)
             && intent.hasExtra(SAVE_DATABASE_KEY)
         ) {
-            val parentId: NodeId<*> = intent.getParcelableExtraCompat(PARENT_ID_KEY) ?: return null
+            val parentId: GroupId = intent.getParcelableExtraCompat(PARENT_ID_KEY) ?: return null
+            val groupsIds = intent.getParcelableList<GroupId>(GROUPS_ID_KEY) ?: listOf()
+            val entriesIds = intent.getParcelableList<EntryId>(ENTRIES_ID_KEY) ?: listOf()
             val saveDatabase = intent.getBooleanExtra(SAVE_DATABASE_KEY, false)
-            database.getGroupById(parentId)?.let { newParent ->
-                MoveNodesRunnable(this,
-                    database,
-                    getListNodesFromBundle(database, intent.extras!!),
-                    newParent,
-                    !database.isReadOnly && saveDatabase,
-                    AfterActionNodesRunnable()
-                ) { hardwareKey, seed ->
-                    retrieveResponseFromChallenge(hardwareKey, seed)
-                }
+            MoveNodesRunnable(
+                context = this,
+                database = database,
+                parentId = parentId,
+                groupsIdsToMove = groupsIds,
+                entriesIdsToMove = entriesIds,
+                save = !database.isReadOnly && saveDatabase,
+                afterActionNodesFinish = AfterActionNodesRunnable()
+            ) { hardwareKey, seed ->
+                retrieveResponseFromChallenge(hardwareKey, seed)
             }
         } else {
             null
@@ -1137,13 +1181,17 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
             && intent.hasExtra(ENTRIES_ID_KEY)
             && intent.hasExtra(SAVE_DATABASE_KEY)
         ) {
+            val groupsIds = intent.getParcelableList<GroupId>(GROUPS_ID_KEY) ?: listOf()
+            val entriesIds = intent.getParcelableList<EntryId>(ENTRIES_ID_KEY) ?: listOf()
             val saveDatabase = intent.getBooleanExtra(SAVE_DATABASE_KEY, false)
-            DeleteNodesRunnable(this,
-                database,
-                getListNodesFromBundle(database, intent.extras!!),
-                resources.getString(R.string.recycle_bin),
-                !database.isReadOnly && saveDatabase,
-                AfterActionNodesRunnable()
+            DeleteNodesRunnable(
+                context = this,
+                database = database,
+                groupsIdsToDelete = groupsIds,
+                entriesIdsToDelete = entriesIds,
+                recyclerBinTitle = resources.getString(R.string.recycle_bin),
+                save = !database.isReadOnly && saveDatabase,
+                afterActionNodesFinish = AfterActionNodesRunnable()
             ) { hardwareKey, seed ->
                 retrieveResponseFromChallenge(hardwareKey, seed)
             }
@@ -1160,17 +1208,16 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
             && intent.hasExtra(ENTRY_HISTORY_POSITION_KEY)
             && intent.hasExtra(SAVE_DATABASE_KEY)
         ) {
-            val entryId: NodeId<UUID> = intent.getParcelableExtraCompat(ENTRY_ID_KEY) ?: return null
+            val entryId: EntryId = intent.getParcelableExtraCompat(ENTRY_ID_KEY) ?: return null
             val saveDatabase = intent.getBooleanExtra(SAVE_DATABASE_KEY, false)
-            database.getEntryById(entryId)?.let { mainEntry ->
-                RestoreEntryHistoryDatabaseRunnable(this,
-                    database,
-                    mainEntry,
-                    intent.getIntExtra(ENTRY_HISTORY_POSITION_KEY, -1),
-                    !database.isReadOnly && saveDatabase
-                ) { hardwareKey, seed ->
-                    retrieveResponseFromChallenge(hardwareKey, seed)
-                }
+            RestoreEntryHistoryDatabaseRunnable(
+                context = this,
+                database = database,
+                entryId = entryId,
+                entryHistoryPosition = intent.getIntExtra(ENTRY_HISTORY_POSITION_KEY, -1),
+                save = !database.isReadOnly && saveDatabase
+            ) { hardwareKey, seed ->
+                retrieveResponseFromChallenge(hardwareKey, seed)
             }
         } else {
             null
@@ -1185,17 +1232,16 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
             && intent.hasExtra(ENTRY_HISTORY_POSITION_KEY)
             && intent.hasExtra(SAVE_DATABASE_KEY)
         ) {
-            val entryId: NodeId<UUID> = intent.getParcelableExtraCompat(ENTRY_ID_KEY) ?: return null
+            val entryId: EntryId = intent.getParcelableExtraCompat(ENTRY_ID_KEY) ?: return null
             val saveDatabase = intent.getBooleanExtra(SAVE_DATABASE_KEY, false)
-            database.getEntryById(entryId)?.let { mainEntry ->
-                DeleteEntryHistoryDatabaseRunnable(this,
-                    database,
-                    mainEntry,
-                    intent.getIntExtra(ENTRY_HISTORY_POSITION_KEY, -1),
-                    !database.isReadOnly && saveDatabase
-                ) { hardwareKey, seed ->
-                    retrieveResponseFromChallenge(hardwareKey, seed)
-                }
+            DeleteEntryHistoryDatabaseRunnable(
+                context = this,
+                database = database,
+                mainEntryId = entryId,
+                entryHistoryPosition = intent.getIntExtra(ENTRY_HISTORY_POSITION_KEY, -1),
+                save = !database.isReadOnly && saveDatabase
+            ) { hardwareKey, seed ->
+                retrieveResponseFromChallenge(hardwareKey, seed)
             }
         } else {
             null
@@ -1214,11 +1260,12 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
             val newElement: CompressionAlgorithm? = intent.getParcelableExtraCompat(NEW_ELEMENT_KEY)
             if (oldElement == null || newElement == null) return null
             val saveDatabase = intent.getBooleanExtra(SAVE_DATABASE_KEY, false)
-            UpdateCompressionBinariesDatabaseRunnable(this,
-                database,
-                oldElement,
-                newElement,
-                !database.isReadOnly && saveDatabase
+            UpdateCompressionBinariesDatabaseRunnable(
+                context = this,
+                database = database,
+                oldCompressionAlgorithm = oldElement,
+                newCompressionAlgorithm = newElement,
+                save = !database.isReadOnly && saveDatabase
             ) { hardwareKey, seed ->
                 retrieveResponseFromChallenge(hardwareKey, seed)
             }.apply {
@@ -1237,9 +1284,10 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
     ): ActionRunnable? {
         return if (intent.hasExtra(SAVE_DATABASE_KEY)) {
             val saveDatabase = intent.getBooleanExtra(SAVE_DATABASE_KEY, false)
-            RemoveUnlinkedDataDatabaseRunnable(this,
-                database,
-                !database.isReadOnly && saveDatabase
+            RemoveUnlinkedDataDatabaseRunnable(
+                context = this,
+                database = database,
+                save = !database.isReadOnly && saveDatabase
             ) { hardwareKey, seed ->
                 retrieveResponseFromChallenge(hardwareKey, seed)
             }.apply {
@@ -1258,11 +1306,12 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
     ): ActionRunnable? {
         return if (intent.hasExtra(SAVE_DATABASE_KEY)) {
             val saveDatabase = intent.getBooleanExtra(SAVE_DATABASE_KEY, false)
-            SaveDatabaseRunnable(this,
-                database,
-                !database.isReadOnly && saveDatabase,
-                null,
-                { hardwareKey, seed ->
+            SaveDatabaseRunnable(
+                context = this,
+                database = database,
+                save = !database.isReadOnly && saveDatabase,
+                mainCredential = null,
+                challengeResponseRetriever = { hardwareKey, seed ->
                     retrieveResponseFromChallenge(hardwareKey, seed)
                 }
             ).apply {
@@ -1288,11 +1337,12 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
             if (intent.hasExtra(DATABASE_URI_KEY)) {
                 databaseCopyUri = intent.getParcelableExtraCompat(DATABASE_URI_KEY)
             }
-            SaveDatabaseRunnable(this,
-                database,
-                !database.isReadOnly && saveDatabase,
-                null,
-                { hardwareKey, seed ->
+            SaveDatabaseRunnable(
+                context = this,
+                database = database,
+                save = !database.isReadOnly && saveDatabase,
+                mainCredential = null,
+                challengeResponseRetriever = { hardwareKey, seed ->
                     retrieveResponseFromChallenge(hardwareKey, seed)
                 },
                 databaseCopyUri)
@@ -1340,8 +1390,10 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         const val ACTION_DATABASE_ASSIGN_CREDENTIAL_TASK = "ACTION_DATABASE_ASSIGN_CREDENTIAL_TASK"
         const val ACTION_DATABASE_CREATE_GROUP_TASK = "ACTION_DATABASE_CREATE_GROUP_TASK"
         const val ACTION_DATABASE_UPDATE_GROUP_TASK = "ACTION_DATABASE_UPDATE_GROUP_TASK"
+        const val ACTION_DATABASE_TOUCH_GROUP_TASK = "ACTION_DATABASE_TOUCH_GROUP_TASK"
         const val ACTION_DATABASE_CREATE_ENTRY_TASK = "ACTION_DATABASE_CREATE_ENTRY_TASK"
         const val ACTION_DATABASE_UPDATE_ENTRY_TASK = "ACTION_DATABASE_UPDATE_ENTRY_TASK"
+        const val ACTION_DATABASE_TOUCH_ENTRY_TASK = "ACTION_DATABASE_TOUCH_ENTRY_TASK"
         const val ACTION_DATABASE_COPY_NODES_TASK = "ACTION_DATABASE_COPY_NODES_TASK"
         const val ACTION_DATABASE_MOVE_NODES_TASK = "ACTION_DATABASE_MOVE_NODES_TASK"
         const val ACTION_DATABASE_DELETE_NODES_TASK = "ACTION_DATABASE_DELETE_NODES_TASK"
@@ -1391,47 +1443,24 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         const val NEW_ELEMENT_KEY = "NEW_ELEMENT_KEY" // Warning type of this thing change every time
         const val DATA_BYTES = "DATA_BYTES"
 
-        fun getListNodesFromBundle(database: ContextualDatabase, bundle: Bundle): List<Node> {
-            val nodesAction = mutableListOf<Node>()
-            bundle.getParcelableList<NodeId<*>>(GROUPS_ID_KEY)?.forEach {
-                database.getGroupById(it)?.let { groupRetrieve ->
-                    nodesAction.add(groupRetrieve)
-                }
-            }
-            bundle.getParcelableList<NodeId<UUID>>(ENTRIES_ID_KEY)?.forEach {
-                database.getEntryById(it)?.let { entryRetrieve ->
-                    nodesAction.add(entryRetrieve)
-                }
-            }
-            return nodesAction
+        fun Bundle.getNewGroups(database: ContextualDatabase): List<GroupInfo>? {
+            return getBundle(NEW_NODES_KEY)
+                ?.getParcelableList<GroupId>(GROUPS_ID_KEY)
+                ?.mapNotNull { database.getGroupInfoById(it) }
         }
 
-        fun Bundle.getNewEntry(database: ContextualDatabase): Entry? {
-            getBundle(NEW_NODES_KEY)
-                ?.getParcelableList<NodeId<UUID>>(ENTRIES_ID_KEY)
-                ?.get(0)?.let {
-                return database.getEntryById(it)
-            }
-            return null
+        fun Bundle.getNewGroup(database: ContextualDatabase): GroupInfo? {
+            return getNewGroups(database)?.get(0)
         }
 
-        fun getBundleFromListNodes(nodes: List<Node>): Bundle {
-            val groupsId = mutableListOf<NodeId<*>>()
-            val entriesId = mutableListOf<NodeId<UUID>>()
-            nodes.forEach { nodeVersioned ->
-                when (nodeVersioned.type) {
-                    Type.GROUP -> {
-                        groupsId.add((nodeVersioned as Group).nodeId)
-                    }
-                    Type.ENTRY -> {
-                        entriesId.add((nodeVersioned as Entry).nodeId)
-                    }
-                }
-            }
-            return Bundle().apply {
-                putParcelableList(GROUPS_ID_KEY, groupsId)
-                putParcelableList(ENTRIES_ID_KEY, entriesId)
-            }
+        fun Bundle.getNewEntries(database: ContextualDatabase): List<EntryInfo>? {
+            return getBundle(NEW_NODES_KEY)
+                ?.getParcelableList<EntryId>(ENTRIES_ID_KEY)
+                ?.mapNotNull { database.getEntryInfoById(it) }
+        }
+
+        fun Bundle.getNewEntry(database: ContextualDatabase): EntryInfo? {
+            return getNewEntries(database)?.get(0)
         }
     }
 

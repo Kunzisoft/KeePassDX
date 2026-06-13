@@ -11,7 +11,12 @@ import com.kunzisoft.keepass.database.element.binary.BinaryData
 import com.kunzisoft.keepass.utils.getUriInputStream
 import com.kunzisoft.keepass.utils.getUriOutputStream
 import com.kunzisoft.keepass.utils.readAllBytes
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Deferred
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
 import java.io.InputStream
@@ -139,17 +144,21 @@ object BinaryDatabaseManager {
         return Bitmap.createScaledBitmap(this, width, height, true)
     }
 
-    fun loadBitmap(database: ContextualDatabase,
-                   binaryData: BinaryData,
-                   maxWidth: Int,
-                   actionOnFinish: (Bitmap?) -> Unit) {
+    fun loadBitmap(
+        binaryCache: BinaryCache,
+        binaryData: BinaryData,
+        maxWidth: Int,
+        actionOnFinish: (Bitmap?) -> Unit
+    ) {
         CoroutineScope(Dispatchers.Main).launch {
             withContext(Dispatchers.IO) {
                 val asyncResult: Deferred<Bitmap?> = async {
                     runCatching {
-                        val bitmap: Bitmap? = decodeSampledBitmap(binaryData,
-                                database.binaryCache,
-                                maxWidth)
+                        val bitmap: Bitmap? = decodeSampledBitmap(
+                            binaryData,
+                            binaryCache,
+                            maxWidth
+                        )
                         bitmap
                     }.getOrNull()
                 }

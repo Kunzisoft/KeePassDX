@@ -6,12 +6,16 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.adapters.EntryHistoryAdapter
 import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.viewmodels.EntryViewModel
+import kotlinx.coroutines.launch
 
 class EntryHistoryFragment: Fragment() {
 
@@ -45,8 +49,12 @@ class EntryHistoryFragment: Fragment() {
             adapter = historyAdapter
         }
 
-        mEntryViewModel.entryHistory.observe(viewLifecycleOwner) {
-            assignHistory(it)
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.RESUMED) {
+                mEntryViewModel.entryUIState.collect { uiState ->
+                    assignHistory(uiState.entryHistory)
+                }
+            }
         }
     }
 

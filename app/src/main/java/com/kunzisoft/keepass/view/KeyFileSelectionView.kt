@@ -84,7 +84,7 @@ class KeyFileSelectionView @JvmOverloads constructor(context: Context,
             return
         }
         super.onRestoreInstanceState(state.superState)
-        this.mUri = state.mUri
+        this.uri = state.mUri
     }
 
     internal class SavedState : BaseSavedState {
