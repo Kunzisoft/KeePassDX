@@ -1,3 +1,13 @@
+KeePassDX(4.5.0_beta01)
+ * Fix entry actions #2523 #2541
+ * Fix sorting by access #1911
+ * Fix group icon #2542
+ * Fix OTP Tags #2541
+ * Fix change indicator #2541
+ * Fix saving of UV and Read-only modes #2541
+ * Fix database reloading #2541
+ * Code refactoring #2541
+
 KeePassDX(4.4.4)
  * Fix return to previous keyboard #2529
  * Fix keyboard view update #2539

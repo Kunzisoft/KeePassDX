@@ -1,0 +1,8 @@
+ * Correction des actions d'entrées #2523 #2541
+ * Correction du tri par accès #1911
+ * Correction d'icone de groupe #2542
+ * Correction des Tags OTP #2541
+ * Correction de l'indicateur de changement #2541
+ * Correction de la sauvegarde des modes UV et Read-only #2541
+ * Correction du rechargement de la base #2541
+ * Refactorisation du code #2541
