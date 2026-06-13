@@ -1,1 +1,2 @@
  * Correction retour au clavier précédent #2529
+ * Correction de la mise à jour de la vue de clavier #2539

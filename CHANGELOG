@@ -1,5 +1,6 @@
 KeePassDX(4.4.4)
- * Fix back to previous keyboard #2529
+ * Fix return to previous keyboard #2529
+ * Fix keyboard view update #2539
 
 KeePassDX(4.4.3)
  * Fix a Passkey reference #2554

@@ -1,1 +1,2 @@
- * Fix back to previous keyboard #2529
+ * Fix return to previous keyboard #2529
+ * Fix keyboard view update #2539

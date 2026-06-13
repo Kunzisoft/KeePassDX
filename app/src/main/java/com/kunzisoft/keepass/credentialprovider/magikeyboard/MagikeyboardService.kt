@@ -95,6 +95,7 @@ class MagikeyboardService : InputMethodService(),
     private var mDatabaseTaskProvider: DatabaseTaskProvider? = null
     private var mDatabase: ContextualDatabase? = null
 
+    private var rootView: View? = null
     private var keyboardView: KeyboardView? = null
     private var entryContainer: View? = null
     private var databaseText: TextView? = null
@@ -228,20 +229,21 @@ class MagikeyboardService : InputMethodService(),
 
     override fun onCreateInputView(): View {
 
-        val rootKeyboardView = layoutInflater.inflate(R.layout.keyboard_container, null)
-        entryContainer = rootKeyboardView.findViewById(R.id.magikeyboard_entry_container)
-        entryListView = rootKeyboardView.findViewById(R.id.magikeyboard_entry_list)
-        databaseText = rootKeyboardView.findViewById(R.id.magikeyboard_database_text)
-        databaseColorView = rootKeyboardView.findViewById(R.id.magikeyboard_database_color)
-        containerPackageText = rootKeyboardView.findViewById(R.id.magikeyboard_container_package)
-        containerShareText = rootKeyboardView.findViewById(R.id.magikeyboard_share_browser)
-        shareBrowserText = rootKeyboardView.findViewById(R.id.magikeyboard_share_browser_text)
-        packageText = rootKeyboardView.findViewById(R.id.magikeyboard_package_text)
-        appIdIcon = rootKeyboardView.findViewById(R.id.magikeyboard_app_id_icon)
-        webDomainIcon = rootKeyboardView.findViewById(R.id.magikeyboard_web_domain_icon)
-        keyboardView = rootKeyboardView.findViewById(R.id.magikeyboard_view)
-        screenshotModeView = rootKeyboardView.findViewById(R.id.screenshot_mode_banner)
-        timeoutProgressBar = rootKeyboardView.findViewById(R.id.magikeyboard_timeout_progress)
+        rootView = layoutInflater.inflate(R.layout.keyboard_container, null)
+        val root = rootView!!
+        entryContainer = root.findViewById(R.id.magikeyboard_entry_container)
+        entryListView = root.findViewById(R.id.magikeyboard_entry_list)
+        databaseText = root.findViewById(R.id.magikeyboard_database_text)
+        databaseColorView = root.findViewById(R.id.magikeyboard_database_color)
+        containerPackageText = root.findViewById(R.id.magikeyboard_container_package)
+        containerShareText = root.findViewById(R.id.magikeyboard_share_browser)
+        shareBrowserText = root.findViewById(R.id.magikeyboard_share_browser_text)
+        packageText = root.findViewById(R.id.magikeyboard_package_text)
+        appIdIcon = root.findViewById(R.id.magikeyboard_app_id_icon)
+        webDomainIcon = root.findViewById(R.id.magikeyboard_web_domain_icon)
+        keyboardView = root.findViewById(R.id.magikeyboard_view)
+        screenshotModeView = root.findViewById(R.id.screenshot_mode_banner)
+        timeoutProgressBar = root.findViewById(R.id.magikeyboard_timeout_progress)
 
         if (keyboardView != null) {
             keyboard = Keyboard(this, R.xml.keyboard_password)
@@ -283,10 +285,10 @@ class MagikeyboardService : InputMethodService(),
             assignKeyboardView()
             keyboardView?.onKeyboardActionListener = this
 
-            return rootKeyboardView
+            return root
         }
 
-        return rootKeyboardView
+        return root
     }
 
     private fun getEntryInfo(entryId: UUID? = entriesAdapter?.selectedEntry?.id): EntryInfo? {
@@ -346,6 +348,8 @@ class MagikeyboardService : InputMethodService(),
         }
         setDatabaseViews()
         entriesAdapter?.notifyDataSetChanged()
+        // To fix height calculation
+        rootView?.post { rootView?.requestLayout() }
     }
 
     private fun setDatabaseViews() {
