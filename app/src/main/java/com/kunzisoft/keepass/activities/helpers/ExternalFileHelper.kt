@@ -20,14 +20,17 @@
 package com.kunzisoft.keepass.activities.helpers
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
+import android.provider.DocumentsContract
 import android.util.Log
 import android.view.View
 import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContract
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
@@ -40,7 +43,7 @@ class ExternalFileHelper {
     private var fragment: Fragment? = null
 
     private var getContentResultLauncher: ActivityResultLauncher<String>? = null
-    private var openDocumentResultLauncher: ActivityResultLauncher<Array<String>>? = null
+    private var openDocumentResultLauncher: ActivityResultLauncher<OpenDocumentRequest>? = null
     private var createDocumentResultLauncher: ActivityResultLauncher<String>? = null
 
     constructor(context: FragmentActivity) {
@@ -105,13 +108,18 @@ class ExternalFileHelper {
         }
     }
 
-    fun openDocument(getContent: Boolean = false,
-                     typeString: String = "*/*") {
+    fun openDocument(
+        getContent: Boolean = false,
+        typeString: String = "*/*",
+        initialUri: Uri? = null
+    ) {
         try {
             if (getContent) {
                 getContentResultLauncher?.launch(typeString)
             } else {
-                openDocumentResultLauncher?.launch(arrayOf(typeString))
+                openDocumentResultLauncher?.launch(
+                    OpenDocumentRequest(typeString, initialUri)
+                )
             }
         } catch (e: Exception) {
             Log.e(TAG, "Unable to open document", e)
@@ -145,19 +153,33 @@ class ExternalFileHelper {
         }
     }
 
-    class OpenDocument : ActivityResultContracts.OpenDocument() {
+    private data class OpenDocumentRequest(
+        val mimeType: String,
+        val initialUri: Uri?
+    )
+
+    private class OpenDocument : ActivityResultContract<OpenDocumentRequest, Uri?>() {
         @SuppressLint("InlinedApi")
-        override fun createIntent(context: Context, input: Array<String>): Intent {
-            return super.createIntent(context, input).apply {
+        override fun createIntent(context: Context, input: OpenDocumentRequest): Intent {
+            return Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
+                type = input.mimeType
                 addCategory(Intent.CATEGORY_OPENABLE)
                 addFlags(Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION)
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                     addFlags(Intent.FLAG_GRANT_PREFIX_URI_PERMISSION)
                 }
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    input.initialUri?.let {
+                        putExtra(DocumentsContract.EXTRA_INITIAL_URI, it)
+                    }
+                }
                 addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
                 addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
             }
         }
+
+        override fun parseResult(resultCode: Int, intent: Intent?): Uri? =
+            if (resultCode == Activity.RESULT_OK) intent?.data else null
     }
 
     class GetContent : ActivityResultContracts.GetContent() {
