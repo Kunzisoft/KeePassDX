@@ -82,8 +82,10 @@ import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.utils.BACK_PREVIOUS_KEYBOARD_ACTION
 import com.kunzisoft.keepass.utils.MenuUtil
 import com.kunzisoft.keepass.utils.UriUtil.getUri
+import com.kunzisoft.keepass.utils.UriUtil.hasPersistedReadAccess
 import com.kunzisoft.keepass.utils.getParcelableCompat
 import com.kunzisoft.keepass.utils.getParcelableExtraCompat
+import com.kunzisoft.keepass.utils.withContentScheme
 import com.kunzisoft.keepass.view.MainCredentialView
 import com.kunzisoft.keepass.view.asError
 import com.kunzisoft.keepass.view.showActionErrorIfNeeded
@@ -122,12 +124,14 @@ class MainCredentialActivity : DatabaseModeActivity() {
     private var mDatabaseFileUri: Uri? = null
 
     private var mRememberKeyFile: Boolean = false
-    private var mExternalFileHelper: ExternalFileHelper? = null
+    private var mKeyFileExternalFileHelper: ExternalFileHelper? = null
+    private var mDatabaseFileExternalFileHelper: ExternalFileHelper? = null
 
     private var mRememberHardwareKey: Boolean = false
 
     private var mReadOnly: Boolean = false
     private var mForceReadOnly: Boolean = false
+    private var mDatabaseFileAccessDialogShown: Boolean = false
     private var mUserVerificationAllowed: Boolean = false
     private var mForceUserVerificationAllowed: Boolean = false
 
@@ -172,14 +176,20 @@ class MainCredentialActivity : DatabaseModeActivity() {
         mRememberKeyFile = PreferencesUtil.rememberKeyFileLocations(this)
         mRememberHardwareKey = PreferencesUtil.rememberHardwareKey(this)
 
-        // Build elements to manage keyfile selection
-        mExternalFileHelper = ExternalFileHelper(this)
-        mExternalFileHelper?.buildOpenDocument { uri ->
+        // Build file pickers for key file selection and database file reselection
+        mKeyFileExternalFileHelper = ExternalFileHelper(this)
+        mKeyFileExternalFileHelper?.buildOpenDocument { uri ->
             if (uri != null) {
                 mainCredentialView?.populateKeyFileView(uri)
             }
         }
-        mainCredentialView?.setOpenKeyfileClickListener(mExternalFileHelper)
+        mDatabaseFileExternalFileHelper = ExternalFileHelper(this)
+        mDatabaseFileExternalFileHelper?.buildOpenDocument { uri ->
+            if (uri != null) {
+                onDatabaseFileReselected(uri)
+            }
+        }
+        mainCredentialView?.setOpenKeyfileClickListener(mKeyFileExternalFileHelper)
         mainCredentialView?.onValidateListener = {
             loadDatabase()
         }
@@ -361,7 +371,13 @@ class MainCredentialActivity : DatabaseModeActivity() {
         }
 
         mDatabaseFileUri?.let { databaseFileUri ->
-            mDatabaseFileViewModel.loadDatabaseFile(databaseFileUri)
+            if (isDatabaseFileAccessRevoked(databaseFileUri)) {
+                markDatabaseFileAccessRevoked()
+                showDatabaseFileAccessRevokedDialog(showOnce = true)
+            } else {
+                mDatabaseFileAccessDialogShown = false
+                mDatabaseFileViewModel.loadDatabaseFile(databaseFileUri)
+            }
         }
     }
 
@@ -410,6 +426,7 @@ class MainCredentialActivity : DatabaseModeActivity() {
                             if (mDefaultDatabase) {
                                 mDatabaseFileViewModel.removeDefaultDatabase()
                             }
+                            showDatabaseFileAccessRevokedDialog()
                         }
                     }
                 }
@@ -450,6 +467,55 @@ class MainCredentialActivity : DatabaseModeActivity() {
         mDatabaseFileUri = databaseUri
         mainCredentialView?.populateKeyFileView(keyFileUri)
         mainCredentialView?.populateHardwareKeyView(hardwareKey)
+    }
+
+    private fun onDatabaseFileReselected(databaseUri: Uri) {
+        mDatabaseFileUri = databaseUri
+        mForceReadOnly = false
+        mDatabaseFileAccessDialogShown = false
+        infoContainerView?.visibility = View.GONE
+        invalidateOptionsMenu()
+        intent = Intent(this, MainCredentialActivity::class.java).apply {
+            putExtras(intent)
+            putExtra(KEY_FILENAME, databaseUri)
+        }
+        mDatabaseFileViewModel.checkIfIsDefaultDatabase(databaseUri)
+        mDatabaseFileViewModel.loadDatabaseFile(databaseUri)
+    }
+
+    private fun isDatabaseFileAccessRevoked(databaseUri: Uri): Boolean {
+        return intent?.action != VIEW_INTENT
+                && databaseUri.withContentScheme()
+                && !contentResolver.hasPersistedReadAccess(databaseUri)
+    }
+
+    private fun markDatabaseFileAccessRevoked() {
+        mReadOnly = true
+        mForceReadOnly = true
+        infoContainerView?.visibility = View.VISIBLE
+        invalidateOptionsMenu()
+    }
+
+    private fun showDatabaseFileAccessRevokedDialog(showOnce: Boolean = false) {
+        if (showOnce && mDatabaseFileAccessDialogShown) {
+            return
+        }
+        mDatabaseFileAccessDialogShown = true
+        AlertDialog.Builder(this).apply {
+            setMessage(R.string.warning_database_revoked)
+            setPositiveButton(R.string.select_database_file) { _, _ ->
+                mDatabaseFileExternalFileHelper?.openDocument(
+                    initialUri = mDatabaseFileUri
+                )
+            }
+            setNegativeButton(android.R.string.cancel) { _, _ ->
+                mDatabaseFileAccessDialogShown = false
+            }
+            setOnCancelListener {
+                mDatabaseFileAccessDialogShown = false
+            }
+            create().show()
+        }
     }
 
     override fun onNewIntent(intent: Intent?) {
@@ -614,6 +680,17 @@ class MainCredentialActivity : DatabaseModeActivity() {
     }
 
     private fun loadDatabase() {
+        mDatabaseFileUri?.let { databaseFileUri ->
+            if (isDatabaseFileAccessRevoked(databaseFileUri)) {
+                markDatabaseFileAccessRevoked()
+                showDatabaseFileAccessRevokedDialog()
+                return
+            }
+        }
+        if (mForceReadOnly) {
+            showDatabaseFileAccessRevokedDialog()
+            return
+        }
         getMainCredentialFromViews()
         loadDatabase(
             databaseFileUri = mDatabaseFileUri,
