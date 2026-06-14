@@ -133,6 +133,12 @@ object UriUtil {
         }
     }
 
+    fun ContentResolver.hasPersistedReadAccess(uri: Uri): Boolean {
+        return persistedUriPermissions.any { uriPermission ->
+            uriPermission.uri == uri && uriPermission.isReadPermission
+        }
+    }
+
     fun ContentResolver.releaseUriPermission(uri: Uri?) {
         uri?.let {
             persistUriPermission(this, it, release = true, readOnly = false)
