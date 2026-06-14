@@ -117,6 +117,8 @@ object UriUtil {
                     }
                 }
             }
+        } catch (e: SecurityException) {
+            Log.e(TAG, "file have changed, permission need to be granted ", e)
         } catch (e: Exception) {
             if (release)
                 Log.e(TAG, "Unable to release persistable URI permission", e)
