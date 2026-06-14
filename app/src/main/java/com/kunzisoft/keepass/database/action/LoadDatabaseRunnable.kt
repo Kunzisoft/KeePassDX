@@ -26,12 +26,14 @@ import com.kunzisoft.keepass.database.MainCredential
 import com.kunzisoft.keepass.database.element.MasterCredential
 import com.kunzisoft.keepass.database.element.binary.BinaryData
 import com.kunzisoft.keepass.database.exception.DatabaseInputException
+import com.kunzisoft.keepass.database.exception.FileNotFoundDatabaseException
 import com.kunzisoft.keepass.database.exception.UnknownDatabaseLocationException
 import com.kunzisoft.keepass.hardware.HardwareKey
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
 import com.kunzisoft.keepass.utils.getBinaryDir
 import com.kunzisoft.keepass.utils.getUriInputStream
+import java.io.FileNotFoundException
 
 class LoadDatabaseRunnable(
     private val context: Context,
@@ -60,10 +62,17 @@ class LoadDatabaseRunnable(
             val contentResolver = context.contentResolver
             // Save database URI
             mDatabase.fileUri = mDatabaseUri
+            val databaseInputStream = try {
+                contentResolver.getUriInputStream(mDatabaseUri)
+                    ?: throw UnknownDatabaseLocationException()
+            } catch (e: FileNotFoundException) {
+                throw FileNotFoundDatabaseException(e)
+            } catch (e: SecurityException) {
+                throw FileNotFoundDatabaseException(e)
+            }
             mMasterCredential = mMainCredential.toMasterCredential(contentResolver)
             mDatabase.loadData(
-                databaseStream = contentResolver.getUriInputStream(mDatabaseUri)
-                    ?: throw UnknownDatabaseLocationException(),
+                databaseStream = databaseInputStream,
                 masterCredential = mMasterCredential!!,
                 challengeResponseRetriever = mChallengeResponseRetriever,
                 readOnly = mReadonly,
