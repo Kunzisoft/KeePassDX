@@ -45,6 +45,8 @@ import com.kunzisoft.keepass.model.EntryAttachmentState
 import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.model.FieldProtection
 import com.kunzisoft.keepass.model.StreamDirection
+import com.kunzisoft.keepass.otp.OtpEntryFields
+import com.kunzisoft.keepass.otp.OtpEntryFields.isOTP
 import com.kunzisoft.keepass.utils.getParcelableList
 import com.kunzisoft.keepass.utils.putParcelableList
 import com.kunzisoft.keepass.view.TagsCompletionView
@@ -212,6 +214,10 @@ class EntryEditFragment: DatabaseFragment() {
             if (newField == null) {
                 oldField?.let {
                     templateView.removeCustomField(it)
+                    // If no more OTP fields, remove the OTP tag
+                    if (it.isOTP() && templateView.getEntryInfo().customFields.none { field -> field.isOTP() }) {
+                        tagsCompletionView.removeObjectSync(OtpEntryFields.OTP_TAG)
+                    }
                 }
             }
         }
@@ -226,6 +232,7 @@ class EntryEditFragment: DatabaseFragment() {
         mEntryEditViewModel.onOtpCreated.observe(viewLifecycleOwner) {
             // Update the otp field with otpauth:// url
             templateView.putOtpElement(it)
+            tagsCompletionView.addObjectSync(OtpEntryFields.OTP_TAG)
         }
 
         mEntryEditViewModel.onBuildNewAttachment.observe(viewLifecycleOwner) {
