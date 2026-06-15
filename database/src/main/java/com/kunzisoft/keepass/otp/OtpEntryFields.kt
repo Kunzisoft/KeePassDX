@@ -42,7 +42,7 @@ object OtpEntryFields {
 
     // Field from KeePassXC
     private const val OTP_FIELD = "otp"
-    private const val OTP_TAG = "OTP"
+    const val OTP_TAG = "OTP"
 
     // URL parameters (https://github.com/google/google-authenticator/wiki/Key-Uri-Format)
     private const val OTP_SCHEME = "otpauth"
@@ -441,10 +441,11 @@ object OtpEntryFields {
         )
     }
 
-    fun EntryInfo.setOtp(otpString: String): Boolean {
+    fun EntryInfo.setOtp(otpString: String, addTag: Boolean = true): Boolean {
         // Replace the OTP field
         parseOTPUri(otpString)?.let { otpElement ->
-            tags.put(OTP_TAG)
+            if (addTag)
+                tags.put(OTP_TAG)
             if (title.isEmpty())
                 title = otpElement.issuer
             if (username.isEmpty())
