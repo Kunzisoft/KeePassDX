@@ -35,34 +35,37 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SortedList
 import androidx.recyclerview.widget.SortedListAdapterCallback
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.database.ContextualDatabase
-import com.kunzisoft.keepass.database.element.Entry
-import com.kunzisoft.keepass.database.element.Group
 import com.kunzisoft.keepass.database.element.SortNodeEnum
 import com.kunzisoft.keepass.database.element.Tag
-import com.kunzisoft.keepass.database.element.node.Node
-import com.kunzisoft.keepass.database.element.node.NodeVersionedInterface
-import com.kunzisoft.keepass.database.element.node.Type
+import com.kunzisoft.keepass.database.element.node.NodeId
+import com.kunzisoft.keepass.database.element.node.NodeType
+import com.kunzisoft.keepass.icons.IconDrawableFactory
+import com.kunzisoft.keepass.model.EntryInfo
+import com.kunzisoft.keepass.model.GroupInfo
+import com.kunzisoft.keepass.model.SortedEntryInfo
+import com.kunzisoft.keepass.model.SortedGroupInfo
+import com.kunzisoft.keepass.model.SortedNodeInfo
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.view.OtpDisplayView
 import com.kunzisoft.keepass.view.setTextSize
 import com.kunzisoft.keepass.view.strikeOut
 
 /**
- * Create node list adapter with contextMenu or not
+ * Create node list adapter.
  * @param context Context to use
  */
-class NodesAdapter (
+class NodesAdapter(
     private val context: Context,
-    private val database: ContextualDatabase
+    private val iconDrawableFactory: IconDrawableFactory,
+    private var sortDatabaseParameters: SortNodeEnum.SortDatabaseParameters
 ) : RecyclerView.Adapter<NodesAdapter.NodeViewHolder>() {
 
-    private var mNodeComparator: Comparator<NodeVersionedInterface<Group>>? = null
+    private var sortNode: SortNodeEnum = SortNodeEnum.DB
+    private var sortNodeParameters: SortNodeEnum.SortNodeParameters = SortNodeEnum.SortNodeParameters()
+    private var mNodeComparator: Comparator<SortedNodeInfo> = buildNodeComparator()
     private val mNodeSortedListCallback: NodeSortedListCallback
-    private val mNodeSortedList: SortedList<Node>
+    private val mNodeSortedList: SortedList<SortedNodeInfo>
     private val mInflater: LayoutInflater = LayoutInflater.from(context)
-    private val mNodeFilter: NodeFilter = NodeFilter(context, database)
-
     private var mCalculateViewTypeTextSize = Array(2) { true } // number of view type
     private var mTextSizeUnit: Int = TypedValue.COMPLEX_UNIT_PX
     private var mPrefSizeMultiplier: Float = 0F
@@ -79,11 +82,12 @@ class NodesAdapter (
     private var mShowTags: Boolean = false
     private var mShowOTP: Boolean = false
     private var mShowUUID: Boolean = false
-    private var mNodeFilters: NodeFilter? = null
+    private var mRecursiveNumberEntries: Boolean = false
     private var mOldVirtualGroup = false
     private var mVirtualGroup = false
 
-    private var mActionNodesList = mutableListOf<Node>()
+    private var mActionNodesList = mutableListOf<SortedNodeInfo>()
+    private var mActionNodeIds = mutableSetOf<NodeId<*>>()
     private var mNodeClickCallback: NodeClickCallback? = null
 
     @ColorInt
@@ -112,7 +116,7 @@ class NodesAdapter (
         assignPreferences()
 
         this.mNodeSortedListCallback = NodeSortedListCallback()
-        this.mNodeSortedList = SortedList(Node::class.java, mNodeSortedListCallback)
+        this.mNodeSortedList = SortedList(SortedNodeInfo::class.java, mNodeSortedListCallback)
 
         context.obtainStyledAttributes(intArrayOf(R.attr.colorSurfaceContainer)).also { taColorSurfaceContainer ->
             this.mColorSurfaceContainer = taColorSurfaceContainer.getColor(0, Color.BLACK)
@@ -143,13 +147,14 @@ class NodesAdapter (
         this.mPrefSizeMultiplier = PreferencesUtil.getListTextSize(context)
 
         notifyChangeSort(
-                PreferencesUtil.getListSort(context),
-                        SortNodeEnum.SortNodeParameters(
-                            PreferencesUtil.getAscendingSort(context),
-                            PreferencesUtil.getGroupsBeforeSort(context),
-                            PreferencesUtil.getRecycleBinBottomSort(context)
-                        )
-                )
+            sortNodeEnum = PreferencesUtil.getListSort(context),
+            sortDatabaseParameters = sortDatabaseParameters,
+            sortNodeParameters = SortNodeEnum.SortNodeParameters(
+                ascending = PreferencesUtil.getAscendingSort(context),
+                groupsBefore = PreferencesUtil.getGroupsBeforeSort(context),
+                recycleBinBottom = PreferencesUtil.getRecycleBinBottomSort(context)
+            )
+        )
 
         this.mShowEntryColors = PreferencesUtil.showEntryColors(context)
         this.mShowUserNames = PreferencesUtil.showUsernamesListEntries(context)
@@ -157,47 +162,49 @@ class NodesAdapter (
         this.mShowTags = PreferencesUtil.showTags(context)
         this.mShowOTP = PreferencesUtil.showOTPToken(context)
         this.mShowUUID = PreferencesUtil.showUUID(context)
-
-        this.mNodeFilters = NodeFilter(context, database)
+        this.mRecursiveNumberEntries = PreferencesUtil.recursiveNumberEntries(context)
 
         // Reinit textSize for all view type
         mCalculateViewTypeTextSize.forEachIndexed { index, _ -> mCalculateViewTypeTextSize[index] = true }
     }
 
     /**
-     * Rebuild the list by clear and build children from the group
+     * Rebuild the list by clear and build children from the list of [nodes]
+     * @param isSearch If the list is a search list
      */
-    fun rebuildList(group: Group) {
+    fun rebuildList(
+        nodes: List<SortedNodeInfo>,
+        isSearch: Boolean = false
+    ) {
         mOldVirtualGroup = mVirtualGroup
-        mVirtualGroup = group.isVirtual
+        mVirtualGroup = isSearch
         assignPreferences()
-        mNodeSortedList.replaceAll(group.getChildren(mNodeFilter.filter))
+        mNodeSortedList.replaceAll(nodes)
     }
 
-    private inner class NodeSortedListCallback: SortedListAdapterCallback<Node>(this) {
-        override fun compare(item1: Node, item2: Node): Int {
-            return mNodeComparator!!.compare(item1, item2)
+    private inner class NodeSortedListCallback: SortedListAdapterCallback<SortedNodeInfo>(this) {
+        override fun compare(item1: SortedNodeInfo, item2: SortedNodeInfo): Int {
+            return mNodeComparator.compare(item1, item2)
         }
 
-        override fun areContentsTheSame(oldItem: Node, newItem: Node): Boolean {
+        override fun areContentsTheSame(oldItem: SortedNodeInfo, newItem: SortedNodeInfo): Boolean {
             if (mOldVirtualGroup != mVirtualGroup)
                 return false
             var typeContentTheSame = true
-            if (oldItem is Entry && newItem is Entry) {
+            if (oldItem is SortedEntryInfo && newItem is SortedEntryInfo) {
                 typeContentTheSame = oldItem.getVisualTitle() == newItem.getVisualTitle()
                         && oldItem.username == newItem.username
                         && oldItem.backgroundColor == newItem.backgroundColor
                         && oldItem.foregroundColor == newItem.foregroundColor
-                        && oldItem.getOtpElement() == newItem.getOtpElement()
+                        && oldItem.otpModel == newItem.otpModel
                         && oldItem.containsAttachment() == newItem.containsAttachment()
-            } else if (oldItem is Group && newItem is Group) {
+            } else if (oldItem is SortedGroupInfo && newItem is SortedGroupInfo) {
                 typeContentTheSame = oldItem.numberOfChildEntries == newItem.numberOfChildEntries
-                        && oldItem.recursiveNumberOfChildEntries == newItem.recursiveNumberOfChildEntries
                         && oldItem.notes == newItem.notes
             }
             return typeContentTheSame
                     && oldItem.nodeId == newItem.nodeId
-                    && oldItem.type == newItem.type
+                    && oldItem::class == newItem::class
                     && oldItem.title == newItem.title
                     && oldItem.icon == newItem.icon
                     && oldItem.creationTime == newItem.creationTime
@@ -206,136 +213,81 @@ class NodesAdapter (
                     && oldItem.expiryTime == newItem.expiryTime
                     && oldItem.expires == newItem.expires
                     && oldItem.isCurrentlyExpires == newItem.isCurrentlyExpires
+                    && oldItem.tags == newItem.tags
+                    && oldItem.path == newItem.path
         }
 
-        override fun areItemsTheSame(item1: Node, item2: Node): Boolean {
-            return item1 == item2
-        }
-    }
-
-    fun contains(node: Node): Boolean {
-        return mNodeSortedList.indexOf(node) != SortedList.INVALID_POSITION
-    }
-
-    /**
-     * Add a node to the list
-     * @param node Node to add
-     */
-    fun addNode(node: Node) {
-        mNodeSortedList.add(node)
-    }
-
-    /**
-     * Add nodes to the list
-     * @param nodes Nodes to add
-     */
-    fun addNodes(nodes: List<Node>) {
-        mNodeSortedList.addAll(nodes)
-    }
-
-    /**
-     * Remove a node in the list
-     * @param node Node to delete
-     */
-    fun removeNode(node: Node) {
-        mNodeSortedList.remove(node)
-    }
-
-    /**
-     * Remove nodes in the list
-     * @param nodes Nodes to delete
-     */
-    fun removeNodes(nodes: List<Node>) {
-        nodes.forEach { node ->
-            mNodeSortedList.remove(node)
+        override fun areItemsTheSame(item1: SortedNodeInfo, item2: SortedNodeInfo): Boolean {
+            return item1.nodeId == item2.nodeId
         }
     }
 
-    /**
-     * Remove a node at [position] in the list
-     */
-    fun removeNodeAt(position: Int) {
-        mNodeSortedList.removeItemAt(position)
-        // Refresh all the next items
-        notifyItemRangeChanged(position, mNodeSortedList.size() - position)
-    }
-
-    /**
-     * Remove nodes in the list by [positions]
-     * Note : algorithm remove the higher position at each iteration
-     */
-    fun removeNodesAt(positions: IntArray) {
-        val positionsSortDescending = positions.toMutableList()
-        positionsSortDescending.sortDescending()
-        positionsSortDescending.forEach {
-            removeNodeAt(it)
+    fun notifyNodeChanged(node: SortedNodeInfo) {
+        for (i in 0 until mNodeSortedList.size()) {
+            if (mNodeSortedList.get(i).nodeId == node.nodeId) {
+                notifyItemChanged(i)
+                break
+            }
         }
     }
 
-    /**
-     * Update a node in the list
-     * @param oldNode Node before the update
-     * @param newNode Node after the update
-     */
-    fun updateNode(oldNode: Node, newNode: Node) {
-        mNodeSortedList.beginBatchedUpdates()
-        mNodeSortedList.remove(oldNode)
-        mNodeSortedList.add(newNode)
-        mNodeSortedList.endBatchedUpdates()
-    }
+    fun setActionNodes(actionNodes: List<SortedNodeInfo>) {
+        val oldIds = mActionNodeIds.toSet()
+        val newIds = actionNodes.map { it.nodeId }.toSet()
 
-    /**
-     * Update nodes in the list
-     * @param oldNodes Nodes before the update
-     * @param newNodes Node after the update
-     */
-    fun updateNodes(oldNodes: List<Node>, newNodes: List<Node>) {
-        mNodeSortedList.beginBatchedUpdates()
-        oldNodes.forEach { oldNode ->
-            mNodeSortedList.remove(oldNode)
-        }
-        mNodeSortedList.addAll(newNodes)
-        mNodeSortedList.endBatchedUpdates()
-    }
+        val nodesToUpdate = mutableSetOf<SortedNodeInfo>()
+        // Items that were selected and now are not
+        mActionNodesList.forEach { if (it.nodeId !in newIds) nodesToUpdate.add(it) }
+        // Items that were not selected and now are
+        actionNodes.forEach { if (it.nodeId !in oldIds) nodesToUpdate.add(it) }
 
-    fun indexOf(node: Node): Int {
-        return mNodeSortedList.indexOf(node)
-    }
-
-    fun notifyNodeChanged(node: Node) {
-        notifyItemChanged(mNodeSortedList.indexOf(node))
-    }
-
-    fun setActionNodes(actionNodes: List<Node>) {
         this.mActionNodesList.apply {
             clear()
             addAll(actionNodes)
         }
+        this.mActionNodeIds.apply {
+            clear()
+            addAll(newIds)
+        }
+        nodesToUpdate.forEach {
+            notifyNodeChanged(it)
+        }
     }
 
     fun unselectActionNodes() {
-        mActionNodesList.forEach {
-            notifyItemChanged(mNodeSortedList.indexOf(it))
-        }
-        this.mActionNodesList.apply {
-            clear()
-        }
+        setActionNodes(listOf())
+    }
+
+    fun buildNodeComparator(): Comparator<SortedNodeInfo> {
+        return this.sortNode.getNodeComparator(
+            this.sortDatabaseParameters,
+            this.sortNodeParameters
+        )
     }
 
     /**
      * Notify a change sort of the list
      */
-    fun notifyChangeSort(sortNodeEnum: SortNodeEnum,
-                         sortNodeParameters: SortNodeEnum.SortNodeParameters) {
-        this.mNodeComparator = sortNodeEnum.getNodeComparator(database, sortNodeParameters)
+    fun notifyChangeSort(
+        sortNodeEnum: SortNodeEnum? = null,
+        sortDatabaseParameters: SortNodeEnum.SortDatabaseParameters? = null,
+        sortNodeParameters: SortNodeEnum.SortNodeParameters? = null
+    ) {
+        this.sortNode = sortNodeEnum ?: this.sortNode
+        this.sortDatabaseParameters = sortDatabaseParameters ?: this.sortDatabaseParameters
+        this.sortNodeParameters = sortNodeParameters ?: this.sortNodeParameters
+        this.mNodeComparator = buildNodeComparator()
     }
 
     override fun getItemViewType(position: Int): Int {
-        return mNodeSortedList.get(position).type.ordinal
+        return when (mNodeSortedList.get(position)) {
+            is GroupInfo -> NodeType.GROUP.ordinal
+            else -> NodeType.ENTRY.ordinal
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NodeViewHolder {
-        val view: View = if (viewType == Type.GROUP.ordinal) {
+        val view: View = if (viewType == NodeType.GROUP.ordinal) {
             mInflater.inflate(R.layout.item_list_nodes_group, parent, false)
         } else {
             mInflater.inflate(R.layout.item_list_nodes_entry, parent, false)
@@ -351,22 +303,21 @@ class NodesAdapter (
     }
 
     override fun onBindViewHolder(holder: NodeViewHolder, position: Int) {
-        val subNode = mNodeSortedList.get(position)
+        val node = mNodeSortedList.get(position)
 
         // Node selection
-        holder.container.apply {
-            isSelected = mActionNodesList.contains(subNode)
-        }
+        val isSelected = mActionNodeIds.contains(node.nodeId)
+        holder.container.isSelected = isSelected
 
         // Assign text
         holder.text.apply {
-            text = subNode.title
+            text = node.title
             setTextSize(mTextSizeUnit, mTextDefaultDimension, mPrefSizeMultiplier)
-            strikeOut(subNode.isCurrentlyExpires)
+            strikeOut(node.isCurrentlyExpires)
         }
         // Tags
         holder.tags.apply {
-            val tags = subNode.tags
+            val tags = node.tags
             if (mShowTags) {
                 val tagsAdapter = TagsAdapter(this.context, TagsAdapter.TagViewType.SMALL)
                 layoutManager = LinearLayoutManager(
@@ -376,14 +327,14 @@ class NodesAdapter (
                 )
                 adapter = tagsAdapter
                 tagsAdapter.setTags(tags)
-                tagsAdapter.toggleSelection(holder.container.isSelected)
+                tagsAdapter.toggleSelection(isSelected)
                 tagsAdapter.onItemClickListener = object : TagsAdapter.OnItemClickListener {
                     override fun onItemClick(item: Tag) {
-                        mNodeClickCallback?.onNodeClick(database, subNode)
+                        mNodeClickCallback?.onNodeClick(node)
                     }
 
                     override fun onItemLongClick(item: Tag): Boolean {
-                        mNodeClickCallback?.onNodeLongClick(database, subNode)
+                        mNodeClickCallback?.onNodeLongClick(node)
                         return true
                     }
                 }
@@ -392,7 +343,7 @@ class NodesAdapter (
         }
         // Add meta text to show UUID
         holder.meta.apply {
-            val nodeId = subNode.nodeId?.toVisualString()
+            val nodeId = node.nodeId.toVisualString()
             if (mShowUUID && nodeId != null) {
                 text = nodeId
                 setTextSize(mTextSizeUnit, mMetaTextDefaultDimension, mPrefSizeMultiplier)
@@ -401,59 +352,57 @@ class NodesAdapter (
                 visibility = View.GONE
             }
         }
-        // Add path to virtual group
-        if (mVirtualGroup) {
+        // Add path
+        node.path?.let { path ->
             holder.path?.apply {
-                text = subNode.getPathString()
+                text = path
                 visibility = View.VISIBLE
             }
-        } else {
+        } ?: run {
             holder.path?.visibility = View.GONE
         }
 
         // Assign icon colors
         var iconColor = if (holder.container.isSelected)
             mColorOnSecondary
-        else when (subNode.type) {
-            Type.GROUP -> mTextColor
-            Type.ENTRY -> mColorSecondary
+        else when (node) {
+            is GroupInfo -> mTextColor
+            is EntryInfo -> mColorSecondary
+            else -> mColorSecondary
         }
 
         // Specific elements for entry
-        if (subNode.type == Type.ENTRY) {
-            val entry = subNode as Entry
-            database.startManageEntry(entry)
-
-            holder.text.text = entry.getVisualTitle()
+        if (node is EntryInfo) {
+            holder.text.text = node.getVisualTitle()
             // Add subText with username
             holder.subText?.apply {
-                val username = entry.username
+                val username = node.username
                 if (mShowUserNames && username.isNotEmpty()) {
                     visibility = View.VISIBLE
                     text = username
                     setTextSize(mTextSizeUnit, mSubTextDefaultDimension, mPrefSizeMultiplier)
-                    strikeOut(subNode.isCurrentlyExpires)
+                    strikeOut(node.isCurrentlyExpires)
                 } else {
                     visibility = View.GONE
                 }
             }
 
             // OTP
-            holder.otpDisplay?.setOtpElement(entry.getOtpElement())
+            holder.otpDisplay?.setOtpModel(node.otpModel)
 
             // Attachment
             holder.attachmentIcon?.visibility =
-                if (entry.containsAttachment()) View.VISIBLE else View.GONE
+                if (node.containsAttachment()) View.VISIBLE else View.GONE
 
             // Passkey
             holder.passkeyIcon?.visibility =
-                if (entry.getPasskey() != null) View.VISIBLE else View.GONE
+                if (node.passkey != null) View.VISIBLE else View.GONE
 
             // Assign colors
-            assignBackgroundColor(holder.container, entry)
-            assignBackgroundColor(holder.otpDisplay, entry)
-            val foregroundColor = if (mShowEntryColors) entry.foregroundColor else null
-            if (!holder.container.isSelected) {
+            assignBackgroundColor(holder.container, node)
+            assignBackgroundColor(holder.otpDisplay, node)
+            val foregroundColor = if (mShowEntryColors) node.foregroundColor else null
+            if (!isSelected) {
                 if (foregroundColor != null) {
                     holder.text.setTextColor(foregroundColor)
                     holder.subText?.setTextColor(foregroundColor)
@@ -462,6 +411,7 @@ class NodesAdapter (
                     holder.attachmentIcon?.setColorFilter(foregroundColor)
                     holder.passkeyIcon?.setColorFilter(foregroundColor)
                     holder.meta.setTextColor(foregroundColor)
+                    holder.path?.setTextColor(foregroundColor)
                     iconColor = foregroundColor
                 } else {
                     holder.text.setTextColor(mTextColor)
@@ -471,6 +421,7 @@ class NodesAdapter (
                     holder.attachmentIcon?.setColorFilter(mTextColorSecondary)
                     holder.passkeyIcon?.setColorFilter(mTextColorSecondary)
                     holder.meta.setTextColor(mTextColor)
+                    holder.path?.setTextColor(mTextColor)
                 }
             } else {
                 holder.text.setTextColor(mColorOnSecondary)
@@ -480,21 +431,15 @@ class NodesAdapter (
                 holder.attachmentIcon?.setColorFilter(mColorOnSecondary)
                 holder.passkeyIcon?.setColorFilter(mColorOnSecondary)
                 holder.meta.setTextColor(mColorOnSecondary)
+                holder.path?.setTextColor(mColorOnSecondary)
             }
-
-            database.stopManageEntry(entry)
         }
 
         // Add number of entries in groups
-        if (subNode.type == Type.GROUP) {
+        if (node is SortedGroupInfo) {
             if (mShowNumberEntries) {
                 holder.numberChildren?.apply {
-                    text = (subNode as Group)
-                            .getNumberOfChildEntries(
-                                mNodeFilter.recursiveNumberOfEntries,
-                                mNodeFilter.filter
-                            )
-                            .toString()
+                    text = node.numberOfChildEntries.toString()
                     setTextSize(mTextSizeUnit, mNumberChildrenTextDefaultDimension, mPrefSizeMultiplier)
                     visibility = View.VISIBLE
                 }
@@ -506,7 +451,7 @@ class NodesAdapter (
         // Assign image
         holder.imageIdentifier?.setColorFilter(iconColor)
         holder.icon.apply {
-            database.iconDrawableFactory.assignDatabaseIcon(this, subNode.icon, iconColor)
+            iconDrawableFactory.assignDatabaseIcon(this, node.icon, iconColor)
             // Relative size of the icon
             layoutParams?.apply {
                 height = (mIconDefaultDimension * mPrefSizeMultiplier).toInt()
@@ -516,14 +461,14 @@ class NodesAdapter (
 
         // Assign click
         holder.container.setOnClickListener {
-            mNodeClickCallback?.onNodeClick(database, subNode)
+            mNodeClickCallback?.onNodeClick(node)
         }
         holder.container.setOnLongClickListener {
-            mNodeClickCallback?.onNodeLongClick(database, subNode) ?: false
+            mNodeClickCallback?.onNodeLongClick(node) ?: false
         }
     }
 
-    private fun assignBackgroundColor(view: View?, entry: Entry) {
+    private fun assignBackgroundColor(view: View?, entry: EntryInfo) {
         view?.let {
             ViewCompat.setBackgroundTintList(
                 view,
@@ -551,11 +496,11 @@ class NodesAdapter (
     }
 
     /**
-     * Callback listener to redefine to do an action when a node is click
+     * Callback listener to redefine to do an action when a node is clicked
      */
     interface NodeClickCallback {
-        fun onNodeClick(database: ContextualDatabase, node: Node)
-        fun onNodeLongClick(database: ContextualDatabase, node: Node): Boolean
+        fun onNodeClick(node: SortedNodeInfo)
+        fun onNodeLongClick(node: SortedNodeInfo): Boolean
     }
 
     class NodeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

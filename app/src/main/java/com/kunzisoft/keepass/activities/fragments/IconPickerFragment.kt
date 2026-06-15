@@ -5,6 +5,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
@@ -12,6 +15,7 @@ import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.adapters.IconPickerPagerAdapter
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.viewmodels.IconPickerViewModel
+import kotlinx.coroutines.launch
 
 class IconPickerFragment : DatabaseFragment() {
 
@@ -43,8 +47,12 @@ class IconPickerFragment : DatabaseFragment() {
             remove(ICON_TAB_ARG)
         }
 
-        iconPickerViewModel.customIconAdded.observe(viewLifecycleOwner) { _ ->
-            viewPager.currentItem = 1
+        lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                iconPickerViewModel.customIconAdded.collect {
+                    viewPager.currentItem = 1
+                }
+            }
         }
     }
 

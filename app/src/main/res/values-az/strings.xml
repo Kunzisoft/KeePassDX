@@ -146,8 +146,8 @@
     <string name="menu_save_database">Məlumatları yadda saxla</string>
     <string name="menu_merge_database">Məlumatları birləşdir</string>
     <string name="menu_reload_database">Məlumatları yenidən yüklə</string>
-    <string name="menu_merge_from">... -dan birləşdir</string>
-    <string name="menu_save_copy_to">Bir nüsxəsini burada ... yadda saxla</string>
+    <string name="menu_merge_from">… -dan birləşdir</string>
+    <string name="menu_save_copy_to">Bir nüsxəsini burada … yadda saxla</string>
     <string name="menu_open">Aç</string>
     <string name="menu_search">Axtar</string>
     <string name="menu_showpass">Şifrəni göstər</string>
@@ -362,7 +362,7 @@
     <string name="entry_add_field">Sahə (bölmə) əlavə et</string>
     <string name="content_description_remove_field">Sahəni (bölməni) sil</string>
     <string name="content_description_keyboard_close_fields">Sahələri (bölmələri) bağla</string>
-    <string name="html_about_licence">KeePassDX©%1$dKunzisoft&lt;strong&gt;açıq mənbəlidir və&lt;/strong&gt;və&lt;strong&gt;ondan heç bir reklam yoxdur&lt;/strong&gt;.\n&lt;strong&gt;GPLv3&lt;/strong&gt;lisenziyasına sahibdir, hər hansısa bir qarantiyası yoxdur.</string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft&lt;strong&gt;açıq mənbəlidir və&lt;/strong&gt;və&lt;strong&gt;ondan heç bir reklam yoxdur&lt;/strong&gt;.\n&lt;strong&gt;GPLv3&lt;/strong&gt;lisenziyasına sahibdir, hər hansısa bir qarantiyası yoxdur.</string>
     <string name="inherited">İdxal et</string>
     <string name="auto_type">Avtomatik yazma</string>
     <string name="auto_type_sequence">Avtomatik yazma sırası</string>

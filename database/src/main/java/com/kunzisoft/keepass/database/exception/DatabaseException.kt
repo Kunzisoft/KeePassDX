@@ -19,9 +19,8 @@
  */
 package com.kunzisoft.keepass.database.exception
 
-import android.content.res.Resources
 import com.kunzisoft.keepass.database.element.node.NodeId
-import com.kunzisoft.keepass.database.element.node.Type
+import com.kunzisoft.keepass.database.element.node.NodeType
 import java.io.PrintStream
 import java.io.PrintWriter
 
@@ -95,14 +94,13 @@ class VersionDatabaseException : DatabaseInputException()
 
 class InvalidCredentialsDatabaseException : DatabaseInputException {
     constructor() : super()
-    constructor(string: String) : super(string)
 }
 
 class KDFMemoryDatabaseException(exception: Throwable) : DatabaseInputException(exception)
 
 class NoMemoryDatabaseException(exception: Throwable) : DatabaseInputException(exception)
 
-class DuplicateUuidDatabaseException(type: Type, uuid: NodeId<*>) : DatabaseInputException() {
+class DuplicateUuidDatabaseException(type: NodeType, uuid: NodeId<*>) : DatabaseInputException() {
     init {
         parameters.apply {
             add(type.name)
@@ -125,6 +123,7 @@ class MoveGroupDatabaseException : DatabaseException()
 class CopyEntryDatabaseException : DatabaseException()
 
 class CopyGroupDatabaseException : DatabaseException()
+class MissingParentDatabaseException : DatabaseException()
 
 open class DatabaseInputException : DatabaseException {
     constructor() : super()

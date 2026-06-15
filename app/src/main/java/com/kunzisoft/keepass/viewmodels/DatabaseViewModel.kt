@@ -1,3 +1,22 @@
+/*
+ * Copyright 2021 Jeremy Jamet / Kunzisoft.
+ *
+ * This file is part of KeePassDX.
+ *
+ *  KeePassDX is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  KeePassDX is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
 package com.kunzisoft.keepass.viewmodels
 
 import android.app.Application
@@ -10,20 +29,21 @@ import com.kunzisoft.keepass.database.MainCredential
 import com.kunzisoft.keepass.database.ProgressMessage
 import com.kunzisoft.keepass.database.crypto.EncryptionAlgorithm
 import com.kunzisoft.keepass.database.crypto.kdf.KdfEngine
-import com.kunzisoft.keepass.database.element.Entry
+import com.kunzisoft.keepass.database.element.EntryId
 import com.kunzisoft.keepass.database.element.Group
+import com.kunzisoft.keepass.database.element.GroupId
 import com.kunzisoft.keepass.database.element.binary.BinaryData
 import com.kunzisoft.keepass.database.element.database.CompressionAlgorithm
-import com.kunzisoft.keepass.database.element.node.Node
-import com.kunzisoft.keepass.database.element.node.NodeId
+import com.kunzisoft.keepass.database.element.node.Nodes
 import com.kunzisoft.keepass.model.CipherEncryptDatabase
+import com.kunzisoft.keepass.model.EntryInfo
+import com.kunzisoft.keepass.model.GroupInfo
 import com.kunzisoft.keepass.model.SnapFileDatabaseInfo
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import java.util.UUID
 
 class DatabaseViewModel(application: Application): AndroidViewModel(application) {
 
@@ -36,9 +56,7 @@ class DatabaseViewModel(application: Application): AndroidViewModel(application)
     private val mActionState = MutableStateFlow<ActionState>(ActionState.Wait)
     val actionState: StateFlow<ActionState> = mActionState.asStateFlow()
 
-    private var mDatabaseTaskProvider: DatabaseTaskProvider = DatabaseTaskProvider(
-        context = application
-    )
+    private var mDatabaseTaskProvider: DatabaseTaskProvider = DatabaseTaskProvider(application)
 
     init {
         mDatabaseTaskProvider.onDatabaseRetrieved = { databaseRetrieved ->
@@ -127,6 +145,21 @@ class DatabaseViewModel(application: Application): AndroidViewModel(application)
         mDatabaseTaskProvider.startDatabaseCreate(databaseUri, mainCredential)
     }
 
+    fun assignMainCredential(mainCredential: MainCredential) {
+        database?.let { database ->
+            database.fileUri?.let { databaseUri ->
+                val masterCredential = mainCredential.toMasterCredential(getApplication<Application>().contentResolver)
+                val validCredential = database.isValidCredential(masterCredential)
+                masterCredential.clear()
+                if (validCredential) {
+                    assignMainCredential(databaseUri, mainCredential)
+                } else {
+                    mActionState.value = ActionState.ShowPasswordEncodingDialog(databaseUri, mainCredential)
+                }
+            }
+        }
+    }
+
     fun assignMainCredential(
         databaseUri: Uri?,
         mainCredential: MainCredential
@@ -156,6 +189,10 @@ class DatabaseViewModel(application: Application): AndroidViewModel(application)
         }
     }
 
+    fun checkChanges() {
+        mDatabaseTaskProvider.checkChanges()
+    }
+
     fun onDatabaseChangeValidated() {
         mDatabaseTaskProvider.onDatabaseChangeValidated()
     }
@@ -169,33 +206,33 @@ class DatabaseViewModel(application: Application): AndroidViewModel(application)
      */
 
     fun createEntry(
-        newEntry: Entry,
-        parent: Group,
+        parentId: GroupId,
+        newEntry: EntryInfo,
         save: Boolean
     ) {
         mDatabaseTaskProvider.startDatabaseCreateEntry(
-            newEntry,
-            parent,
-            save
+            parentId = parentId,
+            newEntry = newEntry,
+            save = save
         )
     }
 
     fun updateEntry(
-        oldEntry: Entry,
-        entryToUpdate: Entry,
+        updateEntry: EntryInfo,
         save: Boolean
     ) {
-        // Remove the history to keep memory
-        entryToUpdate.clearHistory()
         mDatabaseTaskProvider.startDatabaseUpdateEntry(
-            oldEntry,
-            entryToUpdate,
-            save
+            updateEntry = updateEntry,
+            save = save
         )
     }
 
+    fun touchEntry(entryInfo: EntryInfo) {
+        mDatabaseTaskProvider.startDatabaseTouchEntry(entryId = entryInfo.nodeId)
+    }
+
     fun restoreEntryHistory(
-        mainEntryId: NodeId<UUID>,
+        mainEntryId: EntryId,
         entryHistoryPosition: Int,
         save: Boolean
     ) {
@@ -207,7 +244,7 @@ class DatabaseViewModel(application: Application): AndroidViewModel(application)
     }
 
     fun deleteEntryHistory(
-        mainEntryId: NodeId<UUID>,
+        mainEntryId: EntryId,
         entryHistoryPosition: Int,
         save: Boolean
     ) {
@@ -219,60 +256,68 @@ class DatabaseViewModel(application: Application): AndroidViewModel(application)
     }
 
     fun createGroup(
-        newGroup: Group,
-        parent: Group,
+        parentId: GroupId,
+        newGroup: GroupInfo,
         save: Boolean
     ) {
-        mDatabaseTaskProvider.startDatabaseCreateGroup(
-            newGroup,
-            parent,
-            save
-        )
+        if (newGroup.title.isNotEmpty()) {
+            mDatabaseTaskProvider.startDatabaseCreateGroup(
+                parentId = parentId,
+                newGroup = newGroup,
+                save = save
+            )
+        }
     }
 
     fun updateGroup(
-        oldGroup: Group,
-        groupToUpdate: Group,
+        updateGroup: GroupInfo,
         save: Boolean
     ) {
-        mDatabaseTaskProvider.startDatabaseUpdateGroup(
-            oldGroup,
-            groupToUpdate,
-            save
-        )
+        if (updateGroup.title.isNotEmpty()) {
+            mDatabaseTaskProvider.startDatabaseUpdateGroup(
+                updateGroup = updateGroup,
+                save = save
+            )
+        }
+    }
+
+    fun touchGroup(
+        groupInfo: GroupInfo
+    ) {
+        mDatabaseTaskProvider.startDatabaseTouchGroup(groupId = groupInfo.nodeId)
     }
 
     fun copyNodes(
-        nodesToCopy: List<Node>,
-        newParent: Group,
+        newParentId: GroupId,
+        nodesToCopy: Nodes,
         save: Boolean
     ) {
         mDatabaseTaskProvider.startDatabaseCopyNodes(
-            nodesToCopy,
-            newParent,
-            save
+            newParentId = newParentId,
+            nodesToCopy = nodesToCopy,
+            save = save
         )
     }
 
     fun moveNodes(
-        nodesToMove: List<Node>,
-        newParent: Group,
+        newParentId: GroupId,
+        nodesToMove: Nodes,
         save: Boolean
     ) {
         mDatabaseTaskProvider.startDatabaseMoveNodes(
-            nodesToMove,
-            newParent,
-            save
+            newParentId = newParentId,
+            nodesToMove = nodesToMove,
+            save = save
         )
     }
 
     fun deleteNodes(
-        nodes: List<Node>,
+        nodesToDelete: Nodes,
         save: Boolean
     ) {
         mDatabaseTaskProvider.startDatabaseDeleteNodes(
-            nodes,
-            save
+            nodesToDelete = nodesToDelete,
+            save = save
         )
     }
 
@@ -280,7 +325,7 @@ class DatabaseViewModel(application: Application): AndroidViewModel(application)
      * Attributes
      */
 
-    fun buildNewAttachment(): BinaryData? {
+    fun buildNewBinaryAttachment(): BinaryData? {
         return database?.buildNewBinaryAttachment()
     }
 
@@ -511,6 +556,10 @@ class DatabaseViewModel(application: Application): AndroidViewModel(application)
             var database: ContextualDatabase,
             val actionTask: String,
             val result: ActionRunnable.Result
+        ): ActionState()
+        data class ShowPasswordEncodingDialog(
+            val databaseUri: Uri,
+            val mainCredential: MainCredential
         ): ActionState()
     }
 }

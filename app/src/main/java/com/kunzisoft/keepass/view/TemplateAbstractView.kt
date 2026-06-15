@@ -17,6 +17,7 @@ import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.element.DateInstant
 import com.kunzisoft.keepass.database.element.Field
 import com.kunzisoft.keepass.database.element.icon.IconImage
+import com.kunzisoft.keepass.database.element.icon.IconImageStandard
 import com.kunzisoft.keepass.database.element.security.ProtectedString
 import com.kunzisoft.keepass.database.element.template.Template
 import com.kunzisoft.keepass.database.element.template.TemplateAttribute
@@ -118,13 +119,15 @@ abstract class TemplateAbstractView<
     }
 
     private fun applyTemplateParametersToEntry() {
-        // Change the entry icon by the template icon
+        // Change the entry icon by the template icon if it's a specific one
         mTemplate?.icon?.let { templateIcon ->
-            mEntryInfo?.icon = templateIcon
+            if (templateIcon.standard.id != IconImageStandard.KEY_ID || !templateIcon.custom.isUnknown) {
+                mEntryInfo?.icon = templateIcon
+            }
         }
-        // Change the entry color by the template color
-        mEntryInfo?.backgroundColor = mTemplate?.backgroundColor
-        mEntryInfo?.foregroundColor = mTemplate?.foregroundColor
+        // Change the entry color by the template color if defined
+        mTemplate?.backgroundColor?.let { mEntryInfo?.backgroundColor = it }
+        mTemplate?.foregroundColor?.let { mEntryInfo?.foregroundColor = it }
     }
 
     private fun buildTemplate() {
@@ -292,6 +295,9 @@ abstract class TemplateAbstractView<
 
     fun setEntryInfo(entryInfo: EntryInfo?) {
         mEntryInfo = entryInfo
+        if (mTemplate == null) {
+            mTemplate = entryInfo?.template
+        }
         buildTemplateAndPopulateInfo()
     }
 
@@ -520,6 +526,10 @@ abstract class TemplateAbstractView<
         }
 
         retrieveCustomFieldsFromView(templateFieldNotEmpty, retrieveDefaultValues)
+
+        mTemplate?.let {
+            mEntryInfo?.template = it
+        }
     }
 
     fun getEntryInfo(): EntryInfo {

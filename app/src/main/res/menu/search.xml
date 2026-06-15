@@ -25,6 +25,5 @@
         android:orderInCategory="31"
         android:iconifiedByDefault="true"
         app:iconTint="?attr/colorControlNormal"
-        app:showAsAction="always|collapseActionView"
-        app:actionViewClass="androidx.appcompat.widget.SearchView" />
+        app:showAsAction="always" />
 </menu>

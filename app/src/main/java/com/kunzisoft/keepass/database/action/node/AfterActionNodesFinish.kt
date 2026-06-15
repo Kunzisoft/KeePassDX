@@ -19,7 +19,8 @@
  */
 package com.kunzisoft.keepass.database.action.node
 
-import com.kunzisoft.keepass.database.element.node.Node
+import com.kunzisoft.keepass.database.element.EntryId
+import com.kunzisoft.keepass.database.element.GroupId
 import com.kunzisoft.keepass.tasks.ActionRunnable
 
 /**
@@ -29,9 +30,18 @@ import com.kunzisoft.keepass.tasks.ActionRunnable
  * - Delete : @param oldNodes NodesToDelete, @param newNodes empty
  * - Move : @param oldNodes empty, @param newNodes NodesToMove
  * - Update : @param oldNodes NodesToUpdate, @param newNodes NodesUpdated
+ * - Touch : @param olNodes TouchedNodes, @param newNodes empty
  */
-class ActionNodesValues(val oldNodes: List<Node>, val newNodes: List<Node>)
+class ActionNodesValues(
+    val oldGroupsIds: List<GroupId>? = null,
+    val oldEntriesIds: List<EntryId>? = null,
+    val newGroupsIds: List<GroupId>? = null,
+    val newEntriesIds: List<EntryId>? = null,
+)
 
 abstract class AfterActionNodesFinish {
-    abstract fun onActionNodesFinish(result: ActionRunnable.Result, actionNodesValues: ActionNodesValues)
+    abstract fun onActionNodesFinish(
+        result: ActionRunnable.Result,
+        actionNodesValues: ActionNodesValues
+    )
 }

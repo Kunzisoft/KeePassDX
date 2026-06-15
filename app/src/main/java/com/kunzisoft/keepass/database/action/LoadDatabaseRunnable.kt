@@ -77,6 +77,8 @@ class LoadDatabaseRunnable(
             )
         } catch (e: DatabaseInputException) {
             setError(e)
+        } finally {
+            mDatabase.indicateUpToDateData()
         }
 
         if (!result.isSuccess) {

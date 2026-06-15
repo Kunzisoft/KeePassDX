@@ -127,6 +127,8 @@ abstract class BinaryData : Parcelable {
         if (isCompressed != other.isCompressed) return false
         if (isProtected != other.isProtected) return false
         if (isCorrupted != other.isCorrupted) return false
+        if (mLength != other.mLength) return false
+        if (mBinaryHash != other.mBinaryHash) return false
 
         return true
     }

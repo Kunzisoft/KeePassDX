@@ -19,7 +19,7 @@
     <string name="education_new_node_summary">Entries help manage your digital identities.
 \n
 \nGroups (~folders) organise entries in your database.</string>
-    <string name="error_otp_type">The existing OTP type is not recognised by this form, its validation may no longer correctly generate the token.</string>
+    <string name="error_otp_type">The existing OTP type is not recognised by this form, and its validation may no longer correctly generate the token.</string>
     <string name="html_text_buy_pro">By buying the pro version, you will have access to this &lt;strong&gt;visual style&lt;/strong&gt; and you will especially help &lt;strong&gt;the realisation of community projects.&lt;/strong&gt;</string>
     <string name="key_derivation_function">Key derivation function</string>
     <string name="feedback">Feedback</string>
@@ -33,7 +33,7 @@
     <string name="encryption">Encryption</string>
     <string name="contact">Contact</string>
     <string name="contribution">Contribution</string>
-    <string name="about_description">Android implementation of the KeePass password manager</string>
+    <string name="about_description">Android implementation of the KeePass password manager.</string>
     <string name="encryption_algorithm">Encryption algorithm</string>
     <string name="app_timeout">Timeout</string>
     <string name="app_timeout_summary">Idle time before locking the database</string>
@@ -198,12 +198,12 @@
     <string name="error_remove_file">An error occurred while removing the file data.</string>
     <string name="error_start_database_action">An error occurred while performing an action on the database.</string>
     <string name="error_driver_required">Driver for %1$s is required.</string>
-    <string name="error_unable_merge_database_kdb">Unable to merge from a database V1.</string>
+    <string name="error_unable_merge_database_kdb">Unable to merge with a kdb database file.</string>
     <string name="error_hardware_key_unsupported">Hardware key is not supported.</string>
     <string name="error_empty_key">Key cannot be empty.</string>
     <string name="field_name">Field name</string>
     <string name="field_value">Field value</string>
-    <string name="file_not_found_content">Could not find file. Try reopening it from your file browser.</string>
+    <string name="file_not_found_content">Could not find file</string>
     <string name="corrupted_file">Corrupted file.</string>
     <string name="file_browser">File manager</string>
     <string name="generate_password">Generate password</string>
@@ -233,4 +233,13 @@
     <string name="list_groups_show_number_entries_title">Show number of entries</string>
     <string name="show_otp_token_summary">Displays OTP tokens in the list of entries</string>
     <string name="show_otp_token_title">Show OTP Token</string>
+    <string name="clipboard_otp_notifications_title">OTP notification</string>
+    <string name="clipboard_otp_notifications_summary">Open a notification to copy the OTP from entries populated with autofill or magikeyboard</string>
+    <string name="content_description_share_url">Share URL</string>
+    <string name="entry_application_id">App Id</string>
+    <string name="error_otp_secret_length">Secret key must have at least %1$d characters.</string>
+    <string name="generate_keyfile">Generate keyfile</string>
+    <string name="nodes">Nodes</string>
+    <string name="list_entries_show_username_title">Show usernames</string>
+    <string name="list_groups_show_number_entries_summary">Displays the number of entries in a group</string>
 </resources>

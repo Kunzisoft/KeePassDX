@@ -3,6 +3,7 @@ package com.kunzisoft.keepass.activities.legacy
 import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import androidx.activity.result.ActivityResultLauncher
@@ -19,10 +20,12 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.DatabaseChangedDialogFragment
 import com.kunzisoft.keepass.activities.dialogs.DatabaseChangedDialogFragment.Companion.DATABASE_CHANGED_DIALOG_TAG
+import com.kunzisoft.keepass.activities.dialogs.PasswordEncodingDialogFragment
 import com.kunzisoft.keepass.activities.stylish.StylishActivity
 import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper.setActivityResult
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.DatabaseTaskProvider.Companion.startDatabaseService
+import com.kunzisoft.keepass.database.MainCredential
 import com.kunzisoft.keepass.model.SnapFileDatabaseInfo
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.tasks.ProgressTaskDialogFragment
@@ -40,13 +43,6 @@ abstract class DatabaseActivity : StylishActivity(), DatabaseRetrieval {
     private val progressTaskViewModel: ProgressTaskViewModel by viewModels()
     private var progressTaskDialogFragment: ProgressTaskDialogFragment? = null
     private var databaseChangedDialogFragment: DatabaseChangedDialogFragment? = null
-
-    private val mActionDatabaseListener =
-        object : DatabaseChangedDialogFragment.ActionDatabaseChangedListener {
-            override fun onDatabaseChangeValidated() {
-                mDatabaseViewModel.onDatabaseChangeValidated()
-            }
-        }
 
     private val tempServiceParameters = mutableListOf<Pair<Bundle?, String>>()
     private val requestPermissionLauncher = registerForActivityResult(
@@ -116,53 +112,79 @@ abstract class DatabaseActivity : StylishActivity(), DatabaseRetrieval {
 
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                mDatabaseViewModel.actionState.collect { uiState ->
-                    if (credentialResultLaunched.not()) {
-                        when (uiState) {
-                            is DatabaseViewModel.ActionState.Wait -> {}
-                            is DatabaseViewModel.ActionState.OnDatabaseReloaded -> {
-                                if (finishActivityIfReloadRequested()) {
-                                    finish()
-                                }
+                launch {
+                    mDatabaseViewModel.databaseState.collect { database ->
+                        if (credentialResultLaunched.not()) {
+                            // Nullable function
+                            onUnknownDatabaseRetrieved(database)
+                            database?.let {
+                                onDatabaseRetrieved(database)
                             }
-                            is DatabaseViewModel.ActionState.OnDatabaseInfoChanged -> {
-                                if (manageDatabaseInfo()) {
-                                    showDatabaseChangedDialog(
-                                        uiState.previousDatabaseInfo,
-                                        uiState.newDatabaseInfo,
-                                        uiState.readOnlyDatabase
+                        }
+                    }
+                }
+                launch {
+                    mDatabaseViewModel.actionState.collect { uiState ->
+                        if (credentialResultLaunched.not()) {
+                            when (uiState) {
+                                is DatabaseViewModel.ActionState.Wait -> {}
+                                is DatabaseViewModel.ActionState.OnDatabaseReloaded -> {
+                                    if (finishActivityIfReloadRequested()) {
+                                        finish()
+                                    }
+                                }
+
+                                is DatabaseViewModel.ActionState.OnDatabaseInfoChanged -> {
+                                    if (manageDatabaseInfo()) {
+                                        showDatabaseChangedDialog(
+                                            uiState.previousDatabaseInfo,
+                                            uiState.newDatabaseInfo,
+                                            uiState.readOnlyDatabase
+                                        )
+                                    }
+                                }
+
+                                is DatabaseViewModel.ActionState.ShowDatabaseInfoReloadedDialog -> {
+                                    if (manageDatabaseInfo()) {
+                                        showDatabaseInfoReloadedDialog(
+                                            uiState.fixDuplicateUuid
+                                        )
+                                    }
+                                }
+
+                                is DatabaseViewModel.ActionState.OnDatabaseActionRequested -> {
+                                    startDatabasePermissionService(
+                                        uiState.bundle,
+                                        uiState.actionTask
                                     )
                                 }
-                            }
-                            is DatabaseViewModel.ActionState.ShowDatabaseInfoReloadedDialog -> {
-                                if (manageDatabaseInfo()) {
-                                    showDatabaseInfoReloadedDialog(
-                                        uiState.fixDuplicateUuid
+
+                                is DatabaseViewModel.ActionState.OnDatabaseActionStarted -> {
+                                    progressTaskViewModel.show(uiState.progressMessage)
+                                }
+
+                                is DatabaseViewModel.ActionState.OnDatabaseActionUpdated -> {
+                                    progressTaskViewModel.show(uiState.progressMessage)
+                                }
+
+                                is DatabaseViewModel.ActionState.OnDatabaseActionStopped -> {
+                                    progressTaskViewModel.hide()
+                                }
+
+                                is DatabaseViewModel.ActionState.OnDatabaseActionFinished -> {
+                                    onDatabaseActionFinished(
+                                        uiState.database,
+                                        uiState.actionTask,
+                                        uiState.result
                                     )
                                 }
-                            }
-                            is DatabaseViewModel.ActionState.OnDatabaseActionRequested -> {
-                                startDatabasePermissionService(
-                                    uiState.bundle,
-                                    uiState.actionTask
-                                )
-                            }
-                            is DatabaseViewModel.ActionState.OnDatabaseActionStarted -> {
-                                progressTaskViewModel.show(uiState.progressMessage)
-                            }
-                            is DatabaseViewModel.ActionState.OnDatabaseActionUpdated -> {
-                                progressTaskViewModel.show(uiState.progressMessage)
-                            }
-                            is DatabaseViewModel.ActionState.OnDatabaseActionStopped -> {
-                                progressTaskViewModel.hide()
-                            }
-                            is DatabaseViewModel.ActionState.OnDatabaseActionFinished -> {
-                                onDatabaseActionFinished(
-                                    uiState.database,
-                                    uiState.actionTask,
-                                    uiState.result
-                                )
-                                progressTaskViewModel.hide()
+
+                                is DatabaseViewModel.ActionState.ShowPasswordEncodingDialog -> {
+                                    showPasswordEncodingDialog(
+                                        uiState.databaseUri,
+                                        uiState.mainCredential
+                                    )
+                                }
                             }
                         }
                     }
@@ -181,19 +203,11 @@ abstract class DatabaseActivity : StylishActivity(), DatabaseRetrieval {
                 }
             }
         }
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.RESUMED) {
-                mDatabaseViewModel.databaseState.collect { database ->
-                    if (credentialResultLaunched.not()) {
-                        // Nullable function
-                        onUnknownDatabaseRetrieved(database)
-                        database?.let {
-                            onDatabaseRetrieved(database)
-                        }
-                    }
-                }
-            }
-        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        mDatabaseViewModel.checkChanges()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -253,6 +267,11 @@ abstract class DatabaseActivity : StylishActivity(), DatabaseRetrieval {
         }
     }
 
+    private fun showPasswordEncodingDialog(databaseUri: Uri, mainCredential: MainCredential) {
+        PasswordEncodingDialogFragment.getInstance(databaseUri, mainCredential)
+            .show(supportFragmentManager, "passwordEncodingTag")
+    }
+
     private fun showDatabaseChangedDialog(
         previousDatabaseInfo: SnapFileDatabaseInfo,
         newDatabaseInfo: SnapFileDatabaseInfo,
@@ -262,17 +281,13 @@ abstract class DatabaseActivity : StylishActivity(), DatabaseRetrieval {
             if (databaseChangedDialogFragment == null) {
                 databaseChangedDialogFragment = supportFragmentManager
                     .findFragmentByTag(DATABASE_CHANGED_DIALOG_TAG) as DatabaseChangedDialogFragment?
-                databaseChangedDialogFragment?.actionDatabaseListener =
-                    mActionDatabaseListener
             }
-            if (progressTaskDialogFragment == null) {
+            if (databaseChangedDialogFragment == null) {
                 databaseChangedDialogFragment = DatabaseChangedDialogFragment.getInstance(
                     previousDatabaseInfo,
                     newDatabaseInfo,
                     readOnlyDatabase
                 )
-                databaseChangedDialogFragment?.actionDatabaseListener =
-                    mActionDatabaseListener
                 databaseChangedDialogFragment?.show(
                     supportFragmentManager,
                     DATABASE_CHANGED_DIALOG_TAG

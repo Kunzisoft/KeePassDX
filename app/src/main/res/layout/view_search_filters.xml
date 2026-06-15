@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:filterTouchesWhenObscured="true"
@@ -11,31 +10,19 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:minHeight="64dp"
-        android:background="?attr/colorSurfaceContainer"
+        android:background="?attr/colorSurface"
         android:visibility="gone">
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/search_numbers"
-            style="@style/KeepassDXStyle.Text.Badge"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/default_margin"
-            android:layout_gravity="center"
-            app:layout_constraintTop_toTopOf="@+id/search_expand"
-            app:layout_constraintBottom_toBottomOf="@+id/search_expand"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            tools:text="3" />
         <HorizontalScrollView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="@+id/search_expand"
-            app:layout_constraintBottom_toBottomOf="@+id/search_expand"
-            app:layout_constraintEnd_toStartOf="@+id/search_expand"
-            app:layout_constraintStart_toEndOf="@+id/search_numbers">
+            app:layout_constraintTop_toTopOf="@+id/search_buttons"
+            app:layout_constraintBottom_toBottomOf="@+id/search_buttons"
+            app:layout_constraintEnd_toStartOf="@+id/search_buttons"
+            app:layout_constraintStart_toStartOf="parent">
             <com.google.android.material.chip.ChipGroup
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/default_margin"
+                android:layout_marginHorizontal="@dimen/default_margin"
                 app:singleLine="true">
                 <com.google.android.material.chip.Chip
                     android:id="@+id/search_chip_current_group"
@@ -47,24 +34,30 @@
                     app:chipIcon="@drawable/ic_current_folder_white_24dp" />
             </com.google.android.material.chip.ChipGroup>
         </HorizontalScrollView>
-        <androidx.appcompat.widget.AppCompatImageButton
-            android:id="@+id/search_expand"
+        <LinearLayout
+            android:id="@+id/search_buttons"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toTopOf="@+id/search_tags_container"
             app:layout_constraintEnd_toEndOf="parent"
-            style="@style/KeepassDXStyle.ImageButton.Simple"
-            android:contentDescription="@string/search_filters"
-            android:src="@drawable/ic_manage_search_white_24dp"
-            app:tint="?attr/colorOnSurface"/>
+            android:orientation="horizontal">
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/search_expand"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/KeepassDXStyle.ImageButton.Simple"
+                android:contentDescription="@string/search_filters"
+                app:srcCompat="@drawable/ic_manage_search_white_24dp"
+                app:tint="?attr/colorOnSurface"/>
+        </LinearLayout>
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/search_tags_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:visibility="gone"
-            app:layout_constraintTop_toBottomOf="@+id/search_expand"
+            app:layout_constraintTop_toBottomOf="@+id/search_buttons"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent">
             <com.google.android.material.chip.ChipGroup
@@ -74,7 +67,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
-                android:layout_marginStart="8dp"
+                android:layout_marginStart="@dimen/default_margin"
                 android:layout_marginBottom="8dp">
                 <com.google.android.material.chip.Chip
                     android:id="@+id/search_chip_tag"
@@ -103,19 +96,19 @@
         android:id="@+id/search_advance_filters"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?attr/colorSurfaceContainer"
+        android:background="?attr/colorSurface"
         android:orientation="vertical">
         <com.google.android.material.chip.ChipGroup
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             app:chipSpacingVertical="16dp"
-            android:paddingTop="12dp"
+            android:paddingTop="@dimen/margin_vertical_tags"
             android:paddingStart="@dimen/default_margin"
             android:paddingLeft="@dimen/default_margin"
             android:paddingEnd="@dimen/default_margin"
             android:paddingRight="@dimen/default_margin"
-            android:paddingBottom="@dimen/default_margin">
+            android:paddingBottom="@dimen/margin_vertical_tags">
             <com.google.android.material.chip.Chip
                 android:id="@+id/search_chip_title"
                 android:layout_width="wrap_content"
@@ -184,12 +177,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:chipSpacingVertical="16dp"
-            android:paddingTop="12dp"
+            android:paddingTop="@dimen/margin_vertical_tags"
             android:paddingStart="@dimen/default_margin"
             android:paddingLeft="@dimen/default_margin"
             android:paddingEnd="@dimen/default_margin"
             android:paddingRight="@dimen/default_margin"
-            android:paddingBottom="@dimen/default_margin">
+            android:paddingBottom="@dimen/margin_vertical_tags">
             <com.google.android.material.chip.Chip
                 android:id="@+id/search_chip_group_searchable"
                 android:layout_width="wrap_content"
@@ -221,12 +214,12 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             app:chipSpacingVertical="16dp"
-            android:paddingTop="18dp"
+            android:paddingTop="@dimen/margin_vertical_tags"
             android:paddingStart="@dimen/default_margin"
             android:paddingLeft="@dimen/default_margin"
             android:paddingEnd="@dimen/default_margin"
             android:paddingRight="@dimen/default_margin"
-            android:paddingBottom="@dimen/default_margin">
+            android:paddingBottom="@dimen/margin_vertical_tags">
             <com.google.android.material.chip.Chip
                 android:id="@+id/search_chip_case_sensitive"
                 android:layout_width="wrap_content"

@@ -69,7 +69,7 @@ class ToolbarAction @JvmOverloads constructor(
         setOnMenuItemClickListener {
             mActionModeCallback?.onActionItemClicked(actionMode, it) ?: false
         }
-        setNavigationOnClickListener{
+        setNavigationOnClickListener {
             actionMode.finish()
         }
 
@@ -78,11 +78,8 @@ class ToolbarAction @JvmOverloads constructor(
         return actionMode
     }
 
-    fun getSupportActionModeCallback(): ActionMode.Callback? {
-        return mActionModeCallback
-    }
-
-    fun removeSupportActionModeCallback() {
+    fun stopSupportActionMode() {
+        mActionModeCallback?.onDestroyActionMode(actionMode)
         mActionModeCallback = null
     }
 
@@ -112,7 +109,7 @@ class ToolbarAction @JvmOverloads constructor(
         override fun finish() {
             menu.clear()
             toolbarAction.close()
-            toolbarAction.removeSupportActionModeCallback()
+            toolbarAction.stopSupportActionMode()
         }
 
         override fun getMenu(): Menu {

@@ -48,7 +48,9 @@ class AuthenticatorAssertionResponse(
 
     init {
         try {
-            signature = Signature.sign(privateKey, dataToSign())
+            // Wiped with the finally block, fix #2554
+            val privateKeyCopy = privateKey.copyOf()
+            signature = Signature.sign(privateKeyCopy, dataToSign())
         } catch (e: Exception) {
             Log.e(this::class.java.simpleName, "Unable to sign: ${e.message}")
             throw GetCredentialUnknownException("Signing failed")

@@ -33,10 +33,11 @@ import java.io.File
 open class SaveDatabaseRunnable(
     protected var context: Context,
     protected var database: ContextualDatabase,
-    private var saveDatabase: Boolean,
+    private var save: Boolean,
     private var mainCredential: MainCredential?, // If null, uses composite Key
     private var challengeResponseRetriever: (HardwareKey, ByteArray?) -> ByteArray,
-    private var databaseCopyUri: Uri? = null
+    private var databaseCopyUri: Uri? = null,
+    private var dataModified: Boolean = !save
 ) : ActionRunnable() {
 
     private var mMasterCredential: MasterCredential? = null
@@ -47,7 +48,7 @@ open class SaveDatabaseRunnable(
     override fun onActionRun() {
         database.checkVersion()
         // Save database in all cases if it's a copy
-        if ((databaseCopyUri != null || saveDatabase) && result.isSuccess) {
+        if ((databaseCopyUri != null || save) && result.isSuccess) {
             try {
                 val contentResolver = context.contentResolver
                 mMasterCredential = mainCredential?.toMasterCredential(contentResolver)
@@ -55,16 +56,21 @@ open class SaveDatabaseRunnable(
                 database.saveData(
                     cacheFile = File(context.cacheDir, databaseCopyUri.hashCode().toString()),
                     databaseOutputStream = {
-                        contentResolver
-                            .getUriOutputStream(databaseCopyUri ?: database.fileUri)
+                        contentResolver.getUriOutputStream(databaseCopyUri ?: database.fileUri)
                     },
-                    isNewLocation = databaseCopyUri == null,
                     masterCredential = mMasterCredential,
                     challengeResponseRetriever = challengeResponseRetriever
                 )
             } catch (e: DatabaseException) {
                 setError(e)
+            } finally {
+                // Indicate data was saved only if it's not a new location
+                if (databaseCopyUri == null) {
+                    database.indicateUpToDateData()
+                }
             }
+        } else if (dataModified) {
+            database.indicateNotSavedData()
         }
     }
 

@@ -25,26 +25,26 @@ abstract class DatabaseFragment : Fragment(), DatabaseRetrieval {
         super.onCreate(savedInstanceState)
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                mDatabaseViewModel.actionState.collect { uiState ->
-                    when (uiState) {
-                        is DatabaseViewModel.ActionState.OnDatabaseActionFinished -> {
-                            onDatabaseActionFinished(
-                                uiState.database,
-                                uiState.actionTask,
-                                uiState.result
-                            )
+                launch {
+                    mDatabaseViewModel.databaseState.collect { database ->
+                        database?.let {
+                            onDatabaseRetrieved(database)
                         }
-
-                        else -> {}
                     }
                 }
-            }
-        }
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.RESUMED) {
-                mDatabaseViewModel.databaseState.collect { database ->
-                    database?.let {
-                        onDatabaseRetrieved(database)
+                launch {
+                    mDatabaseViewModel.actionState.collect { uiState ->
+                        when (uiState) {
+                            is DatabaseViewModel.ActionState.OnDatabaseActionFinished -> {
+                                onDatabaseActionFinished(
+                                    uiState.database,
+                                    uiState.actionTask,
+                                    uiState.result
+                                )
+                            }
+
+                            else -> {}
+                        }
                     }
                 }
             }

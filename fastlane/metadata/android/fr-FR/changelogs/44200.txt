@@ -1,0 +1,1 @@
+ * Correction de la duplication des UUIDs par rétablissement de l'ancien comportement du tri par accès #2527 #1911

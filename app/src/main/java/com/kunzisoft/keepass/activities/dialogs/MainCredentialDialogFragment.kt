@@ -32,7 +32,7 @@ import com.kunzisoft.keepass.database.exception.FileNotFoundDatabaseException
 import com.kunzisoft.keepass.utils.UriUtil.getDocumentFile
 import com.kunzisoft.keepass.utils.getParcelableCompat
 import com.kunzisoft.keepass.view.MainCredentialView
-import com.kunzisoft.keepass.viewmodels.MainCredentialViewModel
+import com.kunzisoft.keepass.viewmodels.MainCredentialDialogViewModel
 
 class MainCredentialDialogFragment : DatabaseDialogFragment() {
 
@@ -40,7 +40,7 @@ class MainCredentialDialogFragment : DatabaseDialogFragment() {
 
     private var mExternalFileHelper: ExternalFileHelper? = null
 
-    private val mMainCredentialViewModel: MainCredentialViewModel by activityViewModels()
+    private val mMainCredentialDialogViewModel: MainCredentialDialogViewModel by activityViewModels()
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         activity?.let { activity ->
@@ -62,13 +62,13 @@ class MainCredentialDialogFragment : DatabaseDialogFragment() {
                 builder.setView(root)
                     // Add action buttons
                     .setPositiveButton(android.R.string.ok) { _, _ ->
-                        mMainCredentialViewModel.validateMainCredential(
+                        mMainCredentialDialogViewModel.validateMainCredential(
                             databaseUri = databaseUri,
                             mainCredential = retrieveMainCredential()
                         )
                     }
                     .setNegativeButton(android.R.string.cancel) { _, _ ->
-                        mMainCredentialViewModel.cancelMainCredential(
+                        mMainCredentialDialogViewModel.cancelMainCredential(
                             databaseUri = databaseUri
                         )
                     }
@@ -81,7 +81,7 @@ class MainCredentialDialogFragment : DatabaseDialogFragment() {
                 }
                 mainCredentialView?.setOpenKeyfileClickListener(mExternalFileHelper)
             } ?: run {
-                mMainCredentialViewModel.cancelMainCredential(
+                mMainCredentialDialogViewModel.cancelMainCredential(
                     databaseUri = null,
                     error = FileNotFoundDatabaseException()
                 )

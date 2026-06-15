@@ -126,7 +126,7 @@ open class TextEditFieldView @JvmOverloads constructor(
             return charArray
         }
         set(value) {
-            valueView.setText(value, 0, value.size)
+            valueView.setCharArray(value)
         }
 
     override var default: CharArray = CharArray(0)

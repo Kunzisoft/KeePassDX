@@ -181,44 +181,40 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment(), DatabaseRetriev
         }
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.RESUMED) {
-                mUserVerificationViewModel.userVerificationState.collect { state ->
-                    when (state) {
-                        is UserVerificationViewModel.UVState.Loading -> {}
-                        is UserVerificationViewModel.UVState.OnUserVerificationCanceled -> {
-                            mSettingsViewModel.showError(state.error)
-                            mUserVerificationViewModel.onUserVerificationReceived()
-                        }
-                        is UserVerificationViewModel.UVState.OnUserVerificationSucceeded -> {
-                            val data = state.dataToVerify
-                            when (data.actionType) {
-                                UserVerificationActionType.EDIT_DATABASE_SETTING -> {
-                                    val database = data.database
-                                    val preferenceKey = data.preferenceKey
-                                    if (database != null && preferenceKey != null) {
-                                        // Main Preferences
-                                        when (preferenceKey) {
-                                            // Master Key
-                                            getString(R.string.settings_database_change_credentials_key) -> {
-                                                SetMainCredentialDialogFragment
-                                                    .getInstance(database.allowNoMasterKey)
-                                                    .show(parentFragmentManager, "passwordDialog")
-                                            }
-                                            else -> {}
+                launch {
+                    mUserVerificationViewModel.onUserVerificationCanceled.collect { result ->
+                        mSettingsViewModel.showError(result.error)
+                    }
+                }
+                launch {
+                    mUserVerificationViewModel.onUserVerificationSucceeded.collect { data ->
+                        when (data.actionType) {
+                            UserVerificationActionType.EDIT_DATABASE_SETTING -> {
+                                val database = data.database
+                                val preferenceKey = data.preferenceKey
+                                if (database != null && preferenceKey != null) {
+                                    // Main Preferences
+                                    when (preferenceKey) {
+                                        // Master Key
+                                        getString(R.string.settings_database_change_credentials_key) -> {
+                                            SetMainCredentialDialogFragment
+                                                .getInstance(database.allowNoMasterKey)
+                                                .show(parentFragmentManager, "passwordDialog")
                                         }
-                                        // TODO Settings in compose
-                                        @Suppress("DEPRECATION")
-                                        mSettingsViewModel.dialogFragment?.let { dialogFragment ->
-                                            dialogFragment.setTargetFragment(
-                                                this@NestedDatabaseSettingsFragment, 0
-                                            )
-                                            dialogFragment.show(parentFragmentManager, TAG_PREF_FRAGMENT)
-                                        }
-                                        mSettingsViewModel.dialogFragment = null
+                                        else -> {}
                                     }
+                                    // TODO Settings in compose
+                                    @Suppress("DEPRECATION")
+                                    mSettingsViewModel.dialogFragment?.let { dialogFragment ->
+                                        dialogFragment.setTargetFragment(
+                                            this@NestedDatabaseSettingsFragment, 0
+                                        )
+                                        dialogFragment.show(parentFragmentManager, TAG_PREF_FRAGMENT)
+                                    }
+                                    mSettingsViewModel.dialogFragment = null
                                 }
-                                else -> {}
                             }
-                            mUserVerificationViewModel.onUserVerificationReceived()
+                            else -> {}
                         }
                     }
                 }

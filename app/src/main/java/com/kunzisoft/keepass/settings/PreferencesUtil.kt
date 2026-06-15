@@ -61,15 +61,30 @@ object PreferencesUtil {
         return prefs.getString(context.getString(R.string.default_database_path_key), "")
     }
 
-    fun saveNodeSort(context: Context,
-                     sortNodeEnum: SortNodeEnum,
-                     sortNodeParameters: SortNodeEnum.SortNodeParameters) {
+    fun saveNodeSort(
+        context: Context,
+        sortNodeEnum: SortNodeEnum?,
+        sortNodeParameters: SortNodeEnum.SortNodeParameters?
+    ) {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
         prefs?.edit()?.apply {
-            putString(context.getString(R.string.sort_node_key), sortNodeEnum.name)
-            putBoolean(context.getString(R.string.sort_ascending_key), sortNodeParameters.ascending)
-            putBoolean(context.getString(R.string.sort_group_before_key), sortNodeParameters.groupsBefore)
-            putBoolean(context.getString(R.string.sort_recycle_bin_bottom_key), sortNodeParameters.recycleBinBottom)
+            sortNodeEnum?.let {
+                putString(context.getString(R.string.sort_node_key), sortNodeEnum.name)
+            }
+            sortNodeParameters?.let {
+                putBoolean(
+                    context.getString(R.string.sort_ascending_key),
+                    sortNodeParameters.ascending
+                )
+                putBoolean(
+                    context.getString(R.string.sort_group_before_key),
+                    sortNodeParameters.groupsBefore
+                )
+                putBoolean(
+                    context.getString(R.string.sort_recycle_bin_bottom_key),
+                    sortNodeParameters.recycleBinBottom
+                )
+            }
             apply()
         }
     }
@@ -695,17 +710,51 @@ object PreferencesUtil {
             context.resources.getBoolean(R.bool.keyboard_previous_lock_default))
     }
 
+    fun savePreviousKeyboardId(context: Context, keyboardId: String) {
+        PreferenceManager.getDefaultSharedPreferences(context).edit {
+            putString(context.getString(R.string.keyboard_previous_id_key), keyboardId)
+        }
+    }
+
+    fun getPreviousKeyboardId(context: Context): String? {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        return prefs.getString(context.getString(R.string.keyboard_previous_id_key), null)
+    }
+
     fun isPasskeyCloseDatabaseEnable(context: Context): Boolean {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
         return prefs.getBoolean(context.getString(R.string.passkeys_close_database_key),
             context.resources.getBoolean(R.bool.passkeys_close_database_default))
     }
 
-    // Deprecated, only used to avoid confusing users who have already enabled the setting
+    /**
+     * Not in UI, corresponds to the last time the read only setting was changed in a database
+     */
+    fun isReadOnlyEnabledByDefault(context: Context): Boolean {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        return prefs.getBoolean(context.getString(R.string.read_only_key),
+            context.resources.getBoolean(R.bool.read_only_default))
+    }
+
+    fun setReadOnlyEnabledByDefault(context: Context, enabled: Boolean) {
+        PreferenceManager.getDefaultSharedPreferences(context).edit {
+            putBoolean(context.getString(R.string.read_only_key), enabled)
+        }
+    }
+
+    /**
+     * Not in UI, corresponds to the last time the UV setting was changed in a database
+     */
     fun isUserVerificationModeEnabledByDefault(context: Context): Boolean {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
         return prefs.getBoolean(context.getString(R.string.user_verification_mode_key),
             context.resources.getBoolean(R.bool.user_verification_mode_default))
+    }
+
+    fun setUserVerificationModeEnabledByDefault(context: Context, enabled: Boolean) {
+        PreferenceManager.getDefaultSharedPreferences(context).edit {
+            putBoolean(context.getString(R.string.user_verification_mode_key), enabled)
+        }
     }
 
     fun isUserVerificationDeviceCredential(context: Context): Boolean {

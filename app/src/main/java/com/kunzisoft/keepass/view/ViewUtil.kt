@@ -34,6 +34,7 @@ import android.os.Build
 import android.text.Selection
 import android.text.Spannable
 import android.text.SpannableString
+import android.text.SpannableStringBuilder
 import android.text.Spanned
 import android.text.method.LinkMovementMethod
 import android.text.method.PasswordTransformationMethod
@@ -42,7 +43,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.ImageView
-import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.view.menu.ActionMenuItemView
@@ -98,6 +98,18 @@ fun TextView.strikeOut(strikeOut: Boolean) {
         paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
     else
         paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
+}
+
+/**
+ * To fix crash on poorly old OS implementation #2524
+ * Must be used instead of "setText(value, 0, value.size)"
+ */
+fun TextView.setCharArray(value: CharArray) {
+    val spannableStringBuilder = SpannableStringBuilder()
+    value.forEach { char ->
+        spannableStringBuilder.append(char)
+    }
+    this.text = spannableStringBuilder
 }
 
 fun TextView.customLink(listener: (View) -> Unit) {
@@ -186,14 +198,13 @@ fun View.expand(animate: Boolean = true,
  * the layout's visibility is GONE
  */
 fun ViewGroup.getFullHeight(): Int {
-    measure(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
     val initialVisibility = visibility
-    visibility = LinearLayout.VISIBLE
-    val desiredWidth = View.MeasureSpec.makeMeasureSpec(
-        width,
+    visibility = View.VISIBLE
+    val widthSpec = View.MeasureSpec.makeMeasureSpec(
+        if (width > 0) width else (parent as? View)?.width ?: resources.displayMetrics.widthPixels,
         View.MeasureSpec.AT_MOST
     )
-    measure(desiredWidth, View.MeasureSpec.UNSPECIFIED)
+    measure(widthSpec, View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED))
     val totalHeight = measuredHeight
     visibility = initialVisibility
     return totalHeight

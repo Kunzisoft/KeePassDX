@@ -88,7 +88,7 @@ open class PasswordTextFieldView @JvmOverloads constructor(
             if (isColorizedPasswordActivated) {
                 valueView.text = PasswordGenerator.getColorizedPassword(value)
             } else {
-                valueView.setText(value, 0, value.size)
+                valueView.setCharArray(value)
             }
             changeProtectedValueParameters()
         }

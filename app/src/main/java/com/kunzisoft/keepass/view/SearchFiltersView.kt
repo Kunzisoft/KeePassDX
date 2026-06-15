@@ -1,6 +1,9 @@
 package com.kunzisoft.keepass.view
 
 import android.content.Context
+import android.os.Build
+import android.os.Bundle
+import android.os.Parcelable
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
@@ -8,7 +11,6 @@ import android.view.ViewGroup
 import android.widget.CompoundButton
 import android.widget.ImageView
 import android.widget.LinearLayout
-import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -16,19 +18,18 @@ import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.adapters.TagsAdapter
 import com.kunzisoft.keepass.database.element.Tag
 import com.kunzisoft.keepass.database.element.Tags
-import com.kunzisoft.keepass.database.helper.SearchHelper
 import com.kunzisoft.keepass.database.search.SearchParameters
 import com.kunzisoft.keepass.settings.PreferencesUtil
 
-class SearchFiltersView @JvmOverloads constructor(context: Context,
-                                                  attrs: AttributeSet? = null,
-                                                  defStyle: Int = 0)
-    : LinearLayout(context, attrs, defStyle) {
+class SearchFiltersView @JvmOverloads constructor(
+    context: Context,
+    attrs: AttributeSet? = null,
+    defStyle: Int = 0
+) : LinearLayout(context, attrs, defStyle) {
 
     private var searchContainer: ViewGroup
     private var searchAdvanceFiltersContainer: ViewGroup? = null
     private var searchExpandButton: ImageView
-    private var searchNumbers: TextView
     private var searchTags: RecyclerView
     private var searchTagsContainer: View
     private var searchTagGroup: ViewGroup
@@ -71,6 +72,9 @@ class SearchFiltersView @JvmOverloads constructor(context: Context,
     private var searchGroupSearchable: CompoundButton
     private var searchRecycleBin: CompoundButton
     private var searchTemplate: CompoundButton
+
+    private var isExpanded = false
+    var onExpansionChanged: ((expanded: Boolean) -> Unit)? = null
 
     var searchParameters = SearchParameters()
         get() {
@@ -140,7 +144,6 @@ class SearchFiltersView @JvmOverloads constructor(context: Context,
         searchContainer = findViewById(R.id.search_container)
         searchAdvanceFiltersContainer = findViewById(R.id.search_advance_filters)
         searchExpandButton = findViewById(R.id.search_expand)
-        searchNumbers = findViewById(R.id.search_numbers)
         searchCurrentGroup = findViewById(R.id.search_chip_current_group)
         searchTagsContainer = findViewById(R.id.search_tags_container)
         searchTagGroup = findViewById(R.id.search_chip_tag_group)
@@ -166,8 +169,8 @@ class SearchFiltersView @JvmOverloads constructor(context: Context,
 
         // Expand menu with button
         searchExpandButton.setOnClickListener {
-            val isVisible = searchAdvanceFiltersContainer?.visibility == VISIBLE
-            if (isVisible)
+            val isExpanded = searchAdvanceFiltersContainer?.visibility == VISIBLE
+            if (isExpanded)
                 closeAdvancedFilters()
             else
                 openAdvancedFilters()
@@ -248,12 +251,6 @@ class SearchFiltersView @JvmOverloads constructor(context: Context,
             searchParameters.searchInTemplates = isChecked
             mOnParametersChangeListener?.invoke(searchParameters)
         }
-
-        searchNumbers.setOnClickListener(null)
-    }
-
-    fun setNumbers(numbers: Int) {
-        searchNumbers.text = SearchHelper.showNumberOfSearchResults(numbers)
     }
 
     fun setCurrentGroupText(text: String?) {
@@ -265,8 +262,8 @@ class SearchFiltersView @JvmOverloads constructor(context: Context,
         }
     }
 
-    fun setSelectableTags(tags: Tags?) {
-        if (tags == null || tags.isEmpty()) {
+    fun setSelectableTags(tags: Tags) {
+        if (tags.isEmpty()) {
             searchTagGroup.isVisible = false
             searchParameters.searchInTags = false
         } else {
@@ -303,38 +300,75 @@ class SearchFiltersView @JvmOverloads constructor(context: Context,
         searchTemplate.isEnabled = enable
     }
 
-    fun closeAdvancedFilters() {
-        searchAdvanceFiltersContainer?.collapse()
+    fun closeAdvancedFilters(animate: Boolean = true) {
+        isExpanded = false
+        searchAdvanceFiltersContainer?.collapse(animate) {
+            onExpansionChanged?.invoke(false)
+        }
     }
 
-    private fun openAdvancedFilters() {
-        searchAdvanceFiltersContainer?.expand(true,
+    fun openAdvancedFilters(animate: Boolean = true) {
+        isExpanded = true
+        searchAdvanceFiltersContainer?.expand(animate,
             searchAdvanceFiltersContainer?.getFullHeight()
-        )
+        ) {
+            onExpansionChanged?.invoke(true)
+        }
+    }
+
+    override fun onSaveInstanceState(): Parcelable {
+        val bundle = Bundle()
+        bundle.putParcelable("superState", super.onSaveInstanceState())
+        bundle.putBoolean("isExpanded", isExpanded)
+        return bundle
+    }
+
+    override fun onRestoreInstanceState(state: Parcelable?) {
+        var superState = state
+        if (state is Bundle) {
+            isExpanded = state.getBoolean("isExpanded")
+            if (isExpanded) {
+                searchAdvanceFiltersContainer?.post {
+                    openAdvancedFilters(animate = false)
+                }
+            }
+            superState = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                state.getParcelable("superState", Parcelable::class.java)
+            } else {
+                @Suppress("DEPRECATION")
+                state.getParcelable("superState")
+            }
+        }
+        super.onRestoreInstanceState(superState)
     }
 
     fun allowAdvancedSearch(show: Boolean) {
-        searchExpandButton.visibility = if (show) VISIBLE else INVISIBLE
-        searchTagsContainer.visibility = if (show) VISIBLE else GONE
+        val expandButtonVisibility = if (show) VISIBLE else GONE
+        if (searchExpandButton.visibility != expandButtonVisibility)
+            searchExpandButton.visibility = expandButtonVisibility
+        val searchTagsContainerVisibility = if (show) VISIBLE else GONE
+        if (searchTagsContainer.visibility != searchTagsContainerVisibility)
+            searchTagsContainer.visibility = searchTagsContainerVisibility
     }
 
     override fun setVisibility(visibility: Int) {
         when (visibility) {
             VISIBLE -> {
-                searchAdvanceFiltersContainer?.visibility = GONE
-                searchContainer.showByFading()
+                if (searchContainer.visibility != VISIBLE) {
+                    searchAdvanceFiltersContainer?.visibility = if (isExpanded) VISIBLE else GONE
+                    searchContainer.showByFading()
+                }
             }
             else -> {
-                searchContainer.hideByFading()
-                if (searchAdvanceFiltersContainer?.visibility == VISIBLE) {
-                    searchAdvanceFiltersContainer?.visibility = INVISIBLE
-                    searchAdvanceFiltersContainer?.collapse()
+                closeAdvancedFilters()
+                if (searchContainer.visibility != GONE) {
+                    searchContainer.hideByFading()
+                    if (searchAdvanceFiltersContainer?.visibility == VISIBLE) {
+                        searchAdvanceFiltersContainer?.visibility = INVISIBLE
+                        searchAdvanceFiltersContainer?.collapse()
+                    }
                 }
             }
         }
-    }
-
-    fun saveSearchParameters() {
-        PreferencesUtil.setDefaultSearchParameters(context, searchParameters)
     }
 }

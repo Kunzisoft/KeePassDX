@@ -11,8 +11,8 @@ android {
         applicationId "com.kunzisoft.keepass"
         minSdkVersion 19
         targetSdkVersion 35
-        versionCode = 44005
-        versionName = "4.4.0"
+        versionCode = 45001
+        versionName = "4.5.0_beta01"
         multiDexEnabled true
 
         testApplicationId = "com.kunzisoft.keepass.tests"
@@ -140,7 +140,7 @@ dependencies {
     implementation 'androidx.documentfile:documentfile:1.0.1'
     implementation 'androidx.biometric:biometric:1.1.0'
     implementation 'androidx.media:media:1.6.0'
-    // Lifecycle - LiveData - ViewModel - Coroutines
+    // Lifecycle - ViewModel - Coroutines
     implementation "androidx.core:core-ktx:$android_core_version"
     implementation "androidx.lifecycle:lifecycle-process:$android_lifecycle"
     implementation "androidx.lifecycle:lifecycle-service:$android_lifecycle"

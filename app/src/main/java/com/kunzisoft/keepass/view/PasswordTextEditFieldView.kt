@@ -137,7 +137,7 @@ class PasswordTextEditFieldView @JvmOverloads constructor(
             if (isColorizedPasswordActivated) {
                 valueView.setText(PasswordGenerator.getColorizedPassword(value))
             } else {
-                valueView.setText(value, 0, value.size)
+                valueView.setCharArray(value)
             }
         }
 

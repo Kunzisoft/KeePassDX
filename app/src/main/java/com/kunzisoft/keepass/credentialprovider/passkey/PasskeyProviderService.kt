@@ -239,7 +239,7 @@ class PasskeyProviderService : CredentialProviderService() {
                         PasswordLauncherActivity.getPendingIntent(
                             context = applicationContext,
                             specialMode = SpecialMode.SELECTION,
-                            nodeId = passwordEntry.id,
+                            nodeId = passwordEntry.nodeId,
                             searchInfo = searchInfo,
                             userVerifiedWithAuth = false
                         )?.let { usagePendingIntent ->
@@ -442,7 +442,7 @@ class PasskeyProviderService : CredentialProviderService() {
                     PasskeyLauncherActivity.getPendingIntent(
                         context = applicationContext,
                         specialMode = SpecialMode.SELECTION,
-                        nodeId = passkeyEntry.id,
+                        nodeId = passkeyEntry.nodeId,
                         searchInfo = searchInfo,
                         appOrigin = passkeyEntry.appOrigin,
                         userVerification = userVerification,

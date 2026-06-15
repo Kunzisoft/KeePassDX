@@ -197,7 +197,7 @@ object AutofillHelper {
             }
         }
 
-        datasetBuilder.setId(entryInfo.id.toString())
+        datasetBuilder.setId(entryInfo.nodeId.toString())
 
         struct.usernameId?.let { usernameId ->
             datasetBuilder.addValueToDatasetBuilder(

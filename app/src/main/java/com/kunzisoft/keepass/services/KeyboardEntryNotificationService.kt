@@ -89,8 +89,8 @@ class KeyboardEntryNotificationService : LockNotificationService() {
     private fun newNotification(title: String?) {
 
         mainPendingIntent =
-            if (isAutoSwitchMagikeyboardAllowed(this)) {
-                buildActivityPendingIntent(getSwitchMagikeyboardIntent(this))
+            if (this.isAutoSwitchMagikeyboardAllowed()) {
+                buildActivityPendingIntent(this.getSwitchMagikeyboardIntent())
             } else null
         pendingDeleteIntent = buildServicePendingIntent(
             Intent(this, KeyboardEntryNotificationService::class.java).apply {

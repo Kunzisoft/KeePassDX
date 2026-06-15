@@ -22,31 +22,48 @@ package com.kunzisoft.keepass.database.search
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.Entry
 import com.kunzisoft.keepass.database.element.Group
+import com.kunzisoft.keepass.database.element.GroupId
 import com.kunzisoft.keepass.database.element.node.NodeHandler
-import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.model.AppOriginEntryField.isAppId
 import com.kunzisoft.keepass.model.AppOriginEntryField.isAppIdSignature
 import com.kunzisoft.keepass.model.AppOriginEntryField.isWebDomain
+import com.kunzisoft.keepass.model.DatabaseInfo
 import com.kunzisoft.keepass.model.PasskeyEntryFields.isCredentialId
 import com.kunzisoft.keepass.model.PasskeyEntryFields.isPasskey
 import com.kunzisoft.keepass.model.PasskeyEntryFields.isRelyingParty
+import com.kunzisoft.keepass.model.SearchGroupInfo
+import com.kunzisoft.keepass.model.SortedEntryInfo
 import com.kunzisoft.keepass.otp.OtpEntryFields.isOTP
 import com.kunzisoft.keepass.otp.OtpEntryFields.isOTPURIField
 import com.kunzisoft.keepass.utils.UUIDUtils.asHexString
 import com.kunzisoft.keepass.utils.contains
 import com.kunzisoft.keepass.utils.inTheSameDomainAs
 
+/**
+ * Helper class for searching entries within a database.
+ * This class provides methods to iterate through groups and entries based on search parameters.
+ */
 class SearchHelper {
 
     private var incrementEntry = 0
 
-    fun createVirtualGroupWithSearchResult(database: Database,
-                                           searchParameters: SearchParameters,
-                                           fromGroup: NodeId<*>? = null,
-                                           max: Int): Group? {
+    /**
+     * Creates a [SearchGroupInfo] containing entries that match the specified search parameters.
+     * @param database The database info to search in.
+     * @param searchParameters The parameters defining the search query and scope.
+     * @param fromGroup The starting group ID for the search, defaults to root if null.
+     * @param max The maximum number of search results to return.
+     * @return A [SearchGroupInfo] containing the search results.
+     */
+    fun createGroupInfoWithSearchResult(
+        database: DatabaseInfo,
+        searchParameters: SearchParameters,
+        fromGroup: GroupId? = null,
+        max: Int
+    ): SearchGroupInfo {
 
-        val searchGroup = database.createGroup(virtual = true)
-        searchGroup?.title = "\"" + searchParameters.searchQuery + "\""
+        val searchGroup = SearchGroupInfo()
+        searchGroup.title = "\"" + searchParameters.searchQuery + "\""
 
         // Search all entries
         incrementEntry = 0
@@ -66,7 +83,13 @@ class SearchHelper {
                         if (database.entryIsTemplate(node) && !searchParameters.searchInTemplates)
                             return false
                         if (entryContainsString(database, node, searchParameters)) {
-                            searchGroup?.addChildEntry(node)
+                            searchGroup.addSearchResult(
+                                SortedEntryInfo(
+                                    entryToCopy = database.getEntryInfoFrom(node),
+                                    indexInParent = node.indexInParent(),
+                                    path = node.getPathString()
+                                )
+                            )
                             incrementEntry++
                         }
                         // Stop searching when we have max entries
@@ -86,16 +109,16 @@ class SearchHelper {
                 false
             )
         }
-
-        searchGroup?.getNumberOfChildEntries()
         return searchGroup
     }
 
-    private fun groupConditions(database: Database,
-                                group: Group?,
-                                searchParameters: SearchParameters,
-                                allowCustomSearchable: Boolean,
-                                max: Int): Boolean {
+    private fun groupConditions(
+        database: Database,
+        group: Group?,
+        searchParameters: SearchParameters,
+        allowCustomSearchable: Boolean,
+        max: Int
+    ): Boolean {
         return if (group == null)
             false
         else if (incrementEntry >= max)
@@ -112,9 +135,11 @@ class SearchHelper {
             true
     }
 
-    private fun entryContainsString(database: Database,
-                                    entry: Entry,
-                                    searchParameters: SearchParameters): Boolean {
+    private fun entryContainsString(
+        database: Database,
+        entry: Entry,
+        searchParameters: SearchParameters
+    ): Boolean {
         // To search in field references
         database.startManageEntry(entry)
         // Search all strings in the entry
@@ -127,7 +152,10 @@ class SearchHelper {
     companion object {
 
         /**
-         * Return true if the search query in search parameters is found in available parameters
+         * Checks if an entry matches the specified search parameters.
+         * @param entry The entry to search in.
+         * @param searchParameters The parameters defining the search query and scope.
+         * @return True if the entry matches the search criteria, false otherwise.
          */
         fun searchInEntry(
             entry: Entry,

@@ -11,6 +11,7 @@ import com.google.android.material.progressindicator.CircularProgressIndicator
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.element.template.TemplateField
 import com.kunzisoft.keepass.database.helper.getLocalizedName
+import com.kunzisoft.keepass.model.OtpModel
 import com.kunzisoft.keepass.otp.OtpElement
 import com.kunzisoft.keepass.otp.OtpType
 import com.kunzisoft.keepass.settings.PreferencesUtil
@@ -53,24 +54,24 @@ class OtpDisplayView @JvmOverloads constructor(
         otpProgress = findViewById(R.id.otp_progress)
     }
 
-    fun setOtpElement(otpElement: OtpElement?) {
+    fun setOtpModel(otpModel: OtpModel?) {
         this.removeCallbacks(otpRunnable)
-        this.otpElement = otpElement
-        if (otpElement != null
-            && mShowOTP
-            && otpElement.token.isNotEmpty()) {
-
-            // Execute runnable to show progress
-            otpRunnable.action = {
+        otpModel?.let { model ->
+            val otpElement = OtpElement(model)
+            this.otpElement = otpElement
+            if (mShowOTP && otpElement.token.isNotEmpty()) {
+                // Execute runnable to show progress
+                otpRunnable.action = {
+                    populateOtpView()
+                }
+                if (otpElement.type == OtpType.TOTP) {
+                    otpRunnable.postDelayed()
+                }
                 populateOtpView()
+                visibility = VISIBLE
+            } else {
+                visibility = GONE
             }
-            if (otpElement.type == OtpType.TOTP) {
-                otpRunnable.postDelayed()
-            }
-            populateOtpView()
-            visibility = VISIBLE
-        } else {
-            visibility = GONE
         }
 
         setOnClickListener {

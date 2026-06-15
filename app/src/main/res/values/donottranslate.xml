@@ -84,6 +84,8 @@
     <bool name="lock_database_back_root_default" translatable="false">false</bool>
     <string name="lock_database_show_button_key" translatable="false">lock_database_show_button_key</string>
     <bool name="lock_database_show_button_default" translatable="false">true</bool>
+    <string name="read_only_key" translatable="false">read_only_key</string>
+    <bool name="read_only_default" translatable="false">false</bool>
     <string name="user_verification_mode_key" translatable="false">user_verification_mode_key</string>
     <bool name="user_verification_mode_default" translatable="false">true</bool>
     <string name="user_verification_device_credential_key" translatable="false">user_verification_device_credential_key</string>
@@ -174,6 +176,7 @@
     <bool name="keyboard_previous_fill_in_default" translatable="false">false</bool>
     <string name="keyboard_previous_lock_key" translatable="false">keyboard_previous_lock_key</string>
     <bool name="keyboard_previous_lock_default" translatable="false">true</bool>
+    <string name="keyboard_previous_id_key" translatable="false">keyboard_previous_id_key</string>
     <string name="autofill_close_database_key" translatable="false">autofill_close_database_key</string>
     <bool name="autofill_close_database_default" translatable="false">false</bool>
     <string name="autofill_inline_suggestions_key" translatable="false">autofill_inline_suggestions_key</string>

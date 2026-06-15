@@ -13,12 +13,16 @@ import androidx.appcompat.widget.Toolbar
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.commit
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.fragments.KeyGeneratorFragment
 import com.kunzisoft.keepass.activities.legacy.DatabaseLockActivity
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.view.updateButtonPaddingStart
 import com.kunzisoft.keepass.viewmodels.KeyGeneratorViewModel
+import kotlinx.coroutines.launch
 
 class KeyGeneratorActivity : DatabaseLockActivity() {
 
@@ -62,11 +66,17 @@ class KeyGeneratorActivity : DatabaseLockActivity() {
             )
         }
 
-        keyGeneratorViewModel.keyGenerated.observe(this) { keyGenerated ->
-            setResult(RESULT_OK, Intent().apply {
-                putExtra(KEY_GENERATED, keyGenerated)
-            })
-            finish()
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                keyGeneratorViewModel.keyGenerated.collect { keyGenerated ->
+                    keyGenerated?.let {
+                        setResult(RESULT_OK, Intent().apply {
+                            putExtra(KEY_GENERATED, keyGenerated)
+                        })
+                        finish()
+                    }
+                }
+            }
         }
     }
 

@@ -28,6 +28,9 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.google.android.material.slider.Slider
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.ContextualDatabase
@@ -37,6 +40,7 @@ import com.kunzisoft.keepass.timeout.ClipboardHelper
 import com.kunzisoft.keepass.utils.clear
 import com.kunzisoft.keepass.view.PasswordEditView
 import com.kunzisoft.keepass.viewmodels.KeyGeneratorViewModel
+import kotlinx.coroutines.launch
 
 class PassphraseGeneratorFragment : DatabaseFragment() {
 
@@ -146,12 +150,19 @@ class PassphraseGeneratorFragment : DatabaseFragment() {
 
         generatePassphrase()
 
-        mKeyGeneratorViewModel.passphraseGeneratedValidated.observe(viewLifecycleOwner) {
-            mKeyGeneratorViewModel.setKeyGenerated(passwordEditView.passwordCharArray)
-        }
-
-        mKeyGeneratorViewModel.requirePassphraseGeneration.observe(viewLifecycleOwner) {
-            generatePassphrase()
+        lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                launch {
+                    mKeyGeneratorViewModel.passphraseGeneratedValidated.collect {
+                        mKeyGeneratorViewModel.setKeyGenerated(passwordEditView.passwordCharArray)
+                    }
+                }
+                launch {
+                    mKeyGeneratorViewModel.requirePassphraseGeneration.collect {
+                        generatePassphrase()
+                    }
+                }
+            }
         }
 
         resetAppTimeoutWhenViewFocusedOrChanged(view)

@@ -33,6 +33,9 @@ import androidx.appcompat.widget.Toolbar
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.commit
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.google.android.material.snackbar.Snackbar
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.IconEditDialogFragment
@@ -124,46 +127,74 @@ class IconPickerActivity : DatabaseLockActivity() {
             mIconImage = savedInstanceState.getParcelableCompat(EXTRA_ICON) ?: mIconImage
         }
 
-        iconPickerViewModel.standardIconPicked.observe(this) { iconStandard ->
-            mIconImage.standard = iconStandard
-            // Remove the custom icon if a standard one is selected
-            mIconImage.custom = IconImageCustom()
-            setResult()
-            finish()
-        }
-        iconPickerViewModel.customIconPicked.observe(this) { iconCustom ->
-            // Keep the standard icon if a custom one is selected
-            mIconImage.custom = iconCustom
-            setResult()
-            finish()
-        }
-        iconPickerViewModel.customIconsSelected.observe(this) { iconsSelected ->
-            mIconsSelected = iconsSelected
-            updateIconsSelectedViews()
-        }
-        iconPickerViewModel.customIconAdded.observe(this) { iconCustomAdded ->
-            if (iconCustomAdded.error && !iconCustomAdded.errorConsumed) {
-                Snackbar.make(coordinatorLayout, iconCustomAdded.errorStringId, Snackbar.LENGTH_LONG).asError().show()
-                iconCustomAdded.errorConsumed = true
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                launch {
+                    iconPickerViewModel.standardIconPicked.collect { iconStandard ->
+                        mIconImage.standard = iconStandard
+                        // Remove the custom icon if a standard one is selected
+                        mIconImage.custom = IconImageCustom()
+                        setResult()
+                        finish()
+                    }
+                }
+                launch {
+                    iconPickerViewModel.customIconPicked.collect { iconCustom ->
+                        // Keep the standard icon if a custom one is selected
+                        mIconImage.custom = iconCustom
+                        setResult()
+                        finish()
+                    }
+                }
+                launch {
+                    iconPickerViewModel.customIconsSelected.collect { iconsSelected ->
+                        mIconsSelected = iconsSelected
+                        updateIconsSelectedViews()
+                    }
+                }
+                launch {
+                    iconPickerViewModel.customIconAdded.collect { iconCustomAdded ->
+                        if (iconCustomAdded.error && !iconCustomAdded.errorConsumed) {
+                            Snackbar.make(
+                                coordinatorLayout,
+                                iconCustomAdded.errorStringId,
+                                Snackbar.LENGTH_LONG,
+                            ).asError().show()
+                            iconCustomAdded.errorConsumed = true
+                        }
+                        uploadButton.isEnabled = true
+                    }
+                }
+                launch {
+                    iconPickerViewModel.customIconRemoved.collect { iconCustomRemoved ->
+                        if (iconCustomRemoved.error && !iconCustomRemoved.errorConsumed) {
+                            Snackbar.make(
+                                coordinatorLayout,
+                                iconCustomRemoved.errorStringId,
+                                Snackbar.LENGTH_LONG,
+                            ).asError().show()
+                            iconCustomRemoved.errorConsumed = true
+                        }
+                        uploadButton.isEnabled = true
+                    }
+                }
+                launch {
+                    iconPickerViewModel.customIconUpdated.collect { iconCustomUpdated ->
+                        if (iconCustomUpdated.error && !iconCustomUpdated.errorConsumed) {
+                            Snackbar.make(
+                                coordinatorLayout,
+                                iconCustomUpdated.errorStringId,
+                                Snackbar.LENGTH_LONG,
+                            ).asError().show()
+                            iconCustomUpdated.errorConsumed = true
+                        }
+                        iconCustomUpdated.iconCustom?.let {
+                            mDatabase?.updateCustomIcon(it)
+                        }
+                        iconPickerViewModel.deselectAllCustomIcons()
+                    }
+                }
             }
-            uploadButton.isEnabled = true
-        }
-        iconPickerViewModel.customIconRemoved.observe(this) { iconCustomRemoved ->
-            if (iconCustomRemoved.error && !iconCustomRemoved.errorConsumed) {
-                Snackbar.make(coordinatorLayout, iconCustomRemoved.errorStringId, Snackbar.LENGTH_LONG).asError().show()
-                iconCustomRemoved.errorConsumed = true
-            }
-            uploadButton.isEnabled = true
-        }
-        iconPickerViewModel.customIconUpdated.observe(this) { iconCustomUpdated ->
-            if (iconCustomUpdated.error && !iconCustomUpdated.errorConsumed) {
-                Snackbar.make(coordinatorLayout, iconCustomUpdated.errorStringId, Snackbar.LENGTH_LONG).asError().show()
-                iconCustomUpdated.errorConsumed = true
-            }
-            iconCustomUpdated.iconCustom?.let {
-                mDatabase?.updateCustomIcon(it)
-            }
-            iconPickerViewModel.deselectAllCustomIcons()
         }
     }
 

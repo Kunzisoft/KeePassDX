@@ -141,13 +141,13 @@ class MainCredentialView @JvmOverloads constructor(context: Context,
     }
 
     fun populatePasswordTextView(text: CharArray?) {
-        if (text == null || text.isEmpty()) {
+        if (text == null) {
             passwordTextView.setText("")
             if (checkboxPasswordView.isChecked)
                 checkboxPasswordView.isChecked = false
         } else {
-            passwordTextView.setText(text, 0, text.size)
-            if (checkboxPasswordView.isChecked)
+            passwordTextView.setCharArray(text)
+            if (!checkboxPasswordView.isChecked)
                 checkboxPasswordView.isChecked = true
         }
     }

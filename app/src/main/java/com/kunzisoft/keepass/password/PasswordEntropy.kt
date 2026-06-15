@@ -22,7 +22,6 @@ package com.kunzisoft.keepass.password
 import android.content.res.Resources
 import android.graphics.Color
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.utils.IOActionTask
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Dispatchers
@@ -42,16 +41,17 @@ class PasswordEntropy(actionOnInitFinished: (() -> Unit)? = null) {
     private var entropyJob: Job? = null
 
     init {
-        IOActionTask({
-            // Create the password generator object
-            val configuration: Configuration = ConfigurationBuilder()
-                .setLocale(Locale.getDefault())
-                .setMinimumEntropy(80.0)
-                .createConfiguration()
-            mPasswordEntropyCalculator = Nbvcxz(configuration)
-        }, {
+        CoroutineScope(Dispatchers.Main).launch {
+            withContext(Dispatchers.IO) {
+                // Create the password generator object
+                val configuration: Configuration = ConfigurationBuilder()
+                    .setLocale(Locale.getDefault())
+                    .setMinimumEntropy(80.0)
+                    .createConfiguration()
+                mPasswordEntropyCalculator = Nbvcxz(configuration)
+            }
             actionOnInitFinished?.invoke()
-        }).execute()
+        }
     }
 
     enum class Strength(val color: Int) {

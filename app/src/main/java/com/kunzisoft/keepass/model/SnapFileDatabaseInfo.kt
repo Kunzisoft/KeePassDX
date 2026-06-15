@@ -19,37 +19,27 @@
  */
 package com.kunzisoft.keepass.model
 
-import android.content.Context
 import android.net.Uri
 import android.os.Parcel
 import android.os.Parcelable
-import android.text.format.Formatter
 import com.kunzisoft.keepass.utils.readParcelableCompat
 import com.kunzisoft.keepass.viewmodels.FileDatabaseInfo
-import java.text.DateFormat
-import java.util.Date
 
 /**
  * Utility data class to get FileDatabaseInfo at a `t` time
  */
-data class SnapFileDatabaseInfo(var fileUri: Uri?,
-                                var exists: Boolean,
-                                var lastModification: Long?,
-                                var size: Long?): Parcelable {
+data class SnapFileDatabaseInfo(
+    var fileUri: Uri?,
+    var exists: Boolean,
+    var lastModification: Long?,
+    var size: Long?
+): Parcelable {
 
     constructor(parcel: Parcel) : this(
             parcel.readParcelableCompat(),
             parcel.readByte() != 0.toByte(),
             parcel.readValue(Long::class.java.classLoader) as? Long,
-            parcel.readValue(Long::class.java.classLoader) as? Long) {
-    }
-
-    fun toString(context: Context): String {
-        val lastModificationString = DateFormat.getDateTimeInstance()
-                .format(Date(lastModification ?: 0))
-        return "$lastModificationString, " +
-                Formatter.formatFileSize(context, size ?: 0)
-    }
+            parcel.readValue(Long::class.java.classLoader) as? Long)
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeParcelable(fileUri, flags)

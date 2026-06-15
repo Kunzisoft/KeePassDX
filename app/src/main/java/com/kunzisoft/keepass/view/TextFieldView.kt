@@ -183,7 +183,7 @@ open class TextFieldView @JvmOverloads constructor(context: Context,
             return valueChars
         }
         set(value) {
-            valueView.setText(value, 0, value.size)
+            valueView.setCharArray(value)
             changeProtectedValueParameters()
         }
 
