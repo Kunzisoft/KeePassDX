@@ -1,1 +1,1 @@
-KeePassDX: paroļu pārvaldnieks
+KeePassDX atslēgu glabātava
