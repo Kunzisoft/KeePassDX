@@ -973,4 +973,21 @@ object PreferencesUtil {
             Education.putPropertiesInEducationPreferences(context, editor, name, value)
         }
     }
+
+    private const val KEESHARE_CONTAINER_PREFIX = "keeshare_container_"
+
+    /** Store the SAF URI for a KeeShare container associated with a group UUID. */
+    fun setKeeShareContainerUri(context: Context, groupUuid: String, uri: String?) {
+        PreferenceManager.getDefaultSharedPreferences(context).edit().apply {
+            if (uri != null) putString(KEESHARE_CONTAINER_PREFIX + groupUuid, uri)
+            else remove(KEESHARE_CONTAINER_PREFIX + groupUuid)
+            apply()
+        }
+    }
+
+    /** Retrieve the SAF URI for a KeeShare container associated with a group UUID. */
+    fun getKeeShareContainerUri(context: Context, groupUuid: String): String? {
+        return PreferenceManager.getDefaultSharedPreferences(context)
+            .getString(KEESHARE_CONTAINER_PREFIX + groupUuid, null)
+    }
 }

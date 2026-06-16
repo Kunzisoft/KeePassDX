@@ -52,6 +52,7 @@ import com.kunzisoft.keepass.viewmodels.GroupViewModel
 class GroupFragment : DatabaseFragment(), SortDialogFragment.SortSelectionListener {
 
     private var nodeClickListener: NodeClickListener? = null
+    private var keeShareIconClickListener: KeeShareIconClickListener? = null
     private var onScrollListener: OnScrollListener? = null
     private var groupRefreshed: GroupRefreshedListener? = null
 
@@ -144,10 +145,13 @@ class GroupFragment : DatabaseFragment(), SortDialogFragment.SortSelectionListen
             throw ClassCastException(context.toString()
                     + " must implement " + GroupRefreshedListener::class.java.name)
         }
+
+        keeShareIconClickListener = context as? KeeShareIconClickListener
     }
 
     override fun onDetach() {
         nodeClickListener = null
+        keeShareIconClickListener = null
         onScrollListener = null
         groupRefreshed = null
         super.onDetach()
@@ -187,6 +191,11 @@ class GroupFragment : DatabaseFragment(), SortDialogFragment.SortSelectionListen
                             activity?.hideKeyboard()
                         }
                         return true
+                    }
+                })
+                setOnKeeShareIconClickListener(object : NodesAdapter.KeeShareIconClickCallback {
+                    override fun onKeeShareIconClick(database: ContextualDatabase, group: Group) {
+                        keeShareIconClickListener?.onKeeShareIconClick(database, group)
                     }
                 })
             }
@@ -403,6 +412,10 @@ class GroupFragment : DatabaseFragment(), SortDialogFragment.SortSelectionListen
     interface NodeClickListener {
         fun onNodeClick(database: ContextualDatabase, node: Node)
         fun onNodeSelected(database: ContextualDatabase, nodes: List<Node>): Boolean
+    }
+
+    interface KeeShareIconClickListener {
+        fun onKeeShareIconClick(database: ContextualDatabase, group: Group)
     }
 
     /**
