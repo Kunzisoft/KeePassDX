@@ -365,13 +365,16 @@ class EntryActivity : DatabaseLockActivity() {
                     }
                 }
                 launch {
-                    mEntryViewModel.onTotpProgressUpdated.collect { otpElement ->
-                        otpElement?.let {
+                    mEntryViewModel.onTotpProgressUpdated.collect { totpProgress ->
+                        if (totpProgress != null) {
                             entryProgress?.apply {
-                                max = otpElement.max
-                                setProgressCompat(otpElement.progress, true)
+                                if (max != totpProgress.max)
+                                    max = totpProgress.max
+                                setProgressCompat(totpProgress.progress, true)
                                 showByFading()
                             }
+                        } else {
+                            entryProgress?.hideByFading()
                         }
                     }
                 }

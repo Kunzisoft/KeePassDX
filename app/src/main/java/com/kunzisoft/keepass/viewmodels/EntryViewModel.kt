@@ -90,7 +90,6 @@ class EntryViewModel(application: Application): AndroidViewModel(application) {
     private val _onFieldProtectionUpdated = MutableSharedFlow<FieldProtection>(replay = 0)
     val onFieldProtectionUpdated: SharedFlow<FieldProtection> = _onFieldProtectionUpdated.asSharedFlow()
 
-
     init {
         // Init preferences
         autoSwitchToMagikeyboard = PreferencesUtil.isAutoSwitchToMagikeyboardEnable(application)
@@ -110,6 +109,7 @@ class EntryViewModel(application: Application): AndroidViewModel(application) {
         this.mainEntryId = mainEntryId
         this.historyPosition = historyPosition
 
+        _onTotpProgressUpdated.value = null
         viewModelScope.launch {
             mDatabase?.let { database ->
                 _entryUIState.update { entryState ->
