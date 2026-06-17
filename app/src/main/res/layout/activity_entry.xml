@@ -97,7 +97,7 @@
                         app:indicatorColor="?attr/colorSecondary"
                         android:progress="100"
                         android:max="100"
-                        app:trackThickness="2dp"
+                        app:trackThickness="@dimen/progress_thickness"
                         android:layout_gravity="bottom"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />

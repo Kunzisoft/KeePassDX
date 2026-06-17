@@ -21,7 +21,6 @@ package com.kunzisoft.keepass.view
 
 import android.content.Context
 import android.util.AttributeSet
-import android.util.TypedValue
 import androidx.core.view.ViewCompat
 import androidx.core.view.isVisible
 import com.kunzisoft.keepass.R
@@ -38,48 +37,31 @@ open class OtpTextFieldView @JvmOverloads constructor(
 
     private var mShowOTP: Boolean = PreferencesUtil.showOTPToken(context)
 
-    private var otpDisplayViewId = ViewCompat.generateViewId()
+    private var otpProgressViewId = ViewCompat.generateViewId()
 
-    private val otpDisplayView = OtpDisplayView(context).apply {
+    private val otpProgressView = OtpProgressView(context).apply {
         layoutParams = LayoutParams(
-            LayoutParams.MATCH_PARENT,
-            LayoutParams.WRAP_CONTENT).also {
-            it.topMargin = TypedValue.applyDimension(
-                TypedValue.COMPLEX_UNIT_DIP,
-                4f,
-                resources.displayMetrics
-            ).toInt()
-            it.leftMargin = TypedValue.applyDimension(
-                TypedValue.COMPLEX_UNIT_DIP,
-                8f,
-                resources.displayMetrics
-            ).toInt()
-            it.marginStart = TypedValue.applyDimension(
-                TypedValue.COMPLEX_UNIT_DIP,
-                8f,
-                resources.displayMetrics
-            ).toInt()
-        }
+            LayoutParams.WRAP_CONTENT,
+            LayoutParams.WRAP_CONTENT)
     }
 
     override var onRevealChanged: ((isRevealed: Boolean) -> Unit)? = null
 
     init {
         buildViews()
-        addView(otpDisplayView)
+        containerView.addView(otpProgressView)
     }
 
     fun setOnOtpUpdatedListener(onOtpUpdated: ((OtpElement?) -> Unit)? = null) {
-        otpDisplayView.onOtpUpdated = onOtpUpdated
+        otpProgressView.onOtpUpdated = onOtpUpdated
     }
 
     private fun buildViews() {
-        otpDisplayView.apply {
-            id = otpDisplayViewId
+        otpProgressView.apply {
+            id = otpProgressViewId
             layoutParams = (layoutParams as LayoutParams?)?.also {
-                it.addRule(LEFT_OF, showButtonId)
-                it.addRule(START_OF, showButtonId)
-                it.addRule(BELOW, labelViewId)
+                it.addRule(END_OF, labelViewId)
+                it.addRule(RIGHT_OF, labelViewId)
             }
         }
     }
@@ -93,16 +75,14 @@ open class OtpTextFieldView @JvmOverloads constructor(
             needUserVerificationToReveal = false
         )
         if (otpElement.token.isEmpty()) {
-            otpDisplayView.isVisible = false
+            otpProgressView.isVisible = false
             setLabel(R.string.entry_otp)
             setValue(R.string.error_invalid_OTP)
         } else {
             label = otpElement.type.name
             value = otpElement.tokenFormatted
-            otpDisplayView.apply {
-                setOtpModel(otpModel)
-                // Use the text field and not the token in display
-                hideToken()
+            otpProgressView.apply {
+                setOtpElement(otpElement)
                 isVisible = true
                 setProtection(
                     isProtected = !mShowOTP,
@@ -115,6 +95,6 @@ open class OtpTextFieldView @JvmOverloads constructor(
     }
 
     fun clearData() {
-        otpDisplayView.clearData()
+        otpProgressView.clearData()
     }
 }

@@ -7,13 +7,11 @@ import android.util.TypedValue
 import android.view.LayoutInflater
 import android.widget.LinearLayout
 import android.widget.TextView
-import com.google.android.material.progressindicator.CircularProgressIndicator
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.element.template.TemplateField
 import com.kunzisoft.keepass.database.helper.getLocalizedName
 import com.kunzisoft.keepass.model.OtpModel
 import com.kunzisoft.keepass.otp.OtpElement
-import com.kunzisoft.keepass.otp.OtpType
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.timeout.ClipboardHelper
 
@@ -23,17 +21,15 @@ class OtpDisplayView @JvmOverloads constructor(
     defStyleAttr: Int = 0
 ) : LinearLayout(context, attrs, defStyleAttr), ProtectedFieldView {
 
+    private val otpProgress: OtpProgressView
     private val otpTokenView: TextView
 
-    private var otpElement: OtpElement? = null
-    private val otpProgress: CircularProgressIndicator
     private var mPrefSizeMultiplier: Float = PreferencesUtil.getListTextSize(context)
     private var mClipboardHelper: ClipboardHelper = ClipboardHelper(context)
-    private var otpRunnable: OtpRunnable = OtpRunnable(this)
 
-    private var mFontInVisibility: Boolean = PreferencesUtil.fieldFontIsInVisibility(context)
     private var mShowOTP: Boolean = PreferencesUtil.showOTPToken(context)
 
+    private var otpElement: OtpElement? = null
     private var mProtected = true
     private var mRevealed = mShowOTP
     private var mNeedUserVerificationToReveal = false
@@ -42,23 +38,11 @@ class OtpDisplayView @JvmOverloads constructor(
 
     var onOtpUpdated: ((OtpElement?) -> Unit)? = null
 
-    private class OtpRunnable(val view: OtpDisplayView?): Runnable {
-        var action: (() -> Unit)? = null
-        override fun run() {
-            action?.invoke()
-            postDelayed()
-        }
-        fun postDelayed() {
-            view?.postDelayed(this, 1000)
-        }
-    }
 
     init {
         LayoutInflater.from(context).inflate(R.layout.view_otp_display, this, true)
         otpProgress = findViewById(R.id.otp_progress)
         otpTokenView = findViewById(R.id.otp_token)
-        if (mFontInVisibility)
-            otpTokenView.applyFontVisibility()
     }
 
     fun copyTokenToClipboard() {
@@ -82,40 +66,35 @@ class OtpDisplayView @JvmOverloads constructor(
     fun revealToken() {
         if (mProtected) {
             reveal()
-            populateOtpView()
+            populateOtpToken()
         }
     }
 
     fun maskToken() {
         if (mProtected) {
             mask()
-            populateOtpView()
+            populateOtpToken()
         }
     }
 
     fun setOtpModel(otpModel: OtpModel?) {
         mRevealed = mShowOTP
-        removeCallbacks(otpRunnable)
-        otpRunnable = OtpRunnable(this)
         otpModel?.let { model ->
             val otpElement = OtpElement(model)
             this.otpElement = otpElement
             if (otpElement.token.isNotEmpty()) {
-                // Execute runnable to show progress
-                otpRunnable.action = {
-                    if (otpTokenView.text != String(otpElement.tokenFormatted)) {
-                        if (!mShowOTP) {
-                            mask()
+                otpProgress.apply {
+                    this.onOtpUpdated = {
+                        if (otpTokenView.text != String(otpElement.tokenFormatted)) {
+                            if (!mShowOTP) {
+                                mask()
+                            }
                         }
+                        this@OtpDisplayView.onOtpUpdated?.invoke(otpElement)
+                        populateOtpToken()
                     }
-                    this@OtpDisplayView.onOtpUpdated?.invoke(otpElement)
-                    populateOtpView()
+                    setOtpElement(otpElement)
                 }
-                this@OtpDisplayView.onOtpUpdated?.invoke(otpElement)
-                if (otpElement.type == OtpType.TOTP) {
-                    otpRunnable.postDelayed()
-                }
-                populateOtpView()
                 visibility = VISIBLE
             } else {
                 visibility = GONE
@@ -132,26 +111,21 @@ class OtpDisplayView @JvmOverloads constructor(
         }
     }
 
-    private fun populateOtpView() {
+    private fun populateOtpToken() {
         otpElement?.let { otpElement ->
-            when (otpElement.type) {
-                OtpType.HOTP -> {
-                    otpProgress.apply {
-                        max = 100
-                        setProgressCompat(100, true)
-                    }
-                }
-                OtpType.TOTP -> {
-                    otpProgress.apply {
-                        max = otpElement.period
-                        setProgressCompat(otpElement.secondsRemaining, true)
-                    }
-                }
-            }
             otpTokenView.apply {
-                applyHiddenStyle(if (mProtected) !mRevealed else false)
+                if (if (mProtected) mRevealed else true) {
+                    showByFading()
+                } else {
+                    visibility = GONE
+                }
                 text = String(otpElement.tokenFormatted)
-                setTextSize(TypedValue.COMPLEX_UNIT_PX, otpTokenView.textSize, mPrefSizeMultiplier)
+                setTextSize(
+                    unit = TypedValue.COMPLEX_UNIT_PX,
+                    defaultSize = otpTokenView.
+                    textSize,
+                    mPrefSizeMultiplier
+                )
                 textDirection = TEXT_DIRECTION_LTR
             }
         }
@@ -162,12 +136,12 @@ class OtpDisplayView @JvmOverloads constructor(
     }
     
     fun setProgressIndicatorColor(color: Int) {
-        otpProgress.setIndicatorColor(color)
+        otpProgress.setProgressColor(color)
     }
 
     override fun onDetachedFromWindow() {
         super.onDetachedFromWindow()
-        removeCallbacks(otpRunnable)
+        clearData()
     }
 
     override fun setProtection(
@@ -200,8 +174,7 @@ class OtpDisplayView @JvmOverloads constructor(
 
     fun clearData() {
         otpElement = null
-        removeCallbacks(otpRunnable)
-        otpRunnable = OtpRunnable(this)
+        otpProgress.clearData()
         visibility = GONE
     }
 

@@ -414,7 +414,7 @@ class NodesAdapter(
                     holder.text.setTextColor(mTextColor)
                     holder.subText?.setTextColor(mTextColorSecondary)
                     holder.otpDisplay?.setTokenTextColor(mTextColorSecondary)
-                    holder.otpDisplay?.setProgressIndicatorColor(mTextColorSecondary)
+                    holder.otpDisplay?.setProgressIndicatorColor(mColorSecondary)
                     holder.attachmentIcon?.setColorFilter(mTextColorSecondary)
                     holder.passkeyIcon?.setColorFilter(mTextColorSecondary)
                     holder.meta.setTextColor(mTextColor)

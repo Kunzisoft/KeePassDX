@@ -26,6 +26,7 @@ import android.util.AttributeSet
 import android.util.TypedValue
 import android.view.ContextThemeWrapper
 import android.view.View
+import android.widget.RelativeLayout
 import androidx.annotation.StringRes
 import androidx.appcompat.widget.AppCompatImageButton
 import androidx.appcompat.widget.AppCompatTextView
@@ -49,6 +50,7 @@ open class TextFieldView @JvmOverloads constructor(
 
     protected var labelViewId = ViewCompat.generateViewId()
     protected var valueViewId = ViewCompat.generateViewId()
+    protected var containerViewId = ViewCompat.generateViewId()
     protected var showButtonId = ViewCompat.generateViewId()
     protected var copyButtonId = ViewCompat.generateViewId()
 
@@ -72,15 +74,14 @@ open class TextFieldView @JvmOverloads constructor(
             
         }
     }
-    protected val valueView = AppCompatTextView(context).apply {
-        setTextAppearance(context,
-            R.style.KeepassDXStyle_TextAppearance_TextNode)
+    protected var containerView = RelativeLayout(context).apply {
         layoutParams = LayoutParams(
-            LayoutParams.MATCH_PARENT,
-            LayoutParams.WRAP_CONTENT).also {
+            LayoutParams.WRAP_CONTENT,
+            LayoutParams.WRAP_CONTENT
+        ).also {
             it.topMargin = TypedValue.applyDimension(
                 TypedValue.COMPLEX_UNIT_DIP,
-                4f,
+                2f,
                 resources.displayMetrics
             ).toInt()
             it.leftMargin = TypedValue.applyDimension(
@@ -91,6 +92,29 @@ open class TextFieldView @JvmOverloads constructor(
             it.marginStart = TypedValue.applyDimension(
                 TypedValue.COMPLEX_UNIT_DIP,
                 8f,
+                resources.displayMetrics
+            ).toInt()
+            it.rightMargin = TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_DIP,
+                8f,
+                resources.displayMetrics
+            ).toInt()
+            it.marginEnd = TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_DIP,
+                8f,
+                resources.displayMetrics
+            ).toInt()
+        }
+    }
+    protected val valueView = AppCompatTextView(context).apply {
+        setTextAppearance(context,
+            R.style.KeepassDXStyle_TextAppearance_TextNode)
+        layoutParams = LayoutParams(
+            LayoutParams.MATCH_PARENT,
+            LayoutParams.WRAP_CONTENT).also {
+            it.topMargin = TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_DIP,
+                4f,
                 resources.displayMetrics
             ).toInt()
         }
@@ -117,6 +141,7 @@ open class TextFieldView @JvmOverloads constructor(
         buildViews()
         addView(copyButton)
         addView(showButton)
+        addView(containerView)
         addView(labelView)
         addView(valueView)
     }
@@ -148,9 +173,19 @@ open class TextFieldView @JvmOverloads constructor(
                 it.addRule(START_OF, showButtonId)
             }
         }
+        containerView.apply {
+            id = containerViewId
+            layoutParams = (layoutParams as LayoutParams?)?.also {
+                it.addRule(ALIGN_PARENT_START)
+                it.addRule(ALIGN_PARENT_LEFT)
+                it.addRule(BELOW, labelViewId)
+            }
+        }
         valueView.apply {
             id = valueViewId
             layoutParams = (layoutParams as LayoutParams?)?.also {
+                it.addRule(RIGHT_OF, containerViewId)
+                it.addRule(END_OF, containerViewId)
                 it.addRule(LEFT_OF, showButtonId)
                 it.addRule(START_OF, showButtonId)
                 it.addRule(BELOW, labelViewId)
