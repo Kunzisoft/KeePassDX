@@ -40,6 +40,7 @@ import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.model.FieldProtection
 import com.kunzisoft.keepass.model.StreamDirection
+import com.kunzisoft.keepass.otp.OtpElement
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.utils.TimeUtil.getDateTimeString
 import com.kunzisoft.keepass.view.TemplateView
@@ -209,7 +210,8 @@ class EntryFragment: DatabaseFragment() {
         templateView.setEntryInfo(entryInfo)
 
         // OTP timer updated
-        templateView.setOnOtpElementUpdated { otpElementUpdated ->
+        mEntryViewModel.onOtpElementUpdated(entryInfo.otpModel?.let { OtpElement(it) })
+        templateView.setOtpUpdatedListener { otpElementUpdated ->
             mEntryViewModel.onOtpElementUpdated(otpElementUpdated)
         }
 

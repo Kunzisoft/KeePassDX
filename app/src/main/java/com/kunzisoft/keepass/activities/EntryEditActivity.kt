@@ -329,27 +329,22 @@ class EntryEditActivity : DatabaseLockActivity() {
                             is EntryEditViewModel.EntryEditEvent.OnChangeFieldProtectionRequested -> {
                                 mDatabase?.let { database ->
                                     val fieldProtection = event.fieldProtection
-                                    if (mDatabaseAllowUserVerification) {
-                                        if (fieldProtection.isCurrentlyProtected) {
-                                            checkUserVerification(
-                                                userVerificationViewModel = mUserVerificationViewModel,
-                                                dataToVerify = UserVerificationData(
-                                                    actionType = UserVerificationActionType.SHOW_PROTECTED_FIELD,
-                                                    database = database,
-                                                    fieldProtection = fieldProtection
-                                                )
+                                    if (mDatabaseAllowUserVerification
+                                        && fieldProtection.needUserVerificationToReveal
+                                        && !fieldProtection.isRevealed) {
+                                        checkUserVerification(
+                                            userVerificationViewModel = mUserVerificationViewModel,
+                                            dataToVerify = UserVerificationData(
+                                                actionType = UserVerificationActionType.SHOW_PROTECTED_FIELD,
+                                                database = database,
+                                                fieldProtection = fieldProtection
                                             )
-                                        } else {
-                                            mEntryEditViewModel.updateFieldProtection(
-                                                fieldProtection = fieldProtection,
-                                                value = true
-                                            )
-                                        }
+                                        )
                                     } else {
                                         // Toggle field protection directly without user verification
                                         mEntryEditViewModel.updateFieldProtection(
                                             fieldProtection = fieldProtection,
-                                            value = !fieldProtection.isCurrentlyProtected
+                                            isRevealed = !fieldProtection.isRevealed
                                         )
                                     }
                                 }
@@ -441,7 +436,7 @@ class EntryEditActivity : DatabaseLockActivity() {
                                 data.fieldProtection?.let { fieldProtection ->
                                     mEntryEditViewModel.updateFieldProtection(
                                         fieldProtection = fieldProtection,
-                                        value = false
+                                        isRevealed = true
                                     )
                                 }
                             }

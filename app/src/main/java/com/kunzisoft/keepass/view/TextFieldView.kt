@@ -34,19 +34,23 @@ import androidx.core.text.util.LinkifyCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.isVisible
 import com.kunzisoft.keepass.R
+import com.kunzisoft.keepass.database.element.Field
+import com.kunzisoft.keepass.database.element.security.ProtectedString
 import com.kunzisoft.keepass.model.AppOriginEntryField.APPLICATION_ID_FIELD_NAME
+import com.kunzisoft.keepass.model.FieldProtection
 import com.kunzisoft.keepass.utils.AppUtil.openExternalApp
 
 
-open class TextFieldView @JvmOverloads constructor(context: Context,
-                                              attrs: AttributeSet? = null,
-                                              defStyle: Int = 0)
-    : ProtectedTextFieldView(context, attrs, defStyle) {
+open class TextFieldView @JvmOverloads constructor(
+    context: Context,
+    attrs: AttributeSet? = null,
+    defStyle: Int = 0
+) : ProtectedTextFieldView(context, attrs, defStyle) {
 
     protected var labelViewId = ViewCompat.generateViewId()
-    private var valueViewId = ViewCompat.generateViewId()
-    private var showButtonId = ViewCompat.generateViewId()
-    private var copyButtonId = ViewCompat.generateViewId()
+    protected var valueViewId = ViewCompat.generateViewId()
+    protected var showButtonId = ViewCompat.generateViewId()
+    protected var copyButtonId = ViewCompat.generateViewId()
 
     protected val labelView = AppCompatTextView(context).apply {
         setTextAppearance(context,
@@ -130,14 +134,10 @@ open class TextFieldView @JvmOverloads constructor(context: Context,
             layoutParams = (layoutParams as LayoutParams?)?.also {
                 if (copyButton.isVisible) {
                     it.addRule(LEFT_OF, copyButtonId)
-                    
                     it.addRule(START_OF, copyButtonId)
-                    
                 } else {
                     it.addRule(ALIGN_PARENT_RIGHT)
-                    
                     it.addRule(ALIGN_PARENT_END)
-                    
                 }
             }
         }
@@ -205,26 +205,28 @@ open class TextFieldView @JvmOverloads constructor(context: Context,
         }
     }
 
+    override var onRevealChanged: ((isRevealed: Boolean) -> Unit)? = null
+
     override fun setProtection(
-        protection: Boolean,
-        isCurrentlyProtected: Boolean,
-        onUnprotectClickListener: OnClickListener?
+        isProtected: Boolean,
+        isRevealedByDefault: Boolean,
+        needUserVerificationToReveal: Boolean
     ) {
-        super.setProtection(protection, isCurrentlyProtected, onUnprotectClickListener)
+        super.setProtection(isProtected, isRevealedByDefault, needUserVerificationToReveal)
         showButton.isVisible = isProtected
         if (isProtected) {
             showButton.setOnClickListener {
-                onUnprotectClickListener?.onClick(this@TextFieldView)
+                onRevealChanged?.invoke(isRevealed())
             }
         }
     }
 
     override fun changeProtectedValueParameters() {
-        val isCurrentlyProtected = isCurrentlyProtected()
-        showButton.isSelected = isCurrentlyProtected
+        val isMasked = !isRevealed()
+        showButton.isSelected = isMasked
         valueView.apply {
             if (showButton.isVisible) {
-                applyHiddenStyle(isCurrentlyProtected)
+                applyHiddenStyle(isMasked)
                 setCopyButtonState(mButtonState)
             } else {
                 linkify()
@@ -261,7 +263,7 @@ open class TextFieldView @JvmOverloads constructor(context: Context,
     private var mButtonState: ButtonState = ButtonState.DEACTIVATE
 
     fun setCopyButtonState(buttonState: ButtonState) {
-        val isCurrentlyProtected = isCurrentlyProtected()
+        val isRevealed = isRevealed()
         mButtonState = buttonState
         when (buttonState) {
             ButtonState.ACTIVATE -> {
@@ -270,8 +272,8 @@ open class TextFieldView @JvmOverloads constructor(context: Context,
                     isActivated = false
                 }
                 valueView.apply {
-                    isFocusable = !showButton.isVisible || !isCurrentlyProtected
-                    setTextIsSelectable(!showButton.isVisible || !isCurrentlyProtected)
+                    isFocusable = !showButton.isVisible || isRevealed
+                    setTextIsSelectable(!showButton.isVisible || isRevealed)
                 }
             }
             ButtonState.DEACTIVATE -> {
@@ -299,9 +301,21 @@ open class TextFieldView @JvmOverloads constructor(context: Context,
         invalidate()
     }
 
-    fun setCopyButtonClickListener(onActionClickListener: ((label: String, value: CharArray) -> Unit)?) {
+    fun setCopyButtonClickListener(onActionClickListener: ((fieldProtection: FieldProtection) -> Unit)?) {
         val clickListener = if (onActionClickListener != null)
-            OnClickListener { onActionClickListener.invoke(label, value) }
+            OnClickListener { onActionClickListener.invoke(
+                FieldProtection(
+                    field = Field(
+                        name = label,
+                        value = ProtectedString(
+                            enableProtection = isProtected,
+                            value = value
+                        )
+                    ),
+                    isRevealed = isRevealed(),
+                    needUserVerificationToReveal = needUserVerificationToReveal
+                )
+            ) }
         else
             null
         setOnActionClickListener(clickListener, null)

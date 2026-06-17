@@ -95,8 +95,9 @@
                         android:visibility="gone"
                         android:indeterminate="false"
                         app:indicatorColor="?attr/colorSecondary"
-                        android:progress="10"
-                        android:max="30"
+                        android:progress="100"
+                        android:max="100"
+                        app:trackThickness="2dp"
                         android:layout_gravity="bottom"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />

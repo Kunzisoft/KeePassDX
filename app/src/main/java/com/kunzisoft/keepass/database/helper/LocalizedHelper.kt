@@ -55,6 +55,7 @@ import com.kunzisoft.keepass.model.PasskeyEntryFields.FIELD_RELYING_PARTY
 import com.kunzisoft.keepass.model.PasskeyEntryFields.FIELD_USERNAME
 import com.kunzisoft.keepass.model.PasskeyEntryFields.FIELD_USER_HANDLE
 import com.kunzisoft.keepass.model.PasskeyEntryFields.PASSKEY_FIELD
+import com.kunzisoft.keepass.otp.OtpEntryFields.OTP_TOKEN_FIELD
 
 fun LocalizedException.getLocalizedMessage(resources: Resources): String? =
     when (this) {
@@ -93,6 +94,11 @@ fun CompressionAlgorithm.getLocalizedName(resources: Resources): String {
 fun TemplateField.isStandardPasswordName(context: Context, name: String): Boolean {
     return name.equals(LABEL_PASSWORD, true)
             || name == getLocalizedName(context, LABEL_PASSWORD)
+}
+
+fun TemplateField.isOtpLabel(context: Context, name: String): Boolean {
+    return name.equals(OTP_TOKEN_FIELD, true)
+            || name == getLocalizedName(context, OTP_TOKEN_FIELD)
 }
 
 fun TemplateField.isPasskeyLabel(context: Context, name: String): Boolean {

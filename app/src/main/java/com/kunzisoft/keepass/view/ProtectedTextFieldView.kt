@@ -29,40 +29,44 @@ import com.kunzisoft.keepass.utils.readBooleanCompat
 import com.kunzisoft.keepass.utils.writeBooleanCompat
 
 
-abstract class ProtectedTextFieldView @JvmOverloads constructor(context: Context,
-                                                            attrs: AttributeSet? = null,
-                                                            defStyle: Int = 0)
-    : RelativeLayout(context, attrs, defStyle),
+abstract class ProtectedTextFieldView @JvmOverloads constructor(
+    context: Context,
+    attrs: AttributeSet? = null,
+    defStyle: Int = 0
+) : RelativeLayout(context, attrs, defStyle),
     GenericTextFieldView, ProtectedFieldView {
 
     var isProtected: Boolean = false
         private set
-    private var mIsCurrentlyProtected: Boolean = true
+    var needUserVerificationToReveal: Boolean = true
+        private set
+    private var mRevealed: Boolean = false
 
     // Only to fix rebuild view from template
     var onSaveInstanceState: (() -> Unit)? = null
 
-    override fun isCurrentlyProtected(): Boolean {
-        return mIsCurrentlyProtected
+    override fun isRevealed(): Boolean {
+        return mRevealed
     }
 
-    override fun protect() {
-        mIsCurrentlyProtected = true
+    override fun mask() {
+        mRevealed = false
         changeProtectedValueParameters()
     }
 
-    override fun unprotect() {
-        mIsCurrentlyProtected = false
+    override fun reveal() {
+        mRevealed = true
         changeProtectedValueParameters()
     }
 
     override fun setProtection(
-        protection: Boolean,
-        isCurrentlyProtected: Boolean,
-        onUnprotectClickListener: OnClickListener?
+        isProtected: Boolean,
+        isRevealedByDefault: Boolean,
+        needUserVerificationToReveal: Boolean
     ) {
-        this.isProtected = protection
-        this.mIsCurrentlyProtected = isCurrentlyProtected
+        this.isProtected = isProtected
+        this.mRevealed = isRevealedByDefault
+        this.needUserVerificationToReveal = needUserVerificationToReveal
         if (isProtected) {
             changeProtectedValueParameters()
         }
@@ -73,7 +77,7 @@ abstract class ProtectedTextFieldView @JvmOverloads constructor(context: Context
     override fun onSaveInstanceState(): Parcelable? {
         onSaveInstanceState?.invoke()
         return ProtectionState(super.onSaveInstanceState()).apply {
-            this.isCurrentlyProtected = isCurrentlyProtected()
+            this.isRevealed = isRevealed()
         }
     }
 
@@ -81,7 +85,7 @@ abstract class ProtectedTextFieldView @JvmOverloads constructor(context: Context
         when (state) {
             is ProtectionState -> {
                 super.onRestoreInstanceState(state.superState)
-                mIsCurrentlyProtected = state.isCurrentlyProtected
+                mRevealed = state.isRevealed
             }
             else -> super.onRestoreInstanceState(state)
         }
@@ -89,17 +93,17 @@ abstract class ProtectedTextFieldView @JvmOverloads constructor(context: Context
 
     internal class ProtectionState : BaseSavedState {
 
-        var isCurrentlyProtected: Boolean = true
+        var isRevealed: Boolean = false
 
         constructor(superState: Parcelable?) : super(superState)
 
         private constructor(parcel: Parcel) : super(parcel) {
-            isCurrentlyProtected = parcel.readBooleanCompat()
+            isRevealed = parcel.readBooleanCompat()
         }
 
         override fun writeToParcel(out: Parcel, flags: Int) {
             super.writeToParcel(out, flags)
-            out.writeBooleanCompat(isCurrentlyProtected)
+            out.writeBooleanCompat(isRevealed)
         }
 
         companion object CREATOR : Creator<ProtectionState> {

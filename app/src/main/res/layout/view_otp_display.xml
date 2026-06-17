@@ -2,7 +2,7 @@
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     tools:parentTag="android.widget.LinearLayout">
 
@@ -14,18 +14,14 @@
         android:layout_gravity="center"
         tools:text="513 651" />
 
-    <FrameLayout
+    <com.google.android.material.progressindicator.CircularProgressIndicator
+        android:id="@+id/otp_progress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center">
-
-        <com.google.android.material.progressindicator.CircularProgressIndicator
-            android:id="@+id/otp_progress"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:indicatorSize="16dp"
-            app:trackThickness="2dp"
-            app:indicatorDirectionCircular="counterclockwise"
-            android:layout_gravity="center" />
-    </FrameLayout>
+        android:layout_marginStart="4dp"
+        app:indicatorSize="16dp"
+        app:trackThickness="2dp"
+        app:indicatorDirectionCircular="counterclockwise"
+        app:indicatorColor="?attr/colorSecondary"
+        android:layout_gravity="center" />
 </merge>

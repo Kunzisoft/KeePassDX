@@ -286,8 +286,8 @@ class EntryEditViewModel: NodeEditViewModel() {
         }
     }
 
-    fun updateFieldProtection(fieldProtection: FieldProtection, value: Boolean) {
-        fieldProtection.isCurrentlyProtected = value
+    fun updateFieldProtection(fieldProtection: FieldProtection, isRevealed: Boolean) {
+        fieldProtection.isRevealed = isRevealed
         viewModelScope.launch {
             _entryEditEvents.emit(EntryEditEvent.OnFieldProtectionUpdated(fieldProtection))
         }

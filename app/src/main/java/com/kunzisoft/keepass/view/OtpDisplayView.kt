@@ -23,7 +23,7 @@ class OtpDisplayView @JvmOverloads constructor(
     defStyleAttr: Int = 0
 ) : LinearLayout(context, attrs, defStyleAttr), ProtectedFieldView {
 
-    private val otpToken: TextView
+    private val otpTokenView: TextView
 
     private var otpElement: OtpElement? = null
     private val otpProgress: CircularProgressIndicator
@@ -31,13 +31,18 @@ class OtpDisplayView @JvmOverloads constructor(
     private var mClipboardHelper: ClipboardHelper = ClipboardHelper(context)
     private var otpRunnable: OtpRunnable = OtpRunnable(this)
 
+    private var mFontInVisibility: Boolean = PreferencesUtil.fieldFontIsInVisibility(context)
     private var mShowOTP: Boolean = PreferencesUtil.showOTPToken(context)
 
-    private var mProtected = false
-    private var mCurrentlyProtected = true
-    private var mOnUnprotectClickListener: OnClickListener? = null
+    private var mProtected = true
+    private var mRevealed = mShowOTP
+    private var mNeedUserVerificationToReveal = false
 
-    class OtpRunnable(val view: OtpDisplayView?): Runnable {
+    override var onRevealChanged: ((isRevealed: Boolean) -> Unit)? = null
+
+    var onOtpUpdated: ((OtpElement?) -> Unit)? = null
+
+    private class OtpRunnable(val view: OtpDisplayView?): Runnable {
         var action: (() -> Unit)? = null
         override fun run() {
             action?.invoke()
@@ -50,20 +55,63 @@ class OtpDisplayView @JvmOverloads constructor(
 
     init {
         LayoutInflater.from(context).inflate(R.layout.view_otp_display, this, true)
-        otpToken = findViewById(R.id.otp_token)
         otpProgress = findViewById(R.id.otp_progress)
+        otpTokenView = findViewById(R.id.otp_token)
+        if (mFontInVisibility)
+            otpTokenView.applyFontVisibility()
+    }
+
+    fun copyTokenToClipboard() {
+        otpElement?.token?.let { token ->
+            try {
+                mClipboardHelper.copyToClipboard(
+                    TemplateField.getLocalizedName(context, TemplateField.LABEL_TOKEN),
+                    token,
+                    true
+                )
+            } catch (e: Exception) {
+                Log.e(TAG, "Unable to copy the OTP token", e)
+            }
+        }
+    }
+
+    fun hideToken() {
+        otpTokenView.visibility = INVISIBLE
+    }
+
+    fun revealToken() {
+        if (mProtected) {
+            reveal()
+            populateOtpView()
+        }
+    }
+
+    fun maskToken() {
+        if (mProtected) {
+            mask()
+            populateOtpView()
+        }
     }
 
     fun setOtpModel(otpModel: OtpModel?) {
-        this.removeCallbacks(otpRunnable)
+        mRevealed = mShowOTP
+        removeCallbacks(otpRunnable)
+        otpRunnable = OtpRunnable(this)
         otpModel?.let { model ->
             val otpElement = OtpElement(model)
             this.otpElement = otpElement
-            if (mShowOTP && otpElement.token.isNotEmpty()) {
+            if (otpElement.token.isNotEmpty()) {
                 // Execute runnable to show progress
                 otpRunnable.action = {
+                    if (otpTokenView.text != String(otpElement.tokenFormatted)) {
+                        if (!mShowOTP) {
+                            mask()
+                        }
+                    }
+                    this@OtpDisplayView.onOtpUpdated?.invoke(otpElement)
                     populateOtpView()
                 }
+                this@OtpDisplayView.onOtpUpdated?.invoke(otpElement)
                 if (otpElement.type == OtpType.TOTP) {
                     otpRunnable.postDelayed()
                 }
@@ -72,27 +120,15 @@ class OtpDisplayView @JvmOverloads constructor(
             } else {
                 visibility = GONE
             }
-        }
+        } ?: run { visibility = GONE }
 
         setOnClickListener {
-            otpElement?.token?.let { token ->
-                try {
-                    if (mProtected) {
-                        unprotect()
-                        mOnUnprotectClickListener?.onClick(this)
-                    }
-                    mClipboardHelper.copyToClipboard(
-                        TemplateField.getLocalizedName(
-                            context,
-                            TemplateField.LABEL_TOKEN
-                        ),
-                        token,
-                        true
-                    )
-                } catch (e: Exception) {
-                    Log.e(TAG, "Unable to copy the OTP token", e)
-                }
-            }
+            copyTokenToClipboard()
+        }
+
+        setOnLongClickListener {
+            revealToken()
+            true
         }
     }
 
@@ -112,21 +148,17 @@ class OtpDisplayView @JvmOverloads constructor(
                     }
                 }
             }
-            otpToken.apply {
-                val token = String(otpElement.token)
-                if (mProtected && token != text) {
-                    mCurrentlyProtected = true
-                    applyHiddenStyle(isCurrentlyProtected())
-                }
-                text = token
-                setTextSize(TypedValue.COMPLEX_UNIT_PX, otpToken.textSize, mPrefSizeMultiplier)
+            otpTokenView.apply {
+                applyHiddenStyle(if (mProtected) !mRevealed else false)
+                text = String(otpElement.tokenFormatted)
+                setTextSize(TypedValue.COMPLEX_UNIT_PX, otpTokenView.textSize, mPrefSizeMultiplier)
                 textDirection = TEXT_DIRECTION_LTR
             }
         }
     }
     
     fun setTokenTextColor(color: Int) {
-        otpToken.setTextColor(color)
+        otpTokenView.setTextColor(color)
     }
     
     fun setProgressIndicatorColor(color: Int) {
@@ -139,27 +171,38 @@ class OtpDisplayView @JvmOverloads constructor(
     }
 
     override fun setProtection(
-        protection: Boolean,
-        isCurrentlyProtected: Boolean,
-        onUnprotectClickListener: OnClickListener?
+        isProtected: Boolean,
+        isRevealedByDefault: Boolean,
+        needUserVerificationToReveal: Boolean
     ) {
-        this.mProtected = protection
-        this.mCurrentlyProtected = isCurrentlyProtected
-        this.mOnUnprotectClickListener = onUnprotectClickListener
+        this.mProtected = isProtected
+        this.mRevealed = isRevealedByDefault
+        this.mNeedUserVerificationToReveal = needUserVerificationToReveal
     }
 
-    override fun isCurrentlyProtected(): Boolean {
-        return mCurrentlyProtected
+    override fun isRevealed(): Boolean {
+        return mRevealed
     }
 
-    override fun protect() {
-        mCurrentlyProtected = true
-        populateOtpView()
+    override fun mask() {
+        if (mRevealed) {
+            mRevealed = false
+            onRevealChanged?.invoke(false)
+        }
     }
 
-    override fun unprotect() {
-        mCurrentlyProtected = false
-        populateOtpView()
+    override fun reveal() {
+        if (!mRevealed) {
+            mRevealed = true
+            onRevealChanged?.invoke(true)
+        }
+    }
+
+    fun clearData() {
+        otpElement = null
+        removeCallbacks(otpRunnable)
+        otpRunnable = OtpRunnable(this)
+        visibility = GONE
     }
 
     companion object {

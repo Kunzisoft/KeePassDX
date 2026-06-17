@@ -34,6 +34,7 @@ import com.kunzisoft.keepass.database.helper.getLocalizedName
 import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.model.FieldProtection
 import com.kunzisoft.keepass.otp.OtpElement
+import com.kunzisoft.keepass.otp.OtpType
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -83,8 +84,8 @@ class EntryViewModel(application: Application): AndroidViewModel(application) {
     private val _entryEvents = MutableSharedFlow<EntryEvent>(replay = 0)
     val entryEvents: SharedFlow<EntryEvent> = _entryEvents.asSharedFlow()
 
-    private val _onOtpElementUpdated = MutableSharedFlow<OtpElement?>(replay = 0)
-    val onOtpElementUpdated: SharedFlow<OtpElement?> = _onOtpElementUpdated.asSharedFlow()
+    private val _onTotpProgressUpdated = MutableStateFlow<TotpProgress?>(null)
+    val onTotpProgressUpdated: StateFlow<TotpProgress?> = _onTotpProgressUpdated.asStateFlow()
 
     private val _onFieldProtectionUpdated = MutableSharedFlow<FieldProtection>(replay = 0)
     val onFieldProtectionUpdated: SharedFlow<FieldProtection> = _onFieldProtectionUpdated.asSharedFlow()
@@ -170,8 +171,8 @@ class EntryViewModel(application: Application): AndroidViewModel(application) {
         }
     }
 
-    fun updateProtectionField(fieldProtection: FieldProtection, value: Boolean) {
-        fieldProtection.isCurrentlyProtected = value
+    fun updateProtectionField(fieldProtection: FieldProtection, isRevealed: Boolean) {
+        fieldProtection.isRevealed = isRevealed
         viewModelScope.launch {
             _onFieldProtectionUpdated.emit(fieldProtection)
         }
@@ -186,7 +187,9 @@ class EntryViewModel(application: Application): AndroidViewModel(application) {
     fun requestCopyField(fieldProtection: FieldProtection) {
         // Only request the User Verification if the field is protected and not shown
         val field = fieldProtection.field
-        if (field.protectedValue.isProtected && fieldProtection.isCurrentlyProtected) {
+        if (field.protectedValue.isProtected
+            && fieldProtection.needUserVerificationToReveal
+            && !fieldProtection.isRevealed) {
             viewModelScope.launch {
                 _entryEvents.emit(EntryEvent.RequestCopyProtectedField(fieldProtection))
             }
@@ -195,10 +198,19 @@ class EntryViewModel(application: Application): AndroidViewModel(application) {
         }
     }
 
-    fun onOtpElementUpdated(optElement: OtpElement?) {
-        viewModelScope.launch {
-            _onOtpElementUpdated.emit(optElement)
+    fun onOtpElementUpdated(otpElement: OtpElement?) {
+        val totpProgress: TotpProgress? = when (otpElement?.type) {
+            // Refresh view if TOTP
+            OtpType.TOTP -> {
+                val max = 100
+                TotpProgress(
+                    max = max,
+                    progress = max * otpElement.secondsRemaining / otpElement.period
+                )
+            }
+            else -> null
         }
+        _onTotpProgressUpdated.value = totpProgress
     }
 
     fun onAttachmentSelected(attachment: Attachment) {
@@ -338,6 +350,11 @@ class EntryViewModel(application: Application): AndroidViewModel(application) {
         val iconBackgroundColor: Int = 0,
         val entryHistory: List<EntryInfo> = listOf(),
         val sectionSelected: EntrySection = EntrySection.MAIN
+    )
+
+    data class TotpProgress(
+        val max: Int,
+        val progress: Int
     )
 
     companion object {

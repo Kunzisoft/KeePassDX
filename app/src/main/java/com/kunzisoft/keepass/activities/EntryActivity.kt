@@ -65,7 +65,6 @@ import com.kunzisoft.keepass.database.element.EntryId
 import com.kunzisoft.keepass.database.element.Tags
 import com.kunzisoft.keepass.education.EntryActivityEducation
 import com.kunzisoft.keepass.model.EntryAttachmentState
-import com.kunzisoft.keepass.otp.OtpType
 import com.kunzisoft.keepass.services.AttachmentFileNotificationService
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_DELETE_ENTRY_HISTORY
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_RESTORE_ENTRY_HISTORY
@@ -338,27 +337,22 @@ class EntryActivity : DatabaseLockActivity() {
                             }
                             is EntryViewModel.EntryEvent.ChangeFieldProtectionRequested -> {
                                 mDatabase?.let { database ->
-                                    if (mDatabaseAllowUserVerification) {
-                                        if (event.fieldProtection.isCurrentlyProtected) {
-                                            checkUserVerification(
-                                                userVerificationViewModel = mUserVerificationViewModel,
-                                                dataToVerify = UserVerificationData(
-                                                    actionType = UserVerificationActionType.SHOW_PROTECTED_FIELD,
-                                                    database = database,
-                                                    fieldProtection = event.fieldProtection
-                                                )
+                                    if (mDatabaseAllowUserVerification
+                                        && event.fieldProtection.needUserVerificationToReveal
+                                        && !event.fieldProtection.isRevealed) {
+                                        checkUserVerification(
+                                            userVerificationViewModel = mUserVerificationViewModel,
+                                            dataToVerify = UserVerificationData(
+                                                actionType = UserVerificationActionType.SHOW_PROTECTED_FIELD,
+                                                database = database,
+                                                fieldProtection = event.fieldProtection
                                             )
-                                        } else {
-                                            mEntryViewModel.updateProtectionField(
-                                                fieldProtection = event.fieldProtection,
-                                                value = true
-                                            )
-                                        }
+                                        )
                                     } else {
                                         // Toggle field protection directly without user verification
                                         mEntryViewModel.updateProtectionField(
                                             fieldProtection = event.fieldProtection,
-                                            value = !event.fieldProtection.isCurrentlyProtected
+                                            isRevealed = !event.fieldProtection.isRevealed
                                         )
                                     }
                                 }
@@ -370,21 +364,12 @@ class EntryActivity : DatabaseLockActivity() {
                     }
                 }
                 launch {
-                    mEntryViewModel.onOtpElementUpdated.collect { otpElement ->
-                        if (otpElement == null) {
-                            entryProgress?.visibility = View.GONE
-                        } else when (otpElement.type) {
-                            // Only add token if HOTP
-                            OtpType.HOTP -> {
-                                entryProgress?.visibility = View.GONE
-                            }
-                            // Refresh view if TOTP
-                            OtpType.TOTP -> {
-                                entryProgress?.apply {
-                                    max = otpElement.period
-                                    setProgressCompat(otpElement.secondsRemaining, true)
-                                    visibility = View.VISIBLE
-                                }
+                    mEntryViewModel.onTotpProgressUpdated.collect { otpElement ->
+                        otpElement?.let {
+                            entryProgress?.apply {
+                                max = otpElement.max
+                                setProgressCompat(otpElement.progress, true)
+                                showByFading()
                             }
                         }
                     }
@@ -407,7 +392,7 @@ class EntryActivity : DatabaseLockActivity() {
                                 data.fieldProtection?.let { field ->
                                     mEntryViewModel.updateProtectionField(
                                         fieldProtection = field,
-                                        value = false
+                                        isRevealed = true
                                     )
                                 }
                             }

@@ -10,5 +10,6 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class FieldProtection(
     val field: Field,
-    var isCurrentlyProtected: Boolean
+    var isRevealed: Boolean,
+    var needUserVerificationToReveal: Boolean = true
 ): Parcelable

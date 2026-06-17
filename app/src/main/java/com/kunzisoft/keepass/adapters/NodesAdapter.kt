@@ -72,7 +72,6 @@ class NodesAdapter(
     private var mTextDefaultDimension: Float = 0F
     private var mSubTextDefaultDimension: Float = 0F
     private var mMetaTextDefaultDimension: Float = 0F
-    private var mOtpTokenTextDefaultDimension: Float = 0F
     private var mNumberChildrenTextDefaultDimension: Float = 0F
     private var mIconDefaultDimension: Float = 0F
 
@@ -80,7 +79,6 @@ class NodesAdapter(
     private var mShowUserNames: Boolean = true
     private var mShowNumberEntries: Boolean = true
     private var mShowTags: Boolean = false
-    private var mShowOTP: Boolean = false
     private var mShowUUID: Boolean = false
     private var mRecursiveNumberEntries: Boolean = false
     private var mOldVirtualGroup = false
@@ -160,7 +158,6 @@ class NodesAdapter(
         this.mShowUserNames = PreferencesUtil.showUsernamesListEntries(context)
         this.mShowNumberEntries = PreferencesUtil.showNumberEntries(context)
         this.mShowTags = PreferencesUtil.showTags(context)
-        this.mShowOTP = PreferencesUtil.showOTPToken(context)
         this.mShowUUID = PreferencesUtil.showUUID(context)
         this.mRecursiveNumberEntries = PreferencesUtil.recursiveNumberEntries(context)
 

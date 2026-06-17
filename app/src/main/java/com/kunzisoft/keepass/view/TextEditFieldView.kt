@@ -166,12 +166,14 @@ open class TextEditFieldView @JvmOverloads constructor(
         }
     }
 
+    override var onRevealChanged: ((isRevealed: Boolean) -> Unit)? = null
+
     override fun setProtection(
-        protection: Boolean,
-        isCurrentlyProtected: Boolean,
-        onUnprotectClickListener: OnClickListener?
+        isProtected: Boolean,
+        isRevealedByDefault: Boolean,
+        needUserVerificationToReveal: Boolean
     ) {
-        super.setProtection(protection, isCurrentlyProtected, onUnprotectClickListener)
+        super.setProtection(isProtected, isRevealedByDefault, needUserVerificationToReveal)
         if (isProtected) {
             labelView.endIconMode = TextInputLayout.END_ICON_PASSWORD_TOGGLE
             // FIXME Called by itself during orientation change
@@ -183,12 +185,12 @@ open class TextEditFieldView @JvmOverloads constructor(
     }
 
     override fun changeProtectedValueParameters() {
-        if (isCurrentlyProtected()) {
-            valueView.inputType = valueView.inputType or InputType.TYPE_TEXT_VARIATION_PASSWORD
-            valueView.transformationMethod = PasswordTransformationMethod.getInstance()
-        } else {
+        if (isRevealed()) {
             valueView.inputType = valueView.inputType or InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
             valueView.transformationMethod = SingleLineTransformationMethod.getInstance()
+        } else {
+            valueView.inputType = valueView.inputType or InputType.TYPE_TEXT_VARIATION_PASSWORD
+            valueView.transformationMethod = PasswordTransformationMethod.getInstance()
         }
     }
 

@@ -76,8 +76,8 @@ fun TextView.applyFontVisibility() {
     typeface = typeFace
 }
 
-fun TextView.applyHiddenStyle(hide: Boolean, changeMaxLines: Boolean = true) {
-    if (hide) {
+fun TextView.applyHiddenStyle(apply: Boolean, changeMaxLines: Boolean = true) {
+    if (apply) {
         transformationMethod = PasswordTransformationMethod.getInstance()
         if (changeMaxLines)
             maxLines = 1
