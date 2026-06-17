@@ -67,7 +67,9 @@ class TemplateView @JvmOverloads constructor(
                     buildTextField = PasswordTextFieldView(it)
                 }
                 TemplateField.isOtpLabel(context, templateAttribute.label) -> {
-                    buildTextField = OtpTextFieldView(it)
+                    buildTextField = OtpTextFieldView(it).apply {
+                        setOnOtpUpdatedListener(onOtpUpdatedListener)
+                    }
                     needUserVerificationToReveal = false
                 }
                 TemplateField.isPasskeyLabel(context, templateAttribute.label) -> {
@@ -176,9 +178,7 @@ class TemplateView @JvmOverloads constructor(
         return null
     }
 
-    fun setOtpUpdatedListener(listener: ((OtpElement?) -> Unit)?) {
-        getOtpTokenView()?.setOnOtpUpdatedListener(listener)
-    }
+    var onOtpUpdatedListener: ((OtpElement?) -> Unit)? = null
 
     private fun assignOtp(otpModel: OtpModel?) {
         otpModel?.let {

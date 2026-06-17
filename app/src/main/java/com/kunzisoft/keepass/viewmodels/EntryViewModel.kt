@@ -225,8 +225,10 @@ class EntryViewModel(application: Application): AndroidViewModel(application) {
         }
     }
 
-    fun selectSection(section: EntrySection) {
-        _entryUIState.update { it.copy(sectionSelected = section) }
+    fun onSectionSelected(section: EntrySection) {
+        viewModelScope.launch {
+            _entryEvents.emit(EntryEvent.SectionSelected(section))
+        }
     }
 
     fun copyToClipboard(field: Field) {
@@ -310,6 +312,10 @@ class EntryViewModel(application: Application): AndroidViewModel(application) {
             val entryHistory: EntryHistory,
         ) : EntryEvent()
 
+        data class SectionSelected(
+            val section: EntrySection,
+        ) : EntryEvent()
+
         object Close : EntryEvent()
     }
 
@@ -349,7 +355,6 @@ class EntryViewModel(application: Application): AndroidViewModel(application) {
         val iconColor: Int = 0,
         val iconBackgroundColor: Int = 0,
         val entryHistory: List<EntryInfo> = listOf(),
-        val sectionSelected: EntrySection = EntrySection.MAIN
     )
 
     data class TotpProgress(

@@ -188,7 +188,7 @@ class EntryActivity : DatabaseLockActivity() {
         // Init content tab
         entryContentTab?.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
-                mEntryViewModel.selectSection(EntryViewModel.EntrySection.
+                mEntryViewModel.onSectionSelected(EntryViewModel.EntrySection.
                     getEntrySectionByPosition(tab?.position ?: 0)
                 )
             }
@@ -277,9 +277,6 @@ class EntryActivity : DatabaseLockActivity() {
                         historyView?.visibility = if (entryState.showHistoryView) View.VISIBLE else View.GONE
                         // Refresh Menu
                         invalidateOptionsMenu()
-
-                        // Update section selection
-                        entryContentTab?.getTabAt(entryState.sectionSelected.position)?.select()
                     }
                 }
                 launch {
@@ -288,6 +285,10 @@ class EntryActivity : DatabaseLockActivity() {
                             is EntryViewModel.EntryEvent.EntryLoaded -> {
                                 // To sort by access
                                 touchEntry(event.entryInfo)
+                            }
+                            is EntryViewModel.EntryEvent.SectionSelected -> {
+                                // Update section selection
+                                entryContentTab?.getTabAt(event.section.position)?.select()
                             }
                             is EntryViewModel.EntryEvent.AddToMagikeyboard -> {
                                 MagikeyboardService.addEntry(
