@@ -11,6 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:gravity="center_vertical"
+        android:layout_marginHorizontal="4dp"
         tools:text="513 651" />
 
     <com.kunzisoft.keepass.view.OtpProgressView

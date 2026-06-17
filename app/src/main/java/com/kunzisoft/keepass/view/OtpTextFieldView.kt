@@ -28,7 +28,10 @@ import com.kunzisoft.keepass.model.OtpModel
 import com.kunzisoft.keepass.otp.OtpElement
 import com.kunzisoft.keepass.settings.PreferencesUtil
 
-
+/**
+ * Custom text field view for displaying and managing OTP (One-Time Password) fields.
+ * Extends [TextFieldView] to include an [OtpProgressView] for time-based tokens.
+ */
 open class OtpTextFieldView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
@@ -42,20 +45,26 @@ open class OtpTextFieldView @JvmOverloads constructor(
     private val otpProgressView = OtpProgressView(context).apply {
         layoutParams = LayoutParams(
             LayoutParams.WRAP_CONTENT,
-            LayoutParams.WRAP_CONTENT)
+            LayoutParams.WRAP_CONTENT
+        )
     }
-
-    override var onRevealChanged: ((isRevealed: Boolean) -> Unit)? = null
 
     init {
         buildViews()
         containerView.addView(otpProgressView)
     }
 
+    /**
+     * Sets the listener to be notified when the OTP token is updated.
+     * @param onOtpUpdated The callback function.
+     */
     fun setOnOtpUpdatedListener(onOtpUpdated: ((OtpElement?) -> Unit)? = null) {
         otpProgressView.onOtpUpdated = onOtpUpdated
     }
 
+    /**
+     * Initializes the views and layout rules for the OTP progress indicator.
+     */
     private fun buildViews() {
         otpProgressView.apply {
             id = otpProgressViewId
@@ -66,6 +75,10 @@ open class OtpTextFieldView @JvmOverloads constructor(
         }
     }
 
+    /**
+     * Sets the OTP model to be displayed and configures the protection settings.
+     * @param otpModel The OTP model containing the secret and configuration.
+     */
     fun setOtpModel(otpModel: OtpModel) {
         clearData()
         val otpElement = OtpElement(otpModel)
@@ -84,16 +97,14 @@ open class OtpTextFieldView @JvmOverloads constructor(
             otpProgressView.apply {
                 setOtpElement(otpElement)
                 isVisible = true
-                setProtection(
-                    isProtected = !mShowOTP,
-                    isRevealedByDefault = isRevealed(),
-                    needUserVerificationToReveal = false
-                )
             }
             textDirection = TEXT_DIRECTION_LTR
         }
     }
 
+    /**
+     * Clears all OTP data and stops progress updates.
+     */
     fun clearData() {
         otpProgressView.clearData()
     }

@@ -1,3 +1,22 @@
+/*
+ * Copyright 2026 Jeremy Jamet / Kunzisoft.
+ *
+ * This file is part of KeePassDX.
+ *
+ *  KeePassDX is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  KeePassDX is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
 package com.kunzisoft.keepass.view
 
 import android.content.Context
@@ -15,6 +34,10 @@ import com.kunzisoft.keepass.otp.OtpElement
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.timeout.ClipboardHelper
 
+/**
+ * View to display an OTP token and its progress.
+ * It supports protection (masking) and copying to clipboard.
+ */
 class OtpDisplayView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
@@ -36,6 +59,9 @@ class OtpDisplayView @JvmOverloads constructor(
 
     override var onRevealChanged: ((isRevealed: Boolean) -> Unit)? = null
 
+    /**
+     * Callback when the OTP is updated.
+     */
     var onOtpUpdated: ((OtpElement?) -> Unit)? = null
 
 
@@ -45,6 +71,9 @@ class OtpDisplayView @JvmOverloads constructor(
         otpTokenView = findViewById(R.id.otp_token)
     }
 
+    /**
+     * Copy the current OTP token to the clipboard.
+     */
     fun copyTokenToClipboard() {
         otpElement?.token?.let { token ->
             try {
@@ -59,10 +88,16 @@ class OtpDisplayView @JvmOverloads constructor(
         }
     }
 
+    /**
+     * Hide the token view (invisible).
+     */
     fun hideToken() {
         otpTokenView.visibility = INVISIBLE
     }
 
+    /**
+     * Reveal the token if it's protected.
+     */
     fun revealToken() {
         if (mProtected) {
             reveal()
@@ -70,6 +105,9 @@ class OtpDisplayView @JvmOverloads constructor(
         }
     }
 
+    /**
+     * Mask the token if it's protected.
+     */
     fun maskToken() {
         if (mProtected) {
             mask()
@@ -77,6 +115,10 @@ class OtpDisplayView @JvmOverloads constructor(
         }
     }
 
+    /**
+     * Set the OTP model and update the view.
+     * @param otpModel The OTP model to display.
+     */
     fun setOtpModel(otpModel: OtpModel?) {
         mRevealed = mShowOTP
         otpModel?.let { model ->
@@ -111,6 +153,9 @@ class OtpDisplayView @JvmOverloads constructor(
         }
     }
 
+    /**
+     * Update the token view with the current OTP element.
+     */
     private fun populateOtpToken() {
         otpElement?.let { otpElement ->
             otpTokenView.apply {
@@ -122,8 +167,7 @@ class OtpDisplayView @JvmOverloads constructor(
                 text = String(otpElement.tokenFormatted)
                 setTextSize(
                     unit = TypedValue.COMPLEX_UNIT_PX,
-                    defaultSize = otpTokenView.
-                    textSize,
+                    defaultSize = otpTokenView.textSize,
                     mPrefSizeMultiplier
                 )
                 textDirection = TEXT_DIRECTION_LTR
@@ -131,10 +175,18 @@ class OtpDisplayView @JvmOverloads constructor(
         }
     }
     
+    /**
+     * Set the text color of the OTP token.
+     * @param color The color to set.
+     */
     fun setTokenTextColor(color: Int) {
         otpTokenView.setTextColor(color)
     }
     
+    /**
+     * Set the progress indicator color.
+     * @param color The color to set.
+     */
     fun setProgressIndicatorColor(color: Int) {
         otpProgress.setProgressColor(color)
     }
@@ -172,6 +224,9 @@ class OtpDisplayView @JvmOverloads constructor(
         }
     }
 
+    /**
+     * Clear the data and stop any pending updates.
+     */
     fun clearData() {
         otpElement = null
         otpProgress.clearData()
