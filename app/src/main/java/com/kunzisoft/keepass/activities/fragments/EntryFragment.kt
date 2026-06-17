@@ -98,19 +98,12 @@ class EntryFragment: DatabaseFragment() {
         advancedSection = view.findViewById(R.id.entry_section_advanced)
 
         templateView = view.findViewById(R.id.entry_template)
-        loadTemplateSettings()
 
         templateView.apply {
             // Set copy buttons
-            setOnChangeFieldProtectionClickListener { fieldProtection ->
-                mEntryViewModel.requestChangeFieldProtection(fieldProtection)
-            }
-            setOnAskCopySafeClickListener {
-                showClipboardDialog()
-            }
-            setOnCopyActionClickListener { fieldProtection ->
-                mEntryViewModel.requestCopyField(fieldProtection)
-            }
+            onChangeFieldProtectionClickListener = mEntryViewModel::requestChangeFieldProtection
+            onAskCopySafeClickListener = ::showClipboardDialog
+            onCopyActionClickListener = mEntryViewModel::requestCopyField
             // OTP timer updated
             onOtpUpdatedListener = mEntryViewModel::onOtpElementUpdated
         }
@@ -205,11 +198,19 @@ class EntryFragment: DatabaseFragment() {
         attachmentsAdapter?.binaryCache = database.binaryCache
     }
 
-    private fun loadTemplateSettings() {
-        context?.let { context ->
-            templateView.setFirstTimeAskAllowCopyProtectedFields(PreferencesUtil.isFirstTimeAskAllowCopyProtectedFields(context))
-            templateView.setAllowCopyProtectedFields(PreferencesUtil.allowCopyProtectedFields(context))
+    override fun onDestroyView() {
+        super.onDestroyView()
+        templateView.apply {
+            onChangeFieldProtectionClickListener = null
+            onAskCopySafeClickListener = null
+            onCopyActionClickListener = null
+            onOtpUpdatedListener = null
         }
+        attachmentsAdapter?.apply {
+            onItemClickListener = null
+            onListSizeChangedListener = null
+        }
+        attachmentsListView.adapter = null
     }
 
     private fun assignEntryInfo(entryInfo: EntryInfo) {
@@ -230,9 +231,6 @@ class EntryFragment: DatabaseFragment() {
         // Assign dates
         creationDateView.text = entryInfo.creationTime.getDateTimeString(resources)
         modificationDateView.text = entryInfo.lastModificationTime.getDateTimeString(resources)
-
-        // TODO Custom data
-        // customDataView.text = entryInfo.customData.toString()
 
         // Assign special data
         uuidReferenceView.text = entryInfo.nodeId.toString()
@@ -266,7 +264,6 @@ class EntryFragment: DatabaseFragment() {
 
     private fun finishDialog(dialog: DialogInterface) {
         dialog.dismiss()
-        loadTemplateSettings()
         templateView.reload()
     }
 

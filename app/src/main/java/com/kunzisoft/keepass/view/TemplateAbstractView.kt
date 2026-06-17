@@ -540,7 +540,7 @@ abstract class TemplateAbstractView<
         return mEntryInfo ?: EntryInfo()
     }
 
-    fun reload() {
+    open fun reload() {
         buildTemplateAndPopulateInfo()
     }
 

@@ -17,6 +17,7 @@ import com.kunzisoft.keepass.model.Passkey
 import com.kunzisoft.keepass.model.PasskeyEntryFields.PASSKEY_FIELD
 import com.kunzisoft.keepass.otp.OtpElement
 import com.kunzisoft.keepass.otp.OtpEntryFields.OTP_TOKEN_FIELD
+import com.kunzisoft.keepass.settings.PreferencesUtil
 
 
 class TemplateView @JvmOverloads constructor(
@@ -26,28 +27,21 @@ class TemplateView @JvmOverloads constructor(
 ) : TemplateAbstractView<TextFieldView, TextFieldView, DateTimeFieldView>
         (context, attrs, defStyle) {
 
-    private var mOnChangeFieldProtectionClickListener: ((FieldProtection) -> Unit)? = null
-    fun setOnChangeFieldProtectionClickListener(listener: ((FieldProtection) -> Unit)?) {
-        this.mOnChangeFieldProtectionClickListener = listener
+    var onChangeFieldProtectionClickListener: ((FieldProtection) -> Unit)? = null
+    var onAskCopySafeClickListener: (() -> Unit)? = null
+    var onCopyActionClickListener: ((FieldProtection) -> Unit)? = null
+    var onOtpUpdatedListener: ((OtpElement?) -> Unit)? = null
+
+    private var firstTimeAskAllowCopyProtectedFields: Boolean = false
+    private var allowCopyProtectedFields: Boolean = false
+
+    init {
+        loadPreferences()
     }
 
-    private var mOnAskCopySafeClickListener: (() -> Unit)? = null
-    fun setOnAskCopySafeClickListener(listener: (() -> Unit)? = null) {
-        this.mOnAskCopySafeClickListener = listener
-    }
-    private var mOnCopyActionClickListener: ((FieldProtection) -> Unit)? = null
-    fun setOnCopyActionClickListener(listener: ((FieldProtection) -> Unit)? = null) {
-        this.mOnCopyActionClickListener = listener
-    }
-
-    private var mFirstTimeAskAllowCopyProtectedFields: Boolean = false
-    fun setFirstTimeAskAllowCopyProtectedFields(firstTimeAskAllowCopyProtectedFields : Boolean) {
-        this.mFirstTimeAskAllowCopyProtectedFields = firstTimeAskAllowCopyProtectedFields
-    }
-
-    private var mAllowCopyProtectedFields: Boolean = false
-    fun setAllowCopyProtectedFields(allowCopyProtectedFields : Boolean) {
-        this.mAllowCopyProtectedFields = allowCopyProtectedFields
+    private fun loadPreferences() {
+        firstTimeAskAllowCopyProtectedFields = PreferencesUtil.isFirstTimeAskAllowCopyProtectedFields(context)
+        allowCopyProtectedFields = PreferencesUtil.allowCopyProtectedFields(context)
     }
 
     override fun preProcessTemplate() {
@@ -79,7 +73,7 @@ class TemplateView @JvmOverloads constructor(
             buildTextField.apply {
                 applyFontVisibility(mFontInVisibility)
                 onRevealChanged = {
-                    mOnChangeFieldProtectionClickListener?.invoke(
+                    onChangeFieldProtectionClickListener?.invoke(
                         FieldProtection(field, isRevealed(), needUserVerificationToReveal)
                     )
                 }
@@ -101,16 +95,16 @@ class TemplateView @JvmOverloads constructor(
 
                 if (field.protectedValue.isProtected) {
                     textDirection = TEXT_DIRECTION_LTR
-                    if (mFirstTimeAskAllowCopyProtectedFields) {
+                    if (firstTimeAskAllowCopyProtectedFields) {
                         setCopyButtonState(TextFieldView.ButtonState.DEACTIVATE)
                         setCopyButtonClickListener { _ ->
-                            mOnAskCopySafeClickListener?.invoke()
+                            onAskCopySafeClickListener?.invoke()
                         }
                     } else {
-                        if (mAllowCopyProtectedFields) {
+                        if (allowCopyProtectedFields) {
                             setCopyButtonState(TextFieldView.ButtonState.ACTIVATE)
                             setCopyButtonClickListener { fieldProtection ->
-                                mOnCopyActionClickListener?.invoke(fieldProtection)
+                                onCopyActionClickListener?.invoke(fieldProtection)
                             }
                         } else {
                             setCopyButtonState(TextFieldView.ButtonState.GONE)
@@ -120,7 +114,7 @@ class TemplateView @JvmOverloads constructor(
                 } else {
                     setCopyButtonState(TextFieldView.ButtonState.ACTIVATE)
                     setCopyButtonClickListener { fieldProtection ->
-                        mOnCopyActionClickListener?.invoke(fieldProtection)
+                        onCopyActionClickListener?.invoke(fieldProtection)
                     }
                 }
                 mFields[field.name] = this
@@ -169,6 +163,11 @@ class TemplateView @JvmOverloads constructor(
         return emptyCustomFields
     }
 
+    override fun reload() {
+        loadPreferences()
+        super.reload()
+    }
+
     private fun getOtpTokenView(): OtpTextFieldView? {
         getViewFieldByName(OTP_TOKEN_FIELD)?.let { viewField ->
             val view = viewField.view
@@ -177,8 +176,6 @@ class TemplateView @JvmOverloads constructor(
         }
         return null
     }
-
-    var onOtpUpdatedListener: ((OtpElement?) -> Unit)? = null
 
     private fun assignOtp(otpModel: OtpModel?) {
         otpModel?.let {
