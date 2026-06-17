@@ -59,12 +59,6 @@ class OtpDisplayView @JvmOverloads constructor(
 
     override var onRevealChanged: ((isRevealed: Boolean) -> Unit)? = null
 
-    /**
-     * Callback when the OTP is updated.
-     */
-    var onOtpUpdated: ((OtpElement?) -> Unit)? = null
-
-
     init {
         LayoutInflater.from(context).inflate(R.layout.view_otp_display, this, true)
         otpProgress = findViewById(R.id.otp_progress)
@@ -131,10 +125,9 @@ class OtpDisplayView @JvmOverloads constructor(
                                 mask()
                             }
                         }
-                        this@OtpDisplayView.onOtpUpdated?.invoke(otpElement)
                         populateOtpToken()
                     }
-                    setOtpElement(otpElement)
+                    this.otpElement = otpElement
                 }
                 visibility = VISIBLE
                 populateOtpToken()
@@ -231,7 +224,6 @@ class OtpDisplayView @JvmOverloads constructor(
         otpElement = null
         otpProgress.clearData()
         visibility = GONE
-        onOtpUpdated = null
     }
 
     companion object {

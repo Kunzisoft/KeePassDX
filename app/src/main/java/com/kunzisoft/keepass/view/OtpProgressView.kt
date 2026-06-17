@@ -49,14 +49,28 @@ class OtpProgressView @JvmOverloads constructor(
     private val otpCircularProgress: CircularProgressIndicator
     private val otpTextProgress: TextView
 
-    private var currentOtpElement: OtpElement? = null
-    private var updateJob: Job? = null
-    private var viewScope: CoroutineScope? = null
-
     /**
      * Callback when the OTP is updated.
      */
     var onOtpUpdated: ((OtpElement?) -> Unit)? = null
+    var otpElement: OtpElement? = null
+        set(value) {
+            // Set the OTP element to display and start the progress update if it's a TOTP.
+            field = value
+            stopUpdateJob()
+            if (value != null && value.token.isNotEmpty()) {
+                visibility = VISIBLE
+                onOtpUpdated?.invoke(value)
+                populateOtpView(value)
+                if (value.type == OtpType.TOTP) {
+                    startUpdateJob()
+                }
+            } else {
+                visibility = GONE
+            }
+        }
+    private var updateJob: Job? = null
+    private var viewScope: CoroutineScope? = null
 
     init {
         LayoutInflater.from(context).inflate(R.layout.view_otp_progress, this, true)
@@ -68,28 +82,8 @@ class OtpProgressView @JvmOverloads constructor(
         return viewScope ?: CoroutineScope(Dispatchers.Main + SupervisorJob()).also { viewScope = it }
     }
 
-    /**
-     * Set the OTP element to display and start the progress update if it's a TOTP.
-     *
-     * @param otpElement The OTP element to display.
-     */
-    fun setOtpElement(otpElement: OtpElement?) {
-        this.currentOtpElement = otpElement
-        stopUpdateJob()
-        if (otpElement != null && otpElement.token.isNotEmpty()) {
-            visibility = VISIBLE
-            onOtpUpdated?.invoke(otpElement)
-            populateOtpView(otpElement)
-            if (otpElement.type == OtpType.TOTP) {
-                startUpdateJob()
-            }
-        } else {
-            visibility = GONE
-        }
-    }
-
     private fun startUpdateJob() {
-        val otpElement = currentOtpElement ?: return
+        val otpElement = otpElement ?: return
         if (updateJob?.isActive == true) return
 
         updateJob = getScope().launch {
@@ -144,7 +138,7 @@ class OtpProgressView @JvmOverloads constructor(
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
-        if (currentOtpElement?.type == OtpType.TOTP) {
+        if (otpElement?.type == OtpType.TOTP) {
             startUpdateJob()
         }
     }
@@ -160,7 +154,7 @@ class OtpProgressView @JvmOverloads constructor(
      * Clear the data and stop any pending updates.
      */
     fun clearData() {
-        currentOtpElement = null
+        otpElement = null
         stopUpdateJob()
         visibility = GONE
         onOtpUpdated = null

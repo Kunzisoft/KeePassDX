@@ -27,6 +27,7 @@ import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.model.OtpModel
 import com.kunzisoft.keepass.otp.OtpElement
 import com.kunzisoft.keepass.settings.PreferencesUtil
+import com.kunzisoft.keepass.utils.clear
 
 /**
  * Custom text field view for displaying and managing OTP (One-Time Password) fields.
@@ -40,7 +41,21 @@ open class OtpTextFieldView @JvmOverloads constructor(
 
     private var mShowOTP: Boolean = PreferencesUtil.showOTPToken(context)
 
+    private var mLastToken: CharArray = charArrayOf()
+
+    private val otpToken: CharArray
+        get() = otpProgressView.otpElement?.token ?: charArrayOf()
+
+    // To retrieve the OTP value without space when necessary
+    override var value: CharArray
+        get() = if (otpToken.isNotEmpty()) otpToken else super.value
+        set(value) {
+            super.value = value
+        }
+
     private var otpProgressViewId = ViewCompat.generateViewId()
+
+    private var mExternalOtpUpdatedListener: ((OtpElement?) -> Unit)? = null
 
     private val otpProgressView = OtpProgressView(context).apply {
         layoutParams = LayoutParams(
@@ -59,7 +74,7 @@ open class OtpTextFieldView @JvmOverloads constructor(
      * @param onOtpUpdated The callback function.
      */
     fun setOnOtpUpdatedListener(onOtpUpdated: ((OtpElement?) -> Unit)? = null) {
-        otpProgressView.onOtpUpdated = onOtpUpdated
+        mExternalOtpUpdatedListener = onOtpUpdated
     }
 
     /**
@@ -93,9 +108,23 @@ open class OtpTextFieldView @JvmOverloads constructor(
             setValue(R.string.error_invalid_OTP)
         } else {
             label = otpElement.type.name
-            value = otpElement.tokenFormatted
             otpProgressView.apply {
-                setOtpElement(otpElement)
+                onOtpUpdated = { updatedOtpElement ->
+                    updatedOtpElement?.let {
+                        val newToken = it.token
+                        if (!mLastToken.contentEquals(newToken)) {
+                            mLastToken.clear()
+                            mLastToken = newToken
+                            val formatted = it.tokenFormatted
+                            value = formatted
+                            formatted.clear()
+                        } else {
+                            newToken.clear()
+                        }
+                    }
+                    mExternalOtpUpdatedListener?.invoke(updatedOtpElement)
+                }
+                this.otpElement = otpElement
                 isVisible = true
             }
             textDirection = TEXT_DIRECTION_LTR
@@ -107,5 +136,7 @@ open class OtpTextFieldView @JvmOverloads constructor(
      */
     fun clearData() {
         otpProgressView.clearData()
+        mLastToken.clear()
+        mLastToken = charArrayOf()
     }
 }
