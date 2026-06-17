@@ -163,5 +163,6 @@ class OtpProgressView @JvmOverloads constructor(
         currentOtpElement = null
         stopUpdateJob()
         visibility = GONE
+        onOtpUpdated = null
     }
 }

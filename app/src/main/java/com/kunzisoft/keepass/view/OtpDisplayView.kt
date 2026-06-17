@@ -120,7 +120,6 @@ class OtpDisplayView @JvmOverloads constructor(
      * @param otpModel The OTP model to display.
      */
     fun setOtpModel(otpModel: OtpModel?) {
-        mRevealed = mShowOTP
         otpModel?.let { model ->
             val otpElement = OtpElement(model)
             this.otpElement = otpElement
@@ -128,7 +127,7 @@ class OtpDisplayView @JvmOverloads constructor(
                 otpProgress.apply {
                     this.onOtpUpdated = {
                         if (otpTokenView.text != String(otpElement.tokenFormatted)) {
-                            if (!mShowOTP) {
+                            if (!mShowOTP && mRevealed) {
                                 mask()
                             }
                         }
@@ -138,6 +137,7 @@ class OtpDisplayView @JvmOverloads constructor(
                     setOtpElement(otpElement)
                 }
                 visibility = VISIBLE
+                populateOtpToken()
             } else {
                 visibility = GONE
             }
@@ -231,6 +231,7 @@ class OtpDisplayView @JvmOverloads constructor(
         otpElement = null
         otpProgress.clearData()
         visibility = GONE
+        onOtpUpdated = null
     }
 
     companion object {

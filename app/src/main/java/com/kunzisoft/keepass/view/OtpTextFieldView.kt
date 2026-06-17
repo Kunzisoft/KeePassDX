@@ -84,7 +84,7 @@ open class OtpTextFieldView @JvmOverloads constructor(
         val otpElement = OtpElement(otpModel)
         setProtection(
             isProtected = !mShowOTP,
-            isRevealedByDefault = false,
+            isRevealedByDefault = isRevealed(),
             needUserVerificationToReveal = false
         )
         if (otpElement.token.isEmpty()) {
