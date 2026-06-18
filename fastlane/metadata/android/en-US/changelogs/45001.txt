@@ -1,4 +1,5 @@
  * Hiding OTP token #1851
+ * Fix tags in templates #2543
  * Fix entry actions #2523 #2541
  * Fix sorting by access #1911
  * Fix group icon #2542

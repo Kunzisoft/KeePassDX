@@ -24,6 +24,7 @@ import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.element.EntryId
 import com.kunzisoft.keepass.database.element.Field
 import com.kunzisoft.keepass.database.element.GroupId
+import com.kunzisoft.keepass.database.element.Tags
 import com.kunzisoft.keepass.database.element.template.Template
 import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.model.FieldProtection
@@ -68,6 +69,8 @@ class EntryEditViewModel: NodeEditViewModel() {
     private var actionLocked: Boolean = false
 
     private var mInitialEntryInfo: EntryInfo? = null
+
+    private var mPreviousTemplateTags = Tags()
 
     private val _entryEditUIState = MutableStateFlow(EntryEditState())
     val entryEditUIState: StateFlow<EntryEditState> = _entryEditUIState.asStateFlow()
@@ -157,13 +160,18 @@ class EntryEditViewModel: NodeEditViewModel() {
             }
         }
         val selectedTemplate = entryInfo?.template ?: Template.STANDARD
+        mPreviousTemplateTags = Tags(selectedTemplate.tags)
         val templates = Templates(
             templates = database.getTemplates(isTemplate),
             defaultTemplate = selectedTemplate
         )
         mTemplates = templates
         withContext(Dispatchers.Main) {
-            _entryEditEvents.emit(EntryEditEvent.OnTemplateChanged(selectedTemplate))
+            _entryEditEvents.emit(EntryEditEvent.OnTemplateChanged(
+                template = selectedTemplate,
+                tagsToRemove = emptyList(),
+                tagsToAdd = emptyList()
+            ))
             _entryEditUIState.update { entryEdit ->
                 entryEdit.copy(
                     loaded = true,
@@ -176,7 +184,14 @@ class EntryEditViewModel: NodeEditViewModel() {
 
     fun changeTemplate(template: Template) {
         viewModelScope.launch {
-            _entryEditEvents.emit(EntryEditEvent.OnTemplateChanged(template))
+            val tagsToRemove = mPreviousTemplateTags.toStringList()
+            val tagsToAdd = template.tags.toStringList()
+            mPreviousTemplateTags = Tags(template.tags)
+            _entryEditEvents.emit(EntryEditEvent.OnTemplateChanged(
+                template = template,
+                tagsToRemove = tagsToRemove,
+                tagsToAdd = tagsToAdd
+            ))
         }
     }
 
@@ -346,6 +361,8 @@ class EntryEditViewModel: NodeEditViewModel() {
 
         data class OnTemplateChanged(
             val template: Template,
+            val tagsToRemove: List<String>,
+            val tagsToAdd: List<String>
         ) : EntryEditEvent()
 
         object RequestPasswordSelection : EntryEditEvent()

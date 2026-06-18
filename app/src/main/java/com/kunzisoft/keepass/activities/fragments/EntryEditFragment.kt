@@ -173,6 +173,13 @@ class EntryEditFragment: DatabaseFragment() {
                             }
                             is EntryEditViewModel.EntryEditEvent.OnTemplateChanged -> {
                                 templateView.setTemplate(event.template)
+                                // Handle tags
+                                event.tagsToRemove.forEach {
+                                    tagsCompletionView.removeObjectSync(it)
+                                }
+                                event.tagsToAdd.forEach {
+                                    tagsCompletionView.addObjectSync(it)
+                                }
                             }
                             is EntryEditViewModel.EntryEditEvent.OnPasswordSelected -> {
                                 templateView.setPasswordField(event.field)
