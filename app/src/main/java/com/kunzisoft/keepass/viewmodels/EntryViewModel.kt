@@ -109,7 +109,6 @@ class EntryViewModel(application: Application): AndroidViewModel(application) {
         this.mainEntryId = mainEntryId
         this.historyPosition = historyPosition
 
-        _onTotpProgressUpdated.value = null
         viewModelScope.launch {
             mDatabase?.let { database ->
                 _entryUIState.update { entryState ->
