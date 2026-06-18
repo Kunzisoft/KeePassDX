@@ -32,7 +32,7 @@ import com.kunzisoft.keepass.database.helper.getLocalizedName
 import com.kunzisoft.keepass.model.OtpModel
 import com.kunzisoft.keepass.otp.OtpElement
 import com.kunzisoft.keepass.settings.PreferencesUtil
-import com.kunzisoft.keepass.timeout.ClipboardHelper
+import com.kunzisoft.keepass.timeout.copyToClipboard
 
 /**
  * View to display an OTP token and its progress.
@@ -48,7 +48,6 @@ class OtpDisplayView @JvmOverloads constructor(
     private val otpTokenView: TextView
 
     private var mPrefSizeMultiplier: Float = PreferencesUtil.getListTextSize(context)
-    private var mClipboardHelper: ClipboardHelper = ClipboardHelper(context)
 
     private var mShowOTP: Boolean = PreferencesUtil.showOTPToken(context)
 
@@ -71,10 +70,10 @@ class OtpDisplayView @JvmOverloads constructor(
     fun copyTokenToClipboard() {
         otpElement?.token?.let { token ->
             try {
-                mClipboardHelper.copyToClipboard(
-                    TemplateField.getLocalizedName(context, TemplateField.LABEL_TOKEN),
-                    token,
-                    true
+                context.copyToClipboard(
+                    label = TemplateField.getLocalizedName(context, TemplateField.LABEL_TOKEN),
+                    value = token,
+                    sensitive = true
                 )
             } catch (e: Exception) {
                 Log.e(TAG, "Unable to copy the OTP token", e)

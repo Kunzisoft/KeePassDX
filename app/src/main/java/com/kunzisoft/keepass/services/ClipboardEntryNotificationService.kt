@@ -29,7 +29,7 @@ import com.kunzisoft.keepass.model.OtpModel
 import com.kunzisoft.keepass.otp.OtpElement
 import com.kunzisoft.keepass.otp.OtpType
 import com.kunzisoft.keepass.settings.PreferencesUtil.isOtpNotificationEnable
-import com.kunzisoft.keepass.timeout.ClipboardHelper
+import com.kunzisoft.keepass.timeout.timeoutCopyToClipboard
 import com.kunzisoft.keepass.utils.getParcelableExtraCompat
 import com.kunzisoft.keepass.utils.getParcelableList
 import com.kunzisoft.keepass.utils.putParcelableList
@@ -40,7 +40,6 @@ class ClipboardEntryNotificationService : LockNotificationServiceParam<OtpElemen
     private var otpModelToCopy: OtpModel? = null
 
     override val notificationId = 485
-    private var clipboardHelper: ClipboardHelper? = null
 
     private var pendingCopyIntent: PendingIntent? = null
     private var pendingDeleteIntent: PendingIntent? = null
@@ -51,11 +50,6 @@ class ClipboardEntryNotificationService : LockNotificationServiceParam<OtpElemen
 
     override fun retrieveChannelName(): String {
         return getString(R.string.clipboard)
-    }
-
-    override fun onCreate() {
-        super.onCreate()
-        clipboardHelper = ClipboardHelper(this)
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
@@ -167,10 +161,10 @@ class ClipboardEntryNotificationService : LockNotificationServiceParam<OtpElemen
     }
 
     private fun copyOTPToClipboard(value: CharArray?) {
-        clipboardHelper?.timeoutCopyToClipboard(
-            getString(R.string.entry_otp),
-            value,
-            true
+        timeoutCopyToClipboard(
+            label = getString(R.string.entry_otp),
+            value = value,
+            sensitive = true
         )
     }
 

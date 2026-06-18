@@ -71,8 +71,8 @@ import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.tasks.AttachmentFileBinderManager
-import com.kunzisoft.keepass.timeout.ClipboardHelper
 import com.kunzisoft.keepass.timeout.TimeoutHelper
+import com.kunzisoft.keepass.timeout.timeoutCopyToClipboard
 import com.kunzisoft.keepass.utils.getParcelableExtraCompat
 import com.kunzisoft.keepass.view.WindowInsetPosition
 import com.kunzisoft.keepass.view.applyWindowInsets
@@ -298,7 +298,7 @@ class EntryActivity : DatabaseLockActivity() {
                                 )
                             }
                             is EntryViewModel.EntryEvent.CopyToClipboard -> {
-                                ClipboardHelper(this@EntryActivity).timeoutCopyToClipboard(
+                                timeoutCopyToClipboard(
                                     label = event.label,
                                     value = event.content,
                                     sensitive = event.isProtected

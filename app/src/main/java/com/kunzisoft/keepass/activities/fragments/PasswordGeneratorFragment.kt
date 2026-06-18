@@ -38,7 +38,7 @@ import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.password.PasswordGenerator
 import com.kunzisoft.keepass.settings.PreferencesUtil
-import com.kunzisoft.keepass.timeout.ClipboardHelper
+import com.kunzisoft.keepass.timeout.timeoutCopyToClipboard
 import com.kunzisoft.keepass.utils.clear
 import com.kunzisoft.keepass.view.PasswordEditView
 import com.kunzisoft.keepass.viewmodels.KeyGeneratorViewModel
@@ -102,12 +102,11 @@ class PasswordGeneratorFragment : DatabaseFragment() {
         context?.let { context ->
             passwordCopyView?.visibility = if(PreferencesUtil.allowCopyProtectedFields(context))
                 View.VISIBLE else View.GONE
-            val clipboardHelper = ClipboardHelper(context)
             passwordCopyView?.setOnClickListener {
-                clipboardHelper.timeoutCopyToClipboard(
-                    getString(R.string.password),
-                    passwordEditView.passwordCharArray,
-                    true
+                context.timeoutCopyToClipboard(
+                    label = getString(R.string.password),
+                    value = passwordEditView.passwordCharArray,
+                    sensitive = true
                 )
             }
         }
