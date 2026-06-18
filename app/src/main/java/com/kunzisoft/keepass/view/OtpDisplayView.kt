@@ -115,6 +115,9 @@ class OtpDisplayView @JvmOverloads constructor(
     fun setOtpModel(otpModel: OtpModel?) {
         otpModel?.let { model ->
             val otpElement = OtpElement(model)
+            if (this.otpElement?.otpModel != model) {
+                mRevealed = mShowOTP
+            }
             this.otpElement = otpElement
             if (otpElement.token.isNotEmpty()) {
                 otpProgress.apply {
@@ -133,7 +136,10 @@ class OtpDisplayView @JvmOverloads constructor(
             } else {
                 visibility = GONE
             }
-        } ?: run { visibility = GONE }
+        } ?: run {
+            mRevealed = mShowOTP
+            visibility = GONE
+        }
 
         setOnClickListener {
             copyTokenToClipboard()
@@ -183,11 +189,6 @@ class OtpDisplayView @JvmOverloads constructor(
         otpProgress.setProgressColor(color)
     }
 
-    override fun onDetachedFromWindow() {
-        super.onDetachedFromWindow()
-        clearData()
-    }
-
     override fun setProtection(
         isProtected: Boolean,
         isRevealedByDefault: Boolean,
@@ -214,15 +215,6 @@ class OtpDisplayView @JvmOverloads constructor(
             mRevealed = true
             onRevealChanged?.invoke(true)
         }
-    }
-
-    /**
-     * Clear the data and stop any pending updates.
-     */
-    fun clearData() {
-        otpElement = null
-        otpProgress.clearData()
-        visibility = GONE
     }
 
     companion object {
