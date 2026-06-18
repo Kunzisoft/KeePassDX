@@ -176,6 +176,7 @@ class GroupViewModel(application: Application): AndroidViewModel(application) {
                 withContext(Dispatchers.IO) {
                     val groupId = groupState?.groupId
                     val showFromPosition = groupState?.firstVisibleItem
+                    val showFromOffset = groupState?.firstVisibleItemOffset ?: 0
                     val group = if (groupId != null) {
                         database.getGroupInfoById(groupId)
                     } else {
@@ -185,7 +186,7 @@ class GroupViewModel(application: Application): AndroidViewModel(application) {
                         mRecyclingBinIsCurrentGroup = group.isRecycleBin(database)
                         mainGroup = group
                         // Save group state
-                        mMainGroupState = GroupState(group.nodeId, showFromPosition)
+                        mMainGroupState = GroupState(group.nodeId, showFromPosition, showFromOffset)
                         mSearchState = null
                         // Breadcrumbs
                         val breadcrumbs = mDatabase?.getBreadcrumbsFrom(
@@ -221,7 +222,7 @@ class GroupViewModel(application: Application): AndroidViewModel(application) {
                                 )
                             }
                             showFromPosition?.let {
-                                _viewEvent.emit(GroupEvent.ShowPosition(showFromPosition))
+                                _viewEvent.emit(GroupEvent.ShowPosition(showFromPosition, showFromOffset))
                             }
                         }
                     } else {
@@ -258,6 +259,7 @@ class GroupViewModel(application: Application): AndroidViewModel(application) {
                         }
                         val searchParameters = searchState.searchParameters
                         val showFromPosition = searchState.firstVisibleItem
+                        val showFromOffset = searchState.firstVisibleItemOffset
                         val group = database.createSearchGroupInfo(
                             searchParameters = searchParameters,
                             fromGroup = mMainGroupState?.groupId,
@@ -308,7 +310,7 @@ class GroupViewModel(application: Application): AndroidViewModel(application) {
                                 )
                             }
                             showFromPosition?.let {
-                                _viewEvent.emit(GroupEvent.ShowPosition(showFromPosition))
+                                _viewEvent.emit(GroupEvent.ShowPosition(showFromPosition, showFromOffset))
                             }
                         }
                     } ?: Log.e(TAG, "Search state is null")
@@ -328,7 +330,8 @@ class GroupViewModel(application: Application): AndroidViewModel(application) {
                     searchParameters = searchParameters,
                     autoSearch = true,
                     tempSearchInfo = true,
-                    firstVisibleItem = mSearchState?.firstVisibleItem ?: 0
+                    firstVisibleItem = mSearchState?.firstVisibleItem ?: 0,
+                    firstVisibleItemOffset = mSearchState?.firstVisibleItemOffset ?: 0
                 )
                 loadGroup()
             }
@@ -340,7 +343,8 @@ class GroupViewModel(application: Application): AndroidViewModel(application) {
                 },
                 autoSearch = true,
                 tempSearchInfo = false,
-                firstVisibleItem = mSearchState?.firstVisibleItem ?: 0
+                firstVisibleItem = mSearchState?.firstVisibleItem ?: 0,
+                firstVisibleItemOffset = mSearchState?.firstVisibleItemOffset ?: 0
             )
             loadGroup()
         } else if (mRequestStartupSearch && mAutoFocusSearch) {
@@ -351,7 +355,8 @@ class GroupViewModel(application: Application): AndroidViewModel(application) {
                 searchParameters = mDefaultSearchParameters,
                 autoSearch = false,
                 tempSearchInfo = false,
-                firstVisibleItem = mSearchState?.firstVisibleItem ?: 0
+                firstVisibleItem = mSearchState?.firstVisibleItem ?: 0,
+                firstVisibleItemOffset = mSearchState?.firstVisibleItemOffset ?: 0
             )
             loadGroup()
         }
@@ -364,7 +369,8 @@ class GroupViewModel(application: Application): AndroidViewModel(application) {
                 searchParameters = mDefaultSearchParameters,
                 autoSearch = false,
                 tempSearchInfo = false,
-                firstVisibleItem = 0
+                firstVisibleItem = 0,
+                firstVisibleItemOffset = 0
             )
             loadGroup()
         }
@@ -374,6 +380,8 @@ class GroupViewModel(application: Application): AndroidViewModel(application) {
         mSearchState?.let { searchState ->
             if (text != null) {
                 searchState.searchParameters.searchQuery = text
+                searchState.firstVisibleItem = 0
+                searchState.firstVisibleItemOffset = 0
                 loadGroup()
             }
         }
@@ -383,6 +391,8 @@ class GroupViewModel(application: Application): AndroidViewModel(application) {
         mSearchState?.let { searchState ->
             searchParameters.searchQuery = searchState.searchParameters.searchQuery
             searchState.searchParameters = searchParameters
+            searchState.firstVisibleItem = 0
+            searchState.firstVisibleItemOffset = 0
             saveSearchParameters()
             loadGroup()
         }
@@ -424,9 +434,21 @@ class GroupViewModel(application: Application): AndroidViewModel(application) {
         }
     }
 
-    fun assignPosition(position: Int) {
-        mSearchState?.firstVisibleItem = position
-        mMainGroupState?.firstVisibleItem = position
+    fun assignPosition(
+        position: Int = 0,
+        offset: Int = 0
+    ) {
+        if (isCurrentGroupIsSearch) {
+            mSearchState?.let {
+                it.firstVisibleItem = position
+                it.firstVisibleItemOffset = offset
+            }
+        } else {
+            mMainGroupState?.let {
+                it.firstVisibleItem = position
+                it.firstVisibleItemOffset = offset
+            }
+        }
     }
 
     /*
@@ -730,7 +752,8 @@ class GroupViewModel(application: Application): AndroidViewModel(application) {
         var searchParameters: SearchParameters,
         val autoSearch: Boolean,
         val tempSearchInfo: Boolean,
-        var firstVisibleItem: Int?
+        var firstVisibleItem: Int?,
+        var firstVisibleItemOffset: Int = 0
     )
 
     sealed class GroupEvent {
@@ -745,7 +768,7 @@ class GroupViewModel(application: Application): AndroidViewModel(application) {
         data class PasteNodes(val pasteActionState: PasteActionState) : GroupEvent()
         data class ShowGroup(val group: GroupInfo) : GroupEvent()
         object HideKeyboard : GroupEvent()
-        data class ShowPosition(val position: Int) : GroupEvent()
+        data class ShowPosition(val position: Int, val offset: Int) : GroupEvent()
         data class ScrollTo(val dy: Int) : GroupEvent()
         data class SortSelected(val sortNode: SortNode) : GroupEvent()
         object ClearSearch : GroupEvent()
@@ -784,7 +807,8 @@ class GroupViewModel(application: Application): AndroidViewModel(application) {
 
     data class GroupState(
         var groupId: GroupId?,
-        var firstVisibleItem: Int?
+        var firstVisibleItem: Int?,
+        var firstVisibleItemOffset: Int = 0
     )
 
     data class PasteActionState(

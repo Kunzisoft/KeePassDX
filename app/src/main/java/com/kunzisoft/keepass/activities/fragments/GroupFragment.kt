@@ -58,7 +58,10 @@ class GroupFragment : DatabaseFragment() {
         override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
             super.onScrollStateChanged(recyclerView, newState)
             if (newState == SCROLL_STATE_IDLE) {
-                mGroupViewModel.assignPosition(getFirstVisiblePosition())
+                val firstPosition = mLayoutManager?.findFirstVisibleItemPosition() ?: 0
+                val firstView = mLayoutManager?.findViewByPosition(firstPosition)
+                val offset = firstView?.top ?: 0
+                mGroupViewModel.assignPosition(firstPosition, offset)
             }
         }
         override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
@@ -144,13 +147,13 @@ class GroupFragment : DatabaseFragment() {
                     mGroupViewModel.viewEvent.collect { event ->
                         when (event) {
                             is GroupViewModel.GroupEvent.ShowPosition -> {
-                                mNodesRecyclerView?.scrollToPosition(event.position)
+                                mNodesRecyclerView?.post {
+                                    mLayoutManager?.scrollToPositionWithOffset(event.position, event.offset)
+                                }
                             }
-
                             is GroupViewModel.GroupEvent.RemoveNodeAction -> {
                                 mAdapter?.unselectActionNodes()
                             }
-
                             is GroupViewModel.GroupEvent.SortSelected -> {
                                 // Tell the adapter to refresh its list
                                 try {
@@ -164,7 +167,6 @@ class GroupFragment : DatabaseFragment() {
                                     Log.e(TAG, "Unable to sort the list", e)
                                 }
                             }
-
                             else -> {}
                         }
                     }
@@ -191,10 +193,6 @@ class GroupFragment : DatabaseFragment() {
 
         mNodesRecyclerView?.removeOnScrollListener(mRecycleViewScrollListener)
         super.onPause()
-    }
-
-    fun getFirstVisiblePosition(): Int {
-        return mLayoutManager?.findFirstVisibleItemPosition() ?: 0
     }
 
     companion object {
