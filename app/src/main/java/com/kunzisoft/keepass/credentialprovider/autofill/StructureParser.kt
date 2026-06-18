@@ -375,13 +375,8 @@ class StructureParser(
         return false
     }
 
-    private fun inputIsVariationType(inputType: Int, vararg type: Int): Boolean {
-        type.forEach {
-            if (inputType and InputType.TYPE_MASK_VARIATION == it)
-                return true
-        }
-        return false
-    }
+    private fun inputIsVariationType(inputType: Int, vararg type: Int): Boolean =
+        InputTypeUtil.isVariationType(inputType, *type)
 
     private fun showHexInputType(inputType: Int): String {
         return "0x${"%08x".format(inputType)}"

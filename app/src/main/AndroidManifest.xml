@@ -8,6 +8,11 @@
       android:largeScreens="true"
       android:anyDensity="true" />
     <uses-permission
+        android:name="android.permission.CAMERA" />
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
+    <uses-permission
         android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission
         android:name="android.permission.FOREGROUND_SERVICE_DATA_SYNC" />
@@ -152,6 +157,18 @@
         <activity
             android:name="com.kunzisoft.keepass.activities.EntryEditActivity"
             android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name="com.kunzisoft.keepass.activities.QrScanFromKeyboardActivity"
+            android:theme="@style/KeepassDXStyle.QrScanOverlay"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:taskAffinity=""
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:excludeFromRecents="true" />
+        <activity
+            android:name="com.journeyapps.barcodescanner.CaptureActivity"
+            android:screenOrientation="portrait"
+            tools:replace="android:screenOrientation" />
         <!-- About and Settings -->
         <activity
             android:name="com.kunzisoft.keepass.activities.AboutActivity"

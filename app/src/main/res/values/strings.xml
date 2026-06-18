@@ -802,4 +802,30 @@
     <string name="user_verification_database_credential">Enter the first four characters of your database password</string>
     <string name="first_chars">First chars</string>
     <string name="check">Check</string>
+
+    <string name="qr_share_menu_title">Share via QR code</string>
+    <string name="qr_scan_menu_title">Scan QR code</string>
+    <string name="qr_share_dialog_title">Share entry via QR</string>
+    <string name="qr_share_pin_hint">PIN (min. 6 characters)</string>
+    <string name="qr_share_pin_confirm_hint">Confirm PIN</string>
+    <string name="qr_share_pin_weak_warning">Warning: short numeric PINs are easier to brute-force</string>
+    <string name="qr_share_ttl_label">Valid for</string>
+    <string name="qr_share_ttl_30s">30 seconds</string>
+    <string name="qr_share_ttl_1min">1 minute</string>
+    <string name="qr_share_ttl_5min">5 minutes</string>
+    <string name="qr_share_generate">Generate</string>
+    <string name="qr_share_pin_info">Share the PIN separately (voice, message, etc.)</string>
+    <string name="qr_share_expires_in">Expires in: %s</string>
+    <string name="qr_share_expired">QR code has expired</string>
+    <string name="qr_share_generating">Generating…</string>
+    <string name="qr_share_pin_too_short">PIN must be at least 6 characters</string>
+    <string name="qr_share_pin_mismatch">PINs do not match</string>
+    <string name="qr_scan_dialog_title">QR Code PIN</string>
+    <string name="qr_scan_pin_hint">Enter PIN</string>
+    <string name="qr_scan_wrong_pin">Wrong PIN — %d attempt(s) remaining</string>
+    <string name="qr_scan_blocked">Too many failed attempts. This QR code is blocked on this device.</string>
+    <string name="qr_scan_expired">This QR code has expired</string>
+    <string name="qr_scan_invalid">Invalid QR code format</string>
+    <string name="qr_scan_success">Credentials imported from QR code</string>
+    <string name="qr_scan_prompt">Scan the KeePassDX QR code</string>
 </resources>

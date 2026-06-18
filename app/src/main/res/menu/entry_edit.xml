@@ -39,4 +39,10 @@
         android:orderInCategory="95"
         app:iconTint="?attr/colorControlNormal"
         app:showAsAction="ifRoom" />
+    <item android:id="@+id/menu_scan_qr"
+        android:icon="@drawable/ic_qr_code_white_24dp"
+        android:title="@string/qr_scan_menu_title"
+        android:orderInCategory="91"
+        app:iconTint="?attr/colorControlNormal"
+        app:showAsAction="ifRoom" />
 </menu>

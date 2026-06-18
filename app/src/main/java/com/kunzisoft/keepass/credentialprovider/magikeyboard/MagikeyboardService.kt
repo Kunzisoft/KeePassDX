@@ -86,6 +86,7 @@ import com.kunzisoft.keepass.utils.UPDATE_TIMEOUT_PROGRESS_ACTION
 import com.kunzisoft.keepass.utils.clear
 import com.kunzisoft.keepass.utils.registerLockReceiver
 import com.kunzisoft.keepass.utils.unregisterLockReceiver
+import com.kunzisoft.keepass.credentialprovider.autofill.InputTypeUtil
 import java.util.UUID
 
 class MagikeyboardService : InputMethodService(),
@@ -94,6 +95,8 @@ class MagikeyboardService : InputMethodService(),
 
     private var mDatabaseTaskProvider: DatabaseTaskProvider? = null
     private var mDatabase: ContextualDatabase? = null
+    private var qrUsernameFilled = false
+    private var qrPasswordFilled = false
 
     private var rootView: View? = null
     private var keyboardView: KeyboardView? = null
@@ -157,6 +160,9 @@ class MagikeyboardService : InputMethodService(),
         lockReceiver?.backToPreviousKeyboardAction = {
             switchOrAssignPreviousKeyboard()
         }
+        lockReceiver?.returnToMagikeyboardAction = {
+            startActivity(getSwitchMagikeyboardIntent())
+        }
 
         entriesAdapter = KeyboardEntriesAdapter(this)
         entriesAdapter?.entrySelectionListener = object  : KeyboardEntriesAdapter.EntrySelectionListener {
@@ -209,6 +215,14 @@ class MagikeyboardService : InputMethodService(),
         }
 
         searchInfo.observe(this) { _ ->
+            assignKeyboardView()
+        }
+
+        scannedQrEntry.observe(this) { entry ->
+            if (entry != null) {
+                qrUsernameFilled = false
+                qrPasswordFilled = false
+            }
             assignKeyboardView()
         }
 
@@ -292,6 +306,7 @@ class MagikeyboardService : InputMethodService(),
     }
 
     private fun getEntryInfo(entryId: UUID? = entriesAdapter?.selectedEntry?.id): EntryInfo? {
+        scannedQrEntry.value?.let { return it }
         var entryInfoRetrieved: EntryInfo? = null
         entryId?.let {
             entryInfoRetrieved = mDatabase
@@ -331,15 +346,15 @@ class MagikeyboardService : InputMethodService(),
         }
         dismissCustomKeys()
         if (keyboardView != null) {
-            if (entryListEmpty) {
+            if (!entryListEmpty || scannedQrEntry.value != null) {
+                entryListView?.visibility = if (entryListEmpty) GONE else VISIBLE
+                if (keyboardEntry != null) {
+                    keyboardView?.keyboard = keyboardEntry
+                }
+            } else {
                 entryListView?.visibility = GONE
                 if (keyboard != null) {
                     keyboardView?.keyboard = keyboard
-                }
-            } else {
-                entryListView?.visibility = VISIBLE
-                if (keyboardEntry != null) {
-                    keyboardView?.keyboard = keyboardEntry
                 }
             }
             // Define preferences
@@ -371,12 +386,39 @@ class MagikeyboardService : InputMethodService(),
 
     override fun onStartInputView(info: EditorInfo, restarting: Boolean) {
         super.onStartInputView(info, restarting)
+        if (pinEntryActive) {
+            switchOrAssignPreviousKeyboard()
+            return
+        }
         addSearchInfo(application, SearchInfo().apply {
             applicationId = info.packageName
         }, TypeMode.MAGIKEYBOARD)
         assignKeyboardView()
         setScreenshotMode()
+        autoFillQrFieldIfApplicable(info)
     }
+
+    private fun autoFillQrFieldIfApplicable(info: EditorInfo) {
+        val entry = scannedQrEntry.value ?: return
+        val ic = currentInputConnection ?: return
+        when {
+            isPasswordField(info) && !qrPasswordFilled -> {
+                ic.commitText(String(entry.password), 1)
+                qrPasswordFilled = true
+                if (qrUsernameFilled) clearScannedQrEntry()
+            }
+            isUsernameField(info) && !qrUsernameFilled -> {
+                ic.commitText(entry.username, 1)
+                qrUsernameFilled = true
+            }
+        }
+    }
+
+    private fun isPasswordField(info: EditorInfo) =
+        InputTypeUtil.isPasswordInputType(info.inputType)
+
+    private fun isUsernameField(info: EditorInfo) =
+        InputTypeUtil.isUsernameInputType(info.inputType)
 
     override fun onUnbindInput() {
         super.onUnbindInput()
@@ -424,8 +466,13 @@ class MagikeyboardService : InputMethodService(),
             KEY_CHANGE_KEYBOARD -> {
                 showKeyboardPicker()
             }
+            KEY_QR_SCAN -> {
+                val intent = Intent(this, com.kunzisoft.keepass.activities.QrScanFromKeyboardActivity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_SINGLE_TOP)
+                startActivity(intent)
+            }
             KEY_ENTRY -> {
-                // Filter browser and app blocked to prevent unwanted auto save
+                clearScannedQrEntry()
                 actionKeyEntry(searchInfo.value?.withoutBrowserOrAppBlocked(this) ?: SearchInfo())
             }
             KEY_ENTRY_ALT -> {
@@ -607,6 +654,7 @@ class MagikeyboardService : InputMethodService(),
         const val KEY_BACK_KEYBOARD = 600
         const val KEY_CHANGE_KEYBOARD = 601
         const val KEY_LOCK = 611
+        const val KEY_QR_SCAN = 615
         const val KEY_ENTRY = 620
         const val KEY_ENTRY_ALT = 621
         const val KEY_USERNAME = 500
@@ -620,6 +668,16 @@ class MagikeyboardService : InputMethodService(),
         private val shareBrowser = MutableLiveData<String?>()
         private val entryUUIDList = MutableLiveData<List<UUID>?>()
         private var onlyAllowedFromMagikeyboard: Boolean = false
+        val scannedQrEntry = MutableLiveData<com.kunzisoft.keepass.model.EntryInfo?>()
+        var pinEntryActive = false
+
+        fun setScannedQrEntry(entryInfo: com.kunzisoft.keepass.model.EntryInfo) {
+            scannedQrEntry.postValue(entryInfo)
+        }
+
+        fun clearScannedQrEntry() {
+            scannedQrEntry.postValue(null)
+        }
 
         private fun removeEntryInfo() {
             this.entryUUIDList.value = null

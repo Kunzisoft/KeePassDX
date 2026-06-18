@@ -51,6 +51,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.progressindicator.LinearProgressIndicator
 import com.google.android.material.tabs.TabLayout
 import com.kunzisoft.keepass.R
+import com.kunzisoft.keepass.activities.dialogs.QrShareDialogFragment
 import com.kunzisoft.keepass.activities.fragments.EntryFragment
 import com.kunzisoft.keepass.activities.helpers.ExternalFileHelper
 import com.kunzisoft.keepass.activities.legacy.DatabaseLockActivity
@@ -525,6 +526,7 @@ class EntryActivity : DatabaseLockActivity() {
         if (mEntryViewModel.entryLoaded) {
             val inflater = menuInflater
             inflater.inflate(R.menu.database, menu)
+            inflater.inflate(R.menu.entry, menu)
 
             if (mEntryViewModel.entryIsHistory && !mDatabaseReadOnly) {
                 inflater.inflate(R.menu.entry_history, menu)
@@ -616,6 +618,13 @@ class EntryActivity : DatabaseLockActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
+            R.id.menu_share_qr -> {
+                mEntryViewModel.entryInfoHistory.value?.entryInfo?.let { entryInfo ->
+                    QrShareDialogFragment.newInstance(entryInfo)
+                        .show(supportFragmentManager, QrShareDialogFragment.TAG)
+                }
+                return true
+            }
             R.id.menu_restore_entry_history -> {
                 mEntryViewModel.mainEntryId?.let { mainEntryId ->
                     restoreEntryHistory(

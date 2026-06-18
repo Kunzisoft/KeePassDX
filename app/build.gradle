@@ -164,6 +164,8 @@ dependencies {
     implementation "commons-io:commons-io:$commons_io_version"
     // Password generator
     implementation 'me.gosimple:nbvcxz:1.5.1'
+    // QR code generation and scanning
+    implementation 'com.journeyapps:zxing-android-embedded:4.3.0'
 
     // Credentials Provider
     implementation "androidx.credentials:credentials:1.2.2"

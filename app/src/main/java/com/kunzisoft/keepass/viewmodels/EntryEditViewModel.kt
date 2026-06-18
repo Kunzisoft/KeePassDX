@@ -58,6 +58,8 @@ class EntryEditViewModel: NodeEditViewModel() {
 
     val requestEntryInfoUpdate : LiveData<Void?> get() = _requestEntryInfoUpdate
     private val _requestEntryInfoUpdate = SingleLiveEvent<Void?>()
+    val qrScanEntryInfo: LiveData<EntryInfo> get() = _qrScanEntryInfo
+    private val _qrScanEntryInfo = SingleLiveEvent<EntryInfo>()
     val onEntrySaved : LiveData<EntrySave> get() = _onEntrySaved
     private val _onEntrySaved = SingleLiveEvent<EntrySave>()
 
@@ -237,6 +239,10 @@ class EntryEditViewModel: NodeEditViewModel() {
 
     fun requestEntryInfoUpdate() {
         _requestEntryInfoUpdate.call()
+    }
+
+    fun applyQrScanResult(entryInfo: EntryInfo) {
+        _qrScanEntryInfo.value = entryInfo
     }
 
     fun unlockAction() {

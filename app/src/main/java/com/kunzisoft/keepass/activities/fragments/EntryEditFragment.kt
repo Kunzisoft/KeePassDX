@@ -165,6 +165,10 @@ class EntryEditFragment: DatabaseFragment() {
             mEntryEditViewModel.saveEntryInfo(retrieveEntryInfo())
         }
 
+        mEntryEditViewModel.qrScanEntryInfo.observe(viewLifecycleOwner) { entryInfo ->
+            assignEntryInfo(entryInfo)
+        }
+
         mEntryEditViewModel.onIconSelected.observe(viewLifecycleOwner) { iconImage ->
             templateView.setIcon(iconImage)
         }

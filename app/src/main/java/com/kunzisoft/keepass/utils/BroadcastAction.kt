@@ -47,11 +47,13 @@ const val UPDATE_TIMEOUT_PROGRESS_ACTION = "com.kunzisoft.keepass.UPDATE_TIMEOUT
 const val EXTRA_PROGRESS = "com.kunzisoft.keepass.EXTRA_PROGRESS"
 const val REMOVE_ENTRY_MAGIKEYBOARD_ACTION = "com.kunzisoft.keepass.REMOVE_ENTRY_MAGIKEYBOARD"
 const val BACK_PREVIOUS_KEYBOARD_ACTION = "com.kunzisoft.keepass.BACK_PREVIOUS_KEYBOARD"
+const val RETURN_TO_MAGIKEYBOARD_ACTION = "com.kunzisoft.keepass.RETURN_TO_MAGIKEYBOARD"
 
 open class LockReceiver(private var lockAction: () -> Unit) : BroadcastReceiver() {
 
     private var mLockPendingIntent: PendingIntent? = null
     var backToPreviousKeyboardAction: (() -> Unit)? = null
+    var returnToMagikeyboardAction: (() -> Unit)? = null
 
     override fun onReceive(context: Context, intent: Intent) {
         // If allowed, lock and exit
@@ -110,6 +112,9 @@ open class LockReceiver(private var lockAction: () -> Unit) : BroadcastReceiver(
                     BACK_PREVIOUS_KEYBOARD_ACTION -> {
                         backToPreviousKeyboardAction?.invoke()
                     }
+                    RETURN_TO_MAGIKEYBOARD_ACTION -> {
+                        returnToMagikeyboardAction?.invoke()
+                    }
                     else -> {}
                 }
             }
@@ -138,6 +143,7 @@ fun Context.registerLockReceiver(
             if (registerKeyboardAction) {
                 addAction(REMOVE_ENTRY_MAGIKEYBOARD_ACTION)
                 addAction(BACK_PREVIOUS_KEYBOARD_ACTION)
+                addAction(RETURN_TO_MAGIKEYBOARD_ACTION)
             }
             if (registerTimeoutProgress) {
                 addAction(UPDATE_TIMEOUT_PROGRESS_ACTION)

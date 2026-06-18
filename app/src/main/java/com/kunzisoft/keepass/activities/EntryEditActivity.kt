@@ -52,7 +52,11 @@ import com.kunzisoft.keepass.activities.dialogs.ColorPickerDialogFragment
 import com.kunzisoft.keepass.activities.dialogs.EntryCustomFieldDialogFragment
 import com.kunzisoft.keepass.activities.dialogs.FileTooBigDialogFragment
 import com.kunzisoft.keepass.activities.dialogs.FileTooBigDialogFragment.Companion.MAX_WARNING_BINARY_FILE
+import com.kunzisoft.keepass.activities.dialogs.QrScanPinDialogFragment
 import com.kunzisoft.keepass.activities.dialogs.ReplaceFileDialogFragment
+import com.kunzisoft.keepass.qrshare.QrSharePayload
+import com.journeyapps.barcodescanner.ScanContract
+import com.journeyapps.barcodescanner.ScanOptions
 import com.kunzisoft.keepass.activities.dialogs.SetOTPDialogFragment
 import com.kunzisoft.keepass.activities.fragments.EntryEditFragment
 import com.kunzisoft.keepass.activities.helpers.ExternalFileHelper
@@ -79,6 +83,7 @@ import com.kunzisoft.keepass.education.EntryEditActivityEducation
 import com.kunzisoft.keepass.model.AttachmentState
 import com.kunzisoft.keepass.model.DataTime
 import com.kunzisoft.keepass.model.EntryAttachmentState
+import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.model.RegisterInfo
 import com.kunzisoft.keepass.model.SearchInfo
 import com.kunzisoft.keepass.otp.OtpElement
@@ -94,6 +99,7 @@ import com.kunzisoft.keepass.timeout.TimeoutHelper
 import com.kunzisoft.keepass.utils.TimeUtil.datePickerToDataDate
 import com.kunzisoft.keepass.utils.UriUtil.getDocumentFile
 import com.kunzisoft.keepass.utils.clear
+import com.kunzisoft.keepass.utils.getParcelableCompat
 import com.kunzisoft.keepass.utils.getParcelableExtraCompat
 import com.kunzisoft.keepass.view.ToolbarAction
 import com.kunzisoft.keepass.view.WindowInsetPosition
@@ -144,6 +150,15 @@ class EntryEditActivity : DatabaseLockActivity(),
         mEntryEditViewModel.selectIcon(icon)
     }
 
+    private val mQrScanLauncher = registerForActivityResult(ScanContract()) { result ->
+        result.contents?.let { content ->
+            if (content.startsWith(QrSharePayload.QR_PREFIX)) {
+                QrScanPinDialogFragment.newInstance(content)
+                    .show(supportFragmentManager, QrScanPinDialogFragment.TAG)
+            }
+        }
+    }
+
     private var mKeyGeneratorResultLauncher = KeyGeneratorActivity.registerForGeneratedKeyResult(this) { keyGenerated ->
         keyGenerated?.let {
             mEntryEditViewModel.passwordField?.let {
@@ -191,6 +206,15 @@ class EntryEditActivity : DatabaseLockActivity(),
                 WindowInsetPosition.START_MARGINS,
                 WindowInsetPosition.END_MARGINS,
             ))
+        }
+
+        supportFragmentManager.setFragmentResultListener(
+            QrScanPinDialogFragment.REQUEST_KEY, this
+        ) { _, bundle ->
+            val entryInfo = bundle.getParcelableCompat<EntryInfo>(
+                QrScanPinDialogFragment.KEY_ENTRY_INFO
+            )
+            entryInfo?.let { mEntryEditViewModel.applyQrScanResult(it) }
         }
 
         stopService(Intent(this, KeyboardEntryNotificationService::class.java))
@@ -791,6 +815,16 @@ class EntryEditActivity : DatabaseLockActivity(),
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
+            R.id.menu_scan_qr -> {
+                val options = ScanOptions().apply {
+                    setDesiredBarcodeFormats(com.journeyapps.barcodescanner.ScanOptions.QR_CODE)
+                    setPrompt(getString(R.string.qr_scan_prompt))
+                    setBeepEnabled(false)
+                    setBarcodeImageEnabled(false)
+                }
+                mQrScanLauncher.launch(options)
+                return true
+            }
             R.id.menu_add_field -> {
                 addNewCustomField()
                 return true

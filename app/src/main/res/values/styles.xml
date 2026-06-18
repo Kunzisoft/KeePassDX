@@ -288,6 +288,16 @@
         <item name="ensureMinTouchTargetSize">false</item>
     </style>
 
+    <!-- QR Scan overlay activity theme -->
+    <style name="KeepassDXStyle.QrScanOverlay" parent="KeepassDXStyle.Night">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:backgroundDimAmount">0.6</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowSoftInputMode">adjustResize</item>
+    </style>
+
     <!-- Dialog -->
     <style name="KeepassDXStyle.Light.Dialog" parent="ThemeOverlay.Material3.Dialog.Alert">
         <item name="android:colorBackground">?attr/dialogBackgroundColor</item>
