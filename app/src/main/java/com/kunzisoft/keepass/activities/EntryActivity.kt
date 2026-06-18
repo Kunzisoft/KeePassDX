@@ -378,11 +378,6 @@ class EntryActivity : DatabaseLockActivity() {
                         }
                     }
                 }
-            }
-        }
-
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.RESUMED) {
                 launch {
                     mUserVerificationViewModel.onUserVerificationCanceled.collect { result ->
                         coordinatorLayout?.showError(result.error, R.id.entry_content_tab)

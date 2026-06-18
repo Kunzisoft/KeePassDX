@@ -156,31 +156,21 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment(), DatabaseRetriev
         super.onCreate(savedInstanceState)
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                mDatabaseViewModel.actionState.collect { uiState ->
-                    when (uiState) {
-                        is DatabaseViewModel.ActionState.OnDatabaseActionFinished -> {
-                            onDatabaseActionFinished(
-                                uiState.database,
-                                uiState.actionTask,
-                                uiState.result
-                            )
+                launch {
+                    mDatabaseViewModel.actionState.collect { uiState ->
+                        when (uiState) {
+                            is DatabaseViewModel.ActionState.OnDatabaseActionFinished -> {
+                                onDatabaseActionFinished(
+                                    uiState.database,
+                                    uiState.actionTask,
+                                    uiState.result
+                                )
+                            }
+
+                            else -> {}
                         }
-                        else -> {}
                     }
                 }
-            }
-        }
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.RESUMED) {
-                mDatabaseViewModel.databaseState.collect { database ->
-                    database?.let {
-                        onDatabaseRetrieved(database)
-                    }
-                }
-            }
-        }
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.RESUMED) {
                 launch {
                     mUserVerificationViewModel.onUserVerificationCanceled.collect { result ->
                         mSettingsViewModel.showError(result.error)
@@ -216,6 +206,15 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment(), DatabaseRetriev
                             }
                             else -> {}
                         }
+                    }
+                }
+            }
+        }
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.RESUMED) {
+                mDatabaseViewModel.databaseState.collect { database ->
+                    database?.let {
+                        onDatabaseRetrieved(database)
                     }
                 }
             }

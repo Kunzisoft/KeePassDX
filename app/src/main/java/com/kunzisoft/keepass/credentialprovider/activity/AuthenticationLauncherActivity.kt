@@ -53,7 +53,7 @@ abstract class AuthenticationLauncherActivity: DatabaseLockActivity() {
         // To prevent auto finish the activity
         mTimeoutEnable = false
         lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.RESUMED) {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
                 launch {
                     userVerificationViewModel.onUserVerificationSucceeded.collect { data ->
                         when (data.actionType) {
