@@ -1,8 +1,9 @@
+ * Hiding OTP token #1851
  * Fix entry actions #2523 #2541
  * Fix sorting by access #1911
  * Fix group icon #2542
  * Fix OTP Tags #2541
  * Fix change indicator #2541
- * Fix saving of UV and Read-only modes #2541
+ * Fix saving UV and Read-only modes #2541
  * Fix database reloading #2541
  * Code refactoring #2541

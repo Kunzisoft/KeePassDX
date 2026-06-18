@@ -1,3 +1,4 @@
+ * Masquage de token OTP #1851
  * Correction des actions d'entrées #2523 #2541
  * Correction du tri par accès #1911
  * Correction d'icone de groupe #2542
