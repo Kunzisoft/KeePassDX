@@ -131,7 +131,7 @@ class DeviceUnlockFragment: Fragment() {
         activity?.addMenuProvider(menuProvider, viewLifecycleOwner)
 
         viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.RESUMED) {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 mDeviceUnlockViewModel.uiState.collect { uiState ->
                     // Change mode
                     toggleDeviceCredentialMode(uiState.newDeviceUnlockMode)

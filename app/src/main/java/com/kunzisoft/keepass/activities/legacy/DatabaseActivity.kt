@@ -189,16 +189,14 @@ abstract class DatabaseActivity : StylishActivity(), DatabaseRetrieval {
                         }
                     }
                 }
-            }
-        }
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.RESUMED) {
-                progressTaskViewModel.progressTaskState.collect { state ->
-                    when (state) {
-                        is ProgressTaskViewModel.ProgressTaskState.Show ->
-                            startDialog()
-                        is ProgressTaskViewModel.ProgressTaskState.Hide ->
-                            stopDialog()
+                launch {
+                    progressTaskViewModel.progressTaskState.collect { state ->
+                        when (state) {
+                            is ProgressTaskViewModel.ProgressTaskState.Show ->
+                                startDialog()
+                            is ProgressTaskViewModel.ProgressTaskState.Hide ->
+                                stopDialog()
+                        }
                     }
                 }
             }

@@ -157,6 +157,13 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment(), DatabaseRetriev
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 launch {
+                    mDatabaseViewModel.databaseState.collect { database ->
+                        database?.let {
+                            onDatabaseRetrieved(database)
+                        }
+                    }
+                }
+                launch {
                     mDatabaseViewModel.actionState.collect { uiState ->
                         when (uiState) {
                             is DatabaseViewModel.ActionState.OnDatabaseActionFinished -> {
@@ -166,7 +173,6 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment(), DatabaseRetriev
                                     uiState.result
                                 )
                             }
-
                             else -> {}
                         }
                     }
@@ -206,15 +212,6 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment(), DatabaseRetriev
                             }
                             else -> {}
                         }
-                    }
-                }
-            }
-        }
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.RESUMED) {
-                mDatabaseViewModel.databaseState.collect { database ->
-                    database?.let {
-                        onDatabaseRetrieved(database)
                     }
                 }
             }

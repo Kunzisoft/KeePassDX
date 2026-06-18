@@ -155,7 +155,7 @@ open class SettingsActivity
         }
 
         lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.RESUMED) {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
                 launch {
                     mSetMainCredentialViewModel.onMainCredentialAssigned.collect { mainCredential ->
                         assignMainCredential(mainCredential)
