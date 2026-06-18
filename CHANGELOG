@@ -7,6 +7,7 @@ KeePassDX(4.5.0_beta01)
  * Fix change indicator #2541
  * Fix saving UV and Read-only modes #2541
  * Fix database reloading #2541
+ * Fix device unlock link when deleting database #2576
  * Code refactoring #2541
 
 KeePassDX(4.4.4)

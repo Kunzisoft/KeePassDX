@@ -6,6 +6,7 @@ import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.kunzisoft.keepass.app.App
+import com.kunzisoft.keepass.app.database.CipherDatabaseAction
 import com.kunzisoft.keepass.app.database.FileDatabaseHistoryAction
 import com.kunzisoft.keepass.hardware.HardwareKey
 import com.kunzisoft.keepass.model.DatabaseFile
@@ -144,10 +145,15 @@ class DatabaseFilesViewModel(application: Application) : AndroidViewModel(applic
     fun deleteDatabaseFile(databaseFileToDelete: DatabaseFile) {
         mFileDatabaseHistoryAction?.deleteDatabaseFile(databaseFileToDelete) { databaseFileDeleted ->
             databaseFileDeleted?.let { _ ->
+                val context = getApplication<App>()
                 // Release database and keyfile URIs permissions
-                val contentResolver = getApplication<App>().applicationContext.contentResolver
+                val contentResolver = context.contentResolver
                 contentResolver.releaseUriPermission(databaseFileDeleted.databaseUri)
                 contentResolver.releaseUriPermission(databaseFileDeleted.keyFileUri)
+                // Delete device unlock for this database
+                databaseFileDeleted.databaseUri?.let {
+                    CipherDatabaseAction.getInstance(context).deleteByDatabaseUri(it)
+                }
                 // Call the feedback
                 _databaseFilesLoaded.update { currentState ->
                     val newList = currentState.databaseFileList.toMutableList()

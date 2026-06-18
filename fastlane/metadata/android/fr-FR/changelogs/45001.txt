@@ -6,4 +6,5 @@
  * Correction de l'indicateur de changement #2541
  * Correction de la sauvegarde des modes UV et Read-only #2541
  * Correction du rechargement de la base #2541
+ * Correction du lien de deverouillage appareil lors de de la suppressions de base de données #2576
  * Refactorisation du code #2541
