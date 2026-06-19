@@ -28,9 +28,6 @@ import androidx.lifecycle.viewModelScope
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.element.Attachment
 import com.kunzisoft.keepass.database.element.EntryId
-import com.kunzisoft.keepass.database.element.Field
-import com.kunzisoft.keepass.database.element.template.TemplateField
-import com.kunzisoft.keepass.database.helper.getLocalizedName
 import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.model.FieldProtection
 import com.kunzisoft.keepass.otp.OtpElement
@@ -184,16 +181,8 @@ class EntryViewModel(application: Application): AndroidViewModel(application) {
     }
 
     fun requestCopyField(fieldProtection: FieldProtection) {
-        // Only request the User Verification if the field is protected and not shown
-        val field = fieldProtection.field
-        if (field.protectedValue.isProtected
-            && fieldProtection.needUserVerificationToReveal
-            && !fieldProtection.isRevealed) {
-            viewModelScope.launch {
-                _entryEvents.emit(EntryEvent.RequestCopyProtectedField(fieldProtection))
-            }
-        } else {
-            copyToClipboard(field)
+        viewModelScope.launch {
+            _entryEvents.emit(EntryEvent.RequestCopyProtectedField(fieldProtection))
         }
     }
 
@@ -230,30 +219,6 @@ class EntryViewModel(application: Application): AndroidViewModel(application) {
         }
     }
 
-    fun copyToClipboard(field: Field) {
-        viewModelScope.launch {
-            _entryEvents.emit(
-                EntryEvent.CopyToClipboard(
-                    label = TemplateField.getLocalizedName(getApplication(), field.name),
-                    content = field.protectedValue.toString(),
-                    isProtected = field.protectedValue.isProtected
-                )
-            )
-        }
-    }
-
-    fun copyToClipboard(text: String) {
-        viewModelScope.launch {
-            _entryEvents.emit(
-                EntryEvent.CopyToClipboard(
-                    label = text,
-                    content = text,
-                    isProtected = false
-                )
-            )
-        }
-    }
-
     fun applyToolbarColors() {
         viewModelScope.launch {
             _entryUIState.update {
@@ -287,12 +252,6 @@ class EntryViewModel(application: Application): AndroidViewModel(application) {
         data class AddToMagikeyboard(
             val entryInfo: EntryInfo,
             val autoSwitch: Boolean,
-        ) : EntryEvent()
-
-        data class CopyToClipboard(
-            val label: String,
-            val content: String,
-            val isProtected: Boolean,
         ) : EntryEvent()
 
         data class RequestCopyProtectedField(

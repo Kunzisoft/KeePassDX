@@ -62,7 +62,10 @@ import com.kunzisoft.keepass.credentialprovider.magikeyboard.MagikeyboardService
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.element.Attachment
 import com.kunzisoft.keepass.database.element.EntryId
+import com.kunzisoft.keepass.database.element.Field
 import com.kunzisoft.keepass.database.element.Tags
+import com.kunzisoft.keepass.database.element.template.TemplateField
+import com.kunzisoft.keepass.database.helper.getLocalizedName
 import com.kunzisoft.keepass.education.EntryActivityEducation
 import com.kunzisoft.keepass.model.EntryAttachmentState
 import com.kunzisoft.keepass.services.AttachmentFileNotificationService
@@ -297,13 +300,6 @@ class EntryActivity : DatabaseLockActivity() {
                                     autoSwitchKeyboard = event.autoSwitch
                                 )
                             }
-                            is EntryViewModel.EntryEvent.CopyToClipboard -> {
-                                timeoutCopyToClipboard(
-                                    label = event.label,
-                                    value = event.content,
-                                    sensitive = event.isProtected
-                                )
-                            }
                             is EntryViewModel.EntryEvent.AttachmentSelected -> {
                                 mAttachmentSelected = event.attachment
                                 mExternalFileHelper?.createDocument(event.attachment.name)
@@ -320,7 +316,11 @@ class EntryActivity : DatabaseLockActivity() {
                                 }
                             }
                             is EntryViewModel.EntryEvent.RequestCopyProtectedField -> {
-                                if (mDatabaseAllowUserVerification) {
+                                // Only request the User Verification if the field is protected and not shown
+                                if (mDatabaseAllowUserVerification
+                                    && event.fieldProtection.field.protectedValue.isProtected
+                                    && event.fieldProtection.needUserVerificationToReveal
+                                    && !event.fieldProtection.isRevealed) {
                                     mDatabase?.let { database ->
                                         checkUserVerification(
                                             userVerificationViewModel = mUserVerificationViewModel,
@@ -333,7 +333,7 @@ class EntryActivity : DatabaseLockActivity() {
                                     }
                                 } else {
                                     // Copy field value directly without user verification
-                                    mEntryViewModel.copyToClipboard(event.fieldProtection.field)
+                                    copyToClipboard(event.fieldProtection.field)
                                 }
                             }
                             is EntryViewModel.EntryEvent.ChangeFieldProtectionRequested -> {
@@ -397,9 +397,7 @@ class EntryActivity : DatabaseLockActivity() {
                             }
                             UserVerificationActionType.COPY_PROTECTED_FIELD -> {
                                 // Copy field value
-                                data.fieldProtection?.field?.let {
-                                    mEntryViewModel.copyToClipboard(it)
-                                }
+                                copyToClipboard(data.fieldProtection?.field)
                             }
                             UserVerificationActionType.EDIT_ENTRY -> {
                                 // Edit Entry
@@ -410,6 +408,16 @@ class EntryActivity : DatabaseLockActivity() {
                     }
                 }
             }
+        }
+    }
+
+    private fun copyToClipboard(field: Field?) {
+        field?.let {
+            timeoutCopyToClipboard(
+                label = TemplateField.getLocalizedName(this@EntryActivity, field.name),
+                value = field.protectedValue.toString(),
+                sensitive = field.protectedValue.isProtected
+            )
         }
     }
 
@@ -514,7 +522,12 @@ class EntryActivity : DatabaseLockActivity() {
                 && mEntryActivityEducation.checkAndPerformedEntryCopyEducation(
                 entryFieldCopyView,
                 {
-                    entryFragment.launchEntryCopyEducationAction()
+                    val appNameString = getString(R.string.app_name)
+                    timeoutCopyToClipboard(
+                        label = appNameString,
+                        value = appNameString,
+                        sensitive = false
+                    )
                 },
                 {
                     performedNextEducation(menu)

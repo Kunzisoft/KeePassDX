@@ -280,11 +280,6 @@ class EntryFragment: DatabaseFragment() {
         }
     }
 
-    fun launchEntryCopyEducationAction() {
-        val appNameString = getString(R.string.app_name)
-        mEntryViewModel.copyToClipboard(appNameString)
-    }
-
     companion object {
 
         fun getInstance(): EntryFragment {
