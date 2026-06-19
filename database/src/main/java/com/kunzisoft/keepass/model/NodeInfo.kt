@@ -80,8 +80,8 @@ abstract class NodeInfo() : NodeTimeInterface, Parcelable {
         parcel.writeParcelable(tags, flags)
     }
 
-    override val isCurrentlyExpires: Boolean =
-        expires && expiryTime.isCurrentlyExpire()
+    override val isCurrentlyExpires: Boolean
+        get() = expires && expiryTime.isCurrentlyExpire()
 
     override fun describeContents(): Int {
         return 0

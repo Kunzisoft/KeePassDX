@@ -64,8 +64,8 @@ class SortedEntryInfo : EntryInfo, SortedNodeInfo {
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         super.writeToParcel(parcel, flags)
-        indexInParent = parcel.readInt()
-        path = parcel.readString()
+        parcel.writeInt(indexInParent)
+        parcel.writeString(path)
     }
 
     override fun equals(other: Any?): Boolean {
