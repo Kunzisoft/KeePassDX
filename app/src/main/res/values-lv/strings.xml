@@ -56,7 +56,7 @@
     <string name="entry_title">Nosaukums</string>
     <string name="entry_url">URL</string>
     <string name="entry_user_name">Lietotājvārds</string>
-    <string name="error_arc4">Arcfour plūsmas šifrs netiek atbalstīts.</string>
+    <string name="error_arc4">Arcfour plūsmas šifrs nav atbalstīts.</string>
     <string name="error_can_not_handle_uri">KeePassDX nevarēja apstrādāt šo URI.</string>
     <string name="error_file_not_create">Nevarēja izveidot datni.</string>
     <string name="error_invalid_db">Nevarēja nolasīt datubāzi.</string>
