@@ -61,6 +61,10 @@ class Tags: Parcelable {
         mTags.addAll(tags.mTags)
     }
 
+    fun sort() {
+        mTags.sortBy { it.name.lowercase() }
+    }
+
     fun get(position: Int): Tag {
         return mTags[position]
     }

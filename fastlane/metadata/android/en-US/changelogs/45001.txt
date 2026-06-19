@@ -1,7 +1,7 @@
  * Hide OTP token #1851
  * Indicator for special groups #2556
  * Autofill suggestion settings #2574
- * Fix tags in templates #2543
+ * Fix tags #2543 #2578
  * Fix entry actions #2523 #2541
  * Fix sorting by access #1911
  * Fix group icon #2542

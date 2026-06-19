@@ -107,6 +107,7 @@ class TagsAdapter(
     }
 
     fun setTags(newTags: Tags) {
+        newTags.sort()
         val oldTags = Tags(mTags)
         val diffCallback = object : DiffUtil.Callback() {
             override fun getOldListSize(): Int = oldTags.size()
