@@ -275,6 +275,20 @@ open class DatabaseInfo: Database() {
     }
 
     /**
+     * Check if a group is referenced as recycle bin or templates.
+     */
+    fun isGroupReferenced(group: Group): Boolean {
+        return recycleBin?.nodeId == group.nodeId || templatesGroup?.nodeId == group.nodeId
+    }
+
+    /**
+     * Check if an entry is referenced as special entry.
+     */
+    fun isEntryReferenced(entry: Entry): Boolean {
+        return false
+    }
+
+    /**
      * Get the breadcrumb of a group.
      * @param groupId The group ID.
      * @return List of group info representing the path from root to the group.
@@ -295,7 +309,8 @@ open class DatabaseInfo: Database() {
                        filter = nodeFilter.filter
                     ),
                    indexInParent = it.indexInParent(),
-                   path = it.getPathString()
+                   path = it.getPathString(),
+                   isReferenced = isGroupReferenced(it)
                 )
             )
             while (currentNode.containsParent()) {
@@ -308,8 +323,9 @@ open class DatabaseInfo: Database() {
                                 recursive = recursiveNumberOfEntries,
                                 filter = nodeFilter.filter
                             ),
-                            indexInParent = it.indexInParent(),
-                            path = it.getPathString()
+                            indexInParent = currentNode.indexInParent(),
+                            path = currentNode.getPathString(),
+                            isReferenced = isGroupReferenced(currentNode)
                         )
                     )
                 }
@@ -340,12 +356,14 @@ open class DatabaseInfo: Database() {
                             filter = nodeFilter.filter
                         ),
                         // No path here | path = it.getPathString(),
-                        indexInParent = it.indexInParent()
+                        indexInParent = it.indexInParent(),
+                        isReferenced = isGroupReferenced(it)
                     )
                     is Entry -> SortedEntryInfo(
                         entryToCopy = getEntryInfoFrom(it),
                         // No path here | path = it.getPathString(),
-                        indexInParent = it.indexInParent()
+                        indexInParent = it.indexInParent(),
+                        isReferenced = isEntryReferenced(it)
                     )
                     else -> null
                 }

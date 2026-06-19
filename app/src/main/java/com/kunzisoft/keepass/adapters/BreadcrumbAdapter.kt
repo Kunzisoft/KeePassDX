@@ -35,6 +35,7 @@ import com.kunzisoft.keepass.icons.IconDrawableFactory
 import com.kunzisoft.keepass.model.SortedGroupInfo
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.view.strikeOut
+import com.kunzisoft.keepass.view.underline
 
 class BreadcrumbAdapter(val context: Context)
     : RecyclerView.Adapter<BreadcrumbAdapter.BreadcrumbGroupViewHolder>() {
@@ -97,6 +98,7 @@ class BreadcrumbAdapter(val context: Context)
         holder.groupNameView.apply {
             text = node.title
             strikeOut(node.isCurrentlyExpires)
+            underline(node.isReferenced)
         }
 
         holder.itemView.apply {

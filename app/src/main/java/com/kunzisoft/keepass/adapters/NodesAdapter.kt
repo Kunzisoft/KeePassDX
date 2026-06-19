@@ -49,6 +49,7 @@ import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.view.OtpDisplayView
 import com.kunzisoft.keepass.view.setTextSize
 import com.kunzisoft.keepass.view.strikeOut
+import com.kunzisoft.keepass.view.underline
 
 /**
  * Create node list adapter.
@@ -306,6 +307,7 @@ class NodesAdapter(
             text = node.title
             setTextSize(mTextSizeUnit, mTextDefaultDimension, mPrefSizeMultiplier)
             strikeOut(node.isCurrentlyExpires)
+            underline(node.isReferenced)
         }
         // Tags
         holder.tags.apply {

@@ -21,6 +21,8 @@ package com.kunzisoft.keepass.model
 
 import android.os.Parcel
 import android.os.Parcelable
+import com.kunzisoft.keepass.utils.readBooleanCompat
+import com.kunzisoft.keepass.utils.writeBooleanCompat
 
 
 /**
@@ -46,6 +48,8 @@ class SortedGroupInfo : GroupInfo, SortedNodeInfo {
      */
     override var indexInParent: Int = -1
 
+    override var isReferenced: Boolean = false
+
     /**
      * Primary constructor.
      * @param groupToCopy The [GroupInfo] to copy.
@@ -58,10 +62,12 @@ class SortedGroupInfo : GroupInfo, SortedNodeInfo {
         numberChildrenEntries: Int = 0,
         indexInParent: Int = -1,
         path: String? = null,
+        isReferenced: Boolean = false
     ): super(groupToCopy) {
         this.numberOfChildEntries = numberChildrenEntries
         this.indexInParent = indexInParent
         this.path = path
+        this.isReferenced = isReferenced
     }
 
     /**
@@ -72,6 +78,7 @@ class SortedGroupInfo : GroupInfo, SortedNodeInfo {
         numberOfChildEntries = parcel.readInt()
         indexInParent = parcel.readInt()
         path = parcel.readString()
+        isReferenced = parcel.readBooleanCompat()
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
@@ -79,6 +86,7 @@ class SortedGroupInfo : GroupInfo, SortedNodeInfo {
         parcel.writeInt(numberOfChildEntries)
         parcel.writeInt(indexInParent)
         parcel.writeString(path)
+        parcel.writeBooleanCompat(isReferenced)
     }
 
     override fun equals(other: Any?): Boolean {
@@ -89,6 +97,7 @@ class SortedGroupInfo : GroupInfo, SortedNodeInfo {
         if (numberOfChildEntries != other.numberOfChildEntries) return false
         if (indexInParent != other.indexInParent) return false
         if (path != other.path) return false
+        if (isReferenced != other.isReferenced) return false
 
         return true
     }
@@ -98,6 +107,7 @@ class SortedGroupInfo : GroupInfo, SortedNodeInfo {
         result = 31 * result + numberOfChildEntries.hashCode()
         result = 31 * result + indexInParent.hashCode()
         result = 31 * result + path.hashCode()
+        result = 31 * result + isReferenced.hashCode()
         return result
     }
 

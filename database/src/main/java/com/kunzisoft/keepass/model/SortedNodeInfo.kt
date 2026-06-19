@@ -55,6 +55,11 @@ interface SortedNodeInfo : NodeTimeInterface, NodeNaturalOrderInterface {
      * The path of the node in the database.
      */
     val path: String?
+
+    /**
+     * Whether the node is currently references in another node or defined as recyclerBin or templates group
+     */
+    val isReferenced: Boolean
 }
 
 /**

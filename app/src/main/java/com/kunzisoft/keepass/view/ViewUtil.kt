@@ -100,6 +100,13 @@ fun TextView.strikeOut(strikeOut: Boolean) {
         paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
 }
 
+fun TextView.underline(underline: Boolean) {
+    paintFlags = if (underline)
+        paintFlags or Paint.UNDERLINE_TEXT_FLAG
+    else
+        paintFlags and Paint.UNDERLINE_TEXT_FLAG.inv()
+}
+
 /**
  * To fix crash on poorly old OS implementation #2524
  * Must be used instead of "setText(value, 0, value.size)"
