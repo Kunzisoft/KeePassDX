@@ -37,7 +37,7 @@ import com.kunzisoft.keepass.activities.stylish.Stylish
 import com.kunzisoft.keepass.app.database.FileDatabaseHistoryAction
 import com.kunzisoft.keepass.biometric.DeviceUnlockManager
 import com.kunzisoft.keepass.credentialprovider.autofill.KeeAutofillService.Companion.showAutofillDeviceSettings
-import com.kunzisoft.keepass.credentialprovider.autofill.isKeeAutofillActivated
+import com.kunzisoft.keepass.credentialprovider.autofill.isCredentialProviderActivated
 import com.kunzisoft.keepass.credentialprovider.magikeyboard.MagikeyboardService.Companion.isMagikeyboardActivated
 import com.kunzisoft.keepass.credentialprovider.magikeyboard.MagikeyboardService.Companion.showKeyboardDeviceSettings
 import com.kunzisoft.keepass.education.Education
@@ -490,8 +490,8 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 findPreference<TwoStatePreference?>(
                     getString(R.string.settings_credential_provider_enable_key)
-                )?.let { autoFillEnablePreference ->
-                    autoFillEnablePreference.isChecked = context.isKeeAutofillActivated()
+                )?.let { credentialProviderPreference ->
+                    credentialProviderPreference.isChecked = context.isCredentialProviderActivated()
                 }
             }
             // Check Magikeyboard service
@@ -499,6 +499,15 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
                 getString(R.string.magic_keyboard_key)
             )?.let { magikeyboardEnablePreference ->
                 magikeyboardEnablePreference.isChecked = context.isMagikeyboardActivated()
+            }
+            // Disable autofill share if magikeyboard not activated
+            findPreference<TwoStatePreference?>(
+                getString(R.string.autofill_share_magikeyboard_key)
+            )?.let { autofillShareMagikeyboardPreference ->
+                autofillShareMagikeyboardPreference.isEnabled =
+                    Build.VERSION.SDK_INT >= Build.VERSION_CODES.O
+                        && context.isMagikeyboardActivated()
+                        && context.isCredentialProviderActivated()
             }
         }
     }

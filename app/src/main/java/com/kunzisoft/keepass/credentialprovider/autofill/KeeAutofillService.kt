@@ -71,6 +71,7 @@ class KeeAutofillService : AutofillService() {
 
     private var mDatabaseTaskProvider: DatabaseTaskProvider? = null
     private var mDatabase: ContextualDatabase? = null
+    private var autofillSuggestionsEnabled: Boolean = false
     private var applicationIdBlocklist: Set<String>? = null
     private var webDomainBlocklist: Set<String>? = null
     private var askToSaveData: Boolean = false
@@ -97,6 +98,7 @@ class KeeAutofillService : AutofillService() {
     }
 
     private fun getPreferences() {
+        autofillSuggestionsEnabled = PreferencesUtil.isAutofillSuggestionsEnable(this)
         applicationIdBlocklist = PreferencesUtil.applicationIdBlocklist(this)
         webDomainBlocklist = PreferencesUtil.webDomainBlocklist(this)
         askToSaveData = PreferencesUtil.askToSaveAutofillData(this)
@@ -136,7 +138,7 @@ class KeeAutofillService : AutofillService() {
             )
 
             // Build search info only if applicationId or webDomain are not blocked
-            if (autofillAllowedFor(
+            if (autofillSuggestionsEnabled && autofillAllowedFor(
                     applicationId = parseResult.applicationId,
                     applicationIdBlocklist = applicationIdBlocklist,
                     webDomain = parseResult.webDomain,
@@ -486,10 +488,11 @@ class KeeAutofillService : AutofillService() {
                 applicationId = applicationId,
                 applicationIdBlocklist = PreferencesUtil.applicationIdBlocklist(context),
                 webDomain = webDomain,
-                webDomainBlocklist = PreferencesUtil.webDomainBlocklist(context))
+                webDomainBlocklist = PreferencesUtil.webDomainBlocklist(context)
+            )
         }
 
-        fun autofillAllowedFor(
+        private fun autofillAllowedFor(
             applicationId: String?,
             applicationIdBlocklist: Set<String>?,
             webDomain: String?,
@@ -501,7 +504,7 @@ class KeeAutofillService : AutofillService() {
                     && autofillAllowedFor(webDomain, webDomainBlocklist)
         }
 
-        fun autofillAllowedFor(
+        private fun autofillAllowedFor(
             element: String?,
             blockList: Set<String>?
         ): Boolean {
@@ -532,7 +535,7 @@ class KeeAutofillService : AutofillService() {
     }
 }
 
-fun Context.isKeeAutofillActivated(): Boolean {
+fun Context.isCredentialProviderActivated(): Boolean {
     return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
         ContextCompat.getSystemService(
             this,

@@ -190,15 +190,15 @@ abstract class DatabaseModeActivity : DatabaseActivity() {
         val webDomain = searchInfo?.webDomain
         val applicationId = searchInfo?.applicationId
         if (webDomain != null) {
-            PreferencesUtil.addWebDomainToBlocklist(this,
-                    webDomain)
+            PreferencesUtil.addWebDomainToBlocklist(this, webDomain)
         } else if (applicationId != null) {
-            PreferencesUtil.addApplicationIdToBlocklist(this,
-                    applicationId)
+            PreferencesUtil.addApplicationIdToBlocklist(this, applicationId)
         }
         onCancelSpecialMode()
-        Toast.makeText(this.applicationContext,
-                R.string.autofill_block_restart,
-                Toast.LENGTH_LONG).show()
+        Toast.makeText(
+            this.applicationContext,
+            R.string.autofill_block_restart,
+            Toast.LENGTH_LONG
+        ).show()
     }
 }

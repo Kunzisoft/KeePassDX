@@ -825,6 +825,12 @@ object PreferencesUtil {
             context.resources.getBoolean(R.bool.autofill_ask_to_save_data_default))
     }
 
+    fun isAutofillSuggestionsEnable(context: Context): Boolean {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        return prefs.getBoolean(context.getString(R.string.autofill_suggestions_key),
+            context.resources.getBoolean(R.bool.autofill_suggestions_default))
+    }
+
     /**
      * Retrieve the default Blocklist for application ID, including the current app
      */

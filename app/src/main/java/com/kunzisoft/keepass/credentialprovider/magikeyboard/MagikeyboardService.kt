@@ -60,7 +60,7 @@ import com.kunzisoft.keepass.adapters.KeyboardFieldsAdapter
 import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper.buildIcon
 import com.kunzisoft.keepass.credentialprovider.TypeMode
 import com.kunzisoft.keepass.credentialprovider.activity.EntrySelectionLauncherActivity
-import com.kunzisoft.keepass.credentialprovider.autofill.isKeeAutofillActivated
+import com.kunzisoft.keepass.credentialprovider.autofill.isCredentialProviderActivated
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.DatabaseTaskProvider
 import com.kunzisoft.keepass.database.element.Field
@@ -391,7 +391,7 @@ class MagikeyboardService : InputMethodService(),
         super.onUnbindInput()
         // Do not clear the search context when the bound client
         // is no longer associated with the input method #2394
-        if (!application.isKeeAutofillActivated()
+        if (!application.isCredentialProviderActivated()
             || !PreferencesUtil.isAutofillSharedToMagikeyboardEnable(application))
             removeSearchInfo()
     }
@@ -646,7 +646,7 @@ class MagikeyboardService : InputMethodService(),
         fun addSearchInfo(context: Context, value: SearchInfo, from: TypeMode) {
             val newSearchInfo = value.withoutBrowserOrAppBlocked(context)
             // With Autofill sharing, keep the autofill search context
-            if (context.isKeeAutofillActivated()
+            if (context.isCredentialProviderActivated()
                 && PreferencesUtil.isAutofillSharedToMagikeyboardEnable(context)) {
                 when (from) {
                     TypeMode.AUTOFILL -> {

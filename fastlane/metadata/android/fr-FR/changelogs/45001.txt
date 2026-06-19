@@ -1,11 +1,12 @@
  * Masquage de token OTP #1851
- * Indicateur pour les groupes spéciaux #2556
- * Correction des tags dans les gabarits #2543
- * Correction des actions d'entrées #2523 #2541
- * Correction du tri par accès #1911
- * Correction d'icone de groupe #2542
- * Correction tags OTP, indicateur de changement et recharge base #2541
+ * Indicateur groupes spéciaux #2556
+ * Paramètres suggestions remplissage auto #2574
+ * Correction tags dans les gabarits #2543
+ * Correction actions d'entrées #2523 #2541
+ * Correction tri par accès #1911
+ * Correction icone de groupe #2542
+ * Correction tags OTP, indicateur et recharge base #2541
  * Correction sauvegarde modes UV et Read-only #2541
- * Correction lien deverouillage lors de suppression base #2576
+ * Correction lien déverrouillage suppression base #2576
  * Correction copie avec User Verification #2575
  * Refactorisation #2541
