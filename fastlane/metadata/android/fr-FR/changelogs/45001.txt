@@ -1,8 +1,8 @@
- * Masquage de token OTP #1851
+ * Masquage token OTP #1851
  * Indicateur groupes spéciaux #2556
  * Paramètres suggestions remplissage auto #2574
  * Correction tags #2543 #2578
- * Correction actions d'entrées #2523 #2541
+ * Correction actions #2523 #2541
  * Correction tri par accès #1911
  * Correction icone de groupe #2542
  * Correction tags OTP, indicateur et recharge base #2541
