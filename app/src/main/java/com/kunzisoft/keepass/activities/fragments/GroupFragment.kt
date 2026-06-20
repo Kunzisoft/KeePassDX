@@ -38,6 +38,7 @@ import com.kunzisoft.keepass.credentialprovider.SpecialMode
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.element.SortNodeEnum
 import com.kunzisoft.keepass.model.SearchGroupInfo
+import com.kunzisoft.keepass.model.SortedGroupInfo
 import com.kunzisoft.keepass.model.SortedNodeInfo
 import com.kunzisoft.keepass.viewmodels.GroupViewModel
 import kotlinx.coroutines.launch
@@ -86,6 +87,11 @@ class GroupFragment : DatabaseFragment() {
                     override fun onNodeLongClick(node: SortedNodeInfo): Boolean {
                         mGroupViewModel.performLongNodeClick(node)
                         return true
+                    }
+                })
+                setOnKeeShareClickListener(object : NodesAdapter.KeeShareClickCallback {
+                    override fun onKeeShareIconClick(node: SortedGroupInfo) {
+                        mGroupViewModel.performKeeShareClick(node)
                     }
                 })
                 setActionNodes(mGroupViewModel.actionsNodes.value)
