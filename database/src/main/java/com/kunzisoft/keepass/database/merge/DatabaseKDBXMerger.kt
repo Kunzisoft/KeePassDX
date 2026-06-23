@@ -19,6 +19,7 @@
  */
 package com.kunzisoft.keepass.database.merge
 
+import android.util.Log
 import com.kunzisoft.keepass.database.element.Attachment
 import com.kunzisoft.keepass.database.element.CustomData
 import com.kunzisoft.keepass.database.element.DateInstant
@@ -38,7 +39,15 @@ import com.kunzisoft.keepass.utils.readAllBytes
 import java.io.IOException
 import java.util.UUID
 
+private enum class MergeResult {
+    ADDED, UPDATED, SKIPPED_INDEX_MISS, SKIPPED_DELETED
+}
+
 class DatabaseKDBXMerger(private var database: DatabaseKDBX) {
+
+    private companion object {
+        private val TAG = "DatabaseKDBXMerger"
+    }
 
     var isRAMSufficient: (memoryWanted: Long) -> Boolean = {true}
 
@@ -251,10 +260,30 @@ class DatabaseKDBXMerger(private var database: DatabaseKDBX) {
             rootGroup.updateWith(rootGroupToMerge, updateParents = false)
         }
         // Merge children
+        val srcEntriesBefore = databaseToMerge.getEntryIndexes().size
+        val srcGroupsBefore = databaseToMerge.getGroupIndexes().size
+        val dstEntriesBefore = database.getEntryIndexes().size
+        val dstGroupsBefore = database.getGroupIndexes().size
+        Log.d(TAG, "MERGE START — Source: $srcEntriesBefore entries, $srcGroupsBefore groups | Target: $dstEntriesBefore entries, $dstGroupsBefore groups")
+
+        var entriesTraversed = 0
+        var entriesSkippedIndexMiss = 0
+        var entriesAdded = 0
+        var entriesUpdated = 0
+        var entriesDeletedObjectSkip = 0
+
         rootGroupToMerge.doForEachChild(
             object : NodeHandler<EntryKDBX>() {
                 override fun operate(node: EntryKDBX): Boolean {
-                    mergeEntry(node, databaseToMerge)
+                    entriesTraversed++
+                    mergeEntry(node, databaseToMerge).also { result ->
+                        when (result) {
+                            MergeResult.SKIPPED_INDEX_MISS -> entriesSkippedIndexMiss++
+                            MergeResult.ADDED -> entriesAdded++
+                            MergeResult.UPDATED -> entriesUpdated++
+                            MergeResult.SKIPPED_DELETED -> entriesDeletedObjectSkip++
+                        }
+                    }
                     return true
                 }
             },
@@ -265,6 +294,14 @@ class DatabaseKDBXMerger(private var database: DatabaseKDBX) {
                 }
             }
         )
+
+        val dstEntriesAfter = database.getEntryIndexes().size
+        val dstGroupsAfter = database.getGroupIndexes().size
+        Log.d(TAG, "MERGE END — Target: $dstEntriesAfter entries, $dstGroupsAfter groups")
+        Log.d(TAG, "  Entries traversed=$entriesTraversed, added=$entriesAdded, updated=$entriesUpdated, skipped(index miss)=$entriesSkippedIndexMiss, skipped(deleted)=$entriesDeletedObjectSkip")
+        if (entriesSkippedIndexMiss > 0) {
+            Log.wtf(TAG, "TREE/INDEX DESYNC: $entriesSkippedIndexMiss entries existed in tree but NOT in index! This causes silent data loss.")
+        }
 
         // Merge custom data in database header
         mergeCustomData(database.customData, databaseToMerge.customData)
@@ -305,18 +342,33 @@ class DatabaseKDBXMerger(private var database: DatabaseKDBX) {
 
         // Manage deleted objects
         val deletedObjects = databaseToMerge.deletedObjects
+        var skippedStillInSource = 0
         deletedObjects.forEach { deletedObject ->
-            deleteEntry(deletedObject)
-            deleteGroup(deletedObject, deletedObjects)
+            if (databaseToMerge.getEntryById(deletedObject.uuid) != null || databaseToMerge.getGroupById(deletedObject.uuid) != null) {
+                skippedStillInSource++
+            }
+            deleteEntry(deletedObject, databaseToMerge)
+            deleteGroup(deletedObject, deletedObjects, databaseToMerge)
             deleteIcon(deletedObject)
             // Attachments are removed and optimized during the database save
         }
+        Log.d(TAG, "Deleted objects processed: ${deletedObjects.size} total, $skippedStillInSource skipped (still in source tree)")
     }
 
     /**
-     * Delete an entry from the database with the [deletedEntry] id
+     * Delete an entry from the database with the [deletedEntry] id.
+     * Only if the entry no longer exists in the source tree — entries still present in source are not truly deleted.
+     *
+     * FIX for GitHub #2582: Some KDBX files (e.g. from KeePass desktop) contain entries in BOTH
+     * the active tree AND the deleted objects list. Without this guard, merge would copy all entries
+     * from source tree to target, then delete them based on stale deleted-object records,
+     * causing mass silent data loss (~800 entries wiped).
      */
-    private fun deleteEntry(deletedEntry: DeletedObject) {
+    private fun deleteEntry(deletedEntry: DeletedObject, databaseToMerge: DatabaseKDBX) {
+        // Guard: if entry still exists in source tree, it wasn't actually removed — skip deletion
+        if (databaseToMerge.getEntryById(deletedEntry.uuid) != null) {
+            return
+        }
         val databaseEntry = database.getEntryById(deletedEntry.uuid)
         if (databaseEntry != null
             && deletedEntry.deletionTime.isAfter(databaseEntry.lastModificationTime)) {
@@ -347,7 +399,7 @@ class DatabaseKDBXMerger(private var database: DatabaseKDBX) {
     ): GroupKDBX? {
         var parent = node.parent
         while (parent != null && deletedObjects.containsNode(parent)) {
-            parent = node.parent
+            parent = parent.parent
         }
         return parent
     }
@@ -357,7 +409,11 @@ class DatabaseKDBXMerger(private var database: DatabaseKDBX) {
      * Recursively check whether a group to be deleted contains a node not to be deleted with [deletedObjects]
      * and move it to the first parent that has not been deleted.
      */
-    private fun deleteGroup(deletedGroup: DeletedObject, deletedObjects: Set<DeletedObject>) {
+    private fun deleteGroup(deletedGroup: DeletedObject, deletedObjects: Set<DeletedObject>, databaseToMerge: DatabaseKDBX) {
+        // If group still exists in source tree, it wasn't actually removed — skip
+        if (databaseToMerge.getGroupById(deletedGroup.uuid) != null) {
+            return
+        }
         val databaseGroup = database.getGroupById(deletedGroup.uuid)
         if (databaseGroup != null
             && deletedGroup.deletionTime.isAfter(databaseGroup.lastModificationTime)) {
@@ -462,70 +518,70 @@ class DatabaseKDBXMerger(private var database: DatabaseKDBX) {
     /**
      * Utility method to merge a KDBX entry
      */
-    private fun mergeEntry(nodeToMerge: EntryKDBX, databaseToMerge: DatabaseKDBX) {
+    private fun mergeEntry(nodeToMerge: EntryKDBX, databaseToMerge: DatabaseKDBX): MergeResult {
         val entryId = nodeToMerge.nodeId
         val entry = database.getEntryById(entryId)
         val deletedObject = database.getDeletedObject(entryId)
 
-        databaseToMerge.getEntryById(entryId)?.let { srcEntryToMerge ->
-            // Retrieve parent in current database
-            val parentEntryToMerge: GroupKDBX = getAttachedParent(srcEntryToMerge.parent)
-            val entryToMerge = EntryKDBX().apply {
-                updateWith(srcEntryToMerge, copyHistory = true, updateParents = false)
+        val srcEntryToMerge = databaseToMerge.getEntryById(entryId)
+            ?: run {
+                Log.wtf(TAG, "INDEX MISS: entry $entryId exists in tree but NOT in index — title='${nodeToMerge.title}'")
+                return MergeResult.SKIPPED_INDEX_MISS
             }
 
-            // Copy attachments in main pool
-            val newAttachments = mutableListOf<Attachment>()
-            entryToMerge.getAttachments(databaseToMerge.attachmentPool).forEach { attachment ->
-                val binarySize = attachment.binaryData.getSize()
-                val binaryData = database.buildNewBinaryAttachment(
-                    isRAMSufficient.invoke(binarySize),
-                    attachment.binaryData.isCompressed,
-                    attachment.binaryData.isProtected
-                )
-                attachment.binaryData.getInputDataStream(databaseToMerge.binaryCache).use { inputStream ->
-                    binaryData.getOutputDataStream(database.binaryCache).use { outputStream ->
-                        inputStream.readAllBytes { buffer ->
-                            outputStream.write(buffer)
-                        }
+        // Retrieve parent in current database
+        val parentEntryToMerge: GroupKDBX = getAttachedParent(srcEntryToMerge.parent)
+        val entryToMerge = EntryKDBX().apply {
+            updateWith(srcEntryToMerge, copyHistory = true, updateParents = false)
+        }
+
+        // Copy attachments in main pool
+        val newAttachments = mutableListOf<Attachment>()
+        entryToMerge.getAttachments(databaseToMerge.attachmentPool).forEach { attachment ->
+            val binarySize = attachment.binaryData.getSize()
+            val binaryData = database.buildNewBinaryAttachment(
+                isRAMSufficient.invoke(binarySize),
+                attachment.binaryData.isCompressed,
+                attachment.binaryData.isProtected
+            )
+            attachment.binaryData.getInputDataStream(databaseToMerge.binaryCache).use { inputStream ->
+                binaryData.getOutputDataStream(database.binaryCache).use { outputStream ->
+                    inputStream.readAllBytes { buffer ->
+                        outputStream.write(buffer)
                     }
                 }
-                newAttachments.add(Attachment(attachment.name, binaryData))
             }
-            entryToMerge.removeAttachments()
-            newAttachments.forEach { newAttachment ->
-                entryToMerge.putAttachment(newAttachment, database.attachmentPool)
-            }
-
-            if (entry == null) {
-                // If it's a deleted object, but another instance was updated
-                // If entry parent to add exists and in current database
-                if ((deletedObject == null
-                    || deletedObject.deletionTime.isBefore(entryToMerge.lastModificationTime))) {
-                    database.addEntryTo(entryToMerge, parentEntryToMerge)
-                }
-            } else {
-                // Merge independently custom data
-                mergeCustomData(entry.customData, entryToMerge.customData)
-                // Merge by modification time
-                if (entry.lastModificationTime.isBefore(entryToMerge.lastModificationTime)) {
-                    // Update entry with databaseEntryToMerge and merge history
-                    entryToMerge.addHistoryFrom(entry)
-                    entry.updateWith(entryToMerge, copyHistory = true, updateParents = false)
-                    // Move the current entry to the verified location
-                    database.removeEntryFrom(entry, entry.parent)
-                    database.addEntryTo(entry, parentEntryToMerge)
-                } else if (entry.lastModificationTime.isAfter(entryToMerge.lastModificationTime)) {
-                    // Don't touch the location but update the entry history
-                    entry.addHistoryFrom(entryToMerge)
-                } else if (entry.lastModificationTime.isEquals(entryToMerge.lastModificationTime)) {
-                    // If it's the same modification time, simply move entry to the right location,
-                    // Current entry and entry to merge are normally the same
-                    database.removeEntryFrom(entry, entry.parent)
-                    database.addEntryTo(entry, parentEntryToMerge)
-                }
-            }
+            newAttachments.add(Attachment(attachment.name, binaryData))
         }
+        entryToMerge.removeAttachments()
+        newAttachments.forEach { newAttachment ->
+            entryToMerge.putAttachment(newAttachment, database.attachmentPool)
+        }
+
+        if (entry == null) {
+            // If it's a deleted object, but another instance was updated
+            if ((deletedObject == null
+                || deletedObject.deletionTime.isBefore(entryToMerge.lastModificationTime))) {
+                database.addEntryTo(entryToMerge, parentEntryToMerge)
+                return MergeResult.ADDED
+            }
+            return MergeResult.SKIPPED_DELETED
+        }
+
+        // Entry already exists in target database
+        mergeCustomData(entry.customData, entryToMerge.customData)
+        if (entry.lastModificationTime.isBefore(entryToMerge.lastModificationTime)) {
+            entryToMerge.addHistoryFrom(entry)
+            entry.updateWith(entryToMerge, copyHistory = true, updateParents = false)
+            database.removeEntryFrom(entry, entry.parent)
+            database.addEntryTo(entry, parentEntryToMerge)
+        } else if (entry.lastModificationTime.isAfter(entryToMerge.lastModificationTime)) {
+            entry.addHistoryFrom(entryToMerge)
+        } else if (entry.lastModificationTime.isEquals(entryToMerge.lastModificationTime)) {
+            database.removeEntryFrom(entry, entry.parent)
+            database.addEntryTo(entry, parentEntryToMerge)
+        }
+        return MergeResult.UPDATED
     }
 
     /**
@@ -583,7 +639,7 @@ class DatabaseKDBXMerger(private var database: DatabaseKDBX) {
                     // Update the current group location to the verified one
                     database.removeGroupFrom(group, group.parent)
                     database.addGroupTo(group, parentGroupToMerge)
-                } else if (group.lastModificationTime.isAfter(group.lastModificationTime)) {
+                } else if (group.lastModificationTime.isAfter(groupToMerge.lastModificationTime)) {
                     // Don't touch the location
                 } else if (group.lastModificationTime.isEquals(groupToMerge.lastModificationTime)) {
                     // If it's the same modification time, simply move group to the right location
