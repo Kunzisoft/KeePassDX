@@ -1,0 +1,33 @@
+/*
+ * Copyright 2025 Jeremy Jamet / Kunzisoft.
+ *
+ * This file is part of KeePassDX.
+ *
+ *  KeePassDX is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  KeePassDX is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+package com.kunzisoft.keepass.model
+
+import com.kunzisoft.keepass.database.element.node.NodeId
+import java.util.UUID
+
+/**
+ * Represents an ephemeral link to a specific field of an entry.
+ */
+data class EphemeralLink(
+    val nodeId: NodeId<UUID>,
+    val fieldName: String,
+    val expiryTimestamp: Long? = null,
+    var isUsed: Boolean = false
+)
