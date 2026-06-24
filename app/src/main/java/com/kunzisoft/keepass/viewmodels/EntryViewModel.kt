@@ -127,10 +127,12 @@ class EntryViewModel(application: Application): AndroidViewModel(application) {
                                 _entryEvents.emit(EntryEvent.EntryLoaded(entryInfo))
 
                                 // Assign colors
-                                backgroundColor =
+                                val background =
                                     if (showEntryColors) entryInfo.backgroundColor else null
-                                foregroundColor =
+                                val foreground =
                                     if (showEntryColors) entryInfo.foregroundColor else null
+                                backgroundColor = background
+                                foregroundColor = foreground
 
                                 // To show Entry UI
                                 _entryUIState.update {
@@ -142,7 +144,13 @@ class EntryViewModel(application: Application): AndroidViewModel(application) {
                                         showHistoryView = isHistory,
                                         entryHistory = if (!isHistory)
                                             database.getHistoryEntryInfoFrom(mainEntryId) ?: listOf()
-                                        else listOf()
+                                        else listOf(),
+                                        toolbarColor = background ?: colorSurface,
+                                        onToolbarColor = foreground ?: colorOnSurface,
+                                        iconColor = foreground ?: colorSecondary,
+                                        iconBackgroundColor = background?.let { bg ->
+                                            ColorUtils.blendARGB(bg, Color.WHITE, 0.1f)
+                                        } ?: colorBackground
                                     )
                                 }
 
@@ -220,17 +228,15 @@ class EntryViewModel(application: Application): AndroidViewModel(application) {
     }
 
     fun applyToolbarColors() {
-        viewModelScope.launch {
-            _entryUIState.update {
-                it.copy(
-                    toolbarColor = backgroundColor ?: colorSurface,
-                    onToolbarColor = foregroundColor ?: colorOnSurface,
-                    iconColor = foregroundColor ?: colorSecondary,
-                    iconBackgroundColor = backgroundColor?.let { background ->
-                        ColorUtils.blendARGB(background, Color.WHITE, 0.1f)
-                    } ?: colorBackground
-                )
-            }
+        _entryUIState.update {
+            it.copy(
+                toolbarColor = backgroundColor ?: colorSurface,
+                onToolbarColor = foregroundColor ?: colorOnSurface,
+                iconColor = foregroundColor ?: colorSecondary,
+                iconBackgroundColor = backgroundColor?.let { background ->
+                    ColorUtils.blendARGB(background, Color.WHITE, 0.1f)
+                } ?: colorBackground
+            )
         }
     }
 
