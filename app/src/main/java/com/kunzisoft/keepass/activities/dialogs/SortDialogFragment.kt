@@ -26,9 +26,12 @@ import android.widget.CompoundButton
 import android.widget.RadioGroup
 import androidx.annotation.IdRes
 import androidx.appcompat.app.AlertDialog
+import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import com.kunzisoft.keepass.R
+import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.element.SortNodeEnum
+import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.viewmodels.GroupViewModel
 
 class SortDialogFragment : DatabaseDialogFragment() {
@@ -41,6 +44,7 @@ class SortDialogFragment : DatabaseDialogFragment() {
     private var mGroupsBefore: Boolean = true
     private var mAscending: Boolean = true
     private var mRecycleBinBottom: Boolean = true
+    private var mRecycleBinAllowed: Boolean = false
 
     private var recycleBinBottomView: CompoundButton? = null
 
@@ -48,22 +52,10 @@ class SortDialogFragment : DatabaseDialogFragment() {
         activity?.let { activity ->
             val builder = AlertDialog.Builder(activity)
 
-            var recycleBinAllowed = false
-
-            arguments?.apply {
-                if (containsKey(SORT_NODE_ENUM_BUNDLE_KEY))
-                    getString(SORT_NODE_ENUM_BUNDLE_KEY)?.let {
-                        mSortNodeEnum = SortNodeEnum.valueOf(it)
-                    }
-                if (containsKey(SORT_ASCENDING_BUNDLE_KEY))
-                    mAscending = getBoolean(SORT_ASCENDING_BUNDLE_KEY)
-                if (containsKey(SORT_GROUPS_BEFORE_BUNDLE_KEY))
-                    mGroupsBefore = getBoolean(SORT_GROUPS_BEFORE_BUNDLE_KEY)
-                if (containsKey(SORT_RECYCLE_BIN_BOTTOM_BUNDLE_KEY)) {
-                    recycleBinAllowed = true
-                    mRecycleBinBottom = getBoolean(SORT_RECYCLE_BIN_BOTTOM_BUNDLE_KEY)
-                }
-            }
+            mSortNodeEnum = PreferencesUtil.getListSort(activity)
+            mAscending = PreferencesUtil.getAscendingSort(activity)
+            mGroupsBefore = PreferencesUtil.getGroupsBeforeSort(activity)
+            mRecycleBinBottom = PreferencesUtil.getRecycleBinBottomSort(activity)
 
             mCheckedId = retrieveViewFromEnum(mSortNodeEnum)
 
@@ -85,7 +77,7 @@ class SortDialogFragment : DatabaseDialogFragment() {
                     .setNegativeButton(android.R.string.cancel) { _, _ -> }
 
             val ascendingView = rootView.findViewById<CompoundButton>(R.id.sort_selection_ascending)
-            // Check if is ascending or descending
+            // Check if ascending or descending
             ascendingView.isChecked = mAscending
             ascendingView.setOnCheckedChangeListener { _, isChecked -> mAscending = isChecked }
 
@@ -95,7 +87,7 @@ class SortDialogFragment : DatabaseDialogFragment() {
             groupsBeforeView.setOnCheckedChangeListener { _, isChecked -> mGroupsBefore = isChecked }
 
             recycleBinBottomView = rootView.findViewById(R.id.sort_selection_recycle_bin_bottom)
-            if (!recycleBinAllowed) {
+            if (!mRecycleBinAllowed) {
                 recycleBinBottomView?.visibility = View.GONE
             } else {
                 // Check if recycle bin at the bottom
@@ -118,9 +110,15 @@ class SortDialogFragment : DatabaseDialogFragment() {
         return super.onCreateDialog(savedInstanceState)
     }
 
+    override fun onDatabaseRetrieved(database: ContextualDatabase) {
+        super.onDatabaseRetrieved(database)
+        mRecycleBinAllowed = database.isRecycleBinEnabled
+        disableRecycleBinBottomOptionIfNaturalOrder()
+    }
+
     private fun disableRecycleBinBottomOptionIfNaturalOrder() {
         // Disable recycle bin if natural order
-        recycleBinBottomView?.isEnabled = mSortNodeEnum != SortNodeEnum.DB
+        recycleBinBottomView?.isVisible = mRecycleBinAllowed && mSortNodeEnum != SortNodeEnum.DB
     }
 
     @IdRes
@@ -150,35 +148,8 @@ class SortDialogFragment : DatabaseDialogFragment() {
 
     companion object {
 
-        private const val SORT_NODE_ENUM_BUNDLE_KEY = "SORT_NODE_ENUM_BUNDLE_KEY"
-        private const val SORT_ASCENDING_BUNDLE_KEY = "SORT_ASCENDING_BUNDLE_KEY"
-        private const val SORT_GROUPS_BEFORE_BUNDLE_KEY = "SORT_GROUPS_BEFORE_BUNDLE_KEY"
-        private const val SORT_RECYCLE_BIN_BOTTOM_BUNDLE_KEY = "SORT_RECYCLE_BIN_BOTTOM_BUNDLE_KEY"
-
-        private fun buildBundle(
-            sortNodeEnum: SortNodeEnum,
-            ascending: Boolean,
-            groupsBefore: Boolean,
-        ): Bundle {
-            val bundle = Bundle()
-            bundle.putString(SORT_NODE_ENUM_BUNDLE_KEY, sortNodeEnum.name)
-            bundle.putBoolean(SORT_ASCENDING_BUNDLE_KEY, ascending)
-            bundle.putBoolean(SORT_GROUPS_BEFORE_BUNDLE_KEY, groupsBefore)
-            return bundle
-        }
-
-        fun getInstance(
-            sortNodeEnum: SortNodeEnum,
-            ascending: Boolean,
-            groupsBefore: Boolean,
-            recycleBinBottom: Boolean?,
-        ): SortDialogFragment {
-            val bundle = buildBundle(sortNodeEnum, ascending, groupsBefore)
-            recycleBinBottom?.let {
-                bundle.putBoolean(SORT_RECYCLE_BIN_BOTTOM_BUNDLE_KEY, recycleBinBottom)
-            }
+        fun getInstance(): SortDialogFragment {
             val fragment = SortDialogFragment()
-            fragment.arguments = bundle
             return fragment
         }
     }

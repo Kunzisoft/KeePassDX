@@ -1,3 +1,6 @@
+KeePassDX(4.5.0_beta02)
+ * Refactoring #2541 #2581
+
 KeePassDX(4.5.0_beta01)
  * Hide OTP token #1851
  * Indicator for special groups #2556

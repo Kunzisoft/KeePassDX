@@ -47,7 +47,6 @@ class GroupFragment : DatabaseFragment() {
     private var mNodesRecyclerView: RecyclerView? = null
     private var mLayoutManager: LinearLayoutManager? = null
 
-    private var notFoundView: View? = null
     private var mAdapter: NodesAdapter? = null
 
     private val mGroupViewModel: GroupViewModel by activityViewModels()
@@ -105,7 +104,6 @@ class GroupFragment : DatabaseFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         mNodesRecyclerView = view.findViewById(R.id.nodes_list)
-        notFoundView = view.findViewById(R.id.not_found_container)
 
         mLayoutManager = LinearLayoutManager(context)
         mNodesRecyclerView?.apply {
@@ -129,12 +127,6 @@ class GroupFragment : DatabaseFragment() {
                                         isSearch = isSearchInfo
                                     )
                                 }
-                                notFoundView?.visibility = if (isSearchInfo && children.isNullOrEmpty()) {
-                                    // To show the " no search entry found "
-                                    View.VISIBLE
-                                } else {
-                                    View.GONE
-                                }
                                 // Direct action node selection after rebuild
                                 mAdapter?.setActionNodes(mGroupViewModel.actionsNodes.value)
                             }
@@ -155,7 +147,7 @@ class GroupFragment : DatabaseFragment() {
                                 mAdapter?.unselectActionNodes()
                             }
                             is GroupViewModel.GroupEvent.SortSelected -> {
-                                // Tell the adapter to refresh its list
+                                // Tell the main group adapter to refresh its list
                                 try {
                                     mAdapter?.notifyChangeSort(
                                         sortNodeEnum = event.sortNode.sortNodeEnum,
