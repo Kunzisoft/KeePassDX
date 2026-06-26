@@ -42,7 +42,20 @@ All contributions must be compatible with the [GPL-3.0 License](https://www.gnu.
 
 ## Code Generation
 
-The author must explicitly state that they have manually reviewed, tested, and understood every line of the generated code and ensures that the generated code complies with all rules—whether ethical or regulatory — and does not cause harm to anyone. All code must clearly identify its author, whether it is artificial or not.
+The contributor must explicitly state that they have manually reviewed, tested, and understood every line of the code provided and assumes all legal responsibilities of the proposed code.
+
+The contributor explicitly guarantees that the materials and code provided does not originate from content stolen directly or indirectly and that the entire value generation chain comes from ethical and responsible data.
+
+The contributor ensures that any generated code complies with all rules, whether ethical or regulatory, and does not cause harm to anyone. All code must clearly identify its author, 
+and each generation tool must be identified and explicitly described in the Pull Request to verify its compatibility with the project.
+
+Any code generation tool (LLMs or other assistants) allowed must use models trained on data with proper usage rights, preferably with a fully open-source value chain.
+
+In the case of a local code generation, it will be requested which models and agent are used.
+In the case of a code generation from an external platform, an evaluation of the tools and resources used (number of tokens, computing power, execution time) will be requested for validation.
+Depending on this, a pull request may be refused or accepted, in order to optimize the energy necessary for the realization of the code which must not exceed that of a manual production.
+
+Contributors must not face time pressure for validation, whether the contribution involves manual or generated code.
 
 # Submission Requirements
 
