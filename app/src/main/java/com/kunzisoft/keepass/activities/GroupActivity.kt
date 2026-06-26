@@ -897,33 +897,24 @@ class GroupActivity : DatabaseLockActivity() {
         val searchFragment =
             supportFragmentManager.findFragmentByTag(SEARCH_FRAGMENT_TAGE) as? SearchFragment
                 ?: SearchFragment()
-
         // Attach fragment to content view
-        if (!searchFragment.isAdded && show) {
-            supportFragmentManager.beginTransaction()
-                .setCustomAnimations(
-                    android.R.anim.fade_in,
-                    android.R.anim.fade_out,
-                    R.anim.slide_in_left,
-                    R.anim.slide_out_right
-                )
-                .add(
+        supportFragmentManager.beginTransaction().apply {
+            setCustomAnimations(
+                R.anim.slide_in_bottom,
+                R.anim.slide_out_bottom,
+                R.anim.slide_in_bottom,
+                R.anim.slide_out_bottom
+            )
+            if (!searchFragment.isAdded && show) {
+                add(
                     R.id.search_content_view,
                     searchFragment,
                     SEARCH_FRAGMENT_TAGE
                 )
-                .commit()
-        } else if (searchFragment.isAdded && !show) {
-            supportFragmentManager.beginTransaction()
-                .setCustomAnimations(
-                    android.R.anim.fade_in,
-                    android.R.anim.fade_out,
-                    R.anim.slide_in_left,
-                    R.anim.slide_out_right
-                )
-                .remove(searchFragment)
-                .commit()
-        }
+            } else if (searchFragment.isAdded && !show) {
+                remove(searchFragment)
+            }
+        }.commit()
     }
 
     override fun onNewIntent(intent: Intent?) {

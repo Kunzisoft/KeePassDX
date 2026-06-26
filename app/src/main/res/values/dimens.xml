@@ -44,5 +44,5 @@
     <dimen name="margin_vertical_breadcrumb">8dp</dimen>
     <dimen name="margin_vertical_tags">12dp</dimen>
     <dimen name="progress_thickness">2dp</dimen>
-    <integer name="animation_duration">260</integer>
+    <integer name="animation_duration">220</integer>
 </resources>
