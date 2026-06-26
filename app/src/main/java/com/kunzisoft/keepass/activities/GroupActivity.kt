@@ -694,7 +694,7 @@ class GroupActivity : DatabaseLockActivity() {
                 }
                 launch {
                     mUserVerificationViewModel.onUserVerificationCanceled.collect { result ->
-                        coordinatorLayout?.showError(result.error)
+                        coordinatorError?.showError(result.error)
                     }
                 }
                 launch {
