@@ -24,6 +24,7 @@ import android.util.AttributeSet
 import android.util.Log
 import android.util.TypedValue
 import android.view.LayoutInflater
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.kunzisoft.keepass.R
@@ -44,6 +45,7 @@ class OtpDisplayView @JvmOverloads constructor(
     defStyleAttr: Int = 0
 ) : LinearLayout(context, attrs, defStyleAttr), ProtectedFieldView {
 
+    private val otpIcon: ImageView
     private val otpProgress: OtpProgressView
     private val otpTokenView: TextView
 
@@ -60,6 +62,7 @@ class OtpDisplayView @JvmOverloads constructor(
 
     init {
         LayoutInflater.from(context).inflate(R.layout.view_otp_display, this, true)
+        otpIcon = findViewById(R.id.otp_icon)
         otpProgress = findViewById(R.id.otp_progress)
         otpTokenView = findViewById(R.id.otp_token)
     }
@@ -85,7 +88,18 @@ class OtpDisplayView @JvmOverloads constructor(
      * Hide the token view (invisible).
      */
     fun hideToken() {
-        otpTokenView.visibility = INVISIBLE
+        otpIcon.visibility = VISIBLE
+        otpTokenView.visibility = GONE
+        otpProgress.visibility = INVISIBLE
+    }
+
+    /**
+     * Show the token view (visible).
+     */
+    fun showToken() {
+        otpIcon.visibility = INVISIBLE
+        otpTokenView.showByFading()
+        otpProgress.visibility = VISIBLE
     }
 
     /**
@@ -130,6 +144,8 @@ class OtpDisplayView @JvmOverloads constructor(
                         populateOtpToken()
                     }
                     this.otpElement = otpElement
+                    visibility = VISIBLE
+                    otpIcon.visibility = GONE
                 }
                 visibility = VISIBLE
                 populateOtpToken()
@@ -158,9 +174,9 @@ class OtpDisplayView @JvmOverloads constructor(
         otpElement?.let { otpElement ->
             otpTokenView.apply {
                 if (if (mProtected) mRevealed else true) {
-                    showByFading()
+                    showToken()
                 } else {
-                    visibility = GONE
+                    hideToken()
                 }
                 text = String(otpElement.tokenFormatted)
                 setTextSize(
@@ -186,6 +202,7 @@ class OtpDisplayView @JvmOverloads constructor(
      * @param color The color to set.
      */
     fun setProgressIndicatorColor(color: Int) {
+        otpIcon.setColorFilter(color)
         otpProgress.setProgressColor(color)
     }
 
