@@ -85,14 +85,22 @@ class SearchFragment: DatabaseFragment() {
         }
     }
 
-    private val mOnSearchTextFocusChangeListener = View.OnFocusChangeListener { view, hasFocus ->
-        if (!mSearchViewModel.autoSearch && hasFocus) {
+    // Use the inner EditText for the keyboard
+    private fun showKeyboard(view: View) {
+        if (!mSearchViewModel.autoSearch && view.hasFocus()) {
             if (PreferencesUtil.isKeyboardPreviousSearchEnable(requireContext())) {
                 // Change to the previous keyboard and show it
                 context?.sendBroadcast(Intent(BACK_PREVIOUS_KEYBOARD_ACTION))
             }
-            view.showKeyboard()
+            val innerEditText = view.findViewById<View>(androidx.appcompat.R.id.search_src_text)
+            (innerEditText ?: view).post {
+                (innerEditText ?: view).showKeyboard()
+            }
         }
+    }
+
+    private val mOnSearchTextFocusChangeListener = View.OnFocusChangeListener { view, hasFocus ->
+        showKeyboard(view)
     }
 
     private val mOnSearchFiltersChangeListener = object : ((SearchParameters) -> Unit) {
@@ -141,7 +149,15 @@ class SearchFragment: DatabaseFragment() {
             activity?.onBackPressed()
         }
 
-        searchView?.onActionViewExpanded()
+        searchView?.apply {
+            onActionViewExpanded()
+            setOnQueryTextListener(mOnSearchQueryTextListener)
+            onFocusChangeListener = mOnSearchTextFocusChangeListener
+            post {
+                requestFocus()
+                showKeyboard(this)
+            }
+        }
 
         lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -252,8 +268,6 @@ class SearchFragment: DatabaseFragment() {
 
     override fun onResume() {
         super.onResume()
-        searchView?.setOnQueryTextListener(mOnSearchQueryTextListener)
-        searchView?.onFocusChangeListener = mOnSearchTextFocusChangeListener
         searchFiltersView?.onParametersChangeListener = mOnSearchFiltersChangeListener
     }
 
@@ -261,8 +275,6 @@ class SearchFragment: DatabaseFragment() {
         super.onPause()
 
         searchFiltersView?.onParametersChangeListener = null
-        searchView?.onFocusChangeListener = null
-        searchView?.setOnQueryTextListener(null)
     }
 
     companion object {
