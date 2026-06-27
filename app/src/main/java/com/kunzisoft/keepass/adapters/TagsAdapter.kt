@@ -128,6 +128,7 @@ class TagsAdapter(
         val size = mTags.size()
         if (size > 0) {
             mTags.clear()
+            mSelectedTags.clear()
             notifyItemRangeRemoved(0, size)
         }
     }
@@ -137,14 +138,11 @@ class TagsAdapter(
     }
 
     fun selectTags(tags: List<String>) {
+        mSelectedTags.clear()
         tags.forEach {
-            val tag = Tag(it)
-            mSelectedTags.put(tag)
-            val index = mTags.indexOf(tag)
-            if (index != -1) {
-                notifyItemChanged(index)
-            }
+            mSelectedTags.put(Tag(it))
         }
+        notifyItemRangeChanged(0, mTags.size())
     }
 
     fun toggleSelection(tag: Tag) {

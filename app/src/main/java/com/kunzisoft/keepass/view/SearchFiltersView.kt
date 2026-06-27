@@ -43,12 +43,15 @@ class SearchFiltersView @JvmOverloads constructor(
                 toggleSelection(item)
                 val selectedTags = tagsAdapter.getSelectedStringTags()
                 val atLeastOneSelectedTag = selectedTags.isNotEmpty()
-                searchTag.isChecked = atLeastOneSelectedTag
                 searchParameters.apply {
                     searchInTags = atLeastOneSelectedTag
                     tagsToSearch = selectedTags
                 }
-                mOnParametersChangeListener?.invoke(searchParameters)
+                if (searchTag.isChecked != atLeastOneSelectedTag) {
+                    searchTag.isChecked = atLeastOneSelectedTag
+                } else {
+                    mOnParametersChangeListener?.invoke(searchParameters)
+                }
             }
             override fun onItemLongClick(item: Tag): Boolean {
                 return false
