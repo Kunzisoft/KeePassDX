@@ -1222,36 +1222,36 @@ class GroupActivity : DatabaseLockActivity() {
     }
 
     override fun onDatabaseBackPressed() {
-        if (mGroupViewModel.nodeActionState.value.nodeActionMode != null) {
-            finishNodeAction()
-        } else {
-            // Normal way when we are not in root
-            when {
-                Intent.ACTION_SEARCH == intent.action -> {
-                    // Load the main group after remove search
-                    loadGroup(clearSearch = true)
+        // Normal way when we are not in root
+        when {
+            Intent.ACTION_SEARCH == intent.action -> {
+                // Load the main group after remove search
+                loadGroup(clearSearch = true)
+            }
+            mSearchViewModel.isSearchActivated -> {
+                mSearchViewModel.deactivateSearch()
+            }
+            mGroupViewModel.nodeActionState.value.nodeActionMode != null -> {
+                // After isSearchActivated to permit search close
+                finishNodeAction()
+            }
+            mGroupViewModel.previousGroupExists() -> {
+                // Load the previous group
+                mGroupViewModel.loadPreviousGroup()
+            }
+            mGroupViewModel.isCurrentGroupIsRoot -> {
+                // In root, lock if needed
+                mSearchViewModel.clearSearch()
+                intent.removeModes()
+                intent.removeInfo()
+                if (PreferencesUtil.isLockDatabaseWhenBackButtonOnRootClicked(this)) {
+                    lockAndExit()
+                } else {
+                    backToTheAppCaller()
                 }
-                mSearchViewModel.isSearchActivated -> {
-                    mSearchViewModel.deactivateSearch()
-                }
-                mGroupViewModel.previousGroupExists() -> {
-                    // Load the previous group
-                    mGroupViewModel.loadPreviousGroup()
-                }
-                mGroupViewModel.isCurrentGroupIsRoot -> {
-                    // In root, lock if needed
-                    mSearchViewModel.clearSearch()
-                    intent.removeModes()
-                    intent.removeInfo()
-                    if (PreferencesUtil.isLockDatabaseWhenBackButtonOnRootClicked(this)) {
-                        lockAndExit()
-                    } else {
-                        backToTheAppCaller()
-                    }
-                }
-                else -> {
-                    super.onRegularBackPressed()
-                }
+            }
+            else -> {
+                super.onRegularBackPressed()
             }
         }
     }
