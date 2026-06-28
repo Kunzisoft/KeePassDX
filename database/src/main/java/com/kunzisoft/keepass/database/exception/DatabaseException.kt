@@ -72,7 +72,10 @@ abstract class DatabaseException : LocalizedException {
     }
 }
 
-class FileNotFoundDatabaseException : DatabaseInputException()
+class FileNotFoundDatabaseException : DatabaseInputException {
+    constructor() : super()
+    constructor(throwable: Throwable) : super(throwable)
+}
 
 class CorruptedDatabaseException : DatabaseInputException()
 

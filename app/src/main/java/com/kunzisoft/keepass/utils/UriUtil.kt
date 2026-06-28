@@ -117,6 +117,8 @@ object UriUtil {
                     }
                 }
             }
+        } catch (e: SecurityException) {
+            Log.e(TAG, "file have changed, permission need to be granted ", e)
         } catch (e: Exception) {
             if (release)
                 Log.e(TAG, "Unable to release persistable URI permission", e)
@@ -128,6 +130,12 @@ object UriUtil {
     fun ContentResolver.takeUriPermission(uri: Uri?, readOnly: Boolean = false) {
         uri?.let {
             persistUriPermission(this, it, false, readOnly)
+        }
+    }
+
+    fun ContentResolver.hasPersistedReadAccess(uri: Uri): Boolean {
+        return persistedUriPermissions.any { uriPermission ->
+            uriPermission.uri == uri && uriPermission.isReadPermission
         }
     }
 
