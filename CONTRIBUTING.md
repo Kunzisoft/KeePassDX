@@ -42,20 +42,20 @@ All contributions must be compatible with the [GPL-3.0 License](https://www.gnu.
 
 ## Code Generation
 
-The contributor must explicitly state that they have manually reviewed, tested, and understood every line of the code provided and assumes all legal responsibilities of the proposed code.
+Contributors must explicitly state that they have manually reviewed, tested, and understood every line of the code provided.
 
-The contributor explicitly guarantees that the materials and code provided does not originate from content stolen directly or indirectly and that the entire value generation chain comes from ethical and responsible data.
+Contributors must ensure that the materials and code provided do not infringe on intellectual property rights and do originate from ethical and responsible data and not from stolen content. Any code generation tool (LLMs or other assistants) allowed must use models trained on data with proper usage rights, preferably with a fully open-source value chain.
 
-The contributor ensures that any generated code complies with all rules, whether ethical or regulatory, and does not cause harm to anyone. All code must clearly identify its author, 
-and each generation tool must be identified and explicitly described in the Pull Request to verify its compatibility with the project.
+Contributors are required to use the resources at their disposal (AI tools, <!--{_Jar Brains, Super-Smart Bunny,_}--> etc...) 
+efficiently, ethically and pragmatically. Brute-force automated generation loops, which result in excessive consumption (of cloud computing, <!--{_neural, carrots,_}--> etc...) resources or overly verbose and bloated code, should be completely avoided in favor of a manually streamlined, energy-efficient and well-thought-out architecture. Architectural choices are ideally discussed beforehand. 
 
-Any code generation tool (LLMs or other assistants) allowed must use models trained on data with proper usage rights, preferably with a fully open-source value chain.
+All code must clearly identify its author and each generation tool must be identified and explicitly described in the Pull Request (specific model preferably local and fully open source, agent, service used, <!--{_number of neural connection, super-nutritious carrots ,_}--> etc...) to verify its compatibility with the project. An estimate evaluation of the tools and resources used may be requested for validation.
 
-In the case of a local code generation, it will be requested which models and agent are used.
-In the case of a code generation from an external platform, an evaluation of the tools and resources used (number of tokens, computing power, execution time) will be requested for validation.
-Depending on this, a pull request may be refused or accepted, in order to optimize the energy necessary for the realization of the code which must not exceed that of a manual production.
+Pull Requests may be refused based on substandard code quality, unnecessary technical debt, architectural inefficiency, or an excessive estimated energy footprint.
 
-Contributors must not face time pressure for validation, whether the contribution involves manual or generated code.
+No pressure (whether related to deadlines or of any other kind) should be exerted regarding the approval of pull requests, in order to ensure that contributions, whether manual or AI-assisted, undergo a thorough and unhurried human review.
+
+<!--{_{}: Should be ommited if not available in your time period._}-->
 
 # Submission Requirements
 
