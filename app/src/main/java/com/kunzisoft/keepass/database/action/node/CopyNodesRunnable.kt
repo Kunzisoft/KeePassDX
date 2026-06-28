@@ -48,6 +48,7 @@ class CopyNodesRunnable(
     challengeResponseRetriever
 ) {
 
+    private var mGroupsCopied = mutableListOf<Group>()
     private var mEntriesCopied = mutableListOf<Entry>()
     private var mNewParent: Group? = null
     private var mGroupsToCopy: List<Group> = listOf()
@@ -62,28 +63,43 @@ class CopyNodesRunnable(
     }
 
     override fun nodeAction() {
-        if (mGroupsToCopy.isNotEmpty())
-            setError(CopyGroupDatabaseException())
+        val newParent = mNewParent ?: run {
+            setError(MissingParentDatabaseException())
+            return
+        }
 
-        mNewParent?.let { newParent ->
-            foreachNode@ for (currentNode in mEntriesToCopy) {
-                // Root can contains entry
-                if (newParent != database.rootGroup || database.rootCanContainsEntry()) {
-                    // Update entry with new values
-                    newParent.touch(modified = false, touchParents = true)
+        for (currentNode in mGroupsToCopy) {
+            try {
+                val groupCopied = database.copyGroupTo(currentNode, newParent)
+                mGroupsCopied.add(groupCopied)
+            } catch (_: Exception) {
+                setError(CopyGroupDatabaseException())
+                return
+            }
+        }
+
+        for (currentNode in mEntriesToCopy) {
+            // Root can contains entry
+            if (newParent != database.rootGroup || database.rootCanContainsEntry()) {
+                // Update entry with new values
+                newParent.touch(modified = false, touchParents = true)
+                try {
                     val entryCopied = database.copyEntryTo(
                         entryToCopy = currentNode,
                         newParent = newParent
                     )
                     entryCopied.touch(modified = true, touchParents = true)
                     mEntriesCopied.add(entryCopied)
-                } else {
-                    // Only finish thread
+                } catch (_: Exception) {
                     setError(CopyEntryDatabaseException())
-                    break@foreachNode
+                    return
                 }
+            } else {
+                // Only finish thread
+                setError(CopyEntryDatabaseException())
+                return
             }
-        } ?: setError(MissingParentDatabaseException())
+        }
     }
 
     override fun nodeFinish(): ActionNodesValues {
@@ -92,14 +108,23 @@ class CopyNodesRunnable(
             mEntriesCopied.forEach {
                 try {
                     database.deleteEntry(it)
-                } catch (_: Exception) {
-                    Log.i(TAG, "Unable to delete the copied entry")
+                } catch (e: Exception) {
+                    Log.w(TAG, "Unable to delete the copied entry", e)
+                }
+            }
+            // Restore groups in reverse order of creation
+            mGroupsCopied.reversed().forEach {
+                try {
+                    database.deleteGroup(it)
+                } catch (e: Exception) {
+                    Log.w(TAG, "Unable to delete the copied group", e)
                 }
             }
         }
         return ActionNodesValues(
             oldGroupsIds = groupsIdsToCopy,
             oldEntriesIds = entriesIdsToCopy,
+            newGroupsIds = mGroupsCopied.map { it.nodeId },
             newEntriesIds = mEntriesCopied.map { it.nodeId }
         )
     }
