@@ -60,6 +60,10 @@ import com.kunzisoft.keepass.activities.dialogs.SortDialogFragment
 import com.kunzisoft.keepass.activities.fragments.GroupFragment
 import com.kunzisoft.keepass.activities.fragments.SearchFragment
 import com.kunzisoft.keepass.activities.helpers.ExternalFileHelper
+import com.kunzisoft.keepass.database.MainCredential
+import com.kunzisoft.keepass.database.keeshare.KeeShareReference
+import com.kunzisoft.keepass.keeshare.KeeShareObserver
+import com.kunzisoft.keepass.utils.UriUtil.takeUriPermission
 import com.kunzisoft.keepass.activities.legacy.DatabaseLockActivity
 import com.kunzisoft.keepass.adapters.BreadcrumbAdapter
 import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper
@@ -87,6 +91,7 @@ import com.kunzisoft.keepass.model.GroupInfo
 import com.kunzisoft.keepass.model.NodeInfo
 import com.kunzisoft.keepass.model.RegisterInfo
 import com.kunzisoft.keepass.model.SearchInfo
+import com.kunzisoft.keepass.services.DatabaseTaskNotificationService
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_COPY_NODES_TASK
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_MOVE_NODES_TASK
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_TOUCH_ENTRY_TASK
@@ -163,6 +168,9 @@ class GroupActivity : DatabaseLockActivity() {
 
     // Manage merge
     private var mExternalFileHelper: ExternalFileHelper? = null
+    private var mKeeShareFileHelper: ExternalFileHelper? = null
+    private var mPendingKeeShareGroupId: String? = null
+    private var mKeeShareObserver: KeeShareObserver? = null
 
 
     private val mEntryActivityResultLauncher = EntryEditActivity.registerForEntryResult(this) { entryId ->
@@ -337,6 +345,18 @@ class GroupActivity : DatabaseLockActivity() {
         mExternalFileHelper?.buildCreateDocument("application/x-keepass") { uri ->
             uri?.let {
                 saveDatabaseTo(it)
+            }
+        }
+
+        mKeeShareFileHelper = ExternalFileHelper(this)
+        mKeeShareFileHelper?.buildOpenDocument { uri ->
+            uri?.let { selectedUri ->
+                mPendingKeeShareGroupId?.let { groupId ->
+                    contentResolver?.takeUriPermission(selectedUri)
+                    PreferencesUtil.setKeeShareContainerUri(this, groupId, selectedUri.toString())
+                    mPendingKeeShareGroupId = null
+                    mDatabaseViewModel.database?.let { startKeeShareObservers(it) }
+                }
             }
         }
 
@@ -599,6 +619,10 @@ class GroupActivity : DatabaseLockActivity() {
                             is GroupViewModel.GroupEvent.ScrollTo -> {
                                 addNodeButtonView?.hideOrShowButtonOnScrollListener(event.dy)
                             }
+                            is GroupViewModel.GroupEvent.KeeShareClicked -> {
+                                mPendingKeeShareGroupId = event.groupId.toString()
+                                mKeeShareFileHelper?.openDocument()
+                            }
                             is GroupViewModel.GroupEvent.HideKeyboard -> {
                                 hideKeyboard()
                             }
@@ -785,6 +809,7 @@ class GroupActivity : DatabaseLockActivity() {
 
     override fun onDatabaseRetrieved(database: ContextualDatabase) {
         super.onDatabaseRetrieved(database)
+        startKeeShareObservers(database)
 
         mGroupViewModel.onDatabaseLoaded(database)
 
@@ -840,6 +865,10 @@ class GroupActivity : DatabaseLockActivity() {
         actionTask: String,
         result: ActionRunnable.Result
     ) {
+        if (actionTask == DatabaseTaskNotificationService.ACTION_KEESHARE_MERGE_TASK) {
+            if (result.isSuccess) loadGroup()
+            return
+        }
         super.onDatabaseActionFinished(database, actionTask, result)
         when (actionTask) {
             ACTION_DATABASE_UPDATE_ENTRY_TASK -> {
@@ -1045,6 +1074,12 @@ class GroupActivity : DatabaseLockActivity() {
         toolbarAction?.updateButtonPaddingStart()
 
         loadGroup()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        mKeeShareObserver?.stopAll(contentResolver)
+        mKeeShareObserver = null
     }
 
     private fun prepareDatabaseNavMenu() {
@@ -1254,6 +1289,47 @@ class GroupActivity : DatabaseLockActivity() {
                 super.onRegularBackPressed()
             }
         }
+    }
+
+    // KeeShare
+
+    private data class KeeShareConfig(
+        val containerUri: Uri,
+        val password: String,
+        val groupId: com.kunzisoft.keepass.database.element.GroupId,
+    )
+
+    private val mKeeShareConfigs = mutableMapOf<String, KeeShareConfig>()
+    private var mKeeShareInitialMergeDone = false
+
+    private fun startKeeShareObservers(database: ContextualDatabase) {
+        mKeeShareObserver?.stopAll(contentResolver)
+        if (!database.supportsKeeShare) return
+        mKeeShareObserver = KeeShareObserver { containerUri ->
+            mergeKeeShareContainer(containerUri.toString())
+        }
+        database.forEachGroupWithCustomData { group ->
+            val ref = KeeShareReference.fromCustomData(group.customData) ?: return@forEachGroupWithCustomData
+            val uriString = PreferencesUtil.getKeeShareContainerUri(this, group.nodeId.toString())
+                ?: return@forEachGroupWithCustomData
+            mKeeShareConfigs[uriString] = KeeShareConfig(Uri.parse(uriString), ref.password, group.nodeId)
+            mKeeShareObserver?.observe(contentResolver, Uri.parse(uriString))
+            if (!mKeeShareInitialMergeDone) {
+                mergeKeeShareContainer(uriString)
+            }
+        }
+        if (mKeeShareConfigs.isNotEmpty()) mKeeShareInitialMergeDone = true
+    }
+
+    private fun mergeKeeShareContainer(uriString: String) {
+        val config = mKeeShareConfigs[uriString] ?: return
+        mDatabaseViewModel.mergeKeeShare(
+            config.containerUri,
+            MainCredential(
+                if (config.password.isNotEmpty()) config.password.toCharArray() else CharArray(0),
+            ),
+            config.groupId,
+        )
     }
 
     companion object {

@@ -309,6 +309,12 @@ class GroupViewModel(application: Application): AndroidViewModel(application) {
         }
     }
 
+    fun performKeeShareClick(node: SortedGroupInfo) {
+        viewModelScope.launch {
+            _viewEvent.emit(GroupEvent.KeeShareClicked(node.nodeId))
+        }
+    }
+
     fun performLongNodeClick(node: SortedNodeInfo): Boolean {
         viewModelScope.launch {
             val state = nodeActionState.value
@@ -550,6 +556,7 @@ class GroupViewModel(application: Application): AndroidViewModel(application) {
         data class ScrollTo(val dy: Int) : GroupEvent()
         data class SortSelected(val sortNode: SortNode) : GroupEvent()
         object ClearSearch : GroupEvent()
+        data class KeeShareClicked(val groupId: GroupId) : GroupEvent()
     }
 
     data class DeleteActionState(

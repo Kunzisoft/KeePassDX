@@ -44,6 +44,12 @@ class DatabaseKDBXMerger(private var database: DatabaseKDBX) {
     var isRAMSufficient: (memoryWanted: Long) -> Boolean = {true}
 
     /**
+     * Optional target group for scoped merge. When set, the source root
+     * is remapped to this group so entries land in the right place.
+     */
+    var targetGroup: GroupKDBX? = null
+
+    /**
      * Merge a KDB database in a KDBX database, by default all data are copied from the KDB
      */
     fun merge(databaseToMerge: DatabaseKDB) {
@@ -239,9 +245,11 @@ class DatabaseKDBXMerger(private var database: DatabaseKDBX) {
             throw IOException("Database is not open")
         }
 
-        // UUID of the root group to merge is unknown
-        if (database.getGroupById(rootGroupIdToMerge) == null) {
-            // Change it to copy children database root
+        if (targetGroup != null) {
+            databaseToMerge.removeGroupIndex(rootGroupToMerge)
+            rootGroupToMerge.nodeId = targetGroup!!.nodeId
+            databaseToMerge.addGroupIndex(rootGroupToMerge)
+        } else if (database.getGroupById(rootGroupIdToMerge) == null) {
             databaseToMerge.removeGroupIndex(rootGroupToMerge)
             rootGroupToMerge.nodeId = rootGroupId
             databaseToMerge.addGroupIndex(rootGroupToMerge)

@@ -45,6 +45,7 @@ import com.kunzisoft.keepass.model.GroupInfo
 import com.kunzisoft.keepass.model.SortedEntryInfo
 import com.kunzisoft.keepass.model.SortedGroupInfo
 import com.kunzisoft.keepass.model.SortedNodeInfo
+import com.kunzisoft.keepass.database.keeshare.KeeShareReference
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.view.OtpDisplayView
 import com.kunzisoft.keepass.view.setTextSize
@@ -88,6 +89,7 @@ class NodesAdapter(
     private var mActionNodesList = mutableListOf<SortedNodeInfo>()
     private var mActionNodeIds = mutableSetOf<NodeId<*>>()
     private var mNodeClickCallback: NodeClickCallback? = null
+    private var mKeeShareClickCallback: KeeShareClickCallback? = null
 
     @ColorInt
     private val mColorSurfaceContainer: Int
@@ -440,6 +442,22 @@ class NodesAdapter(
             } else {
                 holder.numberChildren?.visibility = View.GONE
             }
+            holder.keeShareIcon?.apply {
+                val ref = KeeShareReference.fromCustomData(node.customData)
+                if (ref != null) {
+                    visibility = View.VISIBLE
+                    val configured = PreferencesUtil.getKeeShareContainerUri(
+                        context, node.nodeId.toString()
+                    ) != null
+                    setColorFilter(if (configured) iconColor else Color.RED)
+                    setOnClickListener {
+                        mKeeShareClickCallback?.onKeeShareIconClick(node)
+                    }
+                } else {
+                    visibility = View.GONE
+                    setOnClickListener(null)
+                }
+            }
         }
 
         // Assign image
@@ -489,12 +507,17 @@ class NodesAdapter(
         this.mNodeClickCallback = nodeClickCallback
     }
 
-    /**
-     * Callback listener to redefine to do an action when a node is clicked
-     */
+    fun setOnKeeShareClickListener(callback: KeeShareClickCallback?) {
+        this.mKeeShareClickCallback = callback
+    }
+
     interface NodeClickCallback {
         fun onNodeClick(node: SortedNodeInfo)
         fun onNodeLongClick(node: SortedNodeInfo): Boolean
+    }
+
+    interface KeeShareClickCallback {
+        fun onKeeShareIconClick(node: SortedGroupInfo)
     }
 
     class NodeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -510,6 +533,7 @@ class NodesAdapter(
         var numberChildren: TextView? = itemView.findViewById(R.id.node_child_numbers)
         var attachmentIcon: ImageView? = itemView.findViewById(R.id.node_attachment_icon)
         var passkeyIcon: ImageView? = itemView.findViewById(R.id.node_passkey_icon)
+        var keeShareIcon: ImageView? = itemView.findViewById(R.id.node_keeshare_icon)
     }
 
     companion object {

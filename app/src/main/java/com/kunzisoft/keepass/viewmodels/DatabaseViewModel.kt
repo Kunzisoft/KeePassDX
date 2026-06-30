@@ -181,6 +181,15 @@ class DatabaseViewModel(application: Application): AndroidViewModel(application)
         mDatabaseTaskProvider.startDatabaseMerge(save, fromDatabaseUri, mainCredential)
     }
 
+    /** Silent scoped merge for KeeShare container import. */
+    fun mergeKeeShare(
+        containerUri: Uri,
+        mainCredential: MainCredential,
+        targetGroupId: GroupId,
+    ) {
+        mDatabaseTaskProvider.startKeeShareMerge(containerUri, mainCredential, targetGroupId)
+    }
+
     fun reloadDatabase(fixDuplicateUuid: Boolean, forceReload: Boolean = false) {
         if (!forceReload && database?.dataModifiedSinceLastLoading == true) {
             mActionState.value = ActionState.ShowDatabaseInfoReloadedDialog(fixDuplicateUuid)

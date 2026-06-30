@@ -309,6 +309,18 @@ class DatabaseTaskProvider(
         }, ACTION_DATABASE_MERGE_TASK)
     }
 
+    fun startKeeShareMerge(
+        containerUri: Uri,
+        mainCredential: MainCredential,
+        targetGroupId: com.kunzisoft.keepass.database.element.GroupId,
+    ) {
+        start(Bundle().apply {
+            putParcelable(DatabaseTaskNotificationService.DATABASE_URI_KEY, containerUri)
+            putParcelable(DatabaseTaskNotificationService.MAIN_CREDENTIAL_KEY, mainCredential)
+            putParcelable(DatabaseTaskNotificationService.TARGET_GROUP_ID_KEY, targetGroupId)
+        }, DatabaseTaskNotificationService.ACTION_KEESHARE_MERGE_TASK)
+    }
+
     fun startDatabaseReload(fixDuplicateUuid: Boolean) {
         start(Bundle().apply {
             putBoolean(DatabaseTaskNotificationService.FIX_DUPLICATE_UUID_KEY, fixDuplicateUuid)

@@ -9,6 +9,7 @@ android {
     defaultConfig {
         minSdkVersion 19
         targetSdk 35
+        multiDexEnabled true
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -49,7 +50,7 @@ dependencies {
     api project(path: ':crypto')
 
     // Tests
-    androidTestImplementation "androidx.test:runner:$android_test_version"
+    androidTestImplementation "androidx.test:runner:1.6.2"
     testImplementation "junit:junit:4.13.2"
     testImplementation "org.robolectric:robolectric:4.11.1"
 }
