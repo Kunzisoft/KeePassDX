@@ -26,6 +26,7 @@ import com.kunzisoft.keepass.database.element.EntryId
 import com.kunzisoft.keepass.database.element.Field
 import com.kunzisoft.keepass.database.element.entry.AutoType
 import com.kunzisoft.keepass.database.element.node.NodeIdUUID
+import com.kunzisoft.keepass.database.element.security.ProtectedString
 import com.kunzisoft.keepass.database.element.template.Template
 import com.kunzisoft.keepass.model.AppOriginEntryField.containsDomainOrApplicationId
 import com.kunzisoft.keepass.model.AppOriginEntryField.setAppOrigin
@@ -167,6 +168,32 @@ open class EntryInfo : NodeInfo {
     fun getOtpToken(): CharArray? {
         return otpModel?.let {
             OtpElement(it).token
+        }
+    }
+
+    /**
+     * Get all fields suitable for content provider
+     */
+    override fun getFieldsForContentProvider(): List<Field> {
+        return mutableListOf<Field>().apply {
+            addAll(super.getFieldsForContentProvider())
+            add(Field(FIELD_ENTRY_USERNAME, ProtectedString(
+                enableProtection = false,
+                value = username.toCharArray())
+            ))
+            add(Field(FIELD_ENTRY_PASSWORD, ProtectedString(
+                enableProtection = true,
+                value = password.copyOf())
+            ))
+            add(Field(FIELD_ENTRY_URL, ProtectedString(
+                enableProtection = false,
+                value = url.toCharArray())
+            ))
+            add(Field(FIELD_ENTRY_NOTES, ProtectedString(
+                enableProtection = false,
+                value = notes.toCharArray())
+            ))
+            addAll(getCustomFieldsForFilling())
         }
     }
 
@@ -416,6 +443,11 @@ open class EntryInfo : NodeInfo {
         fun suffixFieldNamePosition(position: Int): String {
             return if (position > 0) "_$position" else ""
         }
+
+        private const val FIELD_ENTRY_USERNAME = "username"
+        private const val FIELD_ENTRY_PASSWORD = "password"
+        private const val FIELD_ENTRY_URL = "url"
+        private const val FIELD_ENTRY_NOTES = "notes"
 
         @JvmField
         val CREATOR: Parcelable.Creator<EntryInfo> = object : Parcelable.Creator<EntryInfo> {

@@ -22,10 +22,12 @@ package com.kunzisoft.keepass.model
 import android.os.Parcel
 import android.os.Parcelable
 import com.kunzisoft.keepass.database.element.Database
+import com.kunzisoft.keepass.database.element.Field
 import com.kunzisoft.keepass.database.element.GroupId
 import com.kunzisoft.keepass.database.element.icon.IconImageStandard
 import com.kunzisoft.keepass.database.element.icon.IconImageStandard.Companion.FOLDER_ID
 import com.kunzisoft.keepass.database.element.node.NodeIdUUID
+import com.kunzisoft.keepass.database.element.security.ProtectedString
 import com.kunzisoft.keepass.utils.readParcelableCompat
 
 /**
@@ -80,6 +82,18 @@ open class GroupInfo : NodeInfo {
         parcel.writeInt(if (searchable == null) -1 else if (searchable!!) 1 else 0)
         parcel.writeInt(if (enableAutoType == null) -1 else if (enableAutoType!!) 1 else 0)
         parcel.writeString(defaultAutoTypeSequence)
+    }
+
+    override fun getFieldsForContentProvider(): List<Field> {
+        return mutableListOf<Field>().apply {
+            addAll(super.getFieldsForContentProvider())
+            notes?.let {
+                add(Field(FIELD_GROUP_NOTES, ProtectedString(
+                    enableProtection = false,
+                    value = it.toCharArray())
+                ))
+            }
+        }
     }
 
     /**
@@ -144,5 +158,6 @@ open class GroupInfo : NodeInfo {
         override fun newArray(size: Int): Array<GroupInfo?> {
             return arrayOfNulls(size)
         }
+        private const val FIELD_GROUP_NOTES = "notes"
     }
 }

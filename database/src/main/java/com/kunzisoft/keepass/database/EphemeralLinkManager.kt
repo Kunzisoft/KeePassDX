@@ -28,49 +28,59 @@ import java.util.UUID
  * Manages ephemeral links for sharing entry fields.
  */
 class EphemeralLinkManager {
-    private val links = mutableMapOf<NodeId<UUID>, EphemeralLink>()
+
+    private data class LinkKey(
+        val nodeId: NodeId<UUID>,
+        val fieldName: String?
+    )
+    private val links = mutableMapOf<LinkKey, EphemeralLink>()
 
     /**
      * Creates a new ephemeral link for a specific entry field.
      */
     fun createLink(
         nodeId: NodeId<UUID>,
-        fieldName: String,
+        fieldName: String?,
         expiryMillis: Long? = null
     ): EphemeralLink {
         val expiryTimestamp = expiryMillis?.let { System.currentTimeMillis() + it }
+        val key = LinkKey(nodeId, fieldName)
         val link = EphemeralLink(
             nodeId = nodeId,
             fieldName = fieldName,
             expiryTimestamp = expiryTimestamp
         )
-        links[link.nodeId] = link
+        links[key] = link
         return link
     }
 
     /**
      * Retrieves and invalidates an ephemeral link if it's valid.
      */
-    fun getAndInvalidateLink(uuid: NodeIdUUID): EphemeralLink? {
-        val link = links[uuid] ?: return null
+    fun getAndInvalidateLink(
+        uuid: NodeIdUUID,
+        fieldName: String? = null
+    ): EphemeralLink? {
+        val key = LinkKey(uuid, fieldName)
+        val link = links[key] ?: return null
         
         // Check expiry
         link.expiryTimestamp?.let {
             if (System.currentTimeMillis() > it) {
-                links.remove(uuid)
+                links.remove(key)
                 return null
             }
         }
 
         // Single use logic
         if (link.isUsed) {
-            links.remove(uuid)
+            links.remove(key)
             return null
         }
 
         link.isUsed = true
         // Invalidate immediately after successful retrieval call
-        links.remove(uuid)
+        links.remove(key)
         return link
     }
 

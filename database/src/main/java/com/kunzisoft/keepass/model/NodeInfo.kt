@@ -23,10 +23,12 @@ import android.os.Parcel
 import android.os.Parcelable
 import com.kunzisoft.keepass.database.element.CustomData
 import com.kunzisoft.keepass.database.element.DateInstant
+import com.kunzisoft.keepass.database.element.Field
 import com.kunzisoft.keepass.database.element.Tags
 import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.node.NodeTimeInterface
+import com.kunzisoft.keepass.database.element.security.ProtectedString
 import com.kunzisoft.keepass.utils.readBooleanCompat
 import com.kunzisoft.keepass.utils.readParcelableCompat
 import com.kunzisoft.keepass.utils.writeBooleanCompat
@@ -87,6 +89,19 @@ abstract class NodeInfo() : NodeTimeInterface, Parcelable {
         return 0
     }
 
+    open fun getFieldsForContentProvider(): List<Field> {
+        return mutableListOf<Field>().apply {
+            add(Field(FIELD_NODE_ID, ProtectedString(
+                enableProtection = false,
+                value = nodeId.toString().toCharArray())
+            ))
+            add(Field(FIELD_NODE_TITLE, ProtectedString(
+                enableProtection = false,
+                value = title.toCharArray())
+            ))
+        }
+    }
+
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other !is NodeInfo) return false
@@ -113,5 +128,10 @@ abstract class NodeInfo() : NodeTimeInterface, Parcelable {
         result = 31 * result + customData.hashCode()
         result = 31 * result + tags.hashCode()
         return result
+    }
+
+    companion object {
+        private const val FIELD_NODE_ID = "id"
+        private const val FIELD_NODE_TITLE = "title"
     }
 }

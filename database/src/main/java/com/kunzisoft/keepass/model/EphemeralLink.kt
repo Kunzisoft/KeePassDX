@@ -27,7 +27,7 @@ import java.util.UUID
  */
 data class EphemeralLink(
     val nodeId: NodeId<UUID>,
-    val fieldName: String,
+    val fieldName: String? = null,
     val expiryTimestamp: Long? = null,
     var isUsed: Boolean = false
 )
