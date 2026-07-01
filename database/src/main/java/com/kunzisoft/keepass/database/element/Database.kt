@@ -1110,6 +1110,35 @@ open class Database {
         return entryCopied
     }
 
+    /**
+     * @return A duplicate group with the same values, a new random UUID and a new parent
+     * @param groupToCopy
+     * @param newParent
+     */
+    fun copyGroupTo(groupToCopy: Group, newParent: Group): Group {
+        val groupCopied = Group(groupToCopy)
+        val newId = mDatabaseKDB?.newGroupId() ?: mDatabaseKDBX?.newGroupId() ?: NodeIdUUID()
+        when (newId) {
+            is NodeIdInt -> groupCopied.setNodeId(newId)
+            is NodeIdUUID -> groupCopied.setNodeId(newId)
+        }
+        groupCopied.parent = newParent
+        groupCopied.title += " (~)"
+        addGroupTo(groupCopied, newParent)
+
+        // Copy entries
+        groupToCopy.getChildEntries().forEach {
+            copyEntryTo(it, groupCopied)
+        }
+
+        // Copy sub-groups
+        groupToCopy.getChildGroups().forEach {
+            copyGroupTo(it, groupCopied)
+        }
+
+        return groupCopied
+    }
+
     fun moveEntryTo(entryToMove: Entry, newParent: Group) {
         entryToMove.parent?.let {
             removeEntryFrom(entryToMove, it)

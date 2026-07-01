@@ -43,12 +43,15 @@ class SearchFiltersView @JvmOverloads constructor(
                 toggleSelection(item)
                 val selectedTags = tagsAdapter.getSelectedStringTags()
                 val atLeastOneSelectedTag = selectedTags.isNotEmpty()
-                searchTag.isChecked = atLeastOneSelectedTag
                 searchParameters.apply {
                     searchInTags = atLeastOneSelectedTag
                     tagsToSearch = selectedTags
                 }
-                mOnParametersChangeListener?.invoke(searchParameters)
+                if (searchTag.isChecked != atLeastOneSelectedTag) {
+                    searchTag.isChecked = atLeastOneSelectedTag
+                } else {
+                    mOnParametersChangeListener?.invoke(searchParameters)
+                }
             }
             override fun onItemLongClick(item: Tag): Boolean {
                 return false
@@ -78,7 +81,7 @@ class SearchFiltersView @JvmOverloads constructor(
 
     var searchParameters = SearchParameters()
         get() {
-            return field.apply {
+            return field.copy().apply {
                 this.searchInCurrentGroup = searchCurrentGroup.isChecked
                 this.caseSensitive = searchCaseSensitive.isChecked
                 this.isRegex = searchRegex.isChecked
@@ -100,28 +103,28 @@ class SearchFiltersView @JvmOverloads constructor(
             }
         }
         set(value) {
-            field = value
+            field = value.copy()
             val tempListener = mOnParametersChangeListener
             mOnParametersChangeListener = null
-            searchCurrentGroup.isChecked = value.searchInCurrentGroup
-            searchTag.isChecked = value.searchInTags
-            tagsAdapter.selectTags(value.tagsToSearch)
-            searchCaseSensitive.isChecked = value.caseSensitive
-            searchRegex.isChecked = value.isRegex
-            searchTitle.isChecked = value.searchInTitles
-            searchUsername.isChecked = value.searchInUsernames
-            searchPassword.isChecked = value.searchInPasswords
-            searchApplicationId.isChecked = value.searchInAppIds
-            searchURL.isChecked = value.searchInUrls
-            searchByURLDomain = value.searchByDomain
-            searchByURLSubDomain = value.searchBySubDomain
-            searchExpired.isChecked = value.searchInExpired
-            searchNotes.isChecked = value.searchInNotes
-            searchOther.isChecked = value.searchInOther
-            searchUUID.isChecked = value.searchInUUIDs
-            searchGroupSearchable.isChecked = value.searchInSearchableGroup
-            searchRecycleBin.isChecked = value.searchInRecycleBin
-            searchTemplate.isChecked = value.searchInTemplates
+            searchCurrentGroup.isChecked = field.searchInCurrentGroup
+            searchTag.isChecked = field.searchInTags
+            tagsAdapter.selectTags(field.tagsToSearch)
+            searchCaseSensitive.isChecked = field.caseSensitive
+            searchRegex.isChecked = field.isRegex
+            searchTitle.isChecked = field.searchInTitles
+            searchUsername.isChecked = field.searchInUsernames
+            searchPassword.isChecked = field.searchInPasswords
+            searchApplicationId.isChecked = field.searchInAppIds
+            searchURL.isChecked = field.searchInUrls
+            searchByURLDomain = field.searchByDomain
+            searchByURLSubDomain = field.searchBySubDomain
+            searchExpired.isChecked = field.searchInExpired
+            searchNotes.isChecked = field.searchInNotes
+            searchOther.isChecked = field.searchInOther
+            searchUUID.isChecked = field.searchInUUIDs
+            searchGroupSearchable.isChecked = field.searchInSearchableGroup
+            searchRecycleBin.isChecked = field.searchInRecycleBin
+            searchTemplate.isChecked = field.searchInTemplates
             mOnParametersChangeListener = tempListener
         }
 
@@ -163,6 +166,9 @@ class SearchFiltersView @JvmOverloads constructor(
         searchGroupSearchable = findViewById(R.id.search_chip_group_searchable)
         searchRecycleBin = findViewById(R.id.search_chip_recycle_bin)
         searchTemplate = findViewById(R.id.search_chip_template)
+
+        searchContainer.visibility = GONE
+        searchAdvanceFiltersContainer?.visibility = GONE
 
         // Set search
         searchParameters = PreferencesUtil.getDefaultSearchParameters(context)
@@ -355,7 +361,6 @@ class SearchFiltersView @JvmOverloads constructor(
         when (visibility) {
             VISIBLE -> {
                 if (searchContainer.visibility != VISIBLE) {
-                    searchAdvanceFiltersContainer?.visibility = if (isExpanded) VISIBLE else GONE
                     searchContainer.showByFading()
                 }
             }
@@ -363,10 +368,6 @@ class SearchFiltersView @JvmOverloads constructor(
                 closeAdvancedFilters()
                 if (searchContainer.visibility != GONE) {
                     searchContainer.hideByFading()
-                    if (searchAdvanceFiltersContainer?.visibility == VISIBLE) {
-                        searchAdvanceFiltersContainer?.visibility = INVISIBLE
-                        searchAdvanceFiltersContainer?.collapse()
-                    }
                 }
             }
         }

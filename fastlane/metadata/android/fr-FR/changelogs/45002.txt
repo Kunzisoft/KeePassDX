@@ -1,0 +1,4 @@
+ * Nouvelle animation de recherche #2541
+ * Refactorisation #2541 #2581
+ * Correction des actions de copie #2541
+ * Correction de l'icone OTP dans la liste d'entrées #2541

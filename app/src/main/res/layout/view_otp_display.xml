@@ -14,9 +14,20 @@
         android:layout_marginHorizontal="4dp"
         tools:text="513 651" />
 
-    <com.kunzisoft.keepass.view.OtpProgressView
-        android:id="@+id/otp_progress"
+    <FrameLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center" />
+        android:layout_height="wrap_content">
+        <com.kunzisoft.keepass.view.OtpProgressView
+            android:id="@+id/otp_progress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center" />
+        <ImageView
+            android:id="@+id/otp_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:contentDescription="@string/token"
+            android:src="@drawable/ic_otp_white_24dp"/>
+    </FrameLayout>
 </merge>

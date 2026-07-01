@@ -20,25 +20,18 @@
 package com.kunzisoft.keepass.viewmodels
 
 import android.app.Application
-import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
-import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.element.GroupId
 import com.kunzisoft.keepass.database.element.SortNodeEnum
-import com.kunzisoft.keepass.database.element.Tags
 import com.kunzisoft.keepass.database.element.node.DefaultNodeFilter
 import com.kunzisoft.keepass.database.element.node.EmptyNodeFilter
 import com.kunzisoft.keepass.database.element.node.NodeFilter
 import com.kunzisoft.keepass.database.element.node.Nodes
-import com.kunzisoft.keepass.database.helper.SearchHelper
-import com.kunzisoft.keepass.database.helper.SearchHelper.getSearchParametersFromSearchInfo
-import com.kunzisoft.keepass.database.search.SearchParameters
 import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.model.GroupInfo
 import com.kunzisoft.keepass.model.NodeInfo
-import com.kunzisoft.keepass.model.SearchInfo
 import com.kunzisoft.keepass.model.SortedEntryInfo
 import com.kunzisoft.keepass.model.SortedGroupInfo
 import com.kunzisoft.keepass.model.SortedNodeInfo
@@ -83,20 +76,9 @@ class GroupViewModel(application: Application): AndroidViewModel(application) {
     // Previous groups states to retrieve history and position
     private var mPreviousGroupsStates = mutableListOf<GroupState>()
 
-    /*
-     * Manage search state
-     */
-    private var mSearchState: SearchState? = null
-    // To mainly manage keyboard
-    val autoSearch: Boolean
-        get() = mSearchState?.autoSearch ?: false
-    private var mRequestStartupSearch = true
-
     // Group currently visible (search or main group)
     val isCurrentGroupIsRoot: Boolean
-        get() = !isCurrentGroupIsSearch && groupUIState.value.group?.isRoot(mDatabase) == true
-    val isCurrentGroupIsSearch: Boolean
-        get() = mSearchState != null
+        get() = groupUIState.value.group?.isRoot(mDatabase) == true
 
     /*
      * Manage action in group
@@ -112,13 +94,9 @@ class GroupViewModel(application: Application): AndroidViewModel(application) {
     private val _groupUIState = MutableStateFlow<GroupUISTate>(GroupUISTate())
     val groupUIState: StateFlow<GroupUISTate> = _groupUIState.asStateFlow()
 
-    private val _searchUIState = MutableStateFlow<SearchUIState>(SearchUIState())
-    val searchUIState: StateFlow<SearchUIState> = _searchUIState.asStateFlow()
-
     private val _viewEvent = MutableSharedFlow<GroupEvent>(replay = 0)
     val viewEvent: SharedFlow<GroupEvent> = _viewEvent.asSharedFlow()
 
-    private var mDefaultSearchParameters: SearchParameters = SearchParameters()
     private var mAutoFocusSearch: Boolean = false
     private var mRecursiveNumberEntries: Boolean = false
     private var mShowExpiredEntries: Boolean = false
@@ -126,26 +104,10 @@ class GroupViewModel(application: Application): AndroidViewModel(application) {
     private var mNodeFilter: NodeFilter = EmptyNodeFilter()
 
     fun assignPreferences() {
-        mDefaultSearchParameters = PreferencesUtil.getDefaultSearchParameters(getApplication())
         mAutoFocusSearch = PreferencesUtil.automaticallyFocusSearch(getApplication())
         mRecursiveNumberEntries = PreferencesUtil.recursiveNumberEntries(getApplication())
         mShowExpiredEntries = PreferencesUtil.showExpiredEntries(getApplication())
         mShowTemplates = PreferencesUtil.showTemplates(getApplication())
-    }
-
-    fun saveSearchParameters() {
-        viewModelScope.launch {
-            withContext(Dispatchers.IO) {
-                mSearchState?.let { searchState ->
-                    if (!searchState.tempSearchInfo) {
-                        PreferencesUtil.setDefaultSearchParameters(
-                            context = getApplication(),
-                            searchParameters = searchState.searchParameters
-                        )
-                    }
-                }
-            }
-        }
     }
 
     fun onDatabaseLoaded(database: ContextualDatabase) {
@@ -157,12 +119,8 @@ class GroupViewModel(application: Application): AndroidViewModel(application) {
         )
     }
 
-    fun loadGroup(clearSearch: Boolean = false) {
-        if (clearSearch)
-            clearSearch()
-        if (isCurrentGroupIsSearch) {
-            loadSearch()
-        } else loadMainGroup()
+    fun loadGroup() {
+        loadMainGroup()
     }
 
     private fun loadMainGroup(
@@ -187,7 +145,6 @@ class GroupViewModel(application: Application): AndroidViewModel(application) {
                         mainGroup = group
                         // Save group state
                         mMainGroupState = GroupState(group.nodeId, showFromPosition, showFromOffset)
-                        mSearchState = null
                         // Breadcrumbs
                         val breadcrumbs = mDatabase?.getBreadcrumbsFrom(
                             groupId = group.nodeId,
@@ -216,11 +173,6 @@ class GroupViewModel(application: Application): AndroidViewModel(application) {
                                     showAddNodeButton = mAddNodeButtonAllowed
                                 )
                             }
-                            _searchUIState.update { state ->
-                                state.copy(
-                                    show = false,
-                                )
-                            }
                             showFromPosition?.let {
                                 _viewEvent.emit(GroupEvent.ShowPosition(showFromPosition, showFromOffset))
                             }
@@ -239,175 +191,10 @@ class GroupViewModel(application: Application): AndroidViewModel(application) {
         groupId: GroupId?
     ) {
         // Save the last not virtual group and it's position
-        if (!isCurrentGroupIsSearch) {
-            mMainGroupState?.let {
-                mPreviousGroupsStates.add(it)
-            }
+        mMainGroupState?.let {
+            mPreviousGroupsStates.add(it)
         }
         loadMainGroup(GroupState(groupId, firstVisibleItem = 0))
-    }
-
-    private fun loadSearch(
-        searchState: SearchState? = mSearchState,
-    ) {
-        viewModelScope.launch {
-            mDatabase?.let { database ->
-                withContext(Dispatchers.IO) {
-                    searchState?.let {
-                        _groupUIState.update { groupState ->
-                            groupState.copy(loaded = false)
-                        }
-                        val searchParameters = searchState.searchParameters
-                        val showFromPosition = searchState.firstVisibleItem
-                        val showFromOffset = searchState.firstVisibleItemOffset
-                        val group = database.createSearchGroupInfo(
-                            searchParameters = searchParameters,
-                            fromGroup = mMainGroupState?.groupId,
-                            max = SearchHelper.MAX_SEARCH_ENTRY
-                        )
-                        val allowAdvancedSearch = !searchState.tempSearchInfo
-                        val title = if (searchState.tempSearchInfo)
-                            group.title
-                        else mainGroup?.title
-                            ?: getApplication<Application>().getString(R.string.search)
-                        val numberResults = SearchHelper.showNumberOfSearchResults(group.numberOfSearchResults())
-                        val selectableTags = database.tagPoolWithoutHistory
-                        val tagsAvailable = database.allowTags()
-                        val tagsEnabled = database.tagPoolWithoutHistory.isNotEmpty()
-                        val otherFieldsAvailable = database.allowEntryCustomFields()
-                        val applicationIdsAvailable = database.allowEntryCustomFields()
-                        val searchableGroupAvailable = database.allowCustomSearchableGroup()
-                        val templatesAvailable = database.allowTemplatesGroup
-                        val enableTemplates = database.templatesGroup != null
-                        val children = group.getSearchResults()
-                        mSearchState = searchState
-                        withContext(Dispatchers.Main) {
-                            _groupUIState.update { groupState ->
-                                groupState.copy(
-                                    loaded = true,
-                                    group = group,
-                                    children = children,
-                                    showAddGroupButton = false,
-                                    showAddEntryButton = false,
-                                    showAddNodeButton = false
-                                )
-                            }
-                            _searchUIState.update { state ->
-                                state.copy(
-                                    show = true,
-                                    advanceSearchAllowed = allowAdvancedSearch,
-                                    searchParameters = searchParameters,
-                                    title = title,
-                                    numberResults = numberResults,
-                                    selectableTags = selectableTags,
-                                    tagsAvailable = tagsAvailable,
-                                    tagsEnabled = tagsEnabled,
-                                    otherFieldsAvailable = otherFieldsAvailable,
-                                    applicationIdsAvailable = applicationIdsAvailable,
-                                    searchableGroupAvailable = searchableGroupAvailable,
-                                    templatesAvailable = templatesAvailable,
-                                    enableTemplates = enableTemplates
-                                )
-                            }
-                            showFromPosition?.let {
-                                _viewEvent.emit(GroupEvent.ShowPosition(showFromPosition, showFromOffset))
-                            }
-                        }
-                    } ?: Log.e(TAG, "Search state is null")
-                }
-            }
-        }
-    }
-
-    fun processSearchData(
-        searchInfo: SearchInfo?,
-        searchQuery: String?
-    ) {
-        if (searchInfo != null) {
-            // Get search query from search info
-            searchInfo.getSearchParametersFromSearchInfo(getApplication()) { searchParameters ->
-                mSearchState = SearchState(
-                    searchParameters = searchParameters,
-                    autoSearch = true,
-                    tempSearchInfo = true,
-                    firstVisibleItem = mSearchState?.firstVisibleItem ?: 0,
-                    firstVisibleItemOffset = mSearchState?.firstVisibleItemOffset ?: 0
-                )
-                loadGroup()
-            }
-        } else if (searchQuery != null) {
-            // Get search query from default intent parameter
-            mSearchState = SearchState(
-                searchParameters = mDefaultSearchParameters.apply {
-                    this.searchQuery = searchQuery.trim { it <= ' ' }
-                },
-                autoSearch = true,
-                tempSearchInfo = false,
-                firstVisibleItem = mSearchState?.firstVisibleItem ?: 0,
-                firstVisibleItemOffset = mSearchState?.firstVisibleItemOffset ?: 0
-            )
-            loadGroup()
-        } else if (mRequestStartupSearch && mAutoFocusSearch) {
-            // Expand the search view if defined in settings
-            // To request search only one time
-            mRequestStartupSearch = false
-            mSearchState = SearchState(
-                searchParameters = mDefaultSearchParameters,
-                autoSearch = false,
-                tempSearchInfo = false,
-                firstVisibleItem = mSearchState?.firstVisibleItem ?: 0,
-                firstVisibleItemOffset = mSearchState?.firstVisibleItemOffset ?: 0
-            )
-            loadGroup()
-        }
-    }
-
-    fun activateSearch() {
-        // Initialize search state with default value if not exists
-        if (mSearchState == null) {
-            mSearchState = SearchState(
-                searchParameters = mDefaultSearchParameters,
-                autoSearch = false,
-                tempSearchInfo = false,
-                firstVisibleItem = 0,
-                firstVisibleItemOffset = 0
-            )
-            loadGroup()
-        }
-    }
-
-    fun searchText(text: String?) {
-        mSearchState?.let { searchState ->
-            if (text != null) {
-                searchState.searchParameters.searchQuery = text
-                searchState.firstVisibleItem = 0
-                searchState.firstVisibleItemOffset = 0
-                loadGroup()
-            }
-        }
-    }
-
-    fun searchWithParameters(searchParameters: SearchParameters) {
-        mSearchState?.let { searchState ->
-            searchParameters.searchQuery = searchState.searchParameters.searchQuery
-            searchState.searchParameters = searchParameters
-            searchState.firstVisibleItem = 0
-            searchState.firstVisibleItemOffset = 0
-            saveSearchParameters()
-            loadGroup()
-        }
-    }
-
-    fun deactivateSearch() {
-        clearSearch()
-        loadGroup()
-    }
-
-    fun clearSearch() {
-        mSearchState = null
-        viewModelScope.launch {
-            _viewEvent.emit(GroupEvent.ClearSearch)
-        }
     }
 
     fun onSortSelected(
@@ -438,16 +225,9 @@ class GroupViewModel(application: Application): AndroidViewModel(application) {
         position: Int = 0,
         offset: Int = 0
     ) {
-        if (isCurrentGroupIsSearch) {
-            mSearchState?.let {
-                it.firstVisibleItem = position
-                it.firstVisibleItemOffset = offset
-            }
-        } else {
-            mMainGroupState?.let {
-                it.firstVisibleItem = position
-                it.firstVisibleItemOffset = offset
-            }
+        mMainGroupState?.let {
+            it.firstVisibleItem = position
+            it.firstVisibleItemOffset = offset
         }
     }
 
@@ -742,18 +522,16 @@ class GroupViewModel(application: Application): AndroidViewModel(application) {
         }
     }
 
+    fun hideKeyboard() {
+        viewModelScope.launch {
+            _viewEvent.emit(GroupEvent.HideKeyboard)
+        }
+    }
+
     data class NodeActionState(
         val isActive: Boolean = false,
         val nodeActionMode: NodeActionMode? = null,
         val selectedNodes: List<SortedNodeInfo> = emptyList()
-    )
-
-    data class SearchState(
-        var searchParameters: SearchParameters,
-        val autoSearch: Boolean,
-        val tempSearchInfo: Boolean,
-        var firstVisibleItem: Int?,
-        var firstVisibleItemOffset: Int = 0
     )
 
     sealed class GroupEvent {
@@ -787,22 +565,6 @@ class GroupViewModel(application: Application): AndroidViewModel(application) {
         val showAddNodeButton: Boolean = false,
         val showAddGroupButton: Boolean = false,
         val showAddEntryButton: Boolean = false
-    )
-
-    data class SearchUIState(
-        val show: Boolean = false,
-        val searchParameters: SearchParameters? = null,
-        val title: String = "",
-        val numberResults: String = "0",
-        val advanceSearchAllowed: Boolean = false,
-        val selectableTags: Tags = Tags(),
-        val tagsAvailable: Boolean = false,
-        val tagsEnabled: Boolean = false,
-        val otherFieldsAvailable: Boolean = false,
-        val applicationIdsAvailable: Boolean = false,
-        val searchableGroupAvailable: Boolean = false,
-        val templatesAvailable: Boolean = false,
-        val enableTemplates: Boolean = false
     )
 
     data class GroupState(

@@ -48,10 +48,12 @@ class MoveNodesRunnable(
     challengeResponseRetriever
 ) {
 
-    private var mOldParent: Group? = null
     private var mNewParent: Group? = null
     private var mGroupsToMove: List<Group> = listOf()
     private var mEntriesToMove: List<Entry> = listOf()
+
+    private val mOriginalGroupParents = mutableMapOf<GroupId, Group>()
+    private val mOriginalEntryParents = mutableMapOf<EntryId, Group>()
 
     init {
         database.getGroupById(parentId)?.let { newParent ->
@@ -62,65 +64,70 @@ class MoveNodesRunnable(
     }
 
     override fun nodeAction() {
-        mNewParent?.let { newParent ->
-            foreachGroup@ for (nodeToMove in mGroupsToMove) {
-                // Move node in new parent
-                mOldParent = nodeToMove.parent
+        val newParent = mNewParent ?: run {
+            setError(MissingParentDatabaseException())
+            return
+        }
+
+        for (nodeToMove in mGroupsToMove) {
+            val oldParent = nodeToMove.parent ?: continue
+            nodeToMove.touch(modified = true, touchParents = true)
+            // Move group if the parent change
+            if (oldParent != newParent
+                // and if not in the current group
+                && nodeToMove != newParent
+                && !newParent.isContainedIn(nodeToMove)
+            ) {
+                mOriginalGroupParents[nodeToMove.nodeId] = oldParent
+                database.moveGroupTo(nodeToMove, newParent)
+                nodeToMove.setPreviousParentGroup(oldParent)
                 nodeToMove.touch(modified = true, touchParents = true)
-                // Move group if the parent change
-                if (mOldParent != newParent
-                    // and if not in the current group
-                    && nodeToMove != newParent
-                    && !newParent.isContainedIn(nodeToMove)
-                ) {
-                    database.moveGroupTo(nodeToMove, newParent)
-                    nodeToMove.setPreviousParentGroup(mOldParent)
-                    nodeToMove.touch(modified = true, touchParents = true)
-                } else {
-                    // Only finish thread
-                    setError(MoveGroupDatabaseException())
-                    break@foreachGroup
-                }
+            } else {
+                setError(MoveGroupDatabaseException())
+                return
             }
-            foreachEntry@ for (nodeToMove in mEntriesToMove) {
-                // Move node in new parent
-                mOldParent = nodeToMove.parent
+        }
+
+        for (nodeToMove in mEntriesToMove) {
+            val oldParent = nodeToMove.parent ?: continue
+            nodeToMove.touch(modified = true, touchParents = true)
+            // Move only if the parent change
+            if (oldParent != newParent
+                // and root can contain entry
+                && (newParent != database.rootGroup || database.rootCanContainsEntry())
+            ) {
+                mOriginalEntryParents[nodeToMove.nodeId] = oldParent
+                database.moveEntryTo(nodeToMove, newParent)
+                nodeToMove.setPreviousParentGroup(oldParent)
                 nodeToMove.touch(modified = true, touchParents = true)
-                // Move only if the parent change
-                if (mOldParent != newParent
-                    // and root can contain entry
-                    && (newParent != database.rootGroup || database.rootCanContainsEntry())
-                ) {
-                    database.moveEntryTo(nodeToMove, newParent)
-                    nodeToMove.setPreviousParentGroup(mOldParent)
-                    nodeToMove.touch(modified = true, touchParents = true)
-                } else {
-                    // Only finish thread
-                    setError(MoveEntryDatabaseException())
-                    break@foreachEntry
-                }
+            } else {
+                setError(MoveEntryDatabaseException())
+                return
             }
-        } ?: setError(MissingParentDatabaseException())
+        }
     }
 
     override fun nodeFinish(): ActionNodesValues {
         if (!result.isSuccess) {
             try {
-                mOldParent?.let { oldParent ->
-                    // If we fail to save, try to move in the first place
-                    mGroupsToMove.forEach { nodeToMove ->
-                        if (oldParent != nodeToMove.parent) {
-                            database.moveGroupTo(nodeToMove, oldParent)
-                        }
-                    }
-                    mEntriesToMove.forEach { nodeToMove ->
-                        if (oldParent != nodeToMove.parent) {
-                            database.moveEntryTo(nodeToMove, oldParent)
+                // Restore groups in reverse order of move
+                mGroupsToMove.reversed().forEach { nodeToMove ->
+                    mOriginalGroupParents[nodeToMove.nodeId]?.let { originalParent ->
+                        if (nodeToMove.parent != originalParent) {
+                            database.moveGroupTo(nodeToMove, originalParent)
                         }
                     }
                 }
-            } catch (_: Exception) {
-                Log.i(TAG, "Unable to replace the node")
+                // Restore entries
+                mEntriesToMove.reversed().forEach { nodeToMove ->
+                    mOriginalEntryParents[nodeToMove.nodeId]?.let { originalParent ->
+                        if (nodeToMove.parent != originalParent) {
+                            database.moveEntryTo(nodeToMove, originalParent)
+                        }
+                    }
+                }
+            } catch (e: Exception) {
+                Log.e(TAG, "Unable to restore the nodes", e)
             }
         }
         return ActionNodesValues(
