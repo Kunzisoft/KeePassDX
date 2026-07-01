@@ -296,8 +296,6 @@
     <string name="lock_database_back_root_title">Блокировка нажатием \"Назад\"</string>
     <string name="lock_database_back_root_summary">Блокировка базы нажатием кнопки \"Назад\", если открыт её корневой раздел</string>
     <string name="recycle_bin">Корзина</string>
-    <string name="keyboard_selection_entry_title">Выбор записи</string>
-    <string name="keyboard_selection_entry_summary">При отображении записи в KeePassDX подставлять её данные в Magikeyboard</string>
     <string name="delete_entered_password_title">Удалять пароль</string>
     <string name="delete_entered_password_summary">Забывать введённый пароль после попытки входа в базу</string>
     <string name="content_description_open_file">Открыть файл</string>

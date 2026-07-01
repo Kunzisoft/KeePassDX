@@ -295,8 +295,6 @@
     <string name="lock_database_back_root_title">Tryk på \'Tilbage\' for at låse</string>
     <string name="lock_database_back_root_summary">Lås databasen, når der klikkes på tilbage-knappen fra startskærmen</string>
     <string name="recycle_bin">Papirkurven</string>
-    <string name="keyboard_selection_entry_title">Valg af indtastning</string>
-    <string name="keyboard_selection_entry_summary">Når du ser en post i KeePassDX, skal Magikeyboard udfyldes med den pågældende post</string>
     <string name="delete_entered_password_title">Slet adgangskode</string>
     <string name="delete_entered_password_summary">Sletter den adgangskode, der er indtastet efter et forsøg på at oprette forbindelse til en database</string>
     <string name="content_description_open_file">Åbn fil</string>

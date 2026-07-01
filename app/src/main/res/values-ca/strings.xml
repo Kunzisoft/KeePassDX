@@ -501,8 +501,6 @@
     <string name="temp_device_unlock_enable_summary">No emmagatzemeu cap contingut xifrat per utilitzar el desbloqueig del dispositiu</string>
     <string name="database_data_remove_unlinked_attachments_summary">Elimina els adjunts continguts a la base de dades però no vinculats a una entrada</string>
     <string name="keyboard_label">Magikeyboard (KeePassDX)</string>
-    <string name="keyboard_selection_entry_title">Selecció d\'entrada</string>
-    <string name="keyboard_selection_entry_summary">Quan es visualitzi una entrada a KeePassDX, emplena el Magikeyboard amb aquesta entrada</string>
     <string name="keyboard_notification_entry_clear_close_title">Neteja en tancar</string>
     <string name="keyboard_entry_timeout_summary">Temps d\'espera per netejar l\'entrada del teclat</string>
     <string name="keyboard_keys_category">Tecles</string>

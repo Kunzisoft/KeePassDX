@@ -346,7 +346,6 @@
     <string name="templates">Шаблони</string>
     <string name="keyboard_name">Magikeyboard</string>
     <string name="keyboard_setting_label">Настройки на Magikeyboard</string>
-    <string name="keyboard_selection_entry_title">Избор на записи</string>
     <string name="allow_no_password_title">Разрешаване без главна парола</string>
     <string name="keyboard_notification_entry_content_title">Записът %1$s е достъпен в Magikeyboard</string>
     <string name="keyboard_notification_entry_content_title_text">Запис</string>
@@ -556,7 +555,6 @@
     <string name="disable">Изключване</string>
     <string name="notification">Известие</string>
     <string name="device_keyboard_setting_title">Настройки на клавиатурата на устройството</string>
-    <string name="keyboard_selection_entry_summary">При преглед на запис в KeePassDX, стойностите на Magikeyboard да бъдат попълнени с неговите данни</string>
     <string name="keyboard_notification_entry_title">Известие за наличие</string>
     <string name="error_disallow_no_credentials">Трябва да има зададена най-малко една парола.</string>
     <string name="error_pass_match">Паролите се различават.</string>

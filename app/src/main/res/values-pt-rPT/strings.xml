@@ -292,8 +292,6 @@
     <string name="lock_database_back_root_title">Pressione \'Voltar\' para bloquear</string>
     <string name="lock_database_back_root_summary">Pressione \'Voltar\' para bloquear o base de dados se estiver no ecrã principal da base de dados</string>
     <string name="recycle_bin">Caixote da reciclagem</string>
-    <string name="keyboard_selection_entry_title">Seleção de entrada</string>
-    <string name="keyboard_selection_entry_summary">Ao ver uma entrada no KeePassDX, preencher o Magikeyboard com essa entrada</string>
     <string name="delete_entered_password_title">Eliminar palavra-passe</string>
     <string name="delete_entered_password_summary">Eliminar a palavra-passe inserida após uma tentativa de conexão a uma base de dados</string>
     <string name="content_description_open_file">Abrir ficheiro</string>

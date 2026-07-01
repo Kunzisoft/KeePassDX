@@ -502,8 +502,6 @@
     <string name="keyboard_label">Bàn phím Magi (KeePassDX)</string>
     <string name="keyboard_setting_label">Thiết lập bàn phím khóa Magikeyboard</string>
     <string name="keyboard_entry_category">Đề mục</string>
-    <string name="keyboard_selection_entry_title">Lựa chọn đề mục</string>
-    <string name="keyboard_selection_entry_summary">Khi xem một đề mục trong KeePassDX, hãy điền đề mục đó vào Bàn phím Magi</string>
     <string name="keyboard_notification_entry_title">Thông tin thông báo</string>
     <string name="keyboard_notification_entry_summary">Hiển thị thông báo khi có đề mục</string>
     <string name="keyboard_save_search_info_title">Lưu thông tin chia sẻ</string>

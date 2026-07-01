@@ -443,8 +443,6 @@
     <string name="magic_keyboard_title">Magikeyboard</string>
     <string name="keyboard_setting_label">Magikeyboarden ezarpenak</string>
     <string name="keyboard_entry_category">Sarrera</string>
-    <string name="keyboard_selection_entry_title">Sarrera hautaketa</string>
-    <string name="keyboard_selection_entry_summary">KeePassDXekin sarrera bat ikustean, bete sarrera Magikeyboard erabiliz</string>
     <string name="keyboard_notification_entry_title">Jakinarazpenari buruzko informazioa</string>
     <string name="keyboard_save_search_info_title">Gorde partekatutako informazioa</string>
     <string name="keyboard_notification_entry_clear_close_summary">Itxi datu-basea jakinarazpena ixtean</string>

@@ -396,7 +396,6 @@
     <string name="magic_keyboard_title">மாயவிசைப்பலகை</string>
     <string name="keyboard_name">மாயவிசைப்பலகை</string>
     <string name="keyboard_label">Magikeyboard (keepassdx)</string>
-    <string name="keyboard_selection_entry_title">நுழைவு தேர்வு</string>
     <string name="keyboard_notification_entry_title">அறிவிப்பு செய்தி</string>
     <string name="keyboard_notification_entry_clear_close_summary">அறிவிப்பை மூடும்போது தரவுத்தளத்தை மூடு</string>
     <string name="keyboard_notification_entry_content_title">Magikeyboard இல் %1$s கிடைக்கிறது</string>
@@ -612,7 +611,6 @@
     <string name="keyboard">விசைப்பலகை</string>
     <string name="magic_keyboard_explanation_summary">உங்கள் கடவுச்சொற்கள் மற்றும் அனைத்து அடையாள புலங்களையும் விரிவுபடுத்தும் தனிப்பயன் விசைப்பலகை செயல்படுத்தவும்</string>
     <string name="device_keyboard_setting_title">சாதன விசைப்பலகை அமைப்புகள்</string>
-    <string name="keyboard_selection_entry_summary">கீப்அச்ட்எக்சில் ஒரு நுழைவைப் பார்க்கும்போது, அந்த நுழைவுடன் மாகிகிபோர்டை விரிவுபடுத்துங்கள்</string>
     <string name="keyboard_notification_entry_summary">நுழைவு கிடைக்கும்போது அறிவிப்பைக் காட்டுங்கள்</string>
     <string name="keyboard_save_search_info_title">பகிரப்பட்ட தகவலைச் சேமிக்கவும்</string>
     <string name="keyboard_save_search_info_summary">எளிதான எதிர்கால பயன்பாடுகளுக்கு கையேடு நுழைவு தேர்வைச் செய்யும்போது பகிரப்பட்ட தகவல்களைச் சேமிக்க முயற்சிக்கவும்</string>

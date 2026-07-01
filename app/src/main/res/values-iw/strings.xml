@@ -453,8 +453,6 @@
     <string name="keyboard_appearance_category">מראה</string>
     <string name="keyboard_keys_category">מפתחות</string>
     <string name="keyboard_key_vibrate_title">לחיצות מקשים רוטטות</string>
-    <string name="keyboard_selection_entry_title">בחירת רשומה</string>
-    <string name="keyboard_selection_entry_summary">כאשר מוצגת רשומה ב־KeePassDX, אכלס את Magikeyboard עם רשומה זו</string>
     <string name="keyboard_auto_go_action_title">פעולת מקש אוטומטית</string>
     <string name="allow_no_password_title">אפשר עבודה ללא מפתח ראשי</string>
     <string name="allow_no_password_summary">מאפשר הקשה על הכפתור \"פתח\" אם לא נבחרו אישורים</string>

@@ -1,5 +1,6 @@
 KeePassDX(4.5.0_beta02)
  * New search animation #2541
+ * Entry icon to fill the Magikeyboard #2590
  * Refactoring #2541 #2581
  * Fix copy actions #2541
  * Fix OTP icon in entry list #2541

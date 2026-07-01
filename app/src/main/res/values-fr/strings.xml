@@ -315,8 +315,6 @@
     <string name="lock_database_back_root_title">Appuyer sur \"Retour\" pour verrouiller</string>
     <string name="lock_database_back_root_summary">Appuyer sur « Retour » pour verrouiller la base de données si vous vous trouvez sur l\'écran racine de la base de données</string>
     <string name="recycle_bin">Corbeille</string>
-    <string name="keyboard_selection_entry_title">Sélection de l’entrée</string>
-    <string name="keyboard_selection_entry_summary">Lors de la sélection d\'une entrée dans KeePassDX, rendre cette entrée disponible dans le Magiclavier</string>
     <string name="delete_entered_password_title">Supprimer le mot de passe</string>
     <string name="delete_entered_password_summary">Supprime le mot de passe saisi après une tentative de connexion à une base de données</string>
     <string name="content_description_open_file">Ouvrir le fichier</string>

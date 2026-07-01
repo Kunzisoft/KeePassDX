@@ -300,8 +300,6 @@
     <string name="lock_database_back_root_title">Premere \'\'Indietro\'\' per bloccare</string>
     <string name="lock_database_back_root_summary">Premi \'Indietro\' per bloccare il database se sei nella schermata principale del database</string>
     <string name="recycle_bin">Cestino</string>
-    <string name="keyboard_selection_entry_title">Selezione elemento</string>
-    <string name="keyboard_selection_entry_summary">Durante la visualizzazione di una voce in KeePassDX, inseriscila nella Magitastiera</string>
     <string name="delete_entered_password_title">Elimina password</string>
     <string name="delete_entered_password_summary">Elimina la password immessa dopo un tentativo di connessione al database</string>
     <string name="content_description_open_file">Apri il file</string>

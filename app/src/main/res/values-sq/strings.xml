@@ -291,7 +291,6 @@
     <string name="keyboard_label">Magikeyboard (KeePassDX)</string>
     <string name="keyboard_setting_label">Rregullime për Magikeyboard</string>
     <string name="keyboard_entry_category">Zë</string>
-    <string name="keyboard_selection_entry_title">Përzgjedhje zërash</string>
     <string name="keyboard_notification_entry_summary">Shfaq një njoftim, kur ka një zë</string>
     <string name="keyboard_entry_timeout_title">Mbarim kohe</string>
     <string name="keyboard_appearance_category">Dukje</string>
@@ -587,7 +586,6 @@
     <string name="autofill_close_database_summary">Mbylle bazën e të dhënave, pas një përzgjedhjeje vetëplotësimi</string>
     <string name="education_entry_new_field_summary">Regjistroni një fushë shtesë, shtoni një vlerë dhe, në daçi, mbrojeni.</string>
     <string name="education_sort_summary">Zgjidhni si renditen zërat dhe grupet.</string>
-    <string name="keyboard_selection_entry_summary">Kur shihet një zë në KeePassDX, populloje Magikeyboard-in me atë zë</string>
     <string name="html_text_dev_feature_upgrade">Mos harroni ta mbani aplikacionin tuaj të përditësuar, duke instaluar versione të rinj.</string>
     <string name="device_unlock_invalid_key">S’mund të lexohet kyç shkyçjeje pajisjeje. Ju lutemi, fshijeni dhe përsëritni procedurën e njohjes së shkyçjeve.</string>
     <string name="temp_device_unlock_timeout_summary">Kohëzgjatje përdorimi shkyçjeve pajisjeje, para se të fshihet lënda e saj</string>

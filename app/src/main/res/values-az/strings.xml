@@ -292,7 +292,6 @@
     <string name="keyboard_label">Magikeyboard (KeePassDX)</string>
     <string name="keyboard_setting_label">Magikeyboard parametrləri</string>
     <string name="keyboard_entry_category">Şifrə</string>
-    <string name="keyboard_selection_entry_title">Şifrə seçimi</string>
     <string name="keyboard_notification_entry_title">Bildiriş məlumatı</string>
     <string name="keyboard_save_search_info_title">Paylaşılan məlumatları yadda saxla</string>
     <string name="keyboard_notification_entry_clear_close_title">Tətbiqi bağlayarkən təmizlə</string>
@@ -537,7 +536,6 @@
     <string name="monospace_font_fields_enable_summary">Hərflərin (simvol) daha yaxşı görünməsi üçün sahələrdə (bölmə) istifadə olunan fontu dəyişdirin</string>
     <string name="allow_copy_password_title">Mübadilə buferi güvəni</string>
     <string name="magic_keyboard_explanation_summary">Şifrə və bütün şəxsiyyət məlumatlarının daxil olduğu özəl klaviaturanı aktivləşdirin</string>
-    <string name="keyboard_selection_entry_summary">KeePassDX-də bir şifrəyə baxarkən, Magikeyboard-da həmin şifrəni göstər</string>
     <string name="keyboard_save_search_info_summary">Gələcəkdə daha asan istifadələr üçün əl ilə şifrə seçimi edərkən paylaşılan məlumatları yadda saxlamağa çalışın</string>
     <string name="keyboard_entry_timeout_summary">Klaviatura şifrəsini təmizləmək üçün taym-aut</string>
     <string name="keyboard_auto_go_action_title">Avtomatik düymə funksiyası (hərəkəti)</string>

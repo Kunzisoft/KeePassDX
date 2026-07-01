@@ -362,7 +362,6 @@
     <string name="keyboard_label">เมจิคีย์บอร์ด (KeePassDX)</string>
     <string name="keyboard_setting_label">การตั้งค่า เมจิคีย์บอร์ด</string>
     <string name="keyboard_entry_category">รายการ</string>
-    <string name="keyboard_selection_entry_title">การเลือกรายการ</string>
     <string name="keyboard_notification_entry_title">ข้อมูลการแจ้งเตือน</string>
     <string name="keyboard_notification_entry_summary">แสดงการแจ้งเตือนเพิ่มมีรายการให้ใช้งาน</string>
     <string name="keyboard_save_search_info_title">บันทึกข้อมูลที่ใช้ร่วมกัน</string>
@@ -565,7 +564,6 @@
     <string name="database_custom_color_title">สีของฐานข้อมูลที่กำหนดเอง</string>
     <string name="database_version_title">รุ่นของฐานข้อมูล</string>
     <string name="application_appearance">อินเตอร์เฟส</string>
-    <string name="keyboard_selection_entry_summary">เมื่อดูรายการใน คียพาสดีเอ็กซ์, เมจิคีย์บอร์ด จะใช้รายการนั้นด้วย</string>
     <string name="keyboard_save_search_info_summary">พยายามบันทึกข้อมูลที่ใช้ร่วมกันเมื่อเลือกกรอกรายการนั้นด้วยตนเองเพื่อใช้งานในอนาคตง่ายขึ้น</string>
     <string name="keyboard_notification_entry_clear_close_summary">ปิดฐานข้อมูลเมื่อปิดการแจ้งเตือน</string>
     <string name="text_appearance">ลักษณะตัวหนังสือ</string>

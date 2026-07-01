@@ -308,8 +308,6 @@
     <string name="list_groups_show_number_entries_summary">Bir gruptaki girdilerin sayısını görüntüler</string>
     <string name="lock_database_back_root_title">Kilitlemek için \'Geri\'ye basın</string>
     <string name="recycle_bin">Geri dönüşüm kutusu</string>
-    <string name="keyboard_selection_entry_title">Girdi seçimi</string>
-    <string name="keyboard_selection_entry_summary">Bir girdiyi görüntülerken Magikeyboard\'da o girdiyi göster</string>
     <string name="delete_entered_password_title">Parolayı sil</string>
     <string name="delete_entered_password_summary">Veri tabanına bağlantı denemesinden sonra girilen parolayı siler</string>
     <string name="content_description_node_children">Alt düğüm</string>

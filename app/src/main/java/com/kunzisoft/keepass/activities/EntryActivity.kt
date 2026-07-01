@@ -228,6 +228,10 @@ class EntryActivity : DatabaseLockActivity() {
         // Init attachment service binder manager
         mAttachmentFileBinderManager = AttachmentFileBinderManager(this)
 
+        titleIconView?.setOnClickListener {
+            mEntryViewModel.sendToMagikeyboard()
+        }
+
         lockView?.setOnClickListener {
             lockAndExit()
         }
@@ -297,7 +301,8 @@ class EntryActivity : DatabaseLockActivity() {
                                 MagikeyboardService.addEntry(
                                     context = this@EntryActivity,
                                     entry = event.entryInfo,
-                                    autoSwitchKeyboard = event.autoSwitch
+                                    autoSwitchKeyboard = event.autoSwitch,
+                                    notify = true
                                 )
                             }
                             is EntryViewModel.EntryEvent.AttachmentSelected -> {

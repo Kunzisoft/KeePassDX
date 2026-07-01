@@ -43,6 +43,7 @@ import android.widget.ImageView
 import android.widget.PopupWindow
 import android.widget.ProgressBar
 import android.widget.TextView
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.BlendModeColorFilterCompat
 import androidx.core.graphics.BlendModeCompat
@@ -696,12 +697,14 @@ class MagikeyboardService : InputMethodService(),
         fun addEntry(
             context: Context,
             entry: EntryInfo,
-            autoSwitchKeyboard: Boolean
+            autoSwitchKeyboard: Boolean,
+            notify: Boolean = false
         ) {
             addEntries(
                 context = context,
                 entryList = listOf(entry),
                 autoSwitchKeyboard = autoSwitchKeyboard,
+                notify = notify,
                 from = TypeMode.MAGIKEYBOARD
             )
         }
@@ -710,6 +713,7 @@ class MagikeyboardService : InputMethodService(),
             context: Context,
             entryList: List<EntryInfo>,
             autoSwitchKeyboard: Boolean,
+            notify: Boolean = false,
             from: TypeMode
         ) {
             if (!onlyAllowedFromMagikeyboard || from == TypeMode.MAGIKEYBOARD) {
@@ -730,6 +734,17 @@ class MagikeyboardService : InputMethodService(),
                         ) {
                             context.startActivity(context.getSwitchMagikeyboardIntent())
                         }
+                    }
+                    if (notify) {
+                        Toast.makeText(
+                            context,
+                            context.getString(
+                                R.string.keyboard_notification_entry_content_title,
+                                if (entryList.size == 1) entryList[0].getVisualTitle()
+                                else context.getString(R.string.keyboard_notification_entry_content_title_text)
+                            ),
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
                 } else {
                     removeEntryInfo()

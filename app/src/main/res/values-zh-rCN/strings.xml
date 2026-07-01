@@ -298,8 +298,6 @@
     <string name="lock_database_back_root_title">按“返回”锁定</string>
     <string name="lock_database_back_root_summary">如果您位于数据库的根屏幕，请按“返回”锁定数据库</string>
     <string name="recycle_bin">回收站</string>
-    <string name="keyboard_selection_entry_title">条目选择</string>
-    <string name="keyboard_selection_entry_summary">在 KeePassDX 中查看条目时，用该条目填充 Magikeyboard</string>
     <string name="delete_entered_password_title">删除密码</string>
     <string name="delete_entered_password_summary">在尝试连接数据库后删除输入的密码</string>
     <string name="content_description_open_file">打开文件</string>

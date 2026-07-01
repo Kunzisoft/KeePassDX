@@ -414,8 +414,6 @@
     <string name="content_description_node_children">Alárendelt csomópontok</string>
     <string name="delete_entered_password_summary">Törli a beírt jelszót az adatbázishoz való kapcsolódási kísérlet után</string>
     <string name="delete_entered_password_title">Jelszó törlése</string>
-    <string name="keyboard_selection_entry_summary">A Mágikus billentyűzet kitöltése azzal a bejegyzéssel, amelyet megtekint a KeePassDX-ben</string>
-    <string name="keyboard_selection_entry_title">Bejegyzés kiválasztása</string>
     <string name="recycle_bin">Kuka</string>
     <string name="lock_database_back_root_title">Nyomja meg a „Vissza” gombot a zároláshoz</string>
     <string name="do_not_kill_app">Ne lője ki az alkalmazást…</string>

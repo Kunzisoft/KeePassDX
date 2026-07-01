@@ -508,7 +508,6 @@
     <string name="recycle_bin">Papeleira de reciclaxe</string>
     <string name="magic_keyboard_title">Magikeyboard</string>
     <string name="keyboard_entry_category">Entrada</string>
-    <string name="keyboard_selection_entry_title">Selección da entrada</string>
     <string name="keyboard_notification_entry_title">Información da notificación</string>
     <string name="keyboard_notification_entry_clear_close_title">Limpar ao fechar</string>
     <string name="keyboard_entry_timeout_title">Tempo límite</string>
@@ -534,7 +533,6 @@
 \n
 \nUse un método de completado de formularios da súa escolla.</string>
     <string name="education_lock_title">Bloquear base de datos</string>
-    <string name="keyboard_selection_entry_summary">Ao ver unha entrada en KeePassDX, completar con esta o Magikeyboard</string>
     <string name="keyboard_previous_lock_summary">Mudar automaticamente ao teclado previo despois de bloquear a base de datos</string>
     <string name="autofill_ask_to_save_data_title">Pedir para gardar datos</string>
     <string name="error_save_read_only">Non é posíbel gardar nunha base datos aberta en modo só lectura.</string>

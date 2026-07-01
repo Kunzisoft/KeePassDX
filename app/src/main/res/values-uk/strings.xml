@@ -328,8 +328,6 @@
     <string name="keyboard_notification_entry_clear_close_title">Очищати під час закриття</string>
     <string name="keyboard_notification_entry_summary">Показувати сповіщення, коли запис доступний</string>
     <string name="keyboard_notification_entry_title">Інформаційне сповіщення</string>
-    <string name="keyboard_selection_entry_summary">Під час перегляду запису в KeePassDX заповнювати Magikeyboard цим записом</string>
-    <string name="keyboard_selection_entry_title">Вибір запису</string>
     <string name="keyboard_entry_category">Запис</string>
     <string name="keyboard_setting_label">Налаштування Magikeyboard</string>
     <string name="keyboard_label">Magikeyboard (KeePassDX)</string>

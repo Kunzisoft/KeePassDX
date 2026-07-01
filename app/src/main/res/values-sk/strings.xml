@@ -244,8 +244,6 @@
     <string name="device_keyboard_setting_title">Nastavenia klávesnice zariadenia</string>
     <string name="keyboard_name">Magikeyboard</string>
     <string name="keyboard_label">Magikeyboard (KeePassDX)</string>
-    <string name="keyboard_selection_entry_title">Výber záznamu</string>
-    <string name="keyboard_selection_entry_summary">Pri prezeraní záznamu v KeePassDX naplňte Magikeyboard týmto záznamom</string>
     <string name="keyboard_notification_entry_title">Informácie o upozornení</string>
     <string name="keyboard_appearance_category">Vzhľad</string>
     <string name="keyboard_key_sound_title">Vydať zvuk pri stlačení tlačidla</string>

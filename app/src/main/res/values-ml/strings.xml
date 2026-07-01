@@ -321,7 +321,6 @@
     <string name="keyboard_appearance_category">രൂപം</string>
     <string name="keyboard_notification_entry_content_title_text">എൻട്രി</string>
     <string name="keyboard_notification_entry_clear_close_summary">അറിയിപ്പ് അടയ്‌ക്കുമ്പോൾ ഡാറ്റാബേസ് അടയ്‌ക്കുക</string>
-    <string name="keyboard_selection_entry_title">എൻട്രി തിരഞ്ഞെടുക്കൽ</string>
     <string name="compression">കംപ്രഷൻ</string>
     <string name="database_default_username_title">സ്ഥിരസ്ഥിതി ഉപയോക്തൃനാമം</string>
     <string name="database_data_compression_summary">ഡാറ്റ കംപ്രഷൻ ഡാറ്റാബേസിന്റെ വലുപ്പം കുറയ്ക്കുന്നു</string>

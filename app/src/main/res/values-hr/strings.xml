@@ -285,7 +285,6 @@
     <string name="keyboard_label">Magikeyboard (KeePassDX)</string>
     <string name="keyboard_setting_label">Magikeyboard postavke</string>
     <string name="keyboard_entry_category">Unos</string>
-    <string name="keyboard_selection_entry_title">Odabir unosa</string>
     <string name="keyboard_notification_entry_title">Obavijesti</string>
     <string name="keyboard_notification_entry_summary">Prikaži obavijest kad je neki unos dostupan</string>
     <string name="keyboard_notification_entry_clear_close_title">Isprazni pri zatvaranju</string>
@@ -396,7 +395,6 @@
     <string name="education_setup_OTP_title">Postavi jednokratnu lozinku</string>
     <string name="content_description_add_item">Dodaj element</string>
     <string name="html_text_dev_feature_buy_pro">Kupnjom &lt;strong&gt;pro&lt;/strong&gt; verzije,</string>
-    <string name="keyboard_selection_entry_summary">Prilikom prikaza unosa u KeePassDX-u, popuni Magikeyboard s tim unosom</string>
     <string name="education_new_node_title">Dodaj elemente u bazu podataka</string>
     <string name="education_donation_summary">Pomogni povećati stabilnost i sigurnost dodavanjem dodatnih funkcija.</string>
     <string name="error_string_type">Ovaj se tekst ne poklapa sa zatraženim elementom.</string>

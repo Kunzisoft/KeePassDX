@@ -306,8 +306,6 @@
     <string name="keyboard_label">Tastatură magică (KeePassDX)</string>
     <string name="keyboard_setting_label">Setări tastatură magică</string>
     <string name="keyboard_entry_category">Intrare</string>
-    <string name="keyboard_selection_entry_title">Selecție de intrare</string>
-    <string name="keyboard_selection_entry_summary">Când vizualizați o intrare în KeePassDX, completați Tastatura magică cu acea intrare</string>
     <string name="keyboard_notification_entry_title">Informații de notificare</string>
     <string name="keyboard_notification_entry_summary">Afișare notificare atunci când o intrare este disponibilă</string>
     <string name="keyboard_notification_entry_clear_close_title">Curăță la închidere</string>

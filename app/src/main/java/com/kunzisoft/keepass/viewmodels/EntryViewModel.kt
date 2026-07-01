@@ -57,6 +57,7 @@ class EntryViewModel(application: Application): AndroidViewModel(application) {
         private set
     var entryIsHistory: Boolean = false
         private set
+    private var mEntryInfo: EntryInfo? = null
 
     @ColorInt
     var colorSecondary: Int = 0
@@ -72,7 +73,6 @@ class EntryViewModel(application: Application): AndroidViewModel(application) {
     private var foregroundColor: Int? = null
 
     private var autoSwitchToMagikeyboard: Boolean = false
-    private var keyboardEntrySelectionEnabled: Boolean = false
     private var showEntryColors: Boolean = false
 
     private val _entryUIState = MutableStateFlow(EntryViewState())
@@ -90,7 +90,6 @@ class EntryViewModel(application: Application): AndroidViewModel(application) {
     init {
         // Init preferences
         autoSwitchToMagikeyboard = PreferencesUtil.isAutoSwitchToMagikeyboardEnable(application)
-        keyboardEntrySelectionEnabled = PreferencesUtil.isKeyboardEntrySelectionEnable(application)
         showEntryColors = PreferencesUtil.showEntryColors(application)
     }
 
@@ -121,6 +120,7 @@ class EntryViewModel(application: Application): AndroidViewModel(application) {
                                 mainEntry
                             }
                             val entryInfo = database.getEntryInfoFrom(currentEntry)
+                            this@EntryViewModel.mEntryInfo = entryInfo
                             this@EntryViewModel.entryIsHistory = isHistory
 
                             withContext(Dispatchers.Main) {
@@ -151,16 +151,6 @@ class EntryViewModel(application: Application): AndroidViewModel(application) {
                                         iconBackgroundColor = background?.let { bg ->
                                             ColorUtils.blendARGB(bg, Color.WHITE, 0.1f)
                                         } ?: colorBackground
-                                    )
-                                }
-
-                                // Manage entry to populate Magikeyboard and launch keyboard notification if allowed
-                                if (keyboardEntrySelectionEnabled) {
-                                    _entryEvents.emit(
-                                        EntryEvent.AddToMagikeyboard(
-                                            entryInfo = entryInfo,
-                                            autoSwitch = autoSwitchToMagikeyboard
-                                        )
                                     )
                                 }
                             }
@@ -237,6 +227,22 @@ class EntryViewModel(application: Application): AndroidViewModel(application) {
                     ColorUtils.blendARGB(background, Color.WHITE, 0.1f)
                 } ?: colorBackground
             )
+        }
+    }
+
+    /**
+     * Populate entry in Magikeyboard and launch keyboard notification if allowed
+     */
+    fun sendToMagikeyboard() {
+        viewModelScope.launch {
+            mEntryInfo?.let { entryInfo ->
+                _entryEvents.emit(
+                    EntryEvent.AddToMagikeyboard(
+                        entryInfo = entryInfo,
+                        autoSwitch = autoSwitchToMagikeyboard
+                    )
+                )
+            }
         }
     }
 

@@ -347,8 +347,6 @@
     <string name="keyboard_notification_entry_clear_close_title">Bersihkan saat menutup</string>
     <string name="keyboard_notification_entry_summary">Tampilkan notifikasi ketika entri tersedia</string>
     <string name="keyboard_notification_entry_title">Info notifikasi</string>
-    <string name="keyboard_selection_entry_summary">Saat menampilkan entri dalam KeePassDX, isi Magikeyboard dengan entrinya</string>
-    <string name="keyboard_selection_entry_title">Pilihan entri</string>
     <string name="keyboard_entry_category">Entri</string>
     <string name="keyboard_setting_label">Pengaturan Magikeyboard</string>
     <string name="keyboard_label">Magikeyboard (KeePassDX)</string>

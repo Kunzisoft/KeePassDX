@@ -287,8 +287,6 @@
     <string name="do_not_kill_app">No cierre la aplicación…</string>
     <string name="lock_database_back_root_summary">Pulse \'Atrás\' para bloquear la base de datos si se encuentra en la pantalla raíz de la base de datos</string>
     <string name="recycle_bin">Papelera de reciclaje</string>
-    <string name="keyboard_selection_entry_title">Selección de apuntes</string>
-    <string name="keyboard_selection_entry_summary">Al visualizar un apunte en KeePassDX, rellena Magikeyboard con ese apunte</string>
     <string name="delete_entered_password_title">Eliminar contraseña</string>
     <string name="delete_entered_password_summary">Elimina la contraseña introducida tras un intento de conexión a una base de datos</string>
     <string name="content_description_open_file">Abrir archivo</string>

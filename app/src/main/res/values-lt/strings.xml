@@ -541,8 +541,6 @@
     <string name="keyboard_label">Magikeyboard (KeePassDX)</string>
     <string name="keyboard_setting_label">Magikeyboard nustatymai</string>
     <string name="keyboard_entry_category">Įrašas</string>
-    <string name="keyboard_selection_entry_title">Įrašo pasirinkimas</string>
-    <string name="keyboard_selection_entry_summary">Kai peržiūrite įrašą KeePassDX, užpildyti Magikeyboard tuo įrašu</string>
     <string name="keyboard_notification_entry_title">Pranešimo informacija</string>
     <string name="keyboard_notification_entry_summary">Rodyti pranešimą, kai įrašas yra prieinamas</string>
     <string name="keyboard_save_search_info_title">Išsaugoti bendrinamą informaciją</string>

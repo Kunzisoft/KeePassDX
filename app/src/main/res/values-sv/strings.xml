@@ -297,8 +297,6 @@
     <string name="lock_database_back_root_title">Tryck på tillbaka-knappen för att låsa</string>
     <string name="lock_database_back_root_summary">Tryck på \'Tillbaka\' för att låsa databasen om du är på databasens rotskärm.</string>
     <string name="recycle_bin">Papperskorg</string>
-    <string name="keyboard_selection_entry_title">Val av post</string>
-    <string name="keyboard_selection_entry_summary">Gör posten tillgänglig i Magikeyboard när den visas i KeePassDX</string>
     <string name="delete_entered_password_title">Ta bort lösenord</string>
     <string name="delete_entered_password_summary">Tar bort det skrivna lösenordet efter ett anslutningsförsök till en databas</string>
     <string name="content_description_node_children">Undernoder</string>

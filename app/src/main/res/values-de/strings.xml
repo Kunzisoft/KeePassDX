@@ -306,8 +306,6 @@
     <string name="do_not_kill_app">App nicht beenden …</string>
     <string name="lock_database_back_root_summary">„Zurück“ drücken, um die Datenbank zu sperren, wenn man sich auf dem Hauptbildschirm der Datenbank befindet</string>
     <string name="recycle_bin">Papierkorb</string>
-    <string name="keyboard_selection_entry_title">Eintragsauswahl</string>
-    <string name="keyboard_selection_entry_summary">Beim Anzeigen eines Eintrags in KeePassDX wird Magikeyboard mit diesem Eintrag gefüllt</string>
     <string name="delete_entered_password_title">Passwort löschen</string>
     <string name="delete_entered_password_summary">Löscht das eingegebene Passwort nach einem Verbindungsversuch zu einer Datenbank</string>
     <string name="content_description_open_file">Datei öffnen</string>

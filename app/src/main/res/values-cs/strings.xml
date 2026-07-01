@@ -295,8 +295,6 @@
     <string name="lock_database_back_root_title">K uzamknutí stiskněte Zpět</string>
     <string name="lock_database_back_root_summary">Stiskněte „Zpět“ pro uzamčení databáze, pokud se nacházíte na hlavní obrazovce databáze</string>
     <string name="recycle_bin">Koš</string>
-    <string name="keyboard_selection_entry_title">Výběr záznamu</string>
-    <string name="keyboard_selection_entry_summary">Při prohlížení záznamu v KeePassDX zadat záznam do Magikeyboard</string>
     <string name="delete_entered_password_title">Smazat heslo</string>
     <string name="delete_entered_password_summary">Smaže heslo zadané po pokusu o připojení k databázi</string>
     <string name="content_description_open_file">Otevřít soubor</string>

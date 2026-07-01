@@ -287,8 +287,6 @@
     <string name="lock_database_back_root_title">Πατήστε \'Πίσω\' για να κλειδώσετε</string>
     <string name="lock_database_back_root_summary">Κλείδωμα της βάσης δεδομένων όταν ο χρήστης κάνει κλικ στο κουμπί \"πίσω\" στην οθόνη προέλευσης</string>
     <string name="recycle_bin">Κάδος ανακύκλωσης</string>
-    <string name="keyboard_selection_entry_title">Επιλογή καταχώρισης</string>
-    <string name="keyboard_selection_entry_summary">Κατά την προβολή μιας καταχώρησης στο KeePassDX, συμπληρώστε το Magikeyboard με αυτήν την καταχώρηση</string>
     <string name="delete_entered_password_title">Διαγραφή κωδικού πρόσβασης</string>
     <string name="delete_entered_password_summary">Διαγράφει τον κωδικό πρόσβασης που εισήχθη μετά από μια προσπάθεια σύνδεσης σε μια βάση δεδομένων</string>
     <string name="content_description_open_file">Άνοιγμα αρχείου</string>

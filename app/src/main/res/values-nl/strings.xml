@@ -301,8 +301,6 @@
     <string name="lock_database_back_root_title">Druk \'Terug\' om te vergrendelen</string>
     <string name="lock_database_back_root_summary">Druk in het hoofdscherm van de database op \'Terug\' om de database te vergrendelen</string>
     <string name="recycle_bin">Prullenbak</string>
-    <string name="keyboard_selection_entry_title">Itemselectie</string>
-    <string name="keyboard_selection_entry_summary">Vul, bij het bekijken van een item in KeePassDX, Magikeyboard met dat item</string>
     <string name="delete_entered_password_title">Wachtwoord wissen</string>
     <string name="delete_entered_password_summary">Wis het ingevoerde wachtwoord na een verbindingspoging met een database</string>
     <string name="content_description_open_file">Bestand openen</string>

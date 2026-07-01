@@ -309,7 +309,6 @@
     <string name="templates_group_enable_summary">Izmanto dinamiskās veidnes, lai aizpildītu ieraksta laukus</string>
     <string name="max_history_size_summary">Ierobežo vēstures lielumu vienā ierakstā</string>
     <string name="allow_copy_password_summary">Atļauj kopēt paroli un aizsargātos laukus starpliktuvē</string>
-    <string name="keyboard_selection_entry_title">Ieraksta atlase</string>
     <string name="keyboard_notification_entry_summary">Rāda paziņojumu, kad ieraksts pieejams</string>
     <string name="keyboard_notification_entry_clear_close_title">Notīrīt aizverot</string>
     <string name="keyboard_notification_entry_clear_close_summary">Aizver datubāzi, kad aizver paziņojumu</string>

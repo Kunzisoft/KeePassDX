@@ -491,8 +491,6 @@
     <string name="keyboard_label">Магічная клавіятура (KeePassDX)</string>
     <string name="keyboard_setting_label">Налады магічнай клавіятуры</string>
     <string name="keyboard_entry_category">Запіс</string>
-    <string name="keyboard_selection_entry_title">Выбар запісу</string>
-    <string name="keyboard_selection_entry_summary">Пры праглядзе запісу ў KeePassDX, запоўніце магічную клавіятуру гэтым запісам</string>
     <string name="keyboard_notification_entry_title">Інфармацыя аб апавяшчэннях</string>
     <string name="keyboard_notification_entry_summary">Паказваць апавяшчэнне, калі запіс даступны</string>
     <string name="keyboard_save_search_info_title">Захаваць агульную інфармацыю</string>

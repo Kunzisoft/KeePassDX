@@ -286,8 +286,6 @@
     <string name="lock_database_back_root_title">Trykk «Tilbake» for å låse</string>
     <string name="lock_database_back_root_summary">Trykk «Tilbake» for å låse databasen hvis du er ved rotskjermen til databasen</string>
     <string name="recycle_bin">Papirkurv</string>
-    <string name="keyboard_selection_entry_title">Oppføringsvalg</string>
-    <string name="keyboard_selection_entry_summary">Når du ser på en oppføring i KeePassDX blir Magikeyboard fylt opp med den oppføringen</string>
     <string name="delete_entered_password_title">Slett passord</string>
     <string name="delete_entered_password_summary">Sletter passord innskrevet etter et tilkoblingsforsøk til en database</string>
     <string name="content_description_open_file">Åpne fil</string>

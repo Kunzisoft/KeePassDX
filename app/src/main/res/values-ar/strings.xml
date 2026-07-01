@@ -356,7 +356,6 @@
     <string name="autofill_block">احظر الملء التلقائي</string>
     <string name="keyboard_previous_database_credentials_title">شاشة بيانات اعتماد قاعدة البيانات</string>
     <string name="keyboard_change">غيِّر لوحة المفاتيح</string>
-    <string name="keyboard_selection_entry_title">تحديد المدخل</string>
     <string name="device_keyboard_setting_title">إعدادات لوحة مفاتيح الجهاز</string>
     <string name="magic_keyboard_explanation_summary">نشِّط لوحة مفاتيح مخصصة لملأ كلمة السر وحقول معرّفك</string>
     <string name="biometric_auto_open_prompt_summary">اطلب إلغاء قفل الجهاز تلقائيًا إذا كانت قاعدة البيانات معدّة لذلك</string>
@@ -639,7 +638,6 @@
     <string name="menu_app_settings_summary">البحث، القفل، التاريخ، الخصائص</string>
     <string name="menu_form_filling_settings_summary">لوحة المفاتيح، الملء التلقائي، الحافظة</string>
     <string name="device_unlock_keystore_warning">ستقوم هذه الميزة بتخزين بيانات الاعتماد المُعمّاة في KeyStore الآمن بجهازك. \n \nاعتمادًا على تطبيق API الأصلي لنظام التشغيل، قد لا يعمل بكامل طاقته. \n \nتحقق من توافق وأمن KeyStore مع الشركة المصنعة لجهازك ومنشئ ROM الذي تستخدمه.</string>
-    <string name="keyboard_selection_entry_summary">عند عرض مدخل في KeePassDX، عبئ Magikeyboard بهذا المدخل</string>
     <string name="enable_screenshot_mode_summary">اسمح لتطبيقات الطرف الثالث بتسجيل أو التقاط لقطات شاشة للتطبيق</string>
     <string name="keyboard_save_search_info_summary">حاول حفظ المعلومات المشتركة عند إجراء اختيار مدخل يدوي لاستخدامات مستقبلية أسهل</string>
     <string name="education_entry_edit_summary">عدِّل إدخالك مع الحقول المخصّصة. يمكن الرجوع إلى بيانات التجمع بين حقول مدخل المختلفة.</string>

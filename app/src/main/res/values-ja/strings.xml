@@ -348,8 +348,6 @@
     <string name="keyboard_label">Magikeyboard (KeePassDX)</string>
     <string name="keyboard_setting_label">Magikeyboard の設定</string>
     <string name="keyboard_entry_category">エントリー</string>
-    <string name="keyboard_selection_entry_title">エントリーの選択</string>
-    <string name="keyboard_selection_entry_summary">KeePassDX のエントリーを開いているとき、Magikeyboard にそのエントリーを格納します</string>
     <string name="keyboard_notification_entry_title">通知情報</string>
     <string name="keyboard_notification_entry_summary">エントリーが利用可能なとき、通知を表示します</string>
     <string name="keyboard_save_search_info_title">共有情報の保存</string>
