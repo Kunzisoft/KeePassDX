@@ -37,7 +37,13 @@ object ShareCrypto {
     private const val SALT_SIZE = 16
     private const val IV_SIZE = 12
     private const val GCM_TAG_BITS = 128
+    // V1 for now
     private const val VERSION_BYTE: Byte = 1
+    private const val SHARE_KEY_ALGORITHM = "AES"
+    private const val SHARE_BLOCKS_MODES = "GCM"
+    private const val SHARE_ENCRYPTION_PADDING = "NoPadding"
+    private const val CIPHER = "$SHARE_KEY_ALGORITHM/$SHARE_BLOCKS_MODES/$SHARE_ENCRYPTION_PADDING"
+
 
     private val secureRandom = SecureRandom()
 
@@ -58,9 +64,9 @@ object ShareCrypto {
         val iv = ByteArray(IV_SIZE).also { secureRandom.nextBytes(it) }
         val key = deriveKey(pin, salt)
         try {
-            val cipher = Cipher.getInstance("AES/GCM/NoPadding").apply {
+            val cipher = Cipher.getInstance(CIPHER).apply {
                 init(Cipher.ENCRYPT_MODE,
-                    SecretKeySpec(key, "AES"),
+                    SecretKeySpec(key, SHARE_KEY_ALGORITHM),
                     GCMParameterSpec(GCM_TAG_BITS, iv)
                 )
                 aad?.let { updateAAD(it) }
@@ -105,10 +111,10 @@ object ShareCrypto {
         val ciphertext = ByteArray(buf.remaining()).also { buf.get(it) }
         val key = deriveKey(pin, salt)
         try {
-            val cipher = Cipher.getInstance("AES/GCM/NoPadding")
+            val cipher = Cipher.getInstance(CIPHER)
             cipher.init(
                 Cipher.DECRYPT_MODE,
-                SecretKeySpec(key, "AES"),
+                SecretKeySpec(key, SHARE_KEY_ALGORITHM),
                 GCMParameterSpec(GCM_TAG_BITS, iv)
             )
             aad?.let { cipher.updateAAD(it) }
