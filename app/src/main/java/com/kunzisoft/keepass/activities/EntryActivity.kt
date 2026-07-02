@@ -68,10 +68,13 @@ import com.kunzisoft.keepass.database.element.template.TemplateField
 import com.kunzisoft.keepass.database.helper.getLocalizedName
 import com.kunzisoft.keepass.education.EntryActivityEducation
 import com.kunzisoft.keepass.model.EntryAttachmentState
+import com.kunzisoft.keepass.model.FieldProtection
+import com.kunzisoft.keepass.provider.EphemeralLinkProvider
 import com.kunzisoft.keepass.services.AttachmentFileNotificationService
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_DELETE_ENTRY_HISTORY
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_RESTORE_ENTRY_HISTORY
 import com.kunzisoft.keepass.settings.PreferencesUtil
+import com.kunzisoft.keepass.sharing.CreateEphemeralLinkUseCase
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.tasks.AttachmentFileBinderManager
 import com.kunzisoft.keepass.timeout.TimeoutHelper
@@ -321,47 +324,36 @@ class EntryActivity : DatabaseLockActivity() {
                                 }
                             }
                             is EntryViewModel.EntryEvent.RequestCopyProtectedField -> {
-                                // Only request the User Verification if the field is protected and not shown
-                                if (mDatabaseAllowUserVerification
-                                    && event.fieldProtection.field.protectedValue.isProtected
-                                    && event.fieldProtection.needUserVerificationToReveal
-                                    && !event.fieldProtection.isRevealed) {
-                                    mDatabase?.let { database ->
-                                        checkUserVerification(
-                                            userVerificationViewModel = mUserVerificationViewModel,
-                                            dataToVerify = UserVerificationData(
-                                                actionType = UserVerificationActionType.COPY_PROTECTED_FIELD,
-                                                database = database,
-                                                fieldProtection = event.fieldProtection,
-                                            )
-                                        )
+                                doForFieldEvent(
+                                    fieldProtection = event.fieldProtection,
+                                    actionType = UserVerificationActionType.COPY_PROTECTED_FIELD,
+                                    directAction = { fieldProtection ->
+                                        // Copy field value directly without user verification
+                                        copyToClipboard(fieldProtection.field)
                                     }
-                                } else {
-                                    // Copy field value directly without user verification
-                                    copyToClipboard(event.fieldProtection.field)
-                                }
+                                )
+                            }
+                            is EntryViewModel.EntryEvent.RequestShareFieldViaEphemeralLink -> {
+                                doForFieldEvent(
+                                    fieldProtection = event.fieldProtection,
+                                    actionType = UserVerificationActionType.SHARE_PROTECTED_FIELD,
+                                    directAction = { fieldProtection ->
+                                        shareFieldViaEphemeralLink(fieldProtection.field)
+                                    }
+                                )
                             }
                             is EntryViewModel.EntryEvent.ChangeFieldProtectionRequested -> {
-                                mDatabase?.let { database ->
-                                    if (mDatabaseAllowUserVerification
-                                        && event.fieldProtection.needUserVerificationToReveal
-                                        && !event.fieldProtection.isRevealed) {
-                                        checkUserVerification(
-                                            userVerificationViewModel = mUserVerificationViewModel,
-                                            dataToVerify = UserVerificationData(
-                                                actionType = UserVerificationActionType.SHOW_PROTECTED_FIELD,
-                                                database = database,
-                                                fieldProtection = event.fieldProtection
-                                            )
-                                        )
-                                    } else {
+                                doForFieldEvent(
+                                    fieldProtection = event.fieldProtection,
+                                    actionType = UserVerificationActionType.SHOW_PROTECTED_FIELD,
+                                    directAction = { fieldProtection ->
                                         // Toggle field protection directly without user verification
                                         mEntryViewModel.updateProtectionField(
-                                            fieldProtection = event.fieldProtection,
-                                            isRevealed = !event.fieldProtection.isRevealed
+                                            fieldProtection = fieldProtection,
+                                            isRevealed = !fieldProtection.isRevealed
                                         )
                                     }
-                                }
+                                )
                             }
                             is EntryViewModel.EntryEvent.Close -> {
                                 finish()
@@ -404,6 +396,12 @@ class EntryActivity : DatabaseLockActivity() {
                                 // Copy field value
                                 copyToClipboard(data.fieldProtection?.field)
                             }
+                            UserVerificationActionType.SHARE_PROTECTED_FIELD -> {
+                                // Share field via ephemeral link
+                                data.fieldProtection?.let {
+                                    shareFieldViaEphemeralLink(it.field)
+                                }
+                            }
                             UserVerificationActionType.EDIT_ENTRY -> {
                                 // Edit Entry
                                 editEntry(data.database, data.entryId)
@@ -416,6 +414,32 @@ class EntryActivity : DatabaseLockActivity() {
         }
     }
 
+    private fun doForFieldEvent(
+        fieldProtection: FieldProtection,
+        actionType: UserVerificationActionType,
+        directAction: (fieldProtection: FieldProtection) -> Unit
+    ) {
+        // Only request the User Verification if the field is protected and not shown
+        if (mDatabaseAllowUserVerification
+            && fieldProtection.field.protectedValue.isProtected
+            && fieldProtection.needUserVerificationToReveal
+            && !fieldProtection.isRevealed) {
+            mDatabase?.let { database ->
+                checkUserVerification(
+                    userVerificationViewModel = mUserVerificationViewModel,
+                    dataToVerify = UserVerificationData(
+                        actionType = actionType,
+                        database = database,
+                        fieldProtection = fieldProtection,
+                    )
+                )
+            }
+        } else {
+            // Action field without user verification
+            directAction(fieldProtection)
+        }
+    }
+
     private fun copyToClipboard(field: Field?) {
         field?.let {
             timeoutCopyToClipboard(
@@ -423,6 +447,21 @@ class EntryActivity : DatabaseLockActivity() {
                 value = field.protectedValue.toString(),
                 sensitive = field.protectedValue.isProtected
             )
+        }
+    }
+
+    private fun shareFieldViaEphemeralLink(field: Field?) {
+        field?.let {
+            val entryId = mEntryViewModel.mainEntryId ?: return
+            val database = mDatabase ?: return
+            val createEphemeralLinkUseCase = CreateEphemeralLinkUseCase(database)
+            val uri = createEphemeralLinkUseCase(entryId, field.name)
+
+            val intent = Intent(EphemeralLinkProvider.ACTION_READ_FIELD).apply {
+                setDataAndType(uri, "text/plain")
+                addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+            }
+            startActivity(Intent.createChooser(intent, getString(R.string.share)))
         }
     }
 

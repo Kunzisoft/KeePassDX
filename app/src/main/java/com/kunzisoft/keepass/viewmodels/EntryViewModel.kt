@@ -184,6 +184,12 @@ class EntryViewModel(application: Application): AndroidViewModel(application) {
         }
     }
 
+    fun requestShareFieldViaEphemeralLink(fieldProtection: FieldProtection) {
+        viewModelScope.launch {
+            _entryEvents.emit(EntryEvent.RequestShareFieldViaEphemeralLink(fieldProtection))
+        }
+    }
+
     fun onOtpElementUpdated(otpElement: OtpElement?) {
         val totpProgress: TotpProgress? = when (otpElement?.type) {
             // Refresh view if TOTP
@@ -267,6 +273,10 @@ class EntryViewModel(application: Application): AndroidViewModel(application) {
         ) : EntryEvent()
 
         data class RequestCopyProtectedField(
+            val fieldProtection: FieldProtection,
+        ) : EntryEvent()
+
+        data class RequestShareFieldViaEphemeralLink(
             val fieldProtection: FieldProtection,
         ) : EntryEvent()
 

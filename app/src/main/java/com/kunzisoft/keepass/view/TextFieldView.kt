@@ -379,21 +379,35 @@ open class TextFieldView @JvmOverloads constructor(
     fun setCopyButtonClickListener(onActionClickListener: ((fieldProtection: FieldProtection) -> Unit)?) {
         val clickListener = if (onActionClickListener != null)
             OnClickListener { onActionClickListener.invoke(
-                FieldProtection(
-                    field = Field(
-                        name = label,
-                        value = ProtectedString(
-                            enableProtection = isProtected,
-                            value = value
-                        )
-                    ),
-                    isRevealed = isRevealed(),
-                    needUserVerificationToReveal = needUserVerificationToReveal
-                )
+                getFieldProtection()
             ) }
         else
             null
         setOnActionClickListener(clickListener, null)
+    }
+
+    fun setCopyButtonLongClickListener(onActionLongClickListener: ((fieldProtection: FieldProtection) -> Boolean)?) {
+        val longClickListener = if (onActionLongClickListener != null)
+            OnLongClickListener { onActionLongClickListener.invoke(
+                getFieldProtection()
+            ) }
+        else
+            null
+        copyButton.setOnLongClickListener(longClickListener)
+    }
+
+    private fun getFieldProtection(): FieldProtection {
+        return FieldProtection(
+            field = Field(
+                name = label,
+                value = ProtectedString(
+                    enableProtection = isProtected,
+                    value = value
+                )
+            ),
+            isRevealed = isRevealed(),
+            needUserVerificationToReveal = needUserVerificationToReveal
+        )
     }
 
     override fun setOnActionClickListener(

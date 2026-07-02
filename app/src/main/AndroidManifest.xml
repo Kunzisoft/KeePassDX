@@ -7,6 +7,9 @@
       android:normalScreens="true"
       android:largeScreens="true"
       android:anyDensity="true" />
+    <permission
+        android:name="${readFieldPermission}"
+        android:protectionLevel="normal" />
     <uses-permission
         android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission
@@ -297,5 +300,12 @@
         </receiver>
 
         <meta-data android:name="com.sec.android.support.multiwindow" android:value="true" />
+
+        <provider
+            android:name="com.kunzisoft.keepass.provider.EphemeralLinkProvider"
+            android:authorities="${providerAuthority}"
+            android:exported="true"
+            android:readPermission="${readFieldPermission}"
+            android:grantUriPermissions="true" />
     </application>
 </manifest> 

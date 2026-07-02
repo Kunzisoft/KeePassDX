@@ -104,6 +104,7 @@ class EntryFragment: DatabaseFragment() {
             onChangeFieldProtectionClickListener = mEntryViewModel::requestChangeFieldProtection
             onAskCopySafeClickListener = ::showClipboardDialog
             onCopyActionClickListener = mEntryViewModel::requestCopyField
+            onShareEphemeralLinkClickListener = mEntryViewModel::requestShareFieldViaEphemeralLink
             // OTP timer updated
             onOtpUpdatedListener = mEntryViewModel::onOtpElementUpdated
         }
@@ -204,6 +205,7 @@ class EntryFragment: DatabaseFragment() {
             onChangeFieldProtectionClickListener = null
             onAskCopySafeClickListener = null
             onCopyActionClickListener = null
+            onShareEphemeralLinkClickListener = null
             onOtpUpdatedListener = null
         }
         attachmentsAdapter?.apply {

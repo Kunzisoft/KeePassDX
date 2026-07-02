@@ -58,6 +58,9 @@ class ContextualDatabase: DatabaseInfo() {
     var snapFileDatabaseInfo: SnapFileDatabaseInfo? = null
         private set
 
+    // Content provider
+    val ephemeralLinkManager = EphemeralLinkManager()
+
     /**
      * Save the database file info
      */
@@ -165,6 +168,7 @@ class ContextualDatabase: DatabaseInfo() {
     override fun clearAndClose(filesDirectory: File?) {
         super.clearAndClose(filesDirectory)
         this.fileUri = null
+        this.ephemeralLinkManager.clear()
     }
 
     companion object : SingletonHolder<ContextualDatabase>(::ContextualDatabase) {

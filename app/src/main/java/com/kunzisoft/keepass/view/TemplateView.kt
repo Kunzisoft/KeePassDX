@@ -30,6 +30,7 @@ class TemplateView @JvmOverloads constructor(
     var onChangeFieldProtectionClickListener: ((FieldProtection) -> Unit)? = null
     var onAskCopySafeClickListener: (() -> Unit)? = null
     var onCopyActionClickListener: ((FieldProtection) -> Unit)? = null
+    var onShareEphemeralLinkClickListener: ((FieldProtection) -> Unit)? = null
     var onOtpUpdatedListener: ((OtpElement?) -> Unit)? = null
 
     private var firstTimeAskAllowCopyProtectedFields: Boolean = false
@@ -106,6 +107,10 @@ class TemplateView @JvmOverloads constructor(
                             setCopyButtonClickListener { fieldProtection ->
                                 onCopyActionClickListener?.invoke(fieldProtection)
                             }
+                            setCopyButtonLongClickListener { fieldProtection ->
+                                onShareEphemeralLinkClickListener?.invoke(fieldProtection)
+                                true
+                            }
                         } else {
                             setCopyButtonState(TextFieldView.ButtonState.GONE)
                             setCopyButtonClickListener(null)
@@ -115,6 +120,10 @@ class TemplateView @JvmOverloads constructor(
                     setCopyButtonState(TextFieldView.ButtonState.ACTIVATE)
                     setCopyButtonClickListener { fieldProtection ->
                         onCopyActionClickListener?.invoke(fieldProtection)
+                    }
+                    setCopyButtonLongClickListener { fieldProtection ->
+                        onShareEphemeralLinkClickListener?.invoke(fieldProtection)
+                        true
                     }
                 }
                 mFields[field.name] = this
