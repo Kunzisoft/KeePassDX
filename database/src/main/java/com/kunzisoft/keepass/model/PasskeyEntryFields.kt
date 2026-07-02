@@ -64,12 +64,13 @@ object PasskeyEntryFields {
      * Set a passkey in an entry,
      * return true if data has been overwritten
      */
-    fun EntryInfo.setPasskey(passkey: Passkey?): Boolean {
+    fun EntryInfo.setPasskey(passkey: Passkey?, addTag: Boolean = true): Boolean {
         var overwrite = false
         if (passkey != null) {
             if (containsPasskey())
                 overwrite = true
-            tags.put(PASSKEY_TAG)
+            if (addTag)
+                tags.put(PASSKEY_TAG)
             if (this.username.isEmpty())
                 this.username = passkey.username
             addOrReplaceField(

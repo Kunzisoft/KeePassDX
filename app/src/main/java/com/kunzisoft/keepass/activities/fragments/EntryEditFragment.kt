@@ -44,6 +44,8 @@ import com.kunzisoft.keepass.database.element.Field
 import com.kunzisoft.keepass.model.EntryAttachmentState
 import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.model.FieldProtection
+import com.kunzisoft.keepass.model.PasskeyEntryFields
+import com.kunzisoft.keepass.model.PasskeyEntryFields.isPasskey
 import com.kunzisoft.keepass.model.StreamDirection
 import com.kunzisoft.keepass.otp.OtpEntryFields
 import com.kunzisoft.keepass.otp.OtpEntryFields.isOTP
@@ -213,9 +215,17 @@ class EntryEditFragment: DatabaseFragment() {
                                     oldField?.let {
                                         templateView.removeCustomField(it)
                                         // If no more OTP fields, remove the OTP tag
-                                        if (it.isOTP() && templateView.getEntryInfo().customFields.none { field -> field.isOTP() }) {
-                                            tagsCompletionView.removeObjectSync(OtpEntryFields.OTP_TAG)
-                                        }
+                                        removeTagCondition(
+                                            field = it,
+                                            condition = { field -> field.isOTP() },
+                                            tagName = OtpEntryFields.OTP_TAG
+                                        )
+                                        // If no more Passkey fields, remove the Passkey tag
+                                        removeTagCondition(
+                                            field = it,
+                                            condition = { field -> field.isPasskey() },
+                                            tagName = PasskeyEntryFields.PASSKEY_TAG
+                                        )
                                     }
                                 }
                             }
@@ -303,6 +313,17 @@ class EntryEditFragment: DatabaseFragment() {
                     }
                 }
             }
+        }
+    }
+
+    private fun removeTagCondition(
+        field: Field,
+        condition :(field: Field) -> Boolean,
+        tagName : String
+    ) {
+        if (condition.invoke(field)
+            && templateView.getEntryInfo().customFields.none { field -> condition.invoke(field) }) {
+            tagsCompletionView.removeObjectSync(tagName)
         }
     }
 

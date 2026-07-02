@@ -514,7 +514,10 @@ open class DatabaseInfo: Database() {
 
             // Ensure custom fields are populated from custom objects if they are missing
             newEntryInfo.passkey?.let {
-                newEntryInfo.setPasskey(it)
+                newEntryInfo.setPasskey(
+                    passkey = it,
+                    addTag = false
+                )
             }
             newEntryInfo.creditCard?.let {
                 newEntryInfo.setCreditCard(it)

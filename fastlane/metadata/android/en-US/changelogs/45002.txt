@@ -4,3 +4,4 @@
  * Fix copy actions #2541
  * Fix OTP icon in entry list #2541
  * Fix selection of a protected field after User Verification #2456
+ * Fix deletion of a Passkey Tag in an entry #2591
