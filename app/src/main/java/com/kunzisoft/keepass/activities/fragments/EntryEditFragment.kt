@@ -46,6 +46,7 @@ import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.model.FieldProtection
 import com.kunzisoft.keepass.model.StreamDirection
 import com.kunzisoft.keepass.otp.OtpEntryFields
+import com.kunzisoft.keepass.otp.OtpEntryFields.isOTP
 import com.kunzisoft.keepass.view.TagsCompletionView
 import com.kunzisoft.keepass.view.TemplateEditView
 import com.kunzisoft.keepass.view.collapse
@@ -211,6 +212,10 @@ class EntryEditFragment: DatabaseFragment() {
                                 if (newField == null) {
                                     oldField?.let {
                                         templateView.removeCustomField(it)
+                                        // If no more OTP fields, remove the OTP tag
+                                        if (it.isOTP() && templateView.getEntryInfo().customFields.none { field -> field.isOTP() }) {
+                                            tagsCompletionView.removeObjectSync(OtpEntryFields.OTP_TAG)
+                                        }
                                     }
                                 }
                             }

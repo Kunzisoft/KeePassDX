@@ -20,6 +20,9 @@ KeePassDX(4.5.0_beta01)
  * Fix copy with User Verification #2575
  * Refactoring #2541
 
+KeePassDX(4.4.5)
+ * Fix OTP tag #2570 #2571
+
 KeePassDX(4.4.4)
  * Fix return to previous keyboard #2529
  * Fix keyboard view update #2539

@@ -441,10 +441,11 @@ object OtpEntryFields {
         )
     }
 
-    fun EntryInfo.setOtp(otpString: String): Boolean {
+    fun EntryInfo.setOtp(otpString: String, addTag: Boolean = true): Boolean {
         // Replace the OTP field
         parseOTPUri(otpString)?.let { otpElement ->
-            tags.put(OTP_TAG)
+            if (addTag)
+                tags.put(OTP_TAG)
             if (title.isEmpty())
                 title = otpElement.issuer
             if (username.isEmpty())

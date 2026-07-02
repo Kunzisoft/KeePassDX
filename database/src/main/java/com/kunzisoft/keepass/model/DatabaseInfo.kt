@@ -520,7 +520,13 @@ open class DatabaseInfo: Database() {
                 newEntryInfo.setCreditCard(it)
             }
             newEntryInfo.otpModel?.let {
-                newEntryInfo.setOtp(OtpEntryFields.buildOtpField(OtpElement(it)).protectedValue.toString())
+                newEntryInfo.setOtp(
+                    otpString = OtpEntryFields
+                        .buildOtpField(OtpElement(it))
+                        .protectedValue
+                        .toString(),
+                    addTag = false
+                )
             }
             newEntryInfo.appOrigin?.let {
                 newEntryInfo.saveAppOrigin(it, database.allowEntryCustomFields())
