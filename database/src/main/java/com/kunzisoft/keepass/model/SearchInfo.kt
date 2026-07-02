@@ -8,6 +8,7 @@ import com.kunzisoft.keepass.otp.OtpEntryFields
 import com.kunzisoft.keepass.utils.ObjectNameResource
 import com.kunzisoft.keepass.utils.readBooleanCompat
 import com.kunzisoft.keepass.utils.readListCompat
+import com.kunzisoft.keepass.utils.readParcelableCompat
 import com.kunzisoft.keepass.utils.writeBooleanCompat
 import com.kunzisoft.keepass.utils.writeListCompat
 
@@ -42,6 +43,7 @@ class SearchInfo : ObjectNameResource, Parcelable {
     var relyingParty: String? = null
     var credentialIds: List<String> = listOf()
     var otpString: String? = null
+    var entryData: EntryData? = null
 
     constructor()
 
@@ -55,6 +57,7 @@ class SearchInfo : ObjectNameResource, Parcelable {
         relyingParty = toCopy?.relyingParty
         credentialIds = toCopy?.credentialIds ?: listOf()
         otpString = toCopy?.otpString
+        entryData = toCopy?.entryData
     }
 
     private constructor(parcel: Parcel) {
@@ -74,6 +77,7 @@ class SearchInfo : ObjectNameResource, Parcelable {
         credentialIds = readCredentialIdList.toList()
         val readOtp = parcel.readString()
         otpString = if (readOtp.isNullOrEmpty()) null else readOtp
+        entryData = parcel.readParcelableCompat()
     }
 
     override fun describeContents(): Int {
@@ -90,6 +94,7 @@ class SearchInfo : ObjectNameResource, Parcelable {
         parcel.writeString(relyingParty ?: "")
         parcel.writeStringList(credentialIds)
         parcel.writeString(otpString ?: "")
+        parcel.writeParcelable(entryData, flags)
     }
 
     override fun getName(resources: Resources): String {
@@ -109,6 +114,7 @@ class SearchInfo : ObjectNameResource, Parcelable {
                 && relyingParty == null
                 && credentialIds.isEmpty()
                 && otpString == null
+                && entryData == null
     }
 
     var isAppIdSearch: Boolean = false
@@ -127,6 +133,14 @@ class SearchInfo : ObjectNameResource, Parcelable {
         get() = otpString != null
         private set
 
+    var isEntrySearch: Boolean = false
+        get() = entryData != null
+        private set
+
+    fun isSearchToRegister(): Boolean {
+        return isOTPSearch || isEntrySearch
+    }
+
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other !is SearchInfo) return false
@@ -140,6 +154,7 @@ class SearchInfo : ObjectNameResource, Parcelable {
         if (relyingParty != other.relyingParty) return false
         if (credentialIds != other.credentialIds) return false
         if (otpString != other.otpString) return false
+        if (entryData != other.entryData) return false
 
         return true
     }
@@ -154,11 +169,12 @@ class SearchInfo : ObjectNameResource, Parcelable {
         result = 31 * result + (relyingParty?.hashCode() ?: 0)
         result = 31 * result + (credentialIds.hashCode())
         result = 31 * result + (otpString?.hashCode() ?: 0)
+        result = 31 * result + (entryData?.hashCode() ?: 0)
         return result
     }
 
     override fun toString(): String {
-        return otpString ?: webDomain ?: applicationId ?: relyingParty ?: if (tags.isEmpty()) "" else tags.toString()
+        return entryData?.toString() ?: otpString ?: webDomain ?: applicationId ?: relyingParty ?: if (tags.isEmpty()) "" else tags.toString()
     }
 
     fun optionsString(): List<String> {

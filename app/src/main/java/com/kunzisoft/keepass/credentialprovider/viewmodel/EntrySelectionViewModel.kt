@@ -16,9 +16,12 @@ import com.kunzisoft.keepass.credentialprovider.TypeMode
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.exception.RegisterInReadOnlyDatabaseException
 import com.kunzisoft.keepass.database.helper.SearchHelper
+import com.kunzisoft.keepass.model.EntryData
 import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.model.SearchInfo
 import com.kunzisoft.keepass.otp.OtpEntryFields
+import com.kunzisoft.keepass.share.ShareUtil
+import com.kunzisoft.keepass.share.ShareUtil.isSecureShareUri
 import com.kunzisoft.keepass.utils.KeyboardUtil.isKeyboardActivatedInSettings
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Dispatchers
@@ -64,27 +67,34 @@ class EntrySelectionViewModel(application: Application): CredentialLauncherViewM
             // To manage share
             var sharedWebDomain: String? = null
             var otpString: String? = null
+            var entryData: EntryData? = null
 
             when (intent.action) {
                 Intent.ACTION_SEND -> {
                     if ("text/plain" == intent.type) {
                         // Retrieve web domain or OTP
                         intent.getStringExtra(Intent.EXTRA_TEXT)?.let { extra ->
-                            if (OtpEntryFields.isOTPUri(extra))
+                            val uri = extra.toUri()
+                            if (OtpEntryFields.isOTPUri(extra)) {
                                 otpString = extra
-                            else
+                            } else if (uri.isSecureShareUri()) {
+                                // TODO Coroutine and UI for PIN
+                                entryData = ShareUtil.decryptShareUri(uri, "1234".toCharArray())
+                            } else {
                                 sharedWebDomain = extra.toUri().host
+                            }
                         }
                     }
-                    launchSelection(database, sharedWebDomain, otpString)
+                    launchSelection(database, sharedWebDomain, otpString, entryData)
                 }
                 Intent.ACTION_VIEW -> {
+                    // TODO Same action than ACTION_SEND
                     // Retrieve OTP
                     intent.dataString?.let { extra ->
                         if (OtpEntryFields.isOTPUri(extra))
                             otpString = extra
                     }
-                    launchSelection(database, null, otpString)
+                    launchSelection(database, null, otpString, null)
                 }
                 else -> {
                     if (database != null && database.loaded) {
@@ -109,12 +119,14 @@ class EntrySelectionViewModel(application: Application): CredentialLauncherViewM
     private fun launchSelection(
         database: ContextualDatabase?,
         sharedWebDomain: String?,
-        otpString: String?
+        otpString: String?,
+        entryData: EntryData?
     ) {
         // Build domain search param
         val searchInfo = SearchInfo().apply {
             this.webDomain = sharedWebDomain
             this.otpString = otpString
+            this.entryData = entryData
         }
         launch(database, searchInfo)
     }
@@ -131,7 +143,7 @@ class EntrySelectionViewModel(application: Application): CredentialLauncherViewM
             searchInfo = searchInfo,
             onItemsFound = { openedDatabase, items ->
                 // Items found
-                if (searchInfo.otpString != null) {
+                if (searchInfo.isSearchToRegister()) {
                     if (!readOnly) {
                         mCredentialUiState.value =
                             CredentialState.LaunchGroupActivityForRegistration(
@@ -164,7 +176,7 @@ class EntrySelectionViewModel(application: Application): CredentialLauncherViewM
             },
             onItemNotFound = { openedDatabase ->
                 // Show the database UI to select the entry
-                if (searchInfo.otpString != null) {
+                if (searchInfo.isSearchToRegister()) {
                     if (!readOnly) {
                         mCredentialUiState.value =
                             CredentialState.LaunchGroupActivityForRegistration(
@@ -192,7 +204,7 @@ class EntrySelectionViewModel(application: Application): CredentialLauncherViewM
             },
             onDatabaseClosed = {
                 // If database not open
-                if (searchInfo.otpString != null) {
+                if (searchInfo.isSearchToRegister()) {
                     mCredentialUiState.value = CredentialState.LaunchFileDatabaseSelectActivityForRegistration(
                         registerInfo = searchInfo.toRegisterInfo(),
                         typeMode = TypeMode.DEFAULT

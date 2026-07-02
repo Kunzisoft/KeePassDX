@@ -32,6 +32,7 @@ import com.kunzisoft.keepass.model.AppOriginEntryField.setAppOrigin
 import com.kunzisoft.keepass.model.AppOriginEntryField.setApplicationId
 import com.kunzisoft.keepass.model.AppOriginEntryField.setWebDomain
 import com.kunzisoft.keepass.model.CreditCardEntryFields.setCreditCard
+import com.kunzisoft.keepass.model.EntryData.Companion.setEntryData
 import com.kunzisoft.keepass.model.PasskeyEntryFields.isPasskey
 import com.kunzisoft.keepass.model.PasskeyEntryFields.setPasskey
 import com.kunzisoft.keepass.otp.OtpElement
@@ -46,7 +47,7 @@ import com.kunzisoft.keepass.utils.writeCharArrayCompat
 import java.util.Locale
 
 /**
- * Data class representing information about an entry in the database.
+ * Class representing information about an entry in the database.
  * This class is used for UI representation and data transfer.
  */
 open class EntryInfo : NodeInfo {
@@ -303,7 +304,9 @@ open class EntryInfo : NodeInfo {
      * @param customFieldsAllowed True if custom fields are allowed.
      */
     private fun saveSearchInfo(searchInfo: SearchInfo, customFieldsAllowed: Boolean) {
-        searchInfo.otpString?.let { otpString ->
+        searchInfo.entryData?.let { entryData ->
+            setEntryData(entryData)
+        } ?: searchInfo.otpString?.let { otpString ->
             setOtp(otpString)
         } ?: searchInfo.webDomain?.let { webDomain ->
             setWebDomain(

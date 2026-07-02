@@ -117,7 +117,7 @@ object SearchHelper {
                     searchInNotes = false
                     searchInOTP = isOTPSearch
                     searchInOther = false
-                    searchInUUIDs = false
+                    searchInUUIDs = isEntrySearch
                     searchInCurrentGroup = false
                     searchInSearchableGroup = true
                     searchInRecycleBin = false

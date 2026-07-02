@@ -21,6 +21,7 @@ package com.kunzisoft.keepass.viewmodels
 
 import android.app.Application
 import android.graphics.Color
+import android.net.Uri
 import androidx.annotation.ColorInt
 import androidx.core.graphics.ColorUtils
 import androidx.lifecycle.AndroidViewModel
@@ -33,6 +34,7 @@ import com.kunzisoft.keepass.model.FieldProtection
 import com.kunzisoft.keepass.otp.OtpElement
 import com.kunzisoft.keepass.otp.OtpType
 import com.kunzisoft.keepass.settings.PreferencesUtil
+import com.kunzisoft.keepass.share.ShareUtil
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -230,6 +232,22 @@ class EntryViewModel(application: Application): AndroidViewModel(application) {
         }
     }
 
+    fun shareEntry() {
+        mEntryInfo?.let { entryInfo ->
+            viewModelScope.launch {
+                _entryEvents.emit(
+                    EntryEvent.SendUri(
+                        ShareUtil.encryptShareUri(
+                            entryInfo = entryInfo,
+                            // TODO Generate PIN
+                            pin = "1234".toCharArray()
+                        )
+                    )
+                )
+            }
+        }
+    }
+
     /**
      * Populate entry in Magikeyboard and launch keyboard notification if allowed
      */
@@ -284,6 +302,10 @@ class EntryViewModel(application: Application): AndroidViewModel(application) {
 
         data class SectionSelected(
             val section: EntrySection,
+        ) : EntryEvent()
+
+        data class SendUri(
+            val uri: Uri,
         ) : EntryEvent()
 
         object Close : EntryEvent()

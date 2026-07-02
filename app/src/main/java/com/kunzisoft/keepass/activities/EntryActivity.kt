@@ -363,6 +363,13 @@ class EntryActivity : DatabaseLockActivity() {
                                     }
                                 }
                             }
+                            is EntryViewModel.EntryEvent.SendUri -> {
+                                startActivity(Intent(Intent.ACTION_SEND).apply {
+                                    type = "text/plain"
+                                    putExtra(Intent.EXTRA_TEXT, event.uri.toString())
+                                    addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                                })
+                            }
                             is EntryViewModel.EntryEvent.Close -> {
                                 finish()
                             }
@@ -490,6 +497,7 @@ class EntryActivity : DatabaseLockActivity() {
         if (mEntryViewModel.databaseActionsAllowed()) {
             val inflater = menuInflater
             inflater.inflate(R.menu.database, menu)
+            inflater.inflate(R.menu.entry, menu)
 
             if (mEntryViewModel.entryHistoryActionsAllowed()) {
                 inflater.inflate(R.menu.entry_history, menu)
@@ -601,6 +609,9 @@ class EntryActivity : DatabaseLockActivity() {
                         mEntryViewModel.historyPosition
                     )
                 }
+            }
+            R.id.menu_share -> {
+                mEntryViewModel.shareEntry()
             }
             R.id.menu_save_database -> {
                 saveDatabase()
