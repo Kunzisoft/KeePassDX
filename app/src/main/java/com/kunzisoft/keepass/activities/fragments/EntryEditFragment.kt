@@ -151,6 +151,18 @@ class EntryEditFragment: DatabaseFragment() {
             }
         }
 
+        // Listen to focus changes to scroll to the focused field
+        view.viewTreeObserver.addOnGlobalFocusChangeListener { _, newFocus ->
+            if (newFocus != null) {
+                if (isChildOf(newFocus, templateView)
+                    || isChildOf(newFocus, tagsCompletionView)) {
+                    getFieldViewPosition(newFocus) { position ->
+                        mEntryEditViewModel.scrollTo(position)
+                    }
+                }
+            }
+        }
+
         lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 launch {
@@ -195,10 +207,6 @@ class EntryEditFragment: DatabaseFragment() {
                                     newField?.let {
                                         if (!templateView.putCustomField(it)) {
                                             mEntryEditViewModel.showCustomFieldEditionError()
-                                        } else {
-                                            getFieldViewPosition(it) { _, position ->
-                                                mEntryEditViewModel.scrollTo(position)
-                                            }
                                         }
                                     }
                                 }
@@ -380,18 +388,25 @@ class EntryEditFragment: DatabaseFragment() {
         templateView.setFieldProtection(fieldProtection)
     }
 
+    private fun isChildOf(child: View, parent: View): Boolean {
+        var current: View? = child
+        while (current != null) {
+            if (current == parent) return true
+            current = current.parent as? View
+        }
+        return false
+    }
+
     private fun getFieldViewPosition(
-        field: Field,
-        position: (field: Field, Float) -> Unit
+        view: View,
+        position: (Float) -> Unit
     ) {
-        templateView.postDelayed({
-            templateView.findViewById<View>(field.name.hashCode())?.let { view ->
-                val rect = Rect()
-                view.getDrawingRect(rect)
-                (rootView as ViewGroup).offsetDescendantRectToMyCoords(view, rect)
-                position.invoke(field, rect.top.toFloat())
-            }
-        }, 250)
+        view.post {
+            val rect = Rect()
+            view.getDrawingRect(rect)
+            (rootView as ViewGroup).offsetDescendantRectToMyCoords(view, rect)
+            position.invoke(rect.top.toFloat())
+        }
     }
 
     /* -------------
