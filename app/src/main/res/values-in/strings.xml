@@ -742,4 +742,9 @@
     <string name="first_chars">Karakter pertama</string>
     <string name="check">Periksa</string>
     <string name="content_description_share_url">Bagikan URL</string>
+    <string name="show_tags_summary">Tampilkan Tags dalam daftar entri</string>
+    <string name="show_tags_title">Tampilkan Tags</string>
+    <string name="benchmark_calculation">Hitung untuk %1$s s</string>
+    <string name="benchmarking">Membandingkan…</string>
+    <string name="keyboard_share_browser">Bagikan dari %1$s ke KeePassDX</string>
 </resources>
