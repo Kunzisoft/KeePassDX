@@ -359,4 +359,5 @@
     <string name="passkeys_privileged_apps_title">Privileged apps</string>
     <string name="passkeys_privileged_apps_summary">Manage browsers in the custom list of privileged apps</string>
     <string name="passkeys_missing_signature_app_ask_title">Signature missing</string>
+    <string name="recursive_number_entries_title">Recursive number of entries</string>
 </resources>
