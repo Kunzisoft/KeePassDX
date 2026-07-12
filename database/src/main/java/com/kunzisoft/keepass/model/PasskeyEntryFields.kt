@@ -18,7 +18,7 @@ object PasskeyEntryFields {
     const val FIELD_RELYING_PARTY = "KPEX_PASSKEY_RELYING_PARTY"
     const val FIELD_FLAG_BE = "KPEX_PASSKEY_FLAG_BE"
     const val FIELD_FLAG_BS = "KPEX_PASSKEY_FLAG_BS"
-    const val FIELD_PRF = "KPEX_PASSKEY_PRF" // TODO Template label
+    const val FIELD_PRF = "KPEX_PASSKEY_PRF"
 
     const val PASSKEY_FIELD = "Passkey"
     const val PASSKEY_TAG = "Passkey"

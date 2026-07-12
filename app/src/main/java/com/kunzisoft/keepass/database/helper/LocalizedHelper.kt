@@ -50,6 +50,7 @@ import com.kunzisoft.keepass.database.exception.XMLMalformedDatabaseException
 import com.kunzisoft.keepass.model.PasskeyEntryFields.FIELD_CREDENTIAL_ID
 import com.kunzisoft.keepass.model.PasskeyEntryFields.FIELD_FLAG_BE
 import com.kunzisoft.keepass.model.PasskeyEntryFields.FIELD_FLAG_BS
+import com.kunzisoft.keepass.model.PasskeyEntryFields.FIELD_PRF
 import com.kunzisoft.keepass.model.PasskeyEntryFields.FIELD_PRIVATE_KEY
 import com.kunzisoft.keepass.model.PasskeyEntryFields.FIELD_RELYING_PARTY
 import com.kunzisoft.keepass.model.PasskeyEntryFields.FIELD_USERNAME
@@ -158,6 +159,7 @@ fun TemplateField.getLocalizedName(context: Context?, name: String): String {
         FIELD_RELYING_PARTY.equals(name, true) -> context.getString(R.string.passkey_relying_party)
         FIELD_FLAG_BE.equals(name, true) -> context.getString(R.string.passkey_backup_eligibility)
         FIELD_FLAG_BS.equals(name, true) -> context.getString(R.string.passkey_backup_state)
+        FIELD_PRF.equals(name, true) -> context.getString(R.string.passkey_pseudo_random_function)
 
         else -> name
     }
