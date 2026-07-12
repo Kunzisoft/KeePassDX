@@ -1,1 +1,2 @@
  * Correction des actions URL #2604
+ * Correction de la sélection de valeur de champ #2456

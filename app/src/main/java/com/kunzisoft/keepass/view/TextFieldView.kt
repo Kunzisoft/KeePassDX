@@ -266,9 +266,11 @@ open class TextFieldView @JvmOverloads constructor(
                         abs(event.y - downY) < touchSlop &&
                         System.currentTimeMillis() - downTime < ViewConfiguration.getLongPressTimeout()
                     ) {
-                        v.performClick()
-                        onRevealChanged?.invoke(isRevealed())
-                        return true
+                        if (!isRevealed()) {
+                            v.performClick()
+                            onRevealChanged?.invoke(isRevealed())
+                            return true
+                        }
                     }
                 }
             }

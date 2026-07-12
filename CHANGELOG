@@ -1,5 +1,6 @@
 KeePassDX(4.5.0_beta03)
  * Fix URL actions #2604
+ * Fix field value selection #2456
 
 KeePassDX(4.5.0_beta02)
  * New search animation #2541
