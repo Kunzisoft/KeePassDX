@@ -305,6 +305,7 @@ open class TextFieldView @JvmOverloads constructor(
                 setOnClickListener(null)
                 if (!isMasked) {
                     linkify()
+                    requestFocus()
                 }
             } else {
                 setOnTouchListener(null)
