@@ -18,6 +18,7 @@ object PasskeyEntryFields {
     const val FIELD_RELYING_PARTY = "KPEX_PASSKEY_RELYING_PARTY"
     const val FIELD_FLAG_BE = "KPEX_PASSKEY_FLAG_BE"
     const val FIELD_FLAG_BS = "KPEX_PASSKEY_FLAG_BS"
+    const val FIELD_PRF = "KPEX_PASSKEY_PRF" // TODO Template label
 
     const val PASSKEY_FIELD = "Passkey"
     const val PASSKEY_TAG = "Passkey"
@@ -34,6 +35,8 @@ object PasskeyEntryFields {
         // Optional fields
         val backupEligibilityField = getField(FIELD_FLAG_BE)?.let { String(it).toBooleanCompat() }
         val backupStateField = getField(FIELD_FLAG_BS)?.let { String(it).toBooleanCompat() }
+        val prfField = getField(FIELD_PRF)
+
         if (usernameField == null
             || privateKeyField == null
             || credentialIdField == null
@@ -47,7 +50,8 @@ object PasskeyEntryFields {
             userHandle = String(userHandleField),
             relyingParty = String(relyingPartyField),
             backupEligibility = backupEligibilityField,
-            backupState = backupStateField
+            backupState = backupStateField,
+            prfSecret = prfField?.let { String(it) }
         )
     }
 
@@ -58,6 +62,7 @@ object PasskeyEntryFields {
                 || this.containsCustomField(FIELD_CREDENTIAL_ID)
                 || this.containsCustomField(FIELD_USER_HANDLE)
                 || this.containsCustomField(FIELD_RELYING_PARTY)
+                || this.containsCustomField(FIELD_PRF)
     }
 
     /**
@@ -121,6 +126,14 @@ object PasskeyEntryFields {
                     )
                 )
             }
+            passkey.prfSecret?.let { prfSecret ->
+                addOrReplaceField(
+                    Field(
+                        FIELD_PRF,
+                        ProtectedString(enableProtection = true, prfSecret)
+                    )
+                )
+            }
         }
         return overwrite
     }
@@ -139,6 +152,7 @@ object PasskeyEntryFields {
         newCustomFields.removeFirstWhen(FIELD_RELYING_PARTY)
         newCustomFields.removeFirstWhen(FIELD_FLAG_BE)
         newCustomFields.removeFirstWhen(FIELD_FLAG_BS)
+        newCustomFields.removeFirstWhen(FIELD_PRF)
         // Empty auto generated Passkey field
         if (fieldsToParse.containsWhen(FIELD_USERNAME)
             || fieldsToParse.containsWhen(FIELD_PRIVATE_KEY)
@@ -147,6 +161,7 @@ object PasskeyEntryFields {
             || fieldsToParse.containsWhen(FIELD_RELYING_PARTY)
             || fieldsToParse.containsWhen(FIELD_FLAG_BE)
             || fieldsToParse.containsWhen(FIELD_FLAG_BS)
+            || fieldsToParse.containsWhen(FIELD_PRF)
         )
             newCustomFields.add(
                 Field(
@@ -168,6 +183,7 @@ object PasskeyEntryFields {
             FIELD_CREDENTIAL_ID -> true
             FIELD_USER_HANDLE -> true
             FIELD_RELYING_PARTY -> true
+            FIELD_PRF -> true
             else -> false
         }
     }

@@ -31,7 +31,8 @@ data class Passkey(
     val userHandle: String,
     val relyingParty: String,
     val backupEligibility: Boolean?,
-    val backupState: Boolean?
+    val backupState: Boolean?,
+    val prfSecret: String? = null
 ): Parcelable {
 
     constructor(passkey: Passkey) : this(
@@ -41,7 +42,8 @@ data class Passkey(
         passkey.userHandle,
         passkey.relyingParty,
         passkey.backupEligibility,
-        passkey.backupState
+        passkey.backupState,
+        passkey.prfSecret
     )
 
     fun clear() {

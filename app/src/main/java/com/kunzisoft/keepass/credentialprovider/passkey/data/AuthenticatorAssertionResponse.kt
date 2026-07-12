@@ -21,8 +21,8 @@ package com.kunzisoft.keepass.credentialprovider.passkey.data
 
 import android.util.Log
 import androidx.credentials.exceptions.GetCredentialUnknownException
-import com.kunzisoft.encrypt.Signature
 import com.kunzisoft.encrypt.Base64Helper.Companion.b64Encode
+import com.kunzisoft.encrypt.Signature
 import org.json.JSONObject
 
 class AuthenticatorAssertionResponse(
@@ -34,7 +34,8 @@ class AuthenticatorAssertionResponse(
     private var userHandle: String,
     privateKey: CharArray,
     private val clientDataResponse: ClientDataResponse,
-) : AuthenticatorResponse {
+    override val clientExtensionResults: AuthenticationExtensionsClientOutputs? = null
+) : AuthenticatorExtensionResponse {
 
     override var clientJson = JSONObject()
     private var authenticatorData: ByteArray = AuthenticatorData.buildAuthenticatorData(
@@ -42,8 +43,15 @@ class AuthenticatorAssertionResponse(
         userPresent = userPresent,
         userVerified = userVerified,
         backupEligibility = backupEligibility,
-        backupState = backupState
-    )
+        backupState = backupState,
+        extensionsPresent = clientExtensionResults?.prf != null
+    ).let {
+        if (clientExtensionResults?.prf != null) {
+            it + Cbor().encode(clientExtensionResults.toCbor())
+        } else {
+            it
+        }
+    }
     private var signature: ByteArray = byteArrayOf()
 
     init {
@@ -67,7 +75,7 @@ class AuthenticatorAssertionResponse(
             put("clientDataJSON", clientDataResponse.buildResponse())
             put("authenticatorData", b64Encode(authenticatorData))
             put("signature", b64Encode(signature))
-            put("userHandle", userHandle)
+            put("userHandle", userHandle.ifEmpty { JSONObject.NULL })
         }
     }
 }

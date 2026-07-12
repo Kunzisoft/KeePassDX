@@ -30,7 +30,7 @@ class Cbor {
     val TYPE_ARRAY = 0x04
     val TYPE_MAP = 0x05
     val TYPE_TAG = 0x06
-    val TYPE_FLOAT = 0x07
+    val TYPE_OTHER = 0x07
 
     fun decode(data: ByteArray): Any {
         val ret = parseItem(data, 0)
@@ -63,6 +63,10 @@ class Cbor {
             }
             return ret
         }
+        // TYPE_OTHER as Boolean (old TYPE_FLOAT)
+        if (data is Boolean) {
+            return byteArrayOf(((TYPE_OTHER shl 5) or if (data) 21 else 20).toByte())
+        }
         if (data is Map<*, *>) {
             // See:
             // https://fidoalliance.org/specs/fido-v2.1-ps-20210615/fido-client-to-authenticator-protocol-v2.1-ps-20210615.html#ctap2-canonical-cbor-encoding-form
@@ -74,24 +78,24 @@ class Cbor {
             }
 
             var keysList = ArrayList<ByteArray>(byteMap.keys)
-            keysList.sortedWith(
-                Comparator<ByteArray> { a, b ->
-                    // If two keys have different lengths, the shorter one sorts earlier;
-                    // If two keys have the same length, the one with the lower value in (byte-wise)
-                    // lexical order sorts earlier.
-                    var aBytes = byteMap.get(a)!!
-                    var bBytes = byteMap.get(b)!!
-                    when {
-                        a.size > b.size -> 1
-                        a.size < b.size -> -1
-                        aBytes.size > bBytes.size -> 1
-                        aBytes.size < bBytes.size -> -1
-                        else -> 0
+            val sortedKeys = keysList.sortedWith { a, b ->
+                if (a.size != b.size) {
+                    a.size - b.size
+                } else {
+                    var res = 0
+                    for (i in a.indices) {
+                        val byteA = a[i].toInt() and 0xFF
+                        val byteB = b[i].toInt() and 0xFF
+                        if (byteA != byteB) {
+                            res = byteA - byteB
+                            break
+                        }
                     }
+                    res
                 }
-            )
+            }
 
-            for (key in keysList) {
+            for (key in sortedKeys) {
                 ret += key
                 ret += byteMap.get(key)!!
             }

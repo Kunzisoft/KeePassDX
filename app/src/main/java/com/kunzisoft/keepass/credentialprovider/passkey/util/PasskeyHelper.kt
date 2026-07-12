@@ -38,9 +38,13 @@ import androidx.credentials.provider.PendingIntentHandler
 import androidx.credentials.provider.ProviderCreateCredentialRequest
 import androidx.credentials.provider.ProviderGetCredentialRequest
 import com.kunzisoft.encrypt.Base64Helper
+import com.kunzisoft.encrypt.HashManager
 import com.kunzisoft.encrypt.Signature
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper.addNodeId
+import com.kunzisoft.keepass.credentialprovider.passkey.data.AuthenticationExtensionsClientOutputs
+import com.kunzisoft.keepass.credentialprovider.passkey.data.AuthenticationExtensionsPRFOutputs
+import com.kunzisoft.keepass.credentialprovider.passkey.data.AuthenticationExtensionsPRFValues
 import com.kunzisoft.keepass.credentialprovider.passkey.data.AuthenticatorAssertionResponse
 import com.kunzisoft.keepass.credentialprovider.passkey.data.AuthenticatorAttestationResponse
 import com.kunzisoft.keepass.credentialprovider.passkey.data.Cbor
@@ -209,6 +213,10 @@ object PasskeyHelper {
         ) ?: throw CreateCredentialUnknownException("no known public key type found")
         val privateKeyPem = Signature.convertPrivateKeyToPem(keyPair.private)
 
+        val prfSecret = if (creationOptions.extensions.prf != null) {
+            Base64Helper.b64Encode(HashManager.generateRandom(32))
+        } else null
+
         // Create the passkey element
         val passkey = Passkey(
             username = username,
@@ -217,7 +225,8 @@ object PasskeyHelper {
             userHandle = Base64Helper.b64Encode(userHandle),
             relyingParty = relyingParty,
             backupEligibility = defaultBackupEligibility,
-            backupState = defaultBackupState
+            backupState = defaultBackupState,
+            prfSecret = prfSecret
         )
 
         // create new entry in database
@@ -286,7 +295,10 @@ object PasskeyHelper {
                 backupState = backupState,
                 publicKeyTypeId = keyTypeId,
                 publicKeyCbor = Signature.convertPublicKey(keyPair.public, keyTypeId)!!,
-                clientDataResponse = publicKeyCredentialCreationParameters.clientDataResponse
+                clientDataResponse = publicKeyCredentialCreationParameters.clientDataResponse,
+                clientExtensionResults = if (publicKeyCredentialCreationParameters.publicKeyCredentialCreationOptions.extensions.prf != null)
+                    AuthenticationExtensionsClientOutputs(prf = AuthenticationExtensionsPRFOutputs(enabled = true))
+                else null
             ),
             authenticatorAttachment = "platform"
         ).json()
@@ -357,6 +369,28 @@ object PasskeyHelper {
         defaultBackupEligibility: Boolean,
         defaultBackupState: Boolean
     ): PublicKeyCredential {
+        val prfInput = requestOptions.extensions.prf
+        val prfSecret = passkey.prfSecret
+        val prfOutputs = if (prfInput != null) {
+            if (prfSecret != null) {
+                val prfSecretBytes = Base64Helper.b64Decode(prfSecret)
+                val evalInput = prfInput.evalByCredential?.get(passkey.credentialId) ?: prfInput.eval
+                val results = evalInput?.let { values ->
+                    AuthenticationExtensionsPRFValues(
+                        first = HashManager.hmacSha256(prfSecretBytes, values.first),
+                        second = values.second?.let { HashManager.hmacSha256(prfSecretBytes, it) }
+                    )
+                }
+                if (results != null) {
+                    AuthenticationExtensionsPRFOutputs(results = results)
+                } else {
+                    AuthenticationExtensionsPRFOutputs(enabled = true)
+                }
+            } else {
+                AuthenticationExtensionsPRFOutputs(enabled = true)
+            }
+        } else null
+
         val getCredentialResponse = FidoPublicKeyCredential(
             id = passkey.credentialId,
             response = AuthenticatorAssertionResponse(
@@ -367,7 +401,8 @@ object PasskeyHelper {
                 backupState = passkey.backupState ?: defaultBackupState,
                 userHandle = passkey.userHandle,
                 privateKey = passkey.privateKeyPem,
-                clientDataResponse = clientDataResponse
+                clientDataResponse = clientDataResponse,
+                clientExtensionResults = prfOutputs?.let { AuthenticationExtensionsClientOutputs(prf = it) }
             ),
             authenticatorAttachment = "platform"
         ).json()

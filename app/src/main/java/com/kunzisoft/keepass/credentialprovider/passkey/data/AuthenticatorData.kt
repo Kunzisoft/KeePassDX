@@ -30,7 +30,8 @@ class AuthenticatorData {
             userVerified: Boolean,
             backupEligibility: Boolean,
             backupState: Boolean,
-            attestedCredentialData: Boolean = false
+            attestedCredentialData: Boolean = false,
+            extensionsPresent: Boolean = false
         ): ByteArray {
             // https://www.w3.org/TR/webauthn-3/#table-authData
             var flags = 0
@@ -47,7 +48,10 @@ class AuthenticatorData {
             if (attestedCredentialData) {
                 flags = flags or 0x40
             }
-            // bit at index 7: Extension data included == false
+            // bit at index 7: Extension data
+            if (extensionsPresent) {
+                flags = flags or 0x80
+            }
 
             return HashManager.hashSha256(relyingPartyId) +
                     byteArrayOf(flags.toByte()) +

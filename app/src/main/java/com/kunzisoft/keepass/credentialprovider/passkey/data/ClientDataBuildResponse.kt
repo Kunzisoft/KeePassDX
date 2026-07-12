@@ -19,8 +19,8 @@
  */
 package com.kunzisoft.keepass.credentialprovider.passkey.data
 
-import com.kunzisoft.encrypt.HashManager
 import com.kunzisoft.encrypt.Base64Helper.Companion.b64Encode
+import com.kunzisoft.encrypt.HashManager
 import org.json.JSONObject
 
 open class ClientDataBuildResponse(

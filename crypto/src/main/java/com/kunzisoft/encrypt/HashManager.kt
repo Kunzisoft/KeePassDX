@@ -26,6 +26,9 @@ import org.bouncycastle.crypto.params.ParametersWithIV
 import java.io.IOException
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
+import java.security.SecureRandom
+import javax.crypto.Mac
+import javax.crypto.spec.SecretKeySpec
 
 object HashManager {
 
@@ -65,6 +68,31 @@ object HashManager {
                 hash.update(byteArray)
         }
         return hash.digest()
+    }
+
+    // TODO Aggregate
+    /**
+     * Calculate HMAC-SHA256
+     */
+    fun hmacSha256(key: ByteArray, data: ByteArray): ByteArray {
+        val hmac: Mac = try {
+            Mac.getInstance("HmacSHA256")
+        } catch (e: NoSuchAlgorithmException) {
+            throw IOException("HmacSHA256 not implemented here.", e)
+        }
+        val secretKey = SecretKeySpec(key, "HmacSHA256")
+        hmac.init(secretKey)
+        return hmac.doFinal(data)
+    }
+
+    /**
+     * Generate random bytes
+     */
+    fun generateRandom(size: Int): ByteArray {
+        val random = SecureRandom()
+        val bytes = ByteArray(size)
+        random.nextBytes(bytes)
+        return bytes
     }
 
     private val SALSA_IV = byteArrayOf(
