@@ -301,12 +301,15 @@ open class TextFieldView @JvmOverloads constructor(
                 setCopyButtonState(mButtonState)
                 setOnTouchListener(toggleTouchListener)
                 setOnClickListener(null)
+                if (!isMasked) {
+                    linkify()
+                }
             } else {
-                linkify()
                 setOnTouchListener(null)
                 setOnClickListener(null)
                 isFocusable = true
                 setTextIsSelectable(true)
+                linkify()
             }
         }
         invalidate()
