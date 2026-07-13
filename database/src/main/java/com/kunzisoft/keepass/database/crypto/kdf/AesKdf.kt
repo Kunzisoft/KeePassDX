@@ -48,12 +48,12 @@ class AesKdf : KdfEngine() {
 
         var seed = kdfParameters.getByteArray(PARAM_SEED)
         if (seed != null && seed.size != 32) {
-            seed = HashManager.hashSha256(seed)
+            seed = HashManager.sha256(seed)
         }
 
         var currentMasterKey = masterKey
         if (currentMasterKey.size != 32) {
-            currentMasterKey = HashManager.hashSha256(currentMasterKey)
+            currentMasterKey = HashManager.sha256(currentMasterKey)
         }
 
         val rounds = kdfParameters.getUInt64(PARAM_ROUNDS)?.toKotlinLong()

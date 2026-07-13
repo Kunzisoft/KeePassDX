@@ -21,10 +21,10 @@ package com.kunzisoft.keepass.database.file.input
 
 import android.util.Base64
 import android.util.Log
+import com.kunzisoft.encrypt.HashManager
 import com.kunzisoft.encrypt.StreamCipher
 import com.kunzisoft.keepass.database.crypto.CipherEngine
 import com.kunzisoft.keepass.database.crypto.CrsAlgorithm
-import com.kunzisoft.keepass.database.crypto.HmacBlock
 import com.kunzisoft.keepass.database.element.Attachment
 import com.kunzisoft.keepass.database.element.CustomDataItem
 import com.kunzisoft.keepass.database.element.DateInstant
@@ -181,8 +181,8 @@ class DatabaseInputKDBX(database: DatabaseKDBX)
 
                 val hmacKey = mDatabase.hmacKey ?: throw DatabaseInputException()
 
-                val blockKey = HmacBlock.getHmacKey64(hmacKey, UnsignedLong.MAX_BYTES)
-                val hmac: Mac = HmacBlock.getHmacSha256(blockKey)
+                val blockKey = HashManager.sha512(UnsignedLong.MAX_BYTES, hmacKey)
+                val hmac: Mac = HashManager.getHmacSha256(blockKey)
                 val headerHmac = hmac.doFinal(pbHeader)
 
                 val storedHmac = databaseInputStream.readBytesLength(32)

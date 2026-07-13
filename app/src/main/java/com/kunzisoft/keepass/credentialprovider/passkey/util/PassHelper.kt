@@ -29,6 +29,7 @@ import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.credentials.exceptions.CreateCredentialUnknownException
 import androidx.credentials.provider.CallingAppInfo
+import com.kunzisoft.encrypt.HashManager
 import com.kunzisoft.encrypt.Signature.getApplicationFingerprints
 import com.kunzisoft.keepass.database.element.EntryId
 import com.kunzisoft.keepass.model.AndroidOrigin
@@ -44,7 +45,6 @@ import java.security.SecureRandom
 import java.time.Instant
 import java.util.UUID
 import javax.crypto.KeyGenerator
-import javax.crypto.Mac
 import javax.crypto.SecretKey
 
 /**
@@ -60,7 +60,6 @@ object PassHelper {
     private const val EXTRA_AUTHENTICATION_CODE = "com.kunzisoft.keepass.extra.authenticationCode"
 
     private const val SEPARATOR = "_"
-    private const val HMAC_TYPE = "HmacSHA256"
     private const val NAME_OF_HMAC_KEY = "KeePassDXCredentialProviderHMACKey"
     private const val KEYSTORE_TYPE = "AndroidKeyStore"
 
@@ -173,12 +172,9 @@ object PassHelper {
         } catch (_: Exception) {
             // key not found
             generateKey()
-        }
+        } ?: throw CreateCredentialUnknownException("Cannot generate HMAC key")
 
-        val mac = Mac.getInstance(HMAC_TYPE)
-        mac.init(hmacKey)
-        val authenticationCode = mac.doFinal(message.toByteArray())
-        return authenticationCode
+        return HashManager.getHmacSha256(hmacKey).doFinal(message.toByteArray())
     }
 
     /**

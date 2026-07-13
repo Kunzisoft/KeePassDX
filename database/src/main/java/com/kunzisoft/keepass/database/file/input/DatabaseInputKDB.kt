@@ -126,7 +126,7 @@ class DatabaseInputKDB(database: DatabaseKDB)
             }
 
             // Decrypt content
-            val messageDigest: MessageDigest = HashManager.getHash256()
+            val messageDigest: MessageDigest = HashManager.getSha256()
             val cipherInputStream = BufferedInputStream(
                     DigestInputStream(
                             CipherInputStream(databaseInputStream, cipher),

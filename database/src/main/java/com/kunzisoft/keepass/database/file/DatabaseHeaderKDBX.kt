@@ -94,7 +94,7 @@ class DatabaseHeaderKDBX(private val databaseV4: DatabaseKDBX) : DatabaseHeader(
      */
     @Throws(IOException::class, VersionDatabaseException::class)
     fun loadFromFile(inputStream: InputStream): HeaderAndHash {
-        val messageDigest: MessageDigest = HashManager.getHash256()
+        val messageDigest: MessageDigest = HashManager.getSha256()
 
         val headerBOS = ByteArrayOutputStream()
         val copyInputStream = CopyInputStream(inputStream, headerBOS)

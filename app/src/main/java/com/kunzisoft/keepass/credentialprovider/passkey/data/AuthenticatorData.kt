@@ -53,7 +53,7 @@ class AuthenticatorData {
                 flags = flags or 0x80
             }
 
-            return HashManager.hashSha256(relyingPartyId) +
+            return HashManager.sha256(relyingPartyId) +
                     byteArrayOf(flags.toByte()) +
                     byteArrayOf(0, 0, 0, 0)
         }

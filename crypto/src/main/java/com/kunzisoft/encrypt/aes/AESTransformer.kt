@@ -78,6 +78,6 @@ object AESTransformer {
         }
 
         // Hash the key
-        return HashManager.hashSha256(newKey)
+        return HashManager.sha256(newKey)
     }
 }

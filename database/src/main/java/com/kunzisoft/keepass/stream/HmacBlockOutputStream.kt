@@ -19,11 +19,11 @@
  */
 package com.kunzisoft.keepass.stream
 
+import com.kunzisoft.encrypt.HashManager
 import com.kunzisoft.keepass.utils.UnsignedInt
 import com.kunzisoft.keepass.utils.UnsignedLong
 import com.kunzisoft.keepass.utils.uIntTo4Bytes
 import com.kunzisoft.keepass.utils.uLongTo8Bytes
-import com.kunzisoft.keepass.database.crypto.HmacBlock
 import java.io.IOException
 import java.io.OutputStream
 import javax.crypto.Mac
@@ -88,8 +88,8 @@ class HmacBlockOutputStream(private val baseStream: OutputStream,
         val bufBlockIndex = uLongTo8Bytes(blockIndex)
         val blockSizeBuf = uIntTo4Bytes(UnsignedInt(bufferPos))
 
-        val blockKey = HmacBlock.getHmacKey64(key, bufBlockIndex)
-        val hmac: Mac = HmacBlock.getHmacSha256(blockKey)
+        val blockKey = HashManager.sha512(bufBlockIndex, key)
+        val hmac: Mac = HashManager.getHmacSha256(blockKey)
         hmac.update(bufBlockIndex)
         hmac.update(blockSizeBuf)
 

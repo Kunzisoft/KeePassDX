@@ -58,6 +58,6 @@ open class ClientDataBuildResponse(
     }
 
     override fun hashData(): ByteArray {
-        return HashManager.hashSha256(json().toString().toByteArray())
+        return HashManager.sha256(json().toString().toByteArray())
     }
 }

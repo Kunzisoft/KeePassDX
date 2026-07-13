@@ -35,7 +35,11 @@ import java.io.BufferedOutputStream
 import java.io.ByteArrayOutputStream
 import java.io.IOException
 import java.io.OutputStream
-import java.security.*
+import java.security.DigestOutputStream
+import java.security.InvalidAlgorithmParameterException
+import java.security.InvalidKeyException
+import java.security.MessageDigest
+import java.security.SecureRandom
 import javax.crypto.Cipher
 import javax.crypto.CipherOutputStream
 
@@ -136,7 +140,7 @@ class DatabaseOutputKDB(private val mDatabaseKDB: DatabaseKDB)
         assignMasterKey()
 
         // Header checksum
-        val headerDigest: MessageDigest = HashManager.getHash256()
+        val headerDigest: MessageDigest = HashManager.getSha256()
 
         // Output header for the purpose of calculating the header checksum
         val headerDos = DigestOutputStream(NullOutputStream(), headerDigest)
@@ -153,7 +157,7 @@ class DatabaseOutputKDB(private val mDatabaseKDB: DatabaseKDB)
         headerHashBlock = getHeaderHashBuffer(headerHash)
 
         // Content checksum
-        val messageDigest: MessageDigest = HashManager.getHash256()
+        val messageDigest: MessageDigest = HashManager.getSha256()
 
         // Output database for the purpose of calculating the content checksum
         val dos = DigestOutputStream(NullOutputStream(), messageDigest)
