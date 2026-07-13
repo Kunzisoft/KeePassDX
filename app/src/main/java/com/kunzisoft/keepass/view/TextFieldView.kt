@@ -25,9 +25,7 @@ import android.text.util.Linkify
 import android.util.AttributeSet
 import android.util.TypedValue
 import android.view.ContextThemeWrapper
-import android.view.MotionEvent
 import android.view.View
-import android.view.ViewConfiguration
 import android.widget.RelativeLayout
 import androidx.annotation.StringRes
 import androidx.appcompat.widget.AppCompatImageButton
@@ -42,8 +40,6 @@ import com.kunzisoft.keepass.database.element.security.ProtectedString
 import com.kunzisoft.keepass.model.AppOriginEntryField.APPLICATION_ID_FIELD_NAME
 import com.kunzisoft.keepass.model.FieldProtection
 import com.kunzisoft.keepass.utils.AppUtil.openExternalApp
-import kotlin.math.abs
-
 
 open class TextFieldView @JvmOverloads constructor(
     context: Context,
@@ -245,39 +241,6 @@ open class TextFieldView @JvmOverloads constructor(
 
     override var onRevealChanged: ((isRevealed: Boolean) -> Unit)? = null
 
-    // Toggle touch listener to be able to long press and select the valueView
-    private val toggleTouchListener = object : OnTouchListener {
-        private var downX = 0f
-        private var downY = 0f
-        private var downTime = 0L
-
-        override fun onTouch(v: View, event: MotionEvent): Boolean {
-            if (!isProtected) return false
-
-            when (event.action) {
-                MotionEvent.ACTION_DOWN -> {
-                    downX = event.x
-                    downY = event.y
-                    downTime = System.currentTimeMillis()
-                }
-                MotionEvent.ACTION_UP -> {
-                    val touchSlop = ViewConfiguration.get(v.context).scaledTouchSlop
-                    if (abs(event.x - downX) < touchSlop &&
-                        abs(event.y - downY) < touchSlop &&
-                        System.currentTimeMillis() - downTime < ViewConfiguration.getLongPressTimeout()
-                    ) {
-                        if (!isRevealed()) {
-                            v.performClick()
-                            onRevealChanged?.invoke(isRevealed())
-                            return true
-                        }
-                    }
-                }
-            }
-            return false
-        }
-    }
-
     private val clickListener = OnClickListener {
         if (isProtected) {
             onRevealChanged?.invoke(isRevealed())
@@ -301,14 +264,16 @@ open class TextFieldView @JvmOverloads constructor(
             if (showButton.isVisible) {
                 applyHiddenStyle(isMasked)
                 setCopyButtonState(mButtonState)
-                setOnTouchListener(toggleTouchListener)
-                setOnClickListener(null)
-                if (!isMasked) {
+                if (isMasked) {
+                    setOnClickListener(clickListener)
+                    setTextIsSelectable(false)
+                } else {
+                    setOnClickListener(null)
+                    setTextIsSelectable(true)
                     linkify()
                     requestFocus()
                 }
             } else {
-                setOnTouchListener(null)
                 setOnClickListener(null)
                 isFocusable = true
                 setTextIsSelectable(true)
