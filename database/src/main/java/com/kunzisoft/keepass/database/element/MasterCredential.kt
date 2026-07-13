@@ -43,7 +43,6 @@ import java.io.InputStream
 import java.io.OutputStream
 import java.nio.CharBuffer
 import java.nio.charset.Charset
-import java.security.SecureRandom
 import javax.xml.XMLConstants
 import javax.xml.parsers.DocumentBuilderFactory
 import javax.xml.parsers.ParserConfigurationException
@@ -351,8 +350,7 @@ data class MasterCredential(
             keySize: Int = DEFAULT_KEYFILE_SIZE,
             format: KeyFileFormat = KeyFileFormat.XML_2_0
         ) {
-            val randomBytes = ByteArray(keySize)
-            SecureRandom().nextBytes(randomBytes)
+            val randomBytes = HashManager.generateRandom(keySize)
 
             when (format) {
                 KeyFileFormat.RANDOM_BYTES -> {
