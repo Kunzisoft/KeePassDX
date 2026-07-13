@@ -86,6 +86,7 @@ abstract class ProtectedTextFieldView @JvmOverloads constructor(
             is ProtectionState -> {
                 super.onRestoreInstanceState(state.superState)
                 mRevealed = state.isRevealed
+                changeProtectedValueParameters()
             }
             else -> super.onRestoreInstanceState(state)
         }
