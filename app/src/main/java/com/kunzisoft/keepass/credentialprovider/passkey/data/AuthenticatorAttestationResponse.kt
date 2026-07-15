@@ -61,7 +61,7 @@ class AuthenticatorAttestationResponse(
             credentialId +
             credentialPublicKey
         return if (clientExtensionResults?.prf != null) {
-            authData + Cbor().encode(clientExtensionResults.toCbor())
+            authData + Cbor().encode(clientExtensionResults.toAuthDataCbor(isRegistration = true))
         } else {
             authData
         }

@@ -47,7 +47,7 @@ class AuthenticatorAssertionResponse(
         extensionsPresent = clientExtensionResults?.prf != null
     ).let {
         if (clientExtensionResults?.prf != null) {
-            it + Cbor().encode(clientExtensionResults.toCbor())
+            it + Cbor().encode(clientExtensionResults.toAuthDataCbor(isRegistration = false))
         } else {
             it
         }

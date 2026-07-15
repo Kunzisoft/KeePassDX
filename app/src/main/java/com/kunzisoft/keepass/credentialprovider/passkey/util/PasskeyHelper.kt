@@ -271,21 +271,34 @@ object PasskeyHelper {
     private fun buildPrfOutput(
         prfInputs: AuthenticationExtensionsPRFInputs? = null,
         credentialId: String? = null,
-        secret: String? = null
+        secret: String? = null,
+        isRegistration: Boolean = false
     ): AuthenticationExtensionsPRFOutputs? {
-        return if (prfInputs != null) {
-            val eval = prfInputs.evalByCredential?.get(credentialId) ?: prfInputs.eval
-            if (secret != null && eval != null) {
+        if (prfInputs == null)
+            return null
+        if (!isRegistration && secret == null)
+            return null
+        val eval = prfInputs.evalByCredential?.get(credentialId) ?: prfInputs.eval
+        return if (eval != null) {
+            if (secret != null) {
                 val prfSecretBytes = Base64Helper.b64Decode(secret)
                 val results = AuthenticationExtensionsPRFValues(
                     first = HashManager.hmacSha256(prfSecretBytes, eval.first),
                     second = eval.second?.let { HashManager.hmacSha256(prfSecretBytes, it) }
                 )
-                AuthenticationExtensionsPRFOutputs(enabled = true, results = results)
+                AuthenticationExtensionsPRFOutputs(
+                    // https://www.w3.org/TR/webauthn-3/#dictdef-authenticationextensionsprfoutputs
+                    // For registration, enabled is always true
+                    // For authentication, enabled must be omitted if results are present
+                    enabled = if (isRegistration) true else null,
+                    results = results
+                )
             } else {
                 AuthenticationExtensionsPRFOutputs(enabled = true)
             }
-        } else null
+        } else {
+            AuthenticationExtensionsPRFOutputs(enabled = true)
+        }
     }
 
     /**
@@ -303,16 +316,20 @@ object PasskeyHelper {
         val keyTypeId = publicKeyCredentialCreationParameters.signatureKey.second
 
         val creationOptions = publicKeyCredentialCreationParameters.publicKeyCredentialCreationOptions
+        val credentialId = publicKeyCredentialCreationParameters.credentialId
+        val credentialIdEncoded = Base64Helper.b64Encode(credentialId)
         val prfOutputs = buildPrfOutput(
             prfInputs = creationOptions.extensions.prf,
-            secret = publicKeyCredentialCreationParameters.prfSecret
+            credentialId = credentialIdEncoded,
+            secret = publicKeyCredentialCreationParameters.prfSecret,
+            isRegistration = true
         )
 
         val responseJson = FidoPublicKeyCredential(
-            id = Base64Helper.b64Encode(publicKeyCredentialCreationParameters.credentialId),
+            id = credentialIdEncoded,
             response = AuthenticatorAttestationResponse(
                 requestOptions = creationOptions,
-                credentialId = publicKeyCredentialCreationParameters.credentialId,
+                credentialId = credentialId,
                 credentialPublicKey = Cbor().encode(
                     Signature.convertPublicKeyToMap(
                         publicKeyIn = keyPair.public,
@@ -397,12 +414,15 @@ object PasskeyHelper {
         defaultBackupEligibility: Boolean,
         defaultBackupState: Boolean
     ): PublicKeyCredential {
+        val credentialId = passkey.credentialId
         val prfOutputs = buildPrfOutput(
             prfInputs = requestOptions.extensions.prf,
-            secret = passkey.prfSecret
+            credentialId = credentialId,
+            secret = passkey.prfSecret,
+            isRegistration = false
         )
         val getCredentialResponse = FidoPublicKeyCredential(
-            id = passkey.credentialId,
+            id = credentialId,
             response = AuthenticatorAssertionResponse(
                 requestOptions = requestOptions,
                 userPresent = true,
