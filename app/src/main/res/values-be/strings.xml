@@ -259,6 +259,17 @@
     <string name="menu_lock">Заблакаваць базу дадзеных</string>
     <string name="menu_save_database">Захаваць дадзеныя</string>
     <string name="menu_merge_database">Аб\'яднаць дадзеныя</string>
+    <string name="menu_import_csv">Імпартаваць CSV</string>
+    <string name="import_title">Імпарт</string>
+    <string name="csv_import_map_fields">Супаставіць палі</string>
+    <string name="csv_import_confirm">Імпартаваць</string>
+    <string name="csv_field_title">Назва</string>
+    <string name="csv_field_username">Імя карыстальніка</string>
+    <string name="csv_field_password">Пароль</string>
+    <string name="csv_field_url">URL</string>
+    <string name="csv_field_notes">Нататкі</string>
+    <string name="csv_field_ignore">Ігнараваць</string>
+    <string name="csv_import_error">Памылка пры імпарце CSV</string>
     <string name="menu_reload_database">Перазагрузіць дадзеныя</string>
     <string name="menu_merge_from">Аб\'яднаць з…</string>
     <string name="menu_save_copy_to">Захаваць копію ў…</string>

@@ -272,6 +272,17 @@
     <string name="search_mode">حالت جستجو</string>
     <string name="menu_external_icon">نماد خارجی</string>
     <string name="menu_keystore_remove_key">حذف کلید باز کردن پیشرفته</string>
+    <string name="menu_import_csv">درون‌ریزی CSV</string>
+    <string name="import_title">درون‌ریزی</string>
+    <string name="csv_import_map_fields">نگاشت فیلدها</string>
+    <string name="csv_import_confirm">درون‌ریزی</string>
+    <string name="csv_field_title">عنوان</string>
+    <string name="csv_field_username">نام کاربری</string>
+    <string name="csv_field_password">گذرواژه</string>
+    <string name="csv_field_url">URL</string>
+    <string name="csv_field_notes">یادداشت‌ها</string>
+    <string name="csv_field_ignore">نادیده گرفتن</string>
+    <string name="csv_import_error">خطا در درون‌ریزی CSV</string>
     <string name="menu_reload_database">بارگیری مجدد پایگاه داده</string>
     <string name="error_start_database_action">هنگام انجام عملیات در پایگاه داده خطایی روی داد.</string>
     <string name="error_remove_file">هنگام حذف داده های فایل خطایی روی داد.</string>

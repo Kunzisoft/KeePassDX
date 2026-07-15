@@ -263,6 +263,17 @@
     <string name="menu_search">ค้นหา</string>
     <string name="menu_delete">ลบ</string>
     <string name="menu_cancel">ยกเลิก</string>
+    <string name="menu_import_csv">นำเข้า CSV</string>
+    <string name="import_title">การนำเข้า</string>
+    <string name="csv_import_map_fields">จับคู่ฟิลด์</string>
+    <string name="csv_import_confirm">นำเข้า</string>
+    <string name="csv_field_title">ชื่อเรื่อง</string>
+    <string name="csv_field_username">ชื่อผู้ใช้</string>
+    <string name="csv_field_password">รหัสผ่าน</string>
+    <string name="csv_field_url">URL</string>
+    <string name="csv_field_notes">บันทึก</string>
+    <string name="csv_field_ignore">ละเว้น</string>
+    <string name="csv_import_error">เกิดข้อผิดพลาดในการนำเข้า CSV</string>
     <string name="menu_reload_database">โหลดข้อมูลซ้ำ</string>
     <string name="menu_merge_database">ควบรวมข้อมูล</string>
     <string name="menu_save_copy_to">บันทึกสำเนาไปที่…</string>

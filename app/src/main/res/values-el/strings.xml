@@ -510,6 +510,17 @@
     <string name="warning_database_revoked">Πρόσβαση στο αρχείο που ανακλήθηκε από το διαχειριστή αρχείων, κλείστε τη βάση δεδομένων και ανοίξτε το ξανά από τη θέση του.</string>
     <string name="warning_database_info_changed_options">Συγχωνεύστε τα δεδομένα, αντικαταστήστε τις εξωτερικές τροποποιήσεις αποθηκεύοντας τη βάση δεδομένων ή φορτώστε ξανά τη βάση δεδομένων με τις πιο πρόσφατες αλλαγές.</string>
     <string name="warning_database_info_changed">Οι πληροφορίες που περιέχονται στο αρχείο της βάσης δεδομένων σας έχουν τροποποιηθεί εκτός της εφαρμογής.</string>
+    <string name="menu_import_csv">Εισαγωγή CSV</string>
+    <string name="import_title">Εισαγωγή</string>
+    <string name="csv_import_map_fields">Αντιστοίχιση πεδίων</string>
+    <string name="csv_import_confirm">Εισαγωγή</string>
+    <string name="csv_field_title">Τίτλος</string>
+    <string name="csv_field_username">Όνομα χρήστη</string>
+    <string name="csv_field_password">Κωδικός πρόσβασης</string>
+    <string name="csv_field_url">URL</string>
+    <string name="csv_field_notes">Σημειώσεις</string>
+    <string name="csv_field_ignore">Παράβλεψη</string>
+    <string name="csv_import_error">Σφάλμα κατά την εισαγωγή CSV</string>
     <string name="menu_reload_database">Επαναφόρτωση δεδομένων</string>
     <string name="unit_gibibyte">GiB</string>
     <string name="unit_mebibyte">MiB</string>

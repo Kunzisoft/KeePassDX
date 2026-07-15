@@ -339,6 +339,17 @@
     <string name="menu_master_key_settings">Gako nagusiaren ezarpenak</string>
     <string name="menu_move">Mugitu</string>
     <string name="menu_merge_database">Datuak fusionatu</string>
+    <string name="menu_import_csv">Inportatu CSV</string>
+    <string name="import_title">inportazioa</string>
+    <string name="csv_import_map_fields">Eremuak mapatu</string>
+    <string name="csv_import_confirm">Inportatu</string>
+    <string name="csv_field_title">Izenburua</string>
+    <string name="csv_field_username">Erabiltzaile-izena</string>
+    <string name="csv_field_password">Pasahitza</string>
+    <string name="csv_field_url">URL</string>
+    <string name="csv_field_notes">Oharrak</string>
+    <string name="csv_field_ignore">Ez ikusi egin</string>
+    <string name="csv_import_error">Errorea CSV inportatzean</string>
     <string name="menu_reload_database">Datuak birkargatu</string>
     <string name="menu_merge_from">Fusionatu hemendik…</string>
     <string name="menu_save_copy_to">Gorde kopia hemen…</string>

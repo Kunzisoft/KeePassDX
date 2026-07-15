@@ -259,6 +259,17 @@
     <string name="menu_lock">I-lock ang database</string>
     <string name="menu_save_database">I-save ang data</string>
     <string name="menu_merge_database">I-merge ang data</string>
+    <string name="menu_import_csv">I-import ang CSV</string>
+    <string name="import_title">Pag-import</string>
+    <string name="csv_import_map_fields">I-map ang mga field</string>
+    <string name="csv_import_confirm">I-import</string>
+    <string name="csv_field_title">Pamagat</string>
+    <string name="csv_field_username">Pangalan ng gumagamit</string>
+    <string name="csv_field_password">Password</string>
+    <string name="csv_field_url">URL</string>
+    <string name="csv_field_notes">Mga tala</string>
+    <string name="csv_field_ignore">Huwag pansinin</string>
+    <string name="csv_import_error">Error sa pag-import ng CSV</string>
     <string name="menu_reload_database">I-reload ang data</string>
     <string name="menu_merge_from">Isama mula sa…</string>
     <string name="menu_save_copy_to">Mag-save ng kopya sa …</string>

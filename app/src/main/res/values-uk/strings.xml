@@ -510,6 +510,17 @@
     <string name="warning_database_revoked">Доступ до файлу скасовано менеджером файлів, закрийте базу даних і знову відкрийте її з її розташування.</string>
     <string name="warning_database_info_changed_options">Об\'єднати дані, перезаписати зовнішні зміни, зберігши базу даних або перезавантажити її з найновішими змінами.</string>
     <string name="warning_database_info_changed">Відомості, що містяться у файлі бази даних, змінено за межами застосунку.</string>
+    <string name="menu_import_csv">Імпортувати CSV</string>
+    <string name="import_title">Імпорт</string>
+    <string name="csv_import_map_fields">Зіставити поля</string>
+    <string name="csv_import_confirm">Імпортувати</string>
+    <string name="csv_field_title">Назва</string>
+    <string name="csv_field_username">Ім’я користувача</string>
+    <string name="csv_field_password">Пароль</string>
+    <string name="csv_field_url">URL</string>
+    <string name="csv_field_notes">Примітки</string>
+    <string name="csv_field_ignore">Ігнорувати</string>
+    <string name="csv_import_error">Помилка при імпорті CSV</string>
     <string name="menu_reload_database">Перезавантажити дані</string>
     <string name="unit_gibibyte">ГіБ</string>
     <string name="unit_mebibyte">МіБ</string>

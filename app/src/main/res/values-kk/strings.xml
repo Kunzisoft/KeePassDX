@@ -1,2 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="menu_import_csv">CSV импорттау</string>
+    <string name="import_title">импорты</string>
+    <string name="csv_import_map_fields">Өрістерді сәйкестендіру</string>
+    <string name="csv_import_confirm">Импорттау</string>
+    <string name="csv_field_title">Атауы</string>
+    <string name="csv_field_username">Пайдаланушы аты</string>
+    <string name="csv_field_password">Құпиясөз</string>
+    <string name="csv_field_url">URL</string>
+    <string name="csv_field_notes">Ескертпелер</string>
+    <string name="csv_field_ignore">Елемеу</string>
+    <string name="csv_import_error">CSV импорттау кезінде қате</string>
+</resources>

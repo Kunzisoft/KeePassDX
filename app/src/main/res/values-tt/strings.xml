@@ -40,4 +40,15 @@
     <string name="entry_cancel">Баш тарту</string>
     <string name="content_description_update_from_list">Яңарту</string>
     <string name="application">Кушымта</string>
+    <string name="menu_import_csv">CSV импортлау</string>
+    <string name="import_title">импорты</string>
+    <string name="csv_import_map_fields">Кырларны тәңгәлләштерү</string>
+    <string name="csv_import_confirm">Импортлау</string>
+    <string name="csv_field_title">Исем</string>
+    <string name="csv_field_username">Кулланучы исеме</string>
+    <string name="csv_field_password">Серсүз</string>
+    <string name="csv_field_url">URL</string>
+    <string name="csv_field_notes">Искәрмәләр</string>
+    <string name="csv_field_ignore">Санга сукмау</string>
+    <string name="csv_import_error">CSV импортлаганда хата</string>
 </resources>

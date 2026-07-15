@@ -268,6 +268,17 @@
     <string name="export_app_properties_title">앱 설정 내보내기</string>
     <string name="uppercase">대문자</string>
     <string name="menu_security_settings">보안 설정</string>
+    <string name="menu_import_csv">CSV 가져오기</string>
+    <string name="import_title">가져오기</string>
+    <string name="csv_import_map_fields">필드 매핑</string>
+    <string name="csv_import_confirm">가져오기</string>
+    <string name="csv_field_title">제목</string>
+    <string name="csv_field_username">사용자 이름</string>
+    <string name="csv_field_password">비밀번호</string>
+    <string name="csv_field_url">URL</string>
+    <string name="csv_field_notes">메모</string>
+    <string name="csv_field_ignore">무시</string>
+    <string name="csv_import_error">CSV 가져오기 오류</string>
     <string name="menu_reload_database">데이터 다시 읽기</string>
     <string name="menu_empty_recycle_bin">휴지통 비우기</string>
     <string name="auto_focus_search_summary">데이터베이스를 열 때 검색을 요청</string>

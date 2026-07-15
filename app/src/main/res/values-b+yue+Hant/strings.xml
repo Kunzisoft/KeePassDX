@@ -139,4 +139,15 @@
     <string name="bank_name">銀行名稱</string>
     <string name="entry_url">網址</string>
     <string name="entry_user_name">用戶名</string>
+    <string name="menu_import_csv">导入 CSV</string>
+    <string name="import_title">导入</string>
+    <string name="csv_import_map_fields">映射字段</string>
+    <string name="csv_import_confirm">导入</string>
+    <string name="csv_field_title">标题</string>
+    <string name="csv_field_username">用户名</string>
+    <string name="csv_field_password">密码</string>
+    <string name="csv_field_url">URL</string>
+    <string name="csv_field_notes">备注</string>
+    <string name="csv_field_ignore">忽略</string>
+    <string name="csv_import_error">导入 CSV 时出错</string>
 </resources>

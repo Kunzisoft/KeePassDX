@@ -27,4 +27,15 @@
     <string name="homepage">Ngarep</string>
     <string name="contribution">Urun Rembuk</string>
     <string name="contact">Nomer Hape</string>
+    <string name="menu_import_csv">Impor CSV</string>
+    <string name="import_title">Impor</string>
+    <string name="csv_import_map_fields">Padhakake kolom</string>
+    <string name="csv_import_confirm">Impor</string>
+    <string name="csv_field_title">Judhul</string>
+    <string name="csv_field_username">Jeneng pangguna</string>
+    <string name="csv_field_password">Sandi</string>
+    <string name="csv_field_url">URL</string>
+    <string name="csv_field_notes">Cathetan</string>
+    <string name="csv_field_ignore">Aja digatekake</string>
+    <string name="csv_import_error">Ana kasalahan nalika ngimpor CSV</string>
 </resources>

@@ -504,6 +504,17 @@
     <string name="warning_database_revoked">Dostęp do pliku odwołany przez menedżera plików, zamknij bazę danych i otwórz ją ponownie z jej lokalizacji.</string>
     <string name="warning_database_info_changed_options">Scal dane, zastąp modyfikacje zewnętrzne poprzez zapisanie bazy danych lub ponownie załaduj ją z najnowszymi zmianami.</string>
     <string name="warning_database_info_changed">Informacje zawarte w pliku bazy danych zostały zmodyfikowane poza aplikacją.</string>
+    <string name="menu_import_csv">Importuj CSV</string>
+    <string name="import_title">Import</string>
+    <string name="csv_import_map_fields">Mapuj pola</string>
+    <string name="csv_import_confirm">Importuj</string>
+    <string name="csv_field_title">Tytuł</string>
+    <string name="csv_field_username">Nazwa użytkownika</string>
+    <string name="csv_field_password">Hasło</string>
+    <string name="csv_field_url">URL</string>
+    <string name="csv_field_notes">Notatki</string>
+    <string name="csv_field_ignore">Ignoruj</string>
+    <string name="csv_import_error">Błąd podczas importu CSV</string>
     <string name="menu_reload_database">Przeładuj dane</string>
     <string name="unit_gibibyte">GiB</string>
     <string name="unit_mebibyte">MiB</string>

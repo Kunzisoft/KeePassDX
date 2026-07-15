@@ -167,4 +167,15 @@
     <string name="error_upload_file">फ़ाइल डेटा को अपलोड करते समय एक त्रुटि हुई।</string>
     <string name="error_duplicate_file">फ़ाइल डेटा पहले से उपलब्ध है।</string>
     <string name="info">जानकारी</string>
+    <string name="menu_import_csv">CSV आयात करें</string>
+    <string name="import_title">आयात</string>
+    <string name="csv_import_map_fields">फ़ील्ड मैप करें</string>
+    <string name="csv_import_confirm">आयात करें</string>
+    <string name="csv_field_title">शीर्षक</string>
+    <string name="csv_field_username">उपयोगकर्ता नाम</string>
+    <string name="csv_field_password">पासवर्ड</string>
+    <string name="csv_field_url">URL</string>
+    <string name="csv_field_notes">नोट्स</string>
+    <string name="csv_field_ignore">अनदेखा करें</string>
+    <string name="csv_import_error">CSV आयात करते समय त्रुटि</string>
 </resources>

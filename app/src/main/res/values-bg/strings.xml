@@ -126,6 +126,17 @@
     <string name="menu_save_copy_to">Запазване на копие в…</string>
     <string name="sort_title">Заглавие</string>
     <string name="discard_changes">Отхвърляне на промените?</string>
+    <string name="menu_import_csv">Импортирай CSV</string>
+    <string name="import_title">Импортиране</string>
+    <string name="csv_import_map_fields">Съпостави полетата</string>
+    <string name="csv_import_confirm">Импортирай</string>
+    <string name="csv_field_title">Заглавие</string>
+    <string name="csv_field_username">Потребителско име</string>
+    <string name="csv_field_password">Парола</string>
+    <string name="csv_field_url">URL</string>
+    <string name="csv_field_notes">Бележки</string>
+    <string name="csv_field_ignore">Игнорирай</string>
+    <string name="csv_import_error">Грешка при импортиране на CSV</string>
     <string name="menu_reload_database">Презареждане на данните</string>
     <string name="contribute">Допринасяне</string>
     <string name="error_load_database_KDF_memory">Ключът не може да бъде зареден. Пробвайте да намалите използваната памет от функцията за извличане на ключове.</string>

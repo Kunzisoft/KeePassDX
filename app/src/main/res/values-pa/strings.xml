@@ -338,4 +338,15 @@
     <string name="html_text_dev_feature_contibute">&lt;strong&gt;ਹਿੱਸਾ ਪਾ ਕੇ&lt;/strong&gt;,</string>
     <string name="html_text_dev_feature_thanks">ਤੁਹਾਡੇ ਹਿੱਸਾ ਪਾਉਣ ਲਈ ਬਹੁਤ ਧੰਨਵਾਦ ਹੈ।</string>
     <string name="show_uuid_title">UUID ਵੇਖਾਓ</string>
+    <string name="menu_import_csv">CSV ਆਯਾਤ ਕਰੋ</string>
+    <string name="import_title">ਆਯਾਤ</string>
+    <string name="csv_import_map_fields">ਖੇਤਰ ਮੈਪ ਕਰੋ</string>
+    <string name="csv_import_confirm">ਆਯਾਤ ਕਰੋ</string>
+    <string name="csv_field_title">ਸਿਰਲੇਖ</string>
+    <string name="csv_field_username">ਵਰਤੋਂਕਾਰ ਨਾਮ</string>
+    <string name="csv_field_password">ਪਾਸਵਰਡ</string>
+    <string name="csv_field_url">URL</string>
+    <string name="csv_field_notes">ਨੋਟਸ</string>
+    <string name="csv_field_ignore">ਅਣਡਿੱਠਾ ਕਰੋ</string>
+    <string name="csv_import_error">CSV ਆਯਾਤ ਕਰਨ ਦੌਰਾਨ ਗਲਤੀ</string>
 </resources>

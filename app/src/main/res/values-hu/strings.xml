@@ -454,6 +454,17 @@
     <string name="import_app_properties_title">Alkalmazásbeállítások importálása</string>
     <string name="menu_external_icon">Külső ikon</string>
     <string name="menu_keystore_remove_key">Eszközfeloldási kulcs törlése</string>
+    <string name="menu_import_csv">CSV importálása</string>
+    <string name="import_title">importálás</string>
+    <string name="csv_import_map_fields">Mezők társítása</string>
+    <string name="csv_import_confirm">Importálás</string>
+    <string name="csv_field_title">Cím</string>
+    <string name="csv_field_username">Felhasználónév</string>
+    <string name="csv_field_password">Jelszó</string>
+    <string name="csv_field_url">URL</string>
+    <string name="csv_field_notes">Jegyzetek</string>
+    <string name="csv_field_ignore">Kihagyás</string>
+    <string name="csv_import_error">Hiba a CSV importálásakor</string>
     <string name="menu_reload_database">Adatok újratöltése</string>
     <string name="error_start_database_action">Hiba történt az adatbázison végzett művelet során.</string>
     <string name="error_remove_file">Hiba történt a fájladatok eltávolítása során.</string>

@@ -509,6 +509,17 @@
     <string name="warning_database_revoked">文件管理器撤销了对此文件的访问，关闭数据库并从其位置重新打开它。</string>
     <string name="warning_database_info_changed_options">保存数据库或重新加载包含最新更改的数据库来合并数据和覆盖外部修改。</string>
     <string name="warning_database_info_changed">数据库文件中包含的信息已在应用之外被修改。</string>
+    <string name="menu_import_csv">导入 CSV</string>
+    <string name="import_title">导入</string>
+    <string name="csv_import_map_fields">映射字段</string>
+    <string name="csv_import_confirm">导入</string>
+    <string name="csv_field_title">标题</string>
+    <string name="csv_field_username">用户名</string>
+    <string name="csv_field_password">密码</string>
+    <string name="csv_field_url">URL</string>
+    <string name="csv_field_notes">备注</string>
+    <string name="csv_field_ignore">忽略</string>
+    <string name="csv_import_error">导入 CSV 时出错</string>
     <string name="menu_reload_database">重新加载数据</string>
     <string name="unit_gibibyte">GiB</string>
     <string name="unit_mebibyte">兆字节</string>

@@ -526,6 +526,17 @@
     <string name="warning_database_info_changed_options">Fusionner les données, écraser les modifications externes en sauvegardant la base de données ou recharger-la avec les dernières modifications.</string>
     <string name="warning_database_revoked">Accès au dossier révoqué par le gestionnaire de fichiers, fermer la base de données et la rouvrir à partir de son emplacement.</string>
     <string name="warning_database_info_changed">Les informations contenues dans votre fichier de base de données ont été modifiées en dehors de l\'application.</string>
+    <string name="menu_import_csv">Importer CSV</string>
+    <string name="import_title">Importation</string>
+    <string name="csv_import_map_fields">Mapper les champs</string>
+    <string name="csv_import_confirm">Importer</string>
+    <string name="csv_field_title">Titre</string>
+    <string name="csv_field_username">Nom d\'utilisateur</string>
+    <string name="csv_field_password">Mot de passe</string>
+    <string name="csv_field_url">URL</string>
+    <string name="csv_field_notes">Notes</string>
+    <string name="csv_field_ignore">Ignorer</string>
+    <string name="csv_import_error">Erreur lors de l\'importation CSV</string>
     <string name="menu_reload_database">Recharger les données</string>
     <string name="unit_gibibyte">Gibioctets</string>
     <string name="unit_mebibyte">Mébioctets</string>

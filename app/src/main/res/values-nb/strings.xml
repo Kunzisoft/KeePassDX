@@ -476,6 +476,17 @@
     <string name="error_word_reserved">Dette ordet er reservert og kan ikke brukes.</string>
     <string name="enter">Enter</string>
     <string name="hint_icon_name">Ikonnavn</string>
+    <string name="menu_import_csv">Importer CSV</string>
+    <string name="import_title">import</string>
+    <string name="csv_import_map_fields">Tilordne felter</string>
+    <string name="csv_import_confirm">Importer</string>
+    <string name="csv_field_title">Tittel</string>
+    <string name="csv_field_username">Brukernavn</string>
+    <string name="csv_field_password">Passord</string>
+    <string name="csv_field_url">URL</string>
+    <string name="csv_field_notes">Notater</string>
+    <string name="csv_field_ignore">Ignorer</string>
+    <string name="csv_import_error">Feil ved import av CSV</string>
     <string name="menu_reload_database">Last data på nytt</string>
     <string name="menu_keystore_remove_key">Slett enhetens opplåsingsnøkkel</string>
     <string name="remember_database_locations_summary">Holder øye med hvor databaser lagres</string>

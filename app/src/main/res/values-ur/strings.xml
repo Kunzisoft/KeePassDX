@@ -1,4 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="contact">رابطہ</string>
+    <string name="menu_import_csv">CSV درآمد کریں</string>
+    <string name="import_title">درآمد</string>
+    <string name="csv_import_map_fields">فیلڈز کی مطابقت کریں</string>
+    <string name="csv_import_confirm">درآمد کریں</string>
+    <string name="csv_field_title">عنوان</string>
+    <string name="csv_field_username">صارف نام</string>
+    <string name="csv_field_password">پاس ورڈ</string>
+    <string name="csv_field_url">URL</string>
+    <string name="csv_field_notes">نوٹس</string>
+    <string name="csv_field_ignore">نظر انداز کریں</string>
+    <string name="csv_import_error">CSV درآمد کرنے میں خرابی</string>
 </resources>

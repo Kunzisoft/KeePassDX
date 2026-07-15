@@ -509,6 +509,17 @@
     <string name="autofill_inline_suggestions_title">Návrhy inline</string>
     <string name="autofill_inline_suggestions_summary">Pokusí ze zobrazit návrhy samovyplnění přímo z kompatibilní klávesnice</string>
     <string name="warning_database_revoked">Přístup k souboru odebrán správcem souborů, uzavřete databázi a nově ji otevřete z jejího adresáře.</string>
+    <string name="menu_import_csv">Import CSV</string>
+    <string name="import_title">Import</string>
+    <string name="csv_import_map_fields">Map fields</string>
+    <string name="csv_import_confirm">Import</string>
+    <string name="csv_field_title">Title</string>
+    <string name="csv_field_username">Username</string>
+    <string name="csv_field_password">Password</string>
+    <string name="csv_field_url">URL</string>
+    <string name="csv_field_notes">Notes</string>
+    <string name="csv_field_ignore">Ignore</string>
+    <string name="csv_import_error">Error importing CSV</string>
     <string name="menu_reload_database">Znovu načíst data</string>
     <string name="warning_database_info_changed_options">Sloučit data, přepsat externí změny uložením databáze nebo databázi znovu načíst včetně nejnovějších změn.</string>
     <string name="warning_database_info_changed">Informace obsažená ve Vašem databázovém souboru byla změněna mimo aplikaci.</string>

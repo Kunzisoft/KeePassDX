@@ -288,6 +288,17 @@
     <string name="menu_lock">Закључај базу података</string>
     <string name="menu_save_database">Сачувај податке</string>
     <string name="menu_merge_database">Обједини податке</string>
+    <string name="menu_import_csv">Увези CSV</string>
+    <string name="import_title">увоз</string>
+    <string name="csv_import_map_fields">Упари поља</string>
+    <string name="csv_import_confirm">Увези</string>
+    <string name="csv_field_title">Наслов</string>
+    <string name="csv_field_username">Корисничко име</string>
+    <string name="csv_field_password">Лозинка</string>
+    <string name="csv_field_url">URL</string>
+    <string name="csv_field_notes">Белешке</string>
+    <string name="csv_field_ignore">Игнориши</string>
+    <string name="csv_import_error">Грешка при увозу CSV</string>
     <string name="menu_reload_database">Поново учитај податке</string>
     <string name="menu_merge_from">Сједини из…</string>
     <string name="menu_save_copy_to">Сачувајте копију у…</string>

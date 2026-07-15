@@ -211,6 +211,17 @@
     <string name="menu_cancel">Anuloje</string>
     <string name="menu_lock">Kyçe bazën e të dhënave</string>
     <string name="menu_save_database">Ruaji të dhënat</string>
+    <string name="menu_import_csv">Importo CSV</string>
+    <string name="import_title">Importim</string>
+    <string name="csv_import_map_fields">Përshtat fushat</string>
+    <string name="csv_import_confirm">Importo</string>
+    <string name="csv_field_title">Titulli</string>
+    <string name="csv_field_username">Emri i përdoruesit</string>
+    <string name="csv_field_password">Fjalëkalimi</string>
+    <string name="csv_field_url">URL</string>
+    <string name="csv_field_notes">Shënime</string>
+    <string name="csv_field_ignore">Shpërfill</string>
+    <string name="csv_import_error">Gabim gjatë importimit të CSV-së</string>
     <string name="menu_reload_database">Ringarko të dhënat</string>
     <string name="menu_save_copy_to">Ruaj një kopje te …</string>
     <string name="menu_search">Kërko</string>

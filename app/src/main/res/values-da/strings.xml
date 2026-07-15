@@ -502,6 +502,17 @@
     <string name="warning_database_info_changed_options">Flet data, overskriv de eksterne ændringer ved at gemme databasen eller genindlæs den med de seneste ændringer.</string>
     <string name="warning_database_info_changed">Oplysningerne i databasefilen er blevet ændret uden for appen.</string>
     <string name="menu_keystore_remove_key">Slet enheds oplåsningsnøgle</string>
+    <string name="menu_import_csv">Importer CSV</string>
+    <string name="import_title">import</string>
+    <string name="csv_import_map_fields">Tilknyt felter</string>
+    <string name="csv_import_confirm">Importer</string>
+    <string name="csv_field_title">Titel</string>
+    <string name="csv_field_username">Brugernavn</string>
+    <string name="csv_field_password">Adgangskode</string>
+    <string name="csv_field_url">URL</string>
+    <string name="csv_field_notes">Noter</string>
+    <string name="csv_field_ignore">Ignorer</string>
+    <string name="csv_import_error">Fejl ved import af CSV</string>
     <string name="menu_reload_database">Genindlæs data</string>
     <string name="error_duplicate_file">Fildataene findes allerede.</string>
     <string name="error_upload_file">Der opstod en fejl under overførsel af fildataene.</string>

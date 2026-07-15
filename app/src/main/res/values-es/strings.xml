@@ -504,6 +504,17 @@
     <string name="autofill_inline_suggestions_title">Sugerencias en línea</string>
     <string name="warning_database_info_changed_options">Fusionar los datos, sobrescribir las modificaciones externas guardando la base de datos o recargarla con los últimos cambios.</string>
     <string name="warning_database_info_changed">La información contenida en su archivo de base de datos ha sido modificada fuera de la aplicación.</string>
+    <string name="menu_import_csv">Importar CSV</string>
+    <string name="import_title">Importación</string>
+    <string name="csv_import_map_fields">Asignar campos</string>
+    <string name="csv_import_confirm">Importar</string>
+    <string name="csv_field_title">Título</string>
+    <string name="csv_field_username">Nombre de usuario</string>
+    <string name="csv_field_password">Contraseña</string>
+    <string name="csv_field_url">URL</string>
+    <string name="csv_field_notes">Notas</string>
+    <string name="csv_field_ignore">Ignorar</string>
+    <string name="csv_import_error">Error al importar CSV</string>
     <string name="menu_reload_database">Recargar datos</string>
     <string name="error_otp_type">El tipo de OTP existente no es reconocido por este formulario, y es posible que su validación ya no genere correctamente el token.</string>
     <string name="download_canceled">¡Cancelada!</string>

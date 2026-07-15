@@ -290,6 +290,17 @@
     <string name="progress_create">Kuriama nauja duomenų bazė…</string>
     <string name="menu_save_database">Išsaugoti duomenis</string>
     <string name="menu_merge_database">Sujungti duomenis</string>
+    <string name="menu_import_csv">Importuoti CSV</string>
+    <string name="import_title">importas</string>
+    <string name="csv_import_map_fields">Susieti laukus</string>
+    <string name="csv_import_confirm">Importuoti</string>
+    <string name="csv_field_title">Pavadinimas</string>
+    <string name="csv_field_username">Naudotojo vardas</string>
+    <string name="csv_field_password">Slaptažodis</string>
+    <string name="csv_field_url">URL</string>
+    <string name="csv_field_notes">Pastabos</string>
+    <string name="csv_field_ignore">Nepaisyti</string>
+    <string name="csv_import_error">Klaida importuojant CSV</string>
     <string name="menu_reload_database">Iš naujo įkelti duomenis</string>
     <string name="menu_merge_from">Sujungti iš …</string>
     <string name="menu_keystore_remove_key">Ištrinti įrenginio atrakinimo raktą</string>

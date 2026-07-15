@@ -304,6 +304,17 @@
     <string name="save_mode">Mode simpan</string>
     <string name="search_mode">Mode pencarian</string>
     <string name="menu_keystore_remove_key">Menghapus kunci buka kunci perangkat</string>
+    <string name="menu_import_csv">Impor CSV</string>
+    <string name="import_title">Impor</string>
+    <string name="csv_import_map_fields">Petakan bidang</string>
+    <string name="csv_import_confirm">Impor</string>
+    <string name="csv_field_title">Judul</string>
+    <string name="csv_field_username">Nama pengguna</string>
+    <string name="csv_field_password">Kata sandi</string>
+    <string name="csv_field_url">URL</string>
+    <string name="csv_field_notes">Catatan</string>
+    <string name="csv_field_ignore">Abaikan</string>
+    <string name="csv_import_error">Galat saat mengimpor CSV</string>
     <string name="menu_reload_database">Muat ulang data</string>
     <string name="error_database_uri_null">URI basis data tidak dapat diambil.</string>
     <string name="error_field_name_already_exists">Nama bidang sudah ada.</string>

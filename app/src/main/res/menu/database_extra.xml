@@ -26,6 +26,12 @@
             android:orderInCategory="80"
             app:iconTint="?attr/colorControlNormal"
             app:showAsAction="ifRoom" />
+        <item android:id="@+id/menu_import_csv"
+            android:icon="@drawable/ic_merge_from_white_24dp"
+            android:title="@string/menu_import_csv"
+            android:orderInCategory="80"
+            app:iconTint="?attr/colorControlNormal"
+            app:showAsAction="ifRoom" />
         <item android:id="@+id/menu_save_copy_to"
             android:icon="@drawable/ic_save_copy_to_white_24dp"
             android:title="@string/menu_save_copy_to"

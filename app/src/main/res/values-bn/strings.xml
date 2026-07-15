@@ -317,6 +317,17 @@
     <string name="show_uuid_title">UUID দেখান</string>
     <string name="list_entries_show_username_title">ব্যবহারকারীর নাম দেখান</string>
     <string name="show_uuid_summary">একটি এন্ট্রি বা একটি গ্রুপের সাথে সংযুক্ত UUID প্রদর্শন করে</string>
+    <string name="menu_import_csv">CSV আমদানি করুন</string>
+    <string name="import_title">আমদানি</string>
+    <string name="csv_import_map_fields">ক্ষেত্র ম্যাপ করুন</string>
+    <string name="csv_import_confirm">আমদানি করুন</string>
+    <string name="csv_field_title">শিরোনাম</string>
+    <string name="csv_field_username">ব্যবহারকারীর নাম</string>
+    <string name="csv_field_password">পাসওয়ার্ড</string>
+    <string name="csv_field_url">URL</string>
+    <string name="csv_field_notes">নোট</string>
+    <string name="csv_field_ignore">উপেক্ষা করুন</string>
+    <string name="csv_import_error">CSV আমদানিতে ত্রুটি</string>
     <string name="menu_reload_database">ডেটা পুনরায় লোড করুন</string>
     <string name="show_otp_token_summary">এন্ট্রির তালিকায় OTP টোকেন প্রদর্শন করে</string>
     <string name="menu_save_copy_to">এতে একটি অনুলিপি সংরক্ষণ করুন…</string>

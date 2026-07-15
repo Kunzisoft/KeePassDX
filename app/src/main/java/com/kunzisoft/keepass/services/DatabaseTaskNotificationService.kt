@@ -49,6 +49,7 @@ import com.kunzisoft.keepass.database.action.history.RestoreEntryHistoryDatabase
 import com.kunzisoft.keepass.database.action.node.ActionNodesValues
 import com.kunzisoft.keepass.database.action.node.AddEntryRunnable
 import com.kunzisoft.keepass.database.action.node.AddGroupRunnable
+import com.kunzisoft.keepass.database.action.node.ImportRunnable
 import com.kunzisoft.keepass.database.action.node.AfterActionNodesFinish
 import com.kunzisoft.keepass.database.action.node.CopyNodesRunnable
 import com.kunzisoft.keepass.database.action.node.DeleteNodesRunnable
@@ -76,6 +77,7 @@ import com.kunzisoft.keepass.utils.closeDatabase
 import com.kunzisoft.keepass.utils.getParcelableExtraCompat
 import com.kunzisoft.keepass.utils.getParcelableList
 import com.kunzisoft.keepass.utils.putParcelableList
+import com.kunzisoft.keepass.utils.CloseableIterator
 import com.kunzisoft.keepass.viewmodels.FileDatabaseInfo
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineScope
@@ -357,6 +359,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
             ACTION_DATABASE_DELETE_NODES_TASK -> buildDatabaseDeleteNodesActionTask(intent, database)
             ACTION_DATABASE_RESTORE_ENTRY_HISTORY -> buildDatabaseRestoreEntryHistoryActionTask(intent, database)
             ACTION_DATABASE_DELETE_ENTRY_HISTORY -> buildDatabaseDeleteEntryHistoryActionTask(intent, database)
+            ACTION_DATABASE_IMPORT_TASK -> buildDatabaseImportActionTask(intent, database)
             ACTION_DATABASE_UPDATE_COMPRESSION_TASK -> buildDatabaseUpdateCompressionActionTask(intent, database)
             ACTION_DATABASE_REMOVE_UNLINKED_DATA_TASK -> buildDatabaseRemoveUnlinkedDataActionTask(intent, database)
             ACTION_DATABASE_UPDATE_NAME_TASK,
@@ -1202,6 +1205,34 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         }
     }
 
+    private fun buildDatabaseImportActionTask(
+        intent: Intent,
+        database: ContextualDatabase,
+    ): ActionRunnable? {
+        return if (intent.hasExtra(PARENT_ID_KEY)
+            && intent.hasExtra(SAVE_DATABASE_KEY)
+        ) {
+            updateMessage(R.string.import_title)
+            val parentId: NodeId<*>? = intent.getParcelableExtraCompat(PARENT_ID_KEY)
+            val entrySource: CloseableIterator<Entry>? = retrievePendingEntrySource()
+            if (parentId == null || entrySource == null) return null
+            val saveDatabase = intent.getBooleanExtra(SAVE_DATABASE_KEY, false)
+            database.getGroupById(parentId)?.let { parent ->
+                ImportRunnable(this,
+                    database,
+                    entrySource,
+                    parent,
+                    !database.isReadOnly && saveDatabase,
+                    AfterActionNodesRunnable()
+                ) { hardwareKey, seed ->
+                    retrieveResponseFromChallenge(hardwareKey, seed)
+                }
+            }
+        } else {
+            null
+        }
+    }
+
     private fun buildDatabaseUpdateCompressionActionTask(
         intent: Intent,
         database: ContextualDatabase,
@@ -1333,6 +1364,16 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
 
         private const val CHANNEL_DATABASE_ID = "com.kunzisoft.keepass.notification.channel.database"
 
+        private val pendingEntrySource = java.util.concurrent.atomic.AtomicReference<CloseableIterator<Entry>?>(null)
+
+        fun storePendingEntrySource(source: CloseableIterator<Entry>) {
+            pendingEntrySource.set(source)
+        }
+
+        private fun retrievePendingEntrySource(): CloseableIterator<Entry>? {
+            return pendingEntrySource.getAndSet(null)
+        }
+
         const val ACTION_DATABASE_CREATE_TASK = "ACTION_DATABASE_CREATE_TASK"
         const val ACTION_DATABASE_LOAD_TASK = "ACTION_DATABASE_LOAD_TASK"
         const val ACTION_DATABASE_MERGE_TASK = "ACTION_DATABASE_MERGE_TASK"
@@ -1347,6 +1388,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         const val ACTION_DATABASE_DELETE_NODES_TASK = "ACTION_DATABASE_DELETE_NODES_TASK"
         const val ACTION_DATABASE_RESTORE_ENTRY_HISTORY = "ACTION_DATABASE_RESTORE_ENTRY_HISTORY"
         const val ACTION_DATABASE_DELETE_ENTRY_HISTORY = "ACTION_DATABASE_DELETE_ENTRY_HISTORY"
+        const val ACTION_DATABASE_IMPORT_TASK = "ACTION_DATABASE_IMPORT_TASK"
         const val ACTION_DATABASE_UPDATE_NAME_TASK = "ACTION_DATABASE_UPDATE_NAME_TASK"
         const val ACTION_DATABASE_UPDATE_DESCRIPTION_TASK = "ACTION_DATABASE_UPDATE_DESCRIPTION_TASK"
         const val ACTION_DATABASE_UPDATE_DEFAULT_USERNAME_TASK = "ACTION_DATABASE_UPDATE_DEFAULT_USERNAME_TASK"

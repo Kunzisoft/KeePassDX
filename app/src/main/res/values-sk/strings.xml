@@ -546,6 +546,17 @@
     <string name="error_XML_malformed">XML má nesprávny formát.</string>
     <string name="menu_save_database">Uložiť údaje</string>
     <string name="menu_merge_database">Zlúčiť údaje</string>
+    <string name="menu_import_csv">Import CSV</string>
+    <string name="import_title">Import</string>
+    <string name="csv_import_map_fields">Map fields</string>
+    <string name="csv_import_confirm">Import</string>
+    <string name="csv_field_title">Title</string>
+    <string name="csv_field_username">Username</string>
+    <string name="csv_field_password">Password</string>
+    <string name="csv_field_url">URL</string>
+    <string name="csv_field_notes">Notes</string>
+    <string name="csv_field_ignore">Ignore</string>
+    <string name="csv_import_error">Error importing CSV</string>
     <string name="menu_reload_database">Znova načítať údaje</string>
     <string name="error_response_already_provided">Odpoveď už bola poskytnutá.</string>
     <string name="error_no_response_from_challenge">Nedá sa získať odpoveď z výzvy.</string>

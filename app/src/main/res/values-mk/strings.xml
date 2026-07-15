@@ -39,4 +39,15 @@
     <string name="clipboard_otp_notifications_title">еднократно известување</string>
     <string name="clipboard_otp_notifications_summary">Отворете известување за да го копирате OTP од записи пополнети со autofill пополнување или magikeyboard</string>
     <string name="content_description_credentials_information">Информации за акредитиви</string>
+    <string name="menu_import_csv">Увези CSV</string>
+    <string name="import_title">увоз</string>
+    <string name="csv_import_map_fields">Мапирај полиња</string>
+    <string name="csv_import_confirm">Увези</string>
+    <string name="csv_field_title">Наслов</string>
+    <string name="csv_field_username">Корисничко име</string>
+    <string name="csv_field_password">Лозинка</string>
+    <string name="csv_field_url">URL</string>
+    <string name="csv_field_notes">Белешки</string>
+    <string name="csv_field_ignore">Игнорирај</string>
+    <string name="csv_import_error">Грешка при увоз на CSV</string>
 </resources>

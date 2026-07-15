@@ -505,6 +505,17 @@
     <string name="warning_database_revoked">Pristup datoteci opozvan od upravljača datoteka. Zatvori bazu podataka i ponovo je otvori s njezinog mjesta.</string>
     <string name="warning_database_info_changed_options">Sjedini podatke, prepiši vanjske promjene spremanjem baze podataka ili je ponovo učitaj s najnovijim promjenama.</string>
     <string name="warning_database_info_changed">Podaci u datoteci tvoje baze podataka izmijenjeni su izvan aplikacije.</string>
+    <string name="menu_import_csv">Uvezi CSV</string>
+    <string name="import_title">uvoz</string>
+    <string name="csv_import_map_fields">Mapiraj polja</string>
+    <string name="csv_import_confirm">Uvezi</string>
+    <string name="csv_field_title">Naslov</string>
+    <string name="csv_field_username">Korisničko ime</string>
+    <string name="csv_field_password">Lozinka</string>
+    <string name="csv_field_url">URL</string>
+    <string name="csv_field_notes">Bilješke</string>
+    <string name="csv_field_ignore">Ignoriraj</string>
+    <string name="csv_import_error">Pogreška pri uvozu CSV</string>
     <string name="menu_reload_database">Ponovo učitaj podatke</string>
     <string name="error_otp_type">Ovaj obrazac ne prepoznaje postojeću vrstu jednokratne lozinke. Provjera valjanosti možda više neće pravilno generirati token.</string>
     <string name="unit_gibibyte">GiB</string>

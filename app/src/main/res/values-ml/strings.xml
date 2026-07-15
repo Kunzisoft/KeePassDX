@@ -397,4 +397,15 @@
     <string name="card_verification_value">സിവിവി</string>
     <string name="number">നമ്പർ</string>
     <string name="debit_credit_card">ടെബിറ്റ്/ ക്രെഡിറ്റ് കാർഡ്</string>
+    <string name="menu_import_csv">CSV ഇറക്കുമതി ചെയ്യുക</string>
+    <string name="import_title">ഇറക്കുമതി</string>
+    <string name="csv_import_map_fields">ഫീൽഡുകൾ മാപ്പ് ചെയ്യുക</string>
+    <string name="csv_import_confirm">ഇറക്കുമതി ചെയ്യുക</string>
+    <string name="csv_field_title">ശീർഷകം</string>
+    <string name="csv_field_username">ഉപയോക്തൃനാമം</string>
+    <string name="csv_field_password">പാസ്‌വേഡ്</string>
+    <string name="csv_field_url">URL</string>
+    <string name="csv_field_notes">കുറിപ്പുകൾ</string>
+    <string name="csv_field_ignore">അവഗണിക്കുക</string>
+    <string name="csv_import_error">CSV ഇറക്കുമതി ചെയ്യുന്നതിൽ പിശക്</string>
 </resources>

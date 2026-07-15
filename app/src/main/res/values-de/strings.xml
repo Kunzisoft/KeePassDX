@@ -517,6 +517,17 @@
     <string name="device_unlock_prompt_extract_credential_message">Datenbank mit Geräteanmeldedaten öffnen</string>
     <string name="error_rebuild_list">Die Liste kann nicht ordnungsgemäß neu erstellt werden.</string>
     <string name="error_database_uri_null">Datenbank-URI kann nicht abgerufen werden.</string>
+    <string name="menu_import_csv">CSV importieren</string>
+    <string name="import_title">Import</string>
+    <string name="csv_import_map_fields">Felder zuordnen</string>
+    <string name="csv_import_confirm">Importieren</string>
+    <string name="csv_field_title">Titel</string>
+    <string name="csv_field_username">Benutzername</string>
+    <string name="csv_field_password">Passwort</string>
+    <string name="csv_field_url">URL</string>
+    <string name="csv_field_notes">Notizen</string>
+    <string name="csv_field_ignore">Ignorieren</string>
+    <string name="csv_import_error">Fehler beim CSV-Import</string>
     <string name="menu_reload_database">Daten neu laden</string>
     <string name="warning_database_info_changed_options">Die Daten zusammenführen, die externen Änderungen durch Speichern der Datenbank überschreiben oder sie mit den neusten Änderungen laden.</string>
     <string name="error_file_to_big">Die Datei, die hochgeladen werden soll, ist zu groß.</string>

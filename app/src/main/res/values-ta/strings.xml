@@ -301,6 +301,17 @@
     <string name="no_results">தேடல் முடிவுகள் இல்லை</string>
     <string name="no_url_handler">இந்த முகவரி ஐ திறக்க வலை உலாவியை நிறுவவும்.</string>
     <string name="select_database_file">இருக்கும் பெட்டகத்தைத் திறக்கவும்</string>
+    <string name="menu_import_csv">CSV இறக்குமதி செய்</string>
+    <string name="import_title">இறக்குமதி</string>
+    <string name="csv_import_map_fields">புலங்களை பொருத்து</string>
+    <string name="csv_import_confirm">இறக்குமதி செய்</string>
+    <string name="csv_field_title">தலைப்பு</string>
+    <string name="csv_field_username">பயனர்பெயர்</string>
+    <string name="csv_field_password">கடவுச்சொல்</string>
+    <string name="csv_field_url">URL</string>
+    <string name="csv_field_notes">குறிப்புகள்</string>
+    <string name="csv_field_ignore">புறக்கணி</string>
+    <string name="csv_import_error">CSV இறக்குமதி செய்யும்போது பிழை</string>
     <string name="menu_reload_database">தரவை மீண்டும் ஏற்றவும்</string>
     <string name="menu_merge_from">ஒன்றிணைக்கவும்…</string>
     <string name="menu_save_copy_to">ஒரு நகலைச் சேமிக்கவும்…</string>

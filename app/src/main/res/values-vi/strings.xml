@@ -271,6 +271,17 @@
     <string name="menu_lock">Khóa dữ liệu</string>
     <string name="menu_save_database">Lưu dữ liệu</string>
     <string name="menu_merge_database">Hợp nhất dữ liệu</string>
+    <string name="menu_import_csv">Nhập CSV</string>
+    <string name="import_title">Nhập</string>
+    <string name="csv_import_map_fields">Ánh xạ trường</string>
+    <string name="csv_import_confirm">Nhập</string>
+    <string name="csv_field_title">Tiêu đề</string>
+    <string name="csv_field_username">Tên người dùng</string>
+    <string name="csv_field_password">Mật khẩu</string>
+    <string name="csv_field_url">URL</string>
+    <string name="csv_field_notes">Ghi chú</string>
+    <string name="csv_field_ignore">Bỏ qua</string>
+    <string name="csv_import_error">Lỗi khi nhập CSV</string>
     <string name="menu_reload_database">Tải lại dữ liệu</string>
     <string name="menu_merge_from">Hợp nhất từ …</string>
     <string name="menu_save_copy_to">Lưu một bản sao vào …</string>

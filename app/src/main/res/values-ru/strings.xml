@@ -510,6 +510,17 @@
     <string name="warning_database_revoked">Доступ к файлу отозван файловым менеджером, закройте базу и снова откройте.</string>
     <string name="warning_database_info_changed_options">Объединить данные, перезаписав внешние изменения, или перезагрузить её с последними изменениями.</string>
     <string name="warning_database_info_changed">Информация, содержащаяся в файле базы, была изменена вне этого приложения.</string>
+    <string name="menu_import_csv">Импорт CSV</string>
+    <string name="import_title">Импорт</string>
+    <string name="csv_import_map_fields">Сопоставить поля</string>
+    <string name="csv_import_confirm">Импорт</string>
+    <string name="csv_field_title">Название</string>
+    <string name="csv_field_username">Имя пользователя</string>
+    <string name="csv_field_password">Пароль</string>
+    <string name="csv_field_url">URL</string>
+    <string name="csv_field_notes">Заметки</string>
+    <string name="csv_field_ignore">Игнорировать</string>
+    <string name="csv_import_error">Ошибка при импорте CSV</string>
     <string name="menu_reload_database">Перезагрузить данные</string>
     <string name="error_otp_type">Существующий тип OTP не распознаётся данной формой и его проверка больше не может корректно генерировать токен.</string>
     <string name="unit_gibibyte">ГиБ</string>

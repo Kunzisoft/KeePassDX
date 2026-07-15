@@ -55,6 +55,7 @@ import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_CREATE_TASK
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_DELETE_ENTRY_HISTORY
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_DELETE_NODES_TASK
+import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_IMPORT_TASK
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_LOAD_TASK
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_MERGE_TASK
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_MOVE_NODES_TASK
@@ -82,6 +83,7 @@ import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.
 import com.kunzisoft.keepass.utils.DATABASE_START_TASK_ACTION
 import com.kunzisoft.keepass.utils.DATABASE_STOP_TASK_ACTION
 import com.kunzisoft.keepass.utils.putParcelableList
+import com.kunzisoft.keepass.utils.CloseableIterator
 import java.util.UUID
 
 /**
@@ -450,6 +452,14 @@ class DatabaseTaskProvider(
             putInt(DatabaseTaskNotificationService.ENTRY_HISTORY_POSITION_KEY, entryHistoryPosition)
             putBoolean(DatabaseTaskNotificationService.SAVE_DATABASE_KEY, save)
         }, ACTION_DATABASE_DELETE_ENTRY_HISTORY)
+    }
+
+    fun startDatabaseImport(entrySource: CloseableIterator<Entry>, parentId: NodeId<*>, save: Boolean) {
+        DatabaseTaskNotificationService.storePendingEntrySource(entrySource)
+        start(Bundle().apply {
+            putParcelable(DatabaseTaskNotificationService.PARENT_ID_KEY, parentId)
+            putBoolean(DatabaseTaskNotificationService.SAVE_DATABASE_KEY, save)
+        }, ACTION_DATABASE_IMPORT_TASK)
     }
 
     /*

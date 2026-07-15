@@ -440,6 +440,17 @@
     <string name="error_rebuild_list">تعذر إعادة بناء القائمة بشكل صحيح.</string>
     <string name="menu_keystore_remove_key">احذف رمز فك القفل الجهاز</string>
     <string name="menu_form_filling_settings">ملء النموذج</string>
+    <string name="menu_import_csv">استيراد CSV</string>
+    <string name="import_title">استيراد</string>
+    <string name="csv_import_map_fields">تعيين الحقول</string>
+    <string name="csv_import_confirm">استيراد</string>
+    <string name="csv_field_title">العنوان</string>
+    <string name="csv_field_username">اسم المستخدم</string>
+    <string name="csv_field_password">كلمة المرور</string>
+    <string name="csv_field_url">URL</string>
+    <string name="csv_field_notes">ملاحظات</string>
+    <string name="csv_field_ignore">تجاهل</string>
+    <string name="csv_import_error">خطأ في استيراد CSV</string>
     <string name="menu_reload_database">أعد تحميل البيانات</string>
     <string name="menu_external_icon">أيقونة خارجية</string>
     <string name="import_app_properties_title">استورد خصائص التطبيق</string>

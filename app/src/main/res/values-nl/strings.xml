@@ -515,6 +515,17 @@
     <string name="warning_database_revoked">Toegang tot het bestand is ingetrokken door de bestandsbeheerder, sluit de database en open deze opnieuw vanaf de locatie.</string>
     <string name="warning_database_info_changed_options">De gegevens samenvoegen, de externe wijzigingen overschrijven door de database op te slaan of deze opnieuw te laden met de jongste wijzigingen.</string>
     <string name="warning_database_info_changed">De informatie in het databasebestand is buiten de app gewijzigd.</string>
+    <string name="menu_import_csv">CSV importeren</string>
+    <string name="import_title">import</string>
+    <string name="csv_import_map_fields">Velden toewijzen</string>
+    <string name="csv_import_confirm">Importeren</string>
+    <string name="csv_field_title">Titel</string>
+    <string name="csv_field_username">Gebruikersnaam</string>
+    <string name="csv_field_password">Wachtwoord</string>
+    <string name="csv_field_url">URL</string>
+    <string name="csv_field_notes">Notities</string>
+    <string name="csv_field_ignore">Negeren</string>
+    <string name="csv_import_error">Fout bij importeren van CSV</string>
     <string name="menu_reload_database">Gegevens opnieuw laden</string>
     <string name="error_rebuild_list">Kan de lijst niet correct opnieuw opbouwen.</string>
     <string name="error_database_uri_null">Database-URI kan niet worden opgehaald.</string>

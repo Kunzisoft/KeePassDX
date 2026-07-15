@@ -475,6 +475,17 @@
     <string name="error_no_hardware_key">Selectează o cheie hardware.</string>
     <string name="info">Informații</string>
     <string name="menu_merge_database">Îmbinare date</string>
+    <string name="menu_import_csv">Importă CSV</string>
+    <string name="import_title">Import</string>
+    <string name="csv_import_map_fields">Asociază câmpurile</string>
+    <string name="csv_import_confirm">Importă</string>
+    <string name="csv_field_title">Titlu</string>
+    <string name="csv_field_username">Nume utilizator</string>
+    <string name="csv_field_password">Parolă</string>
+    <string name="csv_field_url">URL</string>
+    <string name="csv_field_notes">Note</string>
+    <string name="csv_field_ignore">Ignoră</string>
+    <string name="csv_import_error">Eroare la importarea CSV</string>
     <string name="menu_reload_database">Reîncărcare date</string>
     <string name="save_mode">Mod de salvare</string>
     <string name="colorize_password_summary">Colorați caracterele parolei în funcție de tip</string>

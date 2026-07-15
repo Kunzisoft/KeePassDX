@@ -14,4 +14,15 @@
     <string name="edit_entry">नोंद संपादित करा</string>
     <string name="encryption">एन्क्रिप्शन</string>
     <string name="encryption_algorithm">एन्क्रिप्शन अल्गोरिदम</string>
+    <string name="menu_import_csv">CSV आयात करा</string>
+    <string name="import_title">आयात</string>
+    <string name="csv_import_map_fields">फील्ड जुळवा</string>
+    <string name="csv_import_confirm">आयात करा</string>
+    <string name="csv_field_title">शीर्षक</string>
+    <string name="csv_field_username">वापरकर्तानाव</string>
+    <string name="csv_field_password">संकेतशब्द</string>
+    <string name="csv_field_url">URL</string>
+    <string name="csv_field_notes">टिपा</string>
+    <string name="csv_field_ignore">दुर्लक्ष करा</string>
+    <string name="csv_import_error">CSV आयात करताना त्रुटी</string>
 </resources>

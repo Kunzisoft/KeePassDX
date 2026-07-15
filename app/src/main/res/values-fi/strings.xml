@@ -398,6 +398,17 @@
     <string name="warning_database_info_changed">Tietokantatiedoston sisältämää tietoa on muutettu sovelluksen ulkopuolella.</string>
     <string name="menu_external_icon">Ulkoinen kuvake</string>
     <string name="search_mode">Hakutila</string>
+    <string name="menu_import_csv">Tuo CSV</string>
+    <string name="import_title">tuonti</string>
+    <string name="csv_import_map_fields">Yhdistä kentät</string>
+    <string name="csv_import_confirm">Tuo</string>
+    <string name="csv_field_title">Otsikko</string>
+    <string name="csv_field_username">Käyttäjätunnus</string>
+    <string name="csv_field_password">Salasana</string>
+    <string name="csv_field_url">URL</string>
+    <string name="csv_field_notes">Muistiinpanot</string>
+    <string name="csv_field_ignore">Ohita</string>
+    <string name="csv_import_error">Virhe CSV:n tuonnissa</string>
     <string name="menu_reload_database">Lataa tiedot uudelleen</string>
     <string name="menu_merge_from">Yhdistä kohteesta …</string>
     <string name="menu_save_copy_to">Kopioi kohteeseen …</string>

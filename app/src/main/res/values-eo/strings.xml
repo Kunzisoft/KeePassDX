@@ -38,6 +38,17 @@
     <string name="menu_showpass">Montri pasvorton</string>
     <string name="menu_search">Serĉi</string>
     <string name="menu_open">Malfermi</string>
+    <string name="menu_import_csv">Importi CSV</string>
+    <string name="import_title">importo</string>
+    <string name="csv_import_map_fields">Mapi kampojn</string>
+    <string name="csv_import_confirm">Importi</string>
+    <string name="csv_field_title">Titolo</string>
+    <string name="csv_field_username">Uzantnomo</string>
+    <string name="csv_field_password">Pasvorto</string>
+    <string name="csv_field_url">URL</string>
+    <string name="csv_field_notes">Notoj</string>
+    <string name="csv_field_ignore">Ignori</string>
+    <string name="csv_import_error">Eraro dum importado de CSV</string>
     <string name="menu_reload_database">Reŝargi datumbazon</string>
     <string name="menu_save_database">Konservi datumbazon</string>
     <string name="menu_lock">Ŝlosi datumbazon</string>

@@ -222,6 +222,11 @@
             android:exported="false"
             android:excludeFromRecents="true"
             tools:targetApi="upside_down_cake" />
+        <activity
+            android:name="com.kunzisoft.keepass.activities.CsvImportActivity"
+            android:exported="false"
+            android:configChanges="keyboardHidden"
+            android:windowSoftInputMode="stateHidden" />
         <service
             android:name="com.kunzisoft.keepass.services.DatabaseTaskNotificationService"
             android:foregroundServiceType="dataSync"

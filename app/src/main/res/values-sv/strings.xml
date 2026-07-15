@@ -510,6 +510,17 @@
     <string name="menu_database_settings_summary">Metadata, papperskorg, mallar, historik</string>
     <string name="master_key_settings_summary">Ändra, förnya</string>
     <string name="menu_merge_database">Sammanfoga data</string>
+    <string name="menu_import_csv">Importera CSV</string>
+    <string name="import_title">import</string>
+    <string name="csv_import_map_fields">Mappa fält</string>
+    <string name="csv_import_confirm">Importera</string>
+    <string name="csv_field_title">Titel</string>
+    <string name="csv_field_username">Användarnamn</string>
+    <string name="csv_field_password">Lösenord</string>
+    <string name="csv_field_url">URL</string>
+    <string name="csv_field_notes">Anteckningar</string>
+    <string name="csv_field_ignore">Ignorera</string>
+    <string name="csv_import_error">Fel vid import av CSV</string>
     <string name="menu_reload_database">Ladda om data</string>
     <string name="menu_merge_from">Sammanfoga från…</string>
     <string name="menu_save_copy_to">Spara en kopia till…</string>

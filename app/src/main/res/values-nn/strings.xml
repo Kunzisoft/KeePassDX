@@ -248,6 +248,17 @@
     <string name="menu_security_settings_summary">Kryptering, funksjon for nøkkelavleiing</string>
     <string name="menu_paste">Lim inn</string>
     <string name="menu_merge_database">Slå saman data</string>
+    <string name="menu_import_csv">Importer CSV</string>
+    <string name="import_title">import</string>
+    <string name="csv_import_map_fields">Tilordne felt</string>
+    <string name="csv_import_confirm">Importer</string>
+    <string name="csv_field_title">Tittel</string>
+    <string name="csv_field_username">Brukarnamn</string>
+    <string name="csv_field_password">Passord</string>
+    <string name="csv_field_url">URL</string>
+    <string name="csv_field_notes">Merknader</string>
+    <string name="csv_field_ignore">Ignorer</string>
+    <string name="csv_import_error">Feil ved import av CSV</string>
     <string name="menu_reload_database">Last inn data på nytt</string>
     <string name="menu_merge_from">Slå saman frå…</string>
     <string name="menu_save_copy_to">Lagre ein kopi til…</string>

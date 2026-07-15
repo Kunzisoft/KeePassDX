@@ -505,6 +505,17 @@
     <string name="warning_database_revoked">Dosyaya erişim dosya yöneticisi tarafından iptal edildi, veri tabanını kapatın ve bulunduğu yerden yeniden açın.</string>
     <string name="warning_database_info_changed_options">Verileri birleştirin, veri tabanını kaydederek harici değişikliklerin üzerine yazın veya en son değişikliklerle yeniden yükleyin.</string>
     <string name="warning_database_info_changed">Veri tabanı dosyanızda bulunan bilgiler, uygulamanın dışında değiştirildi.</string>
+    <string name="menu_import_csv">CSV İçe Aktar</string>
+    <string name="import_title">Aktarma</string>
+    <string name="csv_import_map_fields">Alanları eşle</string>
+    <string name="csv_import_confirm">İçe aktar</string>
+    <string name="csv_field_title">Başlık</string>
+    <string name="csv_field_username">Kullanıcı adı</string>
+    <string name="csv_field_password">Şifre</string>
+    <string name="csv_field_url">URL</string>
+    <string name="csv_field_notes">Notlar</string>
+    <string name="csv_field_ignore">Yoksay</string>
+    <string name="csv_import_error">CSV içe aktarılırken hata oluştu</string>
     <string name="menu_reload_database">Verileri yeniden yükle</string>
     <string name="unit_gibibyte">GiB</string>
     <string name="unit_mebibyte">MiB</string>

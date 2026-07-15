@@ -44,4 +44,15 @@
     <string name="content_description_password_checkbox">Password စစ်ဆေးရန်</string>
     <string name="content_description_hardware_key_checkbox">ဟက်ဝဲလ် ကီး စစ်ဆေးရန်</string>
     <string name="content_description_entry_foreground_color">ပစ္စည်း ရှေ့မျက်နှာစာ အရောင်</string>
+    <string name="menu_import_csv">CSV တင်သွင်းရန်</string>
+    <string name="import_title">တင်သွင်းမှု</string>
+    <string name="csv_import_map_fields">အကွက်များကို တွဲဖက်သတ်မှတ်ပါ</string>
+    <string name="csv_import_confirm">တင်သွင်းရန်</string>
+    <string name="csv_field_title">ခေါင်းစဉ်</string>
+    <string name="csv_field_username">အသုံးပြုသူအမည်</string>
+    <string name="csv_field_password">စကားဝှက်</string>
+    <string name="csv_field_url">URL</string>
+    <string name="csv_field_notes">မှတ်စုများ</string>
+    <string name="csv_field_ignore">လျစ်လျူရှုရန်</string>
+    <string name="csv_import_error">CSV တင်သွင်းရာတွင် အမှားဖြစ်ခဲ့သည်</string>
 </resources>

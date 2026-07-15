@@ -472,6 +472,17 @@
     <string name="save_mode">Modo de guardar</string>
     <string name="search_mode">Modo de pesquisa</string>
     <string name="menu_keystore_remove_key">Eliminar a chave de desbloqueio do dispositivo</string>
+    <string name="menu_import_csv">Importar CSV</string>
+    <string name="import_title">Importação</string>
+    <string name="csv_import_map_fields">Mapear campos</string>
+    <string name="csv_import_confirm">Importar</string>
+    <string name="csv_field_title">Título</string>
+    <string name="csv_field_username">Nome de usuário</string>
+    <string name="csv_field_password">Senha</string>
+    <string name="csv_field_url">URL</string>
+    <string name="csv_field_notes">Notas</string>
+    <string name="csv_field_ignore">Ignorar</string>
+    <string name="csv_import_error">Erro ao importar CSV</string>
     <string name="menu_reload_database">Recarregar dados</string>
     <string name="error_rebuild_list">Não foi possível reconstruir adequadamente a lista.</string>
     <string name="error_database_uri_null">Não foi possível recuperar o URI da base de dados.</string>

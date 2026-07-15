@@ -3,4 +3,15 @@
     <string name="content_description_file_information">ଫାଇଲ୍ ସୂଚନା</string>
     <string name="homepage">ଗୃହପୃଷ୍ଠା</string>
     <string name="feedback">ମତାମତ</string>
+    <string name="menu_import_csv">CSV ଆମଦାନି କରନ୍ତୁ</string>
+    <string name="import_title">ଆମଦାନି</string>
+    <string name="csv_import_map_fields">କ୍ଷେତ୍ରଗୁଡ଼ିକୁ ମ୍ୟାପ କରନ୍ତୁ</string>
+    <string name="csv_import_confirm">ଆମଦାନି କରନ୍ତୁ</string>
+    <string name="csv_field_title">ଶିରୋନାମା</string>
+    <string name="csv_field_username">ବ୍ୟବହାରକାରୀ ନାମ</string>
+    <string name="csv_field_password">ପାସୱାର୍ଡ</string>
+    <string name="csv_field_url">URL</string>
+    <string name="csv_field_notes">ଟିପ୍ପଣୀଗୁଡ଼ିକ</string>
+    <string name="csv_field_ignore">ଅନଦେଖା କରନ୍ତୁ</string>
+    <string name="csv_import_error">CSV ଆମଦାନି କରିବାରେ ତ୍ରୁଟି</string>
 </resources>

@@ -277,6 +277,17 @@
     <string name="menu_save_database">שמור נתונים</string>
     <string name="menu_merge_database">מזג נתונים</string>
     <string name="list_groups_show_number_entries_title">הצג את מספר הרשומות</string>
+    <string name="menu_import_csv">ייבוא CSV</string>
+    <string name="import_title">ייבוא</string>
+    <string name="csv_import_map_fields">מיפוי שדות</string>
+    <string name="csv_import_confirm">ייבוא</string>
+    <string name="csv_field_title">כותרת</string>
+    <string name="csv_field_username">שם משתמש</string>
+    <string name="csv_field_password">סיסמה</string>
+    <string name="csv_field_url">URL</string>
+    <string name="csv_field_notes">הערות</string>
+    <string name="csv_field_ignore">התעלם</string>
+    <string name="csv_import_error">שגיאה בייבוא CSV</string>
     <string name="menu_reload_database">טען מחדש נתונים</string>
     <string name="show_uuid_title">הצג UUID</string>
     <string name="show_otp_token_summary">מציג אסימוני סיסמה חד-פעמית (OTP) ברשימת הרשומות</string>

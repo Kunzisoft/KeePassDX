@@ -90,4 +90,15 @@
     <string name="underline">নিম্নরেখা</string>
     <string name="sort_last_access_time">প্রবেশ</string>
     <string name="search">অনুসন্ধান</string>
+    <string name="menu_import_csv">CSV আমদানি করুন</string>
+    <string name="import_title">আমদানি</string>
+    <string name="csv_import_map_fields">ক্ষেত্র ম্যাপ করুন</string>
+    <string name="csv_import_confirm">আমদানি করুন</string>
+    <string name="csv_field_title">শিরোনাম</string>
+    <string name="csv_field_username">ব্যবহারকারীর নাম</string>
+    <string name="csv_field_password">পাসওয়ার্ড</string>
+    <string name="csv_field_url">URL</string>
+    <string name="csv_field_notes">নোট</string>
+    <string name="csv_field_ignore">উপেক্ষা করুন</string>
+    <string name="csv_import_error">CSV আমদানিতে ত্রুটি</string>
 </resources>

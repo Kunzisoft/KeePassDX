@@ -420,6 +420,17 @@
     <string name="private_key">Clau privada</string>
     <string name="export_app_properties_summary">Crea un fitxer per exportar la configuració de l\'aplicació</string>
     <string name="permission">Permís</string>
+    <string name="menu_import_csv">Importa CSV</string>
+    <string name="import_title">Importació</string>
+    <string name="csv_import_map_fields">Assigna els camps</string>
+    <string name="csv_import_confirm">Importa</string>
+    <string name="csv_field_title">Títol</string>
+    <string name="csv_field_username">Nom d\'usuari</string>
+    <string name="csv_field_password">Contrasenya</string>
+    <string name="csv_field_url">URL</string>
+    <string name="csv_field_notes">Notes</string>
+    <string name="csv_field_ignore">Ignora</string>
+    <string name="csv_import_error">Error en importar CSV</string>
     <string name="menu_reload_database">Recarregar dada</string>
     <string name="international_bank_account_number">IBAN</string>
     <string name="menu_merge_from">Fusionar desde …</string>

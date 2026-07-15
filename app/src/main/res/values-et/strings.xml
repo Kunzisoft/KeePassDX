@@ -227,6 +227,17 @@
     <string name="menu_merge_database">Mesti andmed</string>
     <string name="menu_open">Ava</string>
     <string name="menu_search">Otsi</string>
+    <string name="menu_import_csv">Impordi CSV</string>
+    <string name="import_title">import</string>
+    <string name="csv_import_map_fields">Määra väljad</string>
+    <string name="csv_import_confirm">Impordi</string>
+    <string name="csv_field_title">Pealkiri</string>
+    <string name="csv_field_username">Kasutajanimi</string>
+    <string name="csv_field_password">Parool</string>
+    <string name="csv_field_url">URL</string>
+    <string name="csv_field_notes">Märkmed</string>
+    <string name="csv_field_ignore">Eira</string>
+    <string name="csv_import_error">Viga CSV importimisel</string>
     <string name="menu_reload_database">Laadi andmed uuesti</string>
     <string name="menu_delete">Kustuta</string>
     <string name="menu_paste">Aseta</string>

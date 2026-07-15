@@ -63,4 +63,15 @@
     <string name="content_description_keyboard_close_fields">Maydinni yopish</string>
     <string name="select_to_copy">%1$s ni vaqtinchalik xotiraga nusxalash uchun tanlang</string>
     <string name="retrieving_db_key">Maʼlumotlar bazasi kaliti olinmoqda…</string>
+    <string name="menu_import_csv">CSV import qilish</string>
+    <string name="import_title">importi</string>
+    <string name="csv_import_map_fields">Maydonlarni moslang</string>
+    <string name="csv_import_confirm">Import qilish</string>
+    <string name="csv_field_title">Sarlavha</string>
+    <string name="csv_field_username">Foydalanuvchi nomi</string>
+    <string name="csv_field_password">Parol</string>
+    <string name="csv_field_url">URL</string>
+    <string name="csv_field_notes">Eslatmalar</string>
+    <string name="csv_field_ignore">E\'tiborsiz qoldirish</string>
+    <string name="csv_import_error">CSV importida xatolik</string>
 </resources>

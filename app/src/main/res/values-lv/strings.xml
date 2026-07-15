@@ -318,4 +318,15 @@
     <string name="select_entry">Atlasīt ierakstu</string>
     <string name="autofill_manual_selection_summary">Rāda iespēju ļaut lietotājam pašrocīgi atlasīt datubāzes ierakstu</string>
     <string name="contribution">Sniegt savu artavu</string>
+    <string name="menu_import_csv">Importēt CSV</string>
+    <string name="import_title">imports</string>
+    <string name="csv_import_map_fields">Kartēt laukus</string>
+    <string name="csv_import_confirm">Importēt</string>
+    <string name="csv_field_title">Nosaukums</string>
+    <string name="csv_field_username">Lietotājvārds</string>
+    <string name="csv_field_password">Parole</string>
+    <string name="csv_field_url">URL</string>
+    <string name="csv_field_notes">Piezīmes</string>
+    <string name="csv_field_ignore">Ignorēt</string>
+    <string name="csv_import_error">Kļūda, importējot CSV</string>
 </resources>

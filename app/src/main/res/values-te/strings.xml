@@ -28,4 +28,15 @@
     <string name="encryption_algorithm">ఎన్క్రిప్షన్ అల్గోరిథం</string>
     <string name="key_derivation_function">కీ వ్యుత్పత్తి ఫంక్షన్</string>
     <string name="app_timeout">యాప్ కి అనువర్తించిన గడువు ముగిసింది</string>
+    <string name="menu_import_csv">CSV దిగుమతి చేయండి</string>
+    <string name="import_title">దిగుమతి</string>
+    <string name="csv_import_map_fields">ఫీల్డ్‌లను సరిపోల్చండి</string>
+    <string name="csv_import_confirm">దిగుమతి చేయండి</string>
+    <string name="csv_field_title">శీర్షిక</string>
+    <string name="csv_field_username">వినియోగదారు పేరు</string>
+    <string name="csv_field_password">పాస్‌వర్డ్</string>
+    <string name="csv_field_url">URL</string>
+    <string name="csv_field_notes">గమనికలు</string>
+    <string name="csv_field_ignore">విస్మరించు</string>
+    <string name="csv_import_error">CSV దిగుమతి సమయంలో లోపం</string>
 </resources>

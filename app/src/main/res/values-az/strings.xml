@@ -145,6 +145,17 @@
     <string name="menu_lock">Məlumat bazasını kilidlə</string>
     <string name="menu_save_database">Məlumatları yadda saxla</string>
     <string name="menu_merge_database">Məlumatları birləşdir</string>
+    <string name="menu_import_csv">CSV idxal et</string>
+    <string name="import_title">idxalı</string>
+    <string name="csv_import_map_fields">Sahələri uyğunlaşdır</string>
+    <string name="csv_import_confirm">İdxal et</string>
+    <string name="csv_field_title">Başlıq</string>
+    <string name="csv_field_username">İstifadəçi adı</string>
+    <string name="csv_field_password">Şifrə</string>
+    <string name="csv_field_url">URL</string>
+    <string name="csv_field_notes">Qeydlər</string>
+    <string name="csv_field_ignore">Yox say</string>
+    <string name="csv_import_error">CSV idxalı zamanı xəta</string>
     <string name="menu_reload_database">Məlumatları yenidən yüklə</string>
     <string name="menu_merge_from">… -dan birləşdir</string>
     <string name="menu_save_copy_to">Bir nüsxəsini burada … yadda saxla</string>

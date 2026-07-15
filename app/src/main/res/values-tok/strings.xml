@@ -1,3 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="menu_import_csv">o pana e CSV</string>
+    <string name="import_title">pana</string>
+    <string name="csv_import_map_fields">o ante e nimi pi poki</string>
+    <string name="csv_import_confirm">pana</string>
+    <string name="csv_field_title">nimi suli</string>
+    <string name="csv_field_username">nimi jan</string>
+    <string name="csv_field_password">nimi len</string>
+    <string name="csv_field_url">URL</string>
+    <string name="csv_field_notes">lipu sona</string>
+    <string name="csv_field_ignore">o lukin ala e ni</string>
+    <string name="csv_import_error">pakala la pana CSV li ike</string>
 </resources>
