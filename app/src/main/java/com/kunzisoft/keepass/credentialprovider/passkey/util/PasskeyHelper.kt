@@ -43,6 +43,7 @@ import com.kunzisoft.encrypt.Signature
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper.addNodeId
 import com.kunzisoft.keepass.credentialprovider.passkey.data.AuthenticationExtensionsClientOutputs
+import com.kunzisoft.keepass.credentialprovider.passkey.data.AuthenticationExtensionsPRFInputs
 import com.kunzisoft.keepass.credentialprovider.passkey.data.AuthenticationExtensionsPRFOutputs
 import com.kunzisoft.keepass.credentialprovider.passkey.data.AuthenticationExtensionsPRFValues
 import com.kunzisoft.keepass.credentialprovider.passkey.data.AuthenticatorAssertionResponse
@@ -267,6 +268,26 @@ object PasskeyHelper {
         )
     }
 
+    private fun buildPrfOutput(
+        prfInputs: AuthenticationExtensionsPRFInputs? = null,
+        credentialId: String? = null,
+        secret: String? = null
+    ): AuthenticationExtensionsPRFOutputs? {
+        return if (prfInputs != null) {
+            val eval = prfInputs.evalByCredential?.get(credentialId) ?: prfInputs.eval
+            if (secret != null && eval != null) {
+                val prfSecretBytes = Base64Helper.b64Decode(secret)
+                val results = AuthenticationExtensionsPRFValues(
+                    first = HashManager.hmacSha256(prfSecretBytes, eval.first),
+                    second = eval.second?.let { HashManager.hmacSha256(prfSecretBytes, it) }
+                )
+                AuthenticationExtensionsPRFOutputs(enabled = true, results = results)
+            } else {
+                AuthenticationExtensionsPRFOutputs(enabled = true)
+            }
+        } else null
+    }
+
     /**
      * Build the passkey public key credential response,
      * by calling this method the user is always recognized as present and verified
@@ -275,28 +296,17 @@ object PasskeyHelper {
         publicKeyCredentialCreationParameters: PublicKeyCredentialCreationParameters,
         userVerified: Boolean,
         backupEligibility: Boolean,
-        backupState: Boolean,
-        prfSecret: String? = null
+        backupState: Boolean
     ): CreatePublicKeyCredentialResponse {
 
         val keyPair = publicKeyCredentialCreationParameters.signatureKey.first
         val keyTypeId = publicKeyCredentialCreationParameters.signatureKey.second
 
         val creationOptions = publicKeyCredentialCreationParameters.publicKeyCredentialCreationOptions
-        val prfInput = creationOptions.extensions.prf
-        val secret = prfSecret ?: publicKeyCredentialCreationParameters.prfSecret
-        val prfOutputs = if (prfInput != null) {
-            if (secret != null && prfInput.eval != null) {
-                val prfSecretBytes = Base64Helper.b64Decode(secret)
-                val results = AuthenticationExtensionsPRFValues(
-                    first = HashManager.hmacSha256(prfSecretBytes, prfInput.eval.first),
-                    second = prfInput.eval.second?.let { HashManager.hmacSha256(prfSecretBytes, it) }
-                )
-                AuthenticationExtensionsPRFOutputs(enabled = true, results = results)
-            } else {
-                AuthenticationExtensionsPRFOutputs(enabled = true)
-            }
-        } else null
+        val prfOutputs = buildPrfOutput(
+            prfInputs = creationOptions.extensions.prf,
+            secret = publicKeyCredentialCreationParameters.prfSecret
+        )
 
         val responseJson = FidoPublicKeyCredential(
             id = Base64Helper.b64Encode(publicKeyCredentialCreationParameters.credentialId),
@@ -387,28 +397,10 @@ object PasskeyHelper {
         defaultBackupEligibility: Boolean,
         defaultBackupState: Boolean
     ): PublicKeyCredential {
-        val prfInput = requestOptions.extensions.prf
-        val prfSecret = passkey.prfSecret
-        val prfOutputs = if (prfInput != null) {
-            if (prfSecret != null) {
-                val prfSecretBytes = Base64Helper.b64Decode(prfSecret)
-                val evalInput = prfInput.evalByCredential?.get(passkey.credentialId) ?: prfInput.eval
-                val results = evalInput?.let { values ->
-                    AuthenticationExtensionsPRFValues(
-                        first = HashManager.hmacSha256(prfSecretBytes, values.first),
-                        second = values.second?.let { HashManager.hmacSha256(prfSecretBytes, it) }
-                    )
-                }
-                if (results != null) {
-                    AuthenticationExtensionsPRFOutputs(results = results)
-                } else {
-                    AuthenticationExtensionsPRFOutputs(enabled = true)
-                }
-            } else {
-                AuthenticationExtensionsPRFOutputs(enabled = true)
-            }
-        } else null
-
+        val prfOutputs = buildPrfOutput(
+            prfInputs = requestOptions.extensions.prf,
+            secret = passkey.prfSecret
+        )
         val getCredentialResponse = FidoPublicKeyCredential(
             id = passkey.credentialId,
             response = AuthenticatorAssertionResponse(

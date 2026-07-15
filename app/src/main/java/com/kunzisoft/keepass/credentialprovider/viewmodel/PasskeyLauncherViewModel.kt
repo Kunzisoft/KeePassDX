@@ -526,7 +526,6 @@ class PasskeyLauncherViewModel(application: Application): CredentialLauncherView
                                             ?: mBackupEligibility,
                                         backupState = passkey?.backupState
                                             ?: mBackupState,
-                                        prfSecret = passkey?.prfSecret
                                     )
                                 )
                             }
