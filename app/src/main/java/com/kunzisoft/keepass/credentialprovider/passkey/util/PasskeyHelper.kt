@@ -242,7 +242,8 @@ object PasskeyHelper {
                         publicKeyCredentialCreationOptions = creationOptions,
                         credentialId = credentialId,
                         signatureKey = Pair(keyPair, keyTypeId),
-                        clientDataResponse = ClientDataDefinedResponse(clientDataHash)
+                        clientDataResponse = ClientDataDefinedResponse(clientDataHash),
+                        prfSecret = prfSecret
                     )
                 )
             },
@@ -258,7 +259,8 @@ object PasskeyHelper {
                             type = ClientDataBuildResponse.Type.CREATE,
                             challenge = creationOptions.challenge,
                             origin = origin
-                        )
+                        ),
+                        prfSecret = prfSecret
                     )
                 )
             }
@@ -273,15 +275,33 @@ object PasskeyHelper {
         publicKeyCredentialCreationParameters: PublicKeyCredentialCreationParameters,
         userVerified: Boolean,
         backupEligibility: Boolean,
-        backupState: Boolean
+        backupState: Boolean,
+        prfSecret: String? = null
     ): CreatePublicKeyCredentialResponse {
 
         val keyPair = publicKeyCredentialCreationParameters.signatureKey.first
         val keyTypeId = publicKeyCredentialCreationParameters.signatureKey.second
+
+        val creationOptions = publicKeyCredentialCreationParameters.publicKeyCredentialCreationOptions
+        val prfInput = creationOptions.extensions.prf
+        val secret = prfSecret ?: publicKeyCredentialCreationParameters.prfSecret
+        val prfOutputs = if (prfInput != null) {
+            if (secret != null && prfInput.eval != null) {
+                val prfSecretBytes = Base64Helper.b64Decode(secret)
+                val results = AuthenticationExtensionsPRFValues(
+                    first = HashManager.hmacSha256(prfSecretBytes, prfInput.eval.first),
+                    second = prfInput.eval.second?.let { HashManager.hmacSha256(prfSecretBytes, it) }
+                )
+                AuthenticationExtensionsPRFOutputs(enabled = true, results = results)
+            } else {
+                AuthenticationExtensionsPRFOutputs(enabled = true)
+            }
+        } else null
+
         val responseJson = FidoPublicKeyCredential(
             id = Base64Helper.b64Encode(publicKeyCredentialCreationParameters.credentialId),
             response = AuthenticatorAttestationResponse(
-                requestOptions = publicKeyCredentialCreationParameters.publicKeyCredentialCreationOptions,
+                requestOptions = creationOptions,
                 credentialId = publicKeyCredentialCreationParameters.credentialId,
                 credentialPublicKey = Cbor().encode(
                     Signature.convertPublicKeyToMap(
@@ -296,9 +316,7 @@ object PasskeyHelper {
                 publicKeyTypeId = keyTypeId,
                 publicKeyCbor = Signature.convertPublicKey(keyPair.public, keyTypeId)!!,
                 clientDataResponse = publicKeyCredentialCreationParameters.clientDataResponse,
-                clientExtensionResults = if (publicKeyCredentialCreationParameters.publicKeyCredentialCreationOptions.extensions.prf != null)
-                    AuthenticationExtensionsClientOutputs(prf = AuthenticationExtensionsPRFOutputs(enabled = true))
-                else null
+                clientExtensionResults = prfOutputs?.let { AuthenticationExtensionsClientOutputs(prf = it) }
             ),
             authenticatorAttachment = "platform"
         ).json()

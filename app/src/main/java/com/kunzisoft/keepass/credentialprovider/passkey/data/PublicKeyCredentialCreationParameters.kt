@@ -25,7 +25,8 @@ data class PublicKeyCredentialCreationParameters(
         val publicKeyCredentialCreationOptions: PublicKeyCredentialCreationOptions,
         val credentialId: ByteArray,
         val signatureKey: Pair<KeyPair, Long>,
-        val clientDataResponse: ClientDataResponse
+        val clientDataResponse: ClientDataResponse,
+        val prfSecret: String? = null
 ) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
