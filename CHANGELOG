@@ -1,3 +1,6 @@
+KeePassDX(4.5.0_beta04)
+ * Fix exception during template selection #2617
+
 KeePassDX(4.5.0_beta03)
  * Fix URL actions #2604
  * Fix field value selection #2456

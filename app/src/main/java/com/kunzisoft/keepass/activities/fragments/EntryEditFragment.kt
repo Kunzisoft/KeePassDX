@@ -402,10 +402,12 @@ class EntryEditFragment: DatabaseFragment() {
         position: (Float) -> Unit
     ) {
         view.post {
-            val rect = Rect()
-            view.getDrawingRect(rect)
-            (rootView as ViewGroup).offsetDescendantRectToMyCoords(view, rect)
-            position.invoke(rect.top.toFloat())
+            if (isChildOf(view, rootView)) {
+                val rect = Rect()
+                view.getDrawingRect(rect)
+                (rootView as ViewGroup).offsetDescendantRectToMyCoords(view, rect)
+                position.invoke(rect.top.toFloat())
+            }
         }
     }
 
