@@ -51,7 +51,7 @@ object PasskeyEntryFields {
             relyingParty = String(relyingPartyField),
             backupEligibility = backupEligibilityField,
             backupState = backupStateField,
-            prfSecret = prfField?.let { String(it) }
+            prfSecret = prfField
         )
     }
 

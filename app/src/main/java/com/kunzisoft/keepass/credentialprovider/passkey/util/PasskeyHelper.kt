@@ -215,7 +215,7 @@ object PasskeyHelper {
         val privateKeyPem = Signature.convertPrivateKeyToPem(keyPair.private)
 
         val prfSecret = if (creationOptions.extensions.prf != null) {
-            Base64Helper.b64Encode(HashManager.generateRandom(32))
+            Base64Helper.b64EncodeToCharArray(HashManager.generateRandom(32))
         } else null
 
         // Create the passkey element
@@ -271,7 +271,7 @@ object PasskeyHelper {
     private fun buildPrfOutput(
         prfInputs: AuthenticationExtensionsPRFInputs? = null,
         credentialId: String? = null,
-        secret: String? = null,
+        secret: CharArray? = null,
         isRegistration: Boolean = false
     ): AuthenticationExtensionsPRFOutputs? {
         if (prfInputs == null)
@@ -281,7 +281,7 @@ object PasskeyHelper {
         val eval = prfInputs.evalByCredential?.get(credentialId) ?: prfInputs.eval
         return if (eval != null) {
             if (secret != null) {
-                val prfSecretBytes = Base64Helper.b64Decode(secret)
+                val prfSecretBytes = Base64Helper.b64DecodeFromCharArray(secret)
                 val results = AuthenticationExtensionsPRFValues(
                     first = HashManager.hmacSha256(prfSecretBytes, eval.first),
                     second = eval.second?.let { HashManager.hmacSha256(prfSecretBytes, it) }

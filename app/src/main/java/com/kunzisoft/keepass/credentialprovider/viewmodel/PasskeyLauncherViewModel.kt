@@ -560,6 +560,17 @@ class PasskeyLauncherViewModel(application: Application): CredentialLauncherView
         ): UIState()
     }
 
+    override fun onResult() {
+        super.onResult()
+        mPasskey?.clear()
+        mPasskey = null
+    }
+
+    override fun onCleared() {
+        mPasskey?.clear()
+        super.onCleared()
+    }
+
     companion object {
         private val TAG = PasskeyLauncherViewModel::class.java.name
     }
