@@ -17,11 +17,11 @@
     You should have received a copy of the GNU General Public License
     along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
 --><resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="homepage">الصفحة الرئيسة</string>
-    <string name="accept">اقبل</string>
+    <string name="homepage">الصفحة الرئيسية</string>
+    <string name="accept">قبول</string>
     <string name="add_group">أضف مجموعة</string>
-    <string name="encryption">التعمية</string>
-    <string name="encryption_algorithm">خوارزمية التعمية</string>
+    <string name="encryption">التشفير</string>
+    <string name="encryption_algorithm">خوارزمية التشفير</string>
     <string name="application">التطبيق</string>
     <string name="brackets">الأقواس</string>
     <string name="extended_ASCII">ASCII ممتد</string>
@@ -103,7 +103,7 @@
     <string name="education_entry_new_field_title">أضف حقول مخصّصة</string>
     <string name="education_field_copy_title">انسخ حقل</string>
     <string name="education_lock_title">اقفل قاعدة البيانات</string>
-    <string name="feedback">أرسل انطباعاتك</string>
+    <string name="feedback">أرسل ملاحظاتك</string>
     <string name="about_description">تطبيق أندرويد لمدير كلمات السر KeePass.</string>
     <string name="add_entry">أضف مدخل</string>
     <string name="edit_entry">عدِّل مدخل</string>
