@@ -668,7 +668,7 @@
 \nЕсли сработает автоматическая блокировка, а вы забудете, что вносили изменения, то рискуете потерять данные.</string>
     <string name="info">Информация</string>
     <string name="master_key_settings_summary">Изменение, обновление</string>
-    <string name="warning_permission">Разрешение необходимо для отображения уведомлений.</string>
+    <string name="warning_permission">Разрешение необходимо для отображения уведомлений</string>
     <string name="menu_appearance_settings_summary">Темы, цвета, значки, шрифты, атрибуты</string>
     <string name="configure">Настройка</string>
     <string name="education_validate_entry_title">Проверка записи</string>
@@ -757,7 +757,7 @@
     <string name="user_verification_database_credential">Введите первые 4 символа пароля базы</string>
     <string name="first_chars">Первые символы</string>
     <string name="check">Проверка</string>
-    <string name="user_verification_required_description_precise">%1$s требует подтверждения вашей личности</string>
+    <string name="user_verification_required_description_precise">%1$s требует подтверждения вашей личности.</string>
     <string name="user_verification">Проверка пользователя</string>
     <string name="menu_user_verification_enabled">Проверка пользователя включена</string>
     <string name="menu_user_verification_disabled">Проверка пользователя отключена</string>
