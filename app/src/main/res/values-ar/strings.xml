@@ -19,14 +19,14 @@
 --><resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="homepage">الصفحة الرئيسية</string>
     <string name="accept">قبول</string>
-    <string name="add_group">أضف مجموعة</string>
+    <string name="add_group">إضافة مجموعة</string>
     <string name="encryption">التشفير</string>
     <string name="encryption_algorithm">خوارزمية التشفير</string>
     <string name="application">التطبيق</string>
     <string name="brackets">الأقواس</string>
     <string name="extended_ASCII">ASCII ممتد</string>
-    <string name="allow">اسمح</string>
-    <string name="clipboard_cleared">مُسِحت الحافظة</string>
+    <string name="allow">السماح</string>
+    <string name="clipboard_cleared">تم مسح الحافظة</string>
     <string name="clipboard_error_title">خطأ في الحافظة</string>
     <string name="clipboard_error_clear">تعذَّر مسح الحافظة</string>
     <string name="database">قاعدة البيانات</string>
@@ -105,13 +105,13 @@
     <string name="education_lock_title">اقفل قاعدة البيانات</string>
     <string name="feedback">أرسل ملاحظاتك</string>
     <string name="about_description">تطبيق أندرويد لمدير كلمات السر KeePass.</string>
-    <string name="add_entry">أضف مدخل</string>
-    <string name="edit_entry">عدِّل مدخل</string>
+    <string name="add_entry">إضافة مدخل</string>
+    <string name="edit_entry">تعديل مدخل</string>
     <string name="key_derivation_function">دالة اشتقاق المفتاح</string>
     <string name="app_timeout">المهلة</string>
     <string name="app_timeout_summary">مدة الخمول قبل قفل قاعدة البيانات</string>
-    <string name="file_manager_install_description">مدير الملفات الذي يمكنه القيام بالإجراءين ACTION_CREATE_DOCUMENT و ACTION_OPEN_DOCUMENT ضروري لانشاء، وفتح وحفظ قواعد البيانات.</string>
-    <string name="clipboard_error">بعض الأجهزة لا تسمح للتطبيقات باستعمال الحافظة.</string>
+    <string name="file_manager_install_description">يلزم وجود مدير ملفات يدعم الإجراءين ACTION_CREATE_DOCUMENT وACTION_OPEN_DOCUMENT لإنشاء ملفات قاعدة البيانات وفتحها وحفظها.</string>
+    <string name="clipboard_error">بعض الأجهزة لا تسمح للتطبيقات باستخدام الحافظة.</string>
     <string name="clipboard_timeout">مهلة الحافظة</string>
     <string name="clipboard_timeout_summary">مدة التخزين في الحافظة (إذا كان جهازك يدعمها)</string>
     <string name="select_to_copy">اختر لنسخ %1$s إلى الحافظة</string>
@@ -226,7 +226,7 @@
     <string name="keyboard_notification_entry_content_title">%1$s متوفر على Magikeyboard</string>
     <string name="reset_education_screens_title">صفّر التلميحات التعليمية</string>
     <string name="education_search_title">ابحث من خلال المدخلات</string>
-    <string name="content_description_open_file">افتح الملف</string>
+    <string name="content_description_open_file">فتح الملف</string>
     <string name="content_description_add_entry">أضف مدخل</string>
     <string name="content_description_add_group">أضف مجموعة</string>
     <string name="content_description_file_information">معلومات الملف</string>
@@ -239,7 +239,7 @@
     <string name="sort_groups_before">المجموعات أولًا</string>
     <string name="selection_mode">نمط التحديد</string>
     <string name="do_not_kill_app">لا تقتل التطبيق…</string>
-    <string name="content_description_node_children">العقد الفرعية</string>
+    <string name="content_description_node_children">العناصر الفرعية</string>
     <string name="content_description_add_node">أضف عقدة</string>
     <string name="content_description_entry_icon">أيقونة المدخل</string>
     <string name="content_description_password_length">طول كلمة السر</string>
@@ -302,7 +302,7 @@
     <string name="entry_otp">كلمة سر لمرة واحدة</string>
     <string name="otp_type">نوع كلمة السر لمرة واحدة (OTP)</string>
     <string name="error_disallow_no_credentials">يجب تعيين اعتماد واحد على الأقل.</string>
-    <string name="contribution">ساهم</string>
+    <string name="contribution">المساهمة</string>
     <string name="contact">التواصل</string>
     <string name="biometric">المقاييس الحيوية</string>
     <string name="warning_empty_keyfile_explanation">يجب ألا تغير محتوى ملف المفتاح، في أحسن الحالات يجب أن يحتوي بيانات مولدة عشوائيا.</string>
@@ -718,7 +718,7 @@
     <string name="passkey_backup_eligibility">أهلية النسخ الاحتياطي لمفتاح المرور</string>
     <string name="passkey_backup_state">حالة النسخ الاحتياطي لمفتاح المرور</string>
     <string name="error_passkey_result">تعذر إرجاع مفتاح المرور</string>
-    <string name="clipboard_otp_notifications_title">إشعار كلمة سر لمرة واحدة</string>
+    <string name="clipboard_otp_notifications_title">إشعار كلمة السر لمرة واحدة</string>
     <string name="clipboard_otp_notifications_summary">افتح إشعارًا لنسخ رمز كلمة سر لمرة واحدة من الإدخالات المملوءة تلقائيًا أو بواسطة magikeyboard</string>
     <string name="user_verification_device_credential_title">بيانات اعتماد التحقق من المستخدم</string>
     <string name="user_verification_device_credential_summary">استخدم بيانات اعتماد الجهاز للتحقق من المستخدم إذا كانت متاحة</string>
