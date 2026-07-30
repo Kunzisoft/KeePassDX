@@ -1,3 +1,4 @@
  * Correction de l'exception pendant la sélection du gabarit #2617
  * Correction des défilements vers le champ OTP #2621
  * Correction des comparateurs dans les SortedList #2630
+ * Correction des caractères spéciaux dans les champs d'entrée #2632

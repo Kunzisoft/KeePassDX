@@ -45,7 +45,7 @@ open class TextEditFieldView @JvmOverloads constructor(
         layoutParams = LinearLayout.LayoutParams(
                 LayoutParams.MATCH_PARENT,
                 LayoutParams.WRAP_CONTENT)
-        inputType = EditorInfo.TYPE_TEXT_FLAG_NO_SUGGESTIONS
+        inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             imeOptions = EditorInfo.IME_FLAG_NO_PERSONALIZED_LEARNING
             importantForAutofill = IMPORTANT_FOR_AUTOFILL_NO
@@ -147,18 +147,12 @@ open class TextEditFieldView @JvmOverloads constructor(
     fun setMaxLines(numberLines: Int) {
         when {
             numberLines == 1 -> {
-                valueView.inputType = valueView.inputType or
-                    InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_NORMAL
+                valueView.inputType = (valueView.inputType and InputType.TYPE_TEXT_FLAG_MULTI_LINE.inv()) or
+                        InputType.TYPE_CLASS_TEXT
                 valueView.maxLines = 1
             }
-            numberLines <= 0 -> {
-                valueView.inputType = valueView.inputType or
-                    InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_MULTI_LINE
-                valueView.maxLines = MAX_LINES_LIMIT
-            }
             else -> {
-                @Suppress("KotlinConstantConditions")
-                val lines = if (numberLines > MAX_LINES_LIMIT) MAX_LINES_LIMIT else numberLines
+                val lines = if (numberLines !in 1..MAX_LINES_LIMIT) MAX_LINES_LIMIT else numberLines
                 valueView.inputType = valueView.inputType or
                         InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_MULTI_LINE
                 valueView.maxLines = lines
@@ -185,12 +179,19 @@ open class TextEditFieldView @JvmOverloads constructor(
     }
 
     override fun changeProtectedValueParameters(shouldRequestFocus: Boolean) {
-        if (isRevealed()) {
-            valueView.inputType = valueView.inputType or InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
-            valueView.transformationMethod = SingleLineTransformationMethod.getInstance()
+        if (isProtected) {
+            if (isRevealed()) {
+                valueView.inputType = (valueView.inputType and InputType.TYPE_MASK_VARIATION.inv()) or
+                        InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
+                valueView.transformationMethod = SingleLineTransformationMethod.getInstance()
+            } else {
+                valueView.inputType = (valueView.inputType and InputType.TYPE_MASK_VARIATION.inv()) or
+                        InputType.TYPE_TEXT_VARIATION_PASSWORD
+                valueView.transformationMethod = PasswordTransformationMethod.getInstance()
+            }
         } else {
-            valueView.inputType = valueView.inputType or InputType.TYPE_TEXT_VARIATION_PASSWORD
-            valueView.transformationMethod = PasswordTransformationMethod.getInstance()
+            valueView.inputType = valueView.inputType and InputType.TYPE_MASK_VARIATION.inv()
+            valueView.transformationMethod = if (valueView.maxLines > 1) null else SingleLineTransformationMethod.getInstance()
         }
         if (shouldRequestFocus)
             valueView.requestFocus()

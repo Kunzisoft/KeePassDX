@@ -1,3 +1,4 @@
  * Fix exception during template selection #2617
  * Fix autoscrolls to TOTP section #2621
  * Fix comparator in SortedList #2630
+ * Fix special character input in entry fields #2632
