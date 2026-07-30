@@ -3,6 +3,7 @@ KeePassDX(4.5.0_beta04)
  * Fix autoscrolls to TOTP section #2621
  * Fix comparator in SortedList #2630
  * Fix special character input in entry fields #2632
+ * Fix query packages permission in manifest #996
 
 KeePassDX(4.5.0_beta03)
  * Fix URL actions #2604

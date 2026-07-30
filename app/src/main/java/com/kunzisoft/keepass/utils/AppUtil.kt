@@ -120,7 +120,7 @@ object AppUtil {
 
         // Add the Play Service if needed
         if (withGServices) {
-            val gServices = "com.google.android.gms"
+            val gServices = BuildConfig.GOOGLE_PLAY_SERVICES_PACKAGE
             buildAndroidPrivilegedApp(packageManager, gServices)?.let { privilegedApp ->
                 browserList.add(privilegedApp)
                 processedPackageNames.add(gServices)

@@ -21,11 +21,34 @@
         android:name="android.permission.USE_BIOMETRIC" />
     <uses-permission
         android:name="android.permission.VIBRATE"/>
-    <!-- Open apps from links -->
-    <uses-permission
-        android:name="android.permission.QUERY_ALL_PACKAGES"
-        tools:ignore="QueryAllPackagesPermission" />
     <queries>
+        <!-- Apps with a launcher (getLaunchIntentForPackage)-->
+        <intent>
+            <action android:name="android.intent.action.MAIN" />
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent>
+        <!-- Browsers (getInstalledBrowsersWithSignatures) -->
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <category android:name="android.intent.category.BROWSABLE" />
+            <data android:scheme="http" />
+        </intent>
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <category android:name="android.intent.category.BROWSABLE" />
+            <data android:scheme="https" />
+        </intent>
+        <!-- Keyboard switcher -->
+        <intent>
+            <action android:name="com.android.keyboard.SWITCH_KEYBOARD" />
+        </intent>
+        <!-- Yubikey hardware key -->
+        <intent>
+            <action android:name="android.yubikey.intent.action.CHALLENGE_RESPONSE" />
+        </intent>
+        <!-- Specific known packages without launcher -->
+        <package android:name="${googlePlayServicesPackage}" />
+        <!-- Files creation -->
         <intent>
             <action android:name="android.intent.action.CREATE_DOCUMENT" />
             <data android:mimeType="application/octet-stream" />
