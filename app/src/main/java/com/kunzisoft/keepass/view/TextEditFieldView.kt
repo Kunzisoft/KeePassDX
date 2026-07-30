@@ -184,7 +184,7 @@ open class TextEditFieldView @JvmOverloads constructor(
         }
     }
 
-    override fun changeProtectedValueParameters() {
+    override fun changeProtectedValueParameters(shouldRequestFocus: Boolean) {
         if (isRevealed()) {
             valueView.inputType = valueView.inputType or InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
             valueView.transformationMethod = SingleLineTransformationMethod.getInstance()
@@ -192,6 +192,8 @@ open class TextEditFieldView @JvmOverloads constructor(
             valueView.inputType = valueView.inputType or InputType.TYPE_TEXT_VARIATION_PASSWORD
             valueView.transformationMethod = PasswordTransformationMethod.getInstance()
         }
+        if (shouldRequestFocus)
+            valueView.requestFocus()
     }
 
     override fun setOnActionClickListener(onActionClickListener: OnClickListener?,

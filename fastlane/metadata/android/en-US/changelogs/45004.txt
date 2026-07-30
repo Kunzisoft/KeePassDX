@@ -1,1 +1,2 @@
  * Fix exception during template selection #2617
+ * Fix autoscrolls to TOTP section #2621

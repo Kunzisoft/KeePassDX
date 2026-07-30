@@ -1,1 +1,2 @@
  * Correction de l'exception pendant la sélection du gabarit #2617
+ * Correction des défilements vers le champ OTP #2621

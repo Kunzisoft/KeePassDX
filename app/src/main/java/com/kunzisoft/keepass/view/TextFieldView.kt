@@ -257,7 +257,7 @@ open class TextFieldView @JvmOverloads constructor(
         showButton.setOnClickListener(clickListener)
     }
 
-    override fun changeProtectedValueParameters() {
+    override fun changeProtectedValueParameters(shouldRequestFocus: Boolean) {
         val isMasked = !isRevealed()
         showButton.isSelected = isMasked
         valueView.apply {
@@ -271,7 +271,8 @@ open class TextFieldView @JvmOverloads constructor(
                     setOnClickListener(null)
                     setTextIsSelectable(true)
                     linkify()
-                    requestFocus()
+                    if (shouldRequestFocus)
+                        requestFocus()
                 }
             } else {
                 setOnClickListener(null)

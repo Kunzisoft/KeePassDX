@@ -51,12 +51,12 @@ abstract class ProtectedTextFieldView @JvmOverloads constructor(
 
     override fun mask() {
         mRevealed = false
-        changeProtectedValueParameters()
+        changeProtectedValueParameters(shouldRequestFocus = false)
     }
 
     override fun reveal() {
         mRevealed = true
-        changeProtectedValueParameters()
+        changeProtectedValueParameters(shouldRequestFocus = true)
     }
 
     override fun setProtection(
@@ -70,7 +70,7 @@ abstract class ProtectedTextFieldView @JvmOverloads constructor(
         changeProtectedValueParameters()
     }
 
-    protected abstract fun changeProtectedValueParameters()
+    protected abstract fun changeProtectedValueParameters(shouldRequestFocus: Boolean = false)
 
     override fun onSaveInstanceState(): Parcelable? {
         onSaveInstanceState?.invoke()
