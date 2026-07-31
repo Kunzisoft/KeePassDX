@@ -43,7 +43,6 @@ import java.io.InputStream
 import java.io.OutputStream
 import java.nio.CharBuffer
 import java.nio.charset.Charset
-import java.security.SecureRandom
 import javax.xml.XMLConstants
 import javax.xml.parsers.DocumentBuilderFactory
 import javax.xml.parsers.ParserConfigurationException
@@ -172,7 +171,7 @@ data class MasterCredential(
             val bKey = ByteArray(byteBuffer.remaining())
             byteBuffer.get(bKey)
 
-            val hash = HashManager.hashSha256(bKey)
+            val hash = HashManager.sha256(bKey)
             bKey.clear()
             if (byteBuffer.hasArray()) {
                 byteBuffer.array().clear()
@@ -213,7 +212,7 @@ data class MasterCredential(
                     }
                 }
                 // Hash file as binary data
-                return HashManager.hashSha256(keyFileData)
+                return HashManager.sha256(keyFileData)
             } catch (e: Exception) {
                 throw IOException("Unable to load the keyfile.", e)
             }
@@ -226,7 +225,7 @@ data class MasterCredential(
          */
         @Throws(IOException::class)
         fun retrieveHardwareKey(keyData: ByteArray): ByteArray {
-            return HashManager.hashSha256(keyData)
+            return HashManager.sha256(keyData)
         }
 
         private fun loadXmlKeyFile(keyInputStream: InputStream): ByteArray? {
@@ -330,7 +329,7 @@ data class MasterCredential(
             var success = false
             try {
                 // hexadecimal encoding of the first 4 bytes of the SHA-256 hash of the key.
-                val dataDigest = HashManager.hashSha256(CodecUtil.decodeHex(data))
+                val dataDigest = HashManager.sha256(CodecUtil.decodeHex(data))
                     .copyOfRange(0, 4).toHexString()
                 success = dataDigest == hash
             } catch (e: Exception) {
@@ -351,8 +350,7 @@ data class MasterCredential(
             keySize: Int = DEFAULT_KEYFILE_SIZE,
             format: KeyFileFormat = KeyFileFormat.XML_2_0
         ) {
-            val randomBytes = ByteArray(keySize)
-            SecureRandom().nextBytes(randomBytes)
+            val randomBytes = HashManager.generateRandom(keySize)
 
             when (format) {
                 KeyFileFormat.RANDOM_BYTES -> {
@@ -360,7 +358,7 @@ data class MasterCredential(
                 }
                 KeyFileFormat.XML_2_0 -> {
                     val hexData = randomBytes.toHexString()
-                    val hash = HashManager.hashSha256(randomBytes)
+                    val hash = HashManager.sha256(randomBytes)
                         .copyOfRange(0, 4).toHexString()
 
                     val xmlSerializer = Xml.newSerializer()

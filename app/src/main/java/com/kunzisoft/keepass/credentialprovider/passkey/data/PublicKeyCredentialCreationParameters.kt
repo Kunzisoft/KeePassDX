@@ -25,7 +25,8 @@ data class PublicKeyCredentialCreationParameters(
         val publicKeyCredentialCreationOptions: PublicKeyCredentialCreationOptions,
         val credentialId: ByteArray,
         val signatureKey: Pair<KeyPair, Long>,
-        val clientDataResponse: ClientDataResponse
+        val clientDataResponse: ClientDataResponse,
+        val prfSecret: CharArray? = null
 ) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
@@ -37,6 +38,10 @@ data class PublicKeyCredentialCreationParameters(
         if (!credentialId.contentEquals(other.credentialId)) return false
         if (signatureKey != other.signatureKey) return false
         if (clientDataResponse != other.clientDataResponse) return false
+        if (prfSecret != null) {
+            if (other.prfSecret == null) return false
+            if (!prfSecret.contentEquals(other.prfSecret)) return false
+        } else if (other.prfSecret != null) return false
 
         return true
     }
@@ -46,6 +51,7 @@ data class PublicKeyCredentialCreationParameters(
         result = 31 * result + credentialId.contentHashCode()
         result = 31 * result + signatureKey.hashCode()
         result = 31 * result + clientDataResponse.hashCode()
+        result = 31 * result + (prfSecret?.contentHashCode() ?: 0)
         return result
     }
 }

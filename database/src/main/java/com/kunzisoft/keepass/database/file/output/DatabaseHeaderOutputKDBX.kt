@@ -20,7 +20,6 @@
 package com.kunzisoft.keepass.database.file.output
 
 import com.kunzisoft.encrypt.HashManager
-import com.kunzisoft.keepass.database.crypto.HmacBlock
 import com.kunzisoft.keepass.database.crypto.VariantDictionary
 import com.kunzisoft.keepass.database.crypto.kdf.KdfParameters
 import com.kunzisoft.keepass.database.element.database.DatabaseKDBX
@@ -28,7 +27,13 @@ import com.kunzisoft.keepass.database.exception.DatabaseOutputException
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX.Companion.FILE_VERSION_40
 import com.kunzisoft.keepass.stream.MacOutputStream
-import com.kunzisoft.keepass.utils.*
+import com.kunzisoft.keepass.utils.UnsignedInt
+import com.kunzisoft.keepass.utils.UnsignedLong
+import com.kunzisoft.keepass.utils.longTo8Bytes
+import com.kunzisoft.keepass.utils.uIntTo4Bytes
+import com.kunzisoft.keepass.utils.uuidTo16Bytes
+import com.kunzisoft.keepass.utils.write2BytesUShort
+import com.kunzisoft.keepass.utils.write4BytesUInt
 import java.io.ByteArrayOutputStream
 import java.io.IOException
 import java.io.OutputStream
@@ -56,10 +61,10 @@ constructor(private val databaseKDBX: DatabaseKDBX,
         }
 
         val hmacKey = databaseKDBX.hmacKey ?: throw DatabaseOutputException("HmacKey is not defined")
-        val blockKey = HmacBlock.getHmacKey64(hmacKey, UnsignedLong.MAX_BYTES)
-        val hmac: Mac = HmacBlock.getHmacSha256(blockKey)
+        val blockKey = HashManager.sha512(UnsignedLong.MAX_BYTES, hmacKey)
+        val hmac: Mac = HashManager.getHmacSha256(blockKey)
 
-        val messageDigest: MessageDigest = HashManager.getHash256()
+        val messageDigest: MessageDigest = HashManager.getSha256()
         dos = DigestOutputStream(outputStream, messageDigest)
         mos = MacOutputStream(dos, hmac)
     }

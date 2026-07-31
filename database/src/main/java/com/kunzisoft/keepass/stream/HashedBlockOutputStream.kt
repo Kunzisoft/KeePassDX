@@ -105,7 +105,7 @@ class HashedBlockOutputStream : OutputStream {
         bufferIndex++
 
         if (bufferPos > 0) {
-            val messageDigest: MessageDigest = HashManager.getHash256()
+            val messageDigest: MessageDigest = HashManager.getSha256()
             messageDigest.update(buffer, 0, bufferPos)
             val hash: ByteArray = messageDigest.digest()
             baseStream.write(hash)

@@ -125,7 +125,7 @@ class DatabaseKDB : DatabaseVersioned<Int, UUID, GroupKDB, EntryKDB>() {
         // Encrypt the master key a few times to make brute-force key-search harder
         val transformedKey = AESTransformer.transformKey(transformSeed, masterKey, numRounds) ?: ByteArray(0)
         // Write checksum Checksum
-        finalKey = HashManager.hashSha256(masterSeed, transformedKey)
+        finalKey = HashManager.sha256(masterSeed, transformedKey)
         transformedKey.clear()
     }
 
@@ -153,7 +153,7 @@ class DatabaseKDB : DatabaseVersioned<Int, UUID, GroupKDB, EntryKDB>() {
         // Build master key
         if (passwordBytes != null
             && keyFileBytes != null) {
-            this.masterKey = HashManager.hashSha256(
+            this.masterKey = HashManager.sha256(
                 passwordBytes,
                 keyFileBytes
             )

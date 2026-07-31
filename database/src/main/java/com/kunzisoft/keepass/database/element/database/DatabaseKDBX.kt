@@ -62,7 +62,6 @@ import java.nio.charset.Charset
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
 import java.util.UUID
-import javax.crypto.Mac
 import kotlin.math.min
 
 
@@ -299,7 +298,7 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
         keyFileData: ByteArray?,
         hardwareKeyData: ByteArray? = null,
     ): ByteArray {
-        return HashManager.hashSha256(
+        return HashManager.sha256(
             passwordData,
             keyFileData,
             hardwareKeyData
@@ -636,7 +635,7 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
             var transformedMasterKey =
                 kdfEngine.transform(masterKey, keyDerivationFunctionParameters)
             if (transformedMasterKey.size != 32) {
-                transformedMasterKey = HashManager.hashSha256(transformedMasterKey)
+                transformedMasterKey = HashManager.sha256(transformedMasterKey)
             }
 
             val cmpKey = ByteArray(65)
@@ -661,7 +660,7 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
     private fun resizeKey(inBytes: ByteArray, cbOut: Int): ByteArray {
         if (cbOut == 0) return ByteArray(0)
 
-        val messageDigest = if (cbOut <= 32) HashManager.getHash256() else HashManager.getHash512()
+        val messageDigest = if (cbOut <= 32) HashManager.getSha256() else HashManager.getSha512()
         messageDigest.update(inBytes, 0, 64)
         val hash: ByteArray = messageDigest.digest()
 
@@ -676,15 +675,8 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
             var pos = 0
             var r: Long = 0
             while (pos < cbOut) {
-                val hmac: Mac
-                try {
-                    hmac = Mac.getInstance("HmacSHA256")
-                } catch (e: NoSuchAlgorithmException) {
-                    throw RuntimeException(e)
-                }
-
                 val pbR = longTo8Bytes(r)
-                val part = hmac.doFinal(pbR)
+                val part = HashManager.hmacSha256(inBytes, pbR)
 
                 val copy = min(cbOut - pos, part.size)
                 System.arraycopy(part, 0, ret, pos, copy)

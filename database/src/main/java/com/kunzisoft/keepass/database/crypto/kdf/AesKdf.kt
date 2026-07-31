@@ -24,7 +24,6 @@ import com.kunzisoft.encrypt.aes.AESTransformer
 import com.kunzisoft.keepass.utils.UnsignedLong
 import com.kunzisoft.keepass.utils.bytes16ToUuid
 import java.io.IOException
-import java.security.SecureRandom
 import java.util.UUID
 
 class AesKdf : KdfEngine() {
@@ -48,12 +47,12 @@ class AesKdf : KdfEngine() {
 
         var seed = kdfParameters.getByteArray(PARAM_SEED)
         if (seed != null && seed.size != 32) {
-            seed = HashManager.hashSha256(seed)
+            seed = HashManager.sha256(seed)
         }
 
         var currentMasterKey = masterKey
         if (currentMasterKey.size != 32) {
-            currentMasterKey = HashManager.hashSha256(currentMasterKey)
+            currentMasterKey = HashManager.sha256(currentMasterKey)
         }
 
         val rounds = kdfParameters.getUInt64(PARAM_ROUNDS)?.toKotlinLong()
@@ -62,12 +61,7 @@ class AesKdf : KdfEngine() {
     }
 
     override fun randomize(kdfParameters: KdfParameters) {
-        val random = SecureRandom()
-
-        val seed = ByteArray(32)
-        random.nextBytes(seed)
-
-        kdfParameters.setByteArray(PARAM_SEED, seed)
+        kdfParameters.setByteArray(PARAM_SEED, HashManager.generateRandom(32))
     }
 
     override fun getKeyRounds(kdfParameters: KdfParameters): Long {

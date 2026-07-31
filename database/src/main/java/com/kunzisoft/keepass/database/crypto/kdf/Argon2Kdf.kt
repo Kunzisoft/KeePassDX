@@ -19,13 +19,13 @@
  */
 package com.kunzisoft.keepass.database.crypto.kdf
 
+import com.kunzisoft.encrypt.HashManager
 import com.kunzisoft.encrypt.argon2.Argon2Transformer
 import com.kunzisoft.encrypt.argon2.Argon2Type
 import com.kunzisoft.keepass.utils.UnsignedInt
 import com.kunzisoft.keepass.utils.UnsignedLong
 import com.kunzisoft.keepass.utils.bytes16ToUuid
 import java.io.IOException
-import java.security.SecureRandom
 import java.util.UUID
 
 class Argon2Kdf(private val type: Type) : KdfEngine() {
@@ -76,12 +76,7 @@ class Argon2Kdf(private val type: Type) : KdfEngine() {
     }
 
     override fun randomize(kdfParameters: KdfParameters) {
-        val random = SecureRandom()
-
-        val salt = ByteArray(32)
-        random.nextBytes(salt)
-
-        kdfParameters.setByteArray(PARAM_SALT, salt)
+        kdfParameters.setByteArray(PARAM_SALT, HashManager.generateRandom(32))
     }
 
     override fun getKeyRounds(kdfParameters: KdfParameters): Long {

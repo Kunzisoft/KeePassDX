@@ -106,7 +106,7 @@ class HashedBlockInputStream(private val baseStream: InputStream) : InputStream(
             throw IOException("Invalid data format")
         }
 
-        val computedHash = HashManager.hashSha256(buffer)
+        val computedHash = HashManager.sha256(buffer)
         if (computedHash.size != HASH_SIZE) {
             throw IOException("Hash wrong size")
         }
