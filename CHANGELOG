@@ -4,6 +4,7 @@ KeePassDX(4.5.0_beta04)
  * Fix comparator in SortedList #2630
  * Fix special character input in entry fields #2632
  * Fix query packages permission in manifest #996
+ * Fix expiration during Autofill registration #2600
 
 KeePassDX(4.5.0_beta03)
  * Add Passkey PRF Extension #2502 #2553

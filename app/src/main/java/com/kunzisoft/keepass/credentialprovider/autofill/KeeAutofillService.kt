@@ -442,7 +442,7 @@ class KeeAutofillService : AutofillService() {
                         searchInfo = searchInfo,
                         username = parseResult.usernameValue?.textValue?.toString(),
                         password = parseResult.passwordValue?.textValue?.toString()?.toCharArray(),
-                        expiration = DateInstant(Instant(expiration)),
+                        expiration = expiration?.let { DateInstant(Instant(it)) },
                         creditCard = parseResult.creditCardNumber?.textValue?.toString()?.let { cardNumber ->
                             CreditCard(
                                 cardholder = parseResult.creditCardHolder?.textValue?.toString(),
