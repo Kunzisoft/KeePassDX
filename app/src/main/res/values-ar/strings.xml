@@ -89,8 +89,8 @@
     <string name="sort_ascending">الأقل أولاً ↓</string>
     <string name="sort_title">العنوان</string>
     <string name="sort_username">اسم المستخدِم</string>
-    <string name="sort_creation_time">تاريخ الإنشاء</string>
-    <string name="sort_last_modify_time">تاريخ آخر تعديل</string>
+    <string name="sort_creation_time">الإنشاء</string>
+    <string name="sort_last_modify_time">التعديل</string>
     <string name="special">خاص</string>
     <string name="search">البحث</string>
     <string name="underline">تسطير</string>
@@ -129,7 +129,7 @@
     <string name="error_load_database">تعذر تحميل قاعدة البيانات.</string>
     <string name="error_load_database_KDF_memory">تعذر تحميل المفتاح. حاول تقليل قيمة \"الذاكرة المستخدمة\" في KDF.</string>
     <string name="error_pass_gen_type">يجب تحديد نوع واحد على الأقل لتوليد كلمة السر.</string>
-    <string name="error_rounds_too_large">عدد جولات التحويل مرتفع للغاية. تم ضبطه على 2147483648.</string>
+    <string name="error_rounds_too_large">عدد جولات التحويل مرتفع جدًا. تم ضبطه على 2147483648.</string>
     <string name="error_string_key">يجب أن يكون لكل حقل اسم.</string>
     <string name="error_wrong_length">أدخل عددًا صحيحًا موجبًا في حقل «الطول».</string>
     <string name="error_autofill_enable_service">تعذر تفعيل خدمة الملء التلقائي.</string>
@@ -210,7 +210,7 @@
     <string name="allow_no_password_title">السمح بدون المفتاح الرئيسي</string>
     <string name="enable_education_screens_title">تلميحات تعليمية</string>
     <string name="reset_education_screens_summary">عرض جميع المعلومات التعليمية مرة أخرى</string>
-    <string name="reset_education_screens_text">إعادة ضبط التلميحات التعليمية</string>
+    <string name="reset_education_screens_text">تمت إعادة ضبط التلميحات التعليمية</string>
     <string name="education_create_database_title">أنشئ ملف قاعدة البيانات الخاص بك</string>
     <string name="education_create_database_summary">أنشئ ملف إدارة كلمات السر الأول الخاص بك.</string>
     <string name="education_select_database_title">افتح قاعدة بيانات موجودة</string>
@@ -240,7 +240,7 @@
     <string name="selection_mode">وضع التحديد</string>
     <string name="do_not_kill_app">لا تقم بإغلاق التطبيق…</string>
     <string name="content_description_node_children">العناصر الفرعية</string>
-    <string name="content_description_add_node">إضافة عنصر</string>
+    <string name="content_description_add_node">إضافة عقدة</string>
     <string name="content_description_entry_icon">أيقونة المدخل</string>
     <string name="content_description_password_length">طول كلمة السر</string>
     <string name="entry_add_field">إضافة حقل</string>
@@ -346,7 +346,7 @@
     <string name="autofill_web_domain_blocklist_title">قائمة حظر نطاقات الويب</string>
     <string name="autofill_application_id_blocklist_summary">قائمة حظر تمنع الملء التلقائي في التطبيقات</string>
     <string name="autofill_application_id_blocklist_title">قائمة التطبيقات المحظورة</string>
-    <string name="content_description_repeat_toggle_password_visibility">أعد تبديل ظهور كلمة السر</string>
+    <string name="content_description_repeat_toggle_password_visibility">إعادة تبديل ظهور كلمة السر</string>
     <string name="hide_expired_entries_summary">لا يتم عرض المدخلات منتهية الصلاحية</string>
     <string name="education_read_only_summary">غيّر وضع فتح الجلسة.\n\nيمنع خيار \"محمي ضد الكتابة\" إجراء تغييرات غير مقصودة على قاعدة البيانات.\nيتيح لك خيار \"قابل للتعديل\" إضافة أو حذف أو تعديل جميع العناصر كما تشاء.</string>
     <string name="education_read_only_title">قم بحماية قاعدة بياناتك من التعديل</string>
@@ -518,7 +518,7 @@
     <string name="delete_entered_password_summary">يحذف كلمة السر التي تم إدخالها بعد محاولة الاتصال بقاعدة البيانات</string>
     <string name="education_lock_summary">يمكنك قفل قاعدة البيانات بسرعة، حيث يمكنك ضبط التطبيق لقفلها بعد فترة، وعندما تنطفئ الشاشة.</string>
     <string name="education_sort_title">فرز العناصر</string>
-    <string name="contribute">المساهمة</string>
+    <string name="contribute">ساهم</string>
     <string name="upload_attachment">ارفع %1$s</string>
     <string name="download_canceled">تم الإلغاء!</string>
     <string name="unit_kibibyte">KiB</string>
@@ -559,7 +559,7 @@
     <string name="warning_database_already_opened">قاعدة البيانات مفتوحة بالفعل، أغلقها أولاً لفتح قاعدة البيانات الجديدة</string>
     <string name="warning_database_info_reloaded">إعادة تحميل قاعدة البيانات ستؤدي إلى حذف البيانات المعدلة محليًا.</string>
     <string name="templates_group_enable_summary">استخدم القوالب الديناميكية لملء حقول المدخل</string>
-    <string name="keyboard_auto_go_action_summary">محاولة حفظ المعلومات المشتركة عند تحديد مدخل يدوياً لتسهيل استخدامها مستقبلاً</string>
+    <string name="keyboard_auto_go_action_summary">إجراء مفتاح «Go» بعد الضغط على مفتاح «Field»</string>
     <string name="allow_no_password_summary">يسمح بالنقر على زر \"فتح\" في حالة عدم تحديد أي بيانات الاعتماد</string>
     <string name="education_generate_password_summary">قم بإنشاء كلمة سر قوية لربطها بإدخالك، وحددها بسهولة وفقًا لمعايير النموذج، ولا تنسى كلمة السر الآمنة.</string>
     <string name="education_setup_OTP_title">إعداد رمز التحقق لمرة واحدة (OTP)</string>
@@ -596,7 +596,7 @@
     <string name="error_XML_malformed">ملف XML غير صالح.</string>
     <string name="error_otp_type">لا يتعرف هذا النموذج على نوع OTP الحالي، وقد لا يؤدي التحقق منه إلى إنشاء الرمز بشكل صحيح.</string>
     <string name="error_challenge_already_requested">تم طلب التحدي بالفعل.</string>
-    <string name="error_response_already_provided">تم طلب التحدي بالفعل.</string>
+    <string name="error_response_already_provided">تم تقديم الرد بالفعل.</string>
     <string name="error_no_response_from_challenge">تعذر الحصول على الاستجابة من التحدي.</string>
     <string name="error_driver_required">يلزم وجود برنامج تشغيل لـ %1$s.</string>
     <string name="error_unable_merge_database_kdb">تعذر دمج الملف مع ملف قاعدة بيانات kdb..</string>
@@ -629,13 +629,13 @@
     <string name="menu_appearance_settings_summary">المظاهر والألوان والأيقونات والخطوط والسمات</string>
     <string name="autofill_explanation_summary">قم بضبط خاصية الملء التلقائي لملء النماذج بسرعة في التطبيقات الأخرى</string>
     <string name="device_credential_unlock_enable_summary">يتيح لك استخدام بيانات اعتماد جهازك لفتح قاعدة البيانات</string>
-    <string name="unlock">فتح</string>
+    <string name="unlock">إلغاء القفل</string>
     <string name="menu_app_settings_summary">البحث، القفل، السجل، الخصائص</string>
     <string name="menu_form_filling_settings_summary">لوحة المفاتيح، الملء التلقائي، الحافظة</string>
     <string name="device_unlock_keystore_warning">ستقوم هذه الميزة بتخزين بيانات الاعتماد المشفّرة في مخزن المفاتيح الآمن بجهازك.\n\nقد لا تعمل هذه الميزة بكامل وظائفها، وذلك بحسب تنفيذ واجهة برمجة التطبيقات الأصلية لنظام التشغيل.\n\nتحقّق من توافق مخزن المفاتيح وأمانه مع الشركة المصنّعة لجهازك ومطوّر ROM الذي تستخدمه.</string>
     <string name="keyboard_selection_entry_summary">عند عرض مدخل في KeePassDX، قم بتعبئة Magikeyboard بهذا المدخل</string>
     <string name="enable_screenshot_mode_summary">السماح لتطبيقات الطرف الثالث بتسجيل أو التقاط لقطات شاشة للتطبيق</string>
-    <string name="keyboard_save_search_info_summary">محاولة حفظ المعلومات المشتركة عند تحديد مدخل يدوياً لتسهيل استخدامها مستقبلاً</string>
+    <string name="keyboard_save_search_info_summary">حاول حفظ المعلومات المشتركة عند تحديد مُدخل يدويًا لتسهيل استخدامها مستقبلًا</string>
     <string name="education_entry_edit_summary">قم بتعديل بياناتك باستخدام الحقول المخصصة. يمكن الرجوع إلى بيانات المجموعة بين حقول الإدخال المختلفة.</string>
     <string name="education_validate_entry_title">تحقق من صحة المدخل</string>
     <string name="education_validate_entry_summary">تذكر التحقق من صحة بياناتك وحفظها في قاعدة البيانات.\n\nإذا تم تفعيل القفل التلقائي ونسيت أنك كنت تُجري تعديلاً، فقد تفقد بياناتك.</string>
@@ -648,7 +648,7 @@
     <string name="html_text_ad_free">على عكس العديد من تطبيقات إدارة كلمات السر، فإن هذا التطبيق &lt;strong&gt;خالٍ من الإعلانات&lt;/strong&gt;، و&lt;strong&gt;برنامج مفتوح المصدر&lt;/strong&gt; ولا يجمع البيانات الشخصية على خوادمه، بغض النظر عن الإصدار الذي تستخدمه.</string>
     <string name="download_initialization">جارِ التهيئة…</string>
     <string name="download_progression">قيد التقدم: %1$d%%</string>
-    <string name="html_text_buy_pro">بشراء النسخة الاحترافية، ستتمكن من الوصول إلى هذا النمط البصري، وستساهم بشكل خاص في إنجاز المشاريع المجتمعية.</string>
+    <string name="html_text_buy_pro">بشراء النسخة الاحترافية، ستتمكن من الوصول إلى هذا &lt;strong&gt;النمط البصري&lt;/strong&gt;، وستساهم بشكل خاص في &lt;strong&gt;إنجاز المشاريع المجتمعية.&lt;/strong&gt;</string>
     <string name="html_text_donation">من خلال &lt;strong&gt;المساهمة&lt;/strong&gt; في المشروع &lt;i&gt;(مالياً أو برمجياً أو ترجمة)&lt;/i&gt;، ستساعده على الاستمرار في الحياة والازدهار، وستكون مؤهلاً أيضاً لإجراء فتح &lt;strong&gt;السمة&lt;/strong&gt;.</string>
     <string name="html_text_dev_feature_encourage">أنت تشجع المطورين على إنشاء &lt;strong&gt;ميزات جديدة&lt;/strong&gt; و &lt;strong&gt;إصلاح الخلل&lt;/strong&gt; وفقًا لملاحظاتك.</string>
     <string name="style_name_forest">غابة</string>
@@ -686,7 +686,7 @@
     <string name="passkeys_privileged_apps_ask_title">التطبيق غير معروف</string>
     <string name="passkeys_privileged_apps_ask_message">يحاول %1$s تنفيذ إجراء مفتاح المرور.\n\nهل تريد إضافته إلى قائمة التطبيقات ذات الامتيازات؟</string>
     <string name="passkeys_missing_signature_app_ask_title">التوقيع مفقود</string>
-    <string name="passkeys_missing_signature_app_ask_explanation">تحذير: تم إنشاء مفتاح المرور من عميل آخر أو تم حذف التوقيع. تأكد من أن التطبيق الذي تريد المصادقة عليه جزء من نفس الخدمة وأنه تطبيق شرعي لتجنب المشاكل الأمنية.\n\nإذا كان التطبيق متصفحًا، فلا تُضِف توقيعه إلى الإدخال، بل أضفه إلى قائمة التطبيقات المصرح لها في الإعدادات.</string>
+    <string name="passkeys_missing_signature_app_ask_explanation">تحذير: تم إنشاء مفتاح المرور من عميل آخر أو تم حذف التوقيع. تأكد من أن التطبيق الذي تريد المصادقة عليه جزء من نفس الخدمة وأنه تطبيق شرعي لتجنب المشاكل الأمنية.\nإذا كان التطبيق متصفحًا، فلا تضف توقيعه إلى الإدخال، بل أضفه إلى قائمة التطبيقات المصرح لها في الإعدادات.</string>
     <string name="passkeys_missing_signature_app_ask_message">%1$s غير معروف ويحاول المصادقة باستخدام مفتاح مرور موجود.</string>
     <string name="passkeys_missing_signature_app_ask_question">هل تريد إضافة توقيع التطبيق إلى إدخال مفتاح المرور؟</string>
     <string name="passkeys_auto_select_title">تحديد تلقائي</string>
