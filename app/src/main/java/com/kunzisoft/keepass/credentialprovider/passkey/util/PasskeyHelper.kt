@@ -268,6 +268,18 @@ object PasskeyHelper {
         )
     }
 
+    // https://github.com/Kunzisoft/KeePassDX/issues/2502#issuecomment-5245533775
+    // https://www.w3.org/TR/webauthn-3/#prf-extension
+    private const val SALT_PRF = "WebAuthn PRF"
+
+    private fun derivePrfSalt(salt: ByteArray): ByteArray {
+        return HashManager.sha256(
+            SALT_PRF.toByteArray(Charsets.UTF_8),
+            byteArrayOf(0x00),
+            salt
+        )
+    }
+
     private fun buildPrfOutput(
         prfInputs: AuthenticationExtensionsPRFInputs? = null,
         credentialId: String? = null,
@@ -283,9 +295,12 @@ object PasskeyHelper {
             if (secret != null) {
                 val prfSecretBytes = Base64Helper.b64DecodeFromCharArray(secret)
                 val results = AuthenticationExtensionsPRFValues(
-                    first = HashManager.hmacSha256(prfSecretBytes, eval.first),
-                    second = eval.second?.let { HashManager.hmacSha256(prfSecretBytes, it) }
+                    first = HashManager.hmacSha256(prfSecretBytes, derivePrfSalt(eval.first)),
+                    second = eval.second?.let {
+                        HashManager.hmacSha256(prfSecretBytes, derivePrfSalt(it))
+                    }
                 )
+                prfSecretBytes.fill(0)
                 AuthenticationExtensionsPRFOutputs(
                     // https://www.w3.org/TR/webauthn-3/#dictdef-authenticationextensionsprfoutputs
                     // For registration, enabled is always true
