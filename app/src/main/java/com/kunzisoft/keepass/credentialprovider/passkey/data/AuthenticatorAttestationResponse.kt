@@ -60,8 +60,9 @@ class AuthenticatorAttestationResponse(
             byteArrayOf((credentialId.size shr 8).toByte(), credentialId.size.toByte()) +
             credentialId +
             credentialPublicKey
-        return if (clientExtensionResults?.prf != null) {
-            authData + Cbor().encode(clientExtensionResults.toAuthDataCbor(isRegistration = true))
+        val prfAuthData = clientExtensionResults?.toAuthDataCbor(isRegistration = true)
+        return if (prfAuthData != null) {
+            authData + Cbor().encode(prfAuthData)
         } else {
             authData
         }

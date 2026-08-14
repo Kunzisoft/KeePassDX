@@ -184,8 +184,8 @@ object PasskeyHelper {
      * Utility method to create a passkey and the associated creation request parameters
      * [intent] allows to retrieve the request
      * [context] context to manage package verification files
-     * [defaultBackupEligibility] the default backup eligibility to add the the passkey entry
-     * [defaultBackupState] the default backup state to add the the passkey entry
+     * [defaultBackupEligibility] the default backup eligibility to add the passkey entry
+     * [defaultBackupState] the default backup state to add the passkey entry
      * [passkeyCreated] is called asynchronously when the passkey has been created
      */
     suspend fun retrievePasskeyCreationRequestParameters(
@@ -200,6 +200,10 @@ object PasskeyHelper {
                 ?: throw CreateCredentialUnknownException("could not retrieve request from intent")
         val callingAppInfo = createCredentialRequest.callingAppInfo
         val creationOptions = createCredentialRequest.retrievePasskeyCreationComponent()
+
+        if (creationOptions.extensions.prf?.evalByCredential != null) {
+            throw CreateCredentialUnknownException("evalByCredential must not be present in a registration request")
+        }
 
         val relyingParty = creationOptions.relyingPartyEntity.id
         val username = creationOptions.userEntity.name
@@ -272,12 +276,24 @@ object PasskeyHelper {
     // https://www.w3.org/TR/webauthn-3/#prf-extension
     private const val SALT_PRF = "WebAuthn PRF"
 
-    private fun derivePrfSalt(salt: ByteArray): ByteArray {
+    // SHA-256(UTF8("WebAuthn PRF") || 0x00 || input)
+    // Domain separation hashing (Client-side processing)
+    fun derivePrfSalt(
+        rawSalt: ByteArray
+    ): ByteArray {
         return HashManager.sha256(
             SALT_PRF.toByteArray(Charsets.UTF_8),
             byteArrayOf(0x00),
-            salt
+            rawSalt
         )
+    }
+
+    // Authenticator processing (FIDO CTAP 2.1 hmac-secret)
+    fun computePrfValue(
+        secret: ByteArray,
+        salt: ByteArray
+    ): ByteArray {
+        return HashManager.hmacSha256(secret, derivePrfSalt(salt))
     }
 
     private fun buildPrfOutput(
@@ -291,28 +307,24 @@ object PasskeyHelper {
         if (!isRegistration && secret == null)
             return null
         val eval = prfInputs.evalByCredential?.get(credentialId) ?: prfInputs.eval
-        return if (eval != null) {
-            if (secret != null) {
-                val prfSecretBytes = Base64Helper.b64DecodeFromCharArray(secret)
-                val results = AuthenticationExtensionsPRFValues(
-                    first = HashManager.hmacSha256(prfSecretBytes, derivePrfSalt(eval.first)),
-                    second = eval.second?.let {
-                        HashManager.hmacSha256(prfSecretBytes, derivePrfSalt(it))
-                    }
-                )
-                prfSecretBytes.fill(0)
-                AuthenticationExtensionsPRFOutputs(
-                    // https://www.w3.org/TR/webauthn-3/#dictdef-authenticationextensionsprfoutputs
-                    // For registration, enabled is always true
-                    // For authentication, enabled must be omitted if results are present
-                    enabled = if (isRegistration) true else null,
-                    results = results
-                )
-            } else {
-                AuthenticationExtensionsPRFOutputs(enabled = true)
-            }
-        } else {
+        return if (eval != null && secret != null) {
+            val prfSecretBytes = Base64Helper.b64DecodeFromCharArray(secret)
+            val results = AuthenticationExtensionsPRFValues(
+                first = computePrfValue(prfSecretBytes, eval.first),
+                second = eval.second?.let { computePrfValue(prfSecretBytes, it) }
+            )
+            prfSecretBytes.fill(0)
+            AuthenticationExtensionsPRFOutputs(
+                // https://www.w3.org/TR/webauthn-3/#dictdef-authenticationextensionsprfoutputs
+                // For registration, enabled is always true and results can be present
+                // For authentication, results are present if computed
+                enabled = if (isRegistration) true else null,
+                results = results
+            )
+        } else if (isRegistration) {
             AuthenticationExtensionsPRFOutputs(enabled = true)
+        } else {
+            null
         }
     }
 

@@ -28,11 +28,12 @@ class FidoPublicKeyCredential(
 ) {
 
     fun json(): String {
+        val isRegistration = response is AuthenticatorAttestationResponse
         val clientExtensionResults = if (response is AuthenticatorExtensionResponse)
-                response.clientExtensionResults?.toJSON() ?: JSONObject()
+                response.clientExtensionResults?.toJSON(isRegistration) ?: JSONObject()
             else JSONObject()
 
-        if (response is AuthenticatorAttestationResponse) {
+        if (isRegistration) {
             // see at https://www.w3.org/TR/webauthn-3/#sctn-authenticator-credential-properties-extension
             val discoverableCredential = true
             val rk = JSONObject()

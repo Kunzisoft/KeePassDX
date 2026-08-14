@@ -247,6 +247,13 @@ data class AuthenticationExtensionsPRFValues(
         return result
     }
 
+    fun toJSON(): JSONObject {
+        val json = JSONObject()
+        json.put(FIRST, Base64Helper.b64Encode(first))
+        second?.let { json.put(SECOND, Base64Helper.b64Encode(it)) }
+        return json
+    }
+
     fun toAuthDataCbor(): Map<Int, Any> {
         val map = mutableMapOf<Int, Any>()
         map[1] = first
@@ -259,10 +266,18 @@ data class AuthenticationExtensionsPRFValues(
         private const val SECOND = "second"
 
         fun JSONObject.getAuthenticationExtensionsPRFValues(): AuthenticationExtensionsPRFValues {
-            return AuthenticationExtensionsPRFValues(
-                Base64Helper.b64Decode(getString(FIRST)),
-                if (has(SECOND)) Base64Helper.b64Decode(getString(SECOND)) else null
-            )
+            val first = Base64Helper.b64Decode(getString(FIRST))
+            if (first.size != 32) {
+                throw IllegalArgumentException("PRF salt 'first' must be 32 bytes, but was ${first.size}")
+            }
+            val second = if (has(SECOND)) {
+                val secondDecoded = Base64Helper.b64Decode(getString(SECOND))
+                if (secondDecoded.size != 32) {
+                    throw IllegalArgumentException("PRF salt 'second' must be 32 bytes, but was ${secondDecoded.size}")
+                }
+                secondDecoded
+            } else null
+            return AuthenticationExtensionsPRFValues(first, second)
         }
     }
 }
@@ -319,28 +334,28 @@ data class AuthenticationExtensionsPRFOutputs(
     val enabled: Boolean? = null,
     val results: AuthenticationExtensionsPRFValues? = null
 ) {
-    fun toJSON(): JSONObject {
+    fun toJSON(isRegistration: Boolean): JSONObject {
         val json = JSONObject()
-        enabled?.let { json.put(ENABLED, it) }
         results?.let { prfValues ->
-            val resultsJson = JSONObject()
-            resultsJson.put(FIRST, Base64Helper.b64Encode(prfValues.first))
-            prfValues.second?.let { resultsJson.put(SECOND, Base64Helper.b64Encode(it)) }
-            json.put(RESULTS, resultsJson)
+            json.put(RESULTS, prfValues.toJSON())
+        }
+        if (isRegistration) {
+            json.put(ENABLED, true)
+        } else if (results == null) {
+            enabled?.let { json.put(ENABLED, it) }
         }
         return json
     }
 
     fun toAuthDataCbor(isRegistration: Boolean): Map<Int, Any> {
         val map = mutableMapOf<Int, Any>()
+        results?.let {
+            map[2] = it.toAuthDataCbor() // results
+        }
         if (isRegistration) {
             map[1] = true // enabled
-        } else {
-            results?.let {
-                map[2] = it.toAuthDataCbor() // results
-            } ?: run {
-                enabled?.let { map[1] = it }
-            }
+        } else if (results == null) {
+            enabled?.let { map[1] = it }
         }
         return map
     }
@@ -348,23 +363,22 @@ data class AuthenticationExtensionsPRFOutputs(
     companion object {
         private const val ENABLED = "enabled"
         private const val RESULTS = "results"
-        private const val FIRST = "first"
-        private const val SECOND = "second"
     }
 }
 
 data class AuthenticationExtensionsClientOutputs(
     val prf: AuthenticationExtensionsPRFOutputs? = null
 ) {
-    fun toJSON(): JSONObject {
+    fun toJSON(isRegistration: Boolean): JSONObject {
         val json = JSONObject()
-        prf?.let { json.put(PRF, it.toJSON()) }
+        prf?.let { json.put(PRF, it.toJSON(isRegistration)) }
         return json
     }
 
-    fun toAuthDataCbor(isRegistration: Boolean): Map<String, Any> {
+    fun toAuthDataCbor(isRegistration: Boolean): Map<String, Any>? {
+        val prfAuthData = prf?.toAuthDataCbor(isRegistration) ?: return null
         val map = mutableMapOf<String, Any>()
-        prf?.let { map[PRF] = it.toAuthDataCbor(isRegistration) }
+        map[PRF] = prfAuthData
         return map
     }
 

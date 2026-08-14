@@ -46,8 +46,9 @@ class AuthenticatorAssertionResponse(
         backupState = backupState,
         extensionsPresent = clientExtensionResults?.prf != null
     ).let {
-        if (clientExtensionResults?.prf != null) {
-            it + Cbor().encode(clientExtensionResults.toAuthDataCbor(isRegistration = false))
+        val prfAuthData = clientExtensionResults?.toAuthDataCbor(isRegistration = false)
+        if (prfAuthData != null) {
+            it + Cbor().encode(prfAuthData)
         } else {
             it
         }

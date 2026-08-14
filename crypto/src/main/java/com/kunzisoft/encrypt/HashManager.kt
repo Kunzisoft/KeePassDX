@@ -81,8 +81,6 @@ object HashManager {
         return hash.digest()
     }
 
-
-
     /**
      * Get an initialized HMAC-SHA256 Mac instance.
      *
