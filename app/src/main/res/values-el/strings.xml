@@ -69,7 +69,7 @@
     <string name="error_out_of_memory">Δεν υπάρχει μνήμη για να φορτώσετε ολόκληρη τη βάση δεδομένων σας.</string>
     <string name="error_pass_gen_type">Πρέπει να επιλεγεί τουλάχιστον ένας τύπος δημιουργίας κωδικού πρόσβασης.</string>
     <string name="error_pass_match">Οι κωδικοί δεν ταιριάζουν.</string>
-    <string name="error_rounds_too_large">Οι \"κύκλοι μετασχηματισμού\" είναι πολύ υψηλοί. Ρύθμιση στο 2147483648.</string>
+    <string name="error_rounds_too_large">Οι \"κύκλοι μετασχηματισμού\" είναι πολύ υψηλοί. Ρύθμιση στο %1$s.</string>
     <string name="error_string_key">Κάθε σειρά πρέπει να έχει όνομα πεδίου.</string>
     <string name="error_wrong_length">Εισάγετε ένα θετικό ακέραιο αριθμό στο πεδίο \"Μήκος\".</string>
     <string name="field_name">Όνομα πεδίου</string>

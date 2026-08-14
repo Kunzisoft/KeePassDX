@@ -21,6 +21,7 @@ package com.kunzisoft.keepass.settings.preferencedialogfragment
 
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.ContextualDatabase
 
@@ -38,10 +39,19 @@ class DatabaseParallelismPreferenceDialogFragmentCompat : DatabaseSavePreference
     override fun onDialogClosed(database: ContextualDatabase?, positiveResult: Boolean) {
         if (positiveResult) {
             database?.let {
-                val parallelism: Long = try {
+                val minParallelism = database.kdfEngine?.minParallelism ?: DEFAULT_MIN_PARALLELISM
+                var parallelism: Long = try {
                     inputText.toLong()
-                } catch (e: NumberFormatException) {
-                    MIN_PARALLELISM
+                } catch (_: NumberFormatException) {
+                    minParallelism
+                }
+                if (parallelism < minParallelism) {
+                    parallelism = minParallelism
+                }
+                val maxParallelism = database.kdfEngine?.maxParallelism ?: DEFAULT_MAX_PARALLELISM
+                if (parallelism > maxParallelism) {
+                    parallelism = maxParallelism
+                    Toast.makeText(context, getString(R.string.error_parallelism_too_large, maxParallelism.toString()), Toast.LENGTH_LONG).show()
                 }
 
                 val oldParallelism = database.parallelism
@@ -54,7 +64,8 @@ class DatabaseParallelismPreferenceDialogFragmentCompat : DatabaseSavePreference
 
     companion object {
 
-        const val MIN_PARALLELISM = 1L
+        private const val DEFAULT_MIN_PARALLELISM = 1L
+        private const val DEFAULT_MAX_PARALLELISM = Long.MAX_VALUE
 
         fun newInstance(key: String): DatabaseParallelismPreferenceDialogFragmentCompat {
             val fragment = DatabaseParallelismPreferenceDialogFragmentCompat()

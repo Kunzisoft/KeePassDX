@@ -67,7 +67,7 @@
     <string name="error_out_of_memory">Onvoldoende vrij geheugen om de gehele database te laden.</string>
     <string name="error_pass_gen_type">Selecteer ten minste één type wachtwoordgeneratie.</string>
     <string name="error_pass_match">De wachtwoorden komen niet overeen.</string>
-    <string name="error_rounds_too_large">\"Cycli-waarde\" te groot. Deze wordt ingesteld op 2147483648.</string>
+    <string name="error_rounds_too_large">\"Cycli-waarde\" te groot. Deze wordt ingesteld op %1$s.</string>
     <string name="error_wrong_length">Voer in het veld \"Lengte\" een positief geheel getal in.</string>
     <string name="file_browser">Bestandsbeheer</string>
     <string name="generate_password">Wachtwoord genereren</string>

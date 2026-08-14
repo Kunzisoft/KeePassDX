@@ -173,7 +173,7 @@
     <string name="error_pass_gen_type">Phải chọn ít nhất một loại tạo mật khẩu.</string>
     <string name="error_disallow_no_credentials">Phải đặt ít nhất một thông tin xác thực.</string>
     <string name="error_pass_match">Mật khẩu không khớp.</string>
-    <string name="error_rounds_too_large">\"Vòng chuyển đổi\" quá cao. Đặt thành 2147483648.</string>
+    <string name="error_rounds_too_large">\"Vòng chuyển đổi\" quá cao. Đặt thành %1$s.</string>
     <string name="error_string_key">Mỗi chuỗi phải có một tên vùng.</string>
     <string name="error_label_exists">Nhãn này đã tồn tại.</string>
     <string name="error_wrong_length">Nhập một số nguyên dương vào vùng \"độ dài\".</string>

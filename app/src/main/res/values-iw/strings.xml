@@ -67,7 +67,7 @@
     <string name="error_out_of_memory">אין זיכרון לטעינת כל מסד הנתונים שלך.</string>
     <string name="error_pass_gen_type">יש לבחור לפחות סוג יצירת סיסמה אחד.</string>
     <string name="error_pass_match">הסיסמאות אינן תואמות.</string>
-    <string name="error_rounds_too_large">\"סבבי טרנספורמציה\" גבוהים מדי. מגדיר ל-2147483648.</string>
+    <string name="error_rounds_too_large">\"סבבי טרנספורמציה\" גבוהים מדי. מגדיר ל-%1$s.</string>
     <string name="error_string_key">לכל מחרוזת חייב להיות שם שדה.</string>
     <string name="error_wrong_length">הזן מספר שלם חיובי בשדה \"אורך\".</string>
     <string name="field_name">שם השדה</string>

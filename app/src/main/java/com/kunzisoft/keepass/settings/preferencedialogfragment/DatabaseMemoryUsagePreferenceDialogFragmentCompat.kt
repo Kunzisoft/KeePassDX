@@ -21,13 +21,14 @@ package com.kunzisoft.keepass.settings.preferencedialogfragment
 
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.utils.DataByte
 
 class DatabaseMemoryUsagePreferenceDialogFragmentCompat : DatabaseSavePreferenceDialogFragmentCompat() {
 
-    private var dataByte = DataByte(MIN_MEMORY_USAGE, DataByte.ByteFormat.BYTE)
+    private var dataByte = DataByte(DEFAULT_MIN_MEMORY_USAGE, DataByte.ByteFormat.BYTE)
 
     override fun onBindDialogView(view: View) {
         super.onBindDialogView(view)
@@ -45,21 +46,23 @@ class DatabaseMemoryUsagePreferenceDialogFragmentCompat : DatabaseSavePreference
     override fun onDialogClosed(database: ContextualDatabase?, positiveResult: Boolean) {
         if (positiveResult) {
             database?.let {
+                val minMemoryUsage = database.kdfEngine?.minMemoryUsage ?: DEFAULT_MIN_MEMORY_USAGE
                 var newMemoryUsage: Long = try {
                     inputText.toLong()
-                } catch (e: NumberFormatException) {
-                    MIN_MEMORY_USAGE
+                } catch (_: NumberFormatException) {
+                    minMemoryUsage
                 }
-                if (newMemoryUsage < MIN_MEMORY_USAGE) {
-                    newMemoryUsage = MIN_MEMORY_USAGE
+                if (newMemoryUsage < minMemoryUsage) {
+                    newMemoryUsage = minMemoryUsage
+                }
+                val maxMemoryUsage = database.kdfEngine?.maxMemoryUsage ?: DEFAULT_MAX_MEMORY_USAGE
+                if (newMemoryUsage > maxMemoryUsage) {
+                    newMemoryUsage = maxMemoryUsage
+                    Toast.makeText(context, getString(R.string.error_memory_too_large, DataByte(maxMemoryUsage, DataByte.ByteFormat.BYTE).toBetterByteFormat().toString(requireContext())), Toast.LENGTH_LONG).show()
                 }
                 // To transform in bytes
                 dataByte.number = newMemoryUsage
-                var numberOfBytes = dataByte.toBytes()
-                if (numberOfBytes > Long.MAX_VALUE) {
-                    numberOfBytes = Long.MAX_VALUE
-                }
-
+                val numberOfBytes = dataByte.toBytes()
                 val oldMemoryUsage = database.memoryUsage
                 database.memoryUsage = numberOfBytes
 
@@ -70,7 +73,8 @@ class DatabaseMemoryUsagePreferenceDialogFragmentCompat : DatabaseSavePreference
 
     companion object {
 
-        const val MIN_MEMORY_USAGE = 1L
+        private const val DEFAULT_MIN_MEMORY_USAGE = 1L
+        private const val DEFAULT_MAX_MEMORY_USAGE = Long.MAX_VALUE
 
         fun newInstance(key: String): DatabaseMemoryUsagePreferenceDialogFragmentCompat {
             val fragment = DatabaseMemoryUsagePreferenceDialogFragmentCompat()

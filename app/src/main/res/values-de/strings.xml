@@ -75,7 +75,7 @@
     <string name="error_out_of_memory">Zu wenig Speicher, um die gesamte Datenbank zu laden.</string>
     <string name="error_pass_gen_type">Mindestens eine Art der Passwortgenerierung muss ausgewählt werden.</string>
     <string name="error_pass_match">Die Passwörter stimmen nicht überein.</string>
-    <string name="error_rounds_too_large">Zu viele „Verschlüsselungsrunden“. Wird auf 2147483648 eingestellt.</string>
+    <string name="error_rounds_too_large">Zu viele „Verschlüsselungsrunden“. Wird auf %1$s eingestellt.</string>
     <string name="error_string_key">Jeder Text braucht einen Feldnamen.</string>
     <string name="error_wrong_length">Gib eine positive ganze Zahl in das Feld „Länge“ ein.</string>
     <string name="field_name">Feldname</string>

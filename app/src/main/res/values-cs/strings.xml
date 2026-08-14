@@ -67,7 +67,7 @@
     <string name="error_out_of_memory">Nedostatek paměti pro načtení celé databáze.</string>
     <string name="error_pass_gen_type">Je třeba zvolit alespoň jeden způsob vytváření hesla.</string>
     <string name="error_pass_match">Zadání hesla se neshodují.</string>
-    <string name="error_rounds_too_large">\"Transformační kola\" jsou příliš vysoká. Nastavuji na 2147483648.</string>
+    <string name="error_rounds_too_large">\"Transformační kola\" jsou příliš vysoká. Nastavuji na %1$s.</string>
     <string name="error_string_key">Každý řetězec musí mít název kolonky.</string>
     <string name="error_wrong_length">Do kolonky „Délka“ zadejte celé kladné číslo.</string>
     <string name="field_name">Název kolonky</string>

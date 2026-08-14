@@ -171,7 +171,7 @@
     <string name="error_autofill_enable_service">Não foi possível ativar o serviço de preenchimento automático.</string>
     <string name="error_wrong_length">Digite um número inteiro positivo no campo \"Comprimento\".</string>
     <string name="error_string_key">É necessário um nome de campo para cada cadeia.</string>
-    <string name="error_rounds_too_large">\"Rodadas de transformação\" é muito grande. Alterado para 2147483648.</string>
+    <string name="error_rounds_too_large">\"Rodadas de transformação\" é muito grande. Alterado para %1$s.</string>
     <string name="error_pass_match">As palavras-passe não coincidem.</string>
     <string name="error_pass_gen_type">Tem de ser selecionado pelo menos um tipo de geração de palavra-chave.</string>
     <string name="hide_expired_entries_summary">As entradas expiradas não são mostradas</string>

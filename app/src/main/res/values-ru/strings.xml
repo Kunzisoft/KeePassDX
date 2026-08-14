@@ -69,7 +69,7 @@
     <string name="error_out_of_memory">Недостаточно памяти для работы с базой.</string>
     <string name="error_pass_gen_type">Выберите один или несколько типов символов.</string>
     <string name="error_pass_match">Пароли не совпадают.</string>
-    <string name="error_rounds_too_large">Предельное значение 2147483648.</string>
+    <string name="error_rounds_too_large">Предельное значение %1$s.</string>
     <string name="error_string_key">Каждое поле должно иметь название.</string>
     <string name="error_wrong_length">Поле \"Длина\" должно быть положительным целым числом.</string>
     <string name="field_name">Название поля</string>

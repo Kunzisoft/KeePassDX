@@ -86,7 +86,7 @@
     <string name="error_wrong_length">Unesite pozitivan ceo broj u polje \"Dužina\".</string>
     <string name="error_label_exists">Ova oznaka već postoji.</string>
     <string name="error_string_key">Svaka niska mora imati ime polja.</string>
-    <string name="error_rounds_too_large">Vrednost transformacijskih prolaza je previsoka. Postavlja se na 2147483648.</string>
+    <string name="error_rounds_too_large">Vrednost transformacijskih prolaza je previsoka. Postavlja se na %1$s.</string>
     <string name="error_pass_match">Lozinke se ne podudaraju.</string>
     <string name="error_disallow_no_credentials">Najmanje jedan podatak za prijavu mora biti unet.</string>
     <string name="error_pass_gen_type">Mora biti izabran najmanje jedan tip generisanja lozinke.</string>

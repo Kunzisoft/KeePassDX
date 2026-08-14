@@ -138,7 +138,7 @@
     <string name="error_wrong_length">در قسمت \"طول\" یک عدد صحیح مثبت وارد کنید.</string>
     <string name="error_label_exists">این برچسب در حال حاضر وجود دارد.</string>
     <string name="error_string_key">هر رشته باید یک نام فیلد داشته باشد.</string>
-    <string name="error_rounds_too_large">\"دور تحول\" بیش از حد بالا است. تنظیم به 2147483648.</string>
+    <string name="error_rounds_too_large">\"دور تحول\" بیش از حد بالا است. تنظیم به %1$s.</string>
     <string name="error_pass_match">رمزهای عبور با هم مطابقت نمی کنند.</string>
     <string name="error_disallow_no_credentials">حداقل یک اعتبار نامه باید تعیین شود.</string>
     <string name="error_pass_gen_type">حداقل یک نوع تولید رمز عبور باید انتخاب شود.</string>

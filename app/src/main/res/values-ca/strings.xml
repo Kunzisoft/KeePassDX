@@ -66,7 +66,7 @@
     <string name="error_out_of_memory">No hi ha prou memòria per a carregar la base de dades sencera.</string>
     <string name="error_pass_gen_type">Heu de seleccionar com a mínim un tipus de generació de contrasenyes.</string>
     <string name="error_pass_match">Les contrasenyes no coincideixen.</string>
-    <string name="error_rounds_too_large">Massa passades. Establint a 2147483648.</string>
+    <string name="error_rounds_too_large">Massa passades. Establint a %1$s.</string>
     <string name="error_wrong_length">Inseriu un enter positiu al camp «Longitud».</string>
     <string name="file_browser">Gestor de fitxers</string>
     <string name="generate_password">Genera contrasenya</string>

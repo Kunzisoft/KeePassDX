@@ -66,7 +66,7 @@
     <string name="error_out_of_memory">Ikke nok hukommelse til at indlæse hele databasen.</string>
     <string name="error_pass_gen_type">Der skal vælges mindst én type af adgangskodegenerering.</string>
     <string name="error_pass_match">Adgangskoderne er ikke ens.</string>
-    <string name="error_rounds_too_large">\"Transformationsrunder\" er sat for højt. Sættes til 2147483648.</string>
+    <string name="error_rounds_too_large">\"Transformationsrunder\" er sat for højt. Sættes til %1$s.</string>
     <string name="error_string_key">Hver streng skal have et feltnavn.</string>
     <string name="error_wrong_length">Angiv et positivt heltal i feltet \"Længde\".</string>
     <string name="field_name">Feltnavn</string>

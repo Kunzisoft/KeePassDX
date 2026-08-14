@@ -31,7 +31,11 @@ import javax.crypto.spec.SecretKeySpec
 
 object AESTransformer {
 
-    fun transformKey(seed: ByteArray?, key: ByteArray?, rounds: Long?): ByteArray? {
+    fun transformKey(
+        seed: ByteArray?,
+        key: ByteArray?,
+        rounds: Long?
+    ): ByteArray? {
         // Prefer the native final key implementation
         return try {
             NativeLib.init()
@@ -45,7 +49,11 @@ object AESTransformer {
 
     @SuppressLint("GetInstance")
     @Throws(IOException::class)
-    fun transformKeyInJVM(seed: ByteArray?, key: ByteArray?, rounds: Long?): ByteArray {
+    fun transformKeyInJVM(
+        seed: ByteArray?,
+        key: ByteArray?,
+        rounds: Long?
+    ): ByteArray {
         val cipher: Cipher = try {
             Cipher.getInstance("AES/ECB/NoPadding")
         } catch (e: Exception) {

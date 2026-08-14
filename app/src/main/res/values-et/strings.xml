@@ -187,7 +187,7 @@
     <string name="error_arc4">Arcfouri jadašiffer pole toetatud.</string>
     <string name="error_wrong_length">Väljale „Pikkus“ sisesta positiivne täisarv.</string>
     <string name="error_pass_gen_type">Vähemalt üks salasõna loomise tüüp peab olema valitud.</string>
-    <string name="error_rounds_too_large">Iteratsioonide kordade arv on liiga suur. Muudame väärtuseks 2147483648.</string>
+    <string name="error_rounds_too_large">Iteratsioonide kordade arv on liiga suur. Muudame väärtuseks %1$s.</string>
     <string name="error_string_key">Igal tekstil peab olema väljanimi.</string>
     <string name="error_otp_secret_key">Salavõti peab olema base32 vormingus.</string>
     <string name="error_otp_counter">Loendur peab olema vahemikus %1$d kuni %2$d.</string>

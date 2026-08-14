@@ -4,3 +4,4 @@
  * Fix special character input in entry fields #2632
  * Fix query packages permission in manifest #996
  * Fix expiration during Autofill registration #2600
+ * Fix KDF max parameters #2640

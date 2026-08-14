@@ -65,7 +65,7 @@
     <string name="error_out_of_memory">Žiadna pamäť na načítanie celej databázy.</string>
     <string name="error_pass_gen_type">Musí byť vybraný najmenej jeden typ generovania hesla.</string>
     <string name="error_pass_match">Heslá sa nezhodujú.</string>
-    <string name="error_rounds_too_large">Príliš veľa opakovaní. Nastavujem na 2147483648.</string>
+    <string name="error_rounds_too_large">Príliš veľa opakovaní. Nastavujem na %1$s.</string>
     <string name="error_wrong_length">Do poľa „Dĺžka“ zadajte celé kladné číslo.</string>
     <string name="file_browser">Správca súborov</string>
     <string name="generate_password">Generovať heslo</string>

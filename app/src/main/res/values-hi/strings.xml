@@ -72,7 +72,7 @@
     <string name="error_load_database_KDF_memory">कुंजी लोड नहीं कर सके। KDF \"मेमोरी उपयोग\" को कम करने का प्रयास करें।</string>
     <string name="error_pass_gen_type">कम से कम एक पासवर्ड जनरेशन प्रकार का चयन करना होगा।</string>
     <string name="error_pass_match">पासवर्ड मेल नहीं खाते हैं।</string>
-    <string name="error_rounds_too_large">\"परिवर्तन राउंड\" बहुत अधिक है। 2147483648 पर सेट हो रहा है।</string>
+    <string name="error_rounds_too_large">\"परिवर्तन राउंड\" बहुत अधिक है। %1$s पर सेट हो रहा है।</string>
     <string name="error_string_key">प्रत्येक स्ट्रिंग में फ़ील्ड नाम होना चाहिए।</string>
     <string name="content_description_open_file">फ़ाइल खोलें</string>
     <string name="content_description_node_children">उप नोड</string>

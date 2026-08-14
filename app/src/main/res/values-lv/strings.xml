@@ -66,7 +66,7 @@
     <string name="error_out_of_memory">Darbam ar datu bāzi, tālrunī nepietiek atmiņas.</string>
     <string name="error_pass_gen_type">Ir jāatlasa vismaz viens paroles ģenerēšanas veids.</string>
     <string name="error_pass_match">Paroles nesakrīt.</string>
-    <string name="error_rounds_too_large">\"Šifrēšanas kārtas\" vērtība ir pārāk liela. Iestata uz 2147483648.</string>
+    <string name="error_rounds_too_large">\"Šifrēšanas kārtas\" vērtība ir pārāk liela. Iestata uz %1$s.</string>
     <string name="error_string_key">A field name is required for each string.</string>
     <string name="error_wrong_length">Ievadiet pozitīvu veselu skaitli \"Garums\" laukā.</string>
     <string name="field_name">Lauka nosaukums</string>

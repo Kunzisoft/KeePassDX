@@ -69,7 +69,7 @@
     <string name="error_out_of_memory">Sem memória suficiente para carregar toda a base de dados.</string>
     <string name="error_pass_gen_type">Tem de ser selecionado pelo menos um tipo de geração de palavra-chave.</string>
     <string name="error_pass_match">As palavras-passe não coincidem.</string>
-    <string name="error_rounds_too_large">\"Rodadas de transformação\" é muito grande. Alterado para 2147483648.</string>
+    <string name="error_rounds_too_large">\"Rodadas de transformação\" é muito grande. Alterado para %1$s.</string>
     <string name="error_string_key">É necessário um nome de campo para cada cadeia.</string>
     <string name="error_wrong_length">Digite um número inteiro positivo no campo \"Comprimento\".</string>
     <string name="field_name">Nome do campo</string>

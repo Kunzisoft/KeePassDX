@@ -156,7 +156,7 @@
     <string name="error_pass_gen_type">Павінен быць абраны хаця б адзін тып генерацыі пароляў.</string>
     <string name="error_disallow_no_credentials">Павінен быць усталяваны хаця б адзін набор уліковых дадзеных.</string>
     <string name="error_pass_match">Паролі не супадаюць.</string>
-    <string name="error_rounds_too_large">Колькасць цыклаў пераўтварэння занадта высокая. Устаноўка 2147483648.</string>
+    <string name="error_rounds_too_large">Колькасць цыклаў пераўтварэння занадта высокая. Устаноўка %1$s.</string>
     <string name="error_string_key">Кожны радок павінен мець назву поля.</string>
     <string name="error_label_exists">Гэтая метка ўжо існуе.</string>
     <string name="error_wrong_length">Увядзіце станоўчае цэлае лік у полі Даўжыня.</string>

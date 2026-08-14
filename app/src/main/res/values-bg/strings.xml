@@ -595,7 +595,7 @@
     <string name="keyboard_previous_fill_in_summary">Автоматично превключва предната клавиатура след докосване на бутона за автоматично действие</string>
     <string name="autofill_block_restart">Рестартирайте приложението, съдържащо формуляра, за да влезе в сила ограничението.</string>
     <string name="autofill_inline_suggestions_keyboard">Предложения за автом. попълване са добавени.</string>
-    <string name="error_rounds_too_large">Полето „Брой преобразувания“ има твърде голяма стойност. Променена е на 2147483648.</string>
+    <string name="error_rounds_too_large">Полето „Брой преобразувания“ има твърде голяма стойност. Променена е на %1$s.</string>
     <string name="error_string_key">Всяко поле трябва да има наименование.</string>
     <string name="error_label_exists">Такъв етикет вече съществува.</string>
     <string name="error_save_database">Хранилището не може да бъде запазено.</string>

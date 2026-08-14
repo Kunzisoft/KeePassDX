@@ -4,13 +4,15 @@ import com.kunzisoft.encrypt.NativeLib
 
 object Argon2Transformer {
 
-    fun transformKey(type: Argon2Type,
-                     password: ByteArray,
-                     salt: ByteArray,
-                     parallelism: Long,
-                     memory: Long,
-                     iterations: Long,
-                     version: Int): ByteArray {
+    fun transformKey(
+        type: Argon2Type,
+        password: ByteArray,
+        salt: ByteArray,
+        parallelism: Long,
+        memory: Long,
+        iterations: Long,
+        version: Int
+    ): ByteArray {
 
         NativeLib.init()
         val argon2Type = when(type) {
@@ -28,6 +30,7 @@ object Argon2Transformer {
                 iterations.toInt(),
                 ByteArray(0),
                 ByteArray(0),
-                version)
+                version
+        )
     }
 }

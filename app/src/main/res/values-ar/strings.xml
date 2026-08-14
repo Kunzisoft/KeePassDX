@@ -129,7 +129,7 @@
     <string name="error_load_database">تعذر تحميل قاعدة البيانات.</string>
     <string name="error_load_database_KDF_memory">تعذر تحميل المفتاح. حاول تقليل \"الذاكرة المستخدمة\" من قِبل KDF.</string>
     <string name="error_pass_gen_type">يجب تحديد نوع واحد على الأقل لتوليد كلمة السر.</string>
-    <string name="error_rounds_too_large">\"جولات التحويل\" كثيرة جداً. الإعداد إلى 2147483648.</string>
+    <string name="error_rounds_too_large">\"جولات التحويل\" كثيرة جداً. الإعداد إلى %1$s.</string>
     <string name="error_string_key">يجب أن يكون لكل سلسلة اسم حقل.</string>
     <string name="error_wrong_length">أدخل عددًا صحيحًا موجبًا في حقل «الطول».</string>
     <string name="error_autofill_enable_service">تعذر تفعيل خدمة الملء التلقائي.</string>

@@ -73,7 +73,7 @@
     <string name="error_wrong_length">Masukkan bilangan bulat di bidang \"Panjang\".</string>
     <string name="error_label_exists">Label ini sudah ada.</string>
     <string name="error_string_key">Setiap string harus memiliki bidang nama.</string>
-    <string name="error_rounds_too_large">\"Putaran Transformasi\" terlalu tinggi. Atur ke 2147483648.</string>
+    <string name="error_rounds_too_large">\"Putaran Transformasi\" terlalu tinggi. Atur ke %1$s.</string>
     <string name="error_pass_match">Kata sandi tidak sesuai.</string>
     <string name="error_disallow_no_credentials">Setidaknya ada satu kredensial yang harus ditetapkan.</string>
     <string name="error_pass_gen_type">Setidaknya ada satu jenis pembuatan kata sandi yang harus dipilih.</string>

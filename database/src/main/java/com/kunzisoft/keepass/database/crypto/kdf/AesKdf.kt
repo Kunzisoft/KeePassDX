@@ -56,6 +56,7 @@ class AesKdf : KdfEngine() {
         }
 
         val rounds = kdfParameters.getUInt64(PARAM_ROUNDS)?.toKotlinLong()
+            ?.coerceIn(minKeyRounds, maxKeyRounds)
 
         return AESTransformer.transformKey(seed, currentMasterKey, rounds) ?: ByteArray(0)
     }
@@ -69,8 +70,11 @@ class AesKdf : KdfEngine() {
     }
 
     override fun setKeyRounds(kdfParameters: KdfParameters, keyRounds: Long) {
-        kdfParameters.setUInt64(PARAM_ROUNDS, UnsignedLong(keyRounds))
+        kdfParameters.setUInt64(PARAM_ROUNDS, UnsignedLong(keyRounds.coerceIn(minKeyRounds, maxKeyRounds)))
     }
+
+    override val maxKeyRounds: Long
+        get() = MAX_ROUNDS.toKotlinLong()
 
     override fun toString(): String {
         return "AES"
@@ -98,5 +102,7 @@ class AesKdf : KdfEngine() {
 
         const val PARAM_ROUNDS = "R" // UInt64
         const val PARAM_SEED = "S" // Byte array
+
+        private val MAX_ROUNDS = UnsignedLong(100_000_000L)
     }
 }

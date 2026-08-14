@@ -115,7 +115,7 @@
     <string name="error_pass_gen_type">少なくとも 1 つのパスワード生成タイプを選択する必要があります。</string>
     <string name="error_disallow_no_credentials">少なくとも 1 つの認証情報を設定する必要があります。</string>
     <string name="error_pass_match">パスワードが一致しません。</string>
-    <string name="error_rounds_too_large">[変換ラウンド] が多すぎます。2147483648 に設定します。</string>
+    <string name="error_rounds_too_large">[変換ラウンド] が多すぎます。%1$s に設定します。</string>
     <string name="error_string_key">各文字列にはフィールド名が必要です。</string>
     <string name="error_label_exists">このラベルはすでに存在します。</string>
     <string name="error_wrong_length">[長さ] フィールドには正の整数を入力してください。</string>

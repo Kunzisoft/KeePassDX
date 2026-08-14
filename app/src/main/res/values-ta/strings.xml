@@ -250,7 +250,7 @@
     <string name="error_out_of_memory">உங்கள் முழு தரவுத்தளத்தையும் ஏற்ற நினைவகம் இல்லை.</string>
     <string name="error_XML_malformed">எக்ச்எம்எல் தவறாக.</string>
     <string name="error_pass_match">கடவுச்சொற்கள் பொருந்தவில்லை.</string>
-    <string name="error_rounds_too_large">\"உருமாற்ற சுற்றுகள்\" மிக அதிகம். 2147483648 க்கு அமைத்தல்.</string>
+    <string name="error_rounds_too_large">\"உருமாற்ற சுற்றுகள்\" மிக அதிகம். %1$s க்கு அமைத்தல்.</string>
     <string name="error_autofill_enable_service">ஆட்டோஃபில் சேவையை இயக்க முடியவில்லை.</string>
     <string name="error_move_entry_here">நீங்கள் இங்கே ஒரு நுழைவை நகர்த்த முடியாது.</string>
     <string name="error_create_database">தரவுத்தள கோப்பை உருவாக்க முடியவில்லை.</string>

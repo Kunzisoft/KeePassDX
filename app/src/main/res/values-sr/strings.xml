@@ -215,7 +215,7 @@
     <string name="error_pass_gen_type">Мора бити изабран најмање један тип генерисања лозинке.</string>
     <string name="error_disallow_no_credentials">Најмање један податак за пријаву мора бити унет.</string>
     <string name="error_pass_match">Лозинке се не подударају.</string>
-    <string name="error_rounds_too_large">Вредност трансформационих пролаза је превисока. Поставља се на 2147483648.</string>
+    <string name="error_rounds_too_large">Вредност трансформационих пролаза је превисока. Поставља се на %1$s.</string>
     <string name="error_string_key">Свака ниска мора имати име поља.</string>
     <string name="error_wrong_length">Унесите позитиван цео број у поље \"Дужина\".</string>
     <string name="error_move_group_here">Овде не можете преместити групу.</string>

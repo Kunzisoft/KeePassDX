@@ -66,23 +66,23 @@ class DatabaseRoundsPreferenceDialogFragmentCompat : DatabaseSavePreferenceDialo
     override fun onDialogClosed(database: ContextualDatabase?, positiveResult: Boolean) {
         if (positiveResult) {
             database?.let {
+                val minIterations = database.kdfEngine?.minKeyRounds ?: DEFAULT_MIN_ITERATIONS
                 var rounds: Long = try {
                     inputText.toLong()
                 } catch (_: NumberFormatException) {
-                    MIN_ITERATIONS
+                    minIterations
                 }
-                if (rounds < MIN_ITERATIONS) {
-                    rounds = MIN_ITERATIONS
+                if (rounds < minIterations) {
+                    rounds = minIterations
                 }
-                // TODO Max iterations
+                val maxIterations = database.kdfEngine?.maxKeyRounds ?: DEFAULT_MAX_ITERATIONS
+                if (rounds > maxIterations) {
+                    rounds = maxIterations
+                    Toast.makeText(context, getString(R.string.error_rounds_too_large, maxIterations.toString()), Toast.LENGTH_LONG).show()
+                }
 
                 val oldRounds = database.numberKeyEncryptionRounds
-                try {
-                    database.numberKeyEncryptionRounds = rounds
-                } catch (_: NumberFormatException) {
-                    Toast.makeText(context, R.string.error_rounds_too_large, Toast.LENGTH_LONG).show()
-                    database.numberKeyEncryptionRounds = Long.MAX_VALUE
-                }
+                database.numberKeyEncryptionRounds = rounds
 
                 saveIterations(oldRounds, rounds)
             }
@@ -91,7 +91,8 @@ class DatabaseRoundsPreferenceDialogFragmentCompat : DatabaseSavePreferenceDialo
 
     companion object {
 
-        const val MIN_ITERATIONS = 1L
+        private const val DEFAULT_MIN_ITERATIONS = 1L
+        private const val DEFAULT_MAX_ITERATIONS = Long.MAX_VALUE
 
         fun newInstance(key: String): DatabaseRoundsPreferenceDialogFragmentCompat {
             val fragment = DatabaseRoundsPreferenceDialogFragmentCompat()

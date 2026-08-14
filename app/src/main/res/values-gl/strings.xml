@@ -68,7 +68,7 @@
     <string name="bank">Banco</string>
     <string name="error_invalid_OTP">Segredo OTP inválido.</string>
     <string name="error_pass_match">As contrasinais non coinciden.</string>
-    <string name="error_rounds_too_large">\"Rondas de transformación\" moi grandes. Alterado para 2147483648.</string>
+    <string name="error_rounds_too_large">\"Rondas de transformación\" moi grandes. Alterado para %1$s.</string>
     <string name="error_arc4">O cifrado de fluxo Arcfour non é soportado.</string>
     <string name="error_copy_group_here">Non pode copiar un grupo aquí.</string>
     <string name="error_create_database">Non foi posíbel crear o ficheiro da base de datos.</string>

@@ -70,7 +70,7 @@
     <string name="error_out_of_memory">Ez dago memoriarik datu-base osoa kargatzeko.</string>
     <string name="error_pass_gen_type">Gutxienez pasahitza sortzeko mota bat aukeratu behar da.</string>
     <string name="error_pass_match">Pasahitzak ez datoz bat.</string>
-    <string name="error_rounds_too_large">\"Eraldaketa itzuli\" gehiegi dira. 2147483648ra ezartzen.</string>
+    <string name="error_rounds_too_large">\"Eraldaketa itzuli\" gehiegi dira. %1$sra ezartzen.</string>
     <string name="error_string_key">Kate bakoitzak eremu-izen bat behar du.</string>
     <string name="error_wrong_length">\"Luzera\" eremuan zenbaki oso positibo bat sartu.</string>
     <string name="field_name">Eremu-izena</string>

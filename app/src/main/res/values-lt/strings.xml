@@ -207,7 +207,7 @@
     <string name="hardware_key">Aparatinės įrangos raktas</string>
     <string name="entry_UUID">UUID</string>
     <string name="error_disallow_no_credentials">Turi būti nustatytas bent vienas kredencialas.</string>
-    <string name="error_rounds_too_large">\"Transformacijos raundai\" per dideli. Nustatome į 2147483648.</string>
+    <string name="error_rounds_too_large">\"Transformacijos raundai\" per dideli. Nustatome į %1$s.</string>
     <string name="error_string_key">Kiekviena eilutė turi turėti laukelio pavadinimą.</string>
     <string name="auto_type">Auto-įvedimas</string>
     <string name="card_verification_value">CVV</string>
