@@ -1,1 +1,1 @@
-KeePassDX-valv för lösenordsnycklar
+KeePassDX-lösenordsvalv
