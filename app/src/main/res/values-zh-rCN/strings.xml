@@ -766,4 +766,6 @@
     <string name="keyboard_share_browser">从 %1$s 分享到 KeePassDX</string>
     <string name="benchmarking">正在进行基准测试…</string>
     <string name="benchmark_calculation">计算 %1$s 秒</string>
+    <string name="error_memory_too_large">\"内存使用量\" 过高。设为 %1$s。</string>
+    <string name="error_parallelism_too_large">\"并发量\" 过高。设为 %1$s。</string>
 </resources>
