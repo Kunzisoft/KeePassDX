@@ -146,7 +146,7 @@ class SearchFragment: DatabaseFragment() {
                 .show(childFragmentManager, "sortDialog")
         }
         searchClose?.setOnClickListener {
-            activity?.onBackPressed()
+            activity?.onBackPressedDispatcher?.onBackPressed()
         }
 
         searchView?.apply {

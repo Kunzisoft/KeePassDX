@@ -12,7 +12,7 @@ android {
     defaultConfig {
         applicationId "com.kunzisoft.keepass"
         minSdkVersion 19
-        targetSdkVersion 35
+        targetSdkVersion 36
         versionCode = 45005
         versionName = "4.5.0_beta05"
         multiDexEnabled true
