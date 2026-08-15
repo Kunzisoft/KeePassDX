@@ -677,6 +677,10 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         updateMessage(R.string.decrypting_db)
     }
 
+    override fun benchmarking() {
+        updateMessage(R.string.benchmarking)
+    }
+
     override fun stopService() {
         if (!TimeoutHelper.temporarilyDisableLock) {
             closeDatabase(mDatabase)
@@ -759,10 +763,12 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                 databaseName = getString(R.string.database_default_name),
                 rootName = getString(R.string.database),
                 templateGroupName = getString(R.string.template_group_name),
-                mainCredential = mainCredential
-            ) { hardwareKey, seed ->
-                retrieveResponseFromChallenge(hardwareKey, seed)
-            }.apply {
+                mainCredential = mainCredential,
+                challengeResponseRetriever = { hardwareKey, seed ->
+                    retrieveResponseFromChallenge(hardwareKey, seed)
+                },
+                progressTaskUpdater = this
+            ).apply {
                 afterSaveDatabase = { result ->
                     eraseCredentials(databaseUri)
                     if (result.isSuccess) {

@@ -19,7 +19,9 @@
  */
 package com.kunzisoft.keepass.utils
 
-class UnsignedLong(value: Long) {
+import java.io.Serializable
+
+class UnsignedLong(value: Long): Serializable {
 
     private var unsignedValue: Long = value
 

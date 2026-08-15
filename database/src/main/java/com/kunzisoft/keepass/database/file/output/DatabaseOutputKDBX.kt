@@ -107,6 +107,8 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX)
             }
         } catch (e: Exception) {
             throw DatabaseOutputException(e)
+        } finally {
+            mDatabaseKDBX.kdfEngine?.isParametersRandomized = false
         }
     }
 
@@ -295,11 +297,13 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX)
         }
         random.nextBytes(header.encryptionIV)
 
-        if (mDatabaseKDBX.kdfParameters == null) {
-            mDatabaseKDBX.kdfParameters = KdfFactory.aesKdf.defaultParameters
+        if (mDatabaseKDBX.kdfEngine == null) {
+            mDatabaseKDBX.kdfEngine = KdfFactory.aesKdf
         }
 
-        mDatabaseKDBX.randomizeKdfParameters()
+        if (mDatabaseKDBX.kdfEngine?.isParametersRandomized == false) {
+            mDatabaseKDBX.kdfEngine?.randomize()
+        }
 
         if (header.version.isBefore(FILE_VERSION_40)) {
             header.innerRandomStream = CrsAlgorithm.Salsa20
@@ -330,7 +334,6 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX)
             val header = DatabaseHeaderKDBX(mDatabaseKDBX)
             setIVs(header)
 
-            mDatabaseKDBX.transformSeed = header.transformSeed
             assignMasterKey.invoke()
 
             val pho = DatabaseHeaderOutputKDBX(mDatabaseKDBX, header, outputStream)

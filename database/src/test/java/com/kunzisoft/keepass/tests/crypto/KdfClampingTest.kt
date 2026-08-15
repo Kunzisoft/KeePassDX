@@ -31,40 +31,38 @@ class KdfClampingTest {
     @Test
     fun testArgon2KdfClamping() {
         val argon2Kdf = Argon2Kdf(Argon2Kdf.Type.ARGON2_ID)
-        val params = KdfParameters(UUID.randomUUID())
 
         // Test iterations clamping
-        argon2Kdf.setKeyRounds(params, 2_000_000L) // Above max
-        assertEquals(1_000_000L, argon2Kdf.getKeyRounds(params))
+        argon2Kdf.setKeyRounds(2_000_000L) // Above max
+        assertEquals(1_000_000L, argon2Kdf.getKeyRounds())
 
-        argon2Kdf.setKeyRounds(params, 0L) // Below min
-        assertEquals(1L, argon2Kdf.getKeyRounds(params))
+        argon2Kdf.setKeyRounds(0L) // Below min
+        assertEquals(1L, argon2Kdf.getKeyRounds())
 
         // Test memory clamping
-        argon2Kdf.setMemoryUsage(params, 5_000_000_000L) // Above max (4GiB)
-        assertEquals(4_294_967_295L, argon2Kdf.getMemoryUsage(params))
+        argon2Kdf.setMemoryUsage( 5_000_000_000L) // Above max (4GiB)
+        assertEquals(4_294_967_295L, argon2Kdf.getMemoryUsage())
 
-        argon2Kdf.setMemoryUsage(params, 100L) // Below min
-        assertEquals(8192L, argon2Kdf.getMemoryUsage(params))
+        argon2Kdf.setMemoryUsage( 100L) // Below min
+        assertEquals(8192L, argon2Kdf.getMemoryUsage())
 
         // Test parallelism clamping
-        argon2Kdf.setParallelism(params, 256L) // Above max
-        assertEquals(128L, argon2Kdf.getParallelism(params))
+        argon2Kdf.setParallelism(256L) // Above max
+        assertEquals(128L, argon2Kdf.getParallelism())
 
-        argon2Kdf.setParallelism(params, 0L) // Below min
-        assertEquals(1L, argon2Kdf.getParallelism(params))
+        argon2Kdf.setParallelism(0L) // Below min
+        assertEquals(1L, argon2Kdf.getParallelism())
     }
 
     @Test
     fun testAesKdfClamping() {
         val aesKdf = AesKdf()
-        val params = KdfParameters(UUID.randomUUID())
 
         // Test rounds clamping
-        aesKdf.setKeyRounds(params, 200_000_000L) // Above max
-        assertEquals(100_000_000L, aesKdf.getKeyRounds(params))
+        aesKdf.setKeyRounds(200_000_000L) // Above max
+        assertEquals(100_000_000L, aesKdf.getKeyRounds())
 
-        aesKdf.setKeyRounds(params, 0L) // Below min
-        assertEquals(1L, aesKdf.getKeyRounds(params))
+        aesKdf.setKeyRounds(0L) // Below min
+        assertEquals(1L, aesKdf.getKeyRounds())
     }
 }

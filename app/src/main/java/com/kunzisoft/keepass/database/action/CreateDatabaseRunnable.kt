@@ -24,6 +24,7 @@ import android.net.Uri
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.MainCredential
 import com.kunzisoft.keepass.hardware.HardwareKey
+import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
 import com.kunzisoft.keepass.utils.getBinaryDir
 
 class CreateDatabaseRunnable(
@@ -34,13 +35,15 @@ class CreateDatabaseRunnable(
     private val rootName: String,
     private val templateGroupName: String?,
     val mainCredential: MainCredential,
-    challengeResponseRetriever: (HardwareKey, ByteArray?) -> ByteArray
+    challengeResponseRetriever: (HardwareKey, ByteArray?) -> ByteArray,
+    progressTaskUpdater: ProgressTaskUpdater? = null,
 ) : SaveDatabaseRunnable(
     context,
     mDatabase,
     save = true,
     mainCredential,
-    challengeResponseRetriever
+    challengeResponseRetriever,
+    progressTaskUpdater = progressTaskUpdater
 ) {
     override fun onStartRun() {
         try {
@@ -55,6 +58,22 @@ class CreateDatabaseRunnable(
         }
 
         super.onStartRun()
+    }
+
+    override fun onActionRun() {
+        if (result.isSuccess) {
+            progressTaskUpdater?.benchmarking()
+            try {
+                mDatabase.benchmarkForCreation(
+                    context = context,
+                    mainCredential = mainCredential,
+                    challengeResponseRetriever = cachingRetriever
+                )
+            } catch (e: Exception) {
+                setError(e)
+            }
+        }
+        super.onActionRun()
     }
 
     override fun onFinishRun() {

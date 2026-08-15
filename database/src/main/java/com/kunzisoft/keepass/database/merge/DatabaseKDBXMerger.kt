@@ -224,9 +224,6 @@ class DatabaseKDBXMerger(private var database: DatabaseKDBX) {
             database.historyMaxSize = databaseToMerge.historyMaxSize
             database.encryptionAlgorithm = databaseToMerge.encryptionAlgorithm
             database.kdfEngine = databaseToMerge.kdfEngine
-            database.numberKeyEncryptionRounds = databaseToMerge.numberKeyEncryptionRounds
-            database.memoryUsage = databaseToMerge.memoryUsage
-            database.parallelism = databaseToMerge.parallelism
             database.settingsChanged = databaseToMerge.settingsChanged
         }
 

@@ -23,26 +23,89 @@ import com.kunzisoft.keepass.utils.UnsignedInt
 import java.io.IOException
 import java.io.Serializable
 import java.util.UUID
+import kotlin.math.max
+import kotlin.math.min
+import kotlin.system.measureTimeMillis
 
-// TODO Parcelable
 abstract class KdfEngine : Serializable {
 
     var uuid: UUID? = null
 
     abstract val defaultParameters: KdfParameters
 
-    @Throws(IOException::class)
-    abstract fun transform(masterKey: ByteArray, kdfParameters: KdfParameters): ByteArray
+    var parameters: KdfParameters = KdfParameters(UUID(0, 0))
+        get() {
+            if (field.uuid == UUID(0, 0)) {
+                field = defaultParameters
+            }
+            return field
+        }
 
-    abstract fun randomize(kdfParameters: KdfParameters)
+    var isParametersRandomized = false
+
+    /**
+     * Transform the key using the internal parameters.
+     * @param masterKey The master key to transform.
+     * @return The transformed key.
+     */
+    @Throws(IOException::class)
+    abstract fun transform(masterKey: ByteArray): ByteArray
+
+    /**
+     * Measure the time to transform the key and return the number of rounds to reach the target time.
+     * @param masterKey The master key to transform.
+     * @param targetTime The target time in milliseconds.
+     * @return The number of rounds to reach the target time.
+     */
+    fun benchmark(
+        masterKey: ByteArray,
+        targetTime: Long = 1000L
+    ): Long {
+        val currentRounds = getKeyRounds()
+        val testRounds = if (currentRounds > 0) currentRounds else defaultKeyRounds
+        val time = measureTimeMillis {
+            transform(masterKey)
+        }
+        return if (time > 0) {
+            val newRounds = (testRounds.toDouble() * targetTime / time).toLong()
+            max(minKeyRounds, min(maxKeyRounds, newRounds))
+        } else {
+            testRounds
+        }
+    }
+
+    /**
+     * Measure the time to transform the key and assign the optimized value
+     * @param masterKey The master key to transform.
+     * @param targetTime The target time in milliseconds.
+     */
+    fun optimizeByBenchmark(
+        masterKey: ByteArray,
+        targetTime: Long = 1000L
+    ) {
+        setKeyRounds(benchmark(masterKey, targetTime))
+    }
+
+    /**
+     * Randomize the internal parameters.
+     */
+    open fun randomize() {
+        isParametersRandomized = true
+    }
+
+    /**
+     * Get the seed or salt from the KDF parameters.
+     * @return The seed or salt.
+     */
+    open fun getSeed(): ByteArray? = null
 
     /*
      * ITERATIONS
      */
 
-    abstract fun getKeyRounds(kdfParameters: KdfParameters): Long
+    abstract fun getKeyRounds(): Long
 
-    abstract fun setKeyRounds(kdfParameters: KdfParameters, keyRounds: Long)
+    abstract fun setKeyRounds(keyRounds: Long)
 
     abstract val defaultKeyRounds: Long
 
@@ -56,11 +119,11 @@ abstract class KdfEngine : Serializable {
      * MEMORY
      */
 
-    open fun getMemoryUsage(kdfParameters: KdfParameters): Long {
+    open fun getMemoryUsage(): Long {
         return UNKNOWN_VALUE
     }
 
-    open fun setMemoryUsage(kdfParameters: KdfParameters, memory: Long) {
+    open fun setMemoryUsage(memory: Long) {
         // Do nothing by default
     }
 
@@ -77,11 +140,11 @@ abstract class KdfEngine : Serializable {
      * PARALLELISM
      */
 
-    open fun getParallelism(kdfParameters: KdfParameters): Long {
+    open fun getParallelism(): Long {
         return UNKNOWN_VALUE
     }
 
-    open fun setParallelism(kdfParameters: KdfParameters, parallelism: Long) {
+    open fun setParallelism(parallelism: Long) {
         // Do nothing by default
     }
 

@@ -136,8 +136,6 @@ class DatabaseInputKDBX(database: DatabaseKDBX)
             hashOfHeader = headerAndHash.hash
             val pbHeader = headerAndHash.header
 
-            val transformSeed = header.transformSeed
-            mDatabase.transformSeed = transformSeed
             assignMasterKey.invoke()
             mDatabase.makeFinalKey(header.masterSeed)
 

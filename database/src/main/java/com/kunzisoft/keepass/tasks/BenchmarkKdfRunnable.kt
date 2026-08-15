@@ -21,9 +21,6 @@ package com.kunzisoft.keepass.tasks
 
 import android.os.Bundle
 import com.kunzisoft.keepass.database.element.Database
-import kotlin.math.max
-import kotlin.math.min
-import kotlin.system.measureTimeMillis
 
 open class BenchmarkKdfRunnable(
     private val database: Database
@@ -32,28 +29,13 @@ open class BenchmarkKdfRunnable(
     override fun onStartRun() {}
 
     override fun onActionRun() {
-        val engine = database.kdfEngine ?: throw IllegalStateException("No KDF engine found")
-        val parameters = database.kdfParameters ?: throw IllegalStateException("No KDF parameters found")
+        val engine = database.kdfEngine
+            ?: throw IllegalStateException("No KDF engine found")
         val masterKey = database.masterKey
 
-        val currentRounds = engine.getKeyRounds(parameters)
-        
-        // Use a small number of rounds if current rounds are too high for a quick benchmark
-        val testRounds = if (currentRounds > 0) currentRounds else engine.defaultKeyRounds
-        val time = measureTimeMillis {
-            engine.transform(masterKey, parameters)
-        }
-
-        if (time > 0) {
-            val targetTime = DEFAULT_BENCHMARK_TIME // TODO As parameter
-            var newRounds = (testRounds.toDouble() * targetTime / time).toLong()
-            newRounds = max(engine.minKeyRounds, min(engine.maxKeyRounds, newRounds))
-            result.data = Bundle().apply {
-                putLong(EXTRA_NEW_ROUNDS, newRounds)
-            }
-        } else {
-            // If too fast, just fail (should not happen for KDF)
-            setError("Benchmark failed: execution time too short")
+        val newRounds = engine.benchmark(masterKey = masterKey, targetTime = DEFAULT_BENCHMARK_TIME)
+        result.data = Bundle().apply {
+            putLong(EXTRA_NEW_ROUNDS, newRounds)
         }
     }
 

@@ -39,13 +39,14 @@ class MergeDatabaseRunnable(
     database: ContextualDatabase,
     save: Boolean,
     challengeResponseRetriever: (HardwareKey, ByteArray?) -> ByteArray,
-    private val progressTaskUpdater: ProgressTaskUpdater?,
+    progressTaskUpdater: ProgressTaskUpdater?
 ) : SaveDatabaseRunnable(
     context,
     database,
     save,
     mainCredential = null,
-    challengeResponseRetriever
+    challengeResponseRetriever,
+    progressTaskUpdater = progressTaskUpdater
 ) {
 
     private var mMergeMasterCredential: MasterCredential? = null

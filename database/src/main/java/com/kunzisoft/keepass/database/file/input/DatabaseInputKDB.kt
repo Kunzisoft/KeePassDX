@@ -105,13 +105,13 @@ class DatabaseInputKDB(database: DatabaseKDB)
                 else -> throw InvalidAlgorithmDatabaseException()
             }
 
-            mDatabase.numberKeyEncryptionRounds = header.numKeyEncRounds.toKotlinLong()
+            mDatabase.kdfEngine?.setKeyRounds(header.numKeyEncRounds.toKotlinLong())
 
             // Generate transformedMasterKey from masterKey
             mDatabase.makeFinalKey(
-                    header.masterSeed,
-                    header.transformSeed,
-                    mDatabase.numberKeyEncryptionRounds)
+                header.masterSeed,
+                header.transformSeed
+            )
 
             stopKeyTimer()
             startContentTimer(progressTaskUpdater)

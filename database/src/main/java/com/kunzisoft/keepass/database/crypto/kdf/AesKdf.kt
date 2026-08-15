@@ -43,9 +43,9 @@ class AesKdf : KdfEngine() {
     override val defaultKeyRounds = 500000L
 
     @Throws(IOException::class)
-    override fun transform(masterKey: ByteArray, kdfParameters: KdfParameters): ByteArray {
+    override fun transform(masterKey: ByteArray): ByteArray {
 
-        var seed = kdfParameters.getByteArray(PARAM_SEED)
+        var seed = parameters.getByteArray(PARAM_SEED)
         if (seed != null && seed.size != 32) {
             seed = HashManager.sha256(seed)
         }
@@ -55,22 +55,27 @@ class AesKdf : KdfEngine() {
             currentMasterKey = HashManager.sha256(currentMasterKey)
         }
 
-        val rounds = kdfParameters.getUInt64(PARAM_ROUNDS)?.toKotlinLong()
+        val rounds = parameters.getUInt64(PARAM_ROUNDS)?.toKotlinLong()
             ?.coerceIn(minKeyRounds, maxKeyRounds)
 
         return AESTransformer.transformKey(seed, currentMasterKey, rounds) ?: ByteArray(0)
     }
 
-    override fun randomize(kdfParameters: KdfParameters) {
-        kdfParameters.setByteArray(PARAM_SEED, HashManager.generateRandom(32))
+    override fun randomize() {
+        super.randomize()
+        parameters.setByteArray(PARAM_SEED, HashManager.generateRandom(32))
     }
 
-    override fun getKeyRounds(kdfParameters: KdfParameters): Long {
-        return kdfParameters.getUInt64(PARAM_ROUNDS)?.toKotlinLong() ?: defaultKeyRounds
+    override fun getSeed(): ByteArray? {
+        return parameters.getByteArray(PARAM_SEED)
     }
 
-    override fun setKeyRounds(kdfParameters: KdfParameters, keyRounds: Long) {
-        kdfParameters.setUInt64(PARAM_ROUNDS, UnsignedLong(keyRounds.coerceIn(minKeyRounds, maxKeyRounds)))
+    override fun getKeyRounds(): Long {
+        return parameters.getUInt64(PARAM_ROUNDS)?.toKotlinLong() ?: defaultKeyRounds
+    }
+
+    override fun setKeyRounds(keyRounds: Long) {
+        parameters.setUInt64(PARAM_ROUNDS, UnsignedLong(keyRounds.coerceIn(minKeyRounds, maxKeyRounds)))
     }
 
     override val maxKeyRounds: Long

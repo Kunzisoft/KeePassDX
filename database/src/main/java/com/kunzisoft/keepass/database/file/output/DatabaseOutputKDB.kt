@@ -55,7 +55,10 @@ class DatabaseOutputKDB(private val mDatabaseKDB: DatabaseKDB)
     fun getFinalKey(header: DatabaseHeader): ByteArray? {
         try {
             val headerKDB = header as DatabaseHeaderKDB
-            mDatabaseKDB.makeFinalKey(headerKDB.masterSeed, headerKDB.transformSeed, mDatabaseKDB.numberKeyEncryptionRounds)
+            mDatabaseKDB.makeFinalKey(
+                headerKDB.masterSeed,
+                headerKDB.transformSeed
+            )
             return mDatabaseKDB.finalKey
         } catch (e: IOException) {
             throw DatabaseOutputException("Key creation failed.", e)
@@ -132,7 +135,7 @@ class DatabaseOutputKDB(private val mDatabaseKDB: DatabaseKDB)
         // To remove root
         header.numGroups = UnsignedInt(mGroupList.size)
         header.numEntries = UnsignedInt(mEntryList.size)
-        header.numKeyEncRounds = UnsignedInt.fromKotlinLong(mDatabaseKDB.numberKeyEncryptionRounds)
+        header.numKeyEncRounds = UnsignedInt.fromKotlinLong(mDatabaseKDB.kdfEngine?.getKeyRounds() ?: 0)
 
         setIVs(header)
 

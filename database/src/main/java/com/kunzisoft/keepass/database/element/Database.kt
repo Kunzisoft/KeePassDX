@@ -22,7 +22,6 @@ package com.kunzisoft.keepass.database.element
 import android.util.Log
 import com.kunzisoft.keepass.database.crypto.EncryptionAlgorithm
 import com.kunzisoft.keepass.database.crypto.kdf.KdfEngine
-import com.kunzisoft.keepass.database.crypto.kdf.KdfParameters
 import com.kunzisoft.keepass.database.element.binary.AttachmentPool
 import com.kunzisoft.keepass.database.element.binary.BinaryCache
 import com.kunzisoft.keepass.database.element.binary.BinaryData
@@ -348,26 +347,25 @@ open class Database {
     }
 
     var numberKeyEncryptionRounds: Long
-        get() = mDatabaseKDB?.numberKeyEncryptionRounds ?: mDatabaseKDBX?.numberKeyEncryptionRounds ?: 0
+        get() = kdfEngine?.getKeyRounds() ?: 0
         set(numberRounds) {
-            mDatabaseKDB?.numberKeyEncryptionRounds = numberRounds
-            mDatabaseKDBX?.numberKeyEncryptionRounds = numberRounds
+            kdfEngine?.setKeyRounds(numberRounds)
             mDatabaseKDBX?.settingsChanged = DateInstant()
         }
 
     var memoryUsage: Long
         get() {
-            return mDatabaseKDBX?.memoryUsage ?: return KdfEngine.UNKNOWN_VALUE
+            return kdfEngine?.getMemoryUsage() ?: KdfEngine.UNKNOWN_VALUE
         }
         set(memory) {
-            mDatabaseKDBX?.memoryUsage = memory
+            kdfEngine?.setMemoryUsage(memory)
             mDatabaseKDBX?.settingsChanged = DateInstant()
         }
 
     var parallelism: Long
-        get() = mDatabaseKDBX?.parallelism ?: KdfEngine.UNKNOWN_VALUE
+        get() = kdfEngine?.getParallelism() ?: KdfEngine.UNKNOWN_VALUE
         set(parallelism) {
-            mDatabaseKDBX?.parallelism = parallelism
+            kdfEngine?.setParallelism(parallelism)
             mDatabaseKDBX?.settingsChanged = DateInstant()
         }
 
@@ -382,9 +380,6 @@ open class Database {
 
     val transformSeed: ByteArray?
         get() = mDatabaseKDB?.transformSeed ?: mDatabaseKDBX?.transformSeed
-
-    val kdfParameters: KdfParameters?
-        get() = mDatabaseKDBX?.kdfParameters
 
     private val checkKey: ByteArray
         get() = mDatabaseKDB?.checkKey ?: mDatabaseKDBX?.checkKey ?: ByteArray(32)

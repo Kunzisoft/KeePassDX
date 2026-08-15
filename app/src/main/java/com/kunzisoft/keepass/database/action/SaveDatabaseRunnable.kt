@@ -27,6 +27,8 @@ import com.kunzisoft.keepass.database.element.MasterCredential
 import com.kunzisoft.keepass.database.exception.DatabaseException
 import com.kunzisoft.keepass.hardware.HardwareKey
 import com.kunzisoft.keepass.tasks.ActionRunnable
+import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
+import com.kunzisoft.keepass.utils.clear
 import com.kunzisoft.keepass.utils.getUriOutputStream
 import java.io.File
 
@@ -35,13 +37,21 @@ open class SaveDatabaseRunnable(
     protected var database: ContextualDatabase,
     private var save: Boolean,
     private var mainCredential: MainCredential?, // If null, uses composite Key
-    private var challengeResponseRetriever: (HardwareKey, ByteArray?) -> ByteArray,
+    protected var challengeResponseRetriever: (HardwareKey, ByteArray?) -> ByteArray,
     private var databaseCopyUri: Uri? = null,
-    private var dataModified: Boolean = !save
+    private var dataModified: Boolean = !save,
+    protected var progressTaskUpdater: ProgressTaskUpdater? = null
 ) : ActionRunnable() {
 
     private var mMasterCredential: MasterCredential? = null
     var afterSaveDatabase: ((Result) -> Unit)? = null
+
+    private var cachedHardwareResponse: ByteArray? = null
+    protected val cachingRetriever: (HardwareKey, ByteArray?) -> ByteArray = { hardwareKey, seed ->
+        cachedHardwareResponse ?: challengeResponseRetriever(hardwareKey, seed).also {
+            cachedHardwareResponse = it
+        }
+    }
 
     override fun onStartRun() {}
 
@@ -59,7 +69,7 @@ open class SaveDatabaseRunnable(
                         contentResolver.getUriOutputStream(databaseCopyUri ?: database.fileUri)
                     },
                     masterCredential = mMasterCredential,
-                    challengeResponseRetriever = challengeResponseRetriever
+                    challengeResponseRetriever = cachingRetriever
                 )
             } catch (e: DatabaseException) {
                 setError(e)
@@ -77,6 +87,7 @@ open class SaveDatabaseRunnable(
     override fun onFinishRun() {
         // Need to call super.onFinishRun() in child class
         mMasterCredential?.clear()
+        cachedHardwareResponse?.clear()
         afterSaveDatabase?.invoke(result)
     }
 }

@@ -19,7 +19,9 @@
  */
 package com.kunzisoft.keepass.utils
 
-class UnsignedInt(private var unsignedValue: Int) {
+import java.io.Serializable
+
+class UnsignedInt(private var unsignedValue: Int): Serializable {
 
     constructor(unsignedValue: UnsignedInt) : this(unsignedValue.toKotlinInt())
 

@@ -29,7 +29,12 @@ import com.kunzisoft.keepass.database.element.database.CompressionAlgorithm
 import com.kunzisoft.keepass.database.element.database.DatabaseKDBX
 import com.kunzisoft.keepass.database.exception.VersionDatabaseException
 import com.kunzisoft.keepass.stream.CopyInputStream
-import com.kunzisoft.keepass.utils.*
+import com.kunzisoft.keepass.utils.UnsignedInt
+import com.kunzisoft.keepass.utils.bytes16ToUuid
+import com.kunzisoft.keepass.utils.bytes4ToUInt
+import com.kunzisoft.keepass.utils.bytes64ToULong
+import com.kunzisoft.keepass.utils.readBytes2ToUShort
+import com.kunzisoft.keepass.utils.readBytes4ToUInt
 import java.io.ByteArrayOutputStream
 import java.io.IOException
 import java.io.InputStream
@@ -41,16 +46,6 @@ class DatabaseHeaderKDBX(private val databaseV4: DatabaseKDBX) : DatabaseHeader(
     var streamStartBytes: ByteArray = ByteArray(32)
     var innerRandomStream: CrsAlgorithm? = null
     var version: UnsignedInt = UnsignedInt(0)
-
-    // version < FILE_VERSION_32_4)
-    var transformSeed: ByteArray?
-        get() = databaseV4.kdfParameters?.getByteArray(AesKdf.PARAM_SEED)
-        private set(seed) {
-            assignAesKdfEngineIfNotExists()
-            seed?.let {
-                databaseV4.kdfParameters?.setByteArray(AesKdf.PARAM_SEED, it)
-            }
-        }
 
     object PwDbHeaderV4Fields {
         const val EndOfHeader: Byte = 0
@@ -153,7 +148,7 @@ class DatabaseHeaderKDBX(private val databaseV4: DatabaseKDBX) : DatabaseHeader(
                 PwDbHeaderV4Fields.MasterSeed -> masterSeed = fieldData
 
                 PwDbHeaderV4Fields.TransformSeed -> if (version.isBefore(FILE_VERSION_40))
-                    transformSeed = fieldData
+                    databaseV4.transformSeed = fieldData
 
                 PwDbHeaderV4Fields.TransformRounds -> if (version.isBefore(FILE_VERSION_40))
                     setTransformRound(fieldData)
@@ -168,7 +163,9 @@ class DatabaseHeaderKDBX(private val databaseV4: DatabaseKDBX) : DatabaseHeader(
                 PwDbHeaderV4Fields.InnerRandomStreamID -> if (version.isBefore(FILE_VERSION_40))
                     setRandomStreamID(fieldData)
 
-                PwDbHeaderV4Fields.KdfParameters -> databaseV4.kdfParameters = KdfParameters.deserialize(fieldData)
+                PwDbHeaderV4Fields.KdfParameters -> KdfParameters.deserialize(fieldData)?.let {
+                    databaseV4.setKdfParameters(it)
+                }
 
                 PwDbHeaderV4Fields.PublicCustomData -> databaseV4.publicCustomData = VariantDictionary.deserialize(fieldData)
 
@@ -176,14 +173,6 @@ class DatabaseHeaderKDBX(private val databaseV4: DatabaseKDBX) : DatabaseHeader(
             }
 
         return false
-    }
-
-    private fun assignAesKdfEngineIfNotExists() {
-        val kdfParams = databaseV4.kdfParameters
-        if (kdfParams == null
-                || kdfParams.uuid != KdfFactory.aesKdf.uuid) {
-            databaseV4.kdfParameters = KdfFactory.aesKdf.defaultParameters
-        }
     }
 
     @Throws(IOException::class)
@@ -195,10 +184,12 @@ class DatabaseHeaderKDBX(private val databaseV4: DatabaseKDBX) : DatabaseHeader(
     }
 
     private fun setTransformRound(roundsByte: ByteArray) {
-        assignAesKdfEngineIfNotExists()
+        // Assign AES KDF engine if not exists
+        if (databaseV4.kdfEngine?.uuid != KdfFactory.aesKdf.uuid) {
+            databaseV4.kdfEngine = KdfFactory.aesKdf
+        }
         val rounds = bytes64ToULong(roundsByte)
-        databaseV4.kdfParameters?.setUInt64(AesKdf.PARAM_ROUNDS, rounds)
-        databaseV4.numberKeyEncryptionRounds = rounds.toKotlinLong()
+        databaseV4.kdfEngine?.parameters?.setUInt64(AesKdf.PARAM_ROUNDS, rounds)
     }
 
     @Throws(IOException::class)

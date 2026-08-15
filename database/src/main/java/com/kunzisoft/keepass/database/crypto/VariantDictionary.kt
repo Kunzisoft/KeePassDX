@@ -37,9 +37,10 @@ import java.io.ByteArrayOutputStream
 import java.io.IOException
 import java.io.InputStream
 import java.io.OutputStream
+import java.io.Serializable
 import java.nio.charset.Charset
 
-open class VariantDictionary {
+open class VariantDictionary : Serializable {
 
     constructor()
 
@@ -243,7 +244,7 @@ open class VariantDictionary {
         }
     }
 
-    class VdType(val type: Byte, val value: Any) {
+    class VdType(val type: Byte, val value: Any): Serializable {
 
         companion object {
             const val None: Byte = 0x00
