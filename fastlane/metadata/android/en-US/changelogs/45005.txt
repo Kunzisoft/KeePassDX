@@ -1,1 +1,2 @@
+ * TargetSDK 36
  * Update translations

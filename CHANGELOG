@@ -1,3 +1,7 @@
+KeePassDX(4.5.0_beta05)
+ * TargetSDK 36
+ * Update translations
+
 KeePassDX(4.5.0_beta04)
  * Fix exception during template selection #2617
  * Fix autoscrolls to TOTP section #2621

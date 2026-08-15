@@ -1,1 +1,2 @@
+ * SDK Cible 36
  * Mise à jour des traductions
