@@ -523,7 +523,7 @@
     <string name="autofill_inline_suggestions_title">Suggestions en ligne</string>
     <string name="warning_database_info_changed_options">Fusionner les données, écraser les modifications externes en sauvegardant la base de données ou recharger-la avec les dernières modifications.</string>
     <string name="warning_database_revoked">Accès au dossier révoqué par le gestionnaire de fichiers, fermer la base de données et la rouvrir à partir de son emplacement.</string>
-    <string name="warning_database_info_changed">Les informations contenues dans votre fichier de base de données ont été modifiées en dehors de l\'application.</string>
+    <string name="warning_database_info_changed">Les informations contenues dans votre base de données ont été modifiées en dehors de l\'application.</string>
     <string name="menu_reload_database">Recharger les données</string>
     <string name="unit_gibibyte">Gibioctets</string>
     <string name="unit_mebibyte">Mébioctets</string>
@@ -582,7 +582,7 @@
     <string name="debit_credit_card">Carte de crédit</string>
     <string name="template_group_name">Gabarits</string>
     <string name="secure_note">Note sécurisée</string>
-    <string name="show_otp_token_summary">Affiche les jetons OTP dans la liste des entrées</string>
+    <string name="show_otp_token_summary">Affiche les jetons OTP par défaut</string>
     <string name="show_otp_token_title">Afficher le jeton OTP</string>
     <string name="menu_external_icon">Icône externe</string>
     <string name="autofill_manual_selection_summary">Afficher l\'option permettant à l\'utilisateur de sélectionner l\'entrée de la base de données</string>
@@ -683,7 +683,7 @@
     <string name="education_validate_entry_summary">N\'oubliez pas de valider votre saisie et de sauvegarder votre base de données
 \n
 \nSi un verrouillage automatique est activé et que vous oubliez que vous étiez en train d\'effectuer une modification, vous risquez de perdre vos données.</string>
-    <string name="warning_database_info_changed_options_read_only">Recharger la base de données avec les dernières modifications.</string>
+    <string name="warning_database_info_changed_options_read_only">Veuillez actualiser la base de données avec les dernières modifications.</string>
     <string name="generate_keyfile">Générer un fichier clé</string>
     <string name="nodes">Nœuds</string>
     <string name="recursive_number_entries_title">Nombre d\'entrées récursif</string>
@@ -765,4 +765,12 @@
     <string name="benchmark_calculation">Calculer pour %1$s s</string>
     <string name="benchmarking">Analyse en cours…</string>
     <string name="keyboard_share_browser">Partager depuis %1$s vers KeePassDX</string>
+    <string name="error_memory_too_large">\"Utilisation de la mémoire\" trop élevé. Réglage sur %1$s.</string>
+    <string name="error_parallelism_too_large">\"Parallélisme\" trop élevé. Réglage sur %1$s.</string>
+    <string name="error_missing_parent">Cette action ne peut être effectuée sans parent.</string>
+    <string name="temporary_merge_success">La fusion des données temporaires s\'est déroulée avec succès</string>
+    <string name="reload_success">Le rechargement s\'est déroulé avec succès</string>
+    <string name="autofill_suggestions_title">Suggestions de saisie automatique</string>
+    <string name="autofill_suggestions_summary">Utilise l\'algorithme de reconnaissance de formulaires pour proposer des entrées</string>
+    <string name="passkey_pseudo_random_function">Fonction pseudo-aléatoire de clé d\'accès</string>
 </resources>
