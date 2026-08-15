@@ -19,7 +19,7 @@
 --><resources>
     <string name="feedback">Відгук</string>
     <string name="homepage">Домівка</string>
-    <string name="about_description">KeePassDX — Android-версія менеджера паролів KeePass.</string>
+    <string name="about_description">Android-версія менеджера паролів KeePass.</string>
     <string name="accept">Прийняти</string>
     <string name="add_entry">Додати запис</string>
     <string name="add_group">Додати групу</string>
@@ -762,5 +762,9 @@
     <string name="education_user_verification_title">Перевірка для чутливих дій</string>
     <string name="education_user_verification_summary">Змінити режим перевірки користувача для сеансу. \n\n«Перевірка користувача увімкнена» перевіряє дії в захищених полях і налаштуваннях бази даних. \n«Перевірка користувача вимкнена» дає змогу змінювати будь-які дані в базі даних без перевірки.</string>
     <string name="content_description_share_url">Поділитися посиланням</string>
-    <string name="show_tags_title">Показати теги</string>
+    <string name="show_tags_title">Показувати мітки</string>
+    <string name="show_tags_summary">Показувати мітки у списку записів</string>
+    <string name="benchmark_calculation">Обчислено за %1$s с</string>
+    <string name="benchmarking">Тестування…</string>
+    <string name="keyboard_share_browser">Поділитися з %1$s у KeePassDX</string>
 </resources>

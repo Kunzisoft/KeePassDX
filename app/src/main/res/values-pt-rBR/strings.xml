@@ -714,7 +714,7 @@
     <string name="passkey">Chave de acesso</string>
     <string name="credential_provider_service_name">Provedor de Credenciais KeePassDX</string>
     <string name="passkeys">Chaves de acesso</string>
-    <string name="passkeys_explanation_summary">Configure Chaves de Acesso para um login rápido e seguro sem senha</string>
+    <string name="passkeys_explanation_summary">Configure Chaves de Acesso para um login sem senha rápido e seguro</string>
     <string name="passkeys_preference_title">Configurações de chaves de acesso</string>
     <string name="passkeys_close_database_title">Fechar banco de dados</string>
     <string name="passkeys_close_database_summary">Fechar o banco de dados após selecionar uma chave de acesso</string>
@@ -761,4 +761,10 @@
     <string name="user_verification_database_credential">Digite os quatro primeiros caracteres da senha do seu banco de dados</string>
     <string name="first_chars">Primeiros caracteres</string>
     <string name="check">Verificar</string>
+    <string name="content_description_share_url">Compartilhar URL</string>
+    <string name="show_tags_title">Mostrar etiquetas</string>
+    <string name="show_tags_summary">Exibe etiquetas na lista de entradas</string>
+    <string name="benchmark_calculation">Calcular para %1$s s</string>
+    <string name="keyboard_share_browser">Compartilhar de %1$s para KeePassDX</string>
+    <string name="benchmarking">Avaliando performance…</string>
 </resources>
