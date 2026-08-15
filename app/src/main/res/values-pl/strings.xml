@@ -700,7 +700,7 @@
     <string name="passkeys_privileged_apps_ask_message">%1$s próbuje wykonać czynność klucza dostępu.\n\nDodać ją do listy aplikacji uprzywilejowanych?</string>
     <string name="passkeys_missing_signature_app_ask_title">Brak podpisu</string>
     <string name="passkeys_missing_signature_app_ask_explanation">OSTRZEŻENIE: klucz dostępu został utworzony z innego klienta lub podpis został usunięty. Upewnij się, że aplikacja, którą chcesz uwierzytelnić, jest częścią tej samej usługi i jest właściwa, aby uniknąć problemów z bezpieczeństwem.\nJeśli aplikacja jest przeglądarką, nie dodawaj jej podpisu do wpisu, ale do listy aplikacji uprzywilejowanych w ustawieniach.</string>
-    <string name="passkeys_missing_signature_app_ask_message">%1$s nie został rozpoznany i próbuje uwierzytelnić się przy użyciu istniejącego klucza dostępu.</string>
+    <string name="passkeys_missing_signature_app_ask_message">%1$s nie został rozpoznany i próbuje uwierzytelnić się przy użyciu istniejącego klucza dostępu.</string>
     <string name="passkeys_missing_signature_app_ask_question">Dodać podpis aplikacji do wpisu klucza dostępu?</string>
     <string name="passkeys_auto_select_title">Wybór automatyczny</string>
     <string name="passkeys_auto_select_summary">Wybierz automatycznie, jeśli otwarty jest tylko jeden wpis i baza danych, a także tylko wtedy, gdy żądająca aplikacja jest zgodna</string>
