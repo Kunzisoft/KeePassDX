@@ -48,7 +48,8 @@ class DatabaseMemoryUsagePreferenceDialogFragmentCompat : DatabaseSavePreference
             database?.let {
                 val minMemoryUsage = database.kdfEngine?.minMemoryUsage ?: DEFAULT_MIN_MEMORY_USAGE
                 var newMemoryUsage: Long = try {
-                    inputText.toLong()
+                    // To transform in bytes
+                    DataByte(inputText.toLong(), dataByte.format).toBytes()
                 } catch (_: NumberFormatException) {
                     minMemoryUsage
                 }
@@ -60,13 +61,11 @@ class DatabaseMemoryUsagePreferenceDialogFragmentCompat : DatabaseSavePreference
                     newMemoryUsage = maxMemoryUsage
                     Toast.makeText(context, getString(R.string.error_memory_too_large, DataByte(maxMemoryUsage, DataByte.ByteFormat.BYTE).toBetterByteFormat().toString(requireContext())), Toast.LENGTH_LONG).show()
                 }
-                // To transform in bytes
-                dataByte.number = newMemoryUsage
-                val numberOfBytes = dataByte.toBytes()
+                dataByte = DataByte(newMemoryUsage, DataByte.ByteFormat.BYTE).toBetterByteFormat()
                 val oldMemoryUsage = database.memoryUsage
-                database.memoryUsage = numberOfBytes
+                database.memoryUsage = newMemoryUsage
 
-                saveMemoryUsage(oldMemoryUsage, numberOfBytes)
+                saveMemoryUsage(oldMemoryUsage, newMemoryUsage)
             }
         }
     }

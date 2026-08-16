@@ -56,7 +56,7 @@ class Argon2Kdf(private val type: Type) : KdfEngine() {
         val salt = kdfParameters.getByteArray(PARAM_SALT) ?: ByteArray(0)
         val parallelism = (kdfParameters.getUInt32(PARAM_PARALLELISM)?.toKotlinLong() ?: DEFAULT_PARALLELISM.toKotlinLong())
             .coerceIn(minParallelism, maxParallelism)
-        val memory = (kdfParameters.getUInt64(PARAM_MEMORY)?.toKotlinLong()?.div(MEMORY_BLOCK_SIZE) ?: DEFAULT_MEMORY.toKotlinLong())
+        val memory = (kdfParameters.getUInt64(PARAM_MEMORY)?.toKotlinLong()?.div(MEMORY_BLOCK_SIZE) ?: DEFAULT_MEMORY.toKotlinLong().div(MEMORY_BLOCK_SIZE))
             .coerceIn(minMemoryUsage / MEMORY_BLOCK_SIZE, maxMemoryUsage / MEMORY_BLOCK_SIZE)
         val iterations = (kdfParameters.getUInt64(PARAM_ITERATIONS)?.toKotlinLong() ?: DEFAULT_ITERATIONS.toKotlinLong())
             .coerceIn(minKeyRounds, maxKeyRounds)

@@ -1,6 +1,7 @@
 KeePassDX(4.5.0_beta05)
  * TargetSDK 36
  * Update translations
+ * Fix unit converter in KDF dialog #2640
 
 KeePassDX(4.5.0_beta04)
  * Fix exception during template selection #2617
