@@ -82,7 +82,7 @@ constructor(private val databaseKDBX: DatabaseKDBX,
 
         if (header.version.isBefore(FILE_VERSION_40)) {
             writeHeaderField(DatabaseHeaderKDBX.PwDbHeaderV4Fields.TransformSeed, databaseKDBX.transformSeed)
-            writeHeaderField(DatabaseHeaderKDBX.PwDbHeaderV4Fields.TransformRounds, longTo8Bytes(databaseKDBX.kdfEngine!!.getKeyRounds()))
+            writeHeaderField(DatabaseHeaderKDBX.PwDbHeaderV4Fields.TransformRounds, longTo8Bytes(databaseKDBX.kdfEngine!!.getKeyRounds().toLong()))
         } else {
             writeHeaderField(DatabaseHeaderKDBX.PwDbHeaderV4Fields.KdfParameters, KdfParameters.serialize(databaseKDBX.kdfEngine!!.parameters))
         }

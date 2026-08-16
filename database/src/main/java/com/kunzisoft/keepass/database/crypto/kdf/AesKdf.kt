@@ -36,11 +36,9 @@ class AesKdf : KdfEngine() {
         get() {
             return KdfParameters(uuid!!).apply {
                 setParamUUID()
-                setUInt64(PARAM_ROUNDS, UnsignedLong(defaultKeyRounds))
+                setUInt64(PARAM_ROUNDS, UnsignedLong.from(defaultKeyRounds))
             }
         }
-
-    override val defaultKeyRounds = 500000L
 
     @Throws(IOException::class)
     override fun transform(masterKey: ByteArray): ByteArray {
@@ -55,7 +53,7 @@ class AesKdf : KdfEngine() {
             currentMasterKey = HashManager.sha256(currentMasterKey)
         }
 
-        val rounds = parameters.getUInt64(PARAM_ROUNDS)?.toKotlinLong()
+        val rounds = parameters.getUInt64(PARAM_ROUNDS)?.toULong()
             ?.coerceIn(minKeyRounds, maxKeyRounds)
 
         return AESTransformer.transformKey(seed, currentMasterKey, rounds) ?: ByteArray(0)
@@ -70,16 +68,22 @@ class AesKdf : KdfEngine() {
         return parameters.getByteArray(PARAM_SEED)
     }
 
-    override fun getKeyRounds(): Long {
-        return parameters.getUInt64(PARAM_ROUNDS)?.toKotlinLong() ?: defaultKeyRounds
+    override fun getKeyRounds(): ULong {
+        return parameters.getUInt64(PARAM_ROUNDS)?.toULong() ?: defaultKeyRounds
     }
 
-    override fun setKeyRounds(keyRounds: Long) {
-        parameters.setUInt64(PARAM_ROUNDS, UnsignedLong(keyRounds.coerceIn(minKeyRounds, maxKeyRounds)))
+    override fun setKeyRounds(keyRounds: ULong) {
+        parameters.setUInt64(
+            PARAM_ROUNDS,
+            UnsignedLong.from(keyRounds.coerceIn(minKeyRounds, maxKeyRounds))
+        )
     }
 
-    override val maxKeyRounds: Long
-        get() = MAX_ROUNDS.toKotlinLong()
+    override val defaultKeyRounds: ULong = 500_000u
+
+    override val minKeyRounds: ULong = 1u
+
+    override val maxKeyRounds: ULong = 100_000_000u
 
     override fun toString(): String {
         return "AES"
@@ -107,7 +111,5 @@ class AesKdf : KdfEngine() {
 
         const val PARAM_ROUNDS = "R" // UInt64
         const val PARAM_SEED = "S" // Byte array
-
-        private val MAX_ROUNDS = UnsignedLong(100_000_000L)
     }
 }

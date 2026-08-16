@@ -33,10 +33,24 @@ class UnsignedInt(private var unsignedValue: Int): Serializable {
     }
 
     /**
-     * Convert an unsigned Integer to Long
+     * Convert an unsigned Integer to Kotlin UInt
+     */
+    fun toUInt(): UInt {
+        return unsignedValue.toUInt()
+    }
+
+    /**
+     * Convert an unsigned Integer to Kotlin Long
      */
     fun toKotlinLong(): Long {
         return unsignedValue.toLong() and INT_TO_LONG_MASK
+    }
+
+    /**
+     * Convert an unsigned Integer to Kotlin ULong
+     */
+    fun toULong(): ULong {
+        return unsignedValue.toULong()
     }
 
     /**
@@ -61,9 +75,7 @@ class UnsignedInt(private var unsignedValue: Int): Serializable {
 
         other as UnsignedInt
 
-        if (unsignedValue != other.unsignedValue) return false
-
-        return true
+        return unsignedValue == other.unsignedValue
     }
 
     override fun hashCode(): Int {

@@ -22,6 +22,7 @@ package com.kunzisoft.keepass.database.file.output
 import android.graphics.Color
 import com.kunzisoft.encrypt.HashManager
 import com.kunzisoft.keepass.database.crypto.EncryptionAlgorithm
+import com.kunzisoft.keepass.database.crypto.kdf.KdfEngine
 import com.kunzisoft.keepass.database.element.database.DatabaseKDB
 import com.kunzisoft.keepass.database.element.entry.EntryKDB
 import com.kunzisoft.keepass.database.element.group.GroupKDB
@@ -135,7 +136,9 @@ class DatabaseOutputKDB(private val mDatabaseKDB: DatabaseKDB)
         // To remove root
         header.numGroups = UnsignedInt(mGroupList.size)
         header.numEntries = UnsignedInt(mEntryList.size)
-        header.numKeyEncRounds = UnsignedInt.fromKotlinLong(mDatabaseKDB.kdfEngine?.getKeyRounds() ?: 0)
+        header.numKeyEncRounds = UnsignedInt.fromKotlinLong(
+            mDatabaseKDB.kdfEngine?.getKeyRounds()?.toLong() ?: KdfEngine.UNKNOWN_LONG_VALUE
+        )
 
         setIVs(header)
 
@@ -301,7 +304,7 @@ class DatabaseOutputKDB(private val mDatabaseKDB: DatabaseKDB)
             val byteArrayOutputStream = ByteArrayOutputStream()
             writeExtData(headerDigest, byteArrayOutputStream)
             byteArrayOutputStream.toByteArray()
-        } catch (e: IOException) {
+        } catch (_: IOException) {
             null
         }
 

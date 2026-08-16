@@ -36,8 +36,8 @@ class DatabaseHeaderKDB : DatabaseHeader() {
 
     var signature1 = UnsignedInt(0)                  // = DBSIG_1
     var signature2 = UnsignedInt(0)                  // = DBSIG_2
-    var flags= UnsignedInt(0)
-    var version= UnsignedInt(0)
+    var flags = UnsignedInt(0)
+    var version = UnsignedInt(0)
 
     /** Number of groups in the database  */
     var numGroups = UnsignedInt(0)

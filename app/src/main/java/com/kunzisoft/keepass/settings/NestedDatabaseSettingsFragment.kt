@@ -690,7 +690,7 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment(), DatabaseRetriev
                                 if (result.isSuccess) {
                                     newIterations
                                 } else {
-                                    database.numberKeyEncryptionRounds = oldIterations
+                                    database.numberKeyEncryptionRounds = oldIterations.toULong()
                                     oldIterations
                                 }
                         mRoundPref?.summary = roundsToShow.toString()
@@ -702,7 +702,7 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment(), DatabaseRetriev
                                 if (result.isSuccess) {
                                     newMemoryUsage
                                 } else {
-                                    database.memoryUsage = oldMemoryUsage
+                                    database.memoryUsage = oldMemoryUsage.toULong()
                                     oldMemoryUsage
                                 }
                         mMemoryPref?.summary = memoryToShow.toString()

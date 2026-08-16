@@ -65,34 +65,36 @@ class DatabaseRoundsPreferenceDialogFragmentCompat : DatabaseSavePreferenceDialo
 
     override fun onDialogClosed(database: ContextualDatabase?, positiveResult: Boolean) {
         if (positiveResult) {
-            database?.let {
-                val minIterations = database.kdfEngine?.minKeyRounds ?: DEFAULT_MIN_ITERATIONS
-                var rounds: Long = try {
-                    inputText.toLong()
+            database?.kdfEngine?.let { kdfEngine ->
+                val minIterations = kdfEngine.minKeyRounds
+                var newRounds: ULong = try {
+                    inputText.toLong().toULong()
                 } catch (_: NumberFormatException) {
                     minIterations
                 }
-                if (rounds < minIterations) {
-                    rounds = minIterations
+                if (newRounds < minIterations) {
+                    newRounds = minIterations
                 }
-                val maxIterations = database.kdfEngine?.maxKeyRounds ?: DEFAULT_MAX_ITERATIONS
-                if (rounds > maxIterations) {
-                    rounds = maxIterations
-                    Toast.makeText(context, getString(R.string.error_rounds_too_large, maxIterations.toString()), Toast.LENGTH_LONG).show()
+                val maxIterations = kdfEngine.maxKeyRounds
+                if (newRounds > maxIterations) {
+                    newRounds = maxIterations
+                    Toast.makeText(
+                        context,
+                        getString(R.string.error_rounds_too_large,
+                            maxIterations.toString()),
+                        Toast.LENGTH_LONG
+                    ).show()
                 }
 
                 val oldRounds = database.numberKeyEncryptionRounds
-                database.numberKeyEncryptionRounds = rounds
+                database.numberKeyEncryptionRounds = newRounds
 
-                saveIterations(oldRounds, rounds)
+                saveIterations(oldRounds.toLong(), newRounds.toLong())
             }
         }
     }
 
     companion object {
-
-        private const val DEFAULT_MIN_ITERATIONS = 1L
-        private const val DEFAULT_MAX_ITERATIONS = Long.MAX_VALUE
 
         fun newInstance(key: String): DatabaseRoundsPreferenceDialogFragmentCompat {
             val fragment = DatabaseRoundsPreferenceDialogFragmentCompat()

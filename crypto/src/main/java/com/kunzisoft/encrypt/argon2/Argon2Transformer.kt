@@ -8,9 +8,9 @@ object Argon2Transformer {
         type: Argon2Type,
         password: ByteArray,
         salt: ByteArray,
-        parallelism: Long,
-        memory: Long,
-        iterations: Long,
+        parallelism: UInt,
+        memory: UInt,
+        iterations: UInt,
         version: Int
     ): ByteArray {
 

@@ -346,16 +346,16 @@ open class Database {
         return kdfEngine?.toString() ?: ""
     }
 
-    var numberKeyEncryptionRounds: Long
-        get() = kdfEngine?.getKeyRounds() ?: 0
+    var numberKeyEncryptionRounds: ULong
+        get() = kdfEngine?.getKeyRounds() ?: KdfEngine.UNKNOWN_ULONG_VALUE
         set(numberRounds) {
             kdfEngine?.setKeyRounds(numberRounds)
             mDatabaseKDBX?.settingsChanged = DateInstant()
         }
 
-    var memoryUsage: Long
+    var memoryUsage: ULong
         get() {
-            return kdfEngine?.getMemoryUsage() ?: KdfEngine.UNKNOWN_VALUE
+            return kdfEngine?.getMemoryUsage() ?: KdfEngine.UNKNOWN_ULONG_VALUE
         }
         set(memory) {
             kdfEngine?.setMemoryUsage(memory)
@@ -363,7 +363,7 @@ open class Database {
         }
 
     var parallelism: Long
-        get() = kdfEngine?.getParallelism() ?: KdfEngine.UNKNOWN_VALUE
+        get() = kdfEngine?.getParallelism() ?: KdfEngine.UNKNOWN_LONG_VALUE
         set(parallelism) {
             kdfEngine?.setParallelism(parallelism)
             mDatabaseKDBX?.settingsChanged = DateInstant()

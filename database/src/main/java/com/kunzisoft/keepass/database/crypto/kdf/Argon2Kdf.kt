@@ -40,27 +40,30 @@ class Argon2Kdf(private val type: Type) : KdfEngine() {
 
             p.setParamUUID()
             p.setUInt32(PARAM_PARALLELISM, DEFAULT_PARALLELISM)
-            p.setUInt64(PARAM_MEMORY, DEFAULT_MEMORY)
-            p.setUInt64(PARAM_ITERATIONS, DEFAULT_ITERATIONS)
+            p.setUInt64(PARAM_MEMORY, UnsignedLong.from(DEFAULT_MEMORY))
+            p.setUInt64(PARAM_ITERATIONS, UnsignedLong.from(DEFAULT_ITERATIONS))
             p.setUInt32(PARAM_VERSION, MAX_VERSION)
 
             return p
         }
 
-    override val defaultKeyRounds: Long
-        get() = DEFAULT_ITERATIONS.toKotlinLong()
+    override val defaultKeyRounds: ULong
+        get() = DEFAULT_ITERATIONS
 
     @Throws(IOException::class)
     override fun transform(masterKey: ByteArray): ByteArray {
 
         val salt = parameters.getByteArray(PARAM_SALT) ?: ByteArray(0)
-        val parallelism = (parameters.getUInt32(PARAM_PARALLELISM)?.toKotlinLong() ?: DEFAULT_PARALLELISM.toKotlinLong())
+        val parallelism: UInt = (parameters.getUInt32(PARAM_PARALLELISM)?.toKotlinLong() ?: DEFAULT_PARALLELISM.toKotlinLong())
             .coerceIn(minParallelism, maxParallelism)
-        val memory = (parameters.getUInt64(PARAM_MEMORY)?.toKotlinLong()?.div(MEMORY_BLOCK_SIZE)
-            ?: DEFAULT_MEMORY.toKotlinLong().div(MEMORY_BLOCK_SIZE))
-            .coerceIn(minMemoryUsage / MEMORY_BLOCK_SIZE, maxMemoryUsage / MEMORY_BLOCK_SIZE)
-        val iterations = (parameters.getUInt64(PARAM_ITERATIONS)?.toKotlinLong() ?: DEFAULT_ITERATIONS.toKotlinLong())
+            .toUInt()
+        val memory: UInt = (parameters.getUInt64(PARAM_MEMORY)?.toULong() ?: DEFAULT_MEMORY)
+            .coerceIn(minMemoryUsage, maxMemoryUsage)
+            .div(MEMORY_BLOCK_SIZE) // To transform Byte unit to KiB unit and not lose any info in UInt
+            .toUInt()
+        val iterations = (parameters.getUInt64(PARAM_ITERATIONS)?.toULong() ?: DEFAULT_ITERATIONS)
             .coerceIn(minKeyRounds, maxKeyRounds)
+            .toUInt() // warning, lose info here
         val version = parameters.getUInt32(PARAM_VERSION)?.toKotlinInt() ?: MAX_VERSION.toKotlinInt()
 
         // Not used
@@ -89,36 +92,34 @@ class Argon2Kdf(private val type: Type) : KdfEngine() {
         return parameters.getByteArray(PARAM_SALT)
     }
 
-    override fun getKeyRounds(): Long {
-        return parameters.getUInt64(PARAM_ITERATIONS)?.toKotlinLong() ?: defaultKeyRounds
+    override fun getKeyRounds(): ULong {
+        return parameters.getUInt64(PARAM_ITERATIONS)?.toULong() ?: defaultKeyRounds
     }
 
-    override fun setKeyRounds(keyRounds: Long) {
-        parameters.setUInt64(PARAM_ITERATIONS, UnsignedLong(keyRounds.coerceIn(minKeyRounds, maxKeyRounds)))
+    override fun setKeyRounds(keyRounds: ULong) {
+        parameters.setUInt64(PARAM_ITERATIONS, UnsignedLong.from(keyRounds.coerceIn(minKeyRounds, maxKeyRounds)))
     }
 
-    override val minKeyRounds: Long
-        get() = MIN_ITERATIONS.toKotlinLong()
+    override val minKeyRounds: ULong = MIN_ITERATIONS
 
-    override val maxKeyRounds: Long
-        get() = MAX_ITERATIONS.toKotlinLong()
+    override val maxKeyRounds: ULong = MAX_ITERATIONS
 
-    override fun getMemoryUsage(): Long {
-        return parameters.getUInt64(PARAM_MEMORY)?.toKotlinLong() ?: defaultMemoryUsage
+    override fun getMemoryUsage(): ULong {
+        return parameters.getUInt64(PARAM_MEMORY)?.toULong() ?: defaultMemoryUsage
     }
 
-    override fun setMemoryUsage(memory: Long) {
-        parameters.setUInt64(PARAM_MEMORY, UnsignedLong(memory.coerceIn(minMemoryUsage, maxMemoryUsage)))
+    override fun setMemoryUsage(memory: ULong) {
+        parameters.setUInt64(
+            PARAM_MEMORY,
+            UnsignedLong.from(memory.coerceIn(minMemoryUsage, maxMemoryUsage))
+        )
     }
 
-    override val defaultMemoryUsage: Long
-        get() = DEFAULT_MEMORY.toKotlinLong()
+    override val defaultMemoryUsage: ULong = DEFAULT_MEMORY
 
-    override val minMemoryUsage: Long
-        get() = MIN_MEMORY.toKotlinLong()
+    override val minMemoryUsage: ULong = MIN_MEMORY
 
-    override val maxMemoryUsage: Long
-        get() = MAX_MEMORY.toKotlinLong()
+    override val maxMemoryUsage: ULong = MAX_MEMORY
 
     override fun getParallelism(): Long {
         return parameters.getUInt32(PARAM_PARALLELISM)?.let {
@@ -197,14 +198,14 @@ class Argon2Kdf(private val type: Type) : KdfEngine() {
         private val MIN_VERSION = UnsignedInt(0x10)
         private val MAX_VERSION = UnsignedInt(0x13)
 
-        private val DEFAULT_ITERATIONS = UnsignedLong(3L)
-        private val MIN_ITERATIONS = UnsignedLong(1L)
-        private val MAX_ITERATIONS = UnsignedLong(1_000_000L)
+        private val DEFAULT_ITERATIONS: ULong = 3u
+        private val MIN_ITERATIONS: ULong = 1u
+        private val MAX_ITERATIONS: ULong = 1_000_000u // Do not exceed the maximum UInt value
 
-        private val DEFAULT_MEMORY = UnsignedLong((1024L * 1024L * 16L))
-        private val MIN_MEMORY = UnsignedLong(1024L * 8L)
-        private val MAX_MEMORY = UnsignedInt.MAX_VALUE
-        private const val MEMORY_BLOCK_SIZE: Long = 1024L
+        private val DEFAULT_MEMORY: ULong = (MEMORY_BLOCK_SIZE * 1024u * 16u).toULong() // 16 MiB
+        private val MIN_MEMORY: ULong = (MEMORY_BLOCK_SIZE * 8u).toULong() // 8 MiB
+        private val MAX_MEMORY: ULong = ULong.MAX_VALUE
+        private const val MEMORY_BLOCK_SIZE: UInt = 1024u // to pass arguments to JNI
 
         private val DEFAULT_PARALLELISM = UnsignedInt(4)
         private val MIN_PARALLELISM = UnsignedInt.fromKotlinLong(1L)

@@ -60,14 +60,14 @@ abstract class KdfEngine : Serializable {
     fun benchmark(
         masterKey: ByteArray,
         targetTime: Long = 1000L
-    ): Long {
+    ): ULong {
         val currentRounds = getKeyRounds()
-        val testRounds = if (currentRounds > 0) currentRounds else defaultKeyRounds
+        val testRounds = if (currentRounds > maxMemoryUsage) maxMemoryUsage else currentRounds
         val time = measureTimeMillis {
             transform(masterKey)
         }
         return if (time > 0) {
-            val newRounds = (testRounds.toDouble() * targetTime / time).toLong()
+            val newRounds = (testRounds.toDouble() * targetTime / time).toULong()
             max(minKeyRounds, min(maxKeyRounds, newRounds))
         } else {
             testRounds
@@ -103,45 +103,45 @@ abstract class KdfEngine : Serializable {
      * ITERATIONS
      */
 
-    abstract fun getKeyRounds(): Long
+    abstract fun getKeyRounds(): ULong
 
-    abstract fun setKeyRounds(keyRounds: Long)
+    abstract fun setKeyRounds(keyRounds: ULong)
 
-    abstract val defaultKeyRounds: Long
+    abstract val defaultKeyRounds: ULong
 
-    open val minKeyRounds: Long
-        get() = 1
+    open val minKeyRounds: ULong
+        get() = 1u
 
-    open val maxKeyRounds: Long
-        get() = UnsignedInt.MAX_VALUE.toKotlinLong()
+    open val maxKeyRounds: ULong
+        get() = ULong.MAX_VALUE
 
     /*
      * MEMORY
      */
 
-    open fun getMemoryUsage(): Long {
-        return UNKNOWN_VALUE
+    open fun getMemoryUsage(): ULong {
+        return UNKNOWN_ULONG_VALUE
     }
 
-    open fun setMemoryUsage(memory: Long) {
+    open fun setMemoryUsage(memory: ULong) {
         // Do nothing by default
     }
 
-    open val defaultMemoryUsage: Long
-        get() = UNKNOWN_VALUE
+    open val defaultMemoryUsage: ULong
+        get() = UNKNOWN_ULONG_VALUE
 
-    open val minMemoryUsage: Long
-        get() = 1
+    open val minMemoryUsage: ULong
+        get() = 1u
 
-    open val maxMemoryUsage: Long
-        get() = UnsignedInt.MAX_VALUE.toKotlinLong()
+    open val maxMemoryUsage: ULong
+        get() = ULong.MAX_VALUE
 
     /*
      * PARALLELISM
      */
 
     open fun getParallelism(): Long {
-        return UNKNOWN_VALUE
+        return UNKNOWN_LONG_VALUE
     }
 
     open fun setParallelism(parallelism: Long) {
@@ -149,7 +149,7 @@ abstract class KdfEngine : Serializable {
     }
 
     open val defaultParallelism: Long
-        get() = UNKNOWN_VALUE
+        get() = UNKNOWN_LONG_VALUE
 
     open val minParallelism: Long
         get() = 1L
@@ -158,6 +158,7 @@ abstract class KdfEngine : Serializable {
         get() = UnsignedInt.MAX_VALUE.toKotlinLong()
 
     companion object {
-        const val UNKNOWN_VALUE: Long = -1L
+        const val UNKNOWN_LONG_VALUE: Long = 0L
+        const val UNKNOWN_ULONG_VALUE: ULong = 0u
     }
 }

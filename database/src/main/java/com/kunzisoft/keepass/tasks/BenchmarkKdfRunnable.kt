@@ -35,7 +35,7 @@ open class BenchmarkKdfRunnable(
 
         val newRounds = engine.benchmark(masterKey = masterKey, targetTime = DEFAULT_BENCHMARK_TIME)
         result.data = Bundle().apply {
-            putLong(EXTRA_NEW_ROUNDS, newRounds)
+            putLong(EXTRA_NEW_ROUNDS, newRounds.toLong())
         }
     }
 

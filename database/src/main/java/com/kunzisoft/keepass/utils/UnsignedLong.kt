@@ -31,6 +31,12 @@ class UnsignedLong(value: Long): Serializable {
     fun toKotlinLong(): Long {
         return unsignedValue
     }
+    /**
+     * Convert an unsigned Long to Kotlin ULong
+     */
+    fun toULong(): ULong {
+        return unsignedValue.toULong()
+    }
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
@@ -38,9 +44,7 @@ class UnsignedLong(value: Long): Serializable {
 
         other as UnsignedLong
 
-        if (unsignedValue != other.unsignedValue) return false
-
-        return true
+        return unsignedValue == other.unsignedValue
     }
 
     override fun hashCode(): Int {
@@ -57,5 +61,9 @@ class UnsignedLong(value: Long): Serializable {
     companion object {
         private const val MAX_VALUE: Long = -1
         val MAX_BYTES = longTo8Bytes(MAX_VALUE)
+
+        fun from(value: ULong): UnsignedLong {
+            return UnsignedLong(value.toLong())
+        }
     }
 }

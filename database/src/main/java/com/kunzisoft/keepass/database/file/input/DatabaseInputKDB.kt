@@ -105,7 +105,7 @@ class DatabaseInputKDB(database: DatabaseKDB)
                 else -> throw InvalidAlgorithmDatabaseException()
             }
 
-            mDatabase.kdfEngine?.setKeyRounds(header.numKeyEncRounds.toKotlinLong())
+            mDatabase.kdfEngine?.setKeyRounds(header.numKeyEncRounds.toULong())
 
             // Generate transformedMasterKey from masterKey
             mDatabase.makeFinalKey(
