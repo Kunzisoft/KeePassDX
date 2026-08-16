@@ -1,2 +1,3 @@
  * TargetSDK 36
  * Update translations
+ * Fix unit converter in KDF dialog #2640

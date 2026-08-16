@@ -1,2 +1,3 @@
  * SDK Cible 36
  * Mise à jour des traductions
+ * Correction du converteur d'unités dans la dialogue du KDF #2640
