@@ -345,7 +345,7 @@
     <string name="education_entry_edit_title">Modificați intrarea</string>
     <string name="education_entry_edit_summary">Editați-vă intrarea cu câmpuri personalizate. Datele din pool pot fi menționate între diferitele câmpuri de intrare.</string>
     <string name="education_generate_password_title">Creați o parolă puternică</string>
-    <string name="education_generate_password_summary">Generați o parolă puternică pentru a vă asocia cu intrarea dvs., definiți-o ușor în funcție de criteriile formularului și nu uitați parola securizată.</string>
+    <string name="education_generate_password_summary">Generează o parolă puternică pentru a o asocia cu înregistrarea ta, definește-o ușor în funcție de criteriile formularului și nu o uita.</string>
     <string name="education_entry_new_field_title">Adăugați câmpuri personalizate</string>
     <string name="education_entry_new_field_summary">Înregistrați un câmp suplimentar, adăugați o valoare și protejați-l opțional.</string>
     <string name="education_unlock_title">Deblocați baza de date</string>
@@ -491,7 +491,7 @@
     <string name="corrupted_file">Fișier deteriorat.</string>
     <string name="passphrase">Frază de acces</string>
     <string name="colorize_password_title">Colorare parole</string>
-    <string name="show_otp_token_summary">Afișează token-urile OTP în lista înregistrărilor</string>
+    <string name="show_otp_token_summary">Afișează jetoanele OTP în mod implicit</string>
     <string name="show_otp_token_title">Afișare Token OTP</string>
     <string name="show_uuid_summary">Afișează UUID-ul legat de o înregistrare sau de un grup</string>
     <string name="menu_app_settings_summary">Căutare, blocare, istoric, proprietăți</string>
@@ -520,7 +520,7 @@
     <string name="remember_hardware_key_summary">Memorizează cheile fizice utilizate</string>
     <string name="import_app_properties_summary">Selectează un fișier pentru a importa setările aplicației</string>
     <string name="export_app_properties_title">Exportă setările aplicației</string>
-    <string name="warning_database_info_changed">Informațiile conținute în fișierul bazei de date au fost modificate în afara aplicației.</string>
+    <string name="warning_database_info_changed">Informațiile conținute în baza de date au fost modificate în afara aplicației.</string>
     <string name="credential_before_click_device_unlock_button">Introdu parola, apoi apasă acest buton.</string>
     <string name="filter">Filtru</string>
     <string name="unlock">Deblocare</string>
@@ -753,4 +753,12 @@
     <string name="user_verification_database_credential">Introdu primele patru caractere ale parolei bazei de date</string>
     <string name="first_chars">Primele caractere</string>
     <string name="check">Verificare</string>
+    <string name="error_memory_too_large">„Utilizarea memoriei” prea mare. Setare la %1$s.</string>
+    <string name="error_parallelism_too_large">„Paralelism” prea mare. Setare la %1$s.</string>
+    <string name="error_missing_parent">Această acțiune nu poate fi efectuată fără un părinte.</string>
+    <string name="temporary_merge_success">Îmbinarea datelor temporare a fost finalizată cu succes</string>
+    <string name="reload_success">Reîncărcarea a fost finalizată cu succes</string>
+    <string name="autofill_suggestions_title">Sugestii de completare automată</string>
+    <string name="autofill_suggestions_summary">Utilizează algoritmul de recunoaștere a formularelor pentru a sugera înregistrări</string>
+    <string name="passkey_pseudo_random_function">Funcție pseudo-aleatorie cu cheie de acces</string>
 </resources>
