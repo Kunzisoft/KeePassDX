@@ -291,7 +291,7 @@ open class Database {
         // Default compression not necessary if stored in header
         mDatabaseKDBX?.let {
             return it.compressionAlgorithm == CompressionAlgorithm.GZIP
-                    && it.kdbxVersion.isBefore(FILE_VERSION_40)
+                    && it.kdbxVersion < FILE_VERSION_40
         }
         return false
     }

@@ -22,8 +22,6 @@ package com.kunzisoft.keepass.database.crypto.kdf
 import com.kunzisoft.encrypt.HashManager
 import com.kunzisoft.encrypt.argon2.Argon2Transformer
 import com.kunzisoft.encrypt.argon2.Argon2Type
-import com.kunzisoft.keepass.utils.UnsignedInt
-import com.kunzisoft.keepass.utils.UnsignedLong
 import com.kunzisoft.keepass.utils.bytes16ToUuid
 import java.io.IOException
 import java.util.UUID
@@ -40,8 +38,8 @@ class Argon2Kdf(private val type: Type) : KdfEngine() {
 
             p.setParamUUID()
             p.setUInt32(PARAM_PARALLELISM, DEFAULT_PARALLELISM)
-            p.setUInt64(PARAM_MEMORY, UnsignedLong.from(DEFAULT_MEMORY))
-            p.setUInt64(PARAM_ITERATIONS, UnsignedLong.from(DEFAULT_ITERATIONS))
+            p.setUInt64(PARAM_MEMORY, DEFAULT_MEMORY)
+            p.setUInt64(PARAM_ITERATIONS, DEFAULT_ITERATIONS)
             p.setUInt32(PARAM_VERSION, MAX_VERSION)
 
             return p
@@ -54,17 +52,18 @@ class Argon2Kdf(private val type: Type) : KdfEngine() {
     override fun transform(masterKey: ByteArray): ByteArray {
 
         val salt = parameters.getByteArray(PARAM_SALT) ?: ByteArray(0)
-        val parallelism: UInt = (parameters.getUInt32(PARAM_PARALLELISM)?.toKotlinLong() ?: DEFAULT_PARALLELISM.toKotlinLong())
+        val parallelism: UInt = (parameters.getUInt32(PARAM_PARALLELISM) ?: DEFAULT_PARALLELISM)
+            .toLong()
             .coerceIn(minParallelism, maxParallelism)
             .toUInt()
-        val memory: UInt = (parameters.getUInt64(PARAM_MEMORY)?.toULong() ?: DEFAULT_MEMORY)
+        val memory: UInt = (parameters.getUInt64(PARAM_MEMORY) ?: DEFAULT_MEMORY)
             .coerceIn(minMemoryUsage, maxMemoryUsage)
             .div(MEMORY_BLOCK_SIZE) // To transform Byte unit to KiB unit and not lose any info in UInt
             .toUInt()
-        val iterations = (parameters.getUInt64(PARAM_ITERATIONS)?.toULong() ?: DEFAULT_ITERATIONS)
+        val iterations = (parameters.getUInt64(PARAM_ITERATIONS) ?: DEFAULT_ITERATIONS)
             .coerceIn(minKeyRounds, maxKeyRounds)
             .toUInt() // warning, lose info here
-        val version = parameters.getUInt32(PARAM_VERSION)?.toKotlinInt() ?: MAX_VERSION.toKotlinInt()
+        val version = parameters.getUInt32(PARAM_VERSION)?.toInt() ?: MAX_VERSION.toInt()
 
         // Not used
         // val secretKey = parameters.getByteArray(PARAM_SECRET_KEY)
@@ -93,11 +92,11 @@ class Argon2Kdf(private val type: Type) : KdfEngine() {
     }
 
     override fun getKeyRounds(): ULong {
-        return parameters.getUInt64(PARAM_ITERATIONS)?.toULong() ?: defaultKeyRounds
+        return parameters.getUInt64(PARAM_ITERATIONS) ?: defaultKeyRounds
     }
 
     override fun setKeyRounds(keyRounds: ULong) {
-        parameters.setUInt64(PARAM_ITERATIONS, UnsignedLong.from(keyRounds.coerceIn(minKeyRounds, maxKeyRounds)))
+        parameters.setUInt64(PARAM_ITERATIONS, keyRounds.coerceIn(minKeyRounds, maxKeyRounds))
     }
 
     override val minKeyRounds: ULong = MIN_ITERATIONS
@@ -105,13 +104,13 @@ class Argon2Kdf(private val type: Type) : KdfEngine() {
     override val maxKeyRounds: ULong = MAX_ITERATIONS
 
     override fun getMemoryUsage(): ULong {
-        return parameters.getUInt64(PARAM_MEMORY)?.toULong() ?: defaultMemoryUsage
+        return parameters.getUInt64(PARAM_MEMORY) ?: defaultMemoryUsage
     }
 
     override fun setMemoryUsage(memory: ULong) {
         parameters.setUInt64(
             PARAM_MEMORY,
-            UnsignedLong.from(memory.coerceIn(minMemoryUsage, maxMemoryUsage))
+            memory.coerceIn(minMemoryUsage, maxMemoryUsage)
         )
     }
 
@@ -122,13 +121,11 @@ class Argon2Kdf(private val type: Type) : KdfEngine() {
     override val maxMemoryUsage: ULong = MAX_MEMORY
 
     override fun getParallelism(): Long {
-        return parameters.getUInt32(PARAM_PARALLELISM)?.let {
-            UnsignedInt(it).toKotlinLong()
-        } ?: defaultParallelism
+        return parameters.getUInt32(PARAM_PARALLELISM)?.toLong() ?: defaultParallelism
     }
 
     override fun setParallelism(parallelism: Long) {
-        parameters.setUInt32(PARAM_PARALLELISM, UnsignedInt.fromKotlinLong(parallelism.coerceIn(minParallelism, maxParallelism)))
+        parameters.setUInt32(PARAM_PARALLELISM, parallelism.coerceIn(minParallelism, maxParallelism).toUInt())
     }
 
     override fun toString(): String {
@@ -136,13 +133,13 @@ class Argon2Kdf(private val type: Type) : KdfEngine() {
     }
 
     override val defaultParallelism: Long
-        get() = DEFAULT_PARALLELISM.toKotlinLong()
+        get() = DEFAULT_PARALLELISM.toLong()
 
     override val minParallelism: Long
-        get() = MIN_PARALLELISM.toKotlinLong()
+        get() = MIN_PARALLELISM.toLong()
 
     override val maxParallelism: Long
-        get() = MAX_PARALLELISM.toKotlinLong()
+        get() = MAX_PARALLELISM.toLong()
 
     enum class Type(val CIPHER_UUID: UUID, private val typeName: String) {
         ARGON2_D(bytes16ToUuid(
@@ -195,8 +192,8 @@ class Argon2Kdf(private val type: Type) : KdfEngine() {
         private const val PARAM_SECRET_KEY = "K" // byte[]
         private const val PARAM_ASSOC_DATA = "A" // byte[]
 
-        private val MIN_VERSION = UnsignedInt(0x10)
-        private val MAX_VERSION = UnsignedInt(0x13)
+        private const val MIN_VERSION: UInt = 0x10u
+        private const val MAX_VERSION: UInt = 0x13u
 
         private val DEFAULT_ITERATIONS: ULong = 3u
         private val MIN_ITERATIONS: ULong = 1u
@@ -204,11 +201,11 @@ class Argon2Kdf(private val type: Type) : KdfEngine() {
 
         private val DEFAULT_MEMORY: ULong = (MEMORY_BLOCK_SIZE * 1024u * 16u).toULong() // 16 MiB
         private val MIN_MEMORY: ULong = (MEMORY_BLOCK_SIZE * 8u).toULong() // 8 MiB
-        private val MAX_MEMORY: ULong = ULong.MAX_VALUE
+        private val MAX_MEMORY: ULong = UInt.MAX_VALUE.toULong()
         private const val MEMORY_BLOCK_SIZE: UInt = 1024u // to pass arguments to JNI
 
-        private val DEFAULT_PARALLELISM = UnsignedInt(4)
-        private val MIN_PARALLELISM = UnsignedInt.fromKotlinLong(1L)
-        private val MAX_PARALLELISM = UnsignedInt.fromKotlinLong(128L)
+        private const val DEFAULT_PARALLELISM: UInt = 4u
+        private const val MIN_PARALLELISM: UInt = 1u
+        private const val MAX_PARALLELISM: UInt = 128u
     }
 }

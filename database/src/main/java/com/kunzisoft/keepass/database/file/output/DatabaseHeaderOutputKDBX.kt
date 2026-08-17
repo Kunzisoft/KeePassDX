@@ -27,8 +27,7 @@ import com.kunzisoft.keepass.database.exception.DatabaseOutputException
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX.Companion.FILE_VERSION_40
 import com.kunzisoft.keepass.stream.MacOutputStream
-import com.kunzisoft.keepass.utils.UnsignedInt
-import com.kunzisoft.keepass.utils.UnsignedLong
+import com.kunzisoft.keepass.utils.MAX_BYTES
 import com.kunzisoft.keepass.utils.longTo8Bytes
 import com.kunzisoft.keepass.utils.uIntTo4Bytes
 import com.kunzisoft.keepass.utils.uuidTo16Bytes
@@ -61,7 +60,7 @@ constructor(private val databaseKDBX: DatabaseKDBX,
         }
 
         val hmacKey = databaseKDBX.hmacKey ?: throw DatabaseOutputException("HmacKey is not defined")
-        val blockKey = HashManager.sha512(UnsignedLong.MAX_BYTES, hmacKey)
+        val blockKey = HashManager.sha512(MAX_BYTES, hmacKey)
         val hmac: Mac = HashManager.getHmacSha256(blockKey)
 
         val messageDigest: MessageDigest = HashManager.getSha256()
@@ -80,7 +79,7 @@ constructor(private val databaseKDBX: DatabaseKDBX,
         writeHeaderField(DatabaseHeaderKDBX.PwDbHeaderV4Fields.CompressionFlags, uIntTo4Bytes(DatabaseHeaderKDBX.getFlagFromCompression(databaseKDBX.compressionAlgorithm)))
         writeHeaderField(DatabaseHeaderKDBX.PwDbHeaderV4Fields.MasterSeed, header.masterSeed)
 
-        if (header.version.isBefore(FILE_VERSION_40)) {
+        if (header.version < FILE_VERSION_40) {
             writeHeaderField(DatabaseHeaderKDBX.PwDbHeaderV4Fields.TransformSeed, databaseKDBX.transformSeed)
             writeHeaderField(DatabaseHeaderKDBX.PwDbHeaderV4Fields.TransformRounds, longTo8Bytes(databaseKDBX.kdfEngine!!.getKeyRounds().toLong()))
         } else {
@@ -91,7 +90,7 @@ constructor(private val databaseKDBX: DatabaseKDBX,
             writeHeaderField(DatabaseHeaderKDBX.PwDbHeaderV4Fields.EncryptionIV, header.encryptionIV)
         }
 
-        if (header.version.isBefore(FILE_VERSION_40)) {
+        if (header.version < FILE_VERSION_40) {
             writeHeaderField(DatabaseHeaderKDBX.PwDbHeaderV4Fields.InnerRandomstreamKey, header.innerRandomStreamKey)
             writeHeaderField(DatabaseHeaderKDBX.PwDbHeaderV4Fields.StreamStartBytes, header.streamStartBytes)
             writeHeaderField(DatabaseHeaderKDBX.PwDbHeaderV4Fields.InnerRandomStreamID, uIntTo4Bytes(header.innerRandomStream!!.id))
@@ -125,10 +124,10 @@ constructor(private val databaseKDBX: DatabaseKDBX,
 
     @Throws(IOException::class)
     private fun writeHeaderFieldSize(size: Int) {
-        if (header.version.isBefore(FILE_VERSION_40)) {
+        if (header.version < FILE_VERSION_40) {
             mos.write2BytesUShort(size)
         } else {
-            mos.write4BytesUInt(UnsignedInt(size))
+            mos.write4BytesUInt(size.toUInt())
         }
 
     }

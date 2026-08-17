@@ -21,7 +21,6 @@ package com.kunzisoft.keepass.database.crypto.kdf
 
 import com.kunzisoft.encrypt.HashManager
 import com.kunzisoft.encrypt.aes.AESTransformer
-import com.kunzisoft.keepass.utils.UnsignedLong
 import com.kunzisoft.keepass.utils.bytes16ToUuid
 import java.io.IOException
 import java.util.UUID
@@ -36,7 +35,7 @@ class AesKdf : KdfEngine() {
         get() {
             return KdfParameters(uuid!!).apply {
                 setParamUUID()
-                setUInt64(PARAM_ROUNDS, UnsignedLong.from(defaultKeyRounds))
+                setUInt64(PARAM_ROUNDS, defaultKeyRounds)
             }
         }
 
@@ -53,7 +52,7 @@ class AesKdf : KdfEngine() {
             currentMasterKey = HashManager.sha256(currentMasterKey)
         }
 
-        val rounds = parameters.getUInt64(PARAM_ROUNDS)?.toULong()
+        val rounds = parameters.getUInt64(PARAM_ROUNDS)
             ?.coerceIn(minKeyRounds, maxKeyRounds)
 
         return AESTransformer.transformKey(seed, currentMasterKey, rounds) ?: ByteArray(0)
@@ -69,13 +68,13 @@ class AesKdf : KdfEngine() {
     }
 
     override fun getKeyRounds(): ULong {
-        return parameters.getUInt64(PARAM_ROUNDS)?.toULong() ?: defaultKeyRounds
+        return parameters.getUInt64(PARAM_ROUNDS) ?: defaultKeyRounds
     }
 
     override fun setKeyRounds(keyRounds: ULong) {
         parameters.setUInt64(
             PARAM_ROUNDS,
-            UnsignedLong.from(keyRounds.coerceIn(minKeyRounds, maxKeyRounds))
+            keyRounds.coerceIn(minKeyRounds, maxKeyRounds)
         )
     }
 

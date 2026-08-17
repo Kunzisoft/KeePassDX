@@ -21,10 +21,8 @@ package com.kunzisoft.keepass.tests.crypto
 
 import com.kunzisoft.keepass.database.crypto.kdf.AesKdf
 import com.kunzisoft.keepass.database.crypto.kdf.Argon2Kdf
-import com.kunzisoft.keepass.database.crypto.kdf.KdfParameters
 import org.junit.Assert.assertEquals
 import org.junit.Test
-import java.util.UUID
 
 class KdfClampingTest {
 
@@ -33,18 +31,18 @@ class KdfClampingTest {
         val argon2Kdf = Argon2Kdf(Argon2Kdf.Type.ARGON2_ID)
 
         // Test iterations clamping
-        argon2Kdf.setKeyRounds(2_000_000L) // Above max
-        assertEquals(1_000_000L, argon2Kdf.getKeyRounds())
+        argon2Kdf.setKeyRounds(2_000_000uL) // Above max
+        assertEquals(1_000_000uL, argon2Kdf.getKeyRounds())
 
-        argon2Kdf.setKeyRounds(0L) // Below min
-        assertEquals(1L, argon2Kdf.getKeyRounds())
+        argon2Kdf.setKeyRounds(0uL) // Below min
+        assertEquals(1uL, argon2Kdf.getKeyRounds())
 
         // Test memory clamping
-        argon2Kdf.setMemoryUsage( 5_000_000_000L) // Above max (4GiB)
-        assertEquals(4_294_967_295L, argon2Kdf.getMemoryUsage())
+        argon2Kdf.setMemoryUsage( 5_000_000_000uL) // Above max (4GiB)
+        assertEquals(4_294_967_295uL, argon2Kdf.getMemoryUsage())
 
-        argon2Kdf.setMemoryUsage( 100L) // Below min
-        assertEquals(8192L, argon2Kdf.getMemoryUsage())
+        argon2Kdf.setMemoryUsage( 100uL) // Below min
+        assertEquals(8192uL, argon2Kdf.getMemoryUsage())
 
         // Test parallelism clamping
         argon2Kdf.setParallelism(256L) // Above max
@@ -59,10 +57,10 @@ class KdfClampingTest {
         val aesKdf = AesKdf()
 
         // Test rounds clamping
-        aesKdf.setKeyRounds(200_000_000L) // Above max
-        assertEquals(100_000_000L, aesKdf.getKeyRounds())
+        aesKdf.setKeyRounds(200_000_000uL) // Above max
+        assertEquals(100_000_000uL, aesKdf.getKeyRounds())
 
-        aesKdf.setKeyRounds(0L) // Below min
-        assertEquals(1L, aesKdf.getKeyRounds())
+        aesKdf.setKeyRounds(0uL) // Below min
+        assertEquals(1uL, aesKdf.getKeyRounds())
     }
 }

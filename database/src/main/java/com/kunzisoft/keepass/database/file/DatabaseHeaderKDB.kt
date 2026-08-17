@@ -21,7 +21,6 @@
 
 package com.kunzisoft.keepass.database.file
 
-import com.kunzisoft.keepass.utils.UnsignedInt
 import com.kunzisoft.keepass.utils.readBytes4ToUInt
 import com.kunzisoft.keepass.utils.readBytesLength
 import java.io.IOException
@@ -34,15 +33,15 @@ class DatabaseHeaderKDB : DatabaseHeader() {
      */
     var transformSeed = ByteArray(32)
 
-    var signature1 = UnsignedInt(0)                  // = DBSIG_1
-    var signature2 = UnsignedInt(0)                  // = DBSIG_2
-    var flags = UnsignedInt(0)
-    var version = UnsignedInt(0)
+    var signature1: UInt = 0u                  // = DBSIG_1
+    var signature2: UInt = 0u                  // = DBSIG_2
+    var flags: UInt = 0u
+    var version: UInt = 0u
 
     /** Number of groups in the database  */
-    var numGroups = UnsignedInt(0)
+    var numGroups: UInt = 0u
     /** Number of entries in the database  */
-    var numEntries = UnsignedInt(0)
+    var numEntries: UInt = 0u
 
     /**
      * SHA-256 hash of the database, used for integrity check
@@ -50,7 +49,7 @@ class DatabaseHeaderKDB : DatabaseHeader() {
     var contentsHash = ByteArray(32)
 
     // As UInt
-    var numKeyEncRounds = UnsignedInt(0)
+    var numKeyEncRounds: UInt = 0u
 
     /**
      * Parse given buf, as read from file.
@@ -84,24 +83,30 @@ class DatabaseHeaderKDB : DatabaseHeader() {
     companion object {
 
         // DB sig from KeePass 1.03
-        val DBSIG_1 = UnsignedInt(-0x655d26fd) // 0x9AA2D903
-        val DBSIG_2 = UnsignedInt(-0x4ab4049b) // 0xB54BFB65
-        val DBVER_DW = UnsignedInt(0x00030004)
+        val DBSIG_1: UInt = 0x9AA2D903u
+        val DBSIG_2: UInt = 0xB54BFB65u
+        val DBVER_DW: UInt = 0x00030004u
 
-        val FLAG_SHA2 = UnsignedInt(1)
-        val FLAG_RIJNDAEL = UnsignedInt(2)
-        val FLAG_ARCFOUR = UnsignedInt(4)
-        val FLAG_TWOFISH = UnsignedInt(8)
+        val FLAG_SHA2: UInt = 1u
+        val FLAG_RIJNDAEL: UInt = 2u
+        val FLAG_ARCFOUR: UInt = 4u
+        val FLAG_TWOFISH: UInt = 8u
 
         /** Size of byte buffer needed to hold this struct.  */
         const val BUF_SIZE = 124
 
-        fun matchesHeader(sig1: UnsignedInt, sig2: UnsignedInt): Boolean {
-            return sig1.toKotlinInt() == DBSIG_1.toKotlinInt() && sig2.toKotlinInt() == DBSIG_2.toKotlinInt()
+        fun matchesHeader(
+            sig1: UInt,
+            sig2: UInt,
+        ): Boolean {
+            return sig1 == DBSIG_1 && sig2 == DBSIG_2
         }
 
-        fun compatibleHeaders(one: UnsignedInt, two: UnsignedInt): Boolean {
-            return one.toKotlinInt() and -0x100 == two.toKotlinInt() and -0x100
+        fun compatibleHeaders(
+            one: UInt,
+            two: UInt,
+        ): Boolean {
+            return one.toInt() and -0x100 == two.toInt() and -0x100
         }
     }
 

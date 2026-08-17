@@ -54,7 +54,6 @@ import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX.Companion.FILE_VER
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX.Companion.FILE_VERSION_41
 import com.kunzisoft.keepass.hardware.HardwareKey
 import com.kunzisoft.keepass.utils.CharArrayUtil.contentEquals
-import com.kunzisoft.keepass.utils.UnsignedInt
 import com.kunzisoft.keepass.utils.clear
 import com.kunzisoft.keepass.utils.longTo8Bytes
 import java.io.IOException
@@ -115,7 +114,7 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
     private val mFieldReferenceEngine = FieldReferencesEngine(this)
     private val mTemplateEngine = TemplateEngineCompatible(this)
 
-    var kdbxVersion = UnsignedInt(0)
+    var kdbxVersion: UInt = 0u
     var name = ""
     var nameChanged = DateInstant()
     var description = ""
@@ -128,7 +127,7 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
     var keyChangeForceDays: Long = 1
     var isKeyChangeForceOnce = false
 
-    var maintenanceHistoryDays = UnsignedInt(365)
+    var maintenanceHistoryDays: UInt = 365u
     var color = ""
 
     /**
@@ -273,7 +272,7 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
         this.mCompositeKey = databaseVersioned.mCompositeKey.copyOf()
     }
 
-    fun getMinKdbxVersion(): UnsignedInt {
+    fun getMinKdbxVersion(): UInt {
         val entryHandler = EntryOperationHandler()
         val groupHandler = GroupOperationHandler()
         rootGroup?.doForEachChildAndForIt(entryHandler, groupHandler)
@@ -329,7 +328,7 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
                     }
                     CompressionAlgorithm.GZIP -> {
                         // Only in databaseV3.1, in databaseV4 the header is zipped during the save
-                        if (kdbxVersion.isBefore(FILE_VERSION_40)) {
+                        if (kdbxVersion < FILE_VERSION_40) {
                             compressAllBinaries()
                         }
                     }
@@ -337,7 +336,7 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
             }
             CompressionAlgorithm.GZIP -> {
                 // In databaseV4 the header is zipped during the save, so not necessary here
-                if (kdbxVersion.isBefore(FILE_VERSION_40)) {
+                if (kdbxVersion < FILE_VERSION_40) {
                     when (newCompression) {
                         CompressionAlgorithm.NONE -> {
                             decompressAllBinaries()

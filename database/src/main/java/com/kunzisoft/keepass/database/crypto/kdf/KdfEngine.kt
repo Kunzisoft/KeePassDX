@@ -19,7 +19,6 @@
  */
 package com.kunzisoft.keepass.database.crypto.kdf
 
-import com.kunzisoft.keepass.utils.UnsignedInt
 import java.io.IOException
 import java.io.Serializable
 import java.util.UUID
@@ -155,7 +154,7 @@ abstract class KdfEngine : Serializable {
         get() = 1L
 
     open val maxParallelism: Long
-        get() = UnsignedInt.MAX_VALUE.toKotlinLong()
+        get() = UInt.MAX_VALUE.toLong()
 
     companion object {
         const val UNKNOWN_LONG_VALUE: Long = 0L

@@ -19,8 +19,6 @@
  */
 package com.kunzisoft.keepass.database.crypto
 
-import com.kunzisoft.keepass.utils.UnsignedInt
-import com.kunzisoft.keepass.utils.UnsignedLong
 import com.kunzisoft.keepass.utils.bytes4ToUInt
 import com.kunzisoft.keepass.utils.bytes64ToLong
 import com.kunzisoft.keepass.utils.bytes64ToULong
@@ -53,27 +51,27 @@ open class VariantDictionary : Serializable {
     private val dict: MutableMap<String, VdType> = HashMap()
 
     private fun getValue(name: String): Any? {
-        return dict[name]?.value ?: return null
+        return dict[name]?.value
     }
 
     private fun putType(type: Byte, name: String, value: Any) {
         dict[name] = VdType(type, value)
     }
 
-    fun setUInt32(name: String, value: UnsignedInt) {
+    fun setUInt32(name: String, value: UInt) {
         putType(VdType.UInt32, name, value)
     }
 
-    fun getUInt32(name: String): UnsignedInt? {
-        return dict[name]?.value as UnsignedInt?
+    fun getUInt32(name: String): UInt? {
+        return dict[name]?.value as UInt?
     }
 
-    fun setUInt64(name: String, value: UnsignedLong) {
+    fun setUInt64(name: String, value: ULong) {
         putType(VdType.UInt64, name, value)
     }
 
-    fun getUInt64(name: String): UnsignedLong? {
-        return dict[name]?.value as UnsignedLong?
+    fun getUInt64(name: String): ULong? {
+        return dict[name]?.value as ULong?
     }
 
     fun setBool(name: String, value: Boolean) {
@@ -155,13 +153,13 @@ open class VariantDictionary : Serializable {
                 if (bType == VdType.None) {
                     break
                 }
-                val nameLen = inputStream.readBytes4ToUInt().toKotlinInt()
+                val nameLen = inputStream.readBytes4ToUInt().toInt()
                 val nameBuf = inputStream.readBytesLength(nameLen)
                 if (nameLen != nameBuf.size) {
                     throw IOException("Invalid format")
                 }
                 val name = String(nameBuf, UTF8Charset)
-                val valueLen = inputStream.readBytes4ToUInt().toKotlinInt()
+                val valueLen = inputStream.readBytes4ToUInt().toInt()
                 val valueBuf = inputStream.readBytesLength(valueLen)
                 if (valueLen != valueBuf.size) {
                     throw IOException("Invalid format")
@@ -177,7 +175,7 @@ open class VariantDictionary : Serializable {
                         dictionary.setBool(name, valueBuf[0] != 0.toByte())
                     }
                     VdType.Int32 -> if (valueLen == 4) {
-                        dictionary.setInt32(name, bytes4ToUInt(valueBuf).toKotlinInt())
+                        dictionary.setInt32(name, bytes4ToUInt(valueBuf).toInt())
                     }
                     VdType.Int64 -> if (valueLen == 8) {
                         dictionary.setInt64(name, bytes64ToLong(valueBuf))
@@ -201,39 +199,39 @@ open class VariantDictionary : Serializable {
             for ((name, vd) in variantDictionary.dict) {
                 val nameBuf = name.toByteArray(UTF8Charset)
                 outputStream.writeByte(vd.type)
-                outputStream.write4BytesUInt(UnsignedInt(nameBuf.size))
+                outputStream.write4BytesUInt(nameBuf.size.toUInt())
                 outputStream.write(nameBuf)
                 var buf: ByteArray
                 when (vd.type) {
                     VdType.UInt32 -> {
-                        outputStream.write4BytesUInt(UnsignedInt(4))
-                        outputStream.write4BytesUInt(vd.value as UnsignedInt)
+                        outputStream.write4BytesUInt(4u)
+                        outputStream.write4BytesUInt(vd.value as UInt)
                     }
                     VdType.UInt64 -> {
-                        outputStream.write4BytesUInt(UnsignedInt(8))
-                        outputStream.write8BytesLong(vd.value as UnsignedLong)
+                        outputStream.write4BytesUInt(8u)
+                        outputStream.write8BytesLong(vd.value as ULong)
                     }
                     VdType.Bool -> {
-                        outputStream.write4BytesUInt(UnsignedInt(1))
+                        outputStream.write4BytesUInt(1u)
                         outputStream.writeBooleanByte(vd.value as Boolean)
                     }
                     VdType.Int32 -> {
-                        outputStream.write4BytesUInt(UnsignedInt(4))
-                        outputStream.write4BytesUInt(UnsignedInt(vd.value as Int))
+                        outputStream.write4BytesUInt(4u)
+                        outputStream.write4BytesUInt((vd.value as Int).toUInt())
                     }
                     VdType.Int64 -> {
-                        outputStream.write4BytesUInt(UnsignedInt(8))
+                        outputStream.write4BytesUInt(8u)
                         outputStream.write8BytesLong(vd.value as Long)
                     }
                     VdType.String -> {
                         val value = vd.value as String
                         buf = value.toByteArray(UTF8Charset)
-                        outputStream.write4BytesUInt(UnsignedInt(buf.size))
+                        outputStream.write4BytesUInt(buf.size.toUInt())
                         outputStream.write(buf)
                     }
                     VdType.ByteArray -> {
                         buf = vd.value as ByteArray
-                        outputStream.write4BytesUInt(UnsignedInt(buf.size))
+                        outputStream.write4BytesUInt(buf.size.toUInt())
                         outputStream.write(buf)
                     }
                     else -> {
