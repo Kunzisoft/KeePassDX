@@ -61,7 +61,7 @@ abstract class KdfEngine : Serializable {
         targetTime: Long = 1000L
     ): ULong {
         val currentRounds = getKeyRounds()
-        val testRounds = if (currentRounds > maxMemoryUsage) maxMemoryUsage else currentRounds
+        val testRounds = if (currentRounds > maxKeyRounds) maxKeyRounds else currentRounds
         val time = measureTimeMillis {
             transform(masterKey)
         }
