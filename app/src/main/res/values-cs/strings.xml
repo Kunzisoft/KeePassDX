@@ -711,7 +711,7 @@
     <string name="passkeys_privileged_apps_ask_message">%1$s se pokouší provést akci přísupového klíče.\n\nChcete ji přidat do seznamu privilegovaných aplikací?</string>
     <string name="passkeys_missing_signature_app_ask_title">Chybějící podpis</string>
     <string name="passkeys_missing_signature_app_ask_explanation">VAROVÁNÍ: Přístupový klíč byl vytvořen z jiného klienta nebo byl vymazán podpis. Ujistěte se, že aplikace, kterou chcete autentifikovat, je součástí stejné služby a že je legitimní pro zabránění bezpečnostním problémům.\nPokud je aplikace prohlížeč, nepřidávejte její podpis do záznamu, ale do seznamu privilegovaných aplikací v nastavení.</string>
-    <string name="passkeys_missing_signature_app_ask_message">%1$s je nerozpoznaná a pokouší se o autentifikaci s existujícím přístupovým klíčem.</string>
+    <string name="passkeys_missing_signature_app_ask_message">Aplikace %1$s je nerozpoznaná a pokouší se o autentifikaci s existujícím přístupovým klíčem.</string>
     <string name="passkeys_missing_signature_app_ask_question">Přidat podpis aplikace do záznamu přístupového klíče?</string>
     <string name="passkeys_auto_select_title">Automatický výběr</string>
     <string name="passkeys_auto_select_summary">Automaticky vybrat, pokud existuje pouze jeden záznam a aplikace je otevřená, pouze pokud je žádající aplikace kompatibilní</string>
