@@ -59,19 +59,19 @@ open class VariantDictionary : Serializable {
     }
 
     fun setUInt32(name: String, value: UInt) {
-        putType(VdType.UInt32, name, value)
+        putType(VdType.UInt32, name, value.toInt())
     }
 
     fun getUInt32(name: String): UInt? {
-        return dict[name]?.value as UInt?
+        return (dict[name]?.value as Int?)?.toUInt()
     }
 
     fun setUInt64(name: String, value: ULong) {
-        putType(VdType.UInt64, name, value)
+        putType(VdType.UInt64, name, value.toLong())
     }
 
     fun getUInt64(name: String): ULong? {
-        return dict[name]?.value as ULong?
+        return (dict[name]?.value as Long?)?.toULong()
     }
 
     fun setBool(name: String, value: Boolean) {
@@ -205,11 +205,11 @@ open class VariantDictionary : Serializable {
                 when (vd.type) {
                     VdType.UInt32 -> {
                         outputStream.write4BytesUInt(4u)
-                        outputStream.write4BytesUInt(vd.value as UInt)
+                        outputStream.write4BytesUInt((vd.value as Int).toUInt())
                     }
                     VdType.UInt64 -> {
                         outputStream.write4BytesUInt(8u)
-                        outputStream.write8BytesLong(vd.value as ULong)
+                        outputStream.write8BytesLong((vd.value as Long).toULong())
                     }
                     VdType.Bool -> {
                         outputStream.write4BytesUInt(1u)
