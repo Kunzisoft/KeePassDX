@@ -228,7 +228,7 @@
     <string name="education_search_title">اابحث من خلال المدخلات</string>
     <string name="content_description_open_file">فتح الملف</string>
     <string name="content_description_add_entry">إضافة مدخل</string>
-    <string name="content_description_add_group">إضافة مجموعة</string>
+    <string name="content_description_add_group">أضف مجموعة</string>
     <string name="content_description_file_information">معلومات الملف</string>
     <string name="entry_password_generator">مولد كلمة السر</string>
     <string name="content_description_background">الخلفية</string>
@@ -276,7 +276,7 @@
     <string name="html_about_contribution">لكي نحافظ على حريتنا، ونُصلح الأخطاء، ونضيف ميزات جديدة، ونواصل نشاطنا، فإننا نعتمد على مساهماتكم.</string>
     <string name="content_description_keyfile_checkbox">خانة تأشير ملف المفتاح</string>
     <string name="content_description_password_checkbox">خانة تأشير كلمة السر</string>
-    <string name="content_description_add_item">إضافة عنصر</string>
+    <string name="content_description_add_item">أضف عنصر</string>
     <string name="warning_permanently_delete_nodes">هل تريد حذف العقد المحددة نهائياً؟</string>
     <string name="filter">تصفية</string>
     <string name="command_execution">جارٍ تنفيذ الأمر…</string>
@@ -447,7 +447,7 @@
     <string name="export_app_properties_summary">أنشئ ملفًا لتصدير إعدادات التطبيق</string>
     <string name="error_import_app_properties">حدث خطأ أثناء استيراد إعدادات التطبيق.</string>
     <string name="error_export_app_properties">حدث خطأ أثناء تصدير إعدادات التطبيق.</string>
-    <string name="warning_database_info_changed">تم تعديل المعلومات الموجودة في ملف قاعدة البيانات الخاص بك خارج التطبيق.</string>
+    <string name="warning_database_info_changed">عُدّلت المعلومات الموجودة في قاعدة بياناتك خارج التطبيق.</string>
     <string name="warning_database_info_changed_options">قم بدمج البيانات، واستبدل التعديلات الخارجية عن طريق حفظ قاعدة البيانات أو أعد تحميلها بأحدث التغييرات.</string>
     <string name="credential_before_click_device_unlock_button">أكتب كلمة السر، تم أنقر على هذا الزر.</string>
     <string name="device_credential">بيانات الاعتماد للجهاز</string>
@@ -554,13 +554,13 @@
     <string name="html_about_privacy">لا يتم جمع أي بيانات للمستخدم، لا يتصل هذا التطبيق بأي خادم، و يعمل محليًا فقط، و يحترم خصوصية المستخدمين احترامًا كاملًا.</string>
     <string name="error_cancel_by_user">تم الإلغاء من قبل المستخدم.</string>
     <string name="show_otp_token_title">عرض رمز OTP</string>
-    <string name="show_otp_token_summary">يعرض رموز OTP في قائمة المدخلات</string>
+    <string name="show_otp_token_summary">يعرض رموز OTP افتراضيًا</string>
     <string name="warning_database_already_opened">قاعدة البيانات مفتوحة بالفعل، أغلقها أولاً لفتح قاعدة البيانات الجديدة</string>
     <string name="warning_database_info_reloaded">إعادة تحميل قاعدة البيانات ستؤدي إلى حذف البيانات المعدلة محليًا.</string>
     <string name="templates_group_enable_summary">استخدم القوالب الديناميكية لملء حقول المدخل</string>
     <string name="keyboard_auto_go_action_summary">إجراء مفتاح «Go» بعد الضغط على مفتاح «Field»</string>
     <string name="allow_no_password_summary">يسمح بالنقر على زر \"فتح\" في حالة عدم تحديد أي بيانات الاعتماد</string>
-    <string name="education_generate_password_summary">قم بإنشاء كلمة سر قوية لربطها بإدخالك، وحددها بسهولة وفقًا لمعايير النموذج، ولا تنسى كلمة السر الآمنة.</string>
+    <string name="education_generate_password_summary">قم بإنشاء كلمة سر قوية لربطها بإدخالك، وحددها بسهولة وفقًا لمعايير النموذج، ولا تنساها.</string>
     <string name="education_setup_OTP_title">إعداد رمز التحقق لمرة واحدة (OTP)</string>
     <string name="style_brightness_title">سطوع السمة</string>
     <string name="word_separator">الفاصل</string>
@@ -656,7 +656,7 @@
     <string name="style_name_classic">كلاسيكي</string>
     <string name="style_name_dark">داكن</string>
     <string name="style_name_reply">رد</string>
-    <string name="warning_database_info_changed_options_read_only">أعد تحميل قاعدة البيانات بأحدث التغييرات.</string>
+    <string name="warning_database_info_changed_options_read_only">يُرجى إعادة تحميل قاعدة البيانات بأحدث التغييرات.</string>
     <string name="style_name_sun">شمس</string>
     <string name="style_name_kunzite">الكونزيت</string>
     <string name="style_name_follow_system">اتبع النظام</string>
@@ -685,7 +685,7 @@
     <string name="passkeys_privileged_apps_ask_message">يحاول %1$s تنفيذ إجراء مفتاح المرور.\n\nهل تريد إضافته إلى قائمة التطبيقات ذات الامتيازات؟</string>
     <string name="passkeys_missing_signature_app_ask_title">التوقيع مفقود</string>
     <string name="passkeys_missing_signature_app_ask_explanation">تحذير: تم إنشاء مفتاح المرور من عميل آخر أو تم حذف التوقيع. تأكد من أن التطبيق الذي تريد المصادقة عليه جزء من نفس الخدمة وأنه تطبيق شرعي لتجنب المشاكل الأمنية.\nإذا كان التطبيق متصفحًا، فلا تضف توقيعه إلى الإدخال، بل أضفه إلى قائمة التطبيقات المصرح لها في الإعدادات.</string>
-    <string name="passkeys_missing_signature_app_ask_message">%1$s غير معروف ويحاول المصادقة باستخدام مفتاح مرور موجود.</string>
+    <string name="passkeys_missing_signature_app_ask_message">%1$s غير معروف ويحاول الاستيثاق باستخدام مفتاح مرور موجود.</string>
     <string name="passkeys_missing_signature_app_ask_question">هل تريد إضافة توقيع التطبيق إلى إدخال مفتاح المرور؟</string>
     <string name="passkeys_auto_select_title">تحديد تلقائي</string>
     <string name="passkeys_auto_select_summary">يتم التحديد تلقائيًا في حالة وجود إدخال واحد فقط وقاعدة البيانات مفتوحة، وذلك فقط إذا كان التطبيق الطالب متوافقًا</string>
@@ -720,7 +720,7 @@
     <string name="keyboard_auto_switch_summary">حاول التبديل تلقائيًا إلى Magikeyboard عند تعبئة الإدخالات</string>
     <string name="autofill_share_magikeyboard_title">المشاركة إلى Magikeyboard</string>
     <string name="autofill_share_magikeyboard_summary">مشاركة الإدخالات المسترجعة من الملء التلقائي إلى Magikeyboard</string>
-    <string name="error_passkey_credential_id">لم يتم العثور على مفتاح مرور مع الطرف المعتمد %1$s ومعرفات بيانات الاعتماد %2$s</string>
+    <string name="error_passkey_credential_id">لم يُعثر على مفتاح مرور مع الطرف المعتمد %1$s ومعرّفات بيانات الاعتماد %2$s</string>
     <string name="password_creation_description">احفظ كلمة السر في مدخل جديد</string>
     <string name="password_selection_description">تحديد كلمة سر موجودة</string>
     <string name="error_password_result">تعذر إرجاع كلمة السر</string>
@@ -742,4 +742,12 @@
     <string name="benchmark_calculation">الحساب لمدة %1$s ثانية</string>
     <string name="benchmarking">اختبار الأداء…</string>
     <string name="keyboard_share_browser">المشاركة من %1$s إلى KeePassDX</string>
+    <string name="error_memory_too_large">«استخدام الذاكرة» مرتفع جدًّا. سيتم ضبطه على %1$s.</string>
+    <string name="error_parallelism_too_large">«التوازي» مرتفع جدًّا. سيتم ضبطه على %1$s.</string>
+    <string name="error_missing_parent">لا يمكن تنفيذ هذا الإجراء دون وجود ولي الأمر.</string>
+    <string name="temporary_merge_success">تم إتمام دمج البيانات المؤقت بنجاح</string>
+    <string name="reload_success">إعادة التحميل اكتملت بنجاح</string>
+    <string name="autofill_suggestions_title">اقتراحات الملء التلقائي</string>
+    <string name="autofill_suggestions_summary">استخدم خوارزمية التعرُّف على النماذج لاقتراح مُدخلات</string>
+    <string name="passkey_pseudo_random_function">دالة Passkey شبه العشوائية</string>
 </resources>

@@ -263,7 +263,7 @@
     <string name="education_entry_edit_title">编辑此条目</string>
     <string name="education_entry_edit_summary">使用自定义字段编辑条。自定义字段可以在不同的条目间引用。</string>
     <string name="education_generate_password_title">创建一个强密码</string>
-    <string name="education_generate_password_summary">依据表单中的标准进行简单的定义，随机为该条目生成一个强密码，不在担心忘记安全密码。</string>
+    <string name="education_generate_password_summary">生成一个强密码和你的条目相关联，依据表单的标准轻松定义它并不忘记它。</string>
     <string name="education_entry_new_field_title">添加自定义字段</string>
     <string name="education_entry_new_field_summary">添加一个新的字段并添加为其添加一个值，此时可以选择是否保护该字段及其值。</string>
     <string name="education_unlock_title">解锁数据库</string>
@@ -506,7 +506,7 @@
     <string name="autofill_inline_suggestions_title">内联建议</string>
     <string name="warning_database_revoked">文件管理器撤销了对此文件的访问，关闭数据库并从其位置重新打开它。</string>
     <string name="warning_database_info_changed_options">保存数据库或重新加载包含最新更改的数据库来合并数据和覆盖外部修改。</string>
-    <string name="warning_database_info_changed">数据库文件中包含的信息已在应用之外被修改。</string>
+    <string name="warning_database_info_changed">数据库中包含的信息已在应用之外被修改。</string>
     <string name="menu_reload_database">重新加载数据</string>
     <string name="unit_gibibyte">GiB</string>
     <string name="unit_mebibyte">兆字节</string>
@@ -684,7 +684,7 @@
     <string name="style_name_kunzite">Kunzite</string>
     <string name="style_name_light">浅色</string>
     <string name="style_name_dark">深色</string>
-    <string name="warning_database_info_changed_options_read_only">重新加载数据库最新变化。</string>
+    <string name="warning_database_info_changed_options_read_only">请重新加载数据库最新变化。</string>
     <string name="recursive_number_entries_summary">递归计算一个组当中的条目数</string>
     <string name="warning_large_keyfile">不建议添加大的密钥文件，这可能造成数据库打不开。</string>
     <string name="hide_templates_summary">模板未显示</string>
@@ -744,7 +744,7 @@
     <string name="keyboard_auto_switch_summary">在填充条目时尝试自动切换到魔法键盘</string>
     <string name="autofill_share_magikeyboard_title">分享到魔法键盘</string>
     <string name="autofill_share_magikeyboard_summary">将从自动填充中检索到的条目分享到魔法键盘</string>
-    <string name="error_passkey_credential_id">未找到与依赖方 %1$s 和凭据 ID %2$s 匹配的通行密钥</string>
+    <string name="error_passkey_credential_id">未找到依赖方 %1$s ，凭证 ID为 %2$s 的通行密钥</string>
     <string name="password_creation_description">在新条目中保存密码</string>
     <string name="password_selection_description">选择现有密码</string>
     <string name="error_password_result">无法返回密码</string>
@@ -766,4 +766,12 @@
     <string name="keyboard_share_browser">从 %1$s 分享到 KeePassDX</string>
     <string name="benchmarking">正在进行基准测试…</string>
     <string name="benchmark_calculation">计算 %1$s 秒</string>
+    <string name="error_memory_too_large">\"内存使用量\" 过高。设为 %1$s。</string>
+    <string name="error_parallelism_too_large">\"并发量\" 过高。设为 %1$s。</string>
+    <string name="error_missing_parent">没有主项目无法执行此操作。</string>
+    <string name="temporary_merge_success">成功完成了临时数据的合并</string>
+    <string name="reload_success">成功完成了重新加载</string>
+    <string name="autofill_suggestions_title">自动填充建议</string>
+    <string name="autofill_suggestions_summary">使用表单识别算法来建议条目</string>
+    <string name="passkey_pseudo_random_function">通行密钥假随机函数</string>
 </resources>
