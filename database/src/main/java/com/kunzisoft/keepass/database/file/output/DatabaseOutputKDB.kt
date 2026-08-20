@@ -52,7 +52,9 @@ class DatabaseOutputKDB(private val mDatabaseKDB: DatabaseKDB)
     private var mEntryList = mutableListOf<EntryKDB>()
 
     @Throws(DatabaseOutputException::class)
-    fun getFinalKey(header: DatabaseHeader): ByteArray? {
+    private fun getFinalKey(
+        header: DatabaseHeader
+    ): ByteArray? {
         try {
             val headerKDB = header as DatabaseHeaderKDB
             mDatabaseKDB.makeFinalKey(
@@ -66,8 +68,10 @@ class DatabaseOutputKDB(private val mDatabaseKDB: DatabaseKDB)
     }
 
     @Throws(DatabaseOutputException::class)
-    override fun writeDatabase(outputStream: OutputStream,
-                               assignMasterKey: () -> Unit) {
+    override fun writeDatabase(
+        outputStream: OutputStream,
+        assignMasterKey: (() -> Unit)
+    ) {
         // Before we output the header, we should sort our list of groups
         // and remove any orphaned nodes that are no longer part of the tree hierarchy
         // also remove the virtual root not present in kdb
@@ -113,8 +117,10 @@ class DatabaseOutputKDB(private val mDatabaseKDB: DatabaseKDB)
     }
 
     @Throws(DatabaseOutputException::class)
-    private fun outputHeader(outputStream: OutputStream,
-                             assignMasterKey: () -> Unit): DatabaseHeaderKDB {
+    private fun outputHeader(
+        outputStream: OutputStream,
+        assignMasterKey: () -> Unit
+    ): DatabaseHeaderKDB {
         // Build header
         val header = DatabaseHeaderKDB()
         header.signature1 = DatabaseHeaderKDB.DBSIG_1

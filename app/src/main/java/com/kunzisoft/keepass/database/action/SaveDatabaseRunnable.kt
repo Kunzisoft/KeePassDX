@@ -28,6 +28,7 @@ import com.kunzisoft.keepass.database.exception.DatabaseException
 import com.kunzisoft.keepass.hardware.HardwareKey
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
+import com.kunzisoft.keepass.utils.AppUtil.getLimits
 import com.kunzisoft.keepass.utils.clear
 import com.kunzisoft.keepass.utils.getUriOutputStream
 import java.io.File
@@ -69,7 +70,8 @@ open class SaveDatabaseRunnable(
                         contentResolver.getUriOutputStream(databaseCopyUri ?: database.fileUri)
                     },
                     masterCredential = mMasterCredential,
-                    challengeResponseRetriever = cachingRetriever
+                    challengeResponseRetriever = cachingRetriever,
+                    limits = context.getLimits()
                 )
             } catch (e: DatabaseException) {
                 setError(e)

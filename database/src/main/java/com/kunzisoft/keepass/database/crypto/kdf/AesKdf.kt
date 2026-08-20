@@ -39,6 +39,11 @@ class AesKdf : KdfEngine() {
             }
         }
 
+    @Throws(SecurityException::class)
+    override fun checkLimits(limits: Limits) {
+        getValidatedRounds()
+    }
+
     @Throws(IOException::class)
     override fun transform(masterKey: ByteArray): ByteArray {
 
@@ -52,10 +57,16 @@ class AesKdf : KdfEngine() {
             currentMasterKey = HashManager.sha256(currentMasterKey)
         }
 
-        val rounds = parameters.getUInt64(PARAM_ROUNDS)
-            ?.coerceIn(minKeyRounds, maxKeyRounds)
+        val rounds = getValidatedRounds()
 
         return AESTransformer.transformKey(seed, currentMasterKey, rounds) ?: ByteArray(0)
+    }
+
+    private fun getValidatedRounds(): ULong {
+        val rounds = parameters.getUInt64(PARAM_ROUNDS) ?: defaultKeyRounds
+        if (rounds !in minKeyRounds..maxKeyRounds)
+            throw SecurityException("Rounds parameter not in valid range")
+        return rounds
     }
 
     override fun randomize() {
@@ -68,7 +79,8 @@ class AesKdf : KdfEngine() {
     }
 
     override fun getKeyRounds(): ULong {
-        return parameters.getUInt64(PARAM_ROUNDS) ?: defaultKeyRounds
+        return (parameters.getUInt64(PARAM_ROUNDS) ?: defaultKeyRounds)
+            .coerceIn(minKeyRounds, maxKeyRounds)
     }
 
     override fun setKeyRounds(keyRounds: ULong) {
@@ -82,7 +94,7 @@ class AesKdf : KdfEngine() {
 
     override val minKeyRounds: ULong = 1u
 
-    override val maxKeyRounds: ULong = 100_000_000u
+    override val maxKeyRounds: ULong = Long.MAX_VALUE.toULong() // Theoretically ULong.MAX_VALUE but limited by JVM
 
     override fun toString(): String {
         return "AES"

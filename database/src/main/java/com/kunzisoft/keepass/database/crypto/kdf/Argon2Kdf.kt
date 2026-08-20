@@ -19,6 +19,7 @@
  */
 package com.kunzisoft.keepass.database.crypto.kdf
 
+import android.util.Log
 import com.kunzisoft.encrypt.HashManager
 import com.kunzisoft.encrypt.argon2.Argon2Transformer
 import com.kunzisoft.encrypt.argon2.Argon2Type
@@ -48,22 +49,35 @@ class Argon2Kdf(private val type: Type) : KdfEngine() {
     override val defaultKeyRounds: ULong
         get() = DEFAULT_ITERATIONS
 
+    @Throws(SecurityException::class)
+    override fun checkLimits(limits: Limits) {
+        val validated = getValidatedParameters()
+        val parallelism = validated.parallelism.toLong()
+        if (parallelism > limits.parallelism) {
+            Log.w(TAG, "Parallelism is above the maximum number of processors.")
+            if (parallelism > (limits.parallelism * 128))
+                throw SecurityException("Parallelism limit is exceeded.")
+        }
+        if (!limits.isMemorySufficient(validated.memory, Limits.LimitOperationType.KDF))
+            throw SecurityException("Memory limit is exceeded.")
+    }
+
     @Throws(IOException::class)
     override fun transform(masterKey: ByteArray): ByteArray {
 
         val salt = parameters.getByteArray(PARAM_SALT) ?: ByteArray(0)
-        val parallelism: UInt = (parameters.getUInt32(PARAM_PARALLELISM) ?: DEFAULT_PARALLELISM)
-            .toLong()
-            .coerceIn(minParallelism, maxParallelism)
-            .toUInt()
-        val memory: UInt = (parameters.getUInt64(PARAM_MEMORY) ?: DEFAULT_MEMORY)
-            .coerceIn(minMemoryUsage, maxMemoryUsage)
-            .div(MEMORY_BLOCK_SIZE) // To transform Byte unit to KiB unit and not lose any info in UInt
-            .toUInt()
-        val iterations = (parameters.getUInt64(PARAM_ITERATIONS) ?: DEFAULT_ITERATIONS)
-            .coerceIn(minKeyRounds, maxKeyRounds)
-            .toUInt() // warning, lose info here
-        val version = parameters.getUInt32(PARAM_VERSION)?.toInt() ?: MAX_VERSION.toInt()
+        val validated = getValidatedParameters()
+
+        val parallelism = validated.parallelism
+        val memory = (validated.memory / MEMORY_BLOCK_SIZE).toUInt()
+        val iterations = validated.iterations.toUInt()
+
+        val version = parameters.getUInt32(PARAM_VERSION)?.toInt()
+            ?.coerceIn(MIN_VERSION.toInt(), MAX_VERSION.toInt())
+            ?: MAX_VERSION.toInt()
+        if (version < MIN_VERSION.toInt()
+            || version > MAX_VERSION.toInt())
+            throw SecurityException("Version not in valid range")
 
         // Not used
         // val secretKey = parameters.getByteArray(PARAM_SECRET_KEY)
@@ -82,6 +96,28 @@ class Argon2Kdf(private val type: Type) : KdfEngine() {
         )
     }
 
+    private data class ValidatedParams(
+        val parallelism: UInt,
+        val memory: ULong,
+        val iterations: ULong,
+    )
+
+    private fun getValidatedParameters(): ValidatedParams {
+        val parallelism = parameters.getUInt32(PARAM_PARALLELISM) ?: DEFAULT_PARALLELISM
+        if (parallelism !in MIN_PARALLELISM..MAX_PARALLELISM)
+            throw SecurityException("Parallelism not in valid range")
+
+        val memory = parameters.getUInt64(PARAM_MEMORY) ?: DEFAULT_MEMORY
+        if (memory !in MIN_MEMORY..MAX_MEMORY)
+            throw SecurityException("Memory not in valid range")
+
+        val iterations = parameters.getUInt64(PARAM_ITERATIONS) ?: DEFAULT_ITERATIONS
+        if (iterations !in MIN_ITERATIONS..MAX_ITERATIONS)
+            throw SecurityException("Iterations not in valid range")
+
+        return ValidatedParams(parallelism, memory, iterations)
+    }
+
     override fun randomize() {
         super.randomize()
         parameters.setByteArray(PARAM_SALT, HashManager.generateRandom(32))
@@ -92,11 +128,15 @@ class Argon2Kdf(private val type: Type) : KdfEngine() {
     }
 
     override fun getKeyRounds(): ULong {
-        return parameters.getUInt64(PARAM_ITERATIONS) ?: defaultKeyRounds
+        return (parameters.getUInt64(PARAM_ITERATIONS) ?: defaultKeyRounds)
+            .coerceIn(minKeyRounds, maxKeyRounds)
     }
 
     override fun setKeyRounds(keyRounds: ULong) {
-        parameters.setUInt64(PARAM_ITERATIONS, keyRounds.coerceIn(minKeyRounds, maxKeyRounds))
+        parameters.setUInt64(
+            PARAM_ITERATIONS,
+            keyRounds.coerceIn(minKeyRounds, maxKeyRounds)
+        )
     }
 
     override val minKeyRounds: ULong = MIN_ITERATIONS
@@ -104,7 +144,8 @@ class Argon2Kdf(private val type: Type) : KdfEngine() {
     override val maxKeyRounds: ULong = MAX_ITERATIONS
 
     override fun getMemoryUsage(): ULong {
-        return parameters.getUInt64(PARAM_MEMORY) ?: defaultMemoryUsage
+        return (parameters.getUInt64(PARAM_MEMORY) ?: defaultMemoryUsage)
+            .coerceIn(minMemoryUsage, maxMemoryUsage)
     }
 
     override fun setMemoryUsage(memory: ULong) {
@@ -121,11 +162,15 @@ class Argon2Kdf(private val type: Type) : KdfEngine() {
     override val maxMemoryUsage: ULong = MAX_MEMORY
 
     override fun getParallelism(): Long {
-        return parameters.getUInt32(PARAM_PARALLELISM)?.toLong() ?: defaultParallelism
+        return (parameters.getUInt32(PARAM_PARALLELISM)?.toLong() ?: defaultParallelism)
+            .coerceIn(minParallelism, maxParallelism)
     }
 
     override fun setParallelism(parallelism: Long) {
-        parameters.setUInt32(PARAM_PARALLELISM, parallelism.coerceIn(minParallelism, maxParallelism).toUInt())
+        parameters.setUInt32(
+            PARAM_PARALLELISM,
+            parallelism.coerceIn(minParallelism, maxParallelism).toUInt()
+        )
     }
 
     override fun toString(): String {
@@ -183,6 +228,7 @@ class Argon2Kdf(private val type: Type) : KdfEngine() {
     }
 
     companion object {
+        private val TAG = Argon2Kdf::class.simpleName
 
         private const val PARAM_SALT = "S" // byte[]
         private const val PARAM_PARALLELISM = "P" // UInt32
@@ -197,15 +243,15 @@ class Argon2Kdf(private val type: Type) : KdfEngine() {
 
         private val DEFAULT_ITERATIONS: ULong = 3u
         private val MIN_ITERATIONS: ULong = 1u
-        private val MAX_ITERATIONS: ULong = 1_000_000u // Do not exceed the maximum UInt value
+        private val MAX_ITERATIONS: ULong = UInt.MAX_VALUE.toULong() // Do not exceed the maximum UInt value
 
         private val DEFAULT_MEMORY: ULong = (MEMORY_BLOCK_SIZE * 1024u * 16u).toULong() // 16 MiB
         private val MIN_MEMORY: ULong = (MEMORY_BLOCK_SIZE * 8u).toULong() // 8 MiB
-        private val MAX_MEMORY: ULong = UInt.MAX_VALUE.toULong()
+        private val MAX_MEMORY: ULong = UInt.MAX_VALUE.toULong()  // 4 GiB
         private const val MEMORY_BLOCK_SIZE: UInt = 1024u // to pass arguments to JNI
 
         private const val DEFAULT_PARALLELISM: UInt = 4u
         private const val MIN_PARALLELISM: UInt = 1u
-        private const val MAX_PARALLELISM: UInt = 128u
+        private val MAX_PARALLELISM: UInt = ((1 shl 24) - 1).toUInt()
     }
 }

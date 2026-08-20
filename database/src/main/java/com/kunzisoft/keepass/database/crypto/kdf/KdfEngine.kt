@@ -22,7 +22,6 @@ package com.kunzisoft.keepass.database.crypto.kdf
 import java.io.IOException
 import java.io.Serializable
 import java.util.UUID
-import kotlin.math.max
 import kotlin.math.min
 import kotlin.system.measureTimeMillis
 
@@ -43,7 +42,13 @@ abstract class KdfEngine : Serializable {
     var isParametersRandomized = false
 
     /**
-     * Transform the key using the internal parameters.
+     * Checks the device's memory limits and throws a SecurityException if they are exceeded
+     * @param limits Limits that must not be exceeded.
+     */
+    open fun checkLimits(limits: Limits) {}
+
+    /**
+     * Transform the key using the internal parameters and local limits.
      * @param masterKey The master key to transform.
      * @return The transformed key.
      */
@@ -51,38 +56,68 @@ abstract class KdfEngine : Serializable {
     abstract fun transform(masterKey: ByteArray): ByteArray
 
     /**
-     * Measure the time to transform the key and return the number of rounds to reach the target time.
+     * Measure the time to transform the key and return the optimized parameters to reach the target time.
      * @param masterKey The master key to transform.
      * @param targetTime The target time in milliseconds.
-     * @return The number of rounds to reach the target time.
+     * @param limits The local resource limits to apply during the benchmark.
+     * @return The benchmark result containing optimized parameters.
      */
-    fun benchmark(
+    fun calculateBenchmark(
         masterKey: ByteArray,
-        targetTime: Long = 1000L
-    ): ULong {
+        targetTime: Long = 1000L,
+        limits: KdfLimits
+    ): KdfBenchmark {
         val currentRounds = getKeyRounds()
         val testRounds = if (currentRounds > maxKeyRounds) maxKeyRounds else currentRounds
+
+        val savedParallelism = getParallelism()
+        val savedMemory = getMemoryUsage()
+        // Keep the exact number of processors
+        setParallelism(limits.parallelism
+            .coerceIn(minParallelism, maxParallelism))
+        // Set the default memory or limit memory if it's below
+        setMemoryUsage(min(limits.memory, defaultMemoryUsage)
+            .coerceIn(minMemoryUsage, maxMemoryUsage))
+
         val time = measureTimeMillis {
             transform(masterKey)
         }
-        return if (time > 0) {
+        val resultRounds = if (time > 0) {
             val newRounds = (testRounds.toDouble() * targetTime / time).toULong()
-            max(minKeyRounds, min(maxKeyRounds, newRounds))
+            newRounds.coerceIn(minKeyRounds, maxKeyRounds)
         } else {
             testRounds
         }
+
+        // Restore old values
+        val newParallelism = getParallelism()
+        val newMemory = getMemoryUsage()
+        setParallelism(savedParallelism)
+        setMemoryUsage(savedMemory)
+
+        return KdfBenchmark(
+            iterations = resultRounds,
+            memory = newMemory,
+            parallelism = newParallelism
+        )
     }
 
     /**
-     * Measure the time to transform the key and assign the optimized value
+     * Measure the time to transform the key and assign the optimized value.
      * @param masterKey The master key to transform.
      * @param targetTime The target time in milliseconds.
+     * @param limits The local resource limits to apply.
      */
     fun optimizeByBenchmark(
         masterKey: ByteArray,
-        targetTime: Long = 1000L
+        targetTime: Long = 1000L,
+        limits: KdfLimits
     ) {
-        setKeyRounds(benchmark(masterKey, targetTime))
+       calculateBenchmark(masterKey, targetTime, limits).also { result ->
+            setKeyRounds(result.iterations)
+            setParallelism(result.parallelism)
+            setMemoryUsage(result.memory)
+        }
     }
 
     /**

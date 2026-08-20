@@ -164,6 +164,8 @@ dependencies {
     implementation(project(":database"))
     implementation(project(":icon-pack"))
     // Tests
-    androidTestImplementation(libs.androidx.test.runner)
     testImplementation(libs.junit)
+    testImplementation(libs.robolectric)
+    testImplementation(libs.androidx.test.core)
+    androidTestImplementation(libs.androidx.test.runner)
 }

@@ -114,16 +114,18 @@ class DatabaseInputKDBX(database: DatabaseKDBX)
     private var entryCustomDataValue: String? = null
     private var entryCustomDataLastModificationTime: DateInstant? = null
 
-    private var isRAMSufficient: (memoryWanted: Long) -> Boolean = {true}
+    private var isRAMSufficient: (memoryWanted: ULong) -> Boolean = { true }
 
-    fun setMethodToCheckIfRAMIsSufficient(method: (memoryWanted: Long) -> Boolean) {
+    fun setMethodToCheckMemoryForBinary(method: (memoryWanted: ULong) -> Boolean) {
         this.isRAMSufficient = method
     }
 
     @Throws(DatabaseInputException::class)
-    override fun openDatabase(databaseInputStream: InputStream,
-                              progressTaskUpdater: ProgressTaskUpdater?,
-                              assignMasterKey: (() -> Unit)): DatabaseKDBX {
+    override fun openDatabase(
+        databaseInputStream: InputStream,
+        progressTaskUpdater: ProgressTaskUpdater?,
+        assignMasterKey: (() -> Unit)
+    ): DatabaseKDBX {
         try {
             startKeyTimer(progressTaskUpdater)
 
@@ -272,7 +274,10 @@ class DatabaseInputKDBX(database: DatabaseKDBX)
                     val byteLength = size - 1
                     // No compression at this level
                     val protectedBinary = mDatabase.buildNewBinaryAttachment(
-                            isRAMSufficient.invoke(byteLength.toLong()), false, protectedFlag)
+                        smallSize = isRAMSufficient.invoke(byteLength.toULong()),
+                        compression = false,
+                        protection = protectedFlag
+                    )
                     protectedBinary.getOutputDataStream(mDatabase.binaryCache).use { outputStream ->
                         dataInputStream.readBytes(byteLength) { buffer ->
                             outputStream.write(buffer)
@@ -719,7 +724,7 @@ class DatabaseInputKDBX(database: DatabaseKDBX)
                 mDatabase.addCustomIcon(customIconID,
                         customIconName,
                         customIconLastModificationTime,
-                        isRAMSufficient.invoke(iconData.size.toLong())) { _, binary ->
+                        isRAMSufficient.invoke(iconData.size.toULong())) { _, binary ->
                     binary?.getOutputDataStream(mDatabase.binaryCache)?.use { outputStream ->
                         outputStream.write(iconData)
                     }
@@ -1036,7 +1041,11 @@ class DatabaseInputKDBX(database: DatabaseKDBX)
 
         // Build the new binary and compress
         val binaryAttachment = mDatabase.buildNewBinaryAttachment(
-                isRAMSufficient.invoke(base64.length.toLong()), compressed, protected, binaryId)
+            smallSize = isRAMSufficient.invoke(base64.length.toULong()),
+            compression = compressed,
+            protection = protected,
+            binaryPoolId = binaryId
+        )
         try {
             binaryAttachment.getOutputDataStream(mDatabase.binaryCache).use { outputStream ->
                 outputStream.write(Base64.decode(base64, BASE64_FLAG))

@@ -20,10 +20,12 @@
 package com.kunzisoft.keepass.tasks
 
 import android.os.Bundle
+import com.kunzisoft.keepass.database.crypto.kdf.KdfLimits
 import com.kunzisoft.keepass.database.element.Database
 
 open class BenchmarkKdfRunnable(
-    private val database: Database
+    private val database: Database,
+    private val limits: KdfLimits
 ): ActionRunnable() {
 
     override fun onStartRun() {}
@@ -33,16 +35,20 @@ open class BenchmarkKdfRunnable(
             ?: throw IllegalStateException("No KDF engine found")
         val masterKey = database.masterKey
 
-        val newRounds = engine.benchmark(masterKey = masterKey, targetTime = DEFAULT_BENCHMARK_TIME)
+        val benchmarkResult = engine.calculateBenchmark(
+            masterKey = masterKey,
+            targetTime = DEFAULT_BENCHMARK_TIME,
+            limits = limits
+        )
         result.data = Bundle().apply {
-            putLong(EXTRA_NEW_ROUNDS, newRounds.toLong())
+            putParcelable(EXTRA_NEW_BENCHMARK, benchmarkResult)
         }
     }
 
     override fun onFinishRun() {}
 
     companion object {
-        const val EXTRA_NEW_ROUNDS = "EXTRA_NEW_ROUNDS"
+        const val EXTRA_NEW_BENCHMARK = "EXTRA_NEW_BENCHMARK"
         const val DEFAULT_BENCHMARK_TIME = 1000L
     }
 }

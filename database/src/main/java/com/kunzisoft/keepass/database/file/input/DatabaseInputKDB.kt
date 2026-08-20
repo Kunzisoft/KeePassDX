@@ -62,9 +62,11 @@ class DatabaseInputKDB(database: DatabaseKDB)
     : DatabaseInput<DatabaseKDB>(database) {
 
     @Throws(DatabaseInputException::class)
-    override fun openDatabase(databaseInputStream: InputStream,
-                              progressTaskUpdater: ProgressTaskUpdater?,
-                              assignMasterKey: (() -> Unit)): DatabaseKDB {
+    override fun openDatabase(
+        databaseInputStream: InputStream,
+        progressTaskUpdater: ProgressTaskUpdater?,
+        assignMasterKey: (() -> Unit)
+    ): DatabaseKDB {
 
         try {
             startKeyTimer(progressTaskUpdater)

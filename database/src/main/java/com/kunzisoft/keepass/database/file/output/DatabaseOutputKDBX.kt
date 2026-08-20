@@ -77,8 +77,10 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX)
     private var headerHmac: ByteArray? = null
 
     @Throws(DatabaseOutputException::class)
-    override fun writeDatabase(outputStream: OutputStream,
-                               assignMasterKey: () -> Unit) {
+    override fun writeDatabase(
+        outputStream: OutputStream,
+        assignMasterKey: () -> Unit
+    ) {
 
         try {
             header = outputHeader(outputStream, assignMasterKey)
@@ -327,8 +329,10 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX)
     }
 
     @Throws(DatabaseOutputException::class)
-    private fun outputHeader(outputStream: OutputStream,
-                             assignMasterKey: () -> Unit): DatabaseHeaderKDBX {
+    private fun outputHeader(
+        outputStream: OutputStream,
+        assignMasterKey: () -> Unit
+    ): DatabaseHeaderKDBX {
         try {
             val header = DatabaseHeaderKDBX(mDatabaseKDBX)
             setIVs(header)

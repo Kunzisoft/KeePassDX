@@ -113,7 +113,10 @@ class DatabaseKDB : DatabaseVersioned<Int, UUID, GroupKDB, EntryKDB>() {
     }
 
     @Throws(IOException::class)
-    fun makeFinalKey(masterSeed: ByteArray, transformSeed: ByteArray) {
+    fun makeFinalKey(
+        masterSeed: ByteArray,
+        transformSeed: ByteArray
+    ) {
         // Encrypt the master key a few times to make brute-force key-search harder
         val transformedKey = AESTransformer.transformKey(
             transformSeed,

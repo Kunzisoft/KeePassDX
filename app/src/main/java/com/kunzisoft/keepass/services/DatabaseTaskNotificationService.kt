@@ -70,6 +70,7 @@ import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.tasks.BenchmarkKdfRunnable
 import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
 import com.kunzisoft.keepass.timeout.TimeoutHelper
+import com.kunzisoft.keepass.utils.AppUtil.getKdfLimits
 import com.kunzisoft.keepass.utils.DATABASE_START_TASK_ACTION
 import com.kunzisoft.keepass.utils.DATABASE_STOP_TASK_ACTION
 import com.kunzisoft.keepass.utils.LOCK_ACTION
@@ -1358,7 +1359,10 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
     }
 
     private fun buildDatabaseBenchmarkKdfActionTask(database: ContextualDatabase): ActionRunnable {
-        return object : BenchmarkKdfRunnable(database) {
+        return object : BenchmarkKdfRunnable(
+            database,
+            limits = applicationContext.getKdfLimits()
+        ) {
             override fun onStartRun() {
                 updateMessage(R.string.benchmarking)
             }

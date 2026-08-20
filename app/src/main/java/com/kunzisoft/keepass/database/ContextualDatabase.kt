@@ -36,6 +36,7 @@ import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.model.RegisterInfo
 import com.kunzisoft.keepass.model.SnapFileDatabaseInfo
 import com.kunzisoft.keepass.tasks.BenchmarkKdfRunnable
+import com.kunzisoft.keepass.utils.AppUtil.getKdfLimits
 import com.kunzisoft.keepass.utils.SingletonHolder
 import com.kunzisoft.keepass.utils.clear
 import com.kunzisoft.keepass.viewmodels.FileDatabaseInfo
@@ -90,7 +91,13 @@ class ContextualDatabase: DatabaseInfo() {
                 transformSeed = transformSeed,
                 challengeResponseRetriever = challengeResponseRetriever
             )
-            kdfEngine?.optimizeByBenchmark(masterKey = masterKey, targetTime = targetTime)
+            // Calculate max memory directly from the device
+            val kdfLimits = context.applicationContext.getKdfLimits()
+            kdfEngine?.optimizeByBenchmark(
+                masterKey = masterKey,
+                targetTime = targetTime,
+                limits = kdfLimits
+            )
         } finally {
             masterKey?.clear()
             masterCredential?.clear()

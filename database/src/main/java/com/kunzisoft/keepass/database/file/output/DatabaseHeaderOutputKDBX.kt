@@ -41,9 +41,11 @@ import java.security.MessageDigest
 import javax.crypto.Mac
 
 class DatabaseHeaderOutputKDBX @Throws(IOException::class)
-constructor(private val databaseKDBX: DatabaseKDBX,
-            private val header: DatabaseHeaderKDBX,
-            outputStream: OutputStream) {
+constructor(
+    private val databaseKDBX: DatabaseKDBX,
+    private val header: DatabaseHeaderKDBX,
+    outputStream: OutputStream
+) {
 
     private val mos: MacOutputStream
     private val dos: DigestOutputStream

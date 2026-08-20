@@ -24,7 +24,12 @@ import android.view.View
 import android.widget.Toast
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.ContextualDatabase
+import com.kunzisoft.keepass.database.crypto.kdf.KdfBenchmark
+import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_BENCHMARK_KDF
+import com.kunzisoft.keepass.tasks.ActionRunnable
+import com.kunzisoft.keepass.tasks.BenchmarkKdfRunnable
 import com.kunzisoft.keepass.utils.DataByte
+import com.kunzisoft.keepass.utils.getParcelableCompat
 
 class DatabaseMemoryUsagePreferenceDialogFragmentCompat : DatabaseSavePreferenceDialogFragmentCompat() {
 
@@ -35,13 +40,27 @@ class DatabaseMemoryUsagePreferenceDialogFragmentCompat : DatabaseSavePreference
         setExplanationText(R.string.memory_usage_explanation)
     }
 
-    override fun onDatabaseRetrieved(database: ContextualDatabase) {
-        dataByte = DataByte(
-            database.memoryUsage.toLong(),
-            DataByte.ByteFormat.BYTE
-        ).toBetterByteFormat()
+    private fun setMemoryBytes(bytes: Long) {
+        dataByte = DataByte(bytes, DataByte.ByteFormat.BYTE).toBetterByteFormat()
         inputText = dataByte.number.toString()
         setUnitText(dataByte.format.stringId)
+    }
+
+    override fun onDatabaseRetrieved(database: ContextualDatabase) {
+        setMemoryBytes(database.memoryUsage.toLong())
+    }
+
+    override fun onDatabaseActionFinished(
+        database: ContextualDatabase,
+        actionTask: String,
+        result: ActionRunnable.Result
+    ) {
+        super.onDatabaseActionFinished(database, actionTask, result)
+        if (actionTask == ACTION_DATABASE_BENCHMARK_KDF) {
+            result.data?.getParcelableCompat<KdfBenchmark>(BenchmarkKdfRunnable.EXTRA_NEW_BENCHMARK)?.let { newBenchmark ->
+                setMemoryBytes(newBenchmark.parallelism)
+            }
+        }
     }
 
     override fun onDialogClosed(database: ContextualDatabase?, positiveResult: Boolean) {
