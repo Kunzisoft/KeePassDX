@@ -52,6 +52,11 @@ import com.kunzisoft.keepass.database.element.Group
 import com.kunzisoft.keepass.database.element.database.CompressionAlgorithm
 import com.kunzisoft.keepass.database.helper.getLocalizedName
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService
+import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.getIntElements
+import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.getLongElements
+import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.getParcelableElements
+import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.getSerializableElements
+import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.getStringElements
 import com.kunzisoft.keepass.settings.preference.DialogColorPreference
 import com.kunzisoft.keepass.settings.preference.DialogListExplanationPreference
 import com.kunzisoft.keepass.settings.preference.InputKdfNumberPreference
@@ -74,8 +79,6 @@ import com.kunzisoft.keepass.settings.preferencedialogfragment.DatabaseRemoveUnl
 import com.kunzisoft.keepass.settings.preferencedialogfragment.DatabaseRoundsPreferenceDialogFragmentCompat
 import com.kunzisoft.keepass.settings.preferencedialogfragment.DatabaseTemplatesGroupPreferenceDialogFragmentCompat
 import com.kunzisoft.keepass.tasks.ActionRunnable
-import com.kunzisoft.keepass.utils.getParcelableCompat
-import com.kunzisoft.keepass.utils.getSerializableCompat
 import com.kunzisoft.keepass.viewmodels.DatabaseViewModel
 import com.kunzisoft.keepass.viewmodels.SettingsViewModel
 import com.kunzisoft.keepass.viewmodels.UserVerificationViewModel
@@ -527,94 +530,93 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment(), DatabaseRetriev
     }
 
     // TODO check error
-    override fun onDatabaseActionFinished(database: ContextualDatabase,
-                                          actionTask: String,
-                                          result: ActionRunnable.Result) {
+    override fun onDatabaseActionFinished(
+        database: ContextualDatabase,
+        actionTask: String,
+        result: ActionRunnable.Result
+    ) {
         result.data?.let { data ->
-            if (data.containsKey(DatabaseTaskNotificationService.OLD_ELEMENT_KEY)
-                    && data.containsKey(DatabaseTaskNotificationService.NEW_ELEMENT_KEY)) {
-                when (actionTask) {
-                    /*
-                    --------
-                    Main preferences
-                    --------
-                    */
-                    DatabaseTaskNotificationService.ACTION_DATABASE_UPDATE_NAME_TASK -> {
-                        val oldName = data.getString(DatabaseTaskNotificationService.OLD_ELEMENT_KEY)!!
-                        val newName = data.getString(DatabaseTaskNotificationService.NEW_ELEMENT_KEY)!!
+            when (actionTask) {
+                /*
+                --------
+                Main preferences
+                --------
+                */
+                DatabaseTaskNotificationService.ACTION_DATABASE_UPDATE_NAME_TASK -> {
+                    data.getStringElements { oldName, newName ->
                         val nameToShow =
-                                if (result.isSuccess) {
-                                    newName
-                                } else {
-                                    database.name = oldName
-                                    oldName
-                                }
+                            if (result.isSuccess) {
+                                newName
+                            } else {
+                                database.name = oldName
+                                oldName
+                            }
                         dbNamePref?.summary = nameToShow
                     }
-                    DatabaseTaskNotificationService.ACTION_DATABASE_UPDATE_DESCRIPTION_TASK -> {
-                        val oldDescription = data.getString(DatabaseTaskNotificationService.OLD_ELEMENT_KEY)!!
-                        val newDescription = data.getString(DatabaseTaskNotificationService.NEW_ELEMENT_KEY)!!
+                }
+                DatabaseTaskNotificationService.ACTION_DATABASE_UPDATE_DESCRIPTION_TASK -> {
+                    data.getStringElements { oldDescription, newDescription ->
                         val descriptionToShow =
-                                if (result.isSuccess) {
-                                    newDescription
-                                } else {
-                                    database.description = oldDescription
-                                    oldDescription
-                                }
+                            if (result.isSuccess) {
+                                newDescription
+                            } else {
+                                database.description = oldDescription
+                                oldDescription
+                            }
                         dbDescriptionPref?.summary = descriptionToShow
                     }
-                    DatabaseTaskNotificationService.ACTION_DATABASE_UPDATE_DEFAULT_USERNAME_TASK -> {
-                        val oldDefaultUsername = data.getString(DatabaseTaskNotificationService.OLD_ELEMENT_KEY)!!
-                        val newDefaultUsername = data.getString(DatabaseTaskNotificationService.NEW_ELEMENT_KEY)!!
+                }
+                DatabaseTaskNotificationService.ACTION_DATABASE_UPDATE_DEFAULT_USERNAME_TASK -> {
+                    data.getStringElements { oldDefaultUsername, newDefaultUsername ->
                         val defaultUsernameToShow =
-                                if (result.isSuccess) {
-                                    newDefaultUsername
-                                } else {
-                                    database.defaultUsername = oldDefaultUsername
-                                    oldDefaultUsername
-                                }
+                            if (result.isSuccess) {
+                                newDefaultUsername
+                            } else {
+                                database.defaultUsername = oldDefaultUsername
+                                oldDefaultUsername
+                            }
                         dbDefaultUsernamePref?.summary = defaultUsernameToShow
                     }
-                    DatabaseTaskNotificationService.ACTION_DATABASE_UPDATE_COLOR_TASK -> {
-                        val oldColor = data.getString(DatabaseTaskNotificationService.OLD_ELEMENT_KEY)!!
-                        val newColor = data.getString(DatabaseTaskNotificationService.NEW_ELEMENT_KEY)!!
-
+                }
+                DatabaseTaskNotificationService.ACTION_DATABASE_UPDATE_COLOR_TASK -> {
+                    data.getStringElements { oldColor, newColor ->
                         val defaultColorToShow =
-                                if (result.isSuccess) {
-                                    newColor
-                                } else {
-                                    database.customColor = oldColor.toColorInt()
-                                    oldColor
-                                }
+                            if (result.isSuccess) {
+                                newColor
+                            } else {
+                                database.customColor = oldColor.toColorInt()
+                                oldColor
+                            }
                         dbCustomColorPref?.summary = defaultColorToShow
                     }
-                    DatabaseTaskNotificationService.ACTION_DATABASE_UPDATE_COMPRESSION_TASK -> {
-                        val oldCompression = data.getSerializableCompat<CompressionAlgorithm>(DatabaseTaskNotificationService.OLD_ELEMENT_KEY)
-                        val newCompression = data.getSerializableCompat<CompressionAlgorithm>(DatabaseTaskNotificationService.NEW_ELEMENT_KEY)
+                }
+                DatabaseTaskNotificationService.ACTION_DATABASE_UPDATE_COMPRESSION_TASK -> {
+                    data.getSerializableElements<CompressionAlgorithm> { oldCompression, newCompression ->
                         val algorithmToShow =
-                                if (result.isSuccess) {
-                                    newCompression
-                                } else {
-                                    database.compressionAlgorithm = oldCompression
-                                    oldCompression
-                                }
-                        dbDataCompressionPref?.summary = algorithmToShow?.getLocalizedName(resources)
+                            if (result.isSuccess) {
+                                newCompression
+                            } else {
+                                database.compressionAlgorithm = oldCompression
+                                oldCompression
+                            }
+                        dbDataCompressionPref?.summary =
+                            algorithmToShow?.getLocalizedName(resources)
                     }
-                    DatabaseTaskNotificationService.ACTION_DATABASE_UPDATE_RECYCLE_BIN_TASK -> {
-                        val oldRecycleBin = data.getParcelableCompat<Group>(DatabaseTaskNotificationService.OLD_ELEMENT_KEY)
-                        val newRecycleBin = data.getParcelableCompat<Group>(DatabaseTaskNotificationService.NEW_ELEMENT_KEY)
+                }
+                DatabaseTaskNotificationService.ACTION_DATABASE_UPDATE_RECYCLE_BIN_TASK -> {
+                    data.getParcelableElements<Group> { oldRecycleBin, newRecycleBin ->
                         val recycleBinToShow =
-                                if (result.isSuccess) {
-                                    newRecycleBin
-                                } else {
-                                    oldRecycleBin
-                                }
+                            if (result.isSuccess) {
+                                newRecycleBin
+                            } else {
+                                oldRecycleBin
+                            }
                         database.setRecycleBin(recycleBinToShow)
                         refreshRecycleBinGroup(database)
                     }
-                    DatabaseTaskNotificationService.ACTION_DATABASE_UPDATE_TEMPLATES_GROUP_TASK -> {
-                        val oldTemplatesGroup = data.getParcelableCompat<Group>(DatabaseTaskNotificationService.OLD_ELEMENT_KEY)
-                        val newTemplatesGroup = data.getParcelableCompat<Group>(DatabaseTaskNotificationService.NEW_ELEMENT_KEY)
+                }
+                DatabaseTaskNotificationService.ACTION_DATABASE_UPDATE_TEMPLATES_GROUP_TASK -> {
+                    data.getParcelableElements<Group> { oldTemplatesGroup, newTemplatesGroup ->
                         val templatesGroupToShow =
                             if (result.isSuccess) {
                                 newTemplatesGroup
@@ -624,58 +626,58 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment(), DatabaseRetriev
                         database.setTemplatesGroup(templatesGroupToShow)
                         refreshTemplatesGroup(database)
                     }
-                    DatabaseTaskNotificationService.ACTION_DATABASE_UPDATE_MAX_HISTORY_ITEMS_TASK -> {
-                        val oldMaxHistoryItems = data.getInt(DatabaseTaskNotificationService.OLD_ELEMENT_KEY)
-                        val newMaxHistoryItems = data.getInt(DatabaseTaskNotificationService.NEW_ELEMENT_KEY)
+                }
+                DatabaseTaskNotificationService.ACTION_DATABASE_UPDATE_MAX_HISTORY_ITEMS_TASK -> {
+                    data.getIntElements { oldMaxHistoryItems, newMaxHistoryItems ->
                         val maxHistoryItemsToShow =
-                                if (result.isSuccess) {
-                                    newMaxHistoryItems
-                                } else {
-                                    database.historyMaxItems = oldMaxHistoryItems
-                                    oldMaxHistoryItems
-                                }
+                            if (result.isSuccess) {
+                                newMaxHistoryItems
+                            } else {
+                                database.historyMaxItems = oldMaxHistoryItems
+                                oldMaxHistoryItems
+                            }
                         dbMaxHistoryItemsPref?.summary = maxHistoryItemsToShow.toString()
                     }
-                    DatabaseTaskNotificationService.ACTION_DATABASE_UPDATE_MAX_HISTORY_SIZE_TASK -> {
-                        val oldMaxHistorySize = data.getLong(DatabaseTaskNotificationService.OLD_ELEMENT_KEY)
-                        val newMaxHistorySize = data.getLong(DatabaseTaskNotificationService.NEW_ELEMENT_KEY)
+                }
+                DatabaseTaskNotificationService.ACTION_DATABASE_UPDATE_MAX_HISTORY_SIZE_TASK -> {
+                    data.getLongElements { oldMaxHistorySize, newMaxHistorySize ->
                         val maxHistorySizeToShow =
-                                if (result.isSuccess) {
-                                    newMaxHistorySize
-                                } else {
-                                    database.historyMaxSize = oldMaxHistorySize
-                                    oldMaxHistorySize
-                                }
+                            if (result.isSuccess) {
+                                newMaxHistorySize
+                            } else {
+                                database.historyMaxSize = oldMaxHistorySize
+                                oldMaxHistorySize
+                            }
                         dbMaxHistorySizePref?.summary = maxHistorySizeToShow.toString()
                     }
+                }
 
-                    /*
-                    --------
-                    Security
-                    --------
-                     */
-                    DatabaseTaskNotificationService.ACTION_DATABASE_UPDATE_ENCRYPTION_TASK -> {
-                        val oldEncryption = data.getSerializableCompat<EncryptionAlgorithm>(DatabaseTaskNotificationService.OLD_ELEMENT_KEY)
-                        val newEncryption = data.getSerializableCompat<EncryptionAlgorithm>(DatabaseTaskNotificationService.NEW_ELEMENT_KEY)
+                /*
+                --------
+                Security
+                --------
+                 */
+                DatabaseTaskNotificationService.ACTION_DATABASE_UPDATE_ENCRYPTION_TASK -> {
+                    data.getSerializableElements<EncryptionAlgorithm> { oldEncryption, newEncryption ->
                         val algorithmToShow =
-                                if (result.isSuccess) {
-                                    newEncryption
-                                } else {
-                                    database.encryptionAlgorithm = oldEncryption
-                                    oldEncryption
-                                }
+                            if (result.isSuccess) {
+                                newEncryption
+                            } else {
+                                database.encryptionAlgorithm = oldEncryption
+                                oldEncryption
+                            }
                         mEncryptionAlgorithmPref?.summary = algorithmToShow.toString()
                     }
-                    DatabaseTaskNotificationService.ACTION_DATABASE_UPDATE_KEY_DERIVATION_TASK -> {
-                        val oldKeyDerivationEngine = data.getSerializableCompat<KdfEngine>(DatabaseTaskNotificationService.OLD_ELEMENT_KEY)
-                        val newKeyDerivationEngine = data.getSerializableCompat<KdfEngine>(DatabaseTaskNotificationService.NEW_ELEMENT_KEY)
+                }
+                DatabaseTaskNotificationService.ACTION_DATABASE_UPDATE_KEY_DERIVATION_TASK -> {
+                    data.getSerializableElements<KdfEngine> { oldKeyDerivationEngine, newKeyDerivationEngine ->
                         val kdfEngineToShow =
-                                if (result.isSuccess) {
-                                    newKeyDerivationEngine
-                                } else {
-                                    database.kdfEngine = oldKeyDerivationEngine
-                                    oldKeyDerivationEngine
-                                }
+                            if (result.isSuccess) {
+                                newKeyDerivationEngine
+                            } else {
+                                database.kdfEngine = oldKeyDerivationEngine
+                                oldKeyDerivationEngine
+                            }
                         mKeyDerivationPref?.summary = kdfEngineToShow.toString()
 
                         mRoundPref?.summary = kdfEngineToShow?.getKeyRounds().toString()
@@ -683,40 +685,40 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment(), DatabaseRetriev
                         mMemoryPref?.summary = kdfEngineToShow?.getMemoryUsage().toString()
                         mParallelismPref?.summary = kdfEngineToShow?.getParallelism().toString()
                     }
-                    DatabaseTaskNotificationService.ACTION_DATABASE_UPDATE_ITERATIONS_TASK -> {
-                        val oldIterations = data.getLong(DatabaseTaskNotificationService.OLD_ELEMENT_KEY)
-                        val newIterations = data.getLong(DatabaseTaskNotificationService.NEW_ELEMENT_KEY)
+                }
+                DatabaseTaskNotificationService.ACTION_DATABASE_UPDATE_ITERATIONS_TASK -> {
+                    data.getLongElements { oldIterations, newIterations ->
                         val roundsToShow =
-                                if (result.isSuccess) {
-                                    newIterations
-                                } else {
-                                    database.kdfEngine?.setKeyRounds(oldIterations.toULong())
-                                    oldIterations
-                                }
+                            if (result.isSuccess) {
+                                newIterations
+                            } else {
+                                database.kdfEngine?.setKeyRounds(oldIterations.toULong())
+                                oldIterations
+                            }
                         mRoundPref?.summary = roundsToShow.toString()
                     }
-                    DatabaseTaskNotificationService.ACTION_DATABASE_UPDATE_MEMORY_USAGE_TASK -> {
-                        val oldMemoryUsage = data.getLong(DatabaseTaskNotificationService.OLD_ELEMENT_KEY)
-                        val newMemoryUsage = data.getLong(DatabaseTaskNotificationService.NEW_ELEMENT_KEY)
+                }
+                DatabaseTaskNotificationService.ACTION_DATABASE_UPDATE_MEMORY_USAGE_TASK -> {
+                    data.getLongElements { oldMemoryUsage, newMemoryUsage ->
                         val memoryToShow =
-                                if (result.isSuccess) {
-                                    newMemoryUsage
-                                } else {
-                                    database.kdfEngine?.setMemoryUsage(oldMemoryUsage.toULong())
-                                    oldMemoryUsage
-                                }
+                            if (result.isSuccess) {
+                                newMemoryUsage
+                            } else {
+                                database.kdfEngine?.setMemoryUsage(oldMemoryUsage.toULong())
+                                oldMemoryUsage
+                            }
                         mMemoryPref?.summary = memoryToShow.toString()
                     }
-                    DatabaseTaskNotificationService.ACTION_DATABASE_UPDATE_PARALLELISM_TASK -> {
-                        val oldParallelism = data.getLong(DatabaseTaskNotificationService.OLD_ELEMENT_KEY)
-                        val newParallelism = data.getLong(DatabaseTaskNotificationService.NEW_ELEMENT_KEY)
+                }
+                DatabaseTaskNotificationService.ACTION_DATABASE_UPDATE_PARALLELISM_TASK -> {
+                    data.getLongElements { oldParallelism, newParallelism ->
                         val parallelismToShow =
-                                if (result.isSuccess) {
-                                    newParallelism
-                                } else {
-                                    database.kdfEngine?.setParallelism(oldParallelism)
-                                    oldParallelism
-                                }
+                            if (result.isSuccess) {
+                                newParallelism
+                            } else {
+                                database.kdfEngine?.setParallelism(oldParallelism)
+                                oldParallelism
+                            }
                         mParallelismPref?.summary = parallelismToShow.toString()
                     }
                 }

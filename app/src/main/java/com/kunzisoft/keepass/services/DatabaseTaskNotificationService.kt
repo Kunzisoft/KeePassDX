@@ -26,6 +26,7 @@ import android.os.Binder
 import android.os.Build
 import android.os.Bundle
 import android.os.IBinder
+import android.os.Parcelable
 import android.util.Log
 import androidx.annotation.StringRes
 import androidx.media.app.NotificationCompat
@@ -75,8 +76,10 @@ import com.kunzisoft.keepass.utils.DATABASE_START_TASK_ACTION
 import com.kunzisoft.keepass.utils.DATABASE_STOP_TASK_ACTION
 import com.kunzisoft.keepass.utils.LOCK_ACTION
 import com.kunzisoft.keepass.utils.closeDatabase
+import com.kunzisoft.keepass.utils.getParcelableCompat
 import com.kunzisoft.keepass.utils.getParcelableExtraCompat
 import com.kunzisoft.keepass.utils.getParcelableList
+import com.kunzisoft.keepass.utils.getSerializableCompat
 import com.kunzisoft.keepass.utils.putParcelableList
 import com.kunzisoft.keepass.viewmodels.FileDatabaseInfo
 import kotlinx.coroutines.CancellationException
@@ -89,6 +92,7 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
+import java.io.Serializable
 
 open class DatabaseTaskNotificationService : LockNotificationService(), ProgressTaskUpdater {
 
@@ -1472,6 +1476,62 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         fun Bundle.getNewEntry(database: ContextualDatabase): EntryInfo? {
             return getNewEntries(database)?.get(0)
         }
+
+        fun Bundle.getStringElements(
+            onElementsRetrieve: (oldElement: String, newElement: String) -> Unit
+        ) {
+            if (containsKey(OLD_ELEMENT_KEY)
+                && containsKey(NEW_ELEMENT_KEY)) {
+                val oldElement = getString(OLD_ELEMENT_KEY)!!
+                val newElement = getString(NEW_ELEMENT_KEY)!!
+                onElementsRetrieve.invoke(oldElement, newElement)
+            }
+        }
+
+        fun Bundle.getIntElements(
+            onElementsRetrieve: (oldElement: Int, newElement: Int) -> Unit
+        ) {
+            if (containsKey(OLD_ELEMENT_KEY)
+                && containsKey(NEW_ELEMENT_KEY)) {
+                val oldElement = getInt(OLD_ELEMENT_KEY)
+                val newElement = getInt(NEW_ELEMENT_KEY)
+                onElementsRetrieve.invoke(oldElement, newElement)
+            }
+        }
+
+        fun Bundle.getLongElements(
+            onElementsRetrieve: (oldElement: Long, newElement: Long) -> Unit
+        ) {
+            if (containsKey(OLD_ELEMENT_KEY)
+                && containsKey(NEW_ELEMENT_KEY)) {
+                val oldElement = getLong(OLD_ELEMENT_KEY)
+                val newElement = getLong(NEW_ELEMENT_KEY)
+                onElementsRetrieve.invoke(oldElement, newElement)
+            }
+        }
+
+        inline fun <reified T: Serializable> Bundle.getSerializableElements(
+            onElementsRetrieve: (oldElement: T?, newElement: T?) -> Unit
+        ) {
+            if (containsKey(OLD_ELEMENT_KEY)
+                && containsKey(NEW_ELEMENT_KEY)) {
+                val oldElement = getSerializableCompat<T>(OLD_ELEMENT_KEY)
+                val newElement = getSerializableCompat<T>(NEW_ELEMENT_KEY)
+                onElementsRetrieve.invoke(oldElement, newElement)
+            }
+        }
+
+        inline fun <reified T: Parcelable> Bundle.getParcelableElements(
+            onElementsRetrieve: (oldElement: T?, newElement: T?) -> Unit
+        ) {
+            if (containsKey(OLD_ELEMENT_KEY)
+                && containsKey(NEW_ELEMENT_KEY)) {
+                val oldElement = getParcelableCompat<T>(OLD_ELEMENT_KEY)
+                val newElement = getParcelableCompat<T>(NEW_ELEMENT_KEY)
+                onElementsRetrieve.invoke(oldElement, newElement)
+            }
+        }
+
     }
 
 }

@@ -124,6 +124,16 @@ abstract class KdfEngine : Serializable {
     }
 
     /**
+     * Define if the current parameters are the default ones.
+     * @return True if parameters are default, false otherwise.
+     */
+    fun isDefault(): Boolean {
+        return getKeyRounds() == defaultKeyRounds &&
+                getMemoryUsage() == defaultMemoryUsage &&
+                getParallelism() == defaultParallelism
+    }
+
+    /**
      * Randomize the internal parameters.
      */
     open fun randomize() {
