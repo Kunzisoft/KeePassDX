@@ -137,7 +137,7 @@
     <string name="extended_ASCII">Rozšířené ASCII</string>
     <string name="allow">Povolit</string>
     <string name="error_load_database">Databázi se nepodařilo načíst.</string>
-    <string name="error_load_database_KDF_memory">Klíč se nepodařilo načíst, zkuste snížit „využití paměti“ v KDF.</string>
+    <string name="error_load_database_KDF_memory">Využití paměti KDF je příliš vysoké. Nepodařilo se načíst.</string>
     <string name="error_autofill_enable_service">Službu samovyplnění se nepodařilo zapnout.</string>
     <string name="file_not_found_content">Soubor nenalezen</string>
     <string name="list_entries_show_username_title">Zobrazit uživatelská jména</string>
@@ -776,4 +776,6 @@
     <string name="autofill_suggestions_title">Návrhy automatického vyplňování</string>
     <string name="autofill_suggestions_summary">Použít algoritmus rozpoznávání formulářů pro navrhování záznamů</string>
     <string name="passkey_pseudo_random_function">Pseudonáhodná funkce přístupových klíčů</string>
+    <string name="error_load_database_KDF_parallelism">Paralelismus KDF je příliš vysoký. Nepodařilo se načíst.</string>
+    <string name="parallelism_set_safe">Nastavit počet procesorů</string>
 </resources>
