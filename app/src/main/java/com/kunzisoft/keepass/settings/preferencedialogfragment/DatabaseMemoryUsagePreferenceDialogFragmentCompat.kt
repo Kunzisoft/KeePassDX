@@ -58,7 +58,7 @@ class DatabaseMemoryUsagePreferenceDialogFragmentCompat : DatabaseSavePreference
         super.onDatabaseActionFinished(database, actionTask, result)
         if (actionTask == ACTION_DATABASE_BENCHMARK_KDF) {
             result.data?.getParcelableCompat<KdfBenchmark>(BenchmarkKdfRunnable.EXTRA_NEW_BENCHMARK)?.let { newBenchmark ->
-                setMemoryBytes(newBenchmark.parallelism)
+                setMemoryBytes(newBenchmark.memory.toLong())
             }
         }
     }
