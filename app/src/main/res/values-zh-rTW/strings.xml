@@ -179,7 +179,7 @@
     <string name="education_entry_new_field_title">添加自定義欄位</string>
     <string name="education_field_copy_summary">已複製的欄位可以貼到任何地方。\n\n選擇需要的表格填寫方式。</string>
     <string name="education_field_copy_title">複製欄位</string>
-    <string name="education_generate_password_summary">依據表單中的標準進行簡單的定義，隨機為該條目生成一個強密碼，不在擔心忘記安全密碼。</string>
+    <string name="education_generate_password_summary">生成一個強密碼與您的條目關聯，根據表單的標準輕鬆設定它，並且不要忘記它。</string>
     <string name="education_generate_password_title">建立一個強密碼</string>
     <string name="education_lock_summary">可以設置在無操作和螢幕關閉的時候，鎖定資料庫。</string>
     <string name="education_lock_title">鎖定資料庫</string>
@@ -488,7 +488,7 @@
     <string name="settings_database_force_changing_master_key_title">強制更換</string>
     <string name="settings_database_recommend_changing_master_key_summary">建議更改主密鑰（天）</string>
     <string name="settings_database_recommend_changing_master_key_title">建議更新</string>
-    <string name="show_otp_token_summary">在項目清單中顯示 OTP 令牌</string>
+    <string name="show_otp_token_summary">預設顯示一次性密碼令牌</string>
     <string name="show_otp_token_title">顯示 OTP 令牌</string>
     <string name="show_recent_files_summary">顯示最近使用的資料庫位置</string>
     <string name="show_recent_files_title">最近開啟的檔案</string>
@@ -544,7 +544,7 @@
     <string name="version">版本</string>
     <string name="version_label">版本 %1$s</string>
     <string name="warning">警告</string>
-    <string name="warning_database_info_changed">資料庫檔案中包含的信息已在應用程式之外被修改。</string>
+    <string name="warning_database_info_changed">您資料庫中的資訊已在應用程式外被修改。</string>
     <string name="warning_database_info_changed_options">通過保存資料庫或用最近的更新重新加載資料庫來合并數據和覆蓋外部修改。</string>
     <string name="warning_database_link_revoked">訪問檔案管理器撤消訪問權限的檔案</string>
     <string name="warning_database_read_only">授予軟體檔案讀寫訪問權限以保存資料庫更改</string>
@@ -666,7 +666,7 @@
 \n如果不啟用此權限，當其他應用程式在前台運作時，您将无法在通知欄中查看背景運行的資料庫。</string>
     <string name="unlock_and_link_biometric">裝置解鎖連線</string>
     <string name="education_validate_entry_title">驗證條目</string>
-    <string name="warning_database_info_changed_options_read_only">以最新的變動重新載入資料庫。</string>
+    <string name="warning_database_info_changed_options_read_only">請使用最新的變更重新載入資料庫。</string>
     <string name="hide_templates_title">隱藏模板</string>
     <string name="generate_keyfile">產生密鑰檔案</string>
     <string name="recursive_number_entries_title">遞迴項目數</string>
@@ -696,7 +696,7 @@
     <string name="passkey_selection_description">選擇現有 passkey</string>
     <string name="passkey_username">Passkey 使用者名稱</string>
     <string name="passkey_private_key">Passkey 私鑰</string>
-    <string name="passkeys_missing_signature_app_ask_message">%1$s 無法識別，並嘗試使用現有 passkey 進行身份驗證。</string>
+    <string name="passkeys_missing_signature_app_ask_message">%1$s 無法識別，並嘗試使用現有密鑰進行驗證。</string>
     <string name="passkey_backup_state">通行金鑰備份狀態</string>
     <string name="clipboard_otp_notifications_title">OTP 通知</string>
     <string name="clipboard_otp_notifications_summary">打開通知即可從自動填充或魔法鍵盤填充的條目中複製 OTP</string>
@@ -731,7 +731,7 @@
     <string name="passkey_relying_party">通行密鑰依賴方</string>
     <string name="passkey_backup_eligibility">通行密鑰備份資格</string>
     <string name="error_passkey_result">無法返回通行密鑰</string>
-    <string name="error_passkey_credential_id">未找到與依賴方 %1$s 和憑據 ID %2$s 匹配的通行密鑰</string>
+    <string name="error_passkey_credential_id">未找到與依賴方 %1$s 及憑證 ID %2$s 對應的通行碼</string>
     <string name="password_creation_description">在新條目中保存密碼</string>
     <string name="password_selection_description">選擇現有密碼</string>
     <string name="error_password_result">無法返回密碼</string>
@@ -748,4 +748,12 @@
     <string name="benchmark_calculation">計算 %1$s 秒</string>
     <string name="benchmarking">正在進行基準測試…</string>
     <string name="keyboard_share_browser">從 %1$s 分享到 KeePassDX</string>
+    <string name="error_memory_too_large">「記憶體使用量」過高。設定為 %1$s。</string>
+    <string name="error_parallelism_too_large">「平行度」過高。設定為 %1$s。</string>
+    <string name="error_missing_parent">沒有父項無法執行此操作。</string>
+    <string name="temporary_merge_success">暫存資料合併成功完成</string>
+    <string name="reload_success">重新載入成功完成</string>
+    <string name="autofill_suggestions_title">自動填寫建議</string>
+    <string name="autofill_suggestions_summary">使用表單識別演算法來提供建議條目</string>
+    <string name="passkey_pseudo_random_function">通行碼偽隨機函數</string>
 </resources>

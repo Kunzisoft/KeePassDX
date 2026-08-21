@@ -67,7 +67,7 @@
     <string name="error_out_of_memory">Nedostatek paměti pro načtení celé databáze.</string>
     <string name="error_pass_gen_type">Je třeba zvolit alespoň jeden způsob vytváření hesla.</string>
     <string name="error_pass_match">Zadání hesla se neshodují.</string>
-    <string name="error_rounds_too_large">\"Transformační kola\" jsou příliš vysoká. Nastavuji na %1$s.</string>
+    <string name="error_rounds_too_large">„Transformační kola“ jsou příliš vysoká. Nastaveno na %1$s.</string>
     <string name="error_string_key">Každý řetězec musí mít název kolonky.</string>
     <string name="error_wrong_length">Do kolonky „Délka“ zadejte celé kladné číslo.</string>
     <string name="field_name">Název kolonky</string>
@@ -137,7 +137,7 @@
     <string name="extended_ASCII">Rozšířené ASCII</string>
     <string name="allow">Povolit</string>
     <string name="error_load_database">Databázi se nepodařilo načíst.</string>
-    <string name="error_load_database_KDF_memory">Klíč se nepodařilo načíst, zkuste snížit \"využití paměti\" pro KDF.</string>
+    <string name="error_load_database_KDF_memory">Klíč se nepodařilo načíst, zkuste snížit „využití paměti“ v KDF.</string>
     <string name="error_autofill_enable_service">Službu samovyplnění se nepodařilo zapnout.</string>
     <string name="file_not_found_content">Soubor nenalezen</string>
     <string name="list_entries_show_username_title">Zobrazit uživatelská jména</string>
@@ -155,8 +155,8 @@
     <string name="kdf_explanation">Klíč pro šifrovací algoritmus je vytvořen transformací hlavního klíče pomocí funkce odvození klíče s náhodně přidanou složkou, tzv. solí.</string>
     <string name="memory_usage">Využití paměti</string>
     <string name="memory_usage_explanation">Množství paměti použitých funkcí pro odvození klíče.</string>
-    <string name="parallelism">Souběžné zpracovávání</string>
-    <string name="parallelism_explanation">Stupeň souběžného zpracovávání (počet vláken) použitý funkcí pro odvození klíče.</string>
+    <string name="parallelism">Souběžné zpracování</string>
+    <string name="parallelism_explanation">Stupeň souběžného zpracování (počet vláken) použitý funkcí pro odvození klíče.</string>
     <string name="sort_menu">Seřadit</string>
     <string name="sort_ascending">Nejnižší první ↓</string>
     <string name="sort_groups_before">Skupiny první</string>
@@ -236,7 +236,7 @@
     <string name="education_entry_edit_title">Upravit záznam</string>
     <string name="education_entry_edit_summary">Přidejte ke svému záznamu vlastní kolonky. Společná data mohou být sdílena mezi různými kolonkami záznamu odkazem.</string>
     <string name="education_generate_password_title">Vytvořit silné heslo</string>
-    <string name="education_generate_password_summary">Nechte si vytvořit odolné heslo pro svůj záznam, definujte je podle kritérií formuláře, a nezapomeňte na bezpečné heslo.</string>
+    <string name="education_generate_password_summary">Vygenerujte si odolné heslo pro svůj záznam, definujte jej podle kritérií formuláře a nezapomeňte jej.</string>
     <string name="education_entry_new_field_title">Přidat vlastní pole</string>
     <string name="education_entry_new_field_summary">Registrovat další kolonku, zadat hodnotu a volitelně ji ochránit.</string>
     <string name="education_unlock_title">Odemknout databázi</string>
@@ -509,7 +509,7 @@
     <string name="warning_database_revoked">Přístup k souboru odebrán správcem souborů, uzavřete databázi a nově ji otevřete z jejího adresáře.</string>
     <string name="menu_reload_database">Znovu načíst data</string>
     <string name="warning_database_info_changed_options">Sloučit data, přepsat externí změny uložením databáze nebo databázi znovu načíst včetně nejnovějších změn.</string>
-    <string name="warning_database_info_changed">Informace obsažená ve Vašem databázovém souboru byla změněna mimo aplikaci.</string>
+    <string name="warning_database_info_changed">Informace obsažená ve vaší databázi byla změněna mimo aplikaci.</string>
     <string name="unit_gibibyte">GiB</string>
     <string name="unit_mebibyte">MiB</string>
     <string name="unit_kibibyte">KiB</string>
@@ -571,7 +571,7 @@
     <string name="holder">Držitel</string>
     <string name="debit_credit_card">Debetní / kreditní karta</string>
     <string name="template_group_name">Šablony</string>
-    <string name="show_otp_token_summary">Ukáže OTP tokeny v seznamu záznamů</string>
+    <string name="show_otp_token_summary">Ve výchozím nastavení zobrazuje OTP tokeny</string>
     <string name="show_otp_token_title">Ukázat OTP token</string>
     <string name="menu_external_icon">Externí ikona</string>
     <string name="autofill_select_entry">Vyberte položku…</string>
@@ -686,7 +686,7 @@
     <string name="style_name_follow_system">Podle systému</string>
     <string name="style_name_light">Světlý</string>
     <string name="style_name_dark">Tmavý</string>
-    <string name="warning_database_info_changed_options_read_only">Znovu načíst databázi s posledními změnami.</string>
+    <string name="warning_database_info_changed_options_read_only">Znovu prosím načtěte databázi s posledními změnami.</string>
     <string name="nodes">Uzly</string>
     <string name="generate_keyfile">Vygenerovat klíčový soubor</string>
     <string name="recursive_number_entries_title">Rekurzivní počet záznamů</string>
@@ -711,7 +711,7 @@
     <string name="passkeys_privileged_apps_ask_message">%1$s se pokouší provést akci přísupového klíče.\n\nChcete ji přidat do seznamu privilegovaných aplikací?</string>
     <string name="passkeys_missing_signature_app_ask_title">Chybějící podpis</string>
     <string name="passkeys_missing_signature_app_ask_explanation">VAROVÁNÍ: Přístupový klíč byl vytvořen z jiného klienta nebo byl vymazán podpis. Ujistěte se, že aplikace, kterou chcete autentifikovat, je součástí stejné služby a že je legitimní pro zabránění bezpečnostním problémům.\nPokud je aplikace prohlížeč, nepřidávejte její podpis do záznamu, ale do seznamu privilegovaných aplikací v nastavení.</string>
-    <string name="passkeys_missing_signature_app_ask_message">%1$s je nerozpoznaná a pokouší se o autentifikaci s existujícím přístupovým klíčem.</string>
+    <string name="passkeys_missing_signature_app_ask_message">Aplikace %1$s je nerozpoznaná a pokouší se o autentifikaci s existujícím přístupovým klíčem.</string>
     <string name="passkeys_missing_signature_app_ask_question">Přidat podpis aplikace do záznamu přístupového klíče?</string>
     <string name="passkeys_auto_select_title">Automatický výběr</string>
     <string name="passkeys_auto_select_summary">Automaticky vybrat, pokud existuje pouze jeden záznam a aplikace je otevřená, pouze pokud je žádající aplikace kompatibilní</string>
@@ -746,7 +746,7 @@
     <string name="keyboard_auto_switch_summary">Pokusit se automaticky přepnout na Magikeyboard, pokud jsou vyplněná pole</string>
     <string name="autofill_share_magikeyboard_title">Sdílet do Magikeyboard</string>
     <string name="autofill_share_magikeyboard_summary">Sdílet položky získané z automatického vyplnění Magikeyboard</string>
-    <string name="error_passkey_credential_id">Nenalezen žádný přístupový klíč se spoléhající stranou %1$s a credentialIds %2$s</string>
+    <string name="error_passkey_credential_id">Nenalezen žádný přístupový klíč se spoléhající stranou %1$s a ID údajů %2$s</string>
     <string name="password_creation_description">Uložit heslo do nové položky</string>
     <string name="password_selection_description">Vybrat existující heslo</string>
     <string name="error_password_result">Nepodařilo se vrátit heslo</string>
@@ -768,4 +768,12 @@
     <string name="benchmark_calculation">Vypočítat po dobu %1$s s</string>
     <string name="benchmarking">Měření…</string>
     <string name="keyboard_share_browser">Sdílet z aplikace %1$s do KeePassDX</string>
+    <string name="error_memory_too_large">„Využití paměti“ je příliš vysoké. Nastaveno na %1$s.</string>
+    <string name="error_parallelism_too_large">„Souběžné zpracování“ je příliš vysoké. Nastaveno na %1$s.</string>
+    <string name="error_missing_parent">Tuto akci nelze provést bez rodiče.</string>
+    <string name="temporary_merge_success">Sloučení dočasných dat úspěšně dokončeno</string>
+    <string name="reload_success">Opětovné načtení úspěšně dokončeno</string>
+    <string name="autofill_suggestions_title">Návrhy automatického vyplňování</string>
+    <string name="autofill_suggestions_summary">Použít algoritmus rozpoznávání formulářů pro navrhování záznamů</string>
+    <string name="passkey_pseudo_random_function">Pseudonáhodná funkce přístupových klíčů</string>
 </resources>
