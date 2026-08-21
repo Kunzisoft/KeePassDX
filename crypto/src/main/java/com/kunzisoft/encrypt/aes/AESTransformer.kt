@@ -41,6 +41,9 @@ object AESTransformer {
         if (rounds == null) {
             throw IOException("Invalid rounds")
         }
+        if (seed == null || key == null) {
+            throw IOException("Invalid seed or key")
+        }
         return try {
             NativeLib.init()
             NativeAESKeyTransformer.nTransformKey(seed, key, rounds.toLong())

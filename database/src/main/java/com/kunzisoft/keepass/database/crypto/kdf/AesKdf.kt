@@ -47,8 +47,8 @@ class AesKdf : KdfEngine() {
     @Throws(IOException::class)
     override fun transform(masterKey: ByteArray): ByteArray {
 
-        var seed = parameters.getByteArray(PARAM_SEED)
-        if (seed != null && seed.size != 32) {
+        var seed = parameters.getByteArray(PARAM_SEED) ?: ByteArray(0)
+        if (seed.size != 32) {
             seed = HashManager.sha256(seed)
         }
 

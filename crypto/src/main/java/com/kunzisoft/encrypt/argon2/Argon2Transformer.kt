@@ -6,13 +6,16 @@ object Argon2Transformer {
 
     fun transformKey(
         type: Argon2Type,
-        password: ByteArray,
-        salt: ByteArray,
+        password: ByteArray?,
+        salt: ByteArray?,
         parallelism: UInt,
         memory: UInt,
         iterations: UInt,
         version: Int
     ): ByteArray {
+        if (password == null || salt == null) {
+            throw IllegalArgumentException("Password and salt must not be null")
+        }
 
         NativeLib.init()
         val argon2Type = when(type) {
