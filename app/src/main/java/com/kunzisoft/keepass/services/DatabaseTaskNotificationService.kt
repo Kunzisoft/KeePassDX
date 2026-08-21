@@ -45,6 +45,7 @@ import com.kunzisoft.keepass.database.action.ReloadDatabaseRunnable
 import com.kunzisoft.keepass.database.action.RemoveUnlinkedDataDatabaseRunnable
 import com.kunzisoft.keepass.database.action.SaveDatabaseRunnable
 import com.kunzisoft.keepass.database.action.UpdateCompressionBinariesDatabaseRunnable
+import com.kunzisoft.keepass.database.action.UpdateKeyDerivationDatabaseRunnable
 import com.kunzisoft.keepass.database.action.history.DeleteEntryHistoryDatabaseRunnable
 import com.kunzisoft.keepass.database.action.history.RestoreEntryHistoryDatabaseRunnable
 import com.kunzisoft.keepass.database.action.node.ActionNodesValues
@@ -58,6 +59,7 @@ import com.kunzisoft.keepass.database.action.node.TouchEntryRunnable
 import com.kunzisoft.keepass.database.action.node.TouchGroupRunnable
 import com.kunzisoft.keepass.database.action.node.UpdateEntryRunnable
 import com.kunzisoft.keepass.database.action.node.UpdateGroupRunnable
+import com.kunzisoft.keepass.database.crypto.kdf.KdfEngine
 import com.kunzisoft.keepass.database.element.EntryId
 import com.kunzisoft.keepass.database.element.GroupId
 import com.kunzisoft.keepass.database.element.database.CompressionAlgorithm
@@ -80,6 +82,7 @@ import com.kunzisoft.keepass.utils.getParcelableCompat
 import com.kunzisoft.keepass.utils.getParcelableExtraCompat
 import com.kunzisoft.keepass.utils.getParcelableList
 import com.kunzisoft.keepass.utils.getSerializableCompat
+import com.kunzisoft.keepass.utils.getSerializableExtraCompat
 import com.kunzisoft.keepass.utils.putParcelableList
 import com.kunzisoft.keepass.viewmodels.FileDatabaseInfo
 import kotlinx.coroutines.CancellationException
@@ -373,10 +376,10 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
             ACTION_DATABASE_UPDATE_MAX_HISTORY_ITEMS_TASK,
             ACTION_DATABASE_UPDATE_MAX_HISTORY_SIZE_TASK,
             ACTION_DATABASE_UPDATE_ENCRYPTION_TASK,
-            ACTION_DATABASE_UPDATE_KEY_DERIVATION_TASK,
             ACTION_DATABASE_UPDATE_MEMORY_USAGE_TASK,
             ACTION_DATABASE_UPDATE_PARALLELISM_TASK,
             ACTION_DATABASE_UPDATE_ITERATIONS_TASK -> buildDatabaseUpdateElementActionTask(intent, database)
+            ACTION_DATABASE_UPDATE_KEY_DERIVATION_TASK -> buildDatabaseUpdateKeyDerivationActionTask(intent, database)
             ACTION_DATABASE_BENCHMARK_KDF -> buildDatabaseBenchmarkKdfActionTask(database)
             ACTION_DATABASE_SAVE -> buildDatabaseSaveActionTask(intent, database)
             ACTION_CHALLENGE_RESPONDED -> buildChallengeRespondedActionTask(intent)
@@ -1325,6 +1328,34 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                 challengeResponseRetriever = { hardwareKey, seed ->
                     retrieveResponseFromChallenge(hardwareKey, seed)
                 }
+            ).apply {
+                afterSaveDatabase = { result ->
+                    result.data = intent.extras
+                }
+            }
+        } else {
+            null
+        }
+    }
+
+    private fun buildDatabaseUpdateKeyDerivationActionTask(
+        intent: Intent,
+        database: ContextualDatabase,
+    ): ActionRunnable? {
+        val oldKeyDerivation = intent.getSerializableExtraCompat<KdfEngine>(OLD_ELEMENT_KEY)
+        val newKeyDerivation = intent.getSerializableExtraCompat<KdfEngine>(NEW_ELEMENT_KEY)
+        val saveDatabase = intent.getBooleanExtra(SAVE_DATABASE_KEY, false)
+        return if (oldKeyDerivation != null && newKeyDerivation != null) {
+            UpdateKeyDerivationDatabaseRunnable(
+                context = this,
+                database = database,
+                oldKeyDerivation = oldKeyDerivation,
+                newKeyDerivation = newKeyDerivation,
+                save = !database.isReadOnly && saveDatabase,
+                challengeResponseRetriever = { hardwareKey, seed ->
+                    retrieveResponseFromChallenge(hardwareKey, seed)
+                },
+                progressTaskUpdater = this
             ).apply {
                 afterSaveDatabase = { result ->
                     result.data = intent.extras
