@@ -96,7 +96,11 @@ class InvalidCredentialsDatabaseException : DatabaseInputException {
     constructor() : super()
 }
 
-class KDFMemoryDatabaseException(exception: Throwable) : DatabaseInputException(exception)
+class KDFParallelismDatabaseException : DatabaseInputException()
+class KDFMemoryDatabaseException : DatabaseInputException {
+    constructor() : super()
+    constructor(exception: Throwable) : super(exception)
+}
 
 class NoMemoryDatabaseException(exception: Throwable) : DatabaseInputException(exception)
 

@@ -23,6 +23,8 @@ import android.util.Log
 import com.kunzisoft.encrypt.HashManager
 import com.kunzisoft.encrypt.argon2.Argon2Transformer
 import com.kunzisoft.encrypt.argon2.Argon2Type
+import com.kunzisoft.keepass.database.exception.KDFMemoryDatabaseException
+import com.kunzisoft.keepass.database.exception.KDFParallelismDatabaseException
 import com.kunzisoft.keepass.utils.bytes16ToUuid
 import java.io.IOException
 import java.util.UUID
@@ -56,10 +58,10 @@ class Argon2Kdf(private val type: Type) : KdfEngine() {
         if (parallelism > limits.parallelism) {
             Log.w(TAG, "Parallelism is above the maximum number of processors.")
             if (parallelism > (limits.parallelism * 128))
-                throw SecurityException("Parallelism limit is exceeded.")
+                throw KDFParallelismDatabaseException()
         }
         if (!limits.isMemorySufficient(validated.memory, Limits.LimitOperationType.KDF))
-            throw SecurityException("Memory limit is exceeded.")
+            throw KDFMemoryDatabaseException()
     }
 
     @Throws(IOException::class)

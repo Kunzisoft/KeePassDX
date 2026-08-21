@@ -20,8 +20,8 @@
 package com.kunzisoft.keepass.settings.preferencedialogfragment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
-import android.widget.Toast
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_BENCHMARK_KDF
@@ -83,13 +83,15 @@ class DatabaseMemoryUsagePreferenceDialogFragmentCompat : DatabaseSavePreference
                 ).toBetterByteFormat()
                 if (newMemoryUsage > maxMemoryUsage) {
                     newMemoryUsage = maxMemoryUsage
-                    Toast.makeText(
-                        context,
+                    Log.e(TAG,
                         getString(
                             R.string.error_memory_too_large,
-                            dataByte.toString(requireContext())),
-                        Toast.LENGTH_LONG
-                    ).show()
+                            DataByte(
+                                maxMemoryUsage.toLong(),
+                                DataByte.ByteFormat.BYTE
+                            ).toBetterByteFormat().toString(requireContext())
+                        )
+                    )
                 }
                 val oldMemoryUsage = kdfEngine.getMemoryUsage()
                 kdfEngine.setMemoryUsage(newMemoryUsage)
@@ -100,6 +102,7 @@ class DatabaseMemoryUsagePreferenceDialogFragmentCompat : DatabaseSavePreference
     }
 
     companion object {
+        private val TAG = DatabaseMemoryUsagePreferenceDialogFragmentCompat::class.simpleName
 
         fun newInstance(key: String): DatabaseMemoryUsagePreferenceDialogFragmentCompat {
             val fragment = DatabaseMemoryUsagePreferenceDialogFragmentCompat()

@@ -20,8 +20,8 @@
 package com.kunzisoft.keepass.settings.preferencedialogfragment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
-import android.widget.Toast
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_BENCHMARK_KDF
@@ -74,13 +74,9 @@ class DatabaseParallelismPreferenceDialogFragmentCompat : DatabaseSavePreference
                 val maxParallelism = kdfEngine.maxParallelism
                 if (parallelism > maxParallelism) {
                     parallelism = maxParallelism
-                    Toast.makeText(
-                        context,
-                        getString(
+                    Log.e(TAG, getString(
                             R.string.error_parallelism_too_large,
-                            maxParallelism.toString()),
-                        Toast.LENGTH_LONG
-                    ).show()
+                            maxParallelism.toString()))
                 }
 
                 val oldParallelism = kdfEngine.getParallelism()
@@ -92,6 +88,7 @@ class DatabaseParallelismPreferenceDialogFragmentCompat : DatabaseSavePreference
     }
 
     companion object {
+        private val TAG = DatabaseParallelismPreferenceDialogFragmentCompat::class.simpleName
 
         fun newInstance(key: String): DatabaseParallelismPreferenceDialogFragmentCompat {
             val fragment = DatabaseParallelismPreferenceDialogFragmentCompat()

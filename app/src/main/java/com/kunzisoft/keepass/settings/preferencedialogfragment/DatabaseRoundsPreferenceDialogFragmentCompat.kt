@@ -20,8 +20,8 @@
 package com.kunzisoft.keepass.settings.preferencedialogfragment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
-import android.widget.Toast
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_BENCHMARK_KDF
@@ -76,12 +76,9 @@ class DatabaseRoundsPreferenceDialogFragmentCompat : DatabaseSavePreferenceDialo
                 val maxIterations = kdfEngine.maxKeyRounds
                 if (newRounds > maxIterations) {
                     newRounds = maxIterations
-                    Toast.makeText(
-                        context,
-                        getString(R.string.error_rounds_too_large,
-                            maxIterations.toString()),
-                        Toast.LENGTH_LONG
-                    ).show()
+                    Log.e(TAG, getString(
+                        R.string.error_rounds_too_large,
+                            maxIterations.toString()))
                 }
 
                 val oldRounds = kdfEngine.getKeyRounds()
@@ -93,6 +90,7 @@ class DatabaseRoundsPreferenceDialogFragmentCompat : DatabaseSavePreferenceDialo
     }
 
     companion object {
+        private val TAG = DatabaseRoundsPreferenceDialogFragmentCompat::class.simpleName
 
         fun newInstance(key: String): DatabaseRoundsPreferenceDialogFragmentCompat {
             val fragment = DatabaseRoundsPreferenceDialogFragmentCompat()

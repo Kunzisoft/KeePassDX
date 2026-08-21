@@ -174,7 +174,8 @@
     <string name="error_out_of_memory">No memory to load your entire database.</string>
     <string name="error_XML_malformed">XML malformed.</string>
     <string name="error_load_database">Could not load the database.</string>
-    <string name="error_load_database_KDF_memory">Could not load the key. Try to lower the KDF \"Memory Usage\".</string>
+    <string name="error_load_database_KDF_parallelism">KDF parallelism too high. Unable to load.</string>
+    <string name="error_load_database_KDF_memory">KDF memory usage too high. Unable to load.</string>
     <string name="error_pass_gen_type">At least one password generation type must be selected.</string>
     <string name="error_disallow_no_credentials">At least one credential must be set.</string>
     <string name="error_pass_match">The passwords do not match.</string>
