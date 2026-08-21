@@ -76,7 +76,13 @@ class DatabaseParallelismPreferenceDialogFragmentCompat : DatabaseSavePreference
                 val maxParallelism = kdfEngine.maxParallelism
                 if (parallelism > maxParallelism) {
                     parallelism = maxParallelism
-                    Toast.makeText(context, getString(R.string.error_parallelism_too_large, maxParallelism.toString()), Toast.LENGTH_LONG).show()
+                    Toast.makeText(
+                        context,
+                        getString(
+                            R.string.error_parallelism_too_large,
+                            maxParallelism.toString()),
+                        Toast.LENGTH_LONG
+                    ).show()
                 }
 
                 val oldParallelism = kdfEngine.getParallelism()

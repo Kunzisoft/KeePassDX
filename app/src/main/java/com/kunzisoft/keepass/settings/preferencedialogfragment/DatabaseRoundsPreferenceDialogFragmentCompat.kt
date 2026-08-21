@@ -33,8 +33,6 @@ import com.kunzisoft.keepass.utils.getParcelableCompat
 
 class DatabaseRoundsPreferenceDialogFragmentCompat : DatabaseSavePreferenceDialogFragmentCompat() {
 
-    private var calculateRounds: String? = null
-
     override fun onBindDialogView(view: View) {
         super.onBindDialogView(view)
         explanationText = getString(R.string.rounds_explanation)
@@ -47,7 +45,7 @@ class DatabaseRoundsPreferenceDialogFragmentCompat : DatabaseSavePreferenceDialo
     }
 
     override fun onDatabaseRetrieved(database: ContextualDatabase) {
-        (calculateRounds ?: database.kdfEngine?.getKeyRounds()?.toString())?.let {
+        database.kdfEngine?.getKeyRounds()?.toString()?.let {
             inputText = it
         }
     }
@@ -60,9 +58,7 @@ class DatabaseRoundsPreferenceDialogFragmentCompat : DatabaseSavePreferenceDialo
         super.onDatabaseActionFinished(database, actionTask, result)
         if (actionTask == ACTION_DATABASE_BENCHMARK_KDF) {
             result.data?.getParcelableCompat<KdfBenchmark>(BenchmarkKdfRunnable.EXTRA_NEW_BENCHMARK)?.let { newBenchmark ->
-                val stringRound = newBenchmark.iterations.toString()
-                calculateRounds = stringRound
-                inputText = stringRound
+                inputText = newBenchmark.iterations.toString()
             }
         }
     }

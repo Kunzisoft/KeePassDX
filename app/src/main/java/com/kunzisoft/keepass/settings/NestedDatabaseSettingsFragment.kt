@@ -678,10 +678,10 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment(), DatabaseRetriev
                                 }
                         mKeyDerivationPref?.summary = kdfEngineToShow.toString()
 
-                        mRoundPref?.summary = kdfEngineToShow?.defaultKeyRounds.toString()
+                        mRoundPref?.summary = kdfEngineToShow?.getKeyRounds().toString()
                         // Disable memory and parallelism if not available
-                        mMemoryPref?.summary = kdfEngineToShow?.defaultMemoryUsage.toString()
-                        mParallelismPref?.summary = kdfEngineToShow?.defaultParallelism.toString()
+                        mMemoryPref?.summary = kdfEngineToShow?.getMemoryUsage().toString()
+                        mParallelismPref?.summary = kdfEngineToShow?.getParallelism().toString()
                     }
                     DatabaseTaskNotificationService.ACTION_DATABASE_UPDATE_ITERATIONS_TASK -> {
                         val oldIterations = data.getLong(DatabaseTaskNotificationService.OLD_ELEMENT_KEY)
