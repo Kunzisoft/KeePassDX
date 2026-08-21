@@ -47,7 +47,9 @@ class DatabaseRoundsPreferenceDialogFragmentCompat : DatabaseSavePreferenceDialo
     }
 
     override fun onDatabaseRetrieved(database: ContextualDatabase) {
-        inputText = calculateRounds ?: database.numberKeyEncryptionRounds.toString()
+        (calculateRounds ?: database.kdfEngine?.getKeyRounds()?.toString())?.let {
+            inputText = it
+        }
     }
 
     override fun onDatabaseActionFinished(
@@ -88,8 +90,8 @@ class DatabaseRoundsPreferenceDialogFragmentCompat : DatabaseSavePreferenceDialo
                     ).show()
                 }
 
-                val oldRounds = database.numberKeyEncryptionRounds
-                database.numberKeyEncryptionRounds = newRounds
+                val oldRounds = kdfEngine.getKeyRounds()
+                kdfEngine.setKeyRounds(newRounds)
 
                 saveIterations(oldRounds.toLong(), newRounds.toLong())
             }

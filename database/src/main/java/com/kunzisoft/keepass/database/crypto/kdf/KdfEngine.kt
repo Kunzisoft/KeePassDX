@@ -41,6 +41,9 @@ abstract class KdfEngine : Serializable {
 
     var isParametersRandomized = false
 
+    @Transient
+    var onParametersChanged: (() -> Unit)? = null
+
     /**
      * Checks the device's memory limits and throws a SecurityException if they are exceeded
      * @param limits Limits that must not be exceeded.

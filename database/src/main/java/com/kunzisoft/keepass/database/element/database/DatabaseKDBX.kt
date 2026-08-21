@@ -92,6 +92,9 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
                 if (oldParameters != null && oldParameters.uuid == value.uuid) {
                     value.parameters = oldParameters
                 }
+                it.onParametersChanged = {
+                    notifySettingsChanged()
+                }
             }
         }
 
@@ -151,6 +154,12 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
     val tagPool = Tags()
 
     var localizedAppName = "KeePassDX"
+
+    init {
+        kdfEngine?.onParametersChanged = {
+            notifySettingsChanged()
+        }
+    }
 
     override var transformSeed: ByteArray?
         get() = kdfEngine?.getSeed()
@@ -390,6 +399,13 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
 
     val lastTopVisibleGroup: GroupKDBX?
         get() = getGroupByUUID(lastTopVisibleGroupUUID)
+
+    /**
+     * Update the settings changed date.
+     */
+    fun notifySettingsChanged() {
+        settingsChanged = DateInstant()
+    }
 
     override fun getStandardIcon(iconId: Int): IconImageStandard {
         return this.iconsManager.getIcon(iconId)

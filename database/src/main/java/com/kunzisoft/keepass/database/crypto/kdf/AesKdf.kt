@@ -88,6 +88,7 @@ class AesKdf : KdfEngine() {
             PARAM_ROUNDS,
             keyRounds.coerceIn(minKeyRounds, maxKeyRounds)
         )
+        onParametersChanged?.invoke()
     }
 
     override val defaultKeyRounds: ULong = 500_000u

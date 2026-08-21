@@ -250,7 +250,7 @@ open class Database {
         set(value) {
             mDatabaseKDB?.color = value
             mDatabaseKDBX?.color = value?.toFormattedColorString() ?: ""
-            mDatabaseKDBX?.settingsChanged = DateInstant()
+            notifySettingsChanged()
         }
 
     val allowOTP: Boolean
@@ -283,7 +283,7 @@ open class Database {
             value?.let {
                 mDatabaseKDBX?.compressionAlgorithm = it
             }
-            mDatabaseKDBX?.settingsChanged = DateInstant()
+            notifySettingsChanged()
         }
 
     fun compressionForNewEntry(): Boolean {
@@ -340,34 +340,7 @@ open class Database {
         set(kdfEngine) {
             mDatabaseKDB?.kdfEngine = kdfEngine
             mDatabaseKDBX?.kdfEngine = kdfEngine
-            mDatabaseKDBX?.settingsChanged = DateInstant()
-        }
-
-    fun getKeyDerivationName(): String {
-        return kdfEngine?.toString() ?: ""
-    }
-
-    var numberKeyEncryptionRounds: ULong
-        get() = kdfEngine?.getKeyRounds() ?: KdfEngine.UNKNOWN_ULONG_VALUE
-        set(numberRounds) {
-            kdfEngine?.setKeyRounds(numberRounds)
-            mDatabaseKDBX?.settingsChanged = DateInstant()
-        }
-
-    var memoryUsage: ULong
-        get() {
-            return kdfEngine?.getMemoryUsage() ?: KdfEngine.UNKNOWN_ULONG_VALUE
-        }
-        set(memory) {
-            kdfEngine?.setMemoryUsage(memory)
-            mDatabaseKDBX?.settingsChanged = DateInstant()
-        }
-
-    var parallelism: Long
-        get() = kdfEngine?.getParallelism() ?: KdfEngine.UNKNOWN_LONG_VALUE
-        set(parallelism) {
-            kdfEngine?.setParallelism(parallelism)
-            mDatabaseKDBX?.settingsChanged = DateInstant()
+            notifySettingsChanged()
         }
 
     var masterKey: ByteArray
@@ -376,7 +349,7 @@ open class Database {
             mDatabaseKDB?.masterKey = masterKey
             mDatabaseKDBX?.masterKey = masterKey
             mDatabaseKDBX?.keyLastChanged = DateInstant()
-            mDatabaseKDBX?.settingsChanged = DateInstant()
+            notifySettingsChanged()
         }
 
     val transformSeed: ByteArray?
@@ -439,7 +412,7 @@ open class Database {
         }
         set(value) {
             mDatabaseKDBX?.historyMaxItems = value
-            mDatabaseKDBX?.settingsChanged = DateInstant()
+            notifySettingsChanged()
         }
 
     var historyMaxSize: Long
@@ -448,8 +421,15 @@ open class Database {
         }
         set(value) {
             mDatabaseKDBX?.historyMaxSize = value
-            mDatabaseKDBX?.settingsChanged = DateInstant()
+            notifySettingsChanged()
         }
+
+    /**
+     * Update the settings changed date.
+     */
+    fun notifySettingsChanged() {
+        mDatabaseKDBX?.notifySettingsChanged()
+    }
 
     /**
      * Determine if a configurable RecycleBin is available or not for this version of database

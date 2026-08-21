@@ -47,7 +47,9 @@ class DatabaseMemoryUsagePreferenceDialogFragmentCompat : DatabaseSavePreference
     }
 
     override fun onDatabaseRetrieved(database: ContextualDatabase) {
-        setMemoryBytes(database.memoryUsage.toLong())
+        database.kdfEngine?.getMemoryUsage()?.toLong()?.let {
+            setMemoryBytes(it)
+        }
     }
 
     override fun onDatabaseActionFinished(
@@ -91,8 +93,8 @@ class DatabaseMemoryUsagePreferenceDialogFragmentCompat : DatabaseSavePreference
                         Toast.LENGTH_LONG
                     ).show()
                 }
-                val oldMemoryUsage = database.memoryUsage
-                database.memoryUsage = newMemoryUsage
+                val oldMemoryUsage = kdfEngine.getMemoryUsage()
+                kdfEngine.setMemoryUsage(newMemoryUsage)
 
                 saveMemoryUsage(oldMemoryUsage.toLong(), newMemoryUsage.toLong())
             }

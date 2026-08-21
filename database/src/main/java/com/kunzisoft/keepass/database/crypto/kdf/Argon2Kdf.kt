@@ -137,6 +137,7 @@ class Argon2Kdf(private val type: Type) : KdfEngine() {
             PARAM_ITERATIONS,
             keyRounds.coerceIn(minKeyRounds, maxKeyRounds)
         )
+        onParametersChanged?.invoke()
     }
 
     override val minKeyRounds: ULong = MIN_ITERATIONS
@@ -153,6 +154,7 @@ class Argon2Kdf(private val type: Type) : KdfEngine() {
             PARAM_MEMORY,
             memory.coerceIn(minMemoryUsage, maxMemoryUsage)
         )
+        onParametersChanged?.invoke()
     }
 
     override val defaultMemoryUsage: ULong = DEFAULT_MEMORY
@@ -171,6 +173,7 @@ class Argon2Kdf(private val type: Type) : KdfEngine() {
             PARAM_PARALLELISM,
             parallelism.coerceIn(minParallelism, maxParallelism).toUInt()
         )
+        onParametersChanged?.invoke()
     }
 
     override fun toString(): String {

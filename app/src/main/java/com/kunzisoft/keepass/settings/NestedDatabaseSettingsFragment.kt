@@ -456,22 +456,22 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment(), DatabaseRetriev
 
         // Key derivation function
         mKeyDerivationPref = findPreference<DialogListExplanationPreference>(getString(R.string.key_derivation_function_key))?.apply {
-            summary = database.getKeyDerivationName()
+            summary = database.kdfEngine?.toString() ?: ""
         }
 
         // Round encryption
         mRoundPref = findPreference<InputKdfNumberPreference>(getString(R.string.transform_rounds_key))?.apply {
-            summary = database.numberKeyEncryptionRounds.toString()
+            summary = database.kdfEngine?.getKeyRounds()?.toString()
         }
 
         // Memory Usage
         mMemoryPref = findPreference<InputKdfSizePreference>(getString(R.string.memory_usage_key))?.apply {
-            summary = database.memoryUsage.toString()
+            summary = database.kdfEngine?.getMemoryUsage()?.toString()
         }
 
         // Parallelism
         mParallelismPref = findPreference<InputKdfNumberPreference>(getString(R.string.parallelism_key))?.apply {
-            summary = database.parallelism.toString()
+            summary = database.kdfEngine?.getParallelism()?.toString()
         }
     }
 
@@ -690,7 +690,7 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment(), DatabaseRetriev
                                 if (result.isSuccess) {
                                     newIterations
                                 } else {
-                                    database.numberKeyEncryptionRounds = oldIterations.toULong()
+                                    database.kdfEngine?.setKeyRounds(oldIterations.toULong())
                                     oldIterations
                                 }
                         mRoundPref?.summary = roundsToShow.toString()
@@ -702,7 +702,7 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment(), DatabaseRetriev
                                 if (result.isSuccess) {
                                     newMemoryUsage
                                 } else {
-                                    database.memoryUsage = oldMemoryUsage.toULong()
+                                    database.kdfEngine?.setMemoryUsage(oldMemoryUsage.toULong())
                                     oldMemoryUsage
                                 }
                         mMemoryPref?.summary = memoryToShow.toString()
@@ -714,7 +714,7 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment(), DatabaseRetriev
                                 if (result.isSuccess) {
                                     newParallelism
                                 } else {
-                                    database.parallelism = oldParallelism
+                                    database.kdfEngine?.setParallelism(oldParallelism)
                                     oldParallelism
                                 }
                         mParallelismPref?.summary = parallelismToShow.toString()
