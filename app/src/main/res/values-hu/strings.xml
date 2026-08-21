@@ -143,7 +143,7 @@
     <string name="allow">Engedélyezés</string>
     <string name="entry_not_found">A bejegyzésadatok nem találhatóak.</string>
     <string name="error_load_database">Nem sikerült az adatbázis betöltése.</string>
-    <string name="error_load_database_KDF_memory">A kulcs nem tölthető be. Próbálja meg csökkenteni a KDF „Memóriahasználatot”.</string>
+    <string name="error_load_database_KDF_memory">A KDF memóriahasználata túl magas. A betöltés sikertelen.</string>
     <string name="error_autofill_enable_service">Az automatikus kitöltési szolgáltatás nem engedélyezhető.</string>
     <string name="list_entries_show_username_title">Felhasználónevek megjelenítése</string>
     <string name="list_entries_show_username_summary">Felhasználónevek megjelenítése a bejegyzéslistákban</string>
@@ -769,4 +769,6 @@
     <string name="autofill_suggestions_title">Automatikus kitöltési javaslatok</string>
     <string name="autofill_suggestions_summary">Az űrlapfelismerő algoritmus használata bejegyzések javaslásához</string>
     <string name="passkey_pseudo_random_function">Hozzáférési kulcs pszeudovéletlenszám-függvénye</string>
+    <string name="error_load_database_KDF_parallelism">A KDF párhuzamossági értéke túl magas. A betöltés sikertelen.</string>
+    <string name="parallelism_set_safe">Processzorok számának beállítása</string>
 </resources>
