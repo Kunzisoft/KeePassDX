@@ -22,17 +22,23 @@ package com.kunzisoft.keepass.database
 import android.content.Context
 import android.net.Uri
 import android.util.Log
+import com.kunzisoft.keepass.database.crypto.kdf.KdfFactory
 import com.kunzisoft.keepass.database.element.EntryId
 import com.kunzisoft.keepass.database.element.GroupId
+import com.kunzisoft.keepass.database.element.MasterCredential
 import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.database.element.icon.IconImageCustom
 import com.kunzisoft.keepass.database.element.icon.IconImageStandard
+import com.kunzisoft.keepass.hardware.HardwareKey
 import com.kunzisoft.keepass.icons.IconDrawableFactory
 import com.kunzisoft.keepass.model.DatabaseInfo
 import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.model.RegisterInfo
 import com.kunzisoft.keepass.model.SnapFileDatabaseInfo
+import com.kunzisoft.keepass.tasks.BenchmarkKdfRunnable
+import com.kunzisoft.keepass.utils.AppUtil.getKdfLimits
 import com.kunzisoft.keepass.utils.SingletonHolder
+import com.kunzisoft.keepass.utils.clear
 import com.kunzisoft.keepass.viewmodels.FileDatabaseInfo
 import java.io.File
 
@@ -57,6 +63,46 @@ class ContextualDatabase: DatabaseInfo() {
     // File description
     var snapFileDatabaseInfo: SnapFileDatabaseInfo? = null
         private set
+
+    /**
+     * Perform a security benchmark for a new database creation.
+     * @param context The android context.
+     * @param mainCredential The main credential to use.
+     * @param challengeResponseRetriever The hardware key retriever.
+     * @param targetTime The target benchmark time in milliseconds.
+     */
+    fun benchmarkForCreation(
+        context: Context,
+        mainCredential: MainCredential,
+        challengeResponseRetriever: (HardwareKey, ByteArray?) -> ByteArray,
+        targetTime: Long = BenchmarkKdfRunnable.DEFAULT_BENCHMARK_TIME
+    ) {
+        if (kdfEngine == null) {
+            kdfEngine = KdfFactory.defaultKdf
+        }
+        kdfEngine?.randomize()
+
+        var masterCredential: MasterCredential? = null
+        var masterKey: ByteArray? = null
+        try {
+            masterCredential = mainCredential.toMasterCredential(context.contentResolver)
+            masterKey = masterCredential.toMasterKey(
+                encoding = passwordEncoding,
+                transformSeed = transformSeed,
+                challengeResponseRetriever = challengeResponseRetriever
+            )
+            // Calculate max memory directly from the device
+            val kdfLimits = context.applicationContext.getKdfLimits()
+            kdfEngine?.optimizeByBenchmark(
+                masterKey = masterKey,
+                targetTime = targetTime,
+                limits = kdfLimits
+            )
+        } finally {
+            masterKey?.clear()
+            masterCredential?.clear()
+        }
+    }
 
     /**
      * Save the database file info

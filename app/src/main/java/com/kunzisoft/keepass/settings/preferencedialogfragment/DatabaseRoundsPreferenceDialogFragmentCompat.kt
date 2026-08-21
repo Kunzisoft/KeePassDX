@@ -20,18 +20,16 @@
 package com.kunzisoft.keepass.settings.preferencedialogfragment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
-import android.widget.Toast
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_BENCHMARK_KDF
 import com.kunzisoft.keepass.tasks.ActionRunnable
-import com.kunzisoft.keepass.tasks.BenchmarkKdfRunnable
 import com.kunzisoft.keepass.tasks.BenchmarkKdfRunnable.Companion.DEFAULT_BENCHMARK_TIME
+import com.kunzisoft.keepass.tasks.BenchmarkKdfRunnable.Companion.retrieveNewBenchmark
 
 class DatabaseRoundsPreferenceDialogFragmentCompat : DatabaseSavePreferenceDialogFragmentCompat() {
-
-    private var calculateRounds: String? = null
 
     override fun onBindDialogView(view: View) {
         super.onBindDialogView(view)
@@ -45,7 +43,9 @@ class DatabaseRoundsPreferenceDialogFragmentCompat : DatabaseSavePreferenceDialo
     }
 
     override fun onDatabaseRetrieved(database: ContextualDatabase) {
-        inputText = calculateRounds ?: database.numberKeyEncryptionRounds.toString()
+        database.kdfEngine?.getKeyRounds()?.toString()?.let {
+            inputText = it
+        }
     }
 
     override fun onDatabaseActionFinished(
@@ -55,44 +55,42 @@ class DatabaseRoundsPreferenceDialogFragmentCompat : DatabaseSavePreferenceDialo
     ) {
         super.onDatabaseActionFinished(database, actionTask, result)
         if (actionTask == ACTION_DATABASE_BENCHMARK_KDF) {
-            result.data?.getLong(BenchmarkKdfRunnable.EXTRA_NEW_ROUNDS)?.let { newRounds ->
-                val stringRound = newRounds.toString()
-                calculateRounds = stringRound
-                inputText = stringRound
+            result.data?.retrieveNewBenchmark()?.let { newBenchmark ->
+                inputText = newBenchmark.iterations.toString()
             }
         }
     }
 
     override fun onDialogClosed(database: ContextualDatabase?, positiveResult: Boolean) {
         if (positiveResult) {
-            database?.let {
-                val minIterations = database.kdfEngine?.minKeyRounds ?: DEFAULT_MIN_ITERATIONS
-                var rounds: Long = try {
-                    inputText.toLong()
+            database?.kdfEngine?.let { kdfEngine ->
+                val minIterations = kdfEngine.minKeyRounds
+                var newRounds: ULong = try {
+                    inputText.toLong().toULong()
                 } catch (_: NumberFormatException) {
                     minIterations
                 }
-                if (rounds < minIterations) {
-                    rounds = minIterations
+                if (newRounds < minIterations) {
+                    newRounds = minIterations
                 }
-                val maxIterations = database.kdfEngine?.maxKeyRounds ?: DEFAULT_MAX_ITERATIONS
-                if (rounds > maxIterations) {
-                    rounds = maxIterations
-                    Toast.makeText(context, getString(R.string.error_rounds_too_large, maxIterations.toString()), Toast.LENGTH_LONG).show()
+                val maxIterations = kdfEngine.maxKeyRounds
+                if (newRounds > maxIterations) {
+                    newRounds = maxIterations
+                    Log.e(TAG, getString(
+                        R.string.error_rounds_too_large,
+                            maxIterations.toString()))
                 }
 
-                val oldRounds = database.numberKeyEncryptionRounds
-                database.numberKeyEncryptionRounds = rounds
+                val oldRounds = kdfEngine.getKeyRounds()
+                kdfEngine.setKeyRounds(newRounds)
 
-                saveIterations(oldRounds, rounds)
+                saveIterations(oldRounds.toLong(), newRounds.toLong())
             }
         }
     }
 
     companion object {
-
-        private const val DEFAULT_MIN_ITERATIONS = 1L
-        private const val DEFAULT_MAX_ITERATIONS = Long.MAX_VALUE
+        private val TAG = DatabaseRoundsPreferenceDialogFragmentCompat::class.simpleName
 
         fun newInstance(key: String): DatabaseRoundsPreferenceDialogFragmentCompat {
             val fragment = DatabaseRoundsPreferenceDialogFragmentCompat()

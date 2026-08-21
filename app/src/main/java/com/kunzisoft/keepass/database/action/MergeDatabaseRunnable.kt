@@ -24,11 +24,11 @@ import android.net.Uri
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.MainCredential
 import com.kunzisoft.keepass.database.element.MasterCredential
-import com.kunzisoft.keepass.database.element.binary.BinaryData
 import com.kunzisoft.keepass.database.exception.DatabaseException
 import com.kunzisoft.keepass.database.exception.UnknownDatabaseLocationException
 import com.kunzisoft.keepass.hardware.HardwareKey
 import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
+import com.kunzisoft.keepass.utils.AppUtil.getLimits
 import com.kunzisoft.keepass.utils.getUriInputStream
 
 class MergeDatabaseRunnable(
@@ -39,13 +39,14 @@ class MergeDatabaseRunnable(
     database: ContextualDatabase,
     save: Boolean,
     challengeResponseRetriever: (HardwareKey, ByteArray?) -> ByteArray,
-    private val progressTaskUpdater: ProgressTaskUpdater?,
+    progressTaskUpdater: ProgressTaskUpdater?
 ) : SaveDatabaseRunnable(
     context,
     database,
     save,
     mainCredential = null,
-    challengeResponseRetriever
+    challengeResponseRetriever,
+    progressTaskUpdater = progressTaskUpdater
 ) {
 
     private var mMergeMasterCredential: MasterCredential? = null
@@ -65,9 +66,7 @@ class MergeDatabaseRunnable(
                 ) ?: throw UnknownDatabaseLocationException(),
                 databaseToMergeMasterCredential = mMergeMasterCredential,
                 databaseToMergeChallengeResponseRetriever = mDatabaseToMergeChallengeResponseRetriever,
-                isRAMSufficient = { memoryWanted ->
-                    BinaryData.canMemoryBeAllocatedInRAM(context, memoryWanted)
-                },
+                limits = context.getLimits(),
                 progressTaskUpdater = progressTaskUpdater
             )
         } catch (e: DatabaseException) {

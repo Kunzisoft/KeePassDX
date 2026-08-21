@@ -54,7 +54,6 @@ import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX.Companion.FILE_VER
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX.Companion.FILE_VERSION_41
 import com.kunzisoft.keepass.hardware.HardwareKey
 import com.kunzisoft.keepass.utils.CharArrayUtil.contentEquals
-import com.kunzisoft.keepass.utils.UnsignedInt
 import com.kunzisoft.keepass.utils.clear
 import com.kunzisoft.keepass.utils.longTo8Bytes
 import java.io.IOException
@@ -85,35 +84,25 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
         EncryptionAlgorithm.ChaCha20
     )
 
-    var kdfParameters: KdfParameters? = null
-
-    override var kdfEngine: KdfEngine?
-        get() = getKdfEngineFromParameters(kdfParameters)
+    override var kdfEngine: KdfEngine? = KdfFactory.aesKdf
         set(value) {
+            val oldParameters = field?.parameters
+            field = value
             value?.let {
-                if (kdfParameters?.uuid != value.defaultParameters.uuid)
-                    kdfParameters = value.defaultParameters
-                numberKeyEncryptionRounds = value.defaultKeyRounds
-                memoryUsage = value.defaultMemoryUsage
-                parallelism = value.defaultParallelism
+                if (oldParameters != null && oldParameters.uuid == value.uuid) {
+                    value.parameters = oldParameters
+                }
+                it.onParametersChanged = {
+                    notifySettingsChanged()
+                }
             }
         }
 
-    private fun getKdfEngineFromParameters(kdfParameters: KdfParameters?): KdfEngine? {
-        if (kdfParameters == null) {
-            return null
-        }
-        for (engine in kdfAvailableList) {
-            if (engine.uuid == kdfParameters.uuid) {
-                return engine
-            }
-        }
-        return null
-    }
-
-    fun randomizeKdfParameters() {
-        kdfParameters?.let {
-            kdfEngine?.randomize(it)
+    fun setKdfParameters(params: KdfParameters) {
+        val engine = kdfAvailableList.find { it.uuid == params.uuid }
+        if (engine != null) {
+            engine.parameters = params
+            kdfEngine = engine
         }
     }
 
@@ -128,7 +117,7 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
     private val mFieldReferenceEngine = FieldReferencesEngine(this)
     private val mTemplateEngine = TemplateEngineCompatible(this)
 
-    var kdbxVersion = UnsignedInt(0)
+    var kdbxVersion: UInt = 0u
     var name = ""
     var nameChanged = DateInstant()
     var description = ""
@@ -141,7 +130,7 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
     var keyChangeForceDays: Long = 1
     var isKeyChangeForceOnce = false
 
-    var maintenanceHistoryDays = UnsignedInt(365)
+    var maintenanceHistoryDays: UInt = 365u
     var color = ""
 
     /**
@@ -165,6 +154,23 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
     val tagPool = Tags()
 
     var localizedAppName = "KeePassDX"
+
+    init {
+        kdfEngine?.onParametersChanged = {
+            notifySettingsChanged()
+        }
+    }
+
+    override var transformSeed: ByteArray?
+        get() = kdfEngine?.getSeed()
+        set(value) {
+            value?.let { seed ->
+                if (kdfEngine?.uuid != KdfFactory.aesKdf.uuid) {
+                    kdfEngine = KdfFactory.aesKdf
+                }
+                kdfEngine?.parameters?.setByteArray(AesKdf.PARAM_SEED, seed)
+            }
+        }
 
     constructor()
 
@@ -237,31 +243,23 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
         masterCredential: MasterCredential,
         challengeResponseRetriever: (HardwareKey, ByteArray?) -> ByteArray,
     ) {
-        // Retrieve each plain credential
-        val password = masterCredential.password
-        val keyFileData = masterCredential.keyFileData
-        val hardwareKey = masterCredential.hardwareKey
-        val passwordBytes = if (password != null) MasterCredential.retrievePasswordKey(
-            password,
-            passwordEncoding
-        ) else null
-        val keyFileBytes = if (keyFileData != null) MasterCredential.retrieveKeyFileDecodedKey(
-            keyFileData,
-            true
-        ) else null
-        val hardwareKeyBytes = if (hardwareKey != null) MasterCredential.retrieveHardwareKey(
-            challengeResponseRetriever.invoke(hardwareKey, transformSeed)
-        ) else null
-
         // Save to rebuild master password with new seed later
         mCompositeKey.clear()
-        mCompositeKey = CompositeKey(passwordBytes, keyFileBytes, hardwareKey)
+        mCompositeKey = CompositeKey(
+            passwordData = masterCredential.password?.let {
+                MasterCredential.retrievePasswordKey(it, passwordEncoding)
+            },
+            keyFileData = masterCredential.keyFileData?.let {
+                MasterCredential.retrieveKeyFileDecodedKey(it, true)
+            },
+            hardwareKey = masterCredential.hardwareKey
+        )
 
         // Build the master key
-        this.masterKey = composedKeyToMasterKey(
-            passwordBytes,
-            keyFileBytes,
-            hardwareKeyBytes
+        this.masterKey = masterCredential.toMasterKey(
+            encoding = passwordEncoding,
+            transformSeed = transformSeed,
+            challengeResponseRetriever = challengeResponseRetriever
         )
 
         // Build check key
@@ -272,36 +270,9 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
     fun deriveCompositeKey(
         challengeResponseRetriever: (HardwareKey, ByteArray?) -> ByteArray,
     ) {
-        val passwordBytes = mCompositeKey.passwordData
-        val keyFileBytes = mCompositeKey.keyFileData
-        val hardwareKey = mCompositeKey.hardwareKey
-        if (hardwareKey == null) {
-            // If no hardware key, simply rebuild from composed keys
-            this.masterKey = composedKeyToMasterKey(
-                passwordBytes,
-                keyFileBytes
-            )
-        } else {
-            val hardwareKeyBytes = MasterCredential.retrieveHardwareKey(
-                challengeResponseRetriever.invoke(hardwareKey, transformSeed)
-            )
-            this.masterKey = composedKeyToMasterKey(
-                passwordBytes,
-                keyFileBytes,
-                hardwareKeyBytes
-            )
-        }
-    }
-
-    private fun composedKeyToMasterKey(
-        passwordData: ByteArray?,
-        keyFileData: ByteArray?,
-        hardwareKeyData: ByteArray? = null,
-    ): ByteArray {
-        return HashManager.sha256(
-            passwordData,
-            keyFileData,
-            hardwareKeyData
+        this.masterKey = mCompositeKey.toMasterKey(
+            transformSeed = transformSeed,
+            challengeResponseRetriever = challengeResponseRetriever
         )
     }
 
@@ -310,7 +281,7 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
         this.mCompositeKey = databaseVersioned.mCompositeKey.copyOf()
     }
 
-    fun getMinKdbxVersion(): UnsignedInt {
+    fun getMinKdbxVersion(): UInt {
         val entryHandler = EntryOperationHandler()
         val groupHandler = GroupOperationHandler()
         rootGroup?.doForEachChildAndForIt(entryHandler, groupHandler)
@@ -366,7 +337,7 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
                     }
                     CompressionAlgorithm.GZIP -> {
                         // Only in databaseV3.1, in databaseV4 the header is zipped during the save
-                        if (kdbxVersion.isBefore(FILE_VERSION_40)) {
+                        if (kdbxVersion < FILE_VERSION_40) {
                             compressAllBinaries()
                         }
                     }
@@ -374,7 +345,7 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
             }
             CompressionAlgorithm.GZIP -> {
                 // In databaseV4 the header is zipped during the save, so not necessary here
-                if (kdbxVersion.isBefore(FILE_VERSION_40)) {
+                if (kdbxVersion < FILE_VERSION_40) {
                     when (newCompression) {
                         CompressionAlgorithm.NONE -> {
                             decompressAllBinaries()
@@ -410,46 +381,6 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
         }
     }
 
-    override var numberKeyEncryptionRounds: Long
-        get() {
-            val kdfEngine = kdfEngine
-            var numKeyEncRounds: Long = 0
-            if (kdfEngine != null && kdfParameters != null)
-                numKeyEncRounds = kdfEngine.getKeyRounds(kdfParameters!!)
-            return numKeyEncRounds
-        }
-        set(rounds) {
-            val kdfEngine = kdfEngine
-            if (kdfEngine != null && kdfParameters != null)
-                kdfEngine.setKeyRounds(kdfParameters!!, rounds)
-        }
-
-    var memoryUsage: Long
-        get() {
-            val kdfEngine = kdfEngine
-            return if (kdfEngine != null && kdfParameters != null) {
-                kdfEngine.getMemoryUsage(kdfParameters!!)
-            } else KdfEngine.UNKNOWN_VALUE
-        }
-        set(memory) {
-            val kdfEngine = kdfEngine
-            if (kdfEngine != null && kdfParameters != null)
-                kdfEngine.setMemoryUsage(kdfParameters!!, memory)
-        }
-
-    var parallelism: Long
-        get() {
-            val kdfEngine = kdfEngine
-            return if (kdfEngine != null && kdfParameters != null) {
-                kdfEngine.getParallelism(kdfParameters!!)
-            } else KdfEngine.UNKNOWN_VALUE
-        }
-        set(parallelism) {
-            val kdfEngine = kdfEngine
-            if (kdfEngine != null && kdfParameters != null)
-                kdfEngine.setParallelism(kdfParameters!!, parallelism)
-        }
-
     override val passwordEncoding: Charset
         get() = Charsets.UTF_8
 
@@ -468,6 +399,13 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
 
     val lastTopVisibleGroup: GroupKDBX?
         get() = getGroupByUUID(lastTopVisibleGroupUUID)
+
+    /**
+     * Update the settings changed date.
+     */
+    fun notifySettingsChanged() {
+        settingsChanged = DateInstant()
+    }
 
     override fun getStandardIcon(iconId: Int): IconImageStandard {
         return this.iconsManager.getIcon(iconId)
@@ -628,12 +566,8 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
     @Throws(IOException::class)
     fun makeFinalKey(masterSeed: ByteArray) {
 
-        kdfParameters?.let { keyDerivationFunctionParameters ->
-            val kdfEngine = getKdfEngineFromParameters(keyDerivationFunctionParameters)
-                ?: throw IOException("Unknown key derivation function")
-
-            var transformedMasterKey =
-                kdfEngine.transform(masterKey, keyDerivationFunctionParameters)
+        kdfEngine?.let { engine ->
+            var transformedMasterKey = engine.transform(masterKey)
             if (transformedMasterKey.size != 32) {
                 transformedMasterKey = HashManager.sha256(transformedMasterKey)
             }

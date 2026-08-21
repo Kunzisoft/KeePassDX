@@ -26,6 +26,7 @@ import android.os.Binder
 import android.os.Build
 import android.os.Bundle
 import android.os.IBinder
+import android.os.Parcelable
 import android.util.Log
 import androidx.annotation.StringRes
 import androidx.media.app.NotificationCompat
@@ -44,6 +45,7 @@ import com.kunzisoft.keepass.database.action.ReloadDatabaseRunnable
 import com.kunzisoft.keepass.database.action.RemoveUnlinkedDataDatabaseRunnable
 import com.kunzisoft.keepass.database.action.SaveDatabaseRunnable
 import com.kunzisoft.keepass.database.action.UpdateCompressionBinariesDatabaseRunnable
+import com.kunzisoft.keepass.database.action.UpdateKeyDerivationDatabaseRunnable
 import com.kunzisoft.keepass.database.action.history.DeleteEntryHistoryDatabaseRunnable
 import com.kunzisoft.keepass.database.action.history.RestoreEntryHistoryDatabaseRunnable
 import com.kunzisoft.keepass.database.action.node.ActionNodesValues
@@ -57,6 +59,7 @@ import com.kunzisoft.keepass.database.action.node.TouchEntryRunnable
 import com.kunzisoft.keepass.database.action.node.TouchGroupRunnable
 import com.kunzisoft.keepass.database.action.node.UpdateEntryRunnable
 import com.kunzisoft.keepass.database.action.node.UpdateGroupRunnable
+import com.kunzisoft.keepass.database.crypto.kdf.KdfEngine
 import com.kunzisoft.keepass.database.element.EntryId
 import com.kunzisoft.keepass.database.element.GroupId
 import com.kunzisoft.keepass.database.element.database.CompressionAlgorithm
@@ -70,12 +73,16 @@ import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.tasks.BenchmarkKdfRunnable
 import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
 import com.kunzisoft.keepass.timeout.TimeoutHelper
+import com.kunzisoft.keepass.utils.AppUtil.getKdfLimits
 import com.kunzisoft.keepass.utils.DATABASE_START_TASK_ACTION
 import com.kunzisoft.keepass.utils.DATABASE_STOP_TASK_ACTION
 import com.kunzisoft.keepass.utils.LOCK_ACTION
 import com.kunzisoft.keepass.utils.closeDatabase
+import com.kunzisoft.keepass.utils.getParcelableCompat
 import com.kunzisoft.keepass.utils.getParcelableExtraCompat
 import com.kunzisoft.keepass.utils.getParcelableList
+import com.kunzisoft.keepass.utils.getSerializableCompat
+import com.kunzisoft.keepass.utils.getSerializableExtraCompat
 import com.kunzisoft.keepass.utils.putParcelableList
 import com.kunzisoft.keepass.viewmodels.FileDatabaseInfo
 import kotlinx.coroutines.CancellationException
@@ -88,6 +95,7 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
+import java.io.Serializable
 
 open class DatabaseTaskNotificationService : LockNotificationService(), ProgressTaskUpdater {
 
@@ -368,10 +376,10 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
             ACTION_DATABASE_UPDATE_MAX_HISTORY_ITEMS_TASK,
             ACTION_DATABASE_UPDATE_MAX_HISTORY_SIZE_TASK,
             ACTION_DATABASE_UPDATE_ENCRYPTION_TASK,
-            ACTION_DATABASE_UPDATE_KEY_DERIVATION_TASK,
             ACTION_DATABASE_UPDATE_MEMORY_USAGE_TASK,
             ACTION_DATABASE_UPDATE_PARALLELISM_TASK,
             ACTION_DATABASE_UPDATE_ITERATIONS_TASK -> buildDatabaseUpdateElementActionTask(intent, database)
+            ACTION_DATABASE_UPDATE_KEY_DERIVATION_TASK -> buildDatabaseUpdateKeyDerivationActionTask(intent, database)
             ACTION_DATABASE_BENCHMARK_KDF -> buildDatabaseBenchmarkKdfActionTask(database)
             ACTION_DATABASE_SAVE -> buildDatabaseSaveActionTask(intent, database)
             ACTION_CHALLENGE_RESPONDED -> buildChallengeRespondedActionTask(intent)
@@ -677,6 +685,10 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         updateMessage(R.string.decrypting_db)
     }
 
+    override fun benchmarking() {
+        updateMessage(R.string.benchmarking)
+    }
+
     override fun stopService() {
         if (!TimeoutHelper.temporarilyDisableLock) {
             closeDatabase(mDatabase)
@@ -759,10 +771,12 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                 databaseName = getString(R.string.database_default_name),
                 rootName = getString(R.string.database),
                 templateGroupName = getString(R.string.template_group_name),
-                mainCredential = mainCredential
-            ) { hardwareKey, seed ->
-                retrieveResponseFromChallenge(hardwareKey, seed)
-            }.apply {
+                mainCredential = mainCredential,
+                challengeResponseRetriever = { hardwareKey, seed ->
+                    retrieveResponseFromChallenge(hardwareKey, seed)
+                },
+                progressTaskUpdater = this
+            ).apply {
                 afterSaveDatabase = { result ->
                     eraseCredentials(databaseUri)
                     if (result.isSuccess) {
@@ -1324,6 +1338,34 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         }
     }
 
+    private fun buildDatabaseUpdateKeyDerivationActionTask(
+        intent: Intent,
+        database: ContextualDatabase,
+    ): ActionRunnable? {
+        val oldKeyDerivation = intent.getSerializableExtraCompat<KdfEngine>(OLD_ELEMENT_KEY)
+        val newKeyDerivation = intent.getSerializableExtraCompat<KdfEngine>(NEW_ELEMENT_KEY)
+        val saveDatabase = intent.getBooleanExtra(SAVE_DATABASE_KEY, false)
+        return if (oldKeyDerivation != null && newKeyDerivation != null) {
+            UpdateKeyDerivationDatabaseRunnable(
+                context = this,
+                database = database,
+                oldKeyDerivation = oldKeyDerivation,
+                newKeyDerivation = newKeyDerivation,
+                save = !database.isReadOnly && saveDatabase,
+                challengeResponseRetriever = { hardwareKey, seed ->
+                    retrieveResponseFromChallenge(hardwareKey, seed)
+                },
+                progressTaskUpdater = this
+            ).apply {
+                afterSaveDatabase = { result ->
+                    result.data = intent.extras
+                }
+            }
+        } else {
+            null
+        }
+    }
+
     /**
      * Save database without parameter
      */
@@ -1352,7 +1394,10 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
     }
 
     private fun buildDatabaseBenchmarkKdfActionTask(database: ContextualDatabase): ActionRunnable {
-        return object : BenchmarkKdfRunnable(database) {
+        return object : BenchmarkKdfRunnable(
+            database,
+            limits = applicationContext.getKdfLimits()
+        ) {
             override fun onStartRun() {
                 updateMessage(R.string.benchmarking)
             }
@@ -1462,6 +1507,62 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         fun Bundle.getNewEntry(database: ContextualDatabase): EntryInfo? {
             return getNewEntries(database)?.get(0)
         }
+
+        fun Bundle.getStringElements(
+            onElementsRetrieve: (oldElement: String, newElement: String) -> Unit
+        ) {
+            if (containsKey(OLD_ELEMENT_KEY)
+                && containsKey(NEW_ELEMENT_KEY)) {
+                val oldElement = getString(OLD_ELEMENT_KEY)!!
+                val newElement = getString(NEW_ELEMENT_KEY)!!
+                onElementsRetrieve.invoke(oldElement, newElement)
+            }
+        }
+
+        fun Bundle.getIntElements(
+            onElementsRetrieve: (oldElement: Int, newElement: Int) -> Unit
+        ) {
+            if (containsKey(OLD_ELEMENT_KEY)
+                && containsKey(NEW_ELEMENT_KEY)) {
+                val oldElement = getInt(OLD_ELEMENT_KEY)
+                val newElement = getInt(NEW_ELEMENT_KEY)
+                onElementsRetrieve.invoke(oldElement, newElement)
+            }
+        }
+
+        fun Bundle.getLongElements(
+            onElementsRetrieve: (oldElement: Long, newElement: Long) -> Unit
+        ) {
+            if (containsKey(OLD_ELEMENT_KEY)
+                && containsKey(NEW_ELEMENT_KEY)) {
+                val oldElement = getLong(OLD_ELEMENT_KEY)
+                val newElement = getLong(NEW_ELEMENT_KEY)
+                onElementsRetrieve.invoke(oldElement, newElement)
+            }
+        }
+
+        inline fun <reified T: Serializable> Bundle.getSerializableElements(
+            onElementsRetrieve: (oldElement: T?, newElement: T?) -> Unit
+        ) {
+            if (containsKey(OLD_ELEMENT_KEY)
+                && containsKey(NEW_ELEMENT_KEY)) {
+                val oldElement = getSerializableCompat<T>(OLD_ELEMENT_KEY)
+                val newElement = getSerializableCompat<T>(NEW_ELEMENT_KEY)
+                onElementsRetrieve.invoke(oldElement, newElement)
+            }
+        }
+
+        inline fun <reified T: Parcelable> Bundle.getParcelableElements(
+            onElementsRetrieve: (oldElement: T?, newElement: T?) -> Unit
+        ) {
+            if (containsKey(OLD_ELEMENT_KEY)
+                && containsKey(NEW_ELEMENT_KEY)) {
+                val oldElement = getParcelableCompat<T>(OLD_ELEMENT_KEY)
+                val newElement = getParcelableCompat<T>(NEW_ELEMENT_KEY)
+                onElementsRetrieve.invoke(oldElement, newElement)
+            }
+        }
+
     }
 
 }

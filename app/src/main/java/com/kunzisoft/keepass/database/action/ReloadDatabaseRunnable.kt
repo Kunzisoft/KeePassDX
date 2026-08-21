@@ -21,11 +21,11 @@ package com.kunzisoft.keepass.database.action
 
 import android.content.Context
 import com.kunzisoft.keepass.database.ContextualDatabase
-import com.kunzisoft.keepass.database.element.binary.BinaryData
 import com.kunzisoft.keepass.database.exception.DatabaseException
 import com.kunzisoft.keepass.database.exception.UnknownDatabaseLocationException
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
+import com.kunzisoft.keepass.utils.AppUtil.getLimits
 import com.kunzisoft.keepass.utils.getBinaryDir
 import com.kunzisoft.keepass.utils.getUriInputStream
 
@@ -48,12 +48,11 @@ class ReloadDatabaseRunnable(
     override fun onActionRun() {
         try {
             mDatabase.reloadData(
-                context.contentResolver.getUriInputStream(mDatabase.fileUri)
+                databaseStream = context.contentResolver.getUriInputStream(mDatabase.fileUri)
                     ?: throw UnknownDatabaseLocationException(),
-                { memoryWanted ->
-                    BinaryData.canMemoryBeAllocatedInRAM(context, memoryWanted)
-                },
-                progressTaskUpdater)
+                limits = context.getLimits(),
+                progressTaskUpdater = progressTaskUpdater
+            )
         } catch (e: DatabaseException) {
             setError(e)
         } finally {

@@ -41,6 +41,7 @@ import com.kunzisoft.keepass.activities.helpers.ExternalFileHelper
 import com.kunzisoft.keepass.activities.helpers.setOpenDocumentClickListener
 import com.kunzisoft.keepass.credentialprovider.activity.HardwareKeyActivity
 import com.kunzisoft.keepass.database.element.MasterCredential
+import com.kunzisoft.keepass.database.element.binary.BinaryData.Companion.MAX_BINARY_BYTE
 import com.kunzisoft.keepass.utils.UriUtil.getDocumentFile
 import com.kunzisoft.keepass.utils.UriUtil.openUrl
 import com.kunzisoft.keepass.utils.clear
@@ -308,7 +309,7 @@ class SetMainCredentialDialogFragment : DatabaseDialogFragment() {
                     warning = true
                     append("\n\n")
                     append(getString(R.string.warning_empty_keyfile))
-                } else if (length > 10485760L) {
+                } else if (length.toULong() > MAX_BINARY_BYTE) {
                     warning = true
                     append("\n\n")
                     append(getString(R.string.warning_large_keyfile))

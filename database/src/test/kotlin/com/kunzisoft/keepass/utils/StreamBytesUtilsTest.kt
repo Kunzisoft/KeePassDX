@@ -78,7 +78,7 @@ class StreamBytesUtilsTest {
         assertEquals(testString.length + 1, length)
         
         val expectedBytes = ByteArrayOutputStream()
-        expectedBytes.write(uIntTo4Bytes(UnsignedInt(testString.length + 1)))
+        expectedBytes.write(uIntTo4Bytes((testString.length + 1).toUInt()))
         expectedBytes.write(testString.toByteArray(Charsets.UTF_8))
         expectedBytes.write(0)
         

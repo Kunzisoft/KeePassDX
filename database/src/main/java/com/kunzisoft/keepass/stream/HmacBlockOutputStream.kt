@@ -20,8 +20,6 @@
 package com.kunzisoft.keepass.stream
 
 import com.kunzisoft.encrypt.HashManager
-import com.kunzisoft.keepass.utils.UnsignedInt
-import com.kunzisoft.keepass.utils.UnsignedLong
 import com.kunzisoft.keepass.utils.uIntTo4Bytes
 import com.kunzisoft.keepass.utils.uLongTo8Bytes
 import java.io.IOException
@@ -34,7 +32,7 @@ class HmacBlockOutputStream(private val baseStream: OutputStream,
 
     private val buffer = ByteArray(DEFAULT_BUFFER_SIZE)
     private var bufferPos = 0
-    private var blockIndex = UnsignedLong(0L)
+    private var blockIndex: ULong = 0u
 
     @Throws(IOException::class)
     override fun close() {
@@ -86,7 +84,7 @@ class HmacBlockOutputStream(private val baseStream: OutputStream,
     @Throws(IOException::class)
     private fun writeSafeBlock() {
         val bufBlockIndex = uLongTo8Bytes(blockIndex)
-        val blockSizeBuf = uIntTo4Bytes(UnsignedInt(bufferPos))
+        val blockSizeBuf = uIntTo4Bytes(bufferPos.toUInt())
 
         val blockKey = HashManager.sha512(bufBlockIndex, key)
         val hmac: Mac = HashManager.getHmacSha256(blockKey)
@@ -105,7 +103,7 @@ class HmacBlockOutputStream(private val baseStream: OutputStream,
             baseStream.write(buffer, 0, bufferPos)
         }
 
-        blockIndex.plusOne()
+        blockIndex++
         bufferPos = 0
     }
 }

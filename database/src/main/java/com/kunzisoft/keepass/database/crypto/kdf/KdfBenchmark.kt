@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 Jeremy Jamet / Kunzisoft.
+ * Copyright 2026 Jeremy Jamet / Kunzisoft.
  *
  * This file is part of KeePassDX.
  *
@@ -17,10 +17,18 @@
  *  along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.keepass.tasks
+package com.kunzisoft.keepass.database.crypto.kdf
 
-interface ProgressTaskUpdater {
-    fun retrievingDatabaseKey()
-    fun decryptingDatabase()
-    fun benchmarking()
-}
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+import java.io.Serializable
+
+/**
+ * Data model for KDF benchmark results.
+ */
+@Parcelize
+data class KdfBenchmark(
+    val iterations: ULong,
+    val memory: ULong = KdfEngine.UNKNOWN_ULONG_VALUE,
+    val parallelism: Long = KdfEngine.UNKNOWN_LONG_VALUE
+): Parcelable, Serializable

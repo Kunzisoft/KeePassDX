@@ -93,6 +93,37 @@ data class MasterCredential(
         return getCheckKey(password, encoding)
     }
 
+    /**
+     * Build the master key from the master credential parts.
+     * @param encoding The character encoding for the password.
+     * @param transformSeed The transform seed for the hardware key challenge.
+     * @param challengeResponseRetriever The hardware key challenge retriever.
+     * @return The SHA-256 hash of all key parts.
+     */
+    fun toMasterKey(
+        encoding: Charset,
+        transformSeed: ByteArray?,
+        challengeResponseRetriever: (HardwareKey, ByteArray?) -> ByteArray,
+    ): ByteArray {
+        val passwordData = password?.let { retrievePasswordKey(it, encoding) }
+        val keyFileData = keyFileData?.let { retrieveKeyFileDecodedKey(it, true) }
+        val hardwareKeyData = hardwareKey?.let {
+            retrieveHardwareKey(challengeResponseRetriever.invoke(it, transformSeed))
+        }
+
+        val masterKey = composedKeyToMasterKey(
+            passwordData = passwordData,
+            keyFileData = keyFileData,
+            hardwareKeyData = hardwareKeyData
+        )
+
+        passwordData?.clear()
+        keyFileData?.clear()
+        hardwareKeyData?.clear()
+
+        return masterKey
+    }
+
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
@@ -226,6 +257,25 @@ data class MasterCredential(
         @Throws(IOException::class)
         fun retrieveHardwareKey(keyData: ByteArray): ByteArray {
             return HashManager.sha256(keyData)
+        }
+
+        /**
+         * Build the master key from the composite key parts.
+         * @param passwordData The hashed password data.
+         * @param keyFileData The decoded key file data.
+         * @param hardwareKeyData The hashed hardware key data.
+         * @return The SHA-256 hash of all key parts.
+         */
+        fun composedKeyToMasterKey(
+            passwordData: ByteArray?,
+            keyFileData: ByteArray? = null,
+            hardwareKeyData: ByteArray? = null,
+        ): ByteArray {
+            return HashManager.sha256(
+                passwordData,
+                keyFileData,
+                hardwareKeyData
+            )
         }
 
         private fun loadXmlKeyFile(keyInputStream: InputStream): ByteArray? {

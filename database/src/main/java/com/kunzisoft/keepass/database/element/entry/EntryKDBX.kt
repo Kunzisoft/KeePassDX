@@ -36,7 +36,6 @@ import com.kunzisoft.keepass.database.element.node.NodeIdUUID
 import com.kunzisoft.keepass.database.element.node.NodeKDBXInterface
 import com.kunzisoft.keepass.database.element.node.NodeType
 import com.kunzisoft.keepass.database.element.security.ProtectedString
-import com.kunzisoft.keepass.utils.UnsignedLong
 import com.kunzisoft.keepass.utils.readParcelableCompat
 import com.kunzisoft.keepass.utils.readStringIntMap
 import com.kunzisoft.keepass.utils.readStringParcelableMap
@@ -52,7 +51,7 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
     @Transient
     private var mDecodeRef = false
 
-    override var usageCount = UnsignedLong(0)
+    override var usageCount: ULong = 0u
     override var locationChanged = DateInstant()
     override var customData = CustomData()
     private var fields = LinkedHashMap<String, ProtectedString>()
@@ -73,7 +72,7 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
     constructor() : super()
 
     constructor(parcel: Parcel) : super(parcel) {
-        usageCount = UnsignedLong(parcel.readLong())
+        usageCount = parcel.readLong().toULong()
         locationChanged = parcel.readParcelableCompat() ?: locationChanged
         customData = parcel.readParcelableCompat() ?: CustomData()
         fields = parcel.readStringParcelableMap()
@@ -99,7 +98,7 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
 
     override fun writeToParcel(dest: Parcel, flags: Int) {
         super.writeToParcel(dest, flags)
-        dest.writeLong(usageCount.toKotlinLong())
+        dest.writeLong(usageCount.toLong())
         dest.writeParcelable(locationChanged, flags)
         dest.writeParcelable(customData, flags)
         dest.writeStringParcelableMap(fields, flags)
@@ -399,7 +398,7 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
 
     override fun touch(modified: Boolean, touchParents: Boolean) {
         super.touch(modified, touchParents)
-        usageCount.plusOne()
+        usageCount++
     }
 
     companion object {

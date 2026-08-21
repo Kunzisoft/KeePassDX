@@ -21,50 +21,84 @@ package com.kunzisoft.keepass.tests.crypto
 
 import com.kunzisoft.keepass.database.crypto.kdf.AesKdf
 import com.kunzisoft.keepass.database.crypto.kdf.Argon2Kdf
-import com.kunzisoft.keepass.database.crypto.kdf.KdfParameters
+import com.kunzisoft.keepass.database.crypto.kdf.Limits
 import org.junit.Assert.assertEquals
 import org.junit.Test
-import java.util.UUID
 
 class KdfClampingTest {
 
     @Test
     fun testArgon2KdfClamping() {
         val argon2Kdf = Argon2Kdf(Argon2Kdf.Type.ARGON2_ID)
-        val params = KdfParameters(UUID.randomUUID())
 
         // Test iterations clamping
-        argon2Kdf.setKeyRounds(params, 2_000_000L) // Above max
-        assertEquals(1_000_000L, argon2Kdf.getKeyRounds(params))
+        argon2Kdf.setKeyRounds(5_000_000_000uL) // Above max
+        assertEquals(argon2Kdf.maxKeyRounds, argon2Kdf.getKeyRounds())
 
-        argon2Kdf.setKeyRounds(params, 0L) // Below min
-        assertEquals(1L, argon2Kdf.getKeyRounds(params))
+        argon2Kdf.setKeyRounds(0uL) // Below min
+        assertEquals(argon2Kdf.minKeyRounds, argon2Kdf.getKeyRounds())
 
-        // Test memory clamping
-        argon2Kdf.setMemoryUsage(params, 5_000_000_000L) // Above max (4GiB)
-        assertEquals(4_294_967_295L, argon2Kdf.getMemoryUsage(params))
+        // Test memory clamping with limits
+        argon2Kdf.setMemoryUsage(5_000_000_000uL) // Above max (4GiB)
+        assertEquals(argon2Kdf.maxMemoryUsage, argon2Kdf.getMemoryUsage())
 
-        argon2Kdf.setMemoryUsage(params, 100L) // Below min
-        assertEquals(8192L, argon2Kdf.getMemoryUsage(params))
+        argon2Kdf.setMemoryUsage(100uL) // Below min
+        assertEquals(argon2Kdf.minMemoryUsage, argon2Kdf.getMemoryUsage())
 
-        // Test parallelism clamping
-        argon2Kdf.setParallelism(params, 256L) // Above max
-        assertEquals(128L, argon2Kdf.getParallelism(params))
+        // Test parallelism clamping with limits
+        argon2Kdf.setParallelism(20_000_000L) // Above max
+        assertEquals(argon2Kdf.maxParallelism, argon2Kdf.getParallelism())
 
-        argon2Kdf.setParallelism(params, 0L) // Below min
-        assertEquals(1L, argon2Kdf.getParallelism(params))
+        argon2Kdf.setParallelism(0L) // Below min
+        assertEquals(argon2Kdf.minParallelism, argon2Kdf.getParallelism())
+
+        // Test getter clamping from raw parameters (simulating malicious file)
+        argon2Kdf.parameters.setUInt64("M", 5_000_000_000uL)
+        assertEquals(argon2Kdf.maxMemoryUsage, argon2Kdf.getMemoryUsage()) // Clamped by limits
+    }
+
+    @Test
+    fun testArgon2KdfException() {
+        Argon2Kdf(Argon2Kdf.Type.ARGON2_ID).apply {
+            setParallelism(4L)
+            setMemoryUsage(5_000_000_000uL)
+            try {
+                checkLimits(
+                    Limits(
+                        isMemorySufficient = { memoryWanted, _ ->
+                            memoryWanted < 16_000_000uL
+                        },
+                        parallelism = 4L
+                    )
+                )
+                assert(false)
+            } catch (_: SecurityException) {
+                assert(true)
+            }
+        }
     }
 
     @Test
     fun testAesKdfClamping() {
         val aesKdf = AesKdf()
-        val params = KdfParameters(UUID.randomUUID())
 
         // Test rounds clamping
-        aesKdf.setKeyRounds(params, 200_000_000L) // Above max
-        assertEquals(100_000_000L, aesKdf.getKeyRounds(params))
+        aesKdf.setKeyRounds(10_000_000_000_000_000_000uL) // Above max
+        assertEquals(aesKdf.maxKeyRounds, aesKdf.getKeyRounds())
 
-        aesKdf.setKeyRounds(params, 0L) // Below min
-        assertEquals(1L, aesKdf.getKeyRounds(params))
+        aesKdf.setKeyRounds(0uL) // Below min
+        assertEquals(aesKdf.minKeyRounds, aesKdf.getKeyRounds())
+    }
+
+    @Test(expected = SecurityException::class)
+    fun testAesKdfRoundsException() {
+        val aesKdf = AesKdf()
+        aesKdf.parameters.setUInt64("R", 10_000_000_000_000_000_000uL) // Above max
+        aesKdf.checkLimits(
+            Limits(
+                isMemorySufficient = { _, _ -> true },
+                parallelism = 4L
+            )
+        )
     }
 }

@@ -36,6 +36,7 @@ import com.kunzisoft.keepass.database.exception.HardwareKeyDatabaseException
 import com.kunzisoft.keepass.database.exception.InvalidAlgorithmDatabaseException
 import com.kunzisoft.keepass.database.exception.InvalidCredentialsDatabaseException
 import com.kunzisoft.keepass.database.exception.KDFMemoryDatabaseException
+import com.kunzisoft.keepass.database.exception.KDFParallelismDatabaseException
 import com.kunzisoft.keepass.database.exception.LocalizedException
 import com.kunzisoft.keepass.database.exception.MergeDatabaseKDBException
 import com.kunzisoft.keepass.database.exception.MissingParentDatabaseException
@@ -70,6 +71,7 @@ fun LocalizedException.getLocalizedMessage(resources: Resources): String? =
         is SignatureDatabaseException -> resources.getString(R.string.invalid_db_sig)
         is VersionDatabaseException -> resources.getString(R.string.unsupported_db_version)
         is InvalidCredentialsDatabaseException -> resources.getString(R.string.invalid_credentials)
+        is KDFParallelismDatabaseException -> resources.getString(R.string.error_load_database_KDF_parallelism)
         is KDFMemoryDatabaseException -> resources.getString(R.string.error_load_database_KDF_memory)
         is NoMemoryDatabaseException -> resources.getString(R.string.error_out_of_memory)
         is DuplicateUuidDatabaseException -> resources.getString(R.string.invalid_db_same_uuid, parameters[0], parameters[1])

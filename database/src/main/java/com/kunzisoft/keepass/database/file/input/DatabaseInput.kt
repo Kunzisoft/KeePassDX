@@ -35,9 +35,11 @@ abstract class DatabaseInput<D : DatabaseVersioned<*, *, *, *>> (protected var m
      */
 
     @Throws(DatabaseInputException::class)
-    abstract fun openDatabase(databaseInputStream: InputStream,
-                              progressTaskUpdater: ProgressTaskUpdater?,
-                              assignMasterKey: (() -> Unit)): D
+    abstract fun openDatabase(
+        databaseInputStream: InputStream,
+        progressTaskUpdater: ProgressTaskUpdater?,
+        assignMasterKey: (() -> Unit)
+    ): D
 
     protected fun startKeyTimer(progressTaskUpdater: ProgressTaskUpdater?) {
         progressTaskUpdater?.retrievingDatabaseKey()

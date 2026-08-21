@@ -48,13 +48,7 @@ class DatabaseKDB : DatabaseVersioned<Int, UUID, GroupKDB, EntryKDB>() {
         EncryptionAlgorithm.Twofish
     )
 
-    override var kdfEngine: KdfEngine?
-        get() = kdfAvailableList[0]
-        set(value) {
-            value?.let {
-                numberKeyEncryptionRounds = value.defaultKeyRounds
-            }
-        }
+    override var kdfEngine: KdfEngine? = KdfFactory.aesKdf
 
     override val kdfAvailableList: List<KdfEngine> = listOf(
         KdfFactory.aesKdf
@@ -62,8 +56,6 @@ class DatabaseKDB : DatabaseVersioned<Int, UUID, GroupKDB, EntryKDB>() {
 
     override val passwordEncoding: Charset
         get() = Charsets.ISO_8859_1
-
-    override var numberKeyEncryptionRounds = 300L
 
     override val version: String
         get() = "V1"
@@ -121,9 +113,16 @@ class DatabaseKDB : DatabaseVersioned<Int, UUID, GroupKDB, EntryKDB>() {
     }
 
     @Throws(IOException::class)
-    fun makeFinalKey(masterSeed: ByteArray, transformSeed: ByteArray, numRounds: Long) {
+    fun makeFinalKey(
+        masterSeed: ByteArray,
+        transformSeed: ByteArray
+    ) {
         // Encrypt the master key a few times to make brute-force key-search harder
-        val transformedKey = AESTransformer.transformKey(transformSeed, masterKey, numRounds) ?: ByteArray(0)
+        val transformedKey = AESTransformer.transformKey(
+            transformSeed,
+            masterKey,
+            kdfEngine?.getKeyRounds()
+        ) ?: ByteArray(0)
         // Write checksum Checksum
         finalKey = HashManager.sha256(masterSeed, transformedKey)
         transformedKey.clear()

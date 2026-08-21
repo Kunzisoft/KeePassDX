@@ -31,15 +31,22 @@ import javax.crypto.spec.SecretKeySpec
 
 object AESTransformer {
 
+    @Throws(IOException::class)
     fun transformKey(
         seed: ByteArray?,
         key: ByteArray?,
-        rounds: Long?
+        rounds: ULong?
     ): ByteArray? {
         // Prefer the native final key implementation
+        if (rounds == null) {
+            throw IOException("Invalid rounds")
+        }
+        if (seed == null || key == null) {
+            throw IOException("Invalid seed or key")
+        }
         return try {
             NativeLib.init()
-            NativeAESKeyTransformer.nTransformKey(seed, key, rounds!!)
+            NativeAESKeyTransformer.nTransformKey(seed, key, rounds.toLong())
         } catch (exception: Exception) {
             Log.e(AESTransformer::class.java.simpleName, "Unable to perform native AES key transformation", exception)
             // Fall back on the android crypto implementation
@@ -52,7 +59,7 @@ object AESTransformer {
     fun transformKeyInJVM(
         seed: ByteArray?,
         key: ByteArray?,
-        rounds: Long?
+        rounds: ULong?
     ): ByteArray {
         val cipher: Cipher = try {
             Cipher.getInstance("AES/ECB/NoPadding")
@@ -76,7 +83,7 @@ object AESTransformer {
         val newKey = ByteArray(keyLength)
         System.arraycopy(key, 0, newKey, 0, keyLength)
         val destKey = ByteArray(keyLength)
-        for (i in 0 until rounds) {
+        for (i in 0uL until rounds) {
             try {
                 cipher.update(newKey, 0, newKey.size, destKey, 0)
                 System.arraycopy(destKey, 0, newKey, 0, newKey.size)

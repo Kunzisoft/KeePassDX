@@ -20,26 +20,49 @@
 package com.kunzisoft.keepass.settings.preferencedialogfragment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
-import android.widget.Toast
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.ContextualDatabase
+import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_BENCHMARK_KDF
+import com.kunzisoft.keepass.tasks.ActionRunnable
+import com.kunzisoft.keepass.tasks.BenchmarkKdfRunnable.Companion.retrieveNewBenchmark
+import com.kunzisoft.keepass.utils.AppUtil
 
 class DatabaseParallelismPreferenceDialogFragmentCompat : DatabaseSavePreferenceDialogFragmentCompat() {
 
     override fun onBindDialogView(view: View) {
         super.onBindDialogView(view)
         setExplanationText(R.string.parallelism_explanation)
+        val safeParallelismLimit = AppUtil.getSafeParallelismLimit()
+        setExplanationButton(getString(R.string.parallelism_set_safe)) {
+            inputText = safeParallelismLimit.toString()
+        }
     }
 
     override fun onDatabaseRetrieved(database: ContextualDatabase) {
-        inputText = database.parallelism.toString()
+        database.kdfEngine?.getParallelism()?.toString()?.let {
+            inputText = it
+        }
+    }
+
+    override fun onDatabaseActionFinished(
+        database: ContextualDatabase,
+        actionTask: String,
+        result: ActionRunnable.Result
+    ) {
+        super.onDatabaseActionFinished(database, actionTask, result)
+        if (actionTask == ACTION_DATABASE_BENCHMARK_KDF) {
+            result.data?.retrieveNewBenchmark()?.let { newBenchmark ->
+                inputText = newBenchmark.parallelism.toString()
+            }
+        }
     }
 
     override fun onDialogClosed(database: ContextualDatabase?, positiveResult: Boolean) {
         if (positiveResult) {
-            database?.let {
-                val minParallelism = database.kdfEngine?.minParallelism ?: DEFAULT_MIN_PARALLELISM
+            database?.kdfEngine?.let { kdfEngine ->
+                val minParallelism = kdfEngine.minParallelism
                 var parallelism: Long = try {
                     inputText.toLong()
                 } catch (_: NumberFormatException) {
@@ -48,14 +71,16 @@ class DatabaseParallelismPreferenceDialogFragmentCompat : DatabaseSavePreference
                 if (parallelism < minParallelism) {
                     parallelism = minParallelism
                 }
-                val maxParallelism = database.kdfEngine?.maxParallelism ?: DEFAULT_MAX_PARALLELISM
+                val maxParallelism = kdfEngine.maxParallelism
                 if (parallelism > maxParallelism) {
                     parallelism = maxParallelism
-                    Toast.makeText(context, getString(R.string.error_parallelism_too_large, maxParallelism.toString()), Toast.LENGTH_LONG).show()
+                    Log.e(TAG, getString(
+                            R.string.error_parallelism_too_large,
+                            maxParallelism.toString()))
                 }
 
-                val oldParallelism = database.parallelism
-                database.parallelism = parallelism
+                val oldParallelism = kdfEngine.getParallelism()
+                kdfEngine.setParallelism(parallelism)
 
                 saveParallelism(oldParallelism, parallelism)
             }
@@ -63,9 +88,7 @@ class DatabaseParallelismPreferenceDialogFragmentCompat : DatabaseSavePreference
     }
 
     companion object {
-
-        private const val DEFAULT_MIN_PARALLELISM = 1L
-        private const val DEFAULT_MAX_PARALLELISM = Long.MAX_VALUE
+        private val TAG = DatabaseParallelismPreferenceDialogFragmentCompat::class.simpleName
 
         fun newInstance(key: String): DatabaseParallelismPreferenceDialogFragmentCompat {
             val fragment = DatabaseParallelismPreferenceDialogFragmentCompat()

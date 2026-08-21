@@ -31,7 +31,6 @@ import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.node.NodeIdUUID
 import com.kunzisoft.keepass.database.element.node.NodeKDBXInterface
 import com.kunzisoft.keepass.database.element.node.NodeType
-import com.kunzisoft.keepass.utils.UnsignedLong
 import com.kunzisoft.keepass.utils.readBooleanCompat
 import com.kunzisoft.keepass.utils.readParcelableCompat
 import com.kunzisoft.keepass.utils.readSerializableCompat
@@ -40,7 +39,7 @@ import java.util.UUID
 
 class GroupKDBX : GroupVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInterface {
 
-    override var usageCount = UnsignedLong(0)
+    override var usageCount: ULong = 0u
     override var locationChanged = DateInstant()
     override var customData = CustomData()
     var notes = ""
@@ -68,7 +67,7 @@ class GroupKDBX : GroupVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
     constructor() : super()
 
     constructor(parcel: Parcel) : super(parcel) {
-        usageCount = UnsignedLong(parcel.readLong())
+        usageCount = parcel.readLong().toULong()
         locationChanged = parcel.readParcelableCompat() ?: locationChanged
         customData = parcel.readParcelableCompat() ?: CustomData()
         notes = parcel.readString() ?: notes
@@ -93,7 +92,7 @@ class GroupKDBX : GroupVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
 
     override fun writeToParcel(dest: Parcel, flags: Int) {
         super.writeToParcel(dest, flags)
-        dest.writeLong(usageCount.toKotlinLong())
+        dest.writeLong(usageCount.toLong())
         dest.writeParcelable(locationChanged, flags)
         dest.writeParcelable(customData, flags)
         dest.writeString(notes)

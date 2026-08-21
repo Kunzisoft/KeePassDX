@@ -24,12 +24,12 @@ import android.net.Uri
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.MainCredential
 import com.kunzisoft.keepass.database.element.MasterCredential
-import com.kunzisoft.keepass.database.element.binary.BinaryData
 import com.kunzisoft.keepass.database.exception.DatabaseInputException
 import com.kunzisoft.keepass.database.exception.UnknownDatabaseLocationException
 import com.kunzisoft.keepass.hardware.HardwareKey
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
+import com.kunzisoft.keepass.utils.AppUtil.getLimits
 import com.kunzisoft.keepass.utils.getBinaryDir
 import com.kunzisoft.keepass.utils.getUriInputStream
 
@@ -69,9 +69,7 @@ class LoadDatabaseRunnable(
                 readOnly = mReadonly,
                 allowUserVerification = mAllowUserVerification,
                 cacheDirectory = binaryDir,
-                isRAMSufficient = { memoryWanted ->
-                    BinaryData.canMemoryBeAllocatedInRAM(context, memoryWanted)
-                },
+                limits = context.getLimits(),
                 fixDuplicateUUID = mFixDuplicateUUID,
                 progressTaskUpdater = progressTaskUpdater
             )
