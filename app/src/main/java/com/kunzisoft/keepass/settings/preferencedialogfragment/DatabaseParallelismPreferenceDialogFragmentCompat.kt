@@ -28,6 +28,7 @@ import com.kunzisoft.keepass.database.crypto.kdf.KdfBenchmark
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_BENCHMARK_KDF
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.tasks.BenchmarkKdfRunnable
+import com.kunzisoft.keepass.utils.AppUtil
 import com.kunzisoft.keepass.utils.getParcelableCompat
 
 class DatabaseParallelismPreferenceDialogFragmentCompat : DatabaseSavePreferenceDialogFragmentCompat() {
@@ -35,6 +36,10 @@ class DatabaseParallelismPreferenceDialogFragmentCompat : DatabaseSavePreference
     override fun onBindDialogView(view: View) {
         super.onBindDialogView(view)
         setExplanationText(R.string.parallelism_explanation)
+        val safeParallelismLimit = AppUtil.getSafeParallelismLimit()
+        setExplanationButton(getString(R.string.parallelism_set_safe)) {
+            inputText = safeParallelismLimit.toString()
+        }
     }
 
     override fun onDatabaseRetrieved(database: ContextualDatabase) {

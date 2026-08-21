@@ -348,6 +348,7 @@
     <string name="memory_usage_explanation">Amount of memory to be used by the key derivation function.</string>
     <string name="parallelism">Parallelism</string>
     <string name="parallelism_explanation">Degree of parallelism (i.e. number of threads) used by the key derivation function.</string>
+    <string name="parallelism_set_safe">Set number of processors</string>
     <string name="saving_database">Saving database…</string>
     <string name="command_execution">Executing the command…</string>
     <string name="do_not_kill_app">Do not kill the app…</string>

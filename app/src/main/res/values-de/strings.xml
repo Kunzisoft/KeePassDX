@@ -180,6 +180,7 @@
     <string name="memory_usage_explanation">Arbeitsspeicher, der für die Schlüsselableitung gebraucht wird.</string>
     <string name="parallelism">Parallelisierung</string>
     <string name="parallelism_explanation">Grad der Parallelisierung (d. h. Anzahl der Threads), der für die Schlüsselableitung genutzt wird.</string>
+    <string name="parallelism_set_safe">Anzahl der Prozessoren festlegen</string>
     <string name="sort_menu">Sortieren</string>
     <string name="sort_ascending">Aufsteigend ↓</string>
     <string name="sort_groups_before">Gruppen oben</string>
