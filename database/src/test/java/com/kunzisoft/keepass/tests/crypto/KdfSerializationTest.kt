@@ -83,6 +83,23 @@ class KdfSerializationTest {
         assertEquals(2L, deserialized.getParallelism())
     }
 
+    @Test
+    fun testKdfEngineEquality() {
+        val aes1 = AesKdf()
+        aes1.setKeyRounds(100u)
+        val aes2 = AesKdf()
+        aes2.setKeyRounds(200u)
+
+        assertEquals(aes1, aes2)
+        assertEquals(aes1.hashCode(), aes2.hashCode())
+
+        val argonD = Argon2Kdf(Argon2Kdf.Type.ARGON2_D)
+        val argonId = Argon2Kdf(Argon2Kdf.Type.ARGON2_ID)
+
+        org.junit.Assert.assertNotEquals(argonD, argonId)
+        org.junit.Assert.assertNotEquals(aes1, argonD)
+    }
+
     private fun serialize(obj: Any): ByteArray {
         val bos = ByteArrayOutputStream()
         val oos = ObjectOutputStream(bos)

@@ -204,6 +204,16 @@ abstract class KdfEngine : Serializable {
     open val maxParallelism: Long
         get() = UInt.MAX_VALUE.toLong()
 
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is KdfEngine) return false
+        return uuid != null && uuid == other.uuid
+    }
+
+    override fun hashCode(): Int {
+        return uuid?.hashCode() ?: 0
+    }
+
     companion object {
         const val UNKNOWN_LONG_VALUE: Long = 0L
         const val UNKNOWN_ULONG_VALUE: ULong = 0u
