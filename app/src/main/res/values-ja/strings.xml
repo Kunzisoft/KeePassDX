@@ -111,7 +111,7 @@
     <string name="error_nokeyfile">キーファイルを選択してください。</string>
     <string name="error_out_of_memory">データベース全体を読み込むメモリがありません。</string>
     <string name="error_load_database">データベースを読み込めませんでした。</string>
-    <string name="error_load_database_KDF_memory">鍵を読み込めませんでした。鍵導出関数の [メモリ使用量] を下げてみてください。</string>
+    <string name="error_load_database_KDF_memory">KDFのメモリ使用量が大きすぎます。読込できません。</string>
     <string name="error_pass_gen_type">少なくとも 1 つのパスワード生成タイプを選択する必要があります。</string>
     <string name="error_disallow_no_credentials">少なくとも 1 つの認証情報を設定する必要があります。</string>
     <string name="error_pass_match">パスワードが一致しません。</string>
@@ -766,4 +766,6 @@
     <string name="autofill_suggestions_title">候補の自動入力</string>
     <string name="autofill_suggestions_summary">フォームの認識アルゴリズムを使い入力候補を提案</string>
     <string name="passkey_pseudo_random_function">疑似乱数パスキー関数</string>
+    <string name="parallelism_set_safe">プロセッサの数を設定</string>
+    <string name="error_load_database_KDF_parallelism">KDFの並列度が大きすぎます。読込できません。</string>
 </resources>
