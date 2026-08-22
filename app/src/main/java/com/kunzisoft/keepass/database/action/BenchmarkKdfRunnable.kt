@@ -6,15 +6,19 @@ import com.kunzisoft.keepass.database.crypto.kdf.KdfBenchmark
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService
 import com.kunzisoft.keepass.tasks.ActionRunnable
+import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
 import com.kunzisoft.keepass.utils.AppUtil.getKdfLimits
 
-open class BenchmarkKdfRunnable(
-    protected var context: Context,
+class BenchmarkKdfRunnable(
+    private val context: Context,
     private val database: Database,
-    private val targetTime: Long
+    private val targetTime: Long,
+    private val progressTaskUpdater: ProgressTaskUpdater?
 ): ActionRunnable() {
 
-    override fun onStartRun() {}
+    override fun onStartRun() {
+        progressTaskUpdater?.benchmarking()
+    }
 
     override fun onActionRun() {
         val engine = database.kdfEngine

@@ -1387,7 +1387,8 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                 challengeResponseRetriever = { hardwareKey, seed ->
                     retrieveResponseFromChallenge(hardwareKey, seed)
                 },
-                databaseCopyUri)
+                databaseCopyUri
+            )
         } else {
             null
         }
@@ -1397,15 +1398,12 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         intent: Intent,
         database: ContextualDatabase
     ): ActionRunnable {
-        return object : BenchmarkKdfRunnable(
+        return BenchmarkKdfRunnable(
             context = this@DatabaseTaskNotificationService,
             database,
-            targetTime = intent.getLongExtra(BENCHMARK_TIME_KEY, DEFAULT_BENCHMARK_TIME)
-        ) {
-            override fun onStartRun() {
-                benchmarking()
-            }
-        }
+            targetTime = intent.getLongExtra(BENCHMARK_TIME_KEY, DEFAULT_BENCHMARK_TIME),
+            progressTaskUpdater = this
+        )
     }
 
     private fun buildChallengeRespondedActionTask(intent: Intent): ActionRunnable? {

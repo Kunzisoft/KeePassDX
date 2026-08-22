@@ -36,7 +36,7 @@ class UpdateKeyDerivationDatabaseRunnable(
     private val newKeyDerivation: KdfEngine,
     save: Boolean,
     challengeResponseRetriever: (HardwareKey, ByteArray?) -> ByteArray,
-    progressTaskUpdater: ProgressTaskUpdater?,
+    progressTaskUpdater: ProgressTaskUpdater?
 ) : SaveDatabaseRunnable(
     context = context,
     database = database,
