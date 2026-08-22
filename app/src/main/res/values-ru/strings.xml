@@ -160,7 +160,7 @@
     <string name="edit_entry">Изменить запись</string>
     <string name="allow">Разрешить</string>
     <string name="error_load_database">Невозможно загрузить базу.</string>
-    <string name="error_load_database_KDF_memory">Невозможно загрузить ключ. Попробуйте уменьшить размер памяти, используемой функцией формирования ключа (KDF).</string>
+    <string name="error_load_database_KDF_memory">Использование памяти функцией формирования ключа (KDF) слишком велико. Не удалось загрузить.</string>
     <string name="list_entries_show_username_title">Показывать имя</string>
     <string name="list_entries_show_username_summary">Показывать имя пользователя в списке записей</string>
     <string name="menu_copy">Копировать</string>
@@ -769,10 +769,12 @@
     <string name="benchmark_calculation">Вычислено за %1$s сек.</string>
     <string name="error_memory_too_large">Значение использования памяти слишком велико. Предельное значение %1$s.</string>
     <string name="error_parallelism_too_large">Значение уровня параллелизма слишком велико. Предельное значение %1$s.</string>
-    <string name="error_missing_parent">Это действие невозможно выполнить без родительского элемента</string>
+    <string name="error_missing_parent">Это действие невозможно выполнить без родительского элемента.</string>
     <string name="temporary_merge_success">Временные данные успешно объединены</string>
     <string name="reload_success">Перезагрузка успешно выполнена</string>
     <string name="autofill_suggestions_title">Предложения автозаполнения</string>
     <string name="autofill_suggestions_summary">Использовать алгоритм распознавания форм для предложения записей</string>
     <string name="passkey_pseudo_random_function">Псевдослучайная функция ключа доступа</string>
+    <string name="error_load_database_KDF_parallelism">Параллелизм функции формирования ключа (KDF) слишком высок. Не удалось загрузить.</string>
+    <string name="parallelism_set_safe">Установить количество процессоров</string>
 </resources>
