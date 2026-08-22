@@ -127,7 +127,7 @@
     <string name="error_nokeyfile">حدِّد ملف المفتاح.</string>
     <string name="error_out_of_memory">لا توجد ذاكرة كافية لتحميل قاعدة البيانات بالكامل.</string>
     <string name="error_load_database">تعذر تحميل قاعدة البيانات.</string>
-    <string name="error_load_database_KDF_memory">تعذر تحميل المفتاح. حاول تقليل قيمة \"الذاكرة المستخدمة\" في KDF.</string>
+    <string name="error_load_database_KDF_memory">استخدام الذاكرة في KDF مرتفع جدًّا. تعذّر التحميل.</string>
     <string name="error_pass_gen_type">يجب تحديد نوع واحد على الأقل لتوليد كلمة السر.</string>
     <string name="error_rounds_too_large">عدد جولات التحويل مرتفع جدًا. تم ضبطه على %1$s.</string>
     <string name="error_string_key">يجب أن يكون لكل حقل اسم.</string>
@@ -750,4 +750,6 @@
     <string name="autofill_suggestions_title">اقتراحات الملء التلقائي</string>
     <string name="autofill_suggestions_summary">استخدم خوارزمية التعرُّف على النماذج لاقتراح مُدخلات</string>
     <string name="passkey_pseudo_random_function">دالة Passkey شبه العشوائية</string>
+    <string name="error_load_database_KDF_parallelism">مستوى التوازي في KDF مرتفع جدًّا. تعذّر التحميل.</string>
+    <string name="parallelism_set_safe">عيّن عدد المعالجات</string>
 </resources>
