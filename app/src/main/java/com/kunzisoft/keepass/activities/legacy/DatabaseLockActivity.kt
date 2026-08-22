@@ -348,6 +348,7 @@ abstract class DatabaseLockActivity : DatabaseModeActivity() {
 
     protected fun lockAndExit() {
         // Ask confirmation if modification not saved
+        // TODO In ViewModel
         if (mDatabase?.dataModifiedSinceLastLoading == true) {
             AlertDialog.Builder(this)
                 .setMessage(R.string.discard_changes)

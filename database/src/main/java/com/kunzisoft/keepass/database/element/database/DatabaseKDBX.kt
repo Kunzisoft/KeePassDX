@@ -93,7 +93,7 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
                     value.parameters = oldParameters
                 }
                 it.onParametersChanged = {
-                    notifySettingsChanged()
+                    notifySettingsChange()
                 }
             }
         }
@@ -157,7 +157,7 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
 
     init {
         kdfEngine?.onParametersChanged = {
-            notifySettingsChanged()
+            notifySettingsChange()
         }
     }
 
@@ -401,9 +401,30 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
         get() = getGroupByUUID(lastTopVisibleGroupUUID)
 
     /**
+     * Update the name changed date.
+     */
+    fun notifyNameChange() {
+        nameChanged = DateInstant()
+    }
+
+    /**
+     * Update the description changed date.
+     */
+    fun notifyDescriptionChange() {
+        descriptionChanged = DateInstant()
+    }
+
+    /**
+     * Update the default username changed date.
+     */
+    fun notifyDefaultUserNameChange() {
+        defaultUserNameChanged = DateInstant()
+    }
+
+    /**
      * Update the settings changed date.
      */
-    fun notifySettingsChanged() {
+    fun notifySettingsChange() {
         settingsChanged = DateInstant()
     }
 

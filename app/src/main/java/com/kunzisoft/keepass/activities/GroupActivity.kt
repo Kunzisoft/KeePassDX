@@ -422,6 +422,12 @@ class GroupActivity : DatabaseLockActivity() {
                 if (mSearchViewModel.isSearchActivated)
                     showSearch()
                 launch {
+                    mDatabaseViewModel.databaseModifiedSinceLastLoading.collect { dataModified ->
+                        databaseNavView?.setDatabaseModifiedSinceLastLoading(dataModified)
+                        databaseModifiedView?.isVisible = dataModified
+                    }
+                }
+                launch {
                     mGroupViewModel.groupUIState.collect { state ->
                         // Load
                         if (state.loaded)
@@ -812,15 +818,13 @@ class GroupActivity : DatabaseLockActivity() {
     }
 
     private fun refreshDatabaseViews() {
+        // TODO UI Flow
         mDatabase?.let {
             val databaseName = it.name.ifEmpty { getString(R.string.database) }
             databaseNavView?.setDatabaseName(databaseName)
             databaseNameView?.text = databaseName
             databaseNavView?.setDatabasePath(it.fileUri?.toString())
             databaseNavView?.setDatabaseVersion(it.version)
-            val modified = it.dataModifiedSinceLastLoading
-            databaseNavView?.setDatabaseModifiedSinceLastLoading(modified)
-            databaseModifiedView?.isVisible = modified
             val customColor = it.customColor
             databaseNavView?.setDatabaseColor(customColor)
             if (customColor != null) {

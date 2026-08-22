@@ -212,7 +212,7 @@ open class Database {
         }
         set(name) {
             mDatabaseKDBX?.name = name
-            mDatabaseKDBX?.nameChanged = DateInstant()
+            notifyNameChange()
         }
 
     val allowDescription: Boolean
@@ -224,7 +224,7 @@ open class Database {
         }
         set(description) {
             mDatabaseKDBX?.description = description
-            mDatabaseKDBX?.descriptionChanged = DateInstant()
+            notifyDescriptionChange()
         }
 
     var defaultUsername: String
@@ -234,7 +234,7 @@ open class Database {
         set(username) {
             mDatabaseKDB?.defaultUserName = username
             mDatabaseKDBX?.defaultUserName = username
-            mDatabaseKDBX?.defaultUserNameChanged = DateInstant()
+            notifyDefaultUserNameChange()
         }
 
     var customColor: Int?
@@ -250,7 +250,7 @@ open class Database {
         set(value) {
             mDatabaseKDB?.color = value
             mDatabaseKDBX?.color = value?.toFormattedColorString() ?: ""
-            notifySettingsChanged()
+            notifySettingsChange()
         }
 
     val allowOTP: Boolean
@@ -283,7 +283,7 @@ open class Database {
             value?.let {
                 mDatabaseKDBX?.compressionAlgorithm = it
             }
-            notifySettingsChanged()
+            notifySettingsChange()
         }
 
     fun compressionForNewEntry(): Boolean {
@@ -326,6 +326,7 @@ open class Database {
         set(algorithm) {
             algorithm?.let {
                 mDatabaseKDBX?.encryptionAlgorithm = algorithm
+                notifySettingsChange()
             }
         }
 
@@ -340,7 +341,7 @@ open class Database {
         set(kdfEngine) {
             mDatabaseKDB?.kdfEngine = kdfEngine
             mDatabaseKDBX?.kdfEngine = kdfEngine
-            notifySettingsChanged()
+            notifySettingsChange()
         }
 
     var masterKey: ByteArray
@@ -349,7 +350,7 @@ open class Database {
             mDatabaseKDB?.masterKey = masterKey
             mDatabaseKDBX?.masterKey = masterKey
             mDatabaseKDBX?.keyLastChanged = DateInstant()
-            notifySettingsChanged()
+            notifySettingsChange()
         }
 
     val transformSeed: ByteArray?
@@ -412,7 +413,7 @@ open class Database {
         }
         set(value) {
             mDatabaseKDBX?.historyMaxItems = value
-            notifySettingsChanged()
+            notifySettingsChange()
         }
 
     var historyMaxSize: Long
@@ -421,14 +422,23 @@ open class Database {
         }
         set(value) {
             mDatabaseKDBX?.historyMaxSize = value
-            notifySettingsChanged()
+            notifySettingsChange()
         }
 
-    /**
-     * Update the settings changed date.
-     */
-    fun notifySettingsChanged() {
-        mDatabaseKDBX?.notifySettingsChanged()
+    fun notifyNameChange() {
+        mDatabaseKDBX?.notifyNameChange()
+    }
+
+    fun notifyDescriptionChange() {
+        mDatabaseKDBX?.notifyDescriptionChange()
+    }
+
+    fun notifyDefaultUserNameChange() {
+        mDatabaseKDBX?.notifyDefaultUserNameChange()
+    }
+
+    fun notifySettingsChange() {
+        mDatabaseKDBX?.notifySettingsChange()
     }
 
     /**

@@ -73,13 +73,12 @@ open class SaveDatabaseRunnable(
                     challengeResponseRetriever = cachingRetriever,
                     limits = context.getLimits()
                 )
-            } catch (e: DatabaseException) {
-                setError(e)
-            } finally {
                 // Indicate data was saved only if it's not a new location
                 if (databaseCopyUri == null) {
                     database.indicateUpToDateData()
                 }
+            } catch (e: DatabaseException) {
+                setError(e)
             }
         } else if (dataModified) {
             database.indicateNotSavedData()

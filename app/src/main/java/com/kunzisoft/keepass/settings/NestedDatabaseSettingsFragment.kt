@@ -129,11 +129,11 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment(), DatabaseRetriev
         override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
             return when (menuItem.itemId) {
                 R.id.menu_save_database -> {
-                    saveDatabase(!mDatabaseReadOnly)
+                    saveDatabase()
                     true
                 }
                 R.id.menu_merge_database -> {
-                    mergeDatabase(!mDatabaseReadOnly)
+                    mergeDatabase(mDatabaseAutoSaveEnabled)
                     true
                 }
                 R.id.menu_reload_database -> {
@@ -259,7 +259,7 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment(), DatabaseRetriev
         }
     }
 
-    private fun saveDatabase(save: Boolean) {
+    private fun saveDatabase(save: Boolean = true) {
         mDatabaseViewModel.saveDatabase(save)
     }
 
@@ -360,6 +360,7 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment(), DatabaseRetriev
                 isChecked = database.isRecycleBinEnabled
                 isEnabled = if (!mDatabaseReadOnly) {
                     setOnPreferenceChangeListener { _, newValue ->
+                        // TODO In ViewModel
                         val recycleBinEnabled = newValue as Boolean
                         database.enableRecycleBin(recycleBinEnabled, resources.getString(R.string.recycle_bin))
                         refreshRecycleBinGroup(database)
@@ -392,6 +393,7 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment(), DatabaseRetriev
                 isChecked = database.isTemplatesEnabled
                 isEnabled = if (!mDatabaseReadOnly) {
                     setOnPreferenceChangeListener { _, newValue ->
+                        // TODO In ViewModel
                         val templatesEnabled = newValue as Boolean
                         database.enableTemplates(templatesEnabled,
                             resources.getString(R.string.templates)

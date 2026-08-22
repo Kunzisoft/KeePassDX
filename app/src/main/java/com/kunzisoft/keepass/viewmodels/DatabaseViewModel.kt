@@ -23,6 +23,7 @@ import android.app.Application
 import android.net.Uri
 import android.os.Bundle
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.viewModelScope
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.DatabaseTaskProvider
 import com.kunzisoft.keepass.database.MainCredential
@@ -44,6 +45,8 @@ import com.kunzisoft.keepass.tasks.ActionRunnable
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 class DatabaseViewModel(application: Application): AndroidViewModel(application) {
 
@@ -52,6 +55,9 @@ class DatabaseViewModel(application: Application): AndroidViewModel(application)
 
     val database: ContextualDatabase?
         get() = databaseState.value
+
+    private val mDatabaseModifiedSinceLastLoading = MutableStateFlow(false)
+    val databaseModifiedSinceLastLoading: StateFlow<Boolean> = mDatabaseModifiedSinceLastLoading.asStateFlow()
 
     private val mActionState = MutableStateFlow<ActionState>(ActionState.Wait)
     val actionState: StateFlow<ActionState> = mActionState.asStateFlow()
@@ -114,6 +120,18 @@ class DatabaseViewModel(application: Application): AndroidViewModel(application)
         }
 
         mDatabaseTaskProvider.registerProgressTask()
+
+        viewModelScope.launch {
+            databaseState.collectLatest { database ->
+                if (database == null) {
+                    mDatabaseModifiedSinceLastLoading.value = false
+                } else {
+                    database.dataModifiedSinceLastLoadingFlow.collect { modified ->
+                        mDatabaseModifiedSinceLastLoading.value = modified
+                    }
+                }
+            }
+        }
     }
 
     /*

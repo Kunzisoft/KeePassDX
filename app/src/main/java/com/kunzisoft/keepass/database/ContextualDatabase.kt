@@ -34,6 +34,8 @@ import com.kunzisoft.keepass.model.RegisterInfo
 import com.kunzisoft.keepass.model.SnapFileDatabaseInfo
 import com.kunzisoft.keepass.utils.SingletonHolder
 import com.kunzisoft.keepass.viewmodels.FileDatabaseInfo
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import java.io.File
 
 class ContextualDatabase: DatabaseInfo() {
@@ -51,8 +53,10 @@ class ContextualDatabase: DatabaseInfo() {
     var wasReloaded = false
 
     // To defined if unsaved data still remaining
-    var dataModifiedSinceLastLoading = false
-        private set
+    private val mDataModifiedSinceLastLoading = MutableStateFlow(false)
+    val dataModifiedSinceLastLoadingFlow = mDataModifiedSinceLastLoading.asStateFlow()
+    val dataModifiedSinceLastLoading: Boolean
+        get() = mDataModifiedSinceLastLoading.value
 
     // File description
     var snapFileDatabaseInfo: SnapFileDatabaseInfo? = null
@@ -78,14 +82,14 @@ class ContextualDatabase: DatabaseInfo() {
      * Data are not necessarily changed from the app
      */
     fun indicateNotSavedData() {
-        dataModifiedSinceLastLoading = true
+        mDataModifiedSinceLastLoading.value = true
     }
 
     /**
      * Indicate that data in the database is up to date
      */
     fun indicateUpToDateData() {
-        dataModifiedSinceLastLoading = false
+        mDataModifiedSinceLastLoading.value = false
     }
 
     /**
