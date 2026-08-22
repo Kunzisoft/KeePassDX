@@ -124,7 +124,6 @@ abstract class DatabaseVersioned<
 
     fun copyMasterKeyFrom(databaseVersioned: DatabaseVersioned<GroupId, EntryId, Group, Entry>) {
         this.masterKey = databaseVersioned.masterKey.copyOf()
-        this.transformSeed = databaseVersioned.transformSeed?.copyOf()
         this.checkKey = databaseVersioned.checkKey.copyOf()
     }
 
