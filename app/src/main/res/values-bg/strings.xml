@@ -128,7 +128,7 @@
     <string name="discard_changes">Отхвърляне на промените?</string>
     <string name="menu_reload_database">Презареждане на данните</string>
     <string name="contribute">Допринасяне</string>
-    <string name="error_load_database_KDF_memory">Ключът не може да бъде зареден. Пробвайте да намалите използваната памет от функцията за извличане на ключове.</string>
+    <string name="error_load_database_KDF_memory">Функцията за извличане на ключове използва твърде много памет. Не може да зареди.</string>
     <string name="content_description_passphrase_word_count">Брой думи във фраза за достъп</string>
     <string name="search_filters">Филтри за търсене</string>
     <string name="current_group">Текуща група</string>
@@ -744,4 +744,5 @@
     <string name="benchmark_calculation">Изчислете за %1$s с</string>
     <string name="benchmarking">Бенчмаркинг…</string>
     <string name="keyboard_share_browser">Сподели от %1$s към KeePassDX</string>
+    <string name="error_load_database_KDF_parallelism">Функцията за извличане на ключове използва твърде висок паралелизъм. Не може да зареди.</string>
 </resources>
