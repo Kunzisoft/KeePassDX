@@ -23,7 +23,6 @@ import android.content.Context
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.crypto.kdf.KdfEngine
 import com.kunzisoft.keepass.hardware.HardwareKey
-import com.kunzisoft.keepass.tasks.BenchmarkKdfRunnable
 import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
 import com.kunzisoft.keepass.utils.AppUtil.getKdfLimits
 
@@ -60,7 +59,6 @@ class UpdateKeyDerivationDatabaseRunnable(
             progressTaskUpdater?.benchmarking()
             newKeyDerivation.optimizeByBenchmark(
                 masterKey = masterKey,
-                targetTime = BenchmarkKdfRunnable.DEFAULT_BENCHMARK_TIME,
                 limits = context.getKdfLimits()
             )
         }

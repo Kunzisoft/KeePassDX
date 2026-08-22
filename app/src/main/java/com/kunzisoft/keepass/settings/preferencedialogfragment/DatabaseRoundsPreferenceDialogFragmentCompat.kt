@@ -24,21 +24,23 @@ import android.util.Log
 import android.view.View
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.ContextualDatabase
+import com.kunzisoft.keepass.database.crypto.kdf.KdfBenchmark
+import com.kunzisoft.keepass.database.crypto.kdf.KdfEngine.Companion.DEFAULT_BENCHMARK_TIME
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_BENCHMARK_KDF
+import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.getParcelableElements
 import com.kunzisoft.keepass.tasks.ActionRunnable
-import com.kunzisoft.keepass.tasks.BenchmarkKdfRunnable.Companion.DEFAULT_BENCHMARK_TIME
-import com.kunzisoft.keepass.tasks.BenchmarkKdfRunnable.Companion.retrieveNewBenchmark
 
 class DatabaseRoundsPreferenceDialogFragmentCompat : DatabaseSavePreferenceDialogFragmentCompat() {
 
     override fun onBindDialogView(view: View) {
         super.onBindDialogView(view)
         explanationText = getString(R.string.rounds_explanation)
+        val targetTime = DEFAULT_BENCHMARK_TIME
         setExplanationButton(getString(
             R.string.benchmark_calculation,
-            "%.1f".format(DEFAULT_BENCHMARK_TIME / 1000.0)
+            "%.1f".format(targetTime / 1000.0)
         )) {
-            mDatabaseViewModel.benchmarkKdf()
+            mDatabaseViewModel.benchmarkKdf(targetTime)
         }
     }
 
@@ -55,8 +57,10 @@ class DatabaseRoundsPreferenceDialogFragmentCompat : DatabaseSavePreferenceDialo
     ) {
         super.onDatabaseActionFinished(database, actionTask, result)
         if (actionTask == ACTION_DATABASE_BENCHMARK_KDF) {
-            result.data?.retrieveNewBenchmark()?.let { newBenchmark ->
-                inputText = newBenchmark.iterations.toString()
+            result.data?.getParcelableElements<KdfBenchmark> { _, newBenchmark ->
+                newBenchmark?.iterations?.let { benchmark ->
+                    inputText = benchmark.toString()
+                }
             }
         }
     }

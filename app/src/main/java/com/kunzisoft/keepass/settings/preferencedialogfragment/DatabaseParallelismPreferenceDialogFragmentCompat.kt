@@ -24,9 +24,10 @@ import android.util.Log
 import android.view.View
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.ContextualDatabase
+import com.kunzisoft.keepass.database.crypto.kdf.KdfBenchmark
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_BENCHMARK_KDF
+import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.getParcelableElements
 import com.kunzisoft.keepass.tasks.ActionRunnable
-import com.kunzisoft.keepass.tasks.BenchmarkKdfRunnable.Companion.retrieveNewBenchmark
 import com.kunzisoft.keepass.utils.AppUtil
 
 class DatabaseParallelismPreferenceDialogFragmentCompat : DatabaseSavePreferenceDialogFragmentCompat() {
@@ -53,8 +54,10 @@ class DatabaseParallelismPreferenceDialogFragmentCompat : DatabaseSavePreference
     ) {
         super.onDatabaseActionFinished(database, actionTask, result)
         if (actionTask == ACTION_DATABASE_BENCHMARK_KDF) {
-            result.data?.retrieveNewBenchmark()?.let { newBenchmark ->
-                inputText = newBenchmark.parallelism.toString()
+            result.data?.getParcelableElements<KdfBenchmark> { _, newBenchmark ->
+                newBenchmark?.parallelism?.let { parallelism ->
+                    inputText = parallelism.toString()
+                }
             }
         }
     }

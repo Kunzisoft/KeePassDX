@@ -28,7 +28,7 @@ import java.io.Serializable
  */
 @Parcelize
 data class KdfBenchmark(
-    val iterations: ULong,
-    val memory: ULong = KdfEngine.UNKNOWN_ULONG_VALUE,
-    val parallelism: Long = KdfEngine.UNKNOWN_LONG_VALUE
+    val iterations: ULong? = null,
+    val memory: ULong? = null,
+    val parallelism: Long? = null
 ): Parcelable, Serializable

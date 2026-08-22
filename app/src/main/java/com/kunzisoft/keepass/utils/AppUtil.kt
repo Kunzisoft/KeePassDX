@@ -224,7 +224,7 @@ object AppUtil {
         maxRatio: Float = 1.0f,
     ): ULong {
         val memoryInfo = ActivityManager.MemoryInfo()
-        (this.getSystemService(Context.ACTIVITY_SERVICE)
+        (applicationContext.getSystemService(Context.ACTIVITY_SERVICE)
                 as? ActivityManager)?.getMemoryInfo(memoryInfo)
         val availableMemory = memoryInfo.availMem
         // Limit KDF by ratio of available RAM to avoid OOM
@@ -241,7 +241,7 @@ object AppUtil {
      * @return Safe memory limit in bytes.
      */
     fun Context.getSafeMemoryLimit(type: Limits.LimitOperationType): ULong {
-        return this.getSafeMemoryLimit(type.maxMemory, type.ratioAvailableMemory)
+        return applicationContext.getSafeMemoryLimit(type.maxMemory, type.ratioAvailableMemory)
     }
 
     /**
@@ -268,7 +268,7 @@ object AppUtil {
     ): Boolean {
         if (memoryWanted > maxMemory)
             return false
-        return memoryWanted <= getSafeMemoryLimit(maxMemory, maxRatio)
+        return memoryWanted <= applicationContext.getSafeMemoryLimit(maxMemory, maxRatio)
     }
 
     /**
@@ -282,7 +282,7 @@ object AppUtil {
         memoryWanted: ULong,
         operationType: Limits.LimitOperationType,
     ): Boolean {
-        return this.isMemorySufficient(
+        return applicationContext.isMemorySufficient(
             memoryWanted,
             maxMemory = operationType.maxMemory,
             maxRatio = operationType.ratioAvailableMemory
@@ -296,7 +296,7 @@ object AppUtil {
      */
     fun Context.getKdfLimits(): KdfLimits {
         return KdfLimits(
-            memory = this.getSafeMemoryLimit(Limits.LimitOperationType.KDF),
+            memory = applicationContext.getSafeMemoryLimit(Limits.LimitOperationType.KDF),
             parallelism = getSafeParallelismLimit()
         )
     }
@@ -309,7 +309,7 @@ object AppUtil {
     fun Context.getLimits(): Limits {
         return Limits(
             isMemorySufficient = { memoryWanted, type ->
-                this.isMemorySufficient(memoryWanted, type)
+                applicationContext.isMemorySufficient(memoryWanted, type)
             },
             parallelism = getSafeParallelismLimit()
         )

@@ -506,8 +506,8 @@ class DatabaseViewModel(application: Application): AndroidViewModel(application)
         )
     }
 
-    fun benchmarkKdf() {
-        mDatabaseTaskProvider.startDatabaseBenchmarkKdf()
+    fun benchmarkKdf(targetTime: Long) {
+        mDatabaseTaskProvider.startDatabaseBenchmarkKdf(targetTime)
     }
 
     /*

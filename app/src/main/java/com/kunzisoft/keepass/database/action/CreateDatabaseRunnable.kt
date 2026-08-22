@@ -23,8 +23,12 @@ import android.content.Context
 import android.net.Uri
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.MainCredential
+import com.kunzisoft.keepass.database.crypto.kdf.KdfFactory
+import com.kunzisoft.keepass.database.element.MasterCredential
 import com.kunzisoft.keepass.hardware.HardwareKey
 import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
+import com.kunzisoft.keepass.utils.AppUtil.getKdfLimits
+import com.kunzisoft.keepass.utils.clear
 import com.kunzisoft.keepass.utils.getBinaryDir
 
 class CreateDatabaseRunnable(
@@ -64,11 +68,31 @@ class CreateDatabaseRunnable(
         if (result.isSuccess) {
             progressTaskUpdater?.benchmarking()
             try {
-                mDatabase.benchmarkForCreation(
-                    context = context,
-                    mainCredential = mainCredential,
-                    challengeResponseRetriever = cachingRetriever
-                )
+                // Perform a security benchmark for a new database creation.
+                var kdfEngine = database.kdfEngine
+                if (kdfEngine == null) {
+                    kdfEngine = KdfFactory.defaultKdf
+                }
+                kdfEngine.randomize()
+
+                var masterCredential: MasterCredential? = null
+                var masterKey: ByteArray? = null
+                try {
+                    masterCredential = mainCredential.toMasterCredential(context.contentResolver)
+                    masterKey = masterCredential.toMasterKey(
+                        encoding = database.passwordEncoding,
+                        transformSeed = database.transformSeed,
+                        challengeResponseRetriever = cachingRetriever
+                    )
+                    // Calculate max memory directly from the device
+                    kdfEngine.optimizeByBenchmark(
+                        masterKey = masterKey,
+                        limits = context.getKdfLimits()
+                    )
+                } finally {
+                    masterKey?.clear()
+                    masterCredential?.clear()
+                }
             } catch (e: Exception) {
                 setError(e)
             }

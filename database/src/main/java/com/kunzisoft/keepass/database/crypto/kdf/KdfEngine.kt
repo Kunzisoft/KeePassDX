@@ -67,7 +67,7 @@ abstract class KdfEngine : Serializable {
      */
     fun calculateBenchmark(
         masterKey: ByteArray,
-        targetTime: Long = 1000L,
+        targetTime: Long = DEFAULT_BENCHMARK_TIME,
         limits: KdfLimits
     ): KdfBenchmark {
         val currentRounds = getKeyRounds()
@@ -113,13 +113,13 @@ abstract class KdfEngine : Serializable {
      */
     fun optimizeByBenchmark(
         masterKey: ByteArray,
-        targetTime: Long = 1000L,
+        targetTime: Long = DEFAULT_BENCHMARK_TIME,
         limits: KdfLimits
     ) {
        calculateBenchmark(masterKey, targetTime, limits).also { result ->
-            setKeyRounds(result.iterations)
-            setParallelism(result.parallelism)
-            setMemoryUsage(result.memory)
+           result.iterations?.let { setKeyRounds(it) }
+           result.parallelism?.let { setParallelism(it) }
+           result.memory?.let { setMemoryUsage(it) }
         }
     }
 
@@ -207,5 +207,7 @@ abstract class KdfEngine : Serializable {
     companion object {
         const val UNKNOWN_LONG_VALUE: Long = 0L
         const val UNKNOWN_ULONG_VALUE: ULong = 0u
+
+        const val DEFAULT_BENCHMARK_TIME = 1000L
     }
 }

@@ -38,6 +38,7 @@ import com.kunzisoft.keepass.credentialprovider.activity.HardwareKeyActivity
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.MainCredential
 import com.kunzisoft.keepass.database.ProgressMessage
+import com.kunzisoft.keepass.database.action.BenchmarkKdfRunnable
 import com.kunzisoft.keepass.database.action.CreateDatabaseRunnable
 import com.kunzisoft.keepass.database.action.LoadDatabaseRunnable
 import com.kunzisoft.keepass.database.action.MergeDatabaseRunnable
@@ -60,6 +61,7 @@ import com.kunzisoft.keepass.database.action.node.TouchGroupRunnable
 import com.kunzisoft.keepass.database.action.node.UpdateEntryRunnable
 import com.kunzisoft.keepass.database.action.node.UpdateGroupRunnable
 import com.kunzisoft.keepass.database.crypto.kdf.KdfEngine
+import com.kunzisoft.keepass.database.crypto.kdf.KdfEngine.Companion.DEFAULT_BENCHMARK_TIME
 import com.kunzisoft.keepass.database.element.EntryId
 import com.kunzisoft.keepass.database.element.GroupId
 import com.kunzisoft.keepass.database.element.database.CompressionAlgorithm
@@ -70,10 +72,8 @@ import com.kunzisoft.keepass.model.GroupInfo
 import com.kunzisoft.keepass.model.SnapFileDatabaseInfo
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.tasks.ActionRunnable
-import com.kunzisoft.keepass.tasks.BenchmarkKdfRunnable
 import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
 import com.kunzisoft.keepass.timeout.TimeoutHelper
-import com.kunzisoft.keepass.utils.AppUtil.getKdfLimits
 import com.kunzisoft.keepass.utils.DATABASE_START_TASK_ACTION
 import com.kunzisoft.keepass.utils.DATABASE_STOP_TASK_ACTION
 import com.kunzisoft.keepass.utils.LOCK_ACTION
@@ -380,7 +380,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
             ACTION_DATABASE_UPDATE_PARALLELISM_TASK,
             ACTION_DATABASE_UPDATE_ITERATIONS_TASK -> buildDatabaseUpdateElementActionTask(intent, database)
             ACTION_DATABASE_UPDATE_KEY_DERIVATION_TASK -> buildDatabaseUpdateKeyDerivationActionTask(intent, database)
-            ACTION_DATABASE_BENCHMARK_KDF -> buildDatabaseBenchmarkKdfActionTask(database)
+            ACTION_DATABASE_BENCHMARK_KDF -> buildDatabaseBenchmarkKdfActionTask(intent, database)
             ACTION_DATABASE_SAVE -> buildDatabaseSaveActionTask(intent, database)
             ACTION_CHALLENGE_RESPONDED -> buildChallengeRespondedActionTask(intent)
             else -> null
@@ -1393,24 +1393,28 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         }
     }
 
-    private fun buildDatabaseBenchmarkKdfActionTask(database: ContextualDatabase): ActionRunnable {
+    private fun buildDatabaseBenchmarkKdfActionTask(
+        intent: Intent,
+        database: ContextualDatabase
+    ): ActionRunnable {
         return object : BenchmarkKdfRunnable(
+            context = this@DatabaseTaskNotificationService,
             database,
-            limits = applicationContext.getKdfLimits()
+            targetTime = intent.getLongExtra(BENCHMARK_TIME_KEY, DEFAULT_BENCHMARK_TIME)
         ) {
             override fun onStartRun() {
-                updateMessage(R.string.benchmarking)
+                benchmarking()
             }
         }
     }
 
     private fun buildChallengeRespondedActionTask(intent: Intent): ActionRunnable? {
-        return if (intent.hasExtra(DATA_BYTES)) {
+        return if (intent.hasExtra(DATA_BYTES_KEY)) {
             object : ActionRunnable() {
                 override fun onStartRun() {}
                 override fun onActionRun() {
                     mainScope.launch {
-                        intent.getByteArrayExtra(DATA_BYTES)?.let { response ->
+                        intent.getByteArrayExtra(DATA_BYTES_KEY)?.let { response ->
                             sendResponseToChallenge(response)
                         }
                     }
@@ -1455,10 +1459,10 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         const val ACTION_DATABASE_UPDATE_MAX_HISTORY_ITEMS_TASK = "ACTION_DATABASE_UPDATE_MAX_HISTORY_ITEMS_TASK"
         const val ACTION_DATABASE_UPDATE_MAX_HISTORY_SIZE_TASK ="ACTION_DATABASE_UPDATE_MAX_HISTORY_SIZE_TASK"
         const val ACTION_DATABASE_UPDATE_ENCRYPTION_TASK = "ACTION_DATABASE_UPDATE_ENCRYPTION_TASK"
-        const val ACTION_DATABASE_UPDATE_KEY_DERIVATION_TASK ="ACTION_DATABASE_UPDATE_KEY_DERIVATION_TASK"
         const val ACTION_DATABASE_UPDATE_MEMORY_USAGE_TASK ="ACTION_DATABASE_UPDATE_MEMORY_USAGE_TASK"
         const val ACTION_DATABASE_UPDATE_PARALLELISM_TASK ="ACTION_DATABASE_UPDATE_PARALLELISM_TASK"
         const val ACTION_DATABASE_UPDATE_ITERATIONS_TASK = "ACTION_DATABASE_UPDATE_ITERATIONS_TASK"
+        const val ACTION_DATABASE_UPDATE_KEY_DERIVATION_TASK ="ACTION_DATABASE_UPDATE_KEY_DERIVATION_TASK"
         const val ACTION_DATABASE_BENCHMARK_KDF = "ACTION_DATABASE_BENCHMARK_KDF"
         const val ACTION_DATABASE_SAVE = "ACTION_DATABASE_SAVE"
         const val ACTION_CHALLENGE_RESPONDED = "ACTION_CHALLENGE_RESPONDED"
@@ -1486,7 +1490,8 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         const val NEW_NODES_KEY = "NEW_NODES_KEY"
         const val OLD_ELEMENT_KEY = "OLD_ELEMENT_KEY" // Warning type of this thing change every time
         const val NEW_ELEMENT_KEY = "NEW_ELEMENT_KEY" // Warning type of this thing change every time
-        const val DATA_BYTES = "DATA_BYTES"
+        const val DATA_BYTES_KEY = "DATA_BYTES_KEY"
+        const val BENCHMARK_TIME_KEY = "BENCHMARK_TIME_KEY"
 
         fun Bundle.getNewGroups(database: ContextualDatabase): List<GroupInfo>? {
             return getBundle(NEW_NODES_KEY)

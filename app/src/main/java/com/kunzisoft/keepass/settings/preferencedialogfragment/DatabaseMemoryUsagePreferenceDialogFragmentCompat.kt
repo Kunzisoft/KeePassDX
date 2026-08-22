@@ -24,9 +24,10 @@ import android.util.Log
 import android.view.View
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.ContextualDatabase
+import com.kunzisoft.keepass.database.crypto.kdf.KdfBenchmark
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_BENCHMARK_KDF
+import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.getParcelableElements
 import com.kunzisoft.keepass.tasks.ActionRunnable
-import com.kunzisoft.keepass.tasks.BenchmarkKdfRunnable.Companion.retrieveNewBenchmark
 import com.kunzisoft.keepass.utils.DataByte
 
 class DatabaseMemoryUsagePreferenceDialogFragmentCompat : DatabaseSavePreferenceDialogFragmentCompat() {
@@ -57,8 +58,10 @@ class DatabaseMemoryUsagePreferenceDialogFragmentCompat : DatabaseSavePreference
     ) {
         super.onDatabaseActionFinished(database, actionTask, result)
         if (actionTask == ACTION_DATABASE_BENCHMARK_KDF) {
-            result.data?.retrieveNewBenchmark()?.let { newBenchmark ->
-                setMemoryBytes(newBenchmark.memory.toLong())
+            result.data?.getParcelableElements<KdfBenchmark> { _, newBenchmark ->
+                newBenchmark?.memory?.let { memory ->
+                    setMemoryBytes(memory.toLong())
+                }
             }
         }
     }
