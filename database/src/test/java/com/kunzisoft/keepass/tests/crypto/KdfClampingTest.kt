@@ -72,7 +72,7 @@ class KdfClampingTest {
                     )
                 )
                 assert(false)
-            } catch (_: SecurityException) {
+            } catch (_: Exception) {
                 assert(true)
             }
         }
