@@ -132,30 +132,64 @@
                     android:layout_height="wrap_content"
                     tools:text="Character count: 51" />
 
-                <RelativeLayout
+                <Spinner
+                    android:id="@+id/word_case"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+                    android:layout_height="48dp"
+                    android:layout_marginTop="12dp"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="12dp"
+                    android:baselineAligned="false">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Separator"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginRight="8dp"/>
 
                     <Spinner
-                        android:id="@+id/word_case"
-                        android:layout_width="wrap_content"
+                        android:id="@+id/separator_type"
+                        android:layout_width="0dp"
                         android:layout_height="48dp"
-                        android:layout_marginTop="12dp"/>
+                        android:layout_weight="1"/>
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/word_separator_layout"
-                        android:layout_width="match_parent"
+                        android:layout_width="80dp"
                         android:layout_height="wrap_content"
-                        android:layout_toEndOf="@+id/word_case"
-                        android:layout_toRightOf="@+id/word_case">
+                        android:layout_marginStart="8dp"
+                        android:layout_marginLeft="8dp">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/word_separator"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:hint="@string/word_separator" />
+                            android:hint="@string/value" />
                     </com.google.android.material.textfield.TextInputLayout>
-                </RelativeLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/random_digits_layout"
+                        android:layout_width="80dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginLeft="8dp"
+                        android:visibility="gone">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/random_digits_count"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/length"
+                            android:inputType="number"
+                            android:maxLength="1" />
+                    </com.google.android.material.textfield.TextInputLayout>
+                </LinearLayout>
 
             </LinearLayout>
         </FrameLayout>

@@ -25,10 +25,16 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.EditText
+import android.widget.ImageView
+import android.widget.Spinner
+import android.widget.TextView
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.activityViewModels
 import com.google.android.material.slider.Slider
+import com.google.android.material.textfield.TextInputLayout
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.password.PassphraseGenerator
@@ -47,10 +53,15 @@ class PassphraseGeneratorFragment : DatabaseFragment() {
     private lateinit var charactersCountText: TextView
     private lateinit var wordSeparator: EditText
     private lateinit var wordCaseSpinner: Spinner
+    private lateinit var separatorTypeSpinner: Spinner
+    private lateinit var wordSeparatorLayout: TextInputLayout
+    private lateinit var randomDigitsLayout: TextInputLayout
+    private lateinit var randomDigitsCount: EditText
 
     private var minSliderWordCount: Int = 0
     private var maxSliderWordCount: Int = 0
     private var wordCaseAdapter: ArrayAdapter<String>? = null
+    private var separatorTypeAdapter: ArrayAdapter<String>? = null
 
     private val mKeyGeneratorViewModel: KeyGeneratorViewModel by activityViewModels()
 
@@ -70,6 +81,10 @@ class PassphraseGeneratorFragment : DatabaseFragment() {
         charactersCountText = view.findViewById(R.id.character_count)
         wordSeparator = view.findViewById(R.id.word_separator)
         wordCaseSpinner = view.findViewById(R.id.word_case)
+        separatorTypeSpinner = view.findViewById(R.id.separator_type)
+        wordSeparatorLayout = view.findViewById(R.id.word_separator_layout)
+        randomDigitsLayout = view.findViewById(R.id.random_digits_layout)
+        randomDigitsCount = view.findViewById(R.id.random_digits_count)
 
         minSliderWordCount = resources.getInteger(R.integer.passphrase_generator_word_count_min)
         maxSliderWordCount = resources.getInteger(R.integer.passphrase_generator_word_count_max)
@@ -91,6 +106,12 @@ class PassphraseGeneratorFragment : DatabaseFragment() {
                 setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             }
             wordCaseSpinner.adapter = wordCaseAdapter
+
+            separatorTypeAdapter = ArrayAdapter(context,
+                android.R.layout.simple_spinner_item, resources.getStringArray(R.array.separator_type_array)).apply {
+                setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            }
+            separatorTypeSpinner.adapter = separatorTypeAdapter
         }
 
         loadSettings()
@@ -142,6 +163,17 @@ class PassphraseGeneratorFragment : DatabaseFragment() {
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {}
+        }
+        separatorTypeSpinner.onItemSelectedListener = object: AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                updateSeparatorTypeVisibility()
+                generatePassphrase()
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
+        }
+        randomDigitsCount.doOnTextChanged { _, _, _, _ ->
+            generatePassphrase()
         }
 
         generatePassphrase()
@@ -210,12 +242,49 @@ class PassphraseGeneratorFragment : DatabaseFragment() {
         wordSeparator.setText(separator)
     }
 
+    private fun getSeparatorType(): PassphraseGenerator.SeparatorType {
+        return when (separatorTypeSpinner.selectedItemPosition) {
+            1 -> PassphraseGenerator.SeparatorType.RANDOM_NUMBERS
+            else -> PassphraseGenerator.SeparatorType.CUSTOM_VALUE
+        }
+    }
+
+    private fun setSeparatorType(separatorType: PassphraseGenerator.SeparatorType) {
+        separatorTypeSpinner.setSelection(if (separatorType == PassphraseGenerator.SeparatorType.RANDOM_NUMBERS) 1 else 0)
+    }
+
+    private fun getRandomDigitsCount(): Int {
+        return try {
+            val text = randomDigitsCount.text.toString()
+            if (text.isEmpty()) 1 else Integer.valueOf(text).coerceIn(1, 9)
+        } catch (numberException: NumberFormatException) {
+            1
+        }
+    }
+
+    private fun setRandomDigitsCount(count: Int) {
+        randomDigitsCount.setText(count.toString())
+    }
+
+    private fun updateSeparatorTypeVisibility() {
+        val separatorType = getSeparatorType()
+        if (separatorType == PassphraseGenerator.SeparatorType.RANDOM_NUMBERS) {
+            randomDigitsLayout.visibility = View.VISIBLE
+            wordSeparatorLayout.visibility = View.GONE
+        } else {
+            randomDigitsLayout.visibility = View.GONE
+            wordSeparatorLayout.visibility = View.VISIBLE
+        }
+    }
+
     private fun generatePassphrase() {
         try {
             val passphrase = PassphraseGenerator().generatePassphrase(
                 getWordCount(),
                 getWordSeparator(),
-                getWordCase())
+                getWordCase(),
+                getSeparatorType(),
+                getRandomDigitsCount())
             passwordEditView.passwordCharArray = passphrase
             charactersCountText.text = getString(R.string.character_count, passphrase.size)
             passphrase.clear()
@@ -234,6 +303,8 @@ class PassphraseGeneratorFragment : DatabaseFragment() {
             PreferencesUtil.setDefaultPassphraseWordCount(context, getWordCount())
             PreferencesUtil.setDefaultPassphraseWordCase(context, getWordCase())
             PreferencesUtil.setDefaultPassphraseSeparator(context, getSeparator())
+            PreferencesUtil.setDefaultPassphraseSeparatorType(context, getSeparatorType().toPreferenceString())
+            PreferencesUtil.setDefaultPassphraseRandomDigitsCount(context, getRandomDigitsCount())
         }
     }
 
@@ -242,6 +313,9 @@ class PassphraseGeneratorFragment : DatabaseFragment() {
             setWordCount(PreferencesUtil.getDefaultPassphraseWordCount(context))
             setWordCase(PreferencesUtil.getDefaultPassphraseWordCase(context))
             setSeparator(PreferencesUtil.getDefaultPassphraseSeparator(context))
+            setSeparatorType(PassphraseGenerator.SeparatorType.fromString(PreferencesUtil.getDefaultPassphraseSeparatorType(context)))
+            setRandomDigitsCount(PreferencesUtil.getDefaultPassphraseRandomDigitsCount(context))
+            updateSeparatorTypeVisibility()
         }
     }
 
