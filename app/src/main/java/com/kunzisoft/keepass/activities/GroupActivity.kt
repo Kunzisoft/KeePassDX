@@ -422,9 +422,34 @@ class GroupActivity : DatabaseLockActivity() {
                 if (mSearchViewModel.isSearchActivated)
                     showSearch()
                 launch {
-                    mDatabaseViewModel.databaseModifiedSinceLastLoading.collect { dataModified ->
-                        databaseNavView?.setDatabaseModifiedSinceLastLoading(dataModified)
-                        databaseModifiedView?.isVisible = dataModified
+                    mDatabaseViewModel.databaseMetadata.collect { metadata ->
+                        if (metadata != null) {
+                            val databaseName = metadata.name.let { name ->
+                                if (name.isNullOrEmpty())
+                                    getString(R.string.database) else name
+                            }
+                            databaseNavView?.setDatabaseName(databaseName)
+                            databaseNameView?.text = databaseName
+
+                            databaseNavView?.setDatabasePath(metadata.path)
+                            databaseNavView?.setDatabaseVersion(metadata.version ?: "-")
+
+                            val databaseIsModified = metadata.isModified
+                            databaseNavView?.setDatabaseModifiedSinceLastLoading(databaseIsModified)
+                            databaseModifiedView?.isVisible = databaseIsModified
+
+                            val databaseColor = metadata.color
+                            databaseNavView?.setDatabaseColor(databaseColor)
+                            if (databaseColor != null) {
+                                databaseColorView?.visibility = View.VISIBLE
+                                databaseColorView?.setColorFilter(
+                                    databaseColor,
+                                    PorterDuff.Mode.SRC_IN
+                                )
+                            } else {
+                                databaseColorView?.visibility = View.GONE
+                            }
+                        }
                     }
                 }
                 launch {
@@ -461,7 +486,6 @@ class GroupActivity : DatabaseLockActivity() {
                         .distinctUntilChanged()
                         .collect { group ->
                             // Show current group
-                            refreshDatabaseViews()
                             touchGroup(group)
                             mSearchViewModel.onMainGroupLoaded(mGroupViewModel.mainGroup)
                         }
@@ -813,30 +837,7 @@ class GroupActivity : DatabaseLockActivity() {
 
         // Update view
         mBreadcrumbAdapter?.iconDrawableFactory = database.iconDrawableFactory
-        refreshDatabaseViews()
         invalidateOptionsMenu()
-    }
-
-    private fun refreshDatabaseViews() {
-        // TODO UI Flow
-        mDatabase?.let {
-            val databaseName = it.name.ifEmpty { getString(R.string.database) }
-            databaseNavView?.setDatabaseName(databaseName)
-            databaseNameView?.text = databaseName
-            databaseNavView?.setDatabasePath(it.fileUri?.toString())
-            databaseNavView?.setDatabaseVersion(it.version)
-            val customColor = it.customColor
-            databaseNavView?.setDatabaseColor(customColor)
-            if (customColor != null) {
-                databaseColorView?.visibility = View.VISIBLE
-                databaseColorView?.setColorFilter(
-                    customColor,
-                    PorterDuff.Mode.SRC_IN
-                )
-            } else {
-                databaseColorView?.visibility = View.GONE
-            }
-        }
     }
 
     override fun onDatabaseActionFinished(

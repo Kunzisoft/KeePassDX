@@ -37,6 +37,7 @@ import com.kunzisoft.keepass.database.element.binary.BinaryData
 import com.kunzisoft.keepass.database.element.database.CompressionAlgorithm
 import com.kunzisoft.keepass.database.element.node.Nodes
 import com.kunzisoft.keepass.model.CipherEncryptDatabase
+import com.kunzisoft.keepass.model.DatabaseMetadata
 import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.model.GroupInfo
 import com.kunzisoft.keepass.model.SnapFileDatabaseInfo
@@ -56,11 +57,11 @@ class DatabaseViewModel(application: Application): AndroidViewModel(application)
     val database: ContextualDatabase?
         get() = databaseState.value
 
-    private val mDatabaseModifiedSinceLastLoading = MutableStateFlow(false)
-    val databaseModifiedSinceLastLoading: StateFlow<Boolean> = mDatabaseModifiedSinceLastLoading.asStateFlow()
-
     private val mActionState = MutableStateFlow<ActionState>(ActionState.Wait)
     val actionState: StateFlow<ActionState> = mActionState.asStateFlow()
+
+    private val mDatabaseMetadata = MutableStateFlow<DatabaseMetadata?>(null)
+    val databaseMetadata: StateFlow<DatabaseMetadata?> = mDatabaseMetadata.asStateFlow()
 
     private var mDatabaseTaskProvider: DatabaseTaskProvider = DatabaseTaskProvider(application)
 
@@ -89,6 +90,9 @@ class DatabaseViewModel(application: Application): AndroidViewModel(application)
                     newDatabaseInfo,
                     readOnlyDatabase
                 )
+                mDatabaseMetadata.value = mDatabaseMetadata.value?.copy(
+                    path = newDatabaseInfo.fileUri?.toString()
+                )
             }
         }
         mDatabaseTaskProvider.actionTaskListener = object : DatabaseTaskNotificationService.ActionTaskListener {
@@ -116,6 +120,14 @@ class DatabaseViewModel(application: Application): AndroidViewModel(application)
                 result: ActionRunnable.Result
             ) {
                 mActionState.value = ActionState.OnDatabaseActionFinished(database, actionTask, result)
+                when (actionTask) {
+                    DatabaseTaskNotificationService.ACTION_DATABASE_UPDATE_NAME_TASK -> {
+                        mDatabaseMetadata.value = mDatabaseMetadata.value?.copy(name = database.name)
+                    }
+                    DatabaseTaskNotificationService.ACTION_DATABASE_UPDATE_COLOR_TASK -> {
+                        mDatabaseMetadata.value = mDatabaseMetadata.value?.copy(color = database.customColor)
+                    }
+                }
             }
         }
 
@@ -123,12 +135,17 @@ class DatabaseViewModel(application: Application): AndroidViewModel(application)
 
         viewModelScope.launch {
             databaseState.collectLatest { database ->
-                if (database == null) {
-                    mDatabaseModifiedSinceLastLoading.value = false
-                } else {
-                    database.dataModifiedSinceLastLoadingFlow.collect { modified ->
-                        mDatabaseModifiedSinceLastLoading.value = modified
-                    }
+                mDatabaseMetadata.value = database?.let {
+                    DatabaseMetadata(
+                        name = it.name,
+                        path = it.fileUri?.toString(),
+                        version = it.version,
+                        color = it.customColor,
+                        isModified = it.dataModifiedSinceLastLoading
+                    )
+                }
+                database?.dataModifiedSinceLastLoadingFlow?.collect { modified ->
+                    mDatabaseMetadata.value = mDatabaseMetadata.value?.copy(isModified = modified)
                 }
             }
         }
