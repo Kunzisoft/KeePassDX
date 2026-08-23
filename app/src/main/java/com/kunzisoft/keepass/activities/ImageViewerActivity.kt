@@ -118,7 +118,7 @@ class ImageViewerActivity : DatabaseLockActivity() {
                 )
 
                 BinaryDatabaseManager.loadBitmap(
-                    database,
+                    database.binaryCache,
                     attachment.binaryData,
                     mImagePreviewMaxWidth
                 ) { bitmapLoaded ->

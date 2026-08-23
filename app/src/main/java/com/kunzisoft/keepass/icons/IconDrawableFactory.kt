@@ -197,22 +197,18 @@ class IconDrawableFactory(
         tintColor: Int = Color.WHITE,
     ) {
         try {
-            val context = imageView.context
-            CoroutineScope(Dispatchers.IO).launch {
-                addToCustomCache(context.resources, icon)
-                withContext(Dispatchers.Main) {
-                    val superDrawable = getIconSuperDrawable(context,
-                        icon,
-                        imageView.width,
-                        tintColor)
-                    imageView.setImageDrawable(superDrawable.drawable)
-                    if (superDrawable.tintable) {
-                        ImageViewCompat.setImageTintList(imageView,
-                            ColorStateList.valueOf(tintColor))
-                    } else {
-                        ImageViewCompat.setImageTintList(imageView, null)
-                    }
-                }
+            val context = imageView.context.applicationContext
+            addToCustomCache(context.resources, icon)
+            val superDrawable = getIconSuperDrawable(context,
+                icon,
+                imageView.width,
+                tintColor)
+            imageView.setImageDrawable(superDrawable.drawable)
+            if (superDrawable.tintable) {
+                ImageViewCompat.setImageTintList(imageView,
+                    ColorStateList.valueOf(tintColor))
+            } else {
+                ImageViewCompat.setImageTintList(imageView, null)
             }
         } catch (e: Exception) {
             Log.e(ImageView::class.java.name, "Unable to assign icon in image view", e)

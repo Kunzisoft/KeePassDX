@@ -22,33 +22,52 @@ package com.kunzisoft.keepass.database.action.node
 import android.content.Context
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.element.Group
-import com.kunzisoft.keepass.database.element.node.Node
 import com.kunzisoft.keepass.hardware.HardwareKey
+import com.kunzisoft.keepass.model.GroupInfo
 
-class UpdateGroupRunnable constructor(
+class UpdateGroupRunnable(
     context: Context,
     database: ContextualDatabase,
-    private val mOldGroup: Group,
-    private val mNewGroup: Group,
+    newGroup: GroupInfo,
     save: Boolean,
     afterActionNodesFinish: AfterActionNodesFinish?,
     challengeResponseRetriever: (HardwareKey, ByteArray?) -> ByteArray
-) : ActionNodeDatabaseRunnable(context, database, afterActionNodesFinish, save, challengeResponseRetriever) {
+) : ActionNodeDatabaseRunnable(
+    context,
+    database,
+    afterActionNodesFinish,
+    save,
+    challengeResponseRetriever
+) {
+
+    private var mOldGroup: Group? = null
+    private var mNewGroup: Group? = null
+
+    init {
+        database.getGroupById(newGroup.nodeId)?.let { oldGroup ->
+            mOldGroup = oldGroup
+            mNewGroup = database.updateGroup(Group(oldGroup), newGroup)
+        }
+    }
 
     override fun nodeAction() {
-        if (mOldGroup.nodeId == mNewGroup.nodeId) {
-            // WARNING : Re attribute parent and children removed in group activity to save memory
-            mNewGroup.addParentFrom(mOldGroup)
-            mNewGroup.addChildrenFrom(mOldGroup)
+        mOldGroup?.let { oldGroup ->
+            mNewGroup?.let { newGroup ->
+                if (oldGroup.nodeId == newGroup.nodeId) {
+                    // WARNING : Re attribute parent and children removed in group activity to save memory
+                    newGroup.addParentFrom(oldGroup)
+                    newGroup.addChildrenFrom(oldGroup)
 
-            // Update group with new values
-            mNewGroup.touch(modified = true, touchParents = true)
+                    // Update group with new values
+                    newGroup.touch(modified = true, touchParents = true)
 
-            if (database.rootGroup == mOldGroup) {
-                database.rootGroup = mNewGroup
+                    if (database.rootGroup == oldGroup) {
+                        database.rootGroup = newGroup
+                    }
+                    // Only change data in index
+                    database.updateGroup(newGroup)
+                }
             }
-            // Only change data in index
-            database.updateGroup(mNewGroup)
         }
     }
 
@@ -58,11 +77,13 @@ class UpdateGroupRunnable constructor(
             if (database.rootGroup == mNewGroup) {
                 database.rootGroup = mOldGroup
             }
-            database.updateGroup(mOldGroup)
+            mOldGroup?.let { oldGroup ->
+                database.updateGroup(oldGroup)
+            }
         }
         return ActionNodesValues(
-            listOf<Node>(mOldGroup),
-            listOf<Node>(mNewGroup)
+            oldGroupsIds = mOldGroup?.nodeId?.let { listOf(it) },
+            newGroupsIds = mNewGroup?.nodeId?.let { listOf(it) }
         )
     }
 }

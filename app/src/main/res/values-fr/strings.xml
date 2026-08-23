@@ -73,7 +73,7 @@
     <string name="error_out_of_memory">Mémoire insuffisante pour charger l’intégralité de votre base de données.</string>
     <string name="error_pass_gen_type">Au moins un type de génération de mots de passe doit être sélectionné.</string>
     <string name="error_pass_match">Les mots de passe ne correspondent pas.</string>
-    <string name="error_rounds_too_large">\"Tours de transformation\" trop grand. Définition à 2147483648.</string>
+    <string name="error_rounds_too_large">\"Tours de transformation\" trop grand. Définition à %1$s.</string>
     <string name="error_string_key">Chaque chaîne doit avoir un nom de champ.</string>
     <string name="error_wrong_length">Veuillez saisir un entier positif dans le champ \"Longueur\".</string>
     <string name="error_autofill_enable_service">Impossible d’activer le service de remplissage automatique.</string>
@@ -131,6 +131,7 @@
     <string name="memory_usage_explanation">Quantité de mémoire à utiliser par la fonction de dérivation de clé.</string>
     <string name="parallelism">Parallélisme</string>
     <string name="parallelism_explanation">Degré de parallélisme (nombre de fils d’exécution) utilisé par la fonction de dérivation de clé.</string>
+    <string name="parallelism_set_safe">Définir le nombre de processeurs</string>
     <string name="saving_database">Enregistrement de la base de données…</string>
     <string name="space">Espace</string>
     <string name="sort_menu">Trier</string>
@@ -315,8 +316,6 @@
     <string name="lock_database_back_root_title">Appuyer sur \"Retour\" pour verrouiller</string>
     <string name="lock_database_back_root_summary">Appuyer sur « Retour » pour verrouiller la base de données si vous vous trouvez sur l\'écran racine de la base de données</string>
     <string name="recycle_bin">Corbeille</string>
-    <string name="keyboard_selection_entry_title">Sélection de l’entrée</string>
-    <string name="keyboard_selection_entry_summary">Lors de la sélection d\'une entrée dans KeePassDX, rendre cette entrée disponible dans le Magiclavier</string>
     <string name="delete_entered_password_title">Supprimer le mot de passe</string>
     <string name="delete_entered_password_summary">Supprime le mot de passe saisi après une tentative de connexion à une base de données</string>
     <string name="content_description_open_file">Ouvrir le fichier</string>

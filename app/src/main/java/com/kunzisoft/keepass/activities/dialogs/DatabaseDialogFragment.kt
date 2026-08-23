@@ -19,7 +19,7 @@ import kotlinx.coroutines.launch
 
 abstract class DatabaseDialogFragment : DialogFragment(), DatabaseRetrieval {
 
-    private val mDatabaseViewModel: DatabaseViewModel by activityViewModels()
+    protected val mDatabaseViewModel: DatabaseViewModel by activityViewModels()
     private val mDatabase: ContextualDatabase?
         get() = mDatabaseViewModel.database
 
@@ -27,25 +27,25 @@ abstract class DatabaseDialogFragment : DialogFragment(), DatabaseRetrieval {
         super.onCreate(savedInstanceState)
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                mDatabaseViewModel.actionState.collect { uiState ->
-                    when (uiState) {
-                        is DatabaseViewModel.ActionState.OnDatabaseActionFinished -> {
-                            onDatabaseActionFinished(
-                                uiState.database,
-                                uiState.actionTask,
-                                uiState.result
-                            )
+                launch {
+                    mDatabaseViewModel.databaseState.collect { database ->
+                        database?.let {
+                            onDatabaseRetrieved(database)
                         }
-                        else -> {}
                     }
                 }
-            }
-        }
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.RESUMED) {
-                mDatabaseViewModel.databaseState.collect { database ->
-                    database?.let {
-                        onDatabaseRetrieved(database)
+                launch {
+                    mDatabaseViewModel.actionState.collect { uiState ->
+                        when (uiState) {
+                            is DatabaseViewModel.ActionState.OnDatabaseActionFinished -> {
+                                onDatabaseActionFinished(
+                                    uiState.database,
+                                    uiState.actionTask,
+                                    uiState.result
+                                )
+                            }
+                            else -> {}
+                        }
                     }
                 }
             }

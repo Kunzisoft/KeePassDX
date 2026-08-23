@@ -68,7 +68,7 @@
     <string name="error_out_of_memory">Nincs elég memória a teljes adatbázis betöltéséhez.</string>
     <string name="error_pass_gen_type">Legalább egy jelszóelőállítási típust kell választania.</string>
     <string name="error_pass_match">A jelszavak nem egyeznek meg.</string>
-    <string name="error_rounds_too_large">A „Transzformációs körök” száma túl nagy. Beállítás 2147483648-ra.</string>
+    <string name="error_rounds_too_large">A „Transzformációs körök” száma túl nagy. Beállítás %1$s-ra.</string>
     <string name="error_string_key">Minden karakterlánchoz szükséges egy mezőnév.</string>
     <string name="error_wrong_length">Írjon be egy pozitív egész számot a „Hossz” mezőbe.</string>
     <string name="field_name">Mezőnév</string>
@@ -414,8 +414,6 @@
     <string name="content_description_node_children">Alárendelt csomópontok</string>
     <string name="delete_entered_password_summary">Törli a beírt jelszót az adatbázishoz való kapcsolódási kísérlet után</string>
     <string name="delete_entered_password_title">Jelszó törlése</string>
-    <string name="keyboard_selection_entry_summary">A Mágikus billentyűzet kitöltése azzal a bejegyzéssel, amelyet megtekint a KeePassDX-ben</string>
-    <string name="keyboard_selection_entry_title">Bejegyzés kiválasztása</string>
     <string name="recycle_bin">Kuka</string>
     <string name="lock_database_back_root_title">Nyomja meg a „Vissza” gombot a zároláshoz</string>
     <string name="do_not_kill_app">Ne lője ki az alkalmazást…</string>

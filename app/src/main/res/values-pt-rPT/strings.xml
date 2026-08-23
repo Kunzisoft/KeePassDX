@@ -69,7 +69,7 @@
     <string name="error_out_of_memory">Sem memória suficiente para carregar toda a base de dados.</string>
     <string name="error_pass_gen_type">Tem de ser selecionado pelo menos um tipo de geração de palavra-chave.</string>
     <string name="error_pass_match">As palavras-passe não coincidem.</string>
-    <string name="error_rounds_too_large">\"Rodadas de transformação\" é muito grande. Alterado para 2147483648.</string>
+    <string name="error_rounds_too_large">\"Rodadas de transformação\" é muito grande. Alterado para %1$s.</string>
     <string name="error_string_key">É necessário um nome de campo para cada cadeia.</string>
     <string name="error_wrong_length">Digite um número inteiro positivo no campo \"Comprimento\".</string>
     <string name="field_name">Nome do campo</string>
@@ -292,8 +292,6 @@
     <string name="lock_database_back_root_title">Pressione \'Voltar\' para bloquear</string>
     <string name="lock_database_back_root_summary">Pressione \'Voltar\' para bloquear o base de dados se estiver no ecrã principal da base de dados</string>
     <string name="recycle_bin">Caixote da reciclagem</string>
-    <string name="keyboard_selection_entry_title">Seleção de entrada</string>
-    <string name="keyboard_selection_entry_summary">Ao ver uma entrada no KeePassDX, preencher o Magikeyboard com essa entrada</string>
     <string name="delete_entered_password_title">Eliminar palavra-passe</string>
     <string name="delete_entered_password_summary">Eliminar a palavra-passe inserida após uma tentativa de conexão a uma base de dados</string>
     <string name="content_description_open_file">Abrir ficheiro</string>
@@ -763,4 +761,10 @@
     <string name="user_verification_required_description_precise">%1$s requer verificação de que é realmente você.</string>
     <string name="user_verification_database_credential">Digite os quatro primeiros caracteres da palavra-passe da sua base de dados</string>
     <string name="first_chars">Primeiros caracteres</string>
+    <string name="content_description_share_url">Partilhar URL</string>
+    <string name="show_tags_title">Mostrar Etiquetas</string>
+    <string name="show_tags_summary">Exibir Etiquetas na lista de entradas</string>
+    <string name="benchmark_calculation">Calcular para %1$s s</string>
+    <string name="benchmarking">A executar análise comparativa…</string>
+    <string name="keyboard_share_browser">Partilhe de %1$s para KeePassDX</string>
 </resources>

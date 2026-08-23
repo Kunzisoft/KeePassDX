@@ -23,40 +23,47 @@ import android.content.Context
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.action.node.UpdateEntryRunnable
 import com.kunzisoft.keepass.database.element.Entry
+import com.kunzisoft.keepass.database.element.EntryId
 import com.kunzisoft.keepass.hardware.HardwareKey
 import com.kunzisoft.keepass.tasks.ActionRunnable
 
 class RestoreEntryHistoryDatabaseRunnable (
     private val context: Context,
     private val database: ContextualDatabase,
-    private val mainEntry: Entry,
+    entryId: EntryId,
     private val entryHistoryPosition: Int,
-    private val saveDatabase: Boolean,
+    private val save: Boolean,
     private val challengeResponseRetriever: (HardwareKey, ByteArray?) -> ByteArray
 ) : ActionRunnable() {
 
     private var updateEntryRunnable: UpdateEntryRunnable? = null
+    private var mMainEntry: Entry? = null
+
+    init {
+        database.getEntryById(entryId)?.let { entry ->
+            mMainEntry = entry
+        }
+    }
 
     override fun onStartRun() {
         try {
-            val historyToRestore = Entry(mainEntry.getHistory()[entryHistoryPosition])
-            // Copy history of main entry in the restore entry
-            mainEntry.getHistory().forEach {
-                historyToRestore.addEntryToHistory(it)
-            }
-            // Update the entry with the fresh formatted entry to restore
-            updateEntryRunnable = UpdateEntryRunnable(
-                context,
-                database,
-                mainEntry,
-                historyToRestore,
-                saveDatabase,
-                null,
-                challengeResponseRetriever
-            )
+            mMainEntry?.let { mainEntry ->
+                val historyToRestore = database.getEntryInfoFrom(
+                    entry = mainEntry.getHistory()[entryHistoryPosition],
+                    raw = true
+                )
+                // Update the entry with the fresh formatted entry to restore
+                updateEntryRunnable = UpdateEntryRunnable(
+                    context = context,
+                    database = database,
+                    newEntry = historyToRestore,
+                    save = save,
+                    afterActionNodesFinish = null,
+                    challengeResponseRetriever = challengeResponseRetriever
+                )
 
-            updateEntryRunnable?.onStartRun()
-
+                updateEntryRunnable?.onStartRun()
+            } ?: setError("Entry to restore cannot be null")
         } catch (e: Exception) {
             setError(e)
         }

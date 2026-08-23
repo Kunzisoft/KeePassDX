@@ -34,9 +34,8 @@ import com.kunzisoft.keepass.database.element.group.GroupKDBX
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.node.NodeIdUUID
 import com.kunzisoft.keepass.database.element.node.NodeKDBXInterface
-import com.kunzisoft.keepass.database.element.node.Type
+import com.kunzisoft.keepass.database.element.node.NodeType
 import com.kunzisoft.keepass.database.element.security.ProtectedString
-import com.kunzisoft.keepass.utils.UnsignedLong
 import com.kunzisoft.keepass.utils.readParcelableCompat
 import com.kunzisoft.keepass.utils.readStringIntMap
 import com.kunzisoft.keepass.utils.readStringParcelableMap
@@ -52,7 +51,7 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
     @Transient
     private var mDecodeRef = false
 
-    override var usageCount = UnsignedLong(0)
+    override var usageCount: ULong = 0u
     override var locationChanged = DateInstant()
     override var customData = CustomData()
     private var fields = LinkedHashMap<String, ProtectedString>()
@@ -64,6 +63,7 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
     override var previousParentGroup: UUID = DatabaseVersioned.UUID_ZERO
     var qualityCheck = true
     var autoType = AutoType()
+    var historyMainEntryId: UUID? = null
     var history = mutableListOf<EntryKDBX>()
     var additional = ""
 
@@ -72,7 +72,7 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
     constructor() : super()
 
     constructor(parcel: Parcel) : super(parcel) {
-        usageCount = UnsignedLong(parcel.readLong())
+        usageCount = parcel.readLong().toULong()
         locationChanged = parcel.readParcelableCompat() ?: locationChanged
         customData = parcel.readParcelableCompat() ?: CustomData()
         fields = parcel.readStringParcelableMap()
@@ -81,8 +81,9 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
         backgroundColor = parcel.readString() ?: backgroundColor
         overrideURL = parcel.readString() ?: overrideURL
         tags = parcel.readParcelableCompat() ?: tags
-        previousParentGroup = parcel.readParcelableCompat<ParcelUuid>()?.uuid ?: DatabaseVersioned.UUID_ZERO
+        previousParentGroup = parcel.readParcelableCompat<ParcelUuid>()?.uuid ?: previousParentGroup
         autoType = parcel.readParcelableCompat() ?: autoType
+        historyMainEntryId = parcel.readParcelableCompat<ParcelUuid>()?.uuid ?: historyMainEntryId
         parcel.readTypedList(history, CREATOR)
         additional = parcel.readString() ?: additional
     }
@@ -97,7 +98,7 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
 
     override fun writeToParcel(dest: Parcel, flags: Int) {
         super.writeToParcel(dest, flags)
-        dest.writeLong(usageCount.toKotlinLong())
+        dest.writeLong(usageCount.toLong())
         dest.writeParcelable(locationChanged, flags)
         dest.writeParcelable(customData, flags)
         dest.writeStringParcelableMap(fields, flags)
@@ -108,6 +109,7 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
         dest.writeParcelable(tags, flags)
         dest.writeParcelable(ParcelUuid(previousParentGroup), flags)
         dest.writeParcelable(autoType, flags)
+        dest.writeParcelable(ParcelUuid(historyMainEntryId), flags)
         dest.writeTypedList(history)
         dest.writeString(additional)
     }
@@ -116,9 +118,11 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
      * Update with deep copy of each entry element
      * @param source
      */
-    fun updateWith(source: EntryKDBX,
-                   copyHistory: Boolean = true,
-                   updateParents: Boolean = true) {
+    fun updateWith(
+        source: EntryKDBX,
+        copyHistory: Boolean = true,
+        updateParents: Boolean = true
+    ) {
         super.updateWith(source, updateParents)
         usageCount = source.usageCount
         locationChanged = DateInstant(source.locationChanged)
@@ -133,6 +137,7 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
         tags = source.tags
         previousParentGroup = source.previousParentGroup
         autoType = AutoType(source.autoType)
+        historyMainEntryId = source.historyMainEntryId
         history.clear()
         if (copyHistory)
             history.addAll(source.history)
@@ -157,8 +162,8 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
         return NodeIdUUID(nodeId.id)
     }
 
-    override val type: Type
-        get() = Type.ENTRY
+    override val type: NodeType
+        get() = NodeType.ENTRY
 
     /**
      * Decode a reference key with the FieldReferencesEngine
@@ -354,7 +359,16 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
         return size
     }
 
+    fun isHistoric(): Boolean {
+        return historyMainEntryId != null
+    }
+
     fun addEntryToHistory(entry: EntryKDBX) {
+        // The current entry is no longer part of the history once we add a history entry to it
+        // And the history entry we add must not contain any history in it
+        historyMainEntryId = null
+        entry.clearHistory()
+        entry.historyMainEntryId = nodeId.id
         history.add(entry)
     }
 
@@ -384,7 +398,7 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
 
     override fun touch(modified: Boolean, touchParents: Boolean) {
         super.touch(modified, touchParents)
-        usageCount.plusOne()
+        usageCount++
     }
 
     companion object {

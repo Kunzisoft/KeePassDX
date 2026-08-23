@@ -70,7 +70,7 @@
     <string name="error_out_of_memory">Memoria insufficiente per caricare l\'intero database.</string>
     <string name="error_pass_gen_type">Selezionare almeno un tipo di generazione della password.</string>
     <string name="error_pass_match">Le password non corrispondono.</string>
-    <string name="error_rounds_too_large">«Livello» troppo alto. Impostato a 2147483648.</string>
+    <string name="error_rounds_too_large">«Livello» troppo alto. Impostato a %1$s.</string>
     <string name="error_string_key">Ogni stringa deve avere un nome.</string>
     <string name="error_wrong_length">Inserisci un numero intero positivo nel campo \"Lunghezza\".</string>
     <string name="field_name">Nome campo</string>
@@ -300,8 +300,6 @@
     <string name="lock_database_back_root_title">Premere \'\'Indietro\'\' per bloccare</string>
     <string name="lock_database_back_root_summary">Premi \'Indietro\' per bloccare il database se sei nella schermata principale del database</string>
     <string name="recycle_bin">Cestino</string>
-    <string name="keyboard_selection_entry_title">Selezione elemento</string>
-    <string name="keyboard_selection_entry_summary">Durante la visualizzazione di una voce in KeePassDX, inseriscila nella Magitastiera</string>
     <string name="delete_entered_password_title">Elimina password</string>
     <string name="delete_entered_password_summary">Elimina la password immessa dopo un tentativo di connessione al database</string>
     <string name="content_description_open_file">Apri il file</string>

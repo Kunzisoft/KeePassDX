@@ -23,6 +23,7 @@ import android.content.Context
 import androidx.annotation.StringRes
 import com.kunzisoft.keepass.R
 
+// TODO Manage ULong and unit tests
 class DataByte(var number: Long, var format: ByteFormat) {
 
     fun toBetterByteFormat(): DataByte {

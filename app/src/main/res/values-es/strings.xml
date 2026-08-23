@@ -66,7 +66,7 @@
     <string name="error_out_of_memory">No hay memoria para cargar toda la base de datos.</string>
     <string name="error_pass_gen_type">Debe seleccionarse al menos un tipo de generación de contraseñas.</string>
     <string name="error_pass_match">Las contraseñas no coinciden.</string>
-    <string name="error_rounds_too_large">\"Rondas de transformación\" demasiado altas. Ajuste a 2147483648.</string>
+    <string name="error_rounds_too_large">\"Rondas de transformación\" demasiado altas. Ajuste a %1$s.</string>
     <string name="error_wrong_length">Introduzca un número entero positivo en el campo \"Longitud\".</string>
     <string name="file_browser">Explorador de archivos</string>
     <string name="generate_password">Generar contraseña</string>
@@ -287,8 +287,6 @@
     <string name="do_not_kill_app">No cierre la aplicación…</string>
     <string name="lock_database_back_root_summary">Pulse \'Atrás\' para bloquear la base de datos si se encuentra en la pantalla raíz de la base de datos</string>
     <string name="recycle_bin">Papelera de reciclaje</string>
-    <string name="keyboard_selection_entry_title">Selección de apuntes</string>
-    <string name="keyboard_selection_entry_summary">Al visualizar un apunte en KeePassDX, rellena Magikeyboard con ese apunte</string>
     <string name="delete_entered_password_title">Eliminar contraseña</string>
     <string name="delete_entered_password_summary">Elimina la contraseña introducida tras un intento de conexión a una base de datos</string>
     <string name="content_description_open_file">Abrir archivo</string>

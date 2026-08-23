@@ -56,6 +56,38 @@ class SearchParameters() : Parcelable{
     var searchInRecycleBin = false
     var searchInTemplates = false
 
+    /**
+     * Create a deep copy of the search parameters.
+     */
+    fun copy(): SearchParameters {
+        val result = SearchParameters()
+        result.searchQuery = this.searchQuery
+        result.allowEmptyQuery = this.allowEmptyQuery
+        result.caseSensitive = this.caseSensitive
+        result.isRegex = this.isRegex
+        result.searchInTitles = this.searchInTitles
+        result.searchInUsernames = this.searchInUsernames
+        result.searchInPasswords = this.searchInPasswords
+        result.searchInAppIds = this.searchInAppIds
+        result.searchInUrls = this.searchInUrls
+        result.searchByDomain = this.searchByDomain
+        result.searchBySubDomain = this.searchBySubDomain
+        result.searchInRelyingParty = this.searchInRelyingParty
+        result.credentialIds = this.credentialIds.toList()
+        result.searchInExpired = this.searchInExpired
+        result.searchInNotes = this.searchInNotes
+        result.searchInOTP = this.searchInOTP
+        result.searchInOther = this.searchInOther
+        result.searchInUUIDs = this.searchInUUIDs
+        result.searchInTags = this.searchInTags
+        result.tagsToSearch = this.tagsToSearch.toList()
+        result.searchInCurrentGroup = this.searchInCurrentGroup
+        result.searchInSearchableGroup = this.searchInSearchableGroup
+        result.searchInRecycleBin = this.searchInRecycleBin
+        result.searchInTemplates = this.searchInTemplates
+        return result
+    }
+
     constructor(parcel: Parcel) : this() {
         searchQuery = parcel.readString() ?: searchQuery
         allowEmptyQuery = parcel.readByte() != 0.toByte()

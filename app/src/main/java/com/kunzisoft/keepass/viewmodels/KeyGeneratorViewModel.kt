@@ -19,57 +19,130 @@
  */
 package com.kunzisoft.keepass.viewmodels
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.kunzisoft.keepass.utils.clear
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
 
-class KeyGeneratorViewModel: ViewModel() {
+/**
+ * ViewModel for generating keys.
+ */
+class KeyGeneratorViewModel : ViewModel() {
 
-    val keyGenerated : LiveData<CharArray?> get() = _keyGenerated
-    private val _keyGenerated = MutableLiveData<CharArray?>()
+    private val _keyGenerated = MutableStateFlow<CharArray?>(null)
 
-    val keyGeneratedValidated : LiveData<Void?> get() = _keyGeneratedValidated
-    private val _keyGeneratedValidated = SingleLiveEvent<Void?>()
-    val requireKeyGeneration : LiveData<Void?> get() = _requireKeyGeneration
-    private val _requireKeyGeneration = SingleLiveEvent<Void?>()
+    /**
+     * StateFlow representing the generated key.
+     */
+    val keyGenerated: StateFlow<CharArray?> = _keyGenerated.asStateFlow()
 
-    val passwordGeneratedValidated : LiveData<Void?> get() = _passwordGeneratedValidated
-    private val _passwordGeneratedValidated = SingleLiveEvent<Void?>()
-    val requirePasswordGeneration : LiveData<Void?> get() = _requirePasswordGeneration
-    private val _requirePasswordGeneration = SingleLiveEvent<Void?>()
+    private val _keyGeneratedValidated = MutableSharedFlow<Unit>()
 
-    val passphraseGeneratedValidated : LiveData<Void?> get() = _passphraseGeneratedValidated
-    private val _passphraseGeneratedValidated = SingleLiveEvent<Void?>()
-    val requirePassphraseGeneration : LiveData<Void?> get() = _requirePassphraseGeneration
-    private val _requirePassphraseGeneration = SingleLiveEvent<Void?>()
+    /**
+     * SharedFlow triggered when the generated key is validated.
+     */
+    val keyGeneratedValidated: SharedFlow<Unit> = _keyGeneratedValidated.asSharedFlow()
 
+    private val _requireKeyGeneration = MutableSharedFlow<Unit>()
+
+    /**
+     * SharedFlow triggered when a key generation is required.
+     */
+    val requireKeyGeneration: SharedFlow<Unit> = _requireKeyGeneration.asSharedFlow()
+
+    private val _passwordGeneratedValidated = MutableSharedFlow<Unit>()
+
+    /**
+     * SharedFlow triggered when the generated password is validated.
+     */
+    val passwordGeneratedValidated: SharedFlow<Unit> = _passwordGeneratedValidated.asSharedFlow()
+
+    private val _requirePasswordGeneration = MutableSharedFlow<Unit>()
+
+    /**
+     * SharedFlow triggered when a password generation is required.
+     */
+    val requirePasswordGeneration: SharedFlow<Unit> = _requirePasswordGeneration.asSharedFlow()
+
+    private val _passphraseGeneratedValidated = MutableSharedFlow<Unit>()
+
+    /**
+     * SharedFlow triggered when the generated passphrase is validated.
+     */
+    val passphraseGeneratedValidated: SharedFlow<Unit> = _passphraseGeneratedValidated.asSharedFlow()
+
+    private val _requirePassphraseGeneration = MutableSharedFlow<Unit>()
+
+    /**
+     * SharedFlow triggered when a passphrase generation is required.
+     */
+    val requirePassphraseGeneration: SharedFlow<Unit> = _requirePassphraseGeneration.asSharedFlow()
+
+    /**
+     * Set the generated key.
+     */
     fun setKeyGenerated(value: CharArray?) {
         _keyGenerated.value = value?.copyOf()
     }
 
+    /**
+     * Validate the generated key.
+     */
     fun validateKeyGenerated() {
-        _keyGeneratedValidated.call()
+        viewModelScope.launch {
+            _keyGeneratedValidated.emit(Unit)
+        }
     }
 
+    /**
+     * Validate the generated password.
+     */
     fun validatePasswordGenerated() {
-        _passwordGeneratedValidated.call()
+        viewModelScope.launch {
+            _passwordGeneratedValidated.emit(Unit)
+        }
     }
 
+    /**
+     * Validate the generated passphrase.
+     */
     fun validatePassphraseGenerated() {
-        _passphraseGeneratedValidated.call()
+        viewModelScope.launch {
+            _passphraseGeneratedValidated.emit(Unit)
+        }
     }
 
+    /**
+     * Require a key generation.
+     */
     fun requireKeyGeneration() {
-        _requireKeyGeneration.call()
+        viewModelScope.launch {
+            _requireKeyGeneration.emit(Unit)
+        }
     }
 
+    /**
+     * Require a password generation.
+     */
     fun requirePasswordGeneration() {
-        _requirePasswordGeneration.call()
+        viewModelScope.launch {
+            _requirePasswordGeneration.emit(Unit)
+        }
     }
 
+    /**
+     * Require a passphrase generation.
+     */
     fun requirePassphraseGeneration() {
-        _requirePassphraseGeneration.call()
+        viewModelScope.launch {
+            _requirePassphraseGeneration.emit(Unit)
+        }
     }
 
     override fun onCleared() {

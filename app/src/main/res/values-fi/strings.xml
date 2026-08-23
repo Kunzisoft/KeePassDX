@@ -69,7 +69,7 @@
     <string name="error_out_of_memory">Ei tarpeeksi muistia koko tietokantasi lataamiseen.</string>
     <string name="error_pass_gen_type">Vähintään yksi salasanagenerointitapa täytyy olla valittuna.</string>
     <string name="error_pass_match">Salasanat eivät täsmää.</string>
-    <string name="error_rounds_too_large">Kierroksia on liian paljon. Asetetaan se arvoon 2147483648.</string>
+    <string name="error_rounds_too_large">Kierroksia on liian paljon. Asetetaan se arvoon %1$s.</string>
     <string name="error_string_key">Jokaisella tekstillä tulee olla kentässä nimi.</string>
     <string name="error_wrong_length">Syötä positiivinen kokonaisluku pituus-kenttään.</string>
     <string name="field_name">Kentän nimi</string>

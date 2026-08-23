@@ -63,7 +63,7 @@
     <string name="error_out_of_memory">Brak pamięci na załadowanie całej bazy danych.</string>
     <string name="error_pass_gen_type">Należy wybrać co najmniej jeden rodzaj generowania hasła.</string>
     <string name="error_pass_match">Hasła nie pasują do siebie.</string>
-    <string name="error_rounds_too_large">„Rundy transformacji” są zbyt wysokie. Ustaw na 2147483648.</string>
+    <string name="error_rounds_too_large">„Rundy transformacji” są zbyt wysokie. Ustaw na %1$s.</string>
     <string name="error_wrong_length">Wprowadź dodatnią liczbę całkowitą w polu „Długość”.</string>
     <string name="file_browser">Menedżer plików</string>
     <string name="generate_password">Generuj hasło</string>
@@ -292,8 +292,6 @@
     <string name="lock_database_back_root_title">Naciśnij „Wstecz”, aby zablokować</string>
     <string name="lock_database_back_root_summary">Naciśnij „Wstecz”, aby zablokować bazę danych, jeśli znajdujesz się na ekranie głównym bazy danych</string>
     <string name="recycle_bin">Kosz</string>
-    <string name="keyboard_selection_entry_title">Wybór wpisu</string>
-    <string name="keyboard_selection_entry_summary">Podczas przeglądania wpisu w KeePassDX zapełnij Magikeyboard tym wpisem</string>
     <string name="delete_entered_password_title">Usuń hasło</string>
     <string name="delete_entered_password_summary">Usuwa hasło wprowadzone po próbie połączenia z bazą danych</string>
     <string name="content_description_open_file">Otwórz plik</string>

@@ -75,7 +75,7 @@
     <string name="error_out_of_memory">Zu wenig Speicher, um die gesamte Datenbank zu laden.</string>
     <string name="error_pass_gen_type">Mindestens eine Art der Passwortgenerierung muss ausgewählt werden.</string>
     <string name="error_pass_match">Die Passwörter stimmen nicht überein.</string>
-    <string name="error_rounds_too_large">Zu viele „Verschlüsselungsrunden“. Wird auf 2147483648 eingestellt.</string>
+    <string name="error_rounds_too_large">Zu viele „Verschlüsselungsrunden“. Wird auf %1$s eingestellt.</string>
     <string name="error_string_key">Jeder Text braucht einen Feldnamen.</string>
     <string name="error_wrong_length">Gib eine positive ganze Zahl in das Feld „Länge“ ein.</string>
     <string name="field_name">Feldname</string>
@@ -180,6 +180,7 @@
     <string name="memory_usage_explanation">Arbeitsspeicher, der für die Schlüsselableitung gebraucht wird.</string>
     <string name="parallelism">Parallelisierung</string>
     <string name="parallelism_explanation">Grad der Parallelisierung (d. h. Anzahl der Threads), der für die Schlüsselableitung genutzt wird.</string>
+    <string name="parallelism_set_safe">Anzahl der Prozessoren festlegen</string>
     <string name="sort_menu">Sortieren</string>
     <string name="sort_ascending">Aufsteigend ↓</string>
     <string name="sort_groups_before">Gruppen oben</string>
@@ -306,8 +307,6 @@
     <string name="do_not_kill_app">App nicht beenden …</string>
     <string name="lock_database_back_root_summary">„Zurück“ drücken, um die Datenbank zu sperren, wenn man sich auf dem Hauptbildschirm der Datenbank befindet</string>
     <string name="recycle_bin">Papierkorb</string>
-    <string name="keyboard_selection_entry_title">Eintragsauswahl</string>
-    <string name="keyboard_selection_entry_summary">Beim Anzeigen eines Eintrags in KeePassDX wird Magikeyboard mit diesem Eintrag gefüllt</string>
     <string name="delete_entered_password_title">Passwort löschen</string>
     <string name="delete_entered_password_summary">Löscht das eingegebene Passwort nach einem Verbindungsversuch zu einer Datenbank</string>
     <string name="content_description_open_file">Datei öffnen</string>
@@ -758,7 +757,7 @@
     <string name="user_verification">Benutzerüberprüfung</string>
     <string name="education_user_verification_title">Überprüfung für sensible Aktionen</string>
     <string name="education_user_verification_summary">Den Benutzerüberprüfungsmodus für die Sitzung ändern.\n \n„Benutzerüberprüfung aktiviert“ überprüft Aktionen in geschützten Feldern und Datenbankeinstellungen.\n„Benutzerüberprüfung deaktiviert“ ermöglicht ohne Überprüfung beliebige Datenänderungen in der Datenbank.</string>
-    <string name="user_verification_device_credential_title">Benutzerüberprüfungsdaten</string>
+    <string name="user_verification_device_credential_title">Anmeldedaten zur Benutzerüberprüfung</string>
     <string name="content_description_user_verification_information">Informationen zur Benutzerüberprüfung</string>
     <string name="error_passkey_credential_id">Kein Passkey für Vertrauensstelle %1$s und Anmeldeinformationen %2$s gefunden</string>
     <string name="content_description_share_url">URL teilen</string>

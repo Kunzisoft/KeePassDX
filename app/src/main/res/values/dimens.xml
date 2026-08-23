@@ -42,5 +42,7 @@
     <dimen name="small_card_radius">24dp</dimen>
     <dimen name="min_height_breadcrumb">48dp</dimen>
     <dimen name="margin_vertical_breadcrumb">8dp</dimen>
-    <integer name="animation_duration">260</integer>
+    <dimen name="margin_vertical_tags">12dp</dimen>
+    <dimen name="progress_thickness">2dp</dimen>
+    <integer name="animation_duration">220</integer>
 </resources>

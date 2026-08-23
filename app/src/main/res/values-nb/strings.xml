@@ -73,7 +73,7 @@
     <string name="error_load_database_KDF_memory">Kunne ikke laste nøkkelen, prøv å senke minnet brukt av KDF.</string>
     <string name="error_pass_gen_type">Minst én passordgenereringstype må velges.</string>
     <string name="error_pass_match">Passordene samsvarer ikke.</string>
-    <string name="error_rounds_too_large">\"Omganger\" er for stort. Setter til 2147483648.</string>
+    <string name="error_rounds_too_large">\"Omganger\" er for stort. Setter til %1$s.</string>
     <string name="error_string_key">Hver streng må ha et feltnavn.</string>
     <string name="error_wrong_length">Skriv inn et positivt heltall i \"Lengde\" feltet.</string>
     <string name="error_autofill_enable_service">Autofyll-tjenesten kan ikke skrus på.</string>
@@ -286,8 +286,6 @@
     <string name="lock_database_back_root_title">Trykk «Tilbake» for å låse</string>
     <string name="lock_database_back_root_summary">Trykk «Tilbake» for å låse databasen hvis du er ved rotskjermen til databasen</string>
     <string name="recycle_bin">Papirkurv</string>
-    <string name="keyboard_selection_entry_title">Oppføringsvalg</string>
-    <string name="keyboard_selection_entry_summary">Når du ser på en oppføring i KeePassDX blir Magikeyboard fylt opp med den oppføringen</string>
     <string name="delete_entered_password_title">Slett passord</string>
     <string name="delete_entered_password_summary">Sletter passord innskrevet etter et tilkoblingsforsøk til en database</string>
     <string name="content_description_open_file">Åpne fil</string>
@@ -752,4 +750,6 @@
     <string name="user_verification_preferred_summary">Utfør en brukerverifisering når tillitsparten forespør «foretrekket»</string>
     <string name="education_user_verification_summary">Endre brukerverifiseringsmodus for denne sesjonen. \n \n«Brukerverifisering aktivert» verifiserer handling på beskyttede felt og databaseinnstillinger. \n«Brukerverifisering deaktivert» lar deg endre data i databasen din uten verifisering.</string>
     <string name="error_passkey_credential_id">Ingen passnøkkel funnet med tillitsparten %1$s og påloggingsinformasjon %2$s</string>
+    <string name="content_description_share_url">Del URL</string>
+    <string name="show_tags_title">Vis tagger</string>
 </resources>

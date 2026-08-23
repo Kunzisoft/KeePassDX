@@ -20,7 +20,6 @@
 package com.kunzisoft.keepass.activities.dialogs
 
 import android.app.Dialog
-import android.content.Context
 import android.os.Bundle
 import android.view.View
 import android.view.WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE
@@ -31,39 +30,25 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AlertDialog
+import androidx.fragment.app.activityViewModels
 import com.google.android.material.textfield.TextInputLayout
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.element.Field
 import com.kunzisoft.keepass.database.element.security.ProtectedString
 import com.kunzisoft.keepass.utils.getParcelableCompat
+import com.kunzisoft.keepass.viewmodels.EntryEditViewModel
 
 
 class EntryCustomFieldDialogFragment: DatabaseDialogFragment() {
 
     private var oldField: Field? = null
 
-    private var entryCustomFieldListener: EntryCustomFieldListener? = null
+    private val entryEditViewModel: EntryEditViewModel by activityViewModels()
 
     private var customFieldLabelContainer: TextInputLayout? = null
     private var customFieldLabel: TextView? = null
     private var customFieldDeleteButton: ImageView? = null
     private var customFieldProtectionButton: CompoundButton? = null
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        try {
-            entryCustomFieldListener = context as EntryCustomFieldListener
-        } catch (_: ClassCastException) {
-            // The activity doesn't implement the interface, throw exception
-            throw ClassCastException(context.toString()
-                    + " must implement " + EntryCustomFieldListener::class.java.name)
-        }
-    }
-
-    override fun onDetach() {
-        entryCustomFieldListener = null
-        super.onDetach()
-    }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         activity?.let { activity ->
@@ -80,7 +65,7 @@ class EntryCustomFieldDialogFragment: DatabaseDialogFragment() {
 
                 customFieldDeleteButton?.visibility = View.VISIBLE
                 customFieldDeleteButton?.setOnClickListener {
-                    entryCustomFieldListener?.onDeleteCustomFieldApproved(oldCustomField)
+                    entryEditViewModel.removeCustomField(oldCustomField)
                     (dialog as AlertDialog?)?.dismiss()
                 }
             } ?: run {
@@ -126,7 +111,7 @@ class EntryCustomFieldDialogFragment: DatabaseDialogFragment() {
         if (isValid()) {
             oldField?.let {
                 // New property with old value
-                entryCustomFieldListener?.onEditCustomFieldApproved(
+                entryEditViewModel.editCustomField(
                     oldField = it,
                     newField = Field(
                         name = customFieldLabel?.text?.toString() ?: "",
@@ -137,7 +122,7 @@ class EntryCustomFieldDialogFragment: DatabaseDialogFragment() {
                     )
                 )
             } ?: run {
-                entryCustomFieldListener?.onNewCustomFieldApproved(
+                entryEditViewModel.addCustomField(
                     newField = Field(
                         name = customFieldLabel?.text?.toString() ?: "",
                         value = ProtectedString(
@@ -164,12 +149,6 @@ class EntryCustomFieldDialogFragment: DatabaseDialogFragment() {
         customFieldLabelContainer?.error = if (errorId == null) null else {
             requireContext().getString(errorId)
         }
-    }
-
-    interface EntryCustomFieldListener {
-        fun onNewCustomFieldApproved(newField: Field)
-        fun onEditCustomFieldApproved(oldField: Field, newField: Field)
-        fun onDeleteCustomFieldApproved(oldField: Field)
     }
 
     companion object {

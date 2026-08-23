@@ -43,7 +43,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.ImageView
-import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.view.menu.ActionMenuItemView
@@ -77,8 +76,8 @@ fun TextView.applyFontVisibility() {
     typeface = typeFace
 }
 
-fun TextView.applyHiddenStyle(hide: Boolean, changeMaxLines: Boolean = true) {
-    if (hide) {
+fun TextView.applyHiddenStyle(apply: Boolean, changeMaxLines: Boolean = true) {
+    if (apply) {
         transformationMethod = PasswordTransformationMethod.getInstance()
         if (changeMaxLines)
             maxLines = 1
@@ -99,6 +98,13 @@ fun TextView.strikeOut(strikeOut: Boolean) {
         paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
     else
         paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
+}
+
+fun TextView.underline(underline: Boolean) {
+    paintFlags = if (underline)
+        paintFlags or Paint.UNDERLINE_TEXT_FLAG
+    else
+        paintFlags and Paint.UNDERLINE_TEXT_FLAG.inv()
 }
 
 /**
@@ -199,14 +205,13 @@ fun View.expand(animate: Boolean = true,
  * the layout's visibility is GONE
  */
 fun ViewGroup.getFullHeight(): Int {
-    measure(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
     val initialVisibility = visibility
-    visibility = LinearLayout.VISIBLE
-    val desiredWidth = View.MeasureSpec.makeMeasureSpec(
-        width,
+    visibility = View.VISIBLE
+    val widthSpec = View.MeasureSpec.makeMeasureSpec(
+        if (width > 0) width else (parent as? View)?.width ?: resources.displayMetrics.widthPixels,
         View.MeasureSpec.AT_MOST
     )
-    measure(desiredWidth, View.MeasureSpec.UNSPECIFIED)
+    measure(widthSpec, View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED))
     val totalHeight = measuredHeight
     visibility = initialVisibility
     return totalHeight

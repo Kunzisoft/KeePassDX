@@ -34,14 +34,14 @@ import com.kunzisoft.keepass.utils.writeBooleanCompat
  * Abstract class who manage Groups and Entries
  */
 abstract class NodeVersioned<IdType, Parent : GroupVersionedInterface<Parent, Entry>, Entry : EntryVersionedInterface<Parent>>
-    : NodeVersionedInterface<Parent>, NodeTimeInterface, Parcelable {
+    : NodeVersionedInterface<Parent>, NodeTimeInterface, NodeNaturalOrderInterface, Parcelable {
 
     var nodeId: NodeId<IdType> = this.initNodeId()
 
     val id: IdType
         get() = nodeId.id
 
-    var nodeIndexInParentForNaturalOrder = -1
+    override var indexInParent = -1
 
     protected constructor()
 

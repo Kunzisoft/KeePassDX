@@ -21,7 +21,6 @@ package com.kunzisoft.keepass.activities.dialogs
 
 import android.annotation.SuppressLint
 import android.app.Dialog
-import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -35,6 +34,7 @@ import android.widget.EditText
 import android.widget.Spinner
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
+import androidx.fragment.app.activityViewModels
 import com.google.android.material.textfield.TextInputLayout
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.model.OtpModel
@@ -52,11 +52,12 @@ import com.kunzisoft.keepass.otp.TokenCalculator
 import com.kunzisoft.keepass.utils.AppUtil.isContributingUser
 import com.kunzisoft.keepass.utils.UriUtil.openUrl
 import com.kunzisoft.keepass.utils.getParcelableCompat
+import com.kunzisoft.keepass.viewmodels.EntryEditViewModel
 import java.util.Locale
 
 class SetOTPDialogFragment : DatabaseDialogFragment() {
 
-    private var mCreateOTPElementListener: CreateOtpListener? = null
+    private val entryEditViewModel: EntryEditViewModel by activityViewModels()
 
     private var mOtpElement: OtpElement = OtpElement()
 
@@ -108,21 +109,7 @@ class SetOTPDialogFragment : DatabaseDialogFragment() {
         return true
     }
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        // Verify that the host activity implements the callback interface
-        try {
-            // Instantiate the NoticeDialogListener so we can send events to the host
-            mCreateOTPElementListener = context as CreateOtpListener
-        } catch (_: ClassCastException) {
-            // The activity doesn't implement the interface, throw exception
-            throw ClassCastException(context.toString()
-                    + " must implement " + CreateOtpListener::class.java.name)
-        }
-    }
-
     override fun onDetach() {
-        mCreateOTPElementListener = null
         mOtpElement.clear()
         super.onDetach()
     }
@@ -271,7 +258,7 @@ class SetOTPDialogFragment : DatabaseDialogFragment() {
                     && mCounterWellFormed
                     && mPeriodWellFormed
                     && mDigitsWellFormed) {
-                mCreateOTPElementListener?.onOtpCreated(mOtpElement)
+                entryEditViewModel.createOtp(mOtpElement)
                 dismiss()
             }
         }
@@ -428,9 +415,11 @@ class SetOTPDialogFragment : DatabaseDialogFragment() {
         }
     }
 
-    private fun defineOtpTokenTypeSpinner(otpTokenTypeArray: Array<OtpTokenType>,
-                                          tokenType: OtpTokenType,
-                                          defaultTokenType: OtpTokenType) {
+    private fun defineOtpTokenTypeSpinner(
+        otpTokenTypeArray: Array<OtpTokenType>,
+        tokenType: OtpTokenType,
+        defaultTokenType: OtpTokenType,
+    ) {
         val formTokenType = if (otpTokenTypeArray.contains(tokenType)) {
             otpTypeMessage?.visibility = View.GONE
             tokenType
@@ -469,10 +458,6 @@ class SetOTPDialogFragment : DatabaseDialogFragment() {
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putParcelable(KEY_OTP, mOtpElement.otpModel)
-    }
-
-    interface CreateOtpListener {
-        fun onOtpCreated(otpElement: OtpElement)
     }
 
     companion object {

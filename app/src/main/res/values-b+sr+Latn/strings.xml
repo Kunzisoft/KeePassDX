@@ -86,7 +86,7 @@
     <string name="error_wrong_length">Unesite pozitivan ceo broj u polje \"Dužina\".</string>
     <string name="error_label_exists">Ova oznaka već postoji.</string>
     <string name="error_string_key">Svaka niska mora imati ime polja.</string>
-    <string name="error_rounds_too_large">Vrednost transformacijskih prolaza je previsoka. Postavlja se na 2147483648.</string>
+    <string name="error_rounds_too_large">Vrednost transformacijskih prolaza je previsoka. Postavlja se na %1$s.</string>
     <string name="error_pass_match">Lozinke se ne podudaraju.</string>
     <string name="error_disallow_no_credentials">Najmanje jedan podatak za prijavu mora biti unet.</string>
     <string name="error_pass_gen_type">Mora biti izabran najmanje jedan tip generisanja lozinke.</string>
@@ -130,8 +130,6 @@
     <string name="keyboard_save_search_info_summary">Pokušaj da sačuvaš podeljene informacije prilikom ručnog izbora unosa</string>
     <string name="keyboard_notification_entry_summary">Prikaži obaveštenje kada je unos dostupn</string>
     <string name="keyboard_notification_entry_title">Obaveštenje</string>
-    <string name="keyboard_selection_entry_summary">Prikaži polja za unos podataka u Magikeyboard-u prilikom prikazivanja unosa</string>
-    <string name="keyboard_selection_entry_title">Izbor unosa</string>
     <string name="keyboard_entry_category">Unos</string>
     <string name="keyboard_setting_label">Magikeyboard postavke</string>
     <string name="keyboard_label">Magikeyboard (KeePassDX)</string>

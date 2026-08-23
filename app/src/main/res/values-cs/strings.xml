@@ -67,7 +67,7 @@
     <string name="error_out_of_memory">Nedostatek paměti pro načtení celé databáze.</string>
     <string name="error_pass_gen_type">Je třeba zvolit alespoň jeden způsob vytváření hesla.</string>
     <string name="error_pass_match">Zadání hesla se neshodují.</string>
-    <string name="error_rounds_too_large">\"Transformační kola\" jsou příliš vysoká. Nastavuji na 2147483648.</string>
+    <string name="error_rounds_too_large">\"Transformační kola\" jsou příliš vysoká. Nastavuji na %1$s.</string>
     <string name="error_string_key">Každý řetězec musí mít název kolonky.</string>
     <string name="error_wrong_length">Do kolonky „Délka“ zadejte celé kladné číslo.</string>
     <string name="field_name">Název kolonky</string>
@@ -295,8 +295,6 @@
     <string name="lock_database_back_root_title">K uzamknutí stiskněte Zpět</string>
     <string name="lock_database_back_root_summary">Stiskněte „Zpět“ pro uzamčení databáze, pokud se nacházíte na hlavní obrazovce databáze</string>
     <string name="recycle_bin">Koš</string>
-    <string name="keyboard_selection_entry_title">Výběr záznamu</string>
-    <string name="keyboard_selection_entry_summary">Při prohlížení záznamu v KeePassDX zadat záznam do Magikeyboard</string>
     <string name="delete_entered_password_title">Smazat heslo</string>
     <string name="delete_entered_password_summary">Smaže heslo zadané po pokusu o připojení k databázi</string>
     <string name="content_description_open_file">Otevřít soubor</string>

@@ -66,7 +66,7 @@
     <string name="error_out_of_memory">Ikke nok hukommelse til at indlæse hele databasen.</string>
     <string name="error_pass_gen_type">Der skal vælges mindst én type af adgangskodegenerering.</string>
     <string name="error_pass_match">Adgangskoderne er ikke ens.</string>
-    <string name="error_rounds_too_large">\"Transformationsrunder\" er sat for højt. Sættes til 2147483648.</string>
+    <string name="error_rounds_too_large">\"Transformationsrunder\" er sat for højt. Sættes til %1$s.</string>
     <string name="error_string_key">Hver streng skal have et feltnavn.</string>
     <string name="error_wrong_length">Angiv et positivt heltal i feltet \"Længde\".</string>
     <string name="field_name">Feltnavn</string>
@@ -295,8 +295,6 @@
     <string name="lock_database_back_root_title">Tryk på \'Tilbage\' for at låse</string>
     <string name="lock_database_back_root_summary">Lås databasen, når der klikkes på tilbage-knappen fra startskærmen</string>
     <string name="recycle_bin">Papirkurven</string>
-    <string name="keyboard_selection_entry_title">Valg af indtastning</string>
-    <string name="keyboard_selection_entry_summary">Når du ser en post i KeePassDX, skal Magikeyboard udfyldes med den pågældende post</string>
     <string name="delete_entered_password_title">Slet adgangskode</string>
     <string name="delete_entered_password_summary">Sletter den adgangskode, der er indtastet efter et forsøg på at oprette forbindelse til en database</string>
     <string name="content_description_open_file">Åbn fil</string>

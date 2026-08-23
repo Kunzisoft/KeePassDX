@@ -19,7 +19,7 @@
 --><resources>
     <string name="feedback">Відгук</string>
     <string name="homepage">Домівка</string>
-    <string name="about_description">KeePassDX — Android-версія менеджера паролів KeePass.</string>
+    <string name="about_description">Android-версія менеджера паролів KeePass.</string>
     <string name="accept">Прийняти</string>
     <string name="add_entry">Додати запис</string>
     <string name="add_group">Додати групу</string>
@@ -65,7 +65,7 @@
     <string name="error_out_of_memory">Бракує пам\'яті для завантаження всієї вашої бази даних.</string>
     <string name="error_pass_gen_type">Необхідно вибрати принаймні один тип створення пароля.</string>
     <string name="error_pass_match">Паролі не збігаються.</string>
-    <string name="error_rounds_too_large">Забагато циклів. Встановлено 2147483648.</string>
+    <string name="error_rounds_too_large">Забагато циклів. Встановлено %1$s.</string>
     <string name="error_wrong_length">Введіть додатне ціле додатне число до поля «Довжина».</string>
     <string name="file_browser">Файловий менеджер</string>
     <string name="generate_password">Згенерувати пароль</string>
@@ -328,8 +328,6 @@
     <string name="keyboard_notification_entry_clear_close_title">Очищати під час закриття</string>
     <string name="keyboard_notification_entry_summary">Показувати сповіщення, коли запис доступний</string>
     <string name="keyboard_notification_entry_title">Інформаційне сповіщення</string>
-    <string name="keyboard_selection_entry_summary">Під час перегляду запису в KeePassDX заповнювати Magikeyboard цим записом</string>
-    <string name="keyboard_selection_entry_title">Вибір запису</string>
     <string name="keyboard_entry_category">Запис</string>
     <string name="keyboard_setting_label">Налаштування Magikeyboard</string>
     <string name="keyboard_label">Magikeyboard (KeePassDX)</string>
@@ -764,5 +762,9 @@
     <string name="education_user_verification_title">Перевірка для чутливих дій</string>
     <string name="education_user_verification_summary">Змінити режим перевірки користувача для сеансу. \n\n«Перевірка користувача увімкнена» перевіряє дії в захищених полях і налаштуваннях бази даних. \n«Перевірка користувача вимкнена» дає змогу змінювати будь-які дані в базі даних без перевірки.</string>
     <string name="content_description_share_url">Поділитися посиланням</string>
-    <string name="show_tags_title">Показати теги</string>
+    <string name="show_tags_title">Показувати мітки</string>
+    <string name="show_tags_summary">Показувати мітки у списку записів</string>
+    <string name="benchmark_calculation">Обчислено за %1$s с</string>
+    <string name="benchmarking">Тестування…</string>
+    <string name="keyboard_share_browser">Поділитися з %1$s у KeePassDX</string>
 </resources>

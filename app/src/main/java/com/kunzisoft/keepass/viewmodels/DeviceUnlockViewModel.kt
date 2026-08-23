@@ -452,7 +452,7 @@ class DeviceUnlockViewModel(application: Application): AndroidViewModel(applicat
         deviceUnlockManager = null
     }
 
-    fun clear() {
+    fun clearData() {
         if (cryptoPrompt?.isOldCredentialOperation() != true) {
             clearPrompt()
         }

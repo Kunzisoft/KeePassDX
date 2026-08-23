@@ -187,7 +187,7 @@
     <string name="error_arc4">Arcfouri jadašiffer pole toetatud.</string>
     <string name="error_wrong_length">Väljale „Pikkus“ sisesta positiivne täisarv.</string>
     <string name="error_pass_gen_type">Vähemalt üks salasõna loomise tüüp peab olema valitud.</string>
-    <string name="error_rounds_too_large">Iteratsioonide kordade arv on liiga suur. Muudame väärtuseks 2147483648.</string>
+    <string name="error_rounds_too_large">Iteratsioonide kordade arv on liiga suur. Muudame väärtuseks %1$s.</string>
     <string name="error_string_key">Igal tekstil peab olema väljanimi.</string>
     <string name="error_otp_secret_key">Salavõti peab olema base32 vormingus.</string>
     <string name="error_otp_counter">Loendur peab olema vahemikus %1$d kuni %2$d.</string>
@@ -598,7 +598,6 @@
     <string name="magic_keyboard_title">Maagiklahvistik</string>
     <string name="device_keyboard_setting_title">Nutiseadme klahvistiku seadistused</string>
     <string name="keyboard_entry_category">Sisestus</string>
-    <string name="keyboard_selection_entry_title">Sisestuse valik</string>
     <string name="magic_keyboard_explanation_summary">Lülita sisse kohandatud klahvistik, mis eeltäidab sinu saalsõnad ja muud olulised väljad</string>
     <string name="keyboard_label">Maagiklahvistik (KeePassDX)</string>
     <string name="keyboard_name">Maagiklahvistik (Magikeyboard)</string>
@@ -609,7 +608,6 @@
     <string name="keyboard_notification_entry_clear_close_title">Sulgemisel kustuta</string>
     <string name="keyboard_notification_entry_clear_close_summary">Teavituse sulgemisel sulge ka andmebaas</string>
     <string name="keyboard_save_search_info_summary">Hilisema mugava kasutamise jaoks proovi käsitsi sisestamisel salvestada jagatud teavet</string>
-    <string name="keyboard_selection_entry_summary">Kui vaatad mõnda kirjet rakenduses KeePassDX, siis edasta selle kirje andmed Maagiklahvistikule</string>
     <string name="keyboard_notification_entry_content_title">%1$s on Maagiklahvistikus saadaval</string>
     <string name="keyboard_entry_timeout_title">Aegumine</string>
     <string name="keyboard_entry_timeout_summary">Aeg, peale mida kirje kustub klahvistikus</string>

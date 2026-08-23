@@ -21,6 +21,7 @@ package com.kunzisoft.keepass.database.element.template
 import android.os.Parcel
 import android.os.ParcelUuid
 import android.os.Parcelable
+import com.kunzisoft.keepass.database.element.Tags
 import com.kunzisoft.keepass.database.element.database.DatabaseVersioned
 import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.utils.readListCompat
@@ -35,6 +36,7 @@ class Template : Parcelable {
     var icon = IconImage()
     var backgroundColor: Int? = null
     var foregroundColor: Int? = null
+    var tags: Tags = Tags()
     var sections: MutableList<TemplateSection> = mutableListOf()
         private set
 
@@ -52,7 +54,7 @@ class Template : Parcelable {
         icon: IconImage,
         sections: List<TemplateSection>,
         version: Int = 1
-    ) : this(uuid, title, icon, null, null, sections, version)
+    ) : this(uuid, title, icon, null, null, Tags(), sections, version)
 
     constructor(
         uuid: UUID,
@@ -60,6 +62,7 @@ class Template : Parcelable {
         icon: IconImage,
         backgroundColor: Int?,
         foregroundColor: Int?,
+        tags: Tags,
         sections: List<TemplateSection>,
         version: Int = 1
     ) {
@@ -69,6 +72,7 @@ class Template : Parcelable {
         this.icon = icon
         this.backgroundColor = backgroundColor
         this.foregroundColor = foregroundColor
+        this.tags = tags
         this.sections.clear()
         this.sections.addAll(sections)
     }
@@ -80,6 +84,7 @@ class Template : Parcelable {
         this.icon = template.icon
         this.backgroundColor = template.backgroundColor
         this.foregroundColor = template.foregroundColor
+        this.tags = Tags(template.tags)
         this.sections.clear()
         this.sections.addAll(template.sections)
     }
@@ -91,6 +96,7 @@ class Template : Parcelable {
         icon = parcel.readParcelableCompat() ?: icon
         backgroundColor = parcel.readInt()
         foregroundColor = parcel.readInt()
+        tags = parcel.readParcelableCompat() ?: tags
         parcel.readListCompat(sections)
     }
 
@@ -101,6 +107,7 @@ class Template : Parcelable {
         parcel.writeParcelable(icon, flags)
         parcel.writeInt(backgroundColor ?: -1)
         parcel.writeInt(foregroundColor ?: -1)
+        parcel.writeParcelable(tags, flags)
         parcel.writeList(sections)
     }
 

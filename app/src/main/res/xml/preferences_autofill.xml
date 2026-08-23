@@ -21,30 +21,34 @@
     <PreferenceCategory
         android:title="@string/general">
         <SwitchPreferenceCompat
-            android:key="@string/autofill_close_database_key"
-            android:title="@string/autofill_close_database_title"
-            android:summary="@string/autofill_close_database_summary"
-            android:defaultValue="@bool/autofill_close_database_default"/>
+            android:key="@string/autofill_suggestions_key"
+            android:title="@string/autofill_suggestions_title"
+            android:summary="@string/autofill_suggestions_summary"
+            android:defaultValue="@bool/autofill_suggestions_default"/>
         <SwitchPreferenceCompat
             android:key="@string/autofill_inline_suggestions_key"
+            android:dependency="@string/autofill_suggestions_key"
             android:title="@string/autofill_inline_suggestions_title"
             android:summary="@string/autofill_inline_suggestions_summary"
             android:defaultValue="@bool/autofill_inline_suggestions_default"/>
         <SwitchPreferenceCompat
+            android:key="@string/autofill_close_database_key"
+            android:dependency="@string/autofill_suggestions_key"
+            android:title="@string/autofill_close_database_title"
+            android:summary="@string/autofill_close_database_summary"
+            android:defaultValue="@bool/autofill_close_database_default"/>
+        <SwitchPreferenceCompat
             android:key="@string/autofill_manual_selection_key"
+            android:dependency="@string/autofill_suggestions_key"
             android:title="@string/autofill_manual_selection_title"
             android:summary="@string/autofill_manual_selection_summary"
             android:defaultValue="@bool/autofill_manual_selection_default"/>
-        <SwitchPreferenceCompat
-            android:key="@string/autofill_share_magikeyboard_key"
-            android:title="@string/autofill_share_magikeyboard_title"
-            android:summary="@string/autofill_share_magikeyboard_summary"
-            android:defaultValue="@bool/autofill_share_magikeyboard_default"/>
     </PreferenceCategory>
     <PreferenceCategory
         android:title="@string/save">
         <SwitchPreferenceCompat
             android:key="@string/autofill_save_search_info_key"
+            android:dependency="@string/autofill_suggestions_key"
             android:title="@string/autofill_save_search_info_title"
             android:summary="@string/autofill_save_search_info_summary"
             android:defaultValue="@bool/autofill_save_search_info_default"/>

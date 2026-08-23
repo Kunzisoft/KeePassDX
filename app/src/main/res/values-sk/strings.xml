@@ -19,7 +19,7 @@
 --><resources>
     <string name="feedback">Spätná väzba</string>
     <string name="homepage">Domovská stránka</string>
-    <string name="about_description">Implementácia aplikácie KeePass pre Android</string>
+    <string name="about_description">Implementácia správcu hesiel KeePass pre systém Android.</string>
     <string name="accept">Prijať</string>
     <string name="add_entry">Pridať Záznam</string>
     <string name="add_group">Pridať Skupinu</string>
@@ -58,14 +58,14 @@
     <string name="error_arc4">Arcfour stream šifra nie je podporovaná.</string>
     <string name="error_can_not_handle_uri">KeePassDX nevie použiť túto URI.</string>
     <string name="error_file_not_create">Nepodarilo sa vytvoriť súbor.</string>
-    <string name="error_invalid_db">Nepodarilo sa načítať databázu.</string>
+    <string name="error_invalid_db">Databázu sa nepodarilo prečítať.</string>
     <string name="error_invalid_path">Uistite sa, že cesta je správna.</string>
     <string name="error_no_name">Vložte meno.</string>
     <string name="error_nokeyfile">Vyberte keyfile.</string>
     <string name="error_out_of_memory">Žiadna pamäť na načítanie celej databázy.</string>
     <string name="error_pass_gen_type">Musí byť vybraný najmenej jeden typ generovania hesla.</string>
     <string name="error_pass_match">Heslá sa nezhodujú.</string>
-    <string name="error_rounds_too_large">Príliš veľa opakovaní. Nastavujem na 2147483648.</string>
+    <string name="error_rounds_too_large">Príliš veľa opakovaní. Nastavujem na %1$s.</string>
     <string name="error_wrong_length">Do poľa „Dĺžka“ zadajte celé kladné číslo.</string>
     <string name="file_browser">Správca súborov</string>
     <string name="generate_password">Generovať heslo</string>
@@ -207,7 +207,7 @@
     <string name="warning_exact_alarm">Aplikácii ste nepovolili používať presný alarm. V dôsledku toho sa funkcie vyžadujúce časovač nebudú vykonávať s presným časom.</string>
     <string name="permission">Povolenie</string>
     <string name="build_label">Zostava %1$s</string>
-    <string name="device_unlock_prompt_store_credential_message">UPOZORNENIE: Hlavné heslo trezoru si stále musíte pamätať.</string>
+    <string name="device_unlock_prompt_store_credential_message">UPOZORNENIE: Stále si musíte pamätať hlavné prihlasovacie údaje k trezoru</string>
     <string name="device_unlock_invalid_key">Nedá sa prečítať kľúč odomykaného zariadenia. Odstráňte ho a zopakujte postup rozpoznávania odomknutia.</string>
     <string name="device_unlock_not_recognized">Nerozpoznaný odtlačok odomykaného zariadenia</string>
     <string name="device_credential">Heslo zariadenia</string>
@@ -224,7 +224,7 @@
     <string name="temp_device_unlock_timeout_title">Vypršanie platnosti odomykania zariadením</string>
     <string name="temp_device_unlock_timeout_summary">Trvanie používania odomykania zariadením pred odstránením jeho obsahu</string>
     <string name="file_name">Názov súboru</string>
-    <string name="device_unlock_keystore_warning">Táto funkcia uloží zašifrované údaje v zabezpečenom úložisku kľúčov vášho zariadenia. \n \nV závislosti od implementácie natívneho API operačného systému nemusí byť plne funkčný. \nOverte si kompatibilitu a bezpečnosť úložiska kľúčov u výrobcu vášho zariadenia a tvorcu ROM, ktorý používate.</string>
+    <string name="device_unlock_keystore_warning">Táto funkcia uloží zašifrované údaje v zabezpečenom úložisku kľúčov vášho zariadenia.\n \nV závislosti od implementácie natívneho API operačného systému nemusí byť plne funkčný.\n\nOverte si kompatibilitu a bezpečnosť úložiska kľúčov u výrobcu vášho zariadenia a tvorcu ROM, ktorý používate.</string>
     <string name="templates_group_enable_title">Použitie šablón</string>
     <string name="templates_group_enable_summary">Na vyplnenie polí záznamu použite dynamické šablóny</string>
     <string name="templates_group_uuid_title">Skupina šablón</string>
@@ -244,8 +244,6 @@
     <string name="device_keyboard_setting_title">Nastavenia klávesnice zariadenia</string>
     <string name="keyboard_name">Magikeyboard</string>
     <string name="keyboard_label">Magikeyboard (KeePassDX)</string>
-    <string name="keyboard_selection_entry_title">Výber záznamu</string>
-    <string name="keyboard_selection_entry_summary">Pri prezeraní záznamu v KeePassDX naplňte Magikeyboard týmto záznamom</string>
     <string name="keyboard_notification_entry_title">Informácie o upozornení</string>
     <string name="keyboard_appearance_category">Vzhľad</string>
     <string name="keyboard_key_sound_title">Vydať zvuk pri stlačení tlačidla</string>
@@ -339,7 +337,7 @@
     <string name="secure_note">Zabezpečená poznámka</string>
     <string name="international_bank_account_number">IBAN</string>
     <string name="entry_otp">OTP</string>
-    <string name="error_load_database">Nepodarilo sa načítať databázu.</string>
+    <string name="error_load_database">Databázu sa nepodarilo načítať.</string>
     <string name="error_load_database_KDF_memory">Nepodarilo sa načítať kľúč. Pokúste sa znížiť KDF \"použitie pamäte\".</string>
     <string name="field_name">Názov poľa</string>
     <string name="subdomain_search_title">Vyhľadávanie subdomény</string>
@@ -351,7 +349,7 @@
     <string name="warning_database_link_revoked">Prístup k súboru odmietnutý správcom súborov</string>
     <string name="warning_sure_remove_data">Chcete napriek tomu tieto údaje odstrániť\?</string>
     <string name="warning_database_info_changed">Informácie obsiahnuté vo vašom databázovom súbore boli upravené mimo aplikácie.</string>
-    <string name="unavailable">Táto databáza zatiaľ nemá uložené poverenia.</string>
+    <string name="unavailable">Nedostupné</string>
     <string name="device_unlock_prompt_not_initialized">Nepodarilo sa zahájiť výzvu na odomknutie zariadenia.</string>
     <string name="content">Obsah</string>
     <string name="database_data_remove_unlinked_attachments_title">Odstráňte neprepojené údaje</string>
@@ -391,7 +389,7 @@
     <string name="kdf_explanation">Na vygenerovanie kľúča pre šifrovací algoritmus sa hlavný kľúč transformuje pomocou funkcie odvodenia s náhodne pridanou zložkou.</string>
     <string name="database_history">História</string>
     <string name="biometric">Biometrika</string>
-    <string name="lock_database_back_root_summary">Uzamknite databázu kliknutím na tlačidlo späť na hlavnej obrazovke</string>
+    <string name="lock_database_back_root_summary">Ak sa nachádzate na hlavnej obrazovke databázy, stlačte tlačidlo „Späť“, aby ste databázu uzamkli</string>
     <string name="lock_database_show_button_summary">Zobrazí tlačidlo uzamknutia v používateľskom rozhraní</string>
     <string name="html_about_privacy">&lt;strong&gt;Nie sú zhromažďované žiadne užívateľské údaje&lt;/strong&gt;, táto aplikácia sa nepripája na žiadny server, pracuje iba lokálne a plne rešpektuje súkromie užívateľov.</string>
     <string name="entry_UUID">UUID</string>
@@ -419,7 +417,7 @@
     <string name="error_otp_secret_key">Tajný kľúč musí byť vo formáte Base32.</string>
     <string name="error_start_database_action">Pri vykonávaní akcie s databázou sa vyskytla chyba.</string>
     <string name="error_challenge_already_requested">Výzva už bola vyžiadaná.</string>
-    <string name="file_not_found_content">Nepodarilo sa nájsť súbor.</string>
+    <string name="file_not_found_content">Súbor sa nepodarilo nájsť</string>
     <string name="list_entries_show_username_summary">Zobrazuje používateľské mená v zoznamoch záznamov</string>
     <string name="list_groups_show_number_entries_title">Zobraziť počet záznamov</string>
     <string name="menu_form_filling_settings">Vypĺňanie formulárov</string>
@@ -580,7 +578,7 @@
     <string name="warning_empty_keyfile_explanation">Obsah súboru keyfile by sa nikdy nemal meniť a v najlepšom prípade by mal obsahovať náhodne generované údaje.</string>
     <string name="path">Cesta</string>
     <string name="merge_success">Zlúčenie bolo úspešne dokončené</string>
-    <string name="device_unlock_prompt_extract_credential_title">Rozpoznanie odomykania zariadenia</string>
+    <string name="device_unlock_prompt_extract_credential_title">Odomknutie zariadenia</string>
     <string name="credential_before_click_device_unlock_button">Zadajte heslo a potom kliknite na toto tlačidlo.</string>
     <string name="properties">Vlastnosti</string>
     <string name="menu_appearance_settings">Vzhľad</string>
@@ -675,7 +673,7 @@
     <string name="hide_templates_title">Skryť šablóny</string>
     <string name="hide_templates_summary">Šablóny sa nezobrazujú</string>
     <string name="warning_database_notification_permission">Oprávnenie na oznámenia umožňuje zobraziť stav databázy a uzamknúť ju ľahko dostupným tlačidlom.\n\nAk neaktivujete toto oprávnenie, databáza otvorená na pozadí nebude viditeľná ak je v popredí iná aplikácia.</string>
-    <string name="warning_permission">Pre zobrazovanie oznámenia je potrebné oprávnenie prístupu k oznámeniam.</string>
+    <string name="warning_permission">Na zobrazenie upozornenia je potrebné povolenie</string>
     <string name="later">Neskôr</string>
     <string name="education_validate_entry_title">Overiť vstup</string>
     <string name="warning_database_info_changed_options_read_only">Znovu načítať databázu s poslednými zmenami.</string>
@@ -719,7 +717,7 @@
     <string name="passkey_username">Používateľské meno prístupového kľúča</string>
     <string name="passkey_private_key">Súkromý kľúč prístupového kľúča</string>
     <string name="passkey_credential_id">Id prístupového kľúča</string>
-    <string name="passkey_user_handle"/>
+    <string name="passkey_user_handle">Kľúč používateľa</string>
     <string name="passkeys_backup_state_summary">Uviesť, že prihlasovacie údaje sú zálohované a chránené proti strate jedného zariadenia</string>
     <string name="credential_provider_service_subtitle">Prístupové kľúče, poskytovateľ automatického vyplňovania</string>
     <string name="user_verification">Overenie používateľa</string>
@@ -736,4 +734,29 @@
     <string name="user_verification_database_credential">Zadajte prvé štyri znaky hesla k vašej databáze</string>
     <string name="first_chars">Prvé znaky</string>
     <string name="check">Skontrolovať</string>
+    <string name="content_description_share_url">Zdieľať URL</string>
+    <string name="show_tags_title">Zobraziť značky</string>
+    <string name="show_tags_summary">Zobraziť značky v zozname položiek</string>
+    <string name="user_verification_preferred_summary">Ak vyžaduje dôveryhodná strana overenie typu „preferované“, musíte vykonať overenie používateľa</string>
+    <string name="benchmark_calculation">Vypočítané za %1$s s</string>
+    <string name="benchmarking">Výkonnostné hodnotenie…</string>
+    <string name="keyboard_auto_switch_title">Automatické prepínanie klávesnice Magikeyboard</string>
+    <string name="keyboard_auto_switch_summary">Skúste automaticky prepnúť na Magikeyboard pri vyplňovaní údajov</string>
+    <string name="keyboard_share_browser">Zdieľať z %1$s do KeePassDX</string>
+    <string name="autofill_share_magikeyboard_title">Zdieľať do Magikeyboard</string>
+    <string name="autofill_share_magikeyboard_summary">Zdieľanie položiek získaných z funkcie automatického vypĺňania do Magikeyboardu</string>
+    <string name="education_user_verification_title">Overovanie citlivých akcií</string>
+    <string name="education_user_verification_summary">Zmeňte režim overovania používateľa pre danú reláciu.\n\nPri nastavení „Overovanie používateľa zapnuté“ sa overujú akcie vykonávané v chránených poliach a nastaveniach databázy. \nPri nastavení „Overovanie používateľa vypnuté“ môžete meniť akékoľvek údaje v databáze bez overovania.</string>
+    <string name="passkey">Prístupový kľúč</string>
+    <string name="credential_provider_service_name">Poskytovateľ overovacích údajov KeePassDX</string>
+    <string name="credential_provider_database_username">Databáza KeePassDX</string>
+    <string name="credential_provider_locked_database_description">Kliknite na odomknutie</string>
+    <string name="passkey_creation_description">Uložiť prístupový kľúč do nového záznamu</string>
+    <string name="passkey_relying_party">Strana, ktorá sa spolieha na prístupový kľúč</string>
+    <string name="passkey_backup_eligibility">Podmienky pre zálohovanie prístupového kľúča</string>
+    <string name="passkey_backup_state">Stav zálohy prístupového kľúča</string>
+    <string name="error_passkey_result">Nie je možné vrátiť prístupový kľúč</string>
+    <string name="error_passkey_credential_id">Nenašiel sa žiadny prístupový kľúč u dôveryhodnej strany %1$s a identifikátory poverenia %2$s</string>
+    <string name="error_password_result">Heslo sa nedá obnoviť</string>
+    <string name="content_description_user_verification_information">Informácie o overení používateľa</string>
 </resources>

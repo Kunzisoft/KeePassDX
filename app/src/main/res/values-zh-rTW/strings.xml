@@ -266,7 +266,7 @@
     <string name="error_rebuild_list">無法正確地重建列表。</string>
     <string name="error_registration_read_only">唯讀資料庫不允許儲存新項目。</string>
     <string name="error_remove_file">刪除檔案資料時發生了一個錯誤。</string>
-    <string name="error_rounds_too_large">次數太多，最大設置到 2147483648。</string>
+    <string name="error_rounds_too_large">次數太多，最大設置到 %1$s。</string>
     <string name="error_save_database">無法儲存資料庫。</string>
     <string name="error_start_database_action">對資料庫執行操作時發生了一個錯誤。</string>
     <string name="error_string_key">每個字串必須具有欄位名稱。</string>
@@ -354,8 +354,6 @@
     <string name="keyboard_previous_lock_title">鎖定資料庫</string>
     <string name="keyboard_save_search_info_summary">於 KeePassDX 手動選擇條目後，嘗試記住分享標的以供日後使用</string>
     <string name="keyboard_save_search_info_title">保存分享的訊息</string>
-    <string name="keyboard_selection_entry_summary">在 KeePassDX 中查看條目時，同時把該條目填充到 Magikeyboard</string>
-    <string name="keyboard_selection_entry_title">項目選擇</string>
     <string name="keyboard_setting_label">魔法鍵盤設置</string>
     <string name="keyboard_theme_title">鍵盤主題</string>
     <string name="keyfile_is_empty">密鑰檔案是空白的。</string>

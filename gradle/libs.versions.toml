@@ -1,0 +1,73 @@
+[versions]
+agp = "8.13.2"
+kotlin = "2.0.0"
+ksp = "2.0.0-1.0.21"
+kotlin-coroutines = "1.8.1"
+android-core = "1.10.1"
+android-lifecycle = "2.6.2"
+android-appcompat = "1.6.1"
+android-material = "1.9.0"
+android-test = "1.6.0"
+commons-io = "2.21.0"
+joda-time = "2.14.1"
+room = "2.6.1"
+multidex = "1.0.3"
+preference-ktx = "1.2.0"
+cardview = "1.0.0"
+constraintlayout = "2.1.4"
+viewpager2 = "1.1.0-beta02"
+documentfile = "1.0.1"
+biometric = "1.1.0"
+media = "1.6.0"
+fragment-ktx = "1.6.0"
+tokenautocomplete = "4.0.0-beta05"
+autofill = "1.1.0"
+chroma = "2.6"
+taptargetview = "1.13.3"
+nbvcxz = "1.5.1"
+credentials = "1.2.2"
+bouncycastle = "1.84"
+junit = "4.13.2"
+robolectric = "4.11.1"
+
+[libraries]
+kotlin-stdlib = { group = "org.jetbrains.kotlin", name = "kotlin-stdlib-jdk8", version.ref = "kotlin" }
+kotlinx-coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "kotlin-coroutines" }
+kotlinx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "kotlin-coroutines" }
+androidx-multidex = { group = "com.android.support", name = "multidex", version.ref = "multidex" }
+androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "android-appcompat" }
+androidx-preference-ktx = { group = "androidx.preference", name = "preference-ktx", version.ref = "preference-ktx" }
+androidx-cardview = { group = "androidx.cardview", name = "cardview", version.ref = "cardview" }
+androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
+androidx-viewpager2 = { group = "androidx.viewpager2", name = "viewpager2", version.ref = "viewpager2" }
+androidx-documentfile = { group = "androidx.documentfile", name = "documentfile", version.ref = "documentfile" }
+androidx-biometric = { group = "androidx.biometric", name = "biometric", version.ref = "biometric" }
+androidx-media = { group = "androidx.media", name = "media", version.ref = "media" }
+androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "android-core" }
+androidx-lifecycle-process = { group = "androidx.lifecycle", name = "lifecycle-process", version.ref = "android-lifecycle" }
+androidx-lifecycle-service = { group = "androidx.lifecycle", name = "lifecycle-service", version.ref = "android-lifecycle" }
+androidx-fragment-ktx = { group = "androidx.fragment", name = "fragment-ktx", version.ref = "fragment-ktx" }
+google-material = { group = "com.google.android.material", name = "material", version.ref = "android-material" }
+tokenautocomplete = { group = "com.splitwise", name = "tokenautocomplete", version.ref = "tokenautocomplete" }
+androidx-room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
+androidx-room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
+androidx-autofill = { group = "androidx.autofill", name = "autofill", version.ref = "autofill" }
+joda-time = { group = "joda-time", name = "joda-time", version.ref = "joda-time" }
+chroma = { group = "com.github.Kunzisoft", name = "AndroidClearChroma", version.ref = "chroma" }
+taptargetview = { group = "com.getkeepsafe.taptargetview", name = "taptargetview", version.ref = "taptargetview" }
+commons-io = { group = "commons-io", name = "commons-io", version.ref = "commons-io" }
+nbvcxz = { group = "me.gosimple", name = "nbvcxz", version.ref = "nbvcxz" }
+androidx-credentials = { group = "androidx.credentials", name = "credentials", version.ref = "credentials" }
+bouncycastle-pkix = { group = "org.bouncycastle", name = "bcpkix-jdk18on", version.ref = "bouncycastle" }
+androidx-test-runner = { group = "androidx.test", name = "runner", version.ref = "android-test" }
+androidx-test-core = { group = "androidx.test", name = "core", version.ref = "android-test" }
+junit = { group = "junit", name = "junit", version.ref = "junit" }
+robolectric = { group = "org.robolectric", name = "robolectric", version.ref = "robolectric" }
+
+[plugins]
+android-application = { id = "com.android.application", version.ref = "agp" }
+android-library = { id = "com.android.library", version.ref = "agp" }
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "kotlin" }
+kotlin-kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }

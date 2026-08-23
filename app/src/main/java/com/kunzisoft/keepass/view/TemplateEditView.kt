@@ -27,10 +27,11 @@ import com.kunzisoft.keepass.model.PasskeyEntryFields
 import com.kunzisoft.keepass.otp.OtpEntryFields
 
 
-class TemplateEditView @JvmOverloads constructor(context: Context,
-                                                 attrs: AttributeSet? = null,
-                                                 defStyle: Int = 0)
-    : TemplateAbstractView<TextEditFieldView, TextSelectFieldView, DateTimeEditFieldView>
+class TemplateEditView @JvmOverloads constructor(
+    context: Context,
+    attrs: AttributeSet? = null,
+    defStyle: Int = 0
+) : TemplateAbstractView<TextEditFieldView, TextSelectFieldView, DateTimeEditFieldView>
         (context, attrs, defStyle) {
 
     // Current date time selection
@@ -125,21 +126,28 @@ class TemplateEditView @JvmOverloads constructor(context: Context,
         field: Field
     ): TextEditFieldView? {
         return context?.let {
-            (if (TemplateField.isStandardPasswordName(context, templateAttribute.label))
-                PasswordTextEditFieldView(it)
-            else TextEditFieldView(it)).apply {
+            var buildTextEditView = TextEditFieldView(it)
+            val needUserVerificationToReveal = true
+            when {
+                TemplateField.isStandardPasswordName(context, templateAttribute.label) -> {
+                    buildTextEditView = PasswordTextEditFieldView(it)
+                }
+            }
+            buildTextEditView.apply {
                 // hiddenProtectedValue (mHideProtectedValue) don't work with TextInputLayout
-                setProtection(
-                    protection = field.protectedValue.isProtected,
-                    isCurrentlyProtected = mUnprotectedFields.contains(field).not()
-                ) {
+                onRevealChanged = {
                     mOnChangeFieldProtectionClickListener?.invoke(
-                        FieldProtection(field, isCurrentlyProtected())
+                        FieldProtection(field, isRevealed(), needUserVerificationToReveal)
                     )
                 }
+                setProtection(
+                    isProtected = field.protectedValue.isProtected,
+                    isRevealedByDefault = mRevealedFields.contains(field.name),
+                    needUserVerificationToReveal = needUserVerificationToReveal
+                )
                 // Trick to bypass the onSaveInstanceState in rebuild child
                 onSaveInstanceState = {
-                    saveUnprotectedFieldState(field, isCurrentlyProtected())
+                    saveUnprotectedFieldState(field, isRevealed())
                 }
                 default = templateAttribute.default.toCharArray()
                 setMaxChars(templateAttribute.options.getNumberChars())
@@ -151,7 +159,7 @@ class TemplateEditView @JvmOverloads constructor(context: Context,
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                     importantForAutofill = IMPORTANT_FOR_AUTOFILL_NO
                 }
-                mFields[field] = this
+                mFields[field.name] = this
             }
         }
     }
