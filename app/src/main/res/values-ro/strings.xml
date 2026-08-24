@@ -103,7 +103,7 @@
     <string name="error_nokeyfile">Alege un fișier cheie.</string>
     <string name="error_out_of_memory">Nu există suficientă memorie pentru a lucra cu baza de date.</string>
     <string name="error_load_database">Nu s-a putut încărca baza de date.</string>
-    <string name="error_load_database_KDF_memory">Cheia nu poate fi încărcată. Încearcă să reduci cantitatea de memorie utilizată de funcția de derivare a cheilor (KDF).</string>
+    <string name="error_load_database_KDF_memory">Utilizarea memoriei KDF este prea mare. Nu se poate încărca.</string>
     <string name="error_pass_gen_type">Trebuie selectat cel puțin un tip de generare a parolei.</string>
     <string name="error_disallow_no_credentials">Trebuie de setat cel puțin o acreditare.</string>
     <string name="error_pass_match">Parolele nu se potrivesc.</string>
@@ -761,4 +761,6 @@
     <string name="autofill_suggestions_title">Sugestii de completare automată</string>
     <string name="autofill_suggestions_summary">Utilizează algoritmul de recunoaștere a formularelor pentru a sugera înregistrări</string>
     <string name="passkey_pseudo_random_function">Funcție pseudo-aleatorie cu cheie de acces</string>
+    <string name="error_load_database_KDF_parallelism">Paralelismul KDF prea mare. Nu se poate încărca.</string>
+    <string name="parallelism_set_safe">Setează numărul de procesoare</string>
 </resources>
