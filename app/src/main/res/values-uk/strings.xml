@@ -211,7 +211,7 @@
     <string name="error_label_exists">Ця мітка вже існує.</string>
     <string name="error_string_key">Кожен рядок повинен мати назву поля.</string>
     <string name="error_disallow_no_credentials">Потрібно вказати принаймні одні облікові дані.</string>
-    <string name="error_load_database_KDF_memory">Не вдалося завантажити ключ. Спробуйте зменшити «Використання пам’яті» для KDF.</string>
+    <string name="error_load_database_KDF_memory">Значення «Використання пам’яті» для KDF завелике. Не вдається завантажити.</string>
     <string name="error_load_database">Не вдалося завантажити базу даних.</string>
     <string name="error_invalid_OTP">Недійсний секрет OTP.</string>
     <string name="entry_otp">OTP</string>
@@ -756,4 +756,6 @@
     <string name="autofill_suggestions_title">Підказки автозаповнення</string>
     <string name="autofill_suggestions_summary">Використовувати алгоритм розпізнавання форм для пропонування записів</string>
     <string name="passkey_pseudo_random_function">Псевдовипадкова функція ключа доступу</string>
+    <string name="error_load_database_KDF_parallelism">Значення «Паралелізм» для KDF завелике. Не вдається завантажити.</string>
+    <string name="parallelism_set_safe">Встановити кількість процесорів</string>
 </resources>
