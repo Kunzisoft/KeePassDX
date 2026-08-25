@@ -5,6 +5,7 @@ KeePassDX(4.5.0_beta05)
  * Fix unit converter in KDF dialog #2640
  * Fix KDF parameters #2655 #2640
  * Fix data change indicator #2658
+ * Fix 32 bytes XML v2 KeyFiles #2660
 
 KeePassDX(4.5.0_beta04)
  * Fix exception during template selection #2617

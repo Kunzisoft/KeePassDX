@@ -390,8 +390,9 @@ data class MasterCredential(
 
         /**
          * Create a key file.
+         * Standard KeePass key files use 32 bytes (256 bits) of random data.
          * @param outputStream The output stream to write the key file to
-         * @param keySize The size of the random key to generate
+         * @param keySize The size of the random key to generate (default is 32)
          * @param format The format of the key file
          */
         @Throws(IOException::class)
@@ -460,7 +461,7 @@ data class MasterCredential(
         private const val XML_NODE_DATA_NAME = "Data"
         private const val XML_ATTRIBUTE_DATA_HASH = "Hash"
 
-        private const val DEFAULT_KEYFILE_SIZE = 128
+        private const val DEFAULT_KEYFILE_SIZE = 32
         private const val DEFAULT_KEYFILE_ENCODING = "UTF-8"
         const val CHECK_KEY_PASSWORD_LENGTH = 4
     }

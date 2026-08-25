@@ -4,3 +4,4 @@
  * Correction du converteur d'unités dans la dialogue du KDF #2640
  * Correction des paramètres KDF #2655 #2640
  * Correction de l'indicateur de changement de données #2658
+ * Correction des 32 octets des fichiers de clé XML v2 #2660
