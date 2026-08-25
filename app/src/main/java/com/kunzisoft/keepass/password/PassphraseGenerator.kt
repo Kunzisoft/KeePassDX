@@ -33,7 +33,10 @@ class PassphraseGenerator {
         separatorType: SeparatorType,
         randomDigitsCount: Int
     ): CharArray {
-        val effectiveSeparator = if (separatorType == SeparatorType.RANDOM_NUMBERS) TEMP_SPLIT else wordSeparator
+        val effectiveSeparator = when (separatorType) {
+            SeparatorType.RANDOM_NUMBERS -> { TEMP_SPLIT }
+            else -> wordSeparator
+        }
 
         // From eff_large dictionary
         val passphrase = when (wordCase) {
@@ -53,12 +56,17 @@ class PassphraseGenerator {
             }
         }
 
-        return if (separatorType == SeparatorType.RANDOM_NUMBERS) {
-            val finalPassphrase = replaceSeparatorWithRandomNumbers(passphrase, effectiveSeparator, randomDigitsCount)
-            passphrase.clear()
-            finalPassphrase
-        } else {
-            passphrase
+        return when (separatorType) {
+            SeparatorType.RANDOM_NUMBERS -> {
+                val finalPassphrase = replaceSeparatorWithRandomNumbers(
+                    passphrase,
+                    effectiveSeparator,
+                    randomDigitsCount
+                )
+                passphrase.clear()
+                finalPassphrase
+            }
+            else -> passphrase
         }
     }
 
