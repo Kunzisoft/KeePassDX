@@ -63,7 +63,7 @@
     <string name="error_out_of_memory">Brak pamięci na załadowanie całej bazy danych.</string>
     <string name="error_pass_gen_type">Należy wybrać co najmniej jeden rodzaj generowania hasła.</string>
     <string name="error_pass_match">Hasła nie pasują do siebie.</string>
-    <string name="error_rounds_too_large">„Rundy transformacji” są zbyt wysokie. Ustaw na %1$s.</string>
+    <string name="error_rounds_too_large">„Rundy szyfrowania” są zbyt wysokie. Ustawienie na %1$s.</string>
     <string name="error_wrong_length">Wprowadź dodatnią liczbę całkowitą w polu „Długość”.</string>
     <string name="file_browser">Menedżer plików</string>
     <string name="generate_password">Generuj hasło</string>
@@ -130,7 +130,7 @@
     <string name="html_about_licence">KeePassDX © %1$d Kunzisoft jest &lt;strong&gt;open source&lt;/strong&gt; i &lt;strong&gt;bez reklam&lt;/strong&gt;. \nJest on dostarczany w stanie, zgodnie z licencją &lt;strong&gt;GPLv3&lt;/strong&gt; bez żadnych gwarancji.</string>
     <string name="entry_not_found">Nie znaleziono danych wejściowych.</string>
     <string name="error_load_database">Nie można załadować bazy danych.</string>
-    <string name="error_load_database_KDF_memory">Nie można załadować klucza. Spróbuj zmniejszyć „Użycie pamięci” KDF.</string>
+    <string name="error_load_database_KDF_memory">Zbyt wysokie użycie pamięci KDF. Nie można załadować.</string>
     <string name="error_string_key">Każdy ciąg musi mieć nazwę pola.</string>
     <string name="error_autofill_enable_service">Nie można włączyć usługi automatycznego wypełniania.</string>
     <string name="field_name">Nazwa pola</string>
@@ -237,7 +237,7 @@
     <string name="education_entry_edit_title">Edytuj wpis</string>
     <string name="education_entry_edit_summary">Edytuj swój wpis za pomocą pól niestandardowych. Dane puli mogą być przywoływane między różnymi polami wprowadzania.</string>
     <string name="education_generate_password_title">Utwórz silne hasło</string>
-    <string name="education_generate_password_summary">Wygeneruj silne hasło, które będzie kojarzyć się z Twoim wpisem, łatwo zdefiniuj je zgodnie z kryteriami formularza i nie zapomnij o bezpiecznym haśle.</string>
+    <string name="education_generate_password_summary">Wygeneruj silne hasło, które będzie kojarzyć się z Twoim wpisem, łatwo zdefiniuj je zgodnie z kryteriami formularza i nie zapomnij go.</string>
     <string name="education_entry_new_field_title">Dodaj niestandardowe pola</string>
     <string name="education_entry_new_field_summary">Zarejestruj dodatkowe pole, dodaj wartość i opcjonalnie chroń je.</string>
     <string name="education_unlock_title">Odblokuj swoją bazę danych</string>
@@ -501,7 +501,7 @@
     <string name="device_unlock_prompt_not_initialized">Nie można zainicjować monitu o odblokowanie urządzenia.</string>
     <string name="warning_database_revoked">Dostęp do pliku odwołany przez menedżera plików, zamknij bazę danych i otwórz ją ponownie z jej lokalizacji.</string>
     <string name="warning_database_info_changed_options">Scal dane, zastąp modyfikacje zewnętrzne poprzez zapisanie bazy danych lub ponownie załaduj ją z najnowszymi zmianami.</string>
-    <string name="warning_database_info_changed">Informacje zawarte w pliku bazy danych zostały zmodyfikowane poza aplikacją.</string>
+    <string name="warning_database_info_changed">Informacje zawarte w bazie danych zostały zmodyfikowane poza aplikacją.</string>
     <string name="menu_reload_database">Przeładuj dane</string>
     <string name="unit_gibibyte">GiB</string>
     <string name="unit_mebibyte">MiB</string>
@@ -528,7 +528,7 @@
     <string name="export_app_properties_title">Eksportuj ustawienia aplikacji</string>
     <string name="import_app_properties_summary">Wybierz plik, aby importować ustawienia aplikacji</string>
     <string name="import_app_properties_title">Importuj ustawienia aplikacji</string>
-    <string name="error_start_database_action">Wystąpił błąd podczas wykonywania akcji w bazie danych.</string>
+    <string name="error_start_database_action">Wystąpił błąd podczas wykonywania działania w bazie danych.</string>
     <string name="error_move_group_here">Nie możesz tutaj przenieść grupy.</string>
     <string name="error_word_reserved">To słowo jest zastrzeżone i nie może być używane.</string>
     <string name="name">Imię i nazwisko</string>
@@ -565,7 +565,7 @@
     <string name="holder">Posiadacz</string>
     <string name="debit_credit_card">Karta debetowa / kredytowa</string>
     <string name="template_group_name">Szablony</string>
-    <string name="show_otp_token_summary">Pokaż tokeny OTP na liście wpisów</string>
+    <string name="show_otp_token_summary">Domyślnie wyświetl tokeny OTP</string>
     <string name="show_otp_token_title">Pokaż token OTP</string>
     <string name="menu_external_icon">Ikona zewnętrzna</string>
     <string name="autofill_manual_selection_summary">Wyświetl opcję pozwalającą użytkownikowi wybrać wpis bazy danych</string>
@@ -675,7 +675,7 @@
     <string name="style_name_reply">Odpowiedzi</string>
     <string name="style_name_dark">Ciemny</string>
     <string name="style_name_simple">Prosty</string>
-    <string name="warning_database_info_changed_options_read_only">Załaduj ponownie bazę danych z najnowszymi zmianami.</string>
+    <string name="warning_database_info_changed_options_read_only">Załaduj ponownie bazę danych z najnowszymi zmianami.</string>
     <string name="nodes">Węzły</string>
     <string name="warning_large_keyfile">Nie zaleca się dodawania dużego pliku klucza, ponieważ może to uniemożliwić otwarcie bazy danych.</string>
     <string name="generate_keyfile">Wygeneruj plik klucza</string>
@@ -735,7 +735,7 @@
     <string name="keyboard_auto_switch_summary">Spróbuj automatycznie przełączyć się na klawiaturę Magikeyboard po wypełnieniu wpisów</string>
     <string name="autofill_share_magikeyboard_title">Udostępnij w Magikeyboard</string>
     <string name="autofill_share_magikeyboard_summary">Udostępnij wpisy pobrane z wypełniania automatycznego w Magikeyboard</string>
-    <string name="error_passkey_credential_id">Nie znaleziono klucza dostępu ze stroną ufającą %1$s i identyfikatorami poświadczeń %2$s</string>
+    <string name="error_passkey_credential_id">Nie znaleziono klucza dostępu ze stroną ufającą %1$s i identyfikatorami poświadczeń %2$s</string>
     <string name="password_creation_description">Zapisz hasło w nowym wpisie</string>
     <string name="password_selection_description">Wybierz istniejące hasło</string>
     <string name="error_password_result">Nie można zwrócić hasła</string>
@@ -757,4 +757,14 @@
     <string name="benchmark_calculation">Oblicz dla %1$s s</string>
     <string name="benchmarking">Testowanie wydajności…</string>
     <string name="keyboard_share_browser">Udostępnij z %1$s do KeePassDX</string>
+    <string name="error_memory_too_large">„Użycie pamięci” jest zbyt wysokie. Ustawienie na %1$s.</string>
+    <string name="error_parallelism_too_large">„Równoległość” jest zbyt wysoka. Ustawienie na %1$s.</string>
+    <string name="error_missing_parent">Tej czynności nie można wykonać bez elementu nadrzędnego.</string>
+    <string name="temporary_merge_success">Tymczasowe scalanie danych zostało pomyślnie zakończone</string>
+    <string name="reload_success">Ponowne załadowanie zakończone pomyślnie</string>
+    <string name="autofill_suggestions_title">Sugestie automatycznego wypełniania</string>
+    <string name="autofill_suggestions_summary">Użyj algorytmu rozpoznawania formularzy, aby sugerować wpisy</string>
+    <string name="passkey_pseudo_random_function">Funkcja pseudolosowa klucza dostępu</string>
+    <string name="error_load_database_KDF_parallelism">Zbyt wysoki poziom równoległości KDF. Nie można załadować.</string>
+    <string name="parallelism_set_safe">Ustaw liczbę procesorów</string>
 </resources>

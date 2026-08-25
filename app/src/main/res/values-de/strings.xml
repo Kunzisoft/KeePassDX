@@ -229,7 +229,7 @@
     <string name="education_entry_edit_title">Eintrag bearbeiten</string>
     <string name="education_entry_edit_summary">Dem Eintrag eigene Felder hinzufügen. Die Felder können mit Querverweisen aus anderen Einträgen ergänzt werden.</string>
     <string name="education_generate_password_title">Ein starkes Passwort erstellen</string>
-    <string name="education_generate_password_summary">Ein starkes Passwort, das mit dem Eintrag verbunden wird, kann einfach anhand von Formularkriterien festgelegt werden und bitte nicht vergessen, dieses Passwort zu sichern.</string>
+    <string name="education_generate_password_summary">Ein starkes Passwort, das mit dem Eintrag verbunden wird, kann einfach anhand von Formularkriterien festgelegt werden und es bitte nicht vergessen.</string>
     <string name="education_entry_new_field_title">Eigene Felder hinzufügen</string>
     <string name="education_entry_new_field_summary">Ein zusätzliches Feld einfügen, einen Wert hinzufügen und diesen optional schützen.</string>
     <string name="education_unlock_title">Datenbank entsperren</string>
@@ -274,7 +274,7 @@
     <string name="education_read_only_summary">Den Öffnungsmodus für die Sitzung ändern. \n \n„Schreibgeschützt“ verhindert unbeabsichtigte Änderungen an der Datenbank. \nMit „Änderbar“ lässt sich jedes Element frei bearbeiten, hinzufügen oder löschen.</string>
     <string name="edit_entry">Eintrag bearbeiten</string>
     <string name="error_load_database">Die Datenbank konnte nicht geladen werden.</string>
-    <string name="error_load_database_KDF_memory">Laden des Schlüssels fehlgeschlagen. Bitte versuchen, die „Arbeitsspeichernutzung“ der Schlüsselableitungsfunktion zu verringern.</string>
+    <string name="error_load_database_KDF_memory">KDF-Speicherverbrauch zu hoch. Laden nicht möglich.</string>
     <string name="list_entries_show_username_title">Benutzernamen anzeigen</string>
     <string name="list_entries_show_username_summary">Benutzernamen in Eintragslisten anzeigen</string>
     <string name="build_label">Build %1$s</string>
@@ -517,7 +517,7 @@
     <string name="error_rebuild_list">Die Liste kann nicht ordnungsgemäß neu erstellt werden.</string>
     <string name="error_database_uri_null">Datenbank-URI kann nicht abgerufen werden.</string>
     <string name="menu_reload_database">Daten neu laden</string>
-    <string name="warning_database_info_changed_options">Die Daten zusammenführen, die externen Änderungen durch Speichern der Datenbank überschreiben oder sie mit den neusten Änderungen laden.</string>
+    <string name="warning_database_info_changed_options">Die Daten zusammenführen, die externen Änderungen durch Speichern der Datenbank überschreiben oder sie mit den letzten Änderungen neu laden.</string>
     <string name="error_file_to_big">Die Datei, die hochgeladen werden soll, ist zu groß.</string>
     <string name="warning_database_info_changed">Die in der Datenbank enthaltenen Informationen wurden außerhalb der App geändert.</string>
     <string name="error_remove_file">Beim Löschen der Datei ist ein Fehler aufgetreten.</string>
@@ -583,7 +583,7 @@
     <string name="email_address">E-Mail-Adresse</string>
     <string name="email">E-Mail</string>
     <string name="menu_external_icon">Externes Symbol</string>
-    <string name="show_otp_token_summary">OTP-Tokens in Liste anzeigen</string>
+    <string name="show_otp_token_summary">OTP-Tokens standardmäßig anzeigen</string>
     <string name="show_otp_token_title">OTP-Token anzeigen</string>
     <string name="hint_icon_name">Symbolname</string>
     <string name="permission">Berechtigung</string>
@@ -684,7 +684,7 @@
     <string name="info">Info</string>
     <string name="style_name_light">Hell</string>
     <string name="style_name_dark">Dunkel</string>
-    <string name="warning_database_info_changed_options_read_only">Die Datenbank mit den letzten Änderungen neu laden.</string>
+    <string name="warning_database_info_changed_options_read_only">Bitte die Datenbank mit den letzten Änderungen neu laden.</string>
     <string name="hide_templates_title">Vorlagen ausblenden</string>
     <string name="hide_templates_summary">Vorlagen sind ausgeblendet</string>
     <string name="nodes">Knoten</string>
@@ -766,4 +766,13 @@
     <string name="benchmark_calculation">Für %1$s s berechnen</string>
     <string name="benchmarking">Wird berechnet …</string>
     <string name="keyboard_share_browser">Von %1$s mit KeePassDX teilen</string>
+    <string name="error_memory_too_large">„Speicherverbrauch“ zu hoch. Wird auf %1$s gesetzt.</string>
+    <string name="error_parallelism_too_large">„Parallelität“ zu hoch. Wird auf %1$s gesetzt.</string>
+    <string name="temporary_merge_success">Temporäre Datenzusammenführung erfolgreich abgeschlossen</string>
+    <string name="reload_success">Neuladen erfolgreich abgeschlossen</string>
+    <string name="autofill_suggestions_title">Vorschläge für automatisches Ausfüllen</string>
+    <string name="autofill_suggestions_summary">Die Formularerkennung verwenden, um Einträge vorzuschlagen</string>
+    <string name="passkey_pseudo_random_function">Passkey-Pseudozufallsfunktion</string>
+    <string name="error_missing_parent">Diese Aktion kann nicht ohne ein übergeordnetes Element ausgeführt werden.</string>
+    <string name="error_load_database_KDF_parallelism">KDF-Parallelität zu hoch. Laden nicht möglich.</string>
 </resources>

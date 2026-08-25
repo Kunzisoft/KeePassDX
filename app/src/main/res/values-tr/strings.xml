@@ -60,7 +60,7 @@
     <string name="select_to_copy">%1$s\'yi panoya kopyalamak için seçin</string>
     <string name="retrieving_db_key">Veri tabanı anahtarı alınıyor…</string>
     <string name="decrypting_db">Veri tabanı içeriğinin şifresi çözülüyor…</string>
-    <string name="default_checkbox">Varsayılan veri tabanı olarak kullan</string>
+    <string name="default_checkbox">Öntanımlı veri tabanı olarak kullan</string>
     <string name="digits">Rakamlar</string>
     <string name="html_about_licence">KeePassDX © %1$d Kunzisoft &lt;strong&gt;açık kaynaklıdır&lt;/strong&gt; ve &lt;strong&gt;reklam içermez&lt;/strong&gt;.
 \n&lt;strong&gt;GPLv3&lt;/strong&gt; lisansı altında sağlanmaktadır, herhangi bir garanti vermez.</string>
@@ -71,7 +71,7 @@
     <string name="error_nokeyfile">Bir anahtar dosyası seçin.</string>
     <string name="error_out_of_memory">Tüm veri tabanınızı yükleyecek kadar bellek yok.</string>
     <string name="error_load_database">Veri tabanı yüklenemedi.</string>
-    <string name="error_load_database_KDF_memory">Anahtar yüklenemedi. KDF \"Bellek Kullanımı\" nı azaltmaya çalışın.</string>
+    <string name="error_load_database_KDF_memory">KDF bellek kullanımı çok yüksek. Yüklenemiyor.</string>
     <string name="error_pass_gen_type">En az bir parola oluşturma türü seçilmelidir.</string>
     <string name="error_pass_match">Parolalar uyuşmuyor.</string>
     <string name="error_rounds_too_large">\"Dönüşüm turları\" çok yüksek. %1$s\'e ayarlayın.</string>
@@ -247,7 +247,7 @@
     <string name="education_entry_edit_title">Girdiyi düzenleyin</string>
     <string name="education_entry_edit_summary">Girdinizi özel alanlarla düzenleyin. Havuz verileri farklı girdi alanları arasında referans alınabilir.</string>
     <string name="education_generate_password_title">Güçlü bir parola oluşturun</string>
-    <string name="education_generate_password_summary">Girdinizle ilişkilendirmek için güçlü bir parola oluşturun, formun kriterlerine göre kolayca tanımlayın ve güvenli parolayı unutmayın.</string>
+    <string name="education_generate_password_summary">Girdinizle ilişkilendirmek için güçlü bir parola oluşturun, formun kriterlerine göre kolayca tanımlayın ve parolayı unutmayın.</string>
     <string name="education_entry_new_field_title">Özel alanlar ekleyin</string>
     <string name="education_entry_new_field_summary">Ek bir alan kaydedin, bir değer ekleyin ve isteğe bağlı olarak koruyun.</string>
     <string name="education_unlock_title">Veri tabanınızın kilidini açın</string>
@@ -502,7 +502,7 @@
     <string name="autofill_inline_suggestions_title">Satır içi öneriler</string>
     <string name="warning_database_revoked">Dosyaya erişim dosya yöneticisi tarafından iptal edildi, veri tabanını kapatın ve bulunduğu yerden yeniden açın.</string>
     <string name="warning_database_info_changed_options">Verileri birleştirin, veri tabanını kaydederek harici değişikliklerin üzerine yazın veya en son değişikliklerle yeniden yükleyin.</string>
-    <string name="warning_database_info_changed">Veri tabanı dosyanızda bulunan bilgiler, uygulamanın dışında değiştirildi.</string>
+    <string name="warning_database_info_changed">Veri tabanınızda bulunan bilgiler, uygulamanın dışında değiştirildi.</string>
     <string name="menu_reload_database">Verileri yeniden yükle</string>
     <string name="unit_gibibyte">GiB</string>
     <string name="unit_mebibyte">MiB</string>
@@ -566,7 +566,7 @@
     <string name="holder">Sahip</string>
     <string name="debit_credit_card">Banka / Kredi Kartı</string>
     <string name="template_group_name">Şablonlar</string>
-    <string name="show_otp_token_summary">Girdiler listesinde OTP belirteçlerini görüntüler</string>
+    <string name="show_otp_token_summary">Öntanımlı olarak OTP belirteçlerini görüntüler</string>
     <string name="show_otp_token_title">OTP Belirtecini Göster</string>
     <string name="menu_external_icon">Harici simge</string>
     <string name="autofill_manual_selection_summary">Kullanıcının veri tabanı girdisini seçmesine izin veren seçeneği göster</string>
@@ -676,7 +676,7 @@
     <string name="style_name_simple">Basit</string>
     <string name="style_name_moon">Ay</string>
     <string name="style_name_sun">Güneş</string>
-    <string name="warning_database_info_changed_options_read_only">Veri tabanını en son değişikliklerle yeniden yükle.</string>
+    <string name="warning_database_info_changed_options_read_only">Lütfen veri tabanını en son değişikliklerle yeniden yükleyin.</string>
     <string name="generate_keyfile">Anahtar dosyası oluştur</string>
     <string name="nodes">Düğümler</string>
     <string name="recursive_number_entries_title">Yinelenen girdi sayısı</string>
@@ -758,4 +758,14 @@
     <string name="benchmark_calculation">%1$s s için hesapla</string>
     <string name="benchmarking">Sınanıyor…</string>
     <string name="keyboard_share_browser">%1$s\'den KeePassDX\'e paylaş</string>
+    <string name="error_memory_too_large">\"Bellek kullanımı\" çok yüksek. %1$s olarak ayarlanıyor.</string>
+    <string name="error_parallelism_too_large">\"Paralellik\" çok yüksek. %1$s olarak ayarlanıyor.</string>
+    <string name="error_missing_parent">Bu eylem üstü olmadan gerçekleştirilemez.</string>
+    <string name="temporary_merge_success">Geçici veri birleştirme başarıyla tamamlandı</string>
+    <string name="reload_success">Yeniden yükleme başarıyla tamamlandı</string>
+    <string name="autofill_suggestions_title">Otomatik doldurma önerileri</string>
+    <string name="autofill_suggestions_summary">Girdi önermek için form tanıma algoritması kullan</string>
+    <string name="passkey_pseudo_random_function">Geçiş Anahtarı Sözde Rastgele İşlevi</string>
+    <string name="error_load_database_KDF_parallelism">KDF paralelliği çok yüksek. Yüklenemiyor.</string>
+    <string name="parallelism_set_safe">İşlemci sayısını ayarla</string>
 </resources>

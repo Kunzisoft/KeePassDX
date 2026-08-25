@@ -315,7 +315,7 @@
     <string name="education_entry_edit_title">Upravte záznam</string>
     <string name="education_entry_edit_summary">Upravte svoj záznam pomocou vlastných polí. Dáta môžu byť odkazované medzi rôznymi vstupnými poľami.</string>
     <string name="education_generate_password_title">Vytvorte si silné heslo</string>
-    <string name="education_generate_password_summary">Vygenerujte si silné heslo na priradenie k vášmu záznamu, jednoducho ho definujte podľa kritérií formulára a nezabudnite na bezpečné heslo.</string>
+    <string name="education_generate_password_summary">Vytvoriť silné heslo, ktoré priradíte k svojmu záznamu, jednoducho ho nastavte podľa kritérií uvedených vo formulári a nezabudnite ho.</string>
     <string name="education_entry_new_field_title">Pridajte vlastné polia</string>
     <string name="education_add_attachment_title">Pridať prílohu</string>
     <string name="education_setup_OTP_summary">Nastavte správu jednorazových hesiel (HOTP / TOTP) na generovanie tokenu požadovaného pre dvojfaktorovú autentifikáciu (2FA).</string>
@@ -338,7 +338,7 @@
     <string name="international_bank_account_number">IBAN</string>
     <string name="entry_otp">OTP</string>
     <string name="error_load_database">Databázu sa nepodarilo načítať.</string>
-    <string name="error_load_database_KDF_memory">Nepodarilo sa načítať kľúč. Pokúste sa znížiť KDF \"použitie pamäte\".</string>
+    <string name="error_load_database_KDF_memory">Využitie pamäte KDF je príliš vysoké. Nepodarilo sa načítať.</string>
     <string name="field_name">Názov poľa</string>
     <string name="subdomain_search_title">Vyhľadávanie subdomény</string>
     <string name="subdomain_search_summary">Vyhľadávajte webové domény s obmedzeniami subdomén</string>
@@ -348,7 +348,7 @@
     <string name="warning">Upozornenie</string>
     <string name="warning_database_link_revoked">Prístup k súboru odmietnutý správcom súborov</string>
     <string name="warning_sure_remove_data">Chcete napriek tomu tieto údaje odstrániť\?</string>
-    <string name="warning_database_info_changed">Informácie obsiahnuté vo vašom databázovom súbore boli upravené mimo aplikácie.</string>
+    <string name="warning_database_info_changed">Informácie obsiahnuté vo vašej databáze boli upravené mimo aplikácie.</string>
     <string name="unavailable">Nedostupné</string>
     <string name="device_unlock_prompt_not_initialized">Nepodarilo sa zahájiť výzvu na odomknutie zariadenia.</string>
     <string name="content">Obsah</string>
@@ -500,7 +500,7 @@
     <string name="error_field_name_already_exists">Názov poľa už existuje.</string>
     <string name="error_database_uri_null">Identifikátor URI databázy nie je možné získať.</string>
     <string name="error_rebuild_list">Zoznam nie je možné správne vytvoriť.</string>
-    <string name="show_otp_token_summary">Zobrazí tokeny OTP v zozname záznamov</string>
+    <string name="show_otp_token_summary">V predvolenom nastavení zobrazuje OTP tokeny</string>
     <string name="copy_field">Kópia %1$s</string>
     <string name="menu_security_settings">Bezpečnostné nastavenia</string>
     <string name="menu_cancel">Zrušiť</string>
@@ -759,4 +759,14 @@
     <string name="error_passkey_credential_id">Nenašiel sa žiadny prístupový kľúč u dôveryhodnej strany %1$s a identifikátory poverenia %2$s</string>
     <string name="error_password_result">Heslo sa nedá obnoviť</string>
     <string name="content_description_user_verification_information">Informácie o overení používateľa</string>
+    <string name="error_memory_too_large">„Využitie pamäte“ je príliš vysoké. Nastavenie na %1$s.</string>
+    <string name="error_parallelism_too_large">„Paralelizmus“ je príliš vysoký. Nastavenie na %1$s.</string>
+    <string name="error_missing_parent">Túto akciu nemožno vykonať bez rodiča.</string>
+    <string name="temporary_merge_success">Zlúčenie dočasných údajov bolo úspešne dokončené</string>
+    <string name="reload_success">Obnovenie prebehlo úspešne</string>
+    <string name="autofill_suggestions_title">Návrhy na automatické vypĺňanie</string>
+    <string name="autofill_suggestions_summary">Na navrhovanie záznamov použite algoritmus rozpoznávania formulárov</string>
+    <string name="passkey_pseudo_random_function">Pseudonáhodná funkcia prístupového kľúča</string>
+    <string name="error_load_database_KDF_parallelism">Paralelizmus KDF je príliš vysoký. Načítanie sa nepodarilo.</string>
+    <string name="parallelism_set_safe">Nastaviť počet procesorov</string>
 </resources>

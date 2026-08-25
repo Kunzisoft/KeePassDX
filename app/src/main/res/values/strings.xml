@@ -640,7 +640,7 @@
     <string name="education_entry_edit_title">Edit the entry</string>
     <string name="education_entry_edit_summary">Edit your entry with custom fields. Pool data can be referenced between different entry fields.</string>
     <string name="education_generate_password_title">Create a strong password</string>
-    <string name="education_generate_password_summary">Generate a strong password to associate with your entry, easily define it according to the criteria of the form and don\'t forget secure password.</string>
+    <string name="education_generate_password_summary">Generate a strong password to associate with your entry, easily define it according to the criteria of the form and don\'t forget it.</string>
     <string name="education_validate_entry_title">Validate the entry</string>
     <string name="education_validate_entry_summary">Remember to validate your entry and save your database.\n\nIf an automatic lock is activated and you forget you were making a modification, you risk losing your data.</string>
     <string name="education_entry_new_field_title">Add custom fields</string>
@@ -799,7 +799,7 @@
     <string name="passkey_backup_state">Passkey Backup State</string>
     <string name="passkey_pseudo_random_function">Passkey Pseudo-Random Function</string>
     <string name="error_passkey_result">Unable to return the passkey</string>
-    <string name="error_passkey_credential_id">No passkey found with relying party %1$s and credentialIds %2$s</string>
+    <string name="error_passkey_credential_id">No passkey found with relying party %1$s and credential Ids %2$s</string>
     <string name="password_creation_description">Save password in new entry</string>
     <string name="password_selection_description">Select an existing password</string>
     <string name="error_password_result">Unable to return the password</string>

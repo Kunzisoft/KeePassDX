@@ -69,7 +69,7 @@
     <string name="error_out_of_memory">Недостаточно памяти для работы с базой.</string>
     <string name="error_pass_gen_type">Выберите один или несколько типов символов.</string>
     <string name="error_pass_match">Пароли не совпадают.</string>
-    <string name="error_rounds_too_large">Предельное значение %1$s.</string>
+    <string name="error_rounds_too_large">Значение раундов шифрования слишком велико. Предельное значение %1$s.</string>
     <string name="error_string_key">Каждое поле должно иметь название.</string>
     <string name="error_wrong_length">Поле \"Длина\" должно быть положительным целым числом.</string>
     <string name="field_name">Название поля</string>
@@ -160,7 +160,7 @@
     <string name="edit_entry">Изменить запись</string>
     <string name="allow">Разрешить</string>
     <string name="error_load_database">Невозможно загрузить базу.</string>
-    <string name="error_load_database_KDF_memory">Невозможно загрузить ключ. Попробуйте уменьшить размер памяти, используемой функцией формирования ключа (KDF).</string>
+    <string name="error_load_database_KDF_memory">Использование памяти функцией формирования ключа (KDF) слишком велико. Не удалось загрузить.</string>
     <string name="list_entries_show_username_title">Показывать имя</string>
     <string name="list_entries_show_username_summary">Показывать имя пользователя в списке записей</string>
     <string name="menu_copy">Копировать</string>
@@ -238,7 +238,7 @@
     <string name="education_entry_edit_title">Редактируйте записи</string>
     <string name="education_entry_edit_summary">Редактируйте записи с пользовательскими полями. Возможны перекрёстные ссылки между полями разных записей.</string>
     <string name="education_generate_password_title">Создайте надёжный пароль</string>
-    <string name="education_generate_password_summary">Создайте надёжный пароль, связанный с записью, легко настраиваемый под критерии формы. И не забудьте главный пароль от базы.</string>
+    <string name="education_generate_password_summary">Создайте надёжный пароль, связанный с записью, легко настраиваемый под критерии формы. И не забудьте его.</string>
     <string name="education_entry_new_field_title">Добавляйте пользовательские поля</string>
     <string name="education_entry_new_field_summary">Зарегистрируйте дополнительное поле, добавьте значение и при необходимости защитите его.</string>
     <string name="education_unlock_title">Разблокируйте базу</string>
@@ -572,7 +572,7 @@
     <string name="debit_credit_card">Банковская карта</string>
     <string name="template_group_name">Шаблоны</string>
     <string name="show_otp_token_title">Показывать OTP</string>
-    <string name="show_otp_token_summary">Показывать токены OTP в списке записей</string>
+    <string name="show_otp_token_summary">Показывать токены OTP по умолчанию</string>
     <string name="menu_external_icon">Внешний значок</string>
     <string name="autofill_select_entry">Выбор записи…</string>
     <string name="autofill_manual_selection_summary">Показывать элемент управления для ручного выбора пользователем записи из базы</string>
@@ -767,4 +767,14 @@
     <string name="benchmarking">Тестирование…</string>
     <string name="keyboard_share_browser">Поделиться из %1$s в KeePassDX</string>
     <string name="benchmark_calculation">Вычислено за %1$s сек.</string>
+    <string name="error_memory_too_large">Значение использования памяти слишком велико. Предельное значение %1$s.</string>
+    <string name="error_parallelism_too_large">Значение уровня параллелизма слишком велико. Предельное значение %1$s.</string>
+    <string name="error_missing_parent">Это действие невозможно выполнить без родительского элемента.</string>
+    <string name="temporary_merge_success">Временные данные успешно объединены</string>
+    <string name="reload_success">Перезагрузка успешно выполнена</string>
+    <string name="autofill_suggestions_title">Предложения автозаполнения</string>
+    <string name="autofill_suggestions_summary">Использовать алгоритм распознавания форм для предложения записей</string>
+    <string name="passkey_pseudo_random_function">Псевдослучайная функция ключа доступа</string>
+    <string name="error_load_database_KDF_parallelism">Параллелизм функции формирования ключа (KDF) слишком высок. Не удалось загрузить.</string>
+    <string name="parallelism_set_safe">Установить количество процессоров</string>
 </resources>

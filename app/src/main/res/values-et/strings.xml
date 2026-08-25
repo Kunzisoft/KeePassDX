@@ -176,7 +176,7 @@
     <string name="education_generate_password_title">Loo tugev salasõna</string>
     <string name="content_description_repeat_toggle_password_visibility">Lülita salasõna nähtavus korduvalt sisse/välja</string>
     <string name="build_label">Kompileerimise viide: %1$s</string>
-    <string name="error_load_database_KDF_memory">Võtit ei leidunud. Proovi vähendada seadistust KDFi „Mälukasutus“.</string>
+    <string name="error_load_database_KDF_memory">KDF-i mälukasutus on liiga suur. Laadimine ei õnnestu.</string>
     <string name="file_manager_install_description">Andmebaasifailide loomiseks, avamiseks ja salvestamiseks on vajalik failihalduri olemasolu, mis oskaks kasutada ACTION_CREATE_DOCUMENT ja ACTION_OPEN_DOCUMENT päringuid.</string>
     <string name="navigation_drawer_open">Menüü on avatud</string>
     <string name="navigation_drawer_close">Menüü on suletud</string>
@@ -395,7 +395,7 @@
     <string name="warning_empty_recycle_bin">Kas kustutame kõik prügikastis asuvad sõlmed jäädavalt?</string>
     <string name="warning_sure_add_file">Kas ikkagi lisame faili?</string>
     <string name="warning_replace_file">Selle faili üleslaadimine asendab olemasoleva faili.</string>
-    <string name="warning_database_info_changed_options_read_only">Laadi andmebaas uuesti koos viimaste muudatustega.</string>
+    <string name="warning_database_info_changed_options_read_only">Palun laadi andmebaas uuesti koos viimaste muudatustega.</string>
     <string name="warning_database_info_reloaded">Andmebaasi uuesti laadimine kustutab võimalikud kohalikud muudatused.</string>
     <string name="database_history">Ajalugu</string>
     <string name="properties">Omadused</string>
@@ -415,7 +415,7 @@
     <string name="error_disallow_no_credentials">Vähemalt üks autentimise vahend peab olema sisestatud.</string>
     <string name="warning_permanently_delete_nodes">Kas kustutame valitud sõlmed jäädavalt?</string>
     <string name="show_otp_token_title">Näita ühekordse salasõna tunnusluba</string>
-    <string name="show_otp_token_summary">Näita ühekordse salasõna tunnuslube kirjete loendis</string>
+    <string name="show_otp_token_summary">Vaikimisi kuvab ühekordse salasõna koode</string>
     <string name="compression">Pakkimine</string>
     <string name="compression_gzip">Gzip</string>
     <string name="recycle_bin">Prügikast</string>
@@ -632,7 +632,7 @@
     <string name="education_device_unlock_summary">Andmebaasi lukustuse kiireks eemaldamiseks seo oma andmebaasi salasõna nutiseadme biomeetrilise või tavatuvastusega.</string>
     <string name="education_entry_edit_title">Kirje muutmine</string>
     <string name="education_entry_edit_summary">Võid kirjele lisada omaloodud välju ning ka neid omavahel siduda.</string>
-    <string name="education_generate_password_summary">Sisestusvormil leiduvate eelmistuste alusel saad antud kirje jaoks luua tugeva salasõna ning seda andmebaasis hoides tagad, et korralik salasõna ei unune.</string>
+    <string name="education_generate_password_summary">Sisestusvormil leiduvate eelduste alusel saad antud kirje jaoks luua tugeva salasõna ning seda andmebaasis hoides tagad, et sa teda ei unusta.</string>
     <string name="education_validate_entry_title">Kirje kontrollimine ja salvestamine</string>
     <string name="education_entry_new_field_title">Omaloodud väljade lisamine</string>
     <string name="education_entry_new_field_summary">Registreeri täiendav väli, lisa sinna sisu ning soovi korral ka kaitse seda.</string>
@@ -725,4 +725,14 @@
     <string name="benchmark_calculation">Arvutamise kestus: %1$s sek</string>
     <string name="benchmarking">Arvutan võrdlusanalüüsi jaoks…</string>
     <string name="keyboard_share_browser">Jaga %1$s brauserist KeePassDX-i</string>
+    <string name="error_memory_too_large">Mälukasutus on liiga suur. Seadistan uueks piiriks %1$s.</string>
+    <string name="error_parallelism_too_large">Rööpsus on liiga suur. Seadistan uueks piiriks %1$s.</string>
+    <string name="error_missing_parent">Seda tegevust ei saa ilma ülemobjektita teha.</string>
+    <string name="temporary_merge_success">Andmete ajutine mestimine on kenasti tehtud</string>
+    <string name="reload_success">Andmete laadimine on kenasti tehtud</string>
+    <string name="autofill_suggestions_title">Automaattäite soovitused</string>
+    <string name="autofill_suggestions_summary">Sisestuste soovitamisel kasuta vormituvastuse algoritmi</string>
+    <string name="passkey_pseudo_random_function">Pääsuvõtme pseudojuhuslik funktsionaalsus</string>
+    <string name="error_load_database_KDF_parallelism">KDF-i rööpsus on liiga suur. Laadimine ei õnnestu.</string>
+    <string name="parallelism_set_safe">Seadista kasutatavate protsessorite arv</string>
 </resources>
