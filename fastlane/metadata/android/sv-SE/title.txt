@@ -1,5 +1,1 @@
-<<<<<<< HEAD
-KeePassDX Passkey Vault
-=======
 KeePassDX-lösenordsvalv
->>>>>>> translations
