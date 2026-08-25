@@ -258,7 +258,7 @@
     <string name="keyboard_previous_database_credentials_title">Екран за въвеждане на главната парола</string>
     <string name="select_entry">Изберете запис</string>
     <string name="education_new_node_title">Добавете елементи към хранилището</string>
-    <string name="education_generate_password_summary">Създавайте надеждни пароли за записите, задайте лесно изискванията на формуляра и вашите изисквания за сигурност.</string>
+    <string name="education_generate_password_summary">Създавайте надеждни пароли за записите, задайте лесно изискванията на формуляра и вашите изисквания за сигурност. И не ги забравяйте.</string>
     <string name="education_add_attachment_summary">За да запазите важни външни данни можете да прикачвате файлове към записите.</string>
     <string name="download_progression">Изпълнение: %1$d%%</string>
     <string name="download_complete">Готово!</string>
@@ -752,4 +752,6 @@
     <string name="temporary_merge_success">Временните данни са обединени</string>
     <string name="reload_success">Презаредено</string>
     <string name="autofill_suggestions_title">Попълване на предложения</string>
+    <string name="autofill_suggestions_summary">Използване на разпознаване на формуляри за предлагане на записи</string>
+    <string name="passkey_pseudo_random_function">Псевдослучайна функция на ключа за достъп</string>
 </resources>
