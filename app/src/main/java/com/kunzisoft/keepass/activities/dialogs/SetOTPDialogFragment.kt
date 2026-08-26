@@ -49,9 +49,11 @@ import com.kunzisoft.keepass.otp.OtpElement.Companion.MIN_TOTP_PERIOD
 import com.kunzisoft.keepass.otp.OtpTokenType
 import com.kunzisoft.keepass.otp.OtpType
 import com.kunzisoft.keepass.otp.TokenCalculator
+import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.utils.AppUtil.isContributingUser
 import com.kunzisoft.keepass.utils.UriUtil.openUrl
 import com.kunzisoft.keepass.utils.getParcelableCompat
+import com.kunzisoft.keepass.view.applyFontVisibility
 import com.kunzisoft.keepass.viewmodels.EntryEditViewModel
 import java.util.Locale
 
@@ -145,6 +147,9 @@ class SetOTPDialogFragment : DatabaseDialogFragment() {
             otpTokenTypeSpinner = root?.findViewById(R.id.setup_otp_token_type)
             otpSecretContainer = root?.findViewById(R.id.setup_otp_secret_label)
             otpSecretTextView = root?.findViewById(R.id.setup_otp_secret)
+            if (PreferencesUtil.fieldFontIsInVisibility(activity)) {
+                otpSecretTextView?.applyFontVisibility()
+            }
             otpAlgorithmSpinner = root?.findViewById(R.id.setup_otp_algorithm)
             otpPeriodContainer= root?.findViewById(R.id.setup_otp_period_label)
             otpPeriodTextView = root?.findViewById(R.id.setup_otp_period)

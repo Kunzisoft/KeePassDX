@@ -75,7 +75,9 @@ class PasswordEditView @JvmOverloads constructor(context: Context,
         passwordInputLayout.hint = mViewHint
         passwordText = findViewById(R.id.password_edit_text)
         passwordText.maxLines = mMaxLines
-        passwordText.applyFontVisibility()
+        if (PreferencesUtil.fieldFontIsInVisibility(context)) {
+            passwordText.applyFontVisibility()
+        }
         passwordStrengthProgress = findViewById(R.id.password_edit_strength_progress)
         passwordStrengthProgress.apply {
             setIndicatorColor(PasswordEntropy.Strength.RISKY.color)

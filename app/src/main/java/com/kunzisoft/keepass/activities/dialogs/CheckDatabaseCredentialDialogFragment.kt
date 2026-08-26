@@ -30,7 +30,9 @@ import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.activityViewModels
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.element.MasterCredential
+import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.utils.UriUtil.openUrl
+import com.kunzisoft.keepass.view.applyFontVisibility
 import com.kunzisoft.keepass.viewmodels.UserVerificationViewModel
 
 
@@ -44,6 +46,9 @@ class CheckDatabaseCredentialDialogFragment : DatabaseDialogFragment() {
             val inflater = activity.layoutInflater
             val rootView = inflater.inflate(R.layout.fragment_check_database_credential, null)
             val editText = rootView.findViewById<EditText>(R.id.setup_check_password_edit_text)
+            if (PreferencesUtil.fieldFontIsInVisibility(activity)) {
+                editText.applyFontVisibility()
+            }
             editText.filters = arrayOf<InputFilter>(InputFilter.LengthFilter(
                 MasterCredential.CHECK_KEY_PASSWORD_LENGTH)
             )

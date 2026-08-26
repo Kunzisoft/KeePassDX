@@ -39,6 +39,7 @@ import com.kunzisoft.keepass.activities.helpers.setOpenDocumentClickListener
 import com.kunzisoft.keepass.database.MainCredential
 import com.kunzisoft.keepass.hardware.HardwareKey
 import com.kunzisoft.keepass.model.CredentialStorage
+import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.utils.KeyboardUtil.showKeyboard
 import com.kunzisoft.keepass.utils.clear
 
@@ -65,6 +66,9 @@ class MainCredentialView @JvmOverloads constructor(context: Context,
 
         checkboxPasswordView = findViewById(R.id.password_checkbox)
         passwordTextView = findViewById(R.id.password_text_view)
+        if (PreferencesUtil.fieldFontIsInVisibility(context)) {
+            passwordTextView.applyFontVisibility()
+        }
         checkboxKeyFileView = findViewById(R.id.keyfile_checkbox)
         keyFileSelectionView = findViewById(R.id.keyfile_selection)
         checkboxHardwareView = findViewById(R.id.hardware_key_checkbox)

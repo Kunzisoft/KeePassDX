@@ -42,6 +42,7 @@ import com.kunzisoft.keepass.activities.helpers.setOpenDocumentClickListener
 import com.kunzisoft.keepass.credentialprovider.activity.HardwareKeyActivity
 import com.kunzisoft.keepass.database.element.MasterCredential
 import com.kunzisoft.keepass.database.element.binary.BinaryData.Companion.MAX_BINARY_BYTE
+import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.utils.UriUtil.getDocumentFile
 import com.kunzisoft.keepass.utils.UriUtil.openUrl
 import com.kunzisoft.keepass.utils.clear
@@ -164,7 +165,9 @@ class SetMainCredentialDialogFragment : DatabaseDialogFragment() {
             passwordEditView = rootView.findViewById(R.id.password_view)
             passwordRepeatTextInputLayout = rootView.findViewById(R.id.password_repeat_input_layout)
             passwordRepeatView = rootView.findViewById(R.id.password_confirmation)
-            passwordRepeatView.applyFontVisibility()
+            if (PreferencesUtil.fieldFontIsInVisibility(activity)) {
+                passwordRepeatView.applyFontVisibility()
+            }
 
             keyFileCheckBox = rootView.findViewById(R.id.keyfile_checkbox)
             keyFileGenerateButton = rootView.findViewById(R.id.keyfile_generate)
