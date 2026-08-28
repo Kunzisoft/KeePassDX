@@ -250,7 +250,7 @@
     <string name="error_invalid_path">請確保路徑正確。</string>
     <string name="error_label_exists">此標籤已存在。</string>
     <string name="error_load_database">無法載入資料庫。</string>
-    <string name="error_load_database_KDF_memory">無法載入密鑰。嘗試降低 KDF\"記憶體使用率\"。</string>
+    <string name="error_load_database_KDF_memory">KDF 記憶體使用率過高，無法載入。</string>
     <string name="error_move_entry_here">你不能移動項目至此處。</string>
     <string name="error_move_group_here">不能將群組移至此處。</string>
     <string name="error_no_name">請輸入用戶名。</string>
@@ -756,4 +756,6 @@
     <string name="autofill_suggestions_title">自動填寫建議</string>
     <string name="autofill_suggestions_summary">使用表單識別演算法來提供建議條目</string>
     <string name="passkey_pseudo_random_function">通行碼偽隨機函數</string>
+    <string name="error_load_database_KDF_parallelism">KDF 並行度過高，無法載入。</string>
+    <string name="parallelism_set_safe">設定處理器數量</string>
 </resources>
