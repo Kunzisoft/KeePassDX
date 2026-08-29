@@ -1,5 +1,6 @@
 package com.kunzisoft.keepass.utils
 
+import android.app.ActivityManager
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -14,10 +15,13 @@ import com.kunzisoft.encrypt.Signature.getAllFingerprints
 import com.kunzisoft.keepass.BuildConfig
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.credentialprovider.passkey.data.AndroidPrivilegedApp
+import com.kunzisoft.keepass.database.crypto.kdf.KdfLimits
+import com.kunzisoft.keepass.database.crypto.kdf.Limits
 import com.kunzisoft.keepass.education.Education
 import com.kunzisoft.keepass.model.SearchInfo
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import java.security.SecureRandom
+import kotlin.math.min
 
 object AppUtil {
 
@@ -120,7 +124,7 @@ object AppUtil {
 
         // Add the Play Service if needed
         if (withGServices) {
-            val gServices = "com.google.android.gms"
+            val gServices = BuildConfig.GOOGLE_PLAY_SERVICES_PACKAGE
             buildAndroidPrivilegedApp(packageManager, gServices)?.let { privilegedApp ->
                 browserList.add(privilegedApp)
                 processedPackageNames.add(gServices)
@@ -205,5 +209,109 @@ object AppUtil {
         }
         return if (searchInfo.applicationId == null && searchInfo.webDomain == null) null
         else searchInfo
+    }
+
+    /**
+     * Get a safe memory limit for the device in bytes.
+     * The limit is calculated based on available RAM and a ratio.
+     *
+     * @param maxMemory Optional manual maximum memory limit.
+     * @param maxRatio Ratio of available RAM to allow (0.0 to 1.0).
+     * @return Safe memory limit in bytes.
+     */
+    fun Context.getSafeMemoryLimit(
+        maxMemory: ULong? = null,
+        maxRatio: Float = 1.0f,
+    ): ULong {
+        val memoryInfo = ActivityManager.MemoryInfo()
+        (applicationContext.getSystemService(Context.ACTIVITY_SERVICE)
+                as? ActivityManager)?.getMemoryInfo(memoryInfo)
+        val availableMemory = memoryInfo.availMem
+        // Limit KDF by ratio of available RAM to avoid OOM
+        val deviceSafeLimit = (availableMemory * maxRatio.coerceIn(0.0f, 1.0f)).toULong()
+        if (maxMemory == null)
+            return deviceSafeLimit
+        return min(maxMemory, deviceSafeLimit)
+    }
+
+    /**
+     * Get a safe memory limit for the device in bytes based on an operation type.
+     *
+     * @param type The type of operation requiring memory (KDF, BINARY, etc.).
+     * @return Safe memory limit in bytes.
+     */
+    fun Context.getSafeMemoryLimit(type: Limits.LimitOperationType): ULong {
+        return applicationContext.getSafeMemoryLimit(type.maxMemory, type.ratioAvailableMemory)
+    }
+
+    /**
+     * Get a safe parallelism limit based on available processors.
+     *
+     * @return Number of available processors.
+     */
+    fun getSafeParallelismLimit(): Long {
+        return Runtime.getRuntime().availableProcessors().toLong()
+    }
+
+    /**
+     * Determine if a memory allocation for a binary element is safe given current resources.
+     *
+     * @param memoryWanted Memory wanted in bytes.
+     * @param maxMemory Manual memory limit.
+     * @param maxRatio Ratio of memory deemed secure to the device's available memory.
+     * @return true if memory can be allocated in RAM, false otherwise.
+     */
+    fun Context.isMemorySufficient(
+        memoryWanted: ULong,
+        maxMemory: ULong,
+        maxRatio: Float = 0.5f,
+    ): Boolean {
+        if (memoryWanted > maxMemory)
+            return false
+        return memoryWanted <= applicationContext.getSafeMemoryLimit(maxMemory, maxRatio)
+    }
+
+    /**
+     * Determine if a memory allocation for a binary element is safe given an operation type.
+     *
+     * @param memoryWanted Memory wanted in bytes.
+     * @param operationType The type of operation requiring memory.
+     * @return true if memory can be allocated in RAM, false otherwise.
+     */
+    fun Context.isMemorySufficient(
+        memoryWanted: ULong,
+        operationType: Limits.LimitOperationType,
+    ): Boolean {
+        return applicationContext.isMemorySufficient(
+            memoryWanted,
+            maxMemory = operationType.maxMemory,
+            maxRatio = operationType.ratioAvailableMemory
+        )
+    }
+
+    /**
+     * Get hardware and resource limits for Key Derivation Function (KDF) operations.
+     *
+     * @return A [KdfLimits] object containing safe memory and parallelism values.
+     */
+    fun Context.getKdfLimits(): KdfLimits {
+        return KdfLimits(
+            memory = applicationContext.getSafeMemoryLimit(Limits.LimitOperationType.KDF),
+            parallelism = getSafeParallelismLimit()
+        )
+    }
+
+    /**
+     * Get fresh local resource limits for memory operations.
+     *
+     * @return A [Limits] object containing memory check function and parallelism limit.
+     */
+    fun Context.getLimits(): Limits {
+        return Limits(
+            isMemorySufficient = { memoryWanted, type ->
+                applicationContext.isMemorySufficient(memoryWanted, type)
+            },
+            parallelism = getSafeParallelismLimit()
+        )
     }
 }

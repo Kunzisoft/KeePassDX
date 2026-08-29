@@ -62,7 +62,7 @@
     <string name="entry_url">Nettadresse</string>
     <string name="entry_user_name">Brukernavn</string>
     <string name="error_arc4">Arcfour-strømchifferet støttes ikke.</string>
-    <string name="error_can_not_handle_uri">KeePassDX kan ikke håntere denne URI-en.</string>
+    <string name="error_can_not_handle_uri">KeePassDX kan ikke håndtere denne URI-en.</string>
     <string name="error_file_not_create">Kunne ikke opprette fil.</string>
     <string name="error_invalid_db">Kunne ikke lese databasen.</string>
     <string name="error_invalid_path">Ugyldig sti.</string>
@@ -70,10 +70,10 @@
     <string name="error_nokeyfile">En nøkkelfil er påkrevd.</string>
     <string name="error_out_of_memory">Enheten slapp opp for minne under fortolkning av databasen din.</string>
     <string name="error_load_database">Kunne ikke laste inn databasen.</string>
-    <string name="error_load_database_KDF_memory">Kunne ikke laste nøkkelen, prøv å senke minnet brukt av KDF.</string>
+    <string name="error_load_database_KDF_memory">KDF minnebruk for høyt. Kan ikke laste inn.</string>
     <string name="error_pass_gen_type">Minst én passordgenereringstype må velges.</string>
     <string name="error_pass_match">Passordene samsvarer ikke.</string>
-    <string name="error_rounds_too_large">\"Omganger\" er for stort. Setter til 2147483648.</string>
+    <string name="error_rounds_too_large">\"Omganger\" er for stort. Setter til %1$s.</string>
     <string name="error_string_key">Hver streng må ha et feltnavn.</string>
     <string name="error_wrong_length">Skriv inn et positivt heltall i \"Lengde\" feltet.</string>
     <string name="error_autofill_enable_service">Autofyll-tjenesten kan ikke skrus på.</string>
@@ -229,7 +229,7 @@
     <string name="education_entry_edit_title">Rediger oppføringen</string>
     <string name="education_entry_edit_summary">Rediger din oppføring med egendefinerte felter, referanser til pooldata kan legges til mellom felter av forskjellige oppføringer.</string>
     <string name="education_generate_password_title">Opprett et sterkt passord</string>
-    <string name="education_generate_password_summary">Generer et sterkt passord å tilknytte oppføringen din, definer det i henhold til kriteriene i skjemaet, og ikke glem å gjøre passordet sikkert.</string>
+    <string name="education_generate_password_summary">Generer et sterkt passord å tilknytte oppføringen din, definer det i henhold til kriteriene i skjemaet, og ikke glem det.</string>
     <string name="education_entry_new_field_title">Legg til egendefinerte felter</string>
     <string name="education_entry_new_field_summary">Registrer et ekstra felt, legg til en verdi og om ønskelig beskytt det.</string>
     <string name="education_unlock_title">Lås opp databasen din</string>
@@ -286,8 +286,6 @@
     <string name="lock_database_back_root_title">Trykk «Tilbake» for å låse</string>
     <string name="lock_database_back_root_summary">Trykk «Tilbake» for å låse databasen hvis du er ved rotskjermen til databasen</string>
     <string name="recycle_bin">Papirkurv</string>
-    <string name="keyboard_selection_entry_title">Oppføringsvalg</string>
-    <string name="keyboard_selection_entry_summary">Når du ser på en oppføring i KeePassDX blir Magikeyboard fylt opp med den oppføringen</string>
     <string name="delete_entered_password_title">Slett passord</string>
     <string name="delete_entered_password_summary">Sletter passord innskrevet etter et tilkoblingsforsøk til en database</string>
     <string name="content_description_open_file">Åpne fil</string>
@@ -485,7 +483,7 @@
     <string name="description_app_properties">KeePassDX-egenskaper for håndtering av programinnstillinger</string>
     <string name="success_import_app_properties">Appinnstillinger ble importert</string>
     <string name="filter">Filter</string>
-    <string name="warning_database_info_changed">Informasjonen som er å finne i databsefilen din har blitt endret utenfor programmet.</string>
+    <string name="warning_database_info_changed">Informasjonen som er å finne i databasen din har blitt endret utenfor programmet.</string>
     <string name="warning_database_info_changed_options">Overskriv eksisterende endringer ved å lagre databasen, eller last den inn igjen med de siste endringene.</string>
     <string name="warning_file_too_big">En KeePass-database er ment å kun inneholde små bruksfiler (som f-eks PGP-nøkkelfiler).
 \n
@@ -558,7 +556,7 @@
     <string name="temp_device_unlock_enable_summary">Ikke lagre noe kryptert innhold for å bruke enhets opplåsing</string>
     <string name="subdomain_search_summary">Søk i vev-domener med underdomene-begrensninger</string>
     <string name="max_history_items_summary">Begrens antall historikkelementer per oppføring</string>
-    <string name="show_otp_token_summary">Viser OTP-symboler i listen over oppføringer</string>
+    <string name="show_otp_token_summary">Viser OTP-symboler som standard</string>
     <string name="warning_replace_file">Opplasting av denne filen erstatter den som finnes.</string>
     <string name="max_history_size_summary">Begrens historikkstørrelse per oppføring</string>
     <string name="import_app_properties_summary">Velg en fil for å importere appinnstillinger</string>
@@ -659,7 +657,7 @@
     <string name="at_least_one_char">Minst ett tegn fra hver</string>
     <string name="word_separator">Separator</string>
     <string name="ignore_chars_filter">Ignorer tegn</string>
-    <string name="warning_database_info_changed_options_read_only">Last inn databasen på nytt med de siste endringene.</string>
+    <string name="warning_database_info_changed_options_read_only">Vennligst last inn databasen på nytt med de siste endringene.</string>
     <string name="keyboard_previous_search_title">Søkeskjerm</string>
     <string name="enable_screenshot_mode_summary">Tillat tredjepartsapper å ta opp eller ta skjermbilder av appen</string>
     <string name="education_validate_entry_title">Bekreft oppføringen</string>
@@ -752,4 +750,16 @@
     <string name="user_verification_preferred_summary">Utfør en brukerverifisering når tillitsparten forespør «foretrekket»</string>
     <string name="education_user_verification_summary">Endre brukerverifiseringsmodus for denne sesjonen. \n \n«Brukerverifisering aktivert» verifiserer handling på beskyttede felt og databaseinnstillinger. \n«Brukerverifisering deaktivert» lar deg endre data i databasen din uten verifisering.</string>
     <string name="error_passkey_credential_id">Ingen passnøkkel funnet med tillitsparten %1$s og påloggingsinformasjon %2$s</string>
+    <string name="content_description_share_url">Del URL</string>
+    <string name="show_tags_title">Vis tagger</string>
+    <string name="error_memory_too_large">«Minnebruk» for høy. Setter til %1$s.</string>
+    <string name="show_tags_summary">Vis etiketter i oppføringer</string>
+    <string name="temporary_merge_success">Midlertidig sammenslåing av data vellykket</string>
+    <string name="benchmark_calculation">Beregner i %1$s s</string>
+    <string name="keyboard_share_browser">Del fra %1$s til KeePassDX</string>
+    <string name="autofill_suggestions_title">Autofyll forslag</string>
+    <string name="autofill_suggestions_summary">Bruk denne typen gjenkjennelses algoritme til å foreslå oppføringer</string>
+    <string name="parallelism_set_safe">Sett antall prosessorer</string>
+    <string name="error_missing_parent">Denne handlingen kan ikke utføres uten et forelderobjekt</string>
+    <string name="passkey_pseudo_random_function">Passnøkkel Pseudo-Tilfeldig-Funksjon</string>
 </resources>

@@ -43,7 +43,6 @@ import java.io.InputStream
 import java.io.OutputStream
 import java.nio.CharBuffer
 import java.nio.charset.Charset
-import java.security.SecureRandom
 import javax.xml.XMLConstants
 import javax.xml.parsers.DocumentBuilderFactory
 import javax.xml.parsers.ParserConfigurationException
@@ -92,6 +91,37 @@ data class MasterCredential(
 
     fun getCheckKey(encoding: Charset): ByteArray {
         return getCheckKey(password, encoding)
+    }
+
+    /**
+     * Build the master key from the master credential parts.
+     * @param encoding The character encoding for the password.
+     * @param transformSeed The transform seed for the hardware key challenge.
+     * @param challengeResponseRetriever The hardware key challenge retriever.
+     * @return The SHA-256 hash of all key parts.
+     */
+    fun toMasterKey(
+        encoding: Charset,
+        transformSeed: ByteArray?,
+        challengeResponseRetriever: (HardwareKey, ByteArray?) -> ByteArray,
+    ): ByteArray {
+        val passwordData = password?.let { retrievePasswordKey(it, encoding) }
+        val keyFileData = keyFileData?.let { retrieveKeyFileDecodedKey(it, true) }
+        val hardwareKeyData = hardwareKey?.let {
+            retrieveHardwareKey(challengeResponseRetriever.invoke(it, transformSeed))
+        }
+
+        val masterKey = composedKeyToMasterKey(
+            passwordData = passwordData,
+            keyFileData = keyFileData,
+            hardwareKeyData = hardwareKeyData
+        )
+
+        passwordData?.clear()
+        keyFileData?.clear()
+        hardwareKeyData?.clear()
+
+        return masterKey
     }
 
     override fun equals(other: Any?): Boolean {
@@ -172,7 +202,7 @@ data class MasterCredential(
             val bKey = ByteArray(byteBuffer.remaining())
             byteBuffer.get(bKey)
 
-            val hash = HashManager.hashSha256(bKey)
+            val hash = HashManager.sha256(bKey)
             bKey.clear()
             if (byteBuffer.hasArray()) {
                 byteBuffer.array().clear()
@@ -213,7 +243,7 @@ data class MasterCredential(
                     }
                 }
                 // Hash file as binary data
-                return HashManager.hashSha256(keyFileData)
+                return HashManager.sha256(keyFileData)
             } catch (e: Exception) {
                 throw IOException("Unable to load the keyfile.", e)
             }
@@ -226,7 +256,26 @@ data class MasterCredential(
          */
         @Throws(IOException::class)
         fun retrieveHardwareKey(keyData: ByteArray): ByteArray {
-            return HashManager.hashSha256(keyData)
+            return HashManager.sha256(keyData)
+        }
+
+        /**
+         * Build the master key from the composite key parts.
+         * @param passwordData The hashed password data.
+         * @param keyFileData The decoded key file data.
+         * @param hardwareKeyData The hashed hardware key data.
+         * @return The SHA-256 hash of all key parts.
+         */
+        fun composedKeyToMasterKey(
+            passwordData: ByteArray?,
+            keyFileData: ByteArray? = null,
+            hardwareKeyData: ByteArray? = null,
+        ): ByteArray {
+            return HashManager.sha256(
+                passwordData,
+                keyFileData,
+                hardwareKeyData
+            )
         }
 
         private fun loadXmlKeyFile(keyInputStream: InputStream): ByteArray? {
@@ -330,7 +379,7 @@ data class MasterCredential(
             var success = false
             try {
                 // hexadecimal encoding of the first 4 bytes of the SHA-256 hash of the key.
-                val dataDigest = HashManager.hashSha256(CodecUtil.decodeHex(data))
+                val dataDigest = HashManager.sha256(CodecUtil.decodeHex(data))
                     .copyOfRange(0, 4).toHexString()
                 success = dataDigest == hash
             } catch (e: Exception) {
@@ -341,8 +390,9 @@ data class MasterCredential(
 
         /**
          * Create a key file.
+         * Standard KeePass key files use 32 bytes (256 bits) of random data.
          * @param outputStream The output stream to write the key file to
-         * @param keySize The size of the random key to generate
+         * @param keySize The size of the random key to generate (default is 32)
          * @param format The format of the key file
          */
         @Throws(IOException::class)
@@ -351,8 +401,7 @@ data class MasterCredential(
             keySize: Int = DEFAULT_KEYFILE_SIZE,
             format: KeyFileFormat = KeyFileFormat.XML_2_0
         ) {
-            val randomBytes = ByteArray(keySize)
-            SecureRandom().nextBytes(randomBytes)
+            val randomBytes = HashManager.generateRandom(keySize)
 
             when (format) {
                 KeyFileFormat.RANDOM_BYTES -> {
@@ -360,7 +409,7 @@ data class MasterCredential(
                 }
                 KeyFileFormat.XML_2_0 -> {
                     val hexData = randomBytes.toHexString()
-                    val hash = HashManager.hashSha256(randomBytes)
+                    val hash = HashManager.sha256(randomBytes)
                         .copyOfRange(0, 4).toHexString()
 
                     val xmlSerializer = Xml.newSerializer()
@@ -412,7 +461,7 @@ data class MasterCredential(
         private const val XML_NODE_DATA_NAME = "Data"
         private const val XML_ATTRIBUTE_DATA_HASH = "Hash"
 
-        private const val DEFAULT_KEYFILE_SIZE = 128
+        private const val DEFAULT_KEYFILE_SIZE = 32
         private const val DEFAULT_KEYFILE_ENCODING = "UTF-8"
         const val CHECK_KEY_PASSWORD_LENGTH = 4
     }

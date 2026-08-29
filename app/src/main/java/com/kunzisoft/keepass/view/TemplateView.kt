@@ -4,12 +4,11 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.View
 import androidx.core.view.isVisible
-import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.element.Field
-import com.kunzisoft.keepass.database.element.security.ProtectedString
 import com.kunzisoft.keepass.database.element.template.TemplateAttribute
 import com.kunzisoft.keepass.database.element.template.TemplateField
 import com.kunzisoft.keepass.database.helper.getLocalizedName
+import com.kunzisoft.keepass.database.helper.isOtpLabel
 import com.kunzisoft.keepass.database.helper.isPasskeyLabel
 import com.kunzisoft.keepass.database.helper.isStandardPasswordName
 import com.kunzisoft.keepass.model.FieldProtection
@@ -18,6 +17,7 @@ import com.kunzisoft.keepass.model.Passkey
 import com.kunzisoft.keepass.model.PasskeyEntryFields.PASSKEY_FIELD
 import com.kunzisoft.keepass.otp.OtpElement
 import com.kunzisoft.keepass.otp.OtpEntryFields.OTP_TOKEN_FIELD
+import com.kunzisoft.keepass.settings.PreferencesUtil
 
 
 class TemplateView @JvmOverloads constructor(
@@ -27,28 +27,21 @@ class TemplateView @JvmOverloads constructor(
 ) : TemplateAbstractView<TextFieldView, TextFieldView, DateTimeFieldView>
         (context, attrs, defStyle) {
 
-    private var mOnChangeFieldProtectionClickListener: ((FieldProtection) -> Unit)? = null
-    fun setOnChangeFieldProtectionClickListener(listener: ((FieldProtection) -> Unit)?) {
-        this.mOnChangeFieldProtectionClickListener = listener
+    var onChangeFieldProtectionClickListener: ((FieldProtection) -> Unit)? = null
+    var onAskCopySafeClickListener: (() -> Unit)? = null
+    var onCopyActionClickListener: ((FieldProtection) -> Unit)? = null
+    var onOtpUpdatedListener: ((OtpElement?) -> Unit)? = null
+
+    private var firstTimeAskAllowCopyProtectedFields: Boolean = false
+    private var allowCopyProtectedFields: Boolean = false
+
+    init {
+        loadPreferences()
     }
 
-    private var mOnAskCopySafeClickListener: (() -> Unit)? = null
-    fun setOnAskCopySafeClickListener(listener: (() -> Unit)? = null) {
-        this.mOnAskCopySafeClickListener = listener
-    }
-    private var mOnCopyActionClickListener: ((FieldProtection) -> Unit)? = null
-    fun setOnCopyActionClickListener(listener: ((FieldProtection) -> Unit)? = null) {
-        this.mOnCopyActionClickListener = listener
-    }
-
-    private var mFirstTimeAskAllowCopyProtectedFields: Boolean = false
-    fun setFirstTimeAskAllowCopyProtectedFields(firstTimeAskAllowCopyProtectedFields : Boolean) {
-        this.mFirstTimeAskAllowCopyProtectedFields = firstTimeAskAllowCopyProtectedFields
-    }
-
-    private var mAllowCopyProtectedFields: Boolean = false
-    fun setAllowCopyProtectedFields(allowCopyProtectedFields : Boolean) {
-        this.mAllowCopyProtectedFields = allowCopyProtectedFields
+    private fun loadPreferences() {
+        firstTimeAskAllowCopyProtectedFields = PreferencesUtil.isFirstTimeAskAllowCopyProtectedFields(context)
+        allowCopyProtectedFields = PreferencesUtil.allowCopyProtectedFields(context)
     }
 
     override fun preProcessTemplate() {
@@ -61,23 +54,37 @@ class TemplateView @JvmOverloads constructor(
     ): TextFieldView? {
         // Add an action icon if needed
         return context?.let {
-            (if (TemplateField.isStandardPasswordName(context, templateAttribute.label))
-                PasswordTextFieldView(it)
-            else if (TemplateField.isPasskeyLabel(context, templateAttribute.label))
-                PasskeyTextFieldView(it)
-            else TextFieldView(it)).apply {
+            var buildTextField = TextFieldView(it)
+            var needUserVerificationToReveal = true
+            when {
+                TemplateField.isStandardPasswordName(context, templateAttribute.label) -> {
+                    buildTextField = PasswordTextFieldView(it)
+                }
+                TemplateField.isOtpLabel(context, templateAttribute.label) -> {
+                    buildTextField = OtpTextFieldView(it).apply {
+                        setOnOtpUpdatedListener(onOtpUpdatedListener)
+                    }
+                    needUserVerificationToReveal = false
+                }
+                TemplateField.isPasskeyLabel(context, templateAttribute.label) -> {
+                    buildTextField = PasskeyTextFieldView(it)
+                }
+            }
+            buildTextField.apply {
                 applyFontVisibility(mFontInVisibility)
-                setProtection(
-                    protection = field.protectedValue.isProtected,
-                    isCurrentlyProtected = mUnprotectedFields.contains(field).not()
-                ) {
-                    mOnChangeFieldProtectionClickListener?.invoke(
-                        FieldProtection(field, isCurrentlyProtected())
+                onRevealChanged = {
+                    onChangeFieldProtectionClickListener?.invoke(
+                        FieldProtection(field, isRevealed(), needUserVerificationToReveal)
                     )
                 }
+                setProtection(
+                    isProtected = field.protectedValue.isProtected,
+                    isRevealedByDefault = mRevealedFields.contains(field.name),
+                    needUserVerificationToReveal = needUserVerificationToReveal
+                )
                 // Trick to bypass the onSaveInstanceState in rebuild child
                 onSaveInstanceState = {
-                    saveUnprotectedFieldState(field, isCurrentlyProtected())
+                    saveUnprotectedFieldState(field, isRevealed())
                 }
                 label = templateAttribute.alias
                         ?: TemplateField.getLocalizedName(context, field.name)
@@ -88,27 +95,16 @@ class TemplateView @JvmOverloads constructor(
 
                 if (field.protectedValue.isProtected) {
                     textDirection = TEXT_DIRECTION_LTR
-                    if (mFirstTimeAskAllowCopyProtectedFields) {
+                    if (firstTimeAskAllowCopyProtectedFields) {
                         setCopyButtonState(TextFieldView.ButtonState.DEACTIVATE)
-                        setCopyButtonClickListener { _, _ ->
-                            mOnAskCopySafeClickListener?.invoke()
+                        setCopyButtonClickListener { _ ->
+                            onAskCopySafeClickListener?.invoke()
                         }
                     } else {
-                        if (mAllowCopyProtectedFields) {
+                        if (allowCopyProtectedFields) {
                             setCopyButtonState(TextFieldView.ButtonState.ACTIVATE)
-                            setCopyButtonClickListener { label, value ->
-                                mOnCopyActionClickListener?.invoke(
-                                    FieldProtection(
-                                        field = Field(
-                                            name = label,
-                                            value = ProtectedString(
-                                                enableProtection = true,
-                                                value = value
-                                            )
-                                        ),
-                                        isCurrentlyProtected = isCurrentlyProtected()
-                                    )
-                                )
+                            setCopyButtonClickListener { fieldProtection ->
+                                onCopyActionClickListener?.invoke(fieldProtection)
                             }
                         } else {
                             setCopyButtonState(TextFieldView.ButtonState.GONE)
@@ -117,22 +113,11 @@ class TemplateView @JvmOverloads constructor(
                     }
                 } else {
                     setCopyButtonState(TextFieldView.ButtonState.ACTIVATE)
-                    setCopyButtonClickListener { label, value ->
-                        mOnCopyActionClickListener?.invoke(
-                            FieldProtection(
-                                field = Field(
-                                    name = label,
-                                    value = ProtectedString(
-                                        enableProtection = false,
-                                        value = value
-                                    )
-                                ),
-                                isCurrentlyProtected = isCurrentlyProtected()
-                            )
-                        )
+                    setCopyButtonClickListener { fieldProtection ->
+                        onCopyActionClickListener?.invoke(fieldProtection)
                     }
                 }
-                mFields[field] = this
+                mFields[field.name] = this
             }
         }
     }
@@ -172,80 +157,30 @@ class TemplateView @JvmOverloads constructor(
         emptyCustomFields.forEach { customFieldId ->
             customFieldId.view.isVisible = false
         }
-        removeOtpRunnable()
-        mEntryInfo?.let { entryInfo ->
-            // Assign specific OTP dynamic view
-            entryInfo.otpModel?.let {
-                assignOtp(it)
-            }
-            entryInfo.passkey?.let {
-                assignPasskey(it)
-            }
-        }
+        // Assign specific OTP dynamic view
+        assignOtp(mEntryInfo?.otpModel)
+        assignPasskey(mEntryInfo?.passkey)
         return emptyCustomFields
     }
 
-    /*
-     * OTP Runnable
-     */
-
-    private var mOtpRunnable: Runnable? = null
-    private var mLastOtpTokenView: View? = null
-
-    fun setOnOtpElementUpdated(listener: ((OtpElement?) -> Unit)?) {
-        this.mOnOtpElementUpdated = listener
+    override fun reload() {
+        loadPreferences()
+        super.reload()
     }
-    private var mOnOtpElementUpdated: ((OtpElement?) -> Unit)? = null
 
-    private fun getOtpTokenView(): TextFieldView? {
+    private fun getOtpTokenView(): OtpTextFieldView? {
         getViewFieldByName(OTP_TOKEN_FIELD)?.let { viewField ->
             val view = viewField.view
-            if (view is TextFieldView)
+            if (view is OtpTextFieldView)
                 return view
         }
         return null
     }
 
-    private fun assignOtp(otpModel: OtpModel) {
-        getOtpTokenView()?.apply {
-            val otpElement = OtpElement(otpModel)
-            if (otpElement.token.isEmpty()) {
-                setLabel(R.string.entry_otp)
-                setValue(R.string.error_invalid_OTP)
-                setCopyButtonState(TextFieldView.ButtonState.GONE)
-            } else {
-                label = otpElement.type.name
-                value = otpElement.tokenFormatted
-                setCopyButtonState(TextFieldView.ButtonState.ACTIVATE)
-                setCopyButtonClickListener { _, _ ->
-                    mOnCopyActionClickListener?.invoke(
-                        FieldProtection(
-                            field = Field(
-                                name = otpElement.type.name,
-                                value = ProtectedString(
-                                    enableProtection = false,
-                                    value = otpElement.token
-                                )
-                            ),
-                            isCurrentlyProtected = false
-                        )
-                    )
-                }
-                textDirection = TEXT_DIRECTION_LTR
-                mLastOtpTokenView = this
-                mOtpRunnable = Runnable {
-                    if (otpElement.shouldRefreshToken()) {
-                        value = otpElement.tokenFormatted
-                    }
-                    if (mLastOtpTokenView == null) {
-                        mOnOtpElementUpdated?.invoke(null)
-                    } else {
-                        mOnOtpElementUpdated?.invoke(otpElement)
-                        postDelayed(mOtpRunnable, 1000)
-                    }
-                }
-                mOnOtpElementUpdated?.invoke(otpElement)
-                post(mOtpRunnable)
+    private fun assignOtp(otpModel: OtpModel?) {
+        otpModel?.let {
+            getOtpTokenView()?.apply {
+                setOtpModel(otpModel)
             }
         }
     }
@@ -259,15 +194,12 @@ class TemplateView @JvmOverloads constructor(
         return null
     }
 
-    private fun assignPasskey(passkey: Passkey) {
-        getPasskeyView()?.apply {
-            relyingParty = passkey.relyingParty
-            username = passkey.username
+    private fun assignPasskey(passkey: Passkey?) {
+        passkey?.let {
+            getPasskeyView()?.apply {
+                relyingParty = passkey.relyingParty
+                username = passkey.username
+            }
         }
-    }
-
-    private fun removeOtpRunnable() {
-        mLastOtpTokenView?.removeCallbacks(mOtpRunnable)
-        mLastOtpTokenView = null
     }
 }

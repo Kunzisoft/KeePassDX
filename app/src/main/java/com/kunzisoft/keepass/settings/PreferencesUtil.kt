@@ -61,15 +61,30 @@ object PreferencesUtil {
         return prefs.getString(context.getString(R.string.default_database_path_key), "")
     }
 
-    fun saveNodeSort(context: Context,
-                     sortNodeEnum: SortNodeEnum,
-                     sortNodeParameters: SortNodeEnum.SortNodeParameters) {
+    fun saveNodeSort(
+        context: Context,
+        sortNodeEnum: SortNodeEnum?,
+        sortNodeParameters: SortNodeEnum.SortNodeParameters?
+    ) {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
         prefs?.edit()?.apply {
-            putString(context.getString(R.string.sort_node_key), sortNodeEnum.name)
-            putBoolean(context.getString(R.string.sort_ascending_key), sortNodeParameters.ascending)
-            putBoolean(context.getString(R.string.sort_group_before_key), sortNodeParameters.groupsBefore)
-            putBoolean(context.getString(R.string.sort_recycle_bin_bottom_key), sortNodeParameters.recycleBinBottom)
+            sortNodeEnum?.let {
+                putString(context.getString(R.string.sort_node_key), sortNodeEnum.name)
+            }
+            sortNodeParameters?.let {
+                putBoolean(
+                    context.getString(R.string.sort_ascending_key),
+                    sortNodeParameters.ascending
+                )
+                putBoolean(
+                    context.getString(R.string.sort_group_before_key),
+                    sortNodeParameters.groupsBefore
+                )
+                putBoolean(
+                    context.getString(R.string.sort_recycle_bin_bottom_key),
+                    sortNodeParameters.recycleBinBottom
+                )
+            }
             apply()
         }
     }
@@ -633,12 +648,6 @@ object PreferencesUtil {
             context.resources.getBoolean(R.bool.keyboard_notification_entry_default))
     }
 
-    fun isKeyboardEntrySelectionEnable(context: Context): Boolean {
-        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
-        return prefs.getBoolean(context.getString(R.string.keyboard_selection_entry_key),
-            context.resources.getBoolean(R.bool.keyboard_selection_entry_default))
-    }
-
     fun isKeyboardSaveSearchInfoEnable(context: Context): Boolean {
         if (!context.isKeyboardActivatedInSettings())
             return false
@@ -712,11 +721,34 @@ object PreferencesUtil {
             context.resources.getBoolean(R.bool.passkeys_close_database_default))
     }
 
-    // Deprecated, only used to avoid confusing users who have already enabled the setting
+    /**
+     * Not in UI, corresponds to the last time the read only setting was changed in a database
+     */
+    fun isReadOnlyEnabledByDefault(context: Context): Boolean {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        return prefs.getBoolean(context.getString(R.string.read_only_key),
+            context.resources.getBoolean(R.bool.read_only_default))
+    }
+
+    fun setReadOnlyEnabledByDefault(context: Context, enabled: Boolean) {
+        PreferenceManager.getDefaultSharedPreferences(context).edit {
+            putBoolean(context.getString(R.string.read_only_key), enabled)
+        }
+    }
+
+    /**
+     * Not in UI, corresponds to the last time the UV setting was changed in a database
+     */
     fun isUserVerificationModeEnabledByDefault(context: Context): Boolean {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
         return prefs.getBoolean(context.getString(R.string.user_verification_mode_key),
             context.resources.getBoolean(R.bool.user_verification_mode_default))
+    }
+
+    fun setUserVerificationModeEnabledByDefault(context: Context, enabled: Boolean) {
+        PreferenceManager.getDefaultSharedPreferences(context).edit {
+            putBoolean(context.getString(R.string.user_verification_mode_key), enabled)
+        }
     }
 
     fun isUserVerificationDeviceCredential(context: Context): Boolean {
@@ -785,6 +817,12 @@ object PreferencesUtil {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
         return prefs.getBoolean(context.getString(R.string.autofill_ask_to_save_data_key),
             context.resources.getBoolean(R.bool.autofill_ask_to_save_data_default))
+    }
+
+    fun isAutofillSuggestionsEnable(context: Context): Boolean {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        return prefs.getBoolean(context.getString(R.string.autofill_suggestions_key),
+            context.resources.getBoolean(R.bool.autofill_suggestions_default))
     }
 
     /**
@@ -911,7 +949,6 @@ object PreferencesUtil {
                 context.getString(R.string.keyboard_notification_entry_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.keyboard_notification_entry_clear_close_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.keyboard_entry_timeout_key) -> editor.putString(name, value.toLong().toString())
-                context.getString(R.string.keyboard_selection_entry_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.keyboard_save_search_info_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.keyboard_auto_go_action_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.keyboard_key_vibrate_key) -> editor.putBoolean(name, value.toBoolean())
@@ -927,6 +964,7 @@ object PreferencesUtil {
                 context.getString(R.string.passkeys_backup_eligibility_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.passkeys_backup_state_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.autofill_close_database_key) -> editor.putBoolean(name, value.toBoolean())
+                context.getString(R.string.autofill_suggestions_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.autofill_inline_suggestions_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.autofill_manual_selection_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.autofill_share_magikeyboard_key) -> editor.putBoolean(name, value.toBoolean())

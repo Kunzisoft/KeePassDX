@@ -65,7 +65,7 @@
     <string name="error_out_of_memory">Falta de memória para abrir todo o banco de dados.</string>
     <string name="error_pass_gen_type">Pelo menos um tipo de geração de senhas deve ser selecionado.</string>
     <string name="error_pass_match">As senhas não combinam.</string>
-    <string name="error_rounds_too_large">\"Rodadas de transformação\" é muito grande. Modificado para 2147483648.</string>
+    <string name="error_rounds_too_large">\"Rodadas de transformação\" é muito grande. Modificado para %1$s.</string>
     <string name="error_wrong_length">Digite um número inteiro positivo no campo \"Comprimento\".</string>
     <string name="file_browser">Explorador de arquivos</string>
     <string name="generate_password">Gerar senha</string>
@@ -299,8 +299,6 @@
     <string name="lock_database_back_root_title">Pressionar \'Voltar\' para bloquear</string>
     <string name="lock_database_back_root_summary">Pressione \'Voltar\' para bloquear o banco de dados se você estiver na tela principal do banco de dados</string>
     <string name="recycle_bin">Lixeira</string>
-    <string name="keyboard_selection_entry_title">Seleção de entrada</string>
-    <string name="keyboard_selection_entry_summary">Ao visualizar uma entrada no KeePassDX, preencher o Magikeyboard com essa entrada</string>
     <string name="delete_entered_password_title">Excluir senha</string>
     <string name="delete_entered_password_summary">Deleta a senha inserida após uma tentativa de conexão com o banco de dados</string>
     <string name="content_description_open_file">Abrir arquivo</string>
@@ -716,7 +714,7 @@
     <string name="passkey">Chave de acesso</string>
     <string name="credential_provider_service_name">Provedor de Credenciais KeePassDX</string>
     <string name="passkeys">Chaves de acesso</string>
-    <string name="passkeys_explanation_summary">Configure Chaves de Acesso para um login rápido e seguro sem senha</string>
+    <string name="passkeys_explanation_summary">Configure Chaves de Acesso para um login sem senha rápido e seguro</string>
     <string name="passkeys_preference_title">Configurações de chaves de acesso</string>
     <string name="passkeys_close_database_title">Fechar banco de dados</string>
     <string name="passkeys_close_database_summary">Fechar o banco de dados após selecionar uma chave de acesso</string>
@@ -763,4 +761,10 @@
     <string name="user_verification_database_credential">Digite os quatro primeiros caracteres da senha do seu banco de dados</string>
     <string name="first_chars">Primeiros caracteres</string>
     <string name="check">Verificar</string>
+    <string name="content_description_share_url">Compartilhar URL</string>
+    <string name="show_tags_title">Mostrar etiquetas</string>
+    <string name="show_tags_summary">Exibe etiquetas na lista de entradas</string>
+    <string name="benchmark_calculation">Calcular para %1$s s</string>
+    <string name="keyboard_share_browser">Compartilhar de %1$s para KeePassDX</string>
+    <string name="benchmarking">Avaliando performance…</string>
 </resources>

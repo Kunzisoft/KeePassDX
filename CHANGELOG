@@ -1,3 +1,62 @@
+KeePassDX(4.5.0)
+ * Add Passkey PRF Extension #2502 #2553
+ * New OTP token views #1851 #2541
+ * New search animation #2541
+ * Entry icon to fill the Magikeyboard #2590 #2538
+ * Indicator for special groups #2556
+ * Autofill suggestion settings #2574
+ * 1 second benchmark #2653 #2655 #2640
+ * Fix UV and Read-only modes saving #2541
+ * Fix 32 bytes XML v2 KeyFiles #2660
+ * Refactoring / fixes #996 #1911 #2456 #2523 #2541 #2542 #2543 #2575 #2576 #2581 #2578 #2591 #2600 #2630 #2658
+
+KeePassDX(4.5.0_beta05)
+ * TargetSDK 36
+ * Update translations
+ * 1 second benchmark during database creation #2653
+ * Fix unit converter in KDF dialog #2640
+ * Fix KDF parameters #2655 #2640
+ * Fix data change indicator #2658
+ * Fix 32 bytes XML v2 KeyFiles #2660
+
+KeePassDX(4.5.0_beta04)
+ * Fix exception during template selection #2617
+ * Fix autoscrolls to TOTP section #2621
+ * Fix comparator in SortedList #2630
+ * Fix special character input in entry fields #2632
+ * Fix query packages permission in manifest #996
+ * Fix expiration during Autofill registration #2600
+ * Fix Passkey PRF registration and authentication hash #2502
+ * Fix KDF max parameters #2640
+
+KeePassDX(4.5.0_beta03)
+ * Add Passkey PRF Extension #2502 #2553
+ * Fix URL actions #2604
+ * Fix field value selection #2456
+
+KeePassDX(4.5.0_beta02)
+ * New search animation #2541
+ * Entry icon to fill the Magikeyboard #2590 #2538
+ * Refactoring #2541 #2581
+ * Fix copy actions #2541
+ * Fix OTP icon in entry list #2541
+ * Fix selection of a protected field after User Verification #2456
+ * Fix deletion of a Passkey Tag in an entry #2591
+
+KeePassDX(4.5.0_beta01)
+ * Hide OTP token #1851
+ * Indicator for special groups #2556
+ * Autofill suggestion settings #2574
+ * Fix tags #2543 #2578
+ * Fix entry actions #2523 #2541
+ * Fix sorting by access #1911
+ * Fix group icon #2542
+ * Fix OTP tags, change indicator and DB reloading #2541
+ * Fix UV and Read-only modes saving #2541
+ * Fix device unlock link when deleting database #2576
+ * Fix copy with User Verification #2575
+ * Refactoring #2541
+
 KeePassDX(4.4.5)
  * Fix OTP tag #2570 #2571
 

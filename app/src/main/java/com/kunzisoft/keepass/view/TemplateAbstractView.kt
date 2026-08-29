@@ -17,6 +17,7 @@ import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.element.DateInstant
 import com.kunzisoft.keepass.database.element.Field
 import com.kunzisoft.keepass.database.element.icon.IconImage
+import com.kunzisoft.keepass.database.element.icon.IconImageStandard
 import com.kunzisoft.keepass.database.element.security.ProtectedString
 import com.kunzisoft.keepass.database.element.template.Template
 import com.kunzisoft.keepass.database.element.template.TemplateAttribute
@@ -51,8 +52,8 @@ abstract class TemplateAbstractView<
     protected var mEntryInfo: EntryInfo? = null
 
     // To keep unprotected views during orientation change
-    protected var mUnprotectedFields = mutableSetOf<Field>()
-    protected var mFields = mutableMapOf<Field, ProtectedFieldView>()
+    protected var mRevealedFields = mutableSetOf<String>() // List of Field Name
+    protected var mFields = mutableMapOf<String, ProtectedFieldView>() // Map of Field Name to ProtectedFieldView
 
     private var mViewFields = mutableListOf<ViewField>()
 
@@ -118,13 +119,15 @@ abstract class TemplateAbstractView<
     }
 
     private fun applyTemplateParametersToEntry() {
-        // Change the entry icon by the template icon
+        // Change the entry icon by the template icon if it's a specific one
         mTemplate?.icon?.let { templateIcon ->
-            mEntryInfo?.icon = templateIcon
+            if (templateIcon.standard.id != IconImageStandard.KEY_ID || !templateIcon.custom.isUnknown) {
+                mEntryInfo?.icon = templateIcon
+            }
         }
-        // Change the entry color by the template color
-        mEntryInfo?.backgroundColor = mTemplate?.backgroundColor
-        mEntryInfo?.foregroundColor = mTemplate?.foregroundColor
+        // Change the entry color by the template color if defined
+        mTemplate?.backgroundColor?.let { mEntryInfo?.backgroundColor = it }
+        mTemplate?.foregroundColor?.let { mEntryInfo?.foregroundColor = it }
     }
 
     private fun buildTemplate() {
@@ -292,6 +295,9 @@ abstract class TemplateAbstractView<
 
     fun setEntryInfo(entryInfo: EntryInfo?) {
         mEntryInfo = entryInfo
+        if (mTemplate == null) {
+            mTemplate = entryInfo?.template
+        }
         buildTemplateAndPopulateInfo()
     }
 
@@ -342,12 +348,12 @@ abstract class TemplateAbstractView<
     }
 
     fun setFieldProtection(value: FieldProtection) {
-        if (value.isCurrentlyProtected) {
-            this.mUnprotectedFields.remove(value.field)
-            this.mFields[value.field]?.protect()
+        if (value.isRevealed) {
+            this.mRevealedFields.add(value.field.name)
+            this.mFields[value.field.name]?.reveal()
         } else {
-            this.mUnprotectedFields.add(value.field)
-            this.mFields[value.field]?.unprotect()
+            this.mRevealedFields.remove(value.field.name)
+            this.mFields[value.field.name]?.mask()
         }
     }
 
@@ -520,6 +526,10 @@ abstract class TemplateAbstractView<
         }
 
         retrieveCustomFieldsFromView(templateFieldNotEmpty, retrieveDefaultValues)
+
+        mTemplate?.let {
+            mEntryInfo?.template = it
+        }
     }
 
     fun getEntryInfo(): EntryInfo {
@@ -530,7 +540,7 @@ abstract class TemplateAbstractView<
         return mEntryInfo ?: EntryInfo()
     }
 
-    fun reload() {
+    open fun reload() {
         buildTemplateAndPopulateInfo()
     }
 
@@ -740,12 +750,12 @@ abstract class TemplateAbstractView<
         putCustomField(Field(otpField.name, otpField.protectedValue))
     }
 
-    fun saveUnprotectedFieldState(field: Field, isCurrentlyProtected: Boolean) {
+    fun saveUnprotectedFieldState(field: Field, isRevealed: Boolean) {
         try {
-            if (!isCurrentlyProtected) {
-                mUnprotectedFields.add(field)
+            if (isRevealed) {
+                mRevealedFields.add(field.name)
             } else {
-                mUnprotectedFields.remove(field)
+                mRevealedFields.remove(field.name)
             }
         } catch (_: Exception) {}
     }
@@ -758,7 +768,7 @@ abstract class TemplateAbstractView<
         } else {
             mTemplate = state.template
             mEntryInfo = state.entryInfo
-            mUnprotectedFields = state.unprotectedFields.toMutableSet()
+            mRevealedFields = state.revealFields.toMutableSet()
             onRestoreEntryInstanceState(state)
             buildTemplateAndPopulateInfo()
             super.onRestoreInstanceState(state.superState)
@@ -774,7 +784,7 @@ abstract class TemplateAbstractView<
                                    retrieveDefaultValues = false)
         saveState.template = this.mTemplate
         saveState.entryInfo = this.mEntryInfo
-        saveState.unprotectedFields = this.mUnprotectedFields
+        saveState.revealFields = this.mRevealedFields
         onSaveEntryInstanceState(saveState)
         return saveState
     }
@@ -784,7 +794,7 @@ abstract class TemplateAbstractView<
     protected class SavedState : BaseSavedState {
         var template: Template? = null
         var entryInfo: EntryInfo? = null
-        var unprotectedFields = setOf<Field>()
+        var revealFields = setOf<String>()
         // TODO Move
         var tempDateTimeViewId: Int? = null
 
@@ -793,7 +803,7 @@ abstract class TemplateAbstractView<
         private constructor(parcel: Parcel) : super(parcel) {
             template = parcel.readParcelableCompat() ?: template
             entryInfo = parcel.readParcelableCompat() ?: entryInfo
-            unprotectedFields = parcel.readSetCompat<Field>()
+            revealFields = parcel.readSetCompat<String>()
             val dateTimeViewId = parcel.readInt()
             if (dateTimeViewId != -1)
                 tempDateTimeViewId = dateTimeViewId
@@ -803,7 +813,7 @@ abstract class TemplateAbstractView<
             super.writeToParcel(out, flags)
             out.writeParcelable(template, flags)
             out.writeParcelable(entryInfo, flags)
-            out.writeSetCompat(unprotectedFields)
+            out.writeSetCompat(revealFields)
             out.writeInt(tempDateTimeViewId ?: -1)
         }
 

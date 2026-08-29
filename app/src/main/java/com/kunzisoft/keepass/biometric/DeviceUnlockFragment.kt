@@ -131,7 +131,7 @@ class DeviceUnlockFragment: Fragment() {
         activity?.addMenuProvider(menuProvider, viewLifecycleOwner)
 
         viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.RESUMED) {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 mDeviceUnlockViewModel.uiState.collect { uiState ->
                     // Change mode
                     toggleDeviceCredentialMode(uiState.newDeviceUnlockMode)
@@ -251,7 +251,7 @@ class DeviceUnlockFragment: Fragment() {
                         context?.startActivity(Intent(Settings.ACTION_SECURITY_SETTINGS))
                     }
                 }
-            } catch (e: Exception) {
+            } catch (_: Exception) {
                 // ACTION_SECURITY_SETTINGS does not contain fingerprint enrollment on some devices...
                 context?.startActivity(Intent(Settings.ACTION_SETTINGS))
             }
@@ -349,7 +349,7 @@ class DeviceUnlockFragment: Fragment() {
     override fun onPause() {
         super.onPause()
         cancelBiometricPrompt()
-        mDeviceUnlockViewModel.clear()
+        mDeviceUnlockViewModel.clearData()
     }
 
     override fun onDestroyView() {

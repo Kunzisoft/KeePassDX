@@ -186,6 +186,7 @@ abstract class TemplateEngine(private val mDatabase: DatabaseKDBX) {
             templateEntry.icon,
             backgroundColor,
             foregroundColor,
+            templateEntry.tags,
             templateSections,
             getVersion()
         )

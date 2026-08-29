@@ -90,7 +90,7 @@ abstract class GroupVersioned
         if (childGroups.contains(group))
             removeChildGroup(group)
         positionIndexChildren++
-        group.nodeIndexInParentForNaturalOrder = positionIndexChildren
+        group.indexInParent = positionIndexChildren
         this.childGroups.add(group)
     }
 
@@ -98,7 +98,7 @@ abstract class GroupVersioned
         if (childEntries.contains(entry))
             removeChildEntry(entry)
         positionIndexChildren++
-        entry.nodeIndexInParentForNaturalOrder = positionIndexChildren
+        entry.indexInParent = positionIndexChildren
         this.childEntries.add(entry)
     }
 
@@ -106,7 +106,7 @@ abstract class GroupVersioned
         val index = this.childGroups.indexOfFirst { it.nodeId == group.nodeId }
         if (index >= 0) {
             val oldGroup = this.childGroups.removeAt(index)
-            group.nodeIndexInParentForNaturalOrder = oldGroup.nodeIndexInParentForNaturalOrder
+            group.indexInParent = oldGroup.indexInParent
             this.childGroups.add(index, group)
         }
     }
@@ -115,7 +115,7 @@ abstract class GroupVersioned
         val index = this.childEntries.indexOfFirst { it.nodeId == entry.nodeId }
         if (index >= 0) {
             val oldEntry = this.childEntries.removeAt(index)
-            entry.nodeIndexInParentForNaturalOrder = oldEntry.nodeIndexInParentForNaturalOrder
+            entry.indexInParent = oldEntry.indexInParent
             this.childEntries.add(index, entry)
         }
     }
@@ -133,10 +133,10 @@ abstract class GroupVersioned
         this.childEntries.clear()
     }
 
-    override fun nodeIndexInParentForNaturalOrder(): Int {
-        return if (nodeIndexInParentForNaturalOrder == -1)
+    override fun indexInParent(): Int {
+        return if (indexInParent == -1)
             childGroups.indexOf(this)
         else
-            nodeIndexInParentForNaturalOrder
+            indexInParent
     }
 }

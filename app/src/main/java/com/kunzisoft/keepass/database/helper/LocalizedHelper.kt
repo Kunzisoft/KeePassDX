@@ -36,8 +36,10 @@ import com.kunzisoft.keepass.database.exception.HardwareKeyDatabaseException
 import com.kunzisoft.keepass.database.exception.InvalidAlgorithmDatabaseException
 import com.kunzisoft.keepass.database.exception.InvalidCredentialsDatabaseException
 import com.kunzisoft.keepass.database.exception.KDFMemoryDatabaseException
+import com.kunzisoft.keepass.database.exception.KDFParallelismDatabaseException
 import com.kunzisoft.keepass.database.exception.LocalizedException
 import com.kunzisoft.keepass.database.exception.MergeDatabaseKDBException
+import com.kunzisoft.keepass.database.exception.MissingParentDatabaseException
 import com.kunzisoft.keepass.database.exception.MoveEntryDatabaseException
 import com.kunzisoft.keepass.database.exception.MoveGroupDatabaseException
 import com.kunzisoft.keepass.database.exception.NoMemoryDatabaseException
@@ -49,11 +51,13 @@ import com.kunzisoft.keepass.database.exception.XMLMalformedDatabaseException
 import com.kunzisoft.keepass.model.PasskeyEntryFields.FIELD_CREDENTIAL_ID
 import com.kunzisoft.keepass.model.PasskeyEntryFields.FIELD_FLAG_BE
 import com.kunzisoft.keepass.model.PasskeyEntryFields.FIELD_FLAG_BS
+import com.kunzisoft.keepass.model.PasskeyEntryFields.FIELD_PRF
 import com.kunzisoft.keepass.model.PasskeyEntryFields.FIELD_PRIVATE_KEY
 import com.kunzisoft.keepass.model.PasskeyEntryFields.FIELD_RELYING_PARTY
 import com.kunzisoft.keepass.model.PasskeyEntryFields.FIELD_USERNAME
 import com.kunzisoft.keepass.model.PasskeyEntryFields.FIELD_USER_HANDLE
 import com.kunzisoft.keepass.model.PasskeyEntryFields.PASSKEY_FIELD
+import com.kunzisoft.keepass.otp.OtpEntryFields.OTP_TOKEN_FIELD
 
 fun LocalizedException.getLocalizedMessage(resources: Resources): String? =
     when (this) {
@@ -67,6 +71,7 @@ fun LocalizedException.getLocalizedMessage(resources: Resources): String? =
         is SignatureDatabaseException -> resources.getString(R.string.invalid_db_sig)
         is VersionDatabaseException -> resources.getString(R.string.unsupported_db_version)
         is InvalidCredentialsDatabaseException -> resources.getString(R.string.invalid_credentials)
+        is KDFParallelismDatabaseException -> resources.getString(R.string.error_load_database_KDF_parallelism)
         is KDFMemoryDatabaseException -> resources.getString(R.string.error_load_database_KDF_memory)
         is NoMemoryDatabaseException -> resources.getString(R.string.error_out_of_memory)
         is DuplicateUuidDatabaseException -> resources.getString(R.string.invalid_db_same_uuid, parameters[0], parameters[1])
@@ -76,6 +81,7 @@ fun LocalizedException.getLocalizedMessage(resources: Resources): String? =
         is MoveGroupDatabaseException -> resources.getString(R.string.error_move_group_here)
         is CopyEntryDatabaseException -> resources.getString(R.string.error_copy_entry_here)
         is CopyGroupDatabaseException -> resources.getString(R.string.error_copy_group_here)
+        is MissingParentDatabaseException -> resources.getString(R.string.error_missing_parent)
         is DatabaseInputException -> resources.getString(R.string.error_load_database)
         is DatabaseOutputException -> resources.getString(R.string.error_save_database)
         else -> localizedMessage
@@ -91,6 +97,11 @@ fun CompressionAlgorithm.getLocalizedName(resources: Resources): String {
 fun TemplateField.isStandardPasswordName(context: Context, name: String): Boolean {
     return name.equals(LABEL_PASSWORD, true)
             || name == getLocalizedName(context, LABEL_PASSWORD)
+}
+
+fun TemplateField.isOtpLabel(context: Context, name: String): Boolean {
+    return name.equals(OTP_TOKEN_FIELD, true)
+            || name == getLocalizedName(context, OTP_TOKEN_FIELD)
 }
 
 fun TemplateField.isPasskeyLabel(context: Context, name: String): Boolean {
@@ -150,6 +161,7 @@ fun TemplateField.getLocalizedName(context: Context?, name: String): String {
         FIELD_RELYING_PARTY.equals(name, true) -> context.getString(R.string.passkey_relying_party)
         FIELD_FLAG_BE.equals(name, true) -> context.getString(R.string.passkey_backup_eligibility)
         FIELD_FLAG_BS.equals(name, true) -> context.getString(R.string.passkey_backup_state)
+        FIELD_PRF.equals(name, true) -> context.getString(R.string.passkey_pseudo_random_function)
 
         else -> name
     }

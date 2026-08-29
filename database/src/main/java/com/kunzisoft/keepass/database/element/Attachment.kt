@@ -26,8 +26,10 @@ import com.kunzisoft.keepass.database.element.binary.BinaryData
 import com.kunzisoft.keepass.utils.readParcelableCompat
 
 
-data class Attachment(var name: String,
-                      var binaryData: BinaryData) : Parcelable {
+data class Attachment(
+    var name: String,
+    var binaryData: BinaryData
+) : Parcelable {
 
     constructor(parcel: Parcel) : this(
             parcel.readString() ?: "",
@@ -52,12 +54,15 @@ data class Attachment(var name: String,
         if (other !is Attachment) return false
 
         if (name != other.name) return false
+        if (binaryData != other.binaryData) return false
 
         return true
     }
 
     override fun hashCode(): Int {
-        return name.hashCode()
+        var result = name.hashCode()
+        result = 31 * result + binaryData.hashCode()
+        return result
     }
 
     companion object CREATOR : Parcelable.Creator<Attachment> {

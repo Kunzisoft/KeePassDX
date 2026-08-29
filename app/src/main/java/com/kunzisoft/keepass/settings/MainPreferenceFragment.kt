@@ -59,7 +59,7 @@ class MainPreferenceFragment : PreferenceFragmentCompat() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.RESUMED) {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
                 mDatabaseViewModel.databaseState.collect { database ->
                     checkDatabaseLoaded(database?.loaded == true)
                 }

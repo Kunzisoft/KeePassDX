@@ -70,7 +70,7 @@
     <string name="error_out_of_memory">Memoria insufficiente per caricare l\'intero database.</string>
     <string name="error_pass_gen_type">Selezionare almeno un tipo di generazione della password.</string>
     <string name="error_pass_match">Le password non corrispondono.</string>
-    <string name="error_rounds_too_large">«Livello» troppo alto. Impostato a 2147483648.</string>
+    <string name="error_rounds_too_large">«Livello» troppo alto. Impostato a %1$s.</string>
     <string name="error_string_key">Ogni stringa deve avere un nome.</string>
     <string name="error_wrong_length">Inserisci un numero intero positivo nel campo \"Lunghezza\".</string>
     <string name="field_name">Nome campo</string>
@@ -234,7 +234,7 @@
     <string name="education_entry_edit_title">Modifica l\'elemento</string>
     <string name="education_entry_edit_summary">Modifica l\'elemento con campi personalizzati. I dati possono fare riferimento ad altri campi.</string>
     <string name="education_generate_password_title">Crea una password robusta</string>
-    <string name="education_generate_password_summary">Genera una password robusta da associare all\'elemento, definiscila a seconda dei criteri del modulo e non dimenticare di tenerla al sicuro.</string>
+    <string name="education_generate_password_summary">Genera una password robusta da associare all\'elemento, definiscila a seconda dei criteri del modulo e non dimenticarla.</string>
     <string name="education_entry_new_field_title">Aggiungi campi personalizzati</string>
     <string name="education_entry_new_field_summary">Registra un campo aggiuntivo, aggiungi un valore e facoltativamente proteggilo.</string>
     <string name="education_unlock_title">Sblocca il tuo database</string>
@@ -273,7 +273,7 @@
     <string name="icon_pack_choose_summary">Pacchetto di icone usato nell\'app</string>
     <string name="edit_entry">Modifica elemento</string>
     <string name="error_load_database">Caricamento del database fallito.</string>
-    <string name="error_load_database_KDF_memory">Caricamento della chiave fallito. Prova a diminuire l\'«Utilizzo memoria» del KDF.</string>
+    <string name="error_load_database_KDF_memory">Utilizzo di memoria KDF troppo alto. Impossibile caricare.</string>
     <string name="list_entries_show_username_title">Mostra nomi utente</string>
     <string name="list_entries_show_username_summary">Mostra i nomi utente negli elenchi</string>
     <string name="clipboard">Appunti</string>
@@ -300,8 +300,6 @@
     <string name="lock_database_back_root_title">Premere \'\'Indietro\'\' per bloccare</string>
     <string name="lock_database_back_root_summary">Premi \'Indietro\' per bloccare il database se sei nella schermata principale del database</string>
     <string name="recycle_bin">Cestino</string>
-    <string name="keyboard_selection_entry_title">Selezione elemento</string>
-    <string name="keyboard_selection_entry_summary">Durante la visualizzazione di una voce in KeePassDX, inseriscila nella Magitastiera</string>
     <string name="delete_entered_password_title">Elimina password</string>
     <string name="delete_entered_password_summary">Elimina la password immessa dopo un tentativo di connessione al database</string>
     <string name="content_description_open_file">Apri il file</string>
@@ -512,7 +510,7 @@
     <string name="autofill_inline_suggestions_title">Suggerimenti in linea</string>
     <string name="warning_database_revoked">L\'accesso al file è stato revocato dal file manager, chiudi il database e riaprilo dalla sua posizione originale.</string>
     <string name="warning_database_info_changed_options">Unisci i dati, sovrascrivi le modifiche esterne salvando il database o ricaricalo con le ultime modifiche.</string>
-    <string name="warning_database_info_changed">I dati nel tuo database sono stati modificati al di fuori di questa app.</string>
+    <string name="warning_database_info_changed">Le informazioni contenute nel tuo database sono state modificate al di fuori dell\'app.</string>
     <string name="menu_reload_database">Ricarica dati</string>
     <string name="error_otp_type">Il tipo di OTP esistente non è riconosciuto da questo modulo e la sua convalida potrebbe non generare più correttamente il token.</string>
     <string name="download_canceled">Annullato!</string>
@@ -577,7 +575,7 @@
     <string name="debit_credit_card">Carta di debito / credito</string>
     <string name="template_group_name">Modelli</string>
     <string name="menu_external_icon">Icona esterna</string>
-    <string name="show_otp_token_summary">Mostra i token OTP nella lista delle voci</string>
+    <string name="show_otp_token_summary">Mostra i token OTP in modo predefinito</string>
     <string name="show_otp_token_title">Mostra token OTP</string>
     <string name="autofill_manual_selection_summary">Mostra l\'opzione che permette all\'utente di scegliere la voce nel database</string>
     <string name="autofill_manual_selection_title">Selezione manuale</string>
@@ -772,4 +770,14 @@
     <string name="benchmark_calculation">Calcola per %1$s s</string>
     <string name="benchmarking">Analisi comparativa…</string>
     <string name="keyboard_share_browser">Condividi da %1$s a KeePassDX</string>
+    <string name="error_load_database_KDF_parallelism">Parallelismo KDF troppo alto. Impossibile caricare.</string>
+    <string name="error_memory_too_large">\"Utilizzo di memoria\" troppo alto. Lo imposto a %1$s.</string>
+    <string name="error_parallelism_too_large">\"Parallelismo\" troppo alto. Lo imposto a %1$s.</string>
+    <string name="error_missing_parent">Questa azione non può essere eseguita senza un genitore.</string>
+    <string name="parallelism_set_safe">Imposta il numero di processori</string>
+    <string name="temporary_merge_success">Unione dei dati temporanei completata correttamente</string>
+    <string name="reload_success">Ricaricamento completato correttamente</string>
+    <string name="autofill_suggestions_title">Suggerimenti di completamento automatico</string>
+    <string name="autofill_suggestions_summary">Usa l\'algoritmo di riconoscimento dei moduli per suggerire le voci</string>
+    <string name="passkey_pseudo_random_function">Funzione pseudo-casuale della passkey</string>
 </resources>

@@ -20,13 +20,13 @@
 package com.kunzisoft.keepass.model
 
 import android.os.Parcel
-import android.os.ParcelUuid
 import android.os.Parcelable
 import com.kunzisoft.keepass.database.element.Attachment
-import com.kunzisoft.keepass.database.element.Database
+import com.kunzisoft.keepass.database.element.EntryId
 import com.kunzisoft.keepass.database.element.Field
-import com.kunzisoft.keepass.database.element.Tags
 import com.kunzisoft.keepass.database.element.entry.AutoType
+import com.kunzisoft.keepass.database.element.node.NodeIdUUID
+import com.kunzisoft.keepass.database.element.template.Template
 import com.kunzisoft.keepass.model.AppOriginEntryField.containsDomainOrApplicationId
 import com.kunzisoft.keepass.model.AppOriginEntryField.setAppOrigin
 import com.kunzisoft.keepass.model.AppOriginEntryField.setApplicationId
@@ -39,23 +39,23 @@ import com.kunzisoft.keepass.otp.OtpEntryFields.OTP_TOKEN_FIELD
 import com.kunzisoft.keepass.otp.OtpEntryFields.isOTP
 import com.kunzisoft.keepass.otp.OtpEntryFields.setOtp
 import com.kunzisoft.keepass.utils.CharArrayUtil.clear
-import com.kunzisoft.keepass.utils.readBooleanCompat
 import com.kunzisoft.keepass.utils.readCharArrayCompat
 import com.kunzisoft.keepass.utils.readListCompat
 import com.kunzisoft.keepass.utils.readParcelableCompat
-import com.kunzisoft.keepass.utils.writeBooleanCompat
 import com.kunzisoft.keepass.utils.writeCharArrayCompat
 import java.util.Locale
-import java.util.UUID
 
-class EntryInfo : NodeInfo {
+/**
+ * Data class representing information about an entry in the database.
+ * This class is used for UI representation and data transfer.
+ */
+open class EntryInfo : NodeInfo {
 
-    var id: UUID = UUID.randomUUID()
+    override var nodeId: EntryId = NodeIdUUID()
     var username: String = ""
     var password: CharArray = charArrayOf()
     var url: String = ""
     var notes: String = ""
-    var tags: Tags = Tags()
     var backgroundColor: Int? = null
     var foregroundColor: Int? = null
     var customFields: MutableList<Field> = mutableListOf()
@@ -65,17 +65,23 @@ class EntryInfo : NodeInfo {
     var creditCard: CreditCard? = null
     var passkey: Passkey? = null
     var appOrigin: AppOrigin? = null
-    var isTemplate: Boolean = false
+    var template: Template = Template.STANDARD
 
+    /**
+     * Default constructor.
+     */
     constructor() : super()
 
+    /**
+     * Copy constructor.
+     * @param entryToCopy The entry info to copy.
+     */
     constructor(entryToCopy: EntryInfo) : super(entryToCopy) {
-        this.id = entryToCopy.id
+        this.nodeId = entryToCopy.nodeId
         this.username = entryToCopy.username
         this.password = entryToCopy.password.copyOf()
         this.url = entryToCopy.url
         this.notes = entryToCopy.notes
-        this.tags = Tags(entryToCopy.tags)
         this.backgroundColor = entryToCopy.backgroundColor
         this.foregroundColor = entryToCopy.foregroundColor
         this.customFields = entryToCopy.customFields.map { Field(it) }.toMutableList()
@@ -85,16 +91,19 @@ class EntryInfo : NodeInfo {
         this.creditCard = entryToCopy.creditCard?.let { CreditCard(it) }
         this.passkey = entryToCopy.passkey?.let { Passkey(it) }
         this.appOrigin = entryToCopy.appOrigin?.let { AppOrigin(it) }
-        this.isTemplate = entryToCopy.isTemplate
+        this.template = entryToCopy.template
     }
 
+    /**
+     * Parcel constructor.
+     * @param parcel The parcel to read from.
+     */
     constructor(parcel: Parcel) : super(parcel) {
-        id = parcel.readParcelableCompat<ParcelUuid>()?.uuid ?: id
+        nodeId = parcel.readParcelableCompat<EntryId>() ?: nodeId
         username = parcel.readString() ?: username
         password = parcel.readCharArrayCompat() ?: password
         url = parcel.readString() ?: url
         notes = parcel.readString() ?: notes
-        tags = parcel.readParcelableCompat() ?: tags
         val readBgColor = parcel.readInt()
         backgroundColor = if (readBgColor == -1) null else readBgColor
         val readFgColor = parcel.readInt()
@@ -106,7 +115,7 @@ class EntryInfo : NodeInfo {
         creditCard = parcel.readParcelableCompat() ?: creditCard
         passkey = parcel.readParcelableCompat() ?: passkey
         appOrigin = parcel.readParcelableCompat() ?: appOrigin
-        isTemplate = parcel.readBooleanCompat()
+        template = parcel.readParcelableCompat() ?: template
     }
 
     override fun describeContents(): Int {
@@ -115,12 +124,11 @@ class EntryInfo : NodeInfo {
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         super.writeToParcel(parcel, flags)
-        parcel.writeParcelable(ParcelUuid(id), flags)
+        parcel.writeParcelable(nodeId, flags)
         parcel.writeString(username)
         parcel.writeCharArrayCompat(password)
         parcel.writeString(url)
         parcel.writeString(notes)
-        parcel.writeParcelable(tags, flags)
         parcel.writeInt(backgroundColor ?: -1)
         parcel.writeInt(foregroundColor ?: -1)
         parcel.writeList(customFields)
@@ -130,9 +138,12 @@ class EntryInfo : NodeInfo {
         parcel.writeParcelable(creditCard, flags)
         parcel.writeParcelable(passkey, flags)
         parcel.writeParcelable(appOrigin, flags)
-        parcel.writeBooleanCompat(isTemplate)
+        parcel.writeParcelable(template, flags)
     }
 
+    /**
+     * Clear sensitive data from memory.
+     */
     fun clear() {
         password.clear()
         customFields.forEach { it.clear() }
@@ -141,26 +152,48 @@ class EntryInfo : NodeInfo {
         passkey?.clear()
     }
 
+    /**
+     * Check if the entry contains an OTP token.
+     * @return True if it contains an OTP token, false otherwise.
+     */
     fun containsOtpToken(): Boolean {
         return containsCustomField(OTP_TOKEN_FIELD)
     }
 
+    /**
+     * Get the OTP token.
+     * @return The OTP token if present, null otherwise.
+     */
     fun getOtpToken(): CharArray? {
         return otpModel?.let {
             OtpElement(it).token
         }
     }
 
+    /**
+     * Get custom fields suitable for auto-filling.
+     * @return List of fields excluding OTP and Passkey fields.
+     */
     fun getCustomFieldsForFilling(): List<Field> {
         return customFields.filter {
             !it.isOTP() && !it.isPasskey()
         }
     }
 
+    /**
+     * Check if a custom field with the specified label exists.
+     * @param label The label to search for.
+     * @return True if found, false otherwise.
+     */
     fun containsCustomField(label: String): Boolean {
         return customFields.lastOrNull { it.name == label } != null
     }
 
+    /**
+     * Get the generated value of a field by its label.
+     * @param label The label of the field.
+     * @return The field value as CharArray, or null if not found.
+     */
     fun getGeneratedFieldValue(label: String): CharArray? {
         if (label == OTP_TOKEN_FIELD) {
             return getOtpToken()
@@ -169,7 +202,8 @@ class EntryInfo : NodeInfo {
     }
 
     /**
-     * Add a field to the custom fields list, replace if name already exists
+     * Add a field to the custom fields list, replace if name already exists.
+     * @param field The field to add or replace.
      */
     fun addOrReplaceField(field: Field) {
         customFields.lastOrNull { it.name == field.name }?.let {
@@ -180,8 +214,9 @@ class EntryInfo : NodeInfo {
     }
 
     /**
-     * Add a field to the custom fields list with a suffix position,
-     * replace if name already exists
+     * Add a field to the custom fields list with a suffix position, replace if name already exists.
+     * @param field The field to add.
+     * @param position The position to use for the suffix.
      */
     fun addOrReplaceFieldWithSuffix(field: Field, position: Int) {
         addOrReplaceField(Field(
@@ -191,11 +226,10 @@ class EntryInfo : NodeInfo {
     }
 
     /**
-     * Add a unique field to the list of custom fields with a suffix
-     * if name already exists and value not the same
-     * @param field the field to add
-     * @param position the number to add to the suffix
-     * @return the increment number and the custom field created
+     * Add a unique field to the list of custom fields with a suffix if name already exists and value is not the same.
+     * @param field the field to add.
+     * @param position the number to add to the suffix.
+     * @return the increment number and the custom field created.
      */
     fun addUniqueField(field: Field, position: Int = 0): Pair<Int, Field> {
         val suffix = suffixFieldNamePosition(position)
@@ -218,7 +252,9 @@ class EntryInfo : NodeInfo {
     }
 
     /**
-     * Capitalize and remove suffix of a title
+     * Capitalize and remove suffix of a title.
+     * @receiver The string to format.
+     * @return The formatted title string.
      */
     fun String.toTitle(): String {
         return this.replaceFirstChar {
@@ -228,7 +264,9 @@ class EntryInfo : NodeInfo {
 
     /**
      * True if this entry contains domain or applicationId,
-     * OTP is ignored and considered not present
+     * OTP is ignored and considered not present.
+     * @param searchInfo Info to search for.
+     * @return True if it contains search info, false otherwise.
      */
     fun containsSearchInfo(searchInfo: SearchInfo): Boolean {
         return searchInfo.webDomain?.let { webDomain ->
@@ -239,16 +277,39 @@ class EntryInfo : NodeInfo {
     }
 
     /**
-     * Add searchInfo to current EntryInfo
+     * Check if it's allowed to save search info to this entry.
+     * @param searchInfo Search info to check.
+     * @return True if allowed, false otherwise.
      */
-    private fun saveSearchInfo(database: Database?, searchInfo: SearchInfo) {
+    fun allowedToSaveSearchInfo(
+        searchInfo: SearchInfo?
+    ): Boolean {
+        if (searchInfo == null || searchInfo.toString().isEmpty())
+            return false
+        return !(this.containsSearchInfo(searchInfo))
+    }
+
+    /**
+     * True if this entry contains any attachment.
+     * @return True if attachments list is not empty.
+     */
+    fun containsAttachment(): Boolean {
+        return attachments.isNotEmpty()
+    }
+
+    /**
+     * Add searchInfo to current EntryInfo.
+     * @param searchInfo Search info to save.
+     * @param customFieldsAllowed True if custom fields are allowed.
+     */
+    private fun saveSearchInfo(searchInfo: SearchInfo, customFieldsAllowed: Boolean) {
         searchInfo.otpString?.let { otpString ->
             setOtp(otpString)
         } ?: searchInfo.webDomain?.let { webDomain ->
             setWebDomain(
                 webDomain,
                 searchInfo.webScheme,
-                database?.allowEntryCustomFields() == true
+                customFieldsAllowed
             )
         } ?: searchInfo.applicationId?.let { applicationId ->
             setApplicationId(applicationId)
@@ -259,11 +320,13 @@ class EntryInfo : NodeInfo {
     }
 
     /**
-     * Add registerInfo to current EntryInfo,
-     * return true if data has been overwritten
+     * Add registerInfo to current EntryInfo, return true if data has been overwritten.
+     * @param registerInfo Register info to save.
+     * @param customFieldsAllowed True if custom fields are allowed.
+     * @return True if data was overwritten, false otherwise.
      */
-    fun saveRegisterInfo(database: Database?, registerInfo: RegisterInfo): Boolean {
-        saveSearchInfo(database, registerInfo.searchInfo)
+    fun saveRegisterInfo(registerInfo: RegisterInfo, customFieldsAllowed: Boolean): Boolean {
+        saveSearchInfo(registerInfo.searchInfo, customFieldsAllowed)
         registerInfo.username?.let { username = it }
         registerInfo.password?.let { password = it }
         registerInfo.expiration?.let {
@@ -272,7 +335,7 @@ class EntryInfo : NodeInfo {
         }
         setCreditCard(registerInfo.creditCard)
         val dataOverwrite: Boolean = setPasskey(registerInfo.passkey)
-        saveAppOrigin(database, registerInfo.appOrigin)
+        saveAppOrigin(registerInfo.appOrigin, customFieldsAllowed)
         if (title.isEmpty()) {
             title = registerInfo.toString().toTitle()
         }
@@ -280,16 +343,22 @@ class EntryInfo : NodeInfo {
     }
 
     /**
-     * Add AppOrigin
+     * Add AppOrigin.
+     * @param appOrigin App origin to save.
+     * @param customFieldsAllowed True if custom fields are allowed.
      */
-    fun saveAppOrigin(database: Database?, appOrigin: AppOrigin?) {
-        setAppOrigin(appOrigin, database?.allowEntryCustomFields() == true)
+    fun saveAppOrigin(appOrigin: AppOrigin?, customFieldsAllowed: Boolean) {
+        setAppOrigin(appOrigin, customFieldsAllowed)
     }
 
+    /**
+     * Get a visual title for the entry, fallback to URL, username or ID.
+     * @return The best visual title string.
+     */
     fun getVisualTitle(): String {
         return title.ifEmpty {
             url.ifEmpty {
-                username.ifEmpty { id.toString() }
+                username.ifEmpty { nodeId.toString() }
             }
         }
     }
@@ -299,12 +368,11 @@ class EntryInfo : NodeInfo {
         if (other !is EntryInfo) return false
         if (!super.equals(other)) return false
 
-        if (id != other.id) return false
+        if (nodeId != other.nodeId) return false
         if (username != other.username) return false
         if (!password.contentEquals(other.password)) return false
         if (url != other.url) return false
         if (notes != other.notes) return false
-        if (tags != other.tags) return false
         if (backgroundColor != other.backgroundColor) return false
         if (foregroundColor != other.foregroundColor) return false
         if (customFields != other.customFields) return false
@@ -314,19 +382,18 @@ class EntryInfo : NodeInfo {
         if (creditCard != other.creditCard) return false
         if (passkey != other.passkey) return false
         if (appOrigin != other.appOrigin) return false
-        if (isTemplate != other.isTemplate) return false
+        if (template != other.template) return false
 
         return true
     }
 
     override fun hashCode(): Int {
         var result = super.hashCode()
-        result = 31 * result + id.hashCode()
+        result = 31 * result + nodeId.hashCode()
         result = 31 * result + username.hashCode()
         result = 31 * result + password.contentHashCode()
         result = 31 * result + url.hashCode()
         result = 31 * result + notes.hashCode()
-        result = 31 * result + tags.hashCode()
         result = 31 * result + backgroundColor.hashCode()
         result = 31 * result + foregroundColor.hashCode()
         result = 31 * result + customFields.hashCode()
@@ -336,7 +403,7 @@ class EntryInfo : NodeInfo {
         result = 31 * result + (creditCard?.hashCode() ?: 0)
         result = 31 * result + (passkey?.hashCode() ?: 0)
         result = 31 * result + (appOrigin?.hashCode() ?: 0)
-        result = 31 * result + isTemplate.hashCode()
+        result = 31 * result + template.hashCode()
         return result
     }
 

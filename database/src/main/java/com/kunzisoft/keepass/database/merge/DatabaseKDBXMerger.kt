@@ -23,6 +23,7 @@ import com.kunzisoft.keepass.database.element.Attachment
 import com.kunzisoft.keepass.database.element.CustomData
 import com.kunzisoft.keepass.database.element.DateInstant
 import com.kunzisoft.keepass.database.element.DeletedObject
+import com.kunzisoft.keepass.database.element.EntryId
 import com.kunzisoft.keepass.database.element.database.DatabaseKDB
 import com.kunzisoft.keepass.database.element.database.DatabaseKDBX
 import com.kunzisoft.keepass.database.element.entry.EntryKDB
@@ -40,7 +41,7 @@ import java.util.UUID
 
 class DatabaseKDBXMerger(private var database: DatabaseKDBX) {
 
-    var isRAMSufficient: (memoryWanted: Long) -> Boolean = {true}
+    var isRAMSufficient: (memoryWanted: ULong) -> Boolean = { true }
 
     /**
      * Merge a KDB database in a KDBX database, by default all data are copied from the KDB
@@ -80,7 +81,7 @@ class DatabaseKDBXMerger(private var database: DatabaseKDBX) {
     /**
      * Utility method to transform KDB id nodes in KDBX id nodes
      */
-    private fun getNodeIdUUIDFrom(seed: NodeId<UUID>, intId: NodeId<Int>): NodeId<UUID> {
+    private fun getNodeIdUUIDFrom(seed: EntryId, intId: NodeId<Int>): EntryId {
         val seedUUID = seed.id
         val idInt = intId.id
         return NodeIdUUID(UUID(seedUUID.mostSignificantBits, seedUUID.leastSignificantBits + idInt))
@@ -89,8 +90,8 @@ class DatabaseKDBXMerger(private var database: DatabaseKDBX) {
     /**
      * Utility method to merge a KDB entry
      */
-    private fun mergeEntry(seed: NodeId<UUID>, nodeToMerge: EntryKDB, databaseToMerge: DatabaseKDB) {
-        val entryId: NodeId<UUID> = nodeToMerge.nodeId
+    private fun mergeEntry(seed: EntryId, nodeToMerge: EntryKDB, databaseToMerge: DatabaseKDB) {
+        val entryId: EntryId = nodeToMerge.nodeId
         val entry = database.getEntryById(entryId)
 
         databaseToMerge.getEntryById(entryId)?.let { srcEntryToMerge ->
@@ -107,7 +108,7 @@ class DatabaseKDBXMerger(private var database: DatabaseKDBX) {
                 srcEntryToMerge.getAttachment(databaseToMerge.attachmentPool)?.let { attachment ->
                     val binarySize = attachment.binaryData.getSize()
                     val binaryData = database.buildNewBinaryAttachment(
-                        isRAMSufficient.invoke(binarySize),
+                        isRAMSufficient.invoke(binarySize.toULong()),
                         attachment.binaryData.isCompressed,
                         attachment.binaryData.isProtected
                     )
@@ -152,7 +153,7 @@ class DatabaseKDBXMerger(private var database: DatabaseKDBX) {
     /**
      * Utility method to merge a KDB group
      */
-    private fun mergeGroup(seed: NodeId<UUID>, nodeToMerge: GroupKDB, databaseToMerge: DatabaseKDB) {
+    private fun mergeGroup(seed: EntryId, nodeToMerge: GroupKDB, databaseToMerge: DatabaseKDB) {
         val groupId: NodeId<Int> = nodeToMerge.nodeId
         val group = database.getGroupById(getNodeIdUUIDFrom(seed, groupId))
 
@@ -223,9 +224,6 @@ class DatabaseKDBXMerger(private var database: DatabaseKDBX) {
             database.historyMaxSize = databaseToMerge.historyMaxSize
             database.encryptionAlgorithm = databaseToMerge.encryptionAlgorithm
             database.kdfEngine = databaseToMerge.kdfEngine
-            database.numberKeyEncryptionRounds = databaseToMerge.numberKeyEncryptionRounds
-            database.memoryUsage = databaseToMerge.memoryUsage
-            database.parallelism = databaseToMerge.parallelism
             database.settingsChanged = databaseToMerge.settingsChanged
         }
 
@@ -479,7 +477,7 @@ class DatabaseKDBXMerger(private var database: DatabaseKDBX) {
             entryToMerge.getAttachments(databaseToMerge.attachmentPool).forEach { attachment ->
                 val binarySize = attachment.binaryData.getSize()
                 val binaryData = database.buildNewBinaryAttachment(
-                    isRAMSufficient.invoke(binarySize),
+                    isRAMSufficient.invoke(binarySize.toULong()),
                     attachment.binaryData.isCompressed,
                     attachment.binaryData.isProtected
                 )
@@ -529,7 +527,7 @@ class DatabaseKDBXMerger(private var database: DatabaseKDBX) {
     }
 
     /**
-     * Utility method to merge an history from an [entryA]
+     * Utility method to merge a history from an [entryA]
      */
     private fun EntryKDBX.addHistoryFrom(entryA: EntryKDBX) {
         // Keep entry as history if already not present

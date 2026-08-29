@@ -70,22 +70,21 @@ abstract class StylishActivity : AppCompatActivity() {
     open fun finishActivityIfReloadRequested(): Boolean = false
 
     open fun reloadActivity() {
-        if (!finishActivityIfReloadRequested()) {
-            startActivity(intent)
-        }
-        finish()
-        @Suppress("DEPRECATION")
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
+        if (finishActivityIfReloadRequested()) finish() else recreate()
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
             overrideActivityTransition(
                 OVERRIDE_TRANSITION_OPEN,
                 android.R.anim.fade_in,
                 android.R.anim.fade_out
             )
-        else
+        } else {
+            @Suppress("DEPRECATION")
             overridePendingTransition(
                 android.R.anim.fade_in,
                 android.R.anim.fade_out
             )
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -123,13 +122,9 @@ abstract class StylishActivity : AppCompatActivity() {
             || DATABASE_PREFERENCE_CHANGED) {
             DATABASE_PREFERENCE_CHANGED = false
             Log.d(this.javaClass.name, "Theme change detected, restarting activity")
-            recreateActivity()
+            // To prevent KitKat bugs
+            Handler(Looper.getMainLooper()).post { reloadActivity() }
         }
         setScreenshotMode(PreferencesUtil.isScreenshotModeEnabled(this))
-    }
-
-    private fun recreateActivity() {
-        // To prevent KitKat bugs
-        Handler(Looper.getMainLooper()).post { recreate() }
     }
 }

@@ -1,14 +1,16 @@
 package com.kunzisoft.keepass.view
 
-import android.view.View.OnClickListener
-
 interface ProtectedFieldView {
+
+    var onRevealChanged: ((isRevealed: Boolean) -> Unit)?
+
     fun setProtection(
-        protection: Boolean,
-        isCurrentlyProtected: Boolean,
-        onUnprotectClickListener: OnClickListener?
+        isProtected: Boolean,
+        isRevealedByDefault: Boolean,
+        needUserVerificationToReveal: Boolean
     )
-    fun isCurrentlyProtected(): Boolean
-    fun protect()
-    fun unprotect()
+
+    fun isRevealed(): Boolean
+    fun mask()
+    fun reveal()
 }

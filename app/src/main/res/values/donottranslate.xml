@@ -84,6 +84,8 @@
     <bool name="lock_database_back_root_default" translatable="false">false</bool>
     <string name="lock_database_show_button_key" translatable="false">lock_database_show_button_key</string>
     <bool name="lock_database_show_button_default" translatable="false">true</bool>
+    <string name="read_only_key" translatable="false">read_only_key</string>
+    <bool name="read_only_default" translatable="false">false</bool>
     <string name="user_verification_mode_key" translatable="false">user_verification_mode_key</string>
     <bool name="user_verification_mode_default" translatable="false">true</bool>
     <string name="user_verification_device_credential_key" translatable="false">user_verification_device_credential_key</string>
@@ -154,8 +156,6 @@
     <bool name="keyboard_notification_entry_clear_close_default" translatable="false">true</bool>
     <string name="keyboard_entry_timeout_key" translatable="false">keyboard_entry_timeout_key</string>
     <string name="keyboard_entry_timeout_default" translatable="false">-1</string>
-    <string name="keyboard_selection_entry_key" translatable="false">keyboard_selection_entry_key</string>
-    <bool name="keyboard_selection_entry_default" translatable="false">false</bool>
     <string name="keyboard_save_search_info_key" translatable="false">keyboard_save_search_info_key</string>
     <bool name="keyboard_save_search_info_default" translatable="false">true</bool>
     <string name="keyboard_auto_go_action_key" translatable="false">keyboard_auto_go_action_key</string>
@@ -177,6 +177,8 @@
     <string name="keyboard_previous_id_key" translatable="false">keyboard_previous_id_key</string>
     <string name="autofill_close_database_key" translatable="false">autofill_close_database_key</string>
     <bool name="autofill_close_database_default" translatable="false">false</bool>
+    <string name="autofill_suggestions_key" translatable="false">autofill_suggestions_key</string>
+    <bool name="autofill_suggestions_default" translatable="false">true</bool>
     <string name="autofill_inline_suggestions_key" translatable="false">autofill_inline_suggestions_key</string>
     <bool name="autofill_inline_suggestions_default" translatable="false">false</bool>
     <string name="autofill_manual_selection_key" translatable="false">autofill_manual_selection_key</string>

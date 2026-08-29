@@ -26,13 +26,13 @@ import com.kunzisoft.keepass.hardware.HardwareKey
 class RemoveUnlinkedDataDatabaseRunnable (
     context: Context,
     database: ContextualDatabase,
-    saveDatabase: Boolean,
+    save: Boolean,
     challengeResponseRetriever: (HardwareKey, ByteArray?) -> ByteArray
 ) : SaveDatabaseRunnable(
     context,
     database,
-    saveDatabase,
-    null,
+    save,
+    mainCredential = null,
     challengeResponseRetriever
 ) {
 

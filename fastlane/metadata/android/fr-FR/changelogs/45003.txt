@@ -1,0 +1,3 @@
+ * Ajout de l'extension PRF pour Passkey #2502 #2553
+ * Correction des actions URL #2604
+ * Correction de la sélection de valeur de champ #2456

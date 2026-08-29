@@ -1,3 +1,22 @@
+/*
+ * Copyright 2025 Jeremy Jamet / Kunzisoft.
+ *
+ * This file is part of KeePassDX.
+ *
+ *  KeePassDX is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  KeePassDX is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
 package com.kunzisoft.keepass.credentialprovider.passkey.util
 
 import android.app.Activity
@@ -19,9 +38,14 @@ import androidx.credentials.provider.PendingIntentHandler
 import androidx.credentials.provider.ProviderCreateCredentialRequest
 import androidx.credentials.provider.ProviderGetCredentialRequest
 import com.kunzisoft.encrypt.Base64Helper
+import com.kunzisoft.encrypt.HashManager
 import com.kunzisoft.encrypt.Signature
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper.addNodeId
+import com.kunzisoft.keepass.credentialprovider.passkey.data.AuthenticationExtensionsClientOutputs
+import com.kunzisoft.keepass.credentialprovider.passkey.data.AuthenticationExtensionsPRFInputs
+import com.kunzisoft.keepass.credentialprovider.passkey.data.AuthenticationExtensionsPRFOutputs
+import com.kunzisoft.keepass.credentialprovider.passkey.data.AuthenticationExtensionsPRFValues
 import com.kunzisoft.keepass.credentialprovider.passkey.data.AuthenticatorAssertionResponse
 import com.kunzisoft.keepass.credentialprovider.passkey.data.AuthenticatorAttestationResponse
 import com.kunzisoft.keepass.credentialprovider.passkey.data.Cbor
@@ -86,7 +110,7 @@ object PasskeyHelper {
                 Log.d(javaClass.name, "Success Passkey manual selection")
                 mReplyIntent.addPasskey(passkey)
                 mReplyIntent.addAppOrigin(entryInfo.appOrigin)
-                mReplyIntent.addNodeId(entryInfo.id)
+                mReplyIntent.addNodeId(entryInfo.nodeId)
                 extras?.let {
                     mReplyIntent.putExtras(it)
                 }
@@ -160,8 +184,8 @@ object PasskeyHelper {
      * Utility method to create a passkey and the associated creation request parameters
      * [intent] allows to retrieve the request
      * [context] context to manage package verification files
-     * [defaultBackupEligibility] the default backup eligibility to add the the passkey entry
-     * [defaultBackupState] the default backup state to add the the passkey entry
+     * [defaultBackupEligibility] the default backup eligibility to add the passkey entry
+     * [defaultBackupState] the default backup state to add the passkey entry
      * [passkeyCreated] is called asynchronously when the passkey has been created
      */
     suspend fun retrievePasskeyCreationRequestParameters(
@@ -177,6 +201,10 @@ object PasskeyHelper {
         val callingAppInfo = createCredentialRequest.callingAppInfo
         val creationOptions = createCredentialRequest.retrievePasskeyCreationComponent()
 
+        if (creationOptions.extensions.prf?.evalByCredential != null) {
+            throw CreateCredentialUnknownException("evalByCredential must not be present in a registration request")
+        }
+
         val relyingParty = creationOptions.relyingPartyEntity.id
         val username = creationOptions.userEntity.name
         val userHandle = creationOptions.userEntity.id
@@ -190,6 +218,10 @@ object PasskeyHelper {
         ) ?: throw CreateCredentialUnknownException("no known public key type found")
         val privateKeyPem = Signature.convertPrivateKeyToPem(keyPair.private)
 
+        val prfSecret = if (creationOptions.extensions.prf != null) {
+            Base64Helper.b64EncodeToCharArray(HashManager.generateRandom(32))
+        } else null
+
         // Create the passkey element
         val passkey = Passkey(
             username = username,
@@ -198,7 +230,8 @@ object PasskeyHelper {
             userHandle = Base64Helper.b64Encode(userHandle),
             relyingParty = relyingParty,
             backupEligibility = defaultBackupEligibility,
-            backupState = defaultBackupState
+            backupState = defaultBackupState,
+            prfSecret = prfSecret
         )
 
         // create new entry in database
@@ -214,7 +247,8 @@ object PasskeyHelper {
                         publicKeyCredentialCreationOptions = creationOptions,
                         credentialId = credentialId,
                         signatureKey = Pair(keyPair, keyTypeId),
-                        clientDataResponse = ClientDataDefinedResponse(clientDataHash)
+                        clientDataResponse = ClientDataDefinedResponse(clientDataHash),
+                        prfSecret = prfSecret
                     )
                 )
             },
@@ -230,11 +264,68 @@ object PasskeyHelper {
                             type = ClientDataBuildResponse.Type.CREATE,
                             challenge = creationOptions.challenge,
                             origin = origin
-                        )
+                        ),
+                        prfSecret = prfSecret
                     )
                 )
             }
         )
+    }
+
+    // https://github.com/Kunzisoft/KeePassDX/issues/2502#issuecomment-5245533775
+    // https://www.w3.org/TR/webauthn-3/#prf-extension
+    private const val SALT_PRF = "WebAuthn PRF"
+
+    // SHA-256(UTF8("WebAuthn PRF") || 0x00 || input)
+    // Domain separation hashing (Client-side processing)
+    fun derivePrfSalt(
+        rawSalt: ByteArray
+    ): ByteArray {
+        return HashManager.sha256(
+            SALT_PRF.toByteArray(Charsets.UTF_8),
+            byteArrayOf(0x00),
+            rawSalt
+        )
+    }
+
+    // Authenticator processing (FIDO CTAP 2.1 hmac-secret)
+    fun computePrfValue(
+        secret: ByteArray,
+        salt: ByteArray
+    ): ByteArray {
+        return HashManager.hmacSha256(secret, derivePrfSalt(salt))
+    }
+
+    private fun buildPrfOutput(
+        prfInputs: AuthenticationExtensionsPRFInputs? = null,
+        credentialId: String? = null,
+        secret: CharArray? = null,
+        isRegistration: Boolean = false
+    ): AuthenticationExtensionsPRFOutputs? {
+        if (prfInputs == null)
+            return null
+        if (!isRegistration && secret == null)
+            return null
+        val eval = prfInputs.evalByCredential?.get(credentialId) ?: prfInputs.eval
+        return if (eval != null && secret != null) {
+            val prfSecretBytes = Base64Helper.b64DecodeFromCharArray(secret)
+            val results = AuthenticationExtensionsPRFValues(
+                first = computePrfValue(prfSecretBytes, eval.first),
+                second = eval.second?.let { computePrfValue(prfSecretBytes, it) }
+            )
+            prfSecretBytes.fill(0)
+            AuthenticationExtensionsPRFOutputs(
+                // https://www.w3.org/TR/webauthn-3/#dictdef-authenticationextensionsprfoutputs
+                // For registration, enabled is always true and results can be present
+                // For authentication, results are present if computed
+                enabled = if (isRegistration) true else null,
+                results = results
+            )
+        } else if (isRegistration) {
+            AuthenticationExtensionsPRFOutputs(enabled = true)
+        } else {
+            null
+        }
     }
 
     /**
@@ -250,11 +341,22 @@ object PasskeyHelper {
 
         val keyPair = publicKeyCredentialCreationParameters.signatureKey.first
         val keyTypeId = publicKeyCredentialCreationParameters.signatureKey.second
+
+        val creationOptions = publicKeyCredentialCreationParameters.publicKeyCredentialCreationOptions
+        val credentialId = publicKeyCredentialCreationParameters.credentialId
+        val credentialIdEncoded = Base64Helper.b64Encode(credentialId)
+        val prfOutputs = buildPrfOutput(
+            prfInputs = creationOptions.extensions.prf,
+            credentialId = credentialIdEncoded,
+            secret = publicKeyCredentialCreationParameters.prfSecret,
+            isRegistration = true
+        )
+
         val responseJson = FidoPublicKeyCredential(
-            id = Base64Helper.b64Encode(publicKeyCredentialCreationParameters.credentialId),
+            id = credentialIdEncoded,
             response = AuthenticatorAttestationResponse(
-                requestOptions = publicKeyCredentialCreationParameters.publicKeyCredentialCreationOptions,
-                credentialId = publicKeyCredentialCreationParameters.credentialId,
+                requestOptions = creationOptions,
+                credentialId = credentialId,
                 credentialPublicKey = Cbor().encode(
                     Signature.convertPublicKeyToMap(
                         publicKeyIn = keyPair.public,
@@ -267,7 +369,8 @@ object PasskeyHelper {
                 backupState = backupState,
                 publicKeyTypeId = keyTypeId,
                 publicKeyCbor = Signature.convertPublicKey(keyPair.public, keyTypeId)!!,
-                clientDataResponse = publicKeyCredentialCreationParameters.clientDataResponse
+                clientDataResponse = publicKeyCredentialCreationParameters.clientDataResponse,
+                clientExtensionResults = prfOutputs?.let { AuthenticationExtensionsClientOutputs(prf = it) }
             ),
             authenticatorAttachment = "platform"
         ).json()
@@ -338,8 +441,15 @@ object PasskeyHelper {
         defaultBackupEligibility: Boolean,
         defaultBackupState: Boolean
     ): PublicKeyCredential {
+        val credentialId = passkey.credentialId
+        val prfOutputs = buildPrfOutput(
+            prfInputs = requestOptions.extensions.prf,
+            credentialId = credentialId,
+            secret = passkey.prfSecret,
+            isRegistration = false
+        )
         val getCredentialResponse = FidoPublicKeyCredential(
-            id = passkey.credentialId,
+            id = credentialId,
             response = AuthenticatorAssertionResponse(
                 requestOptions = requestOptions,
                 userPresent = true,
@@ -348,7 +458,8 @@ object PasskeyHelper {
                 backupState = passkey.backupState ?: defaultBackupState,
                 userHandle = passkey.userHandle,
                 privateKey = passkey.privateKeyPem,
-                clientDataResponse = clientDataResponse
+                clientDataResponse = clientDataResponse,
+                clientExtensionResults = prfOutputs?.let { AuthenticationExtensionsClientOutputs(prf = it) }
             ),
             authenticatorAttachment = "platform"
         ).json()

@@ -1,3 +1,22 @@
+/*
+ * Copyright 2019 Jeremy Jamet / Kunzisoft.
+ *
+ * This file is part of KeePassDX.
+ *
+ *  KeePassDX is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  KeePassDX is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
 package com.kunzisoft.keepass.activities.fragments
 
 import android.content.DialogInterface
@@ -18,18 +37,20 @@ import androidx.recyclerview.widget.SimpleItemAnimator
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.adapters.EntryAttachmentsItemsAdapter
 import com.kunzisoft.keepass.database.ContextualDatabase
-import com.kunzisoft.keepass.database.element.Attachment
-import com.kunzisoft.keepass.model.EntryAttachmentState
 import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.model.FieldProtection
 import com.kunzisoft.keepass.model.StreamDirection
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.utils.TimeUtil.getDateTimeString
-import com.kunzisoft.keepass.utils.UUIDUtils.asHexString
 import com.kunzisoft.keepass.view.TemplateView
+import com.kunzisoft.keepass.view.collapse
+import com.kunzisoft.keepass.view.expand
 import com.kunzisoft.keepass.view.hideByFading
 import com.kunzisoft.keepass.view.showByFading
+import com.kunzisoft.keepass.viewmodels.AttachmentsViewModel
 import com.kunzisoft.keepass.viewmodels.EntryViewModel
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
 class EntryFragment: DatabaseFragment() {
@@ -53,6 +74,7 @@ class EntryFragment: DatabaseFragment() {
     private lateinit var uuidReferenceView: TextView
 
     private val mEntryViewModel: EntryViewModel by activityViewModels()
+    private val mAttachmentsViewModel: AttachmentsViewModel by activityViewModels()
 
     override fun onCreateView(inflater: LayoutInflater,
                               container: ViewGroup?,
@@ -76,7 +98,15 @@ class EntryFragment: DatabaseFragment() {
         advancedSection = view.findViewById(R.id.entry_section_advanced)
 
         templateView = view.findViewById(R.id.entry_template)
-        loadTemplateSettings()
+
+        templateView.apply {
+            // Set copy buttons
+            onChangeFieldProtectionClickListener = mEntryViewModel::requestChangeFieldProtection
+            onAskCopySafeClickListener = ::showClipboardDialog
+            onCopyActionClickListener = mEntryViewModel::requestCopyField
+            // OTP timer updated
+            onOtpUpdatedListener = mEntryViewModel::onOtpElementUpdated
+        }
 
         attachmentsContainerView = view.findViewById(R.id.entry_attachments_container)
         attachmentsListView = view.findViewById(R.id.entry_attachments_list)
@@ -97,48 +127,67 @@ class EntryFragment: DatabaseFragment() {
         }
         uuidReferenceView = view.findViewById(R.id.entry_UUID_reference)
 
-        mEntryViewModel.entryInfoHistory.observe(viewLifecycleOwner) { entryInfoHistory ->
-            if (entryInfoHistory != null) {
-                templateView.setTemplate(entryInfoHistory.template)
-                assignEntryInfo(entryInfoHistory.entryInfo)
-                // Smooth appearing
-                rootView.showByFading()
-                resetAppTimeoutWhenViewFocusedOrChanged(rootView)
+        context?.let { context ->
+            attachmentsAdapter = EntryAttachmentsItemsAdapter(context)
+            attachmentsAdapter?.onItemClickListener = { item ->
+                mEntryViewModel.onAttachmentSelected(item.attachment)
             }
-        }
-
-        mEntryViewModel.onAttachmentAction.observe(viewLifecycleOwner) { entryAttachmentState ->
-            entryAttachmentState?.let {
-                if (it.streamDirection != StreamDirection.UPLOAD) {
-                    putAttachment(it)
+            attachmentsAdapter?.onListSizeChangedListener = { previousSize, newSize ->
+                if (previousSize > 0 && newSize == 0) {
+                    attachmentsContainerView.collapse(true)
+                } else if (previousSize == 0 && newSize == 1) {
+                    attachmentsContainerView.expand(true)
+                } else {
+                    attachmentsContainerView.isVisible = newSize != 0
                 }
             }
-        }
-
-        mEntryViewModel.sectionSelected.observe(viewLifecycleOwner) { entrySection ->
-            when (entrySection ?: EntryViewModel.EntrySection.MAIN) {
-                EntryViewModel.EntrySection.MAIN -> {
-                    mainSection.showByFading()
-                    advancedSection.hideByFading()
-                }
-                EntryViewModel.EntrySection.ADVANCED -> {
-                    mainSection.hideByFading()
-                    advancedSection.showByFading()
-                }
-            }
+            attachmentsListView.adapter = attachmentsAdapter
         }
 
         lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.RESUMED) {
-                mEntryViewModel.entryState.collect { entryState ->
-                    when (entryState) {
-                        is EntryViewModel.EntryState.Loading -> {}
-                        is EntryViewModel.EntryState.RequestCopyProtectedField -> {}
-                        is EntryViewModel.EntryState.OnFieldProtectionUpdated -> {
-                            updateField(entryState.fieldProtection)
-                            mEntryViewModel.actionPerformed()
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                launch {
+                    mEntryViewModel.entryUIState
+                        .map { it.entryInfo }
+                        .distinctUntilChanged()
+                        .collect { entryInfo ->
+                            entryInfo?.let {
+                                assignEntryInfo(it)
+                                // Smooth appearing
+                                rootView.showByFading()
+                            }
                         }
-                        is EntryViewModel.EntryState.OnChangeFieldProtectionRequested -> {}
+                }
+                launch {
+                    mAttachmentsViewModel.attachmentsUIState.collect { state ->
+                        attachmentsAdapter?.assignItems(state.attachments)
+                    }
+                }
+                launch {
+                    mEntryViewModel.entryEvents.collect { event ->
+                        when (event) {
+                            is EntryViewModel.EntryEvent.EntryLoaded -> {
+                                resetAppTimeoutWhenViewFocusedOrChanged(rootView)
+                            }
+                            is EntryViewModel.EntryEvent.SectionSelected -> {
+                                when (event.section) {
+                                    EntryViewModel.EntrySection.MAIN -> {
+                                        mainSection.showByFading()
+                                        advancedSection.hideByFading()
+                                    }
+                                    EntryViewModel.EntrySection.ADVANCED -> {
+                                        mainSection.hideByFading()
+                                        advancedSection.showByFading()
+                                    }
+                                }
+                            }
+                            else -> {}
+                        }
+                    }
+                }
+                launch {
+                    mEntryViewModel.onFieldProtectionUpdated.collect { fieldProtection ->
+                        updateField(fieldProtection)
                     }
                 }
             }
@@ -146,55 +195,45 @@ class EntryFragment: DatabaseFragment() {
     }
 
     override fun onDatabaseRetrieved(database: ContextualDatabase) {
-        context?.let { context ->
-            attachmentsAdapter = EntryAttachmentsItemsAdapter(context)
-            attachmentsAdapter?.database = database
-        }
-
-        attachmentsListView.adapter = attachmentsAdapter
+        attachmentsAdapter?.binaryCache = database.binaryCache
     }
 
-    private fun loadTemplateSettings() {
-        context?.let { context ->
-            templateView.setFirstTimeAskAllowCopyProtectedFields(PreferencesUtil.isFirstTimeAskAllowCopyProtectedFields(context))
-            templateView.setAllowCopyProtectedFields(PreferencesUtil.allowCopyProtectedFields(context))
-        }
-    }
-
-    private fun assignEntryInfo(entryInfo: EntryInfo?) {
-        // Set copy buttons
+    override fun onDestroyView() {
+        super.onDestroyView()
         templateView.apply {
-            setOnChangeFieldProtectionClickListener { fieldProtection ->
-                mEntryViewModel.requestChangeFieldProtection(fieldProtection)
-            }
-            setOnAskCopySafeClickListener {
-                showClipboardDialog()
-            }
-            setOnCopyActionClickListener { fieldProtection ->
-                mEntryViewModel.requestCopyField(fieldProtection)
-            }
+            onChangeFieldProtectionClickListener = null
+            onAskCopySafeClickListener = null
+            onCopyActionClickListener = null
+            onOtpUpdatedListener = null
         }
+        attachmentsAdapter?.apply {
+            onItemClickListener = null
+            onListSizeChangedListener = null
+        }
+        attachmentsListView.adapter = null
+    }
+
+    private fun assignEntryInfo(entryInfo: EntryInfo) {
+        // Set template
+        templateView.setTemplate(entryInfo.template)
 
         // Populate entry views
         templateView.setEntryInfo(entryInfo)
 
-        // OTP timer updated
-        templateView.setOnOtpElementUpdated { otpElementUpdated ->
-            mEntryViewModel.onOtpElementUpdated(otpElementUpdated)
-        }
-
-        // Manage attachments
-        assignAttachments(entryInfo?.attachments ?: listOf())
+        // Assign attachments
+        val attachments = entryInfo.attachments
+        attachmentsContainerView.isVisible = attachments.isNotEmpty()
+        mAttachmentsViewModel.setAttachments(
+            attachments = attachments,
+            direction = StreamDirection.DOWNLOAD
+        )
 
         // Assign dates
-        creationDateView.text = entryInfo?.creationTime?.getDateTimeString(resources)
-        modificationDateView.text = entryInfo?.lastModificationTime?.getDateTimeString(resources)
-
-        // TODO Custom data
-        // customDataView.text = entryInfo?.customData?.toString()
+        creationDateView.text = entryInfo.creationTime.getDateTimeString(resources)
+        modificationDateView.text = entryInfo.lastModificationTime.getDateTimeString(resources)
 
         // Assign special data
-        uuidReferenceView.text = entryInfo?.id?.asHexString()
+        uuidReferenceView.text = entryInfo.nodeId.toString()
     }
 
     fun updateField(field: FieldProtection) {
@@ -225,27 +264,7 @@ class EntryFragment: DatabaseFragment() {
 
     private fun finishDialog(dialog: DialogInterface) {
         dialog.dismiss()
-        loadTemplateSettings()
         templateView.reload()
-    }
-
-    /* -------------
-     * Attachments
-     * -------------
-     */
-
-    private fun assignAttachments(attachments: List<Attachment>) {
-        attachmentsContainerView.visibility = if (attachments.isEmpty()) View.GONE else View.VISIBLE
-        attachmentsAdapter?.assignItems(attachments.map {
-            EntryAttachmentState(it, StreamDirection.DOWNLOAD)
-        })
-        attachmentsAdapter?.onItemClickListener = { item ->
-            mEntryViewModel.onAttachmentSelected(item.attachment)
-        }
-    }
-
-    fun putAttachment(attachmentToDownload: EntryAttachmentState) {
-        attachmentsAdapter?.putItem(attachmentToDownload)
     }
 
     /* -------------
@@ -259,11 +278,6 @@ class EntryFragment: DatabaseFragment() {
         } catch (_: Exception) {
             null
         }
-    }
-
-    fun launchEntryCopyEducationAction() {
-        val appNameString = getString(R.string.app_name)
-        mEntryViewModel.copyToClipboard(appNameString)
     }
 
     companion object {

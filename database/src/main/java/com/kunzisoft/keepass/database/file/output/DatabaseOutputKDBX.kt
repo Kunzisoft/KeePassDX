@@ -50,7 +50,6 @@ import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX.Companion.FILE_VER
 import com.kunzisoft.keepass.database.file.DatabaseKDBXXML
 import com.kunzisoft.keepass.stream.HashedBlockOutputStream
 import com.kunzisoft.keepass.stream.HmacBlockOutputStream
-import com.kunzisoft.keepass.utils.UnsignedInt
 import com.kunzisoft.keepass.utils.longTo8Bytes
 import com.kunzisoft.keepass.utils.readAllBytes
 import com.kunzisoft.keepass.utils.uuidTo16Bytes
@@ -78,13 +77,15 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX)
     private var headerHmac: ByteArray? = null
 
     @Throws(DatabaseOutputException::class)
-    override fun writeDatabase(outputStream: OutputStream,
-                               assignMasterKey: () -> Unit) {
+    override fun writeDatabase(
+        outputStream: OutputStream,
+        assignMasterKey: () -> Unit
+    ) {
 
         try {
             header = outputHeader(outputStream, assignMasterKey)
 
-            val osPlain: OutputStream = if (header!!.version.isBefore(FILE_VERSION_40)) {
+            val osPlain: OutputStream = if (header!!.version < FILE_VERSION_40) {
                 val cos = attachStreamEncryptor(header!!, outputStream)
                 cos.write(header!!.streamStartBytes)
 
@@ -100,13 +101,15 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX)
                 CompressionAlgorithm.GZIP -> GZIPOutputStream(osPlain)
                 else -> osPlain
             }.use { xmlOutputStream ->
-                if (!header!!.version.isBefore(FILE_VERSION_40)) {
+                if (header!!.version >= FILE_VERSION_40) {
                     outputInnerHeader(mDatabaseKDBX, header!!, xmlOutputStream)
                 }
                 outputDatabase(xmlOutputStream)
             }
         } catch (e: Exception) {
             throw DatabaseOutputException(e)
+        } finally {
+            mDatabaseKDBX.kdfEngine?.isParametersRandomized = false
         }
     }
 
@@ -115,14 +118,14 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX)
                                   header: DatabaseHeaderKDBX,
                                   dataOutputStream: OutputStream) {
         dataOutputStream.writeByte(DatabaseHeaderKDBX.PwDbInnerHeaderV4Fields.InnerRandomStreamID)
-        dataOutputStream.write4BytesUInt(UnsignedInt(4))
+        dataOutputStream.write4BytesUInt(4u)
         if (header.innerRandomStream == null)
             throw IOException("Can't write innerRandomStream")
         dataOutputStream.write4BytesUInt(header.innerRandomStream!!.id)
 
         val streamKeySize = header.innerRandomStreamKey.size
         dataOutputStream.writeByte(DatabaseHeaderKDBX.PwDbInnerHeaderV4Fields.InnerRandomstreamKey)
-        dataOutputStream.write4BytesUInt(UnsignedInt(streamKeySize))
+        dataOutputStream.write4BytesUInt(streamKeySize.toUInt())
         dataOutputStream.write(header.innerRandomStreamKey)
 
         val binaryCache = database.binaryCache
@@ -132,7 +135,7 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX)
             // Write type binary
             dataOutputStream.writeByte(DatabaseHeaderKDBX.PwDbInnerHeaderV4Fields.Binary)
             // Write size
-            dataOutputStream.write4BytesUInt(UnsignedInt.fromKotlinLong(binary.getSize() + 1))
+            dataOutputStream.write4BytesUInt((binary.getSize() + 1).toUInt())
             // Write protected flag
             var flag = DatabaseHeaderKDBX.KdbxBinaryFlags.None
             if (binary.isProtected) {
@@ -148,7 +151,7 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX)
         }
 
         dataOutputStream.writeByte(DatabaseHeaderKDBX.PwDbInnerHeaderV4Fields.EndOfHeader)
-        dataOutputStream.write4BytesUInt(UnsignedInt(0))
+        dataOutputStream.write4BytesUInt(0u)
     }
 
     @Throws(IllegalArgumentException::class, IllegalStateException::class, IOException::class)
@@ -231,7 +234,7 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX)
             writeString(DatabaseKDBXXML.ElemHeaderHash, String(Base64.encode(hashOfHeader!!, BASE64_FLAG)))
         }
 
-        if (!header!!.version.isBefore(FILE_VERSION_40)) {
+        if (header!!.version >= FILE_VERSION_40) {
             writeDateInstant(DatabaseKDBXXML.ElemSettingsChanged, mDatabaseKDBX.settingsChanged)
         }
         writeString(DatabaseKDBXXML.ElemDbName, mDatabaseKDBX.name, true)
@@ -240,7 +243,7 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX)
         writeDateInstant(DatabaseKDBXXML.ElemDbDescChanged, mDatabaseKDBX.descriptionChanged)
         writeString(DatabaseKDBXXML.ElemDbDefaultUser, mDatabaseKDBX.defaultUserName, true)
         writeDateInstant(DatabaseKDBXXML.ElemDbDefaultUserChanged, mDatabaseKDBX.defaultUserNameChanged)
-        writeLong(DatabaseKDBXXML.ElemDbMntncHistoryDays, mDatabaseKDBX.maintenanceHistoryDays.toKotlinLong())
+        writeLong(DatabaseKDBXXML.ElemDbMntncHistoryDays, mDatabaseKDBX.maintenanceHistoryDays.toLong())
         writeString(DatabaseKDBXXML.ElemDbColor, mDatabaseKDBX.color)
         writeDateInstant(DatabaseKDBXXML.ElemDbKeyChanged, mDatabaseKDBX.keyLastChanged)
         writeLong(DatabaseKDBXXML.ElemDbKeyChangeRec, mDatabaseKDBX.keyChangeRecDays)
@@ -261,7 +264,7 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX)
         writeUuid(DatabaseKDBXXML.ElemLastTopVisibleGroup, mDatabaseKDBX.lastTopVisibleGroupUUID)
 
         // Seem to work properly if always in meta
-        if (header!!.version.isBefore(FILE_VERSION_40))
+        if (header!!.version < FILE_VERSION_40)
             writeMetaBinaries()
 
         writeCustomData(mDatabaseKDBX.customData)
@@ -295,13 +298,15 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX)
         }
         random.nextBytes(header.encryptionIV)
 
-        if (mDatabaseKDBX.kdfParameters == null) {
-            mDatabaseKDBX.kdfParameters = KdfFactory.aesKdf.defaultParameters
+        if (mDatabaseKDBX.kdfEngine == null) {
+            mDatabaseKDBX.kdfEngine = KdfFactory.aesKdf
         }
 
-        mDatabaseKDBX.randomizeKdfParameters()
+        if (mDatabaseKDBX.kdfEngine?.isParametersRandomized == false) {
+            mDatabaseKDBX.kdfEngine?.randomize()
+        }
 
-        if (header.version.isBefore(FILE_VERSION_40)) {
+        if (header.version < FILE_VERSION_40) {
             header.innerRandomStream = CrsAlgorithm.Salsa20
             header.innerRandomStreamKey = ByteArray(32)
         } else {
@@ -316,7 +321,7 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX)
             throw DatabaseOutputException(e)
         }
 
-        if (header.version.isBefore(FILE_VERSION_40)) {
+        if (header.version < FILE_VERSION_40) {
             random.nextBytes(header.streamStartBytes)
         }
 
@@ -324,13 +329,14 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX)
     }
 
     @Throws(DatabaseOutputException::class)
-    private fun outputHeader(outputStream: OutputStream,
-                             assignMasterKey: () -> Unit): DatabaseHeaderKDBX {
+    private fun outputHeader(
+        outputStream: OutputStream,
+        assignMasterKey: () -> Unit
+    ): DatabaseHeaderKDBX {
         try {
             val header = DatabaseHeaderKDBX(mDatabaseKDBX)
             setIVs(header)
 
-            mDatabaseKDBX.transformSeed = header.transformSeed
             assignMasterKey.invoke()
 
             val pho = DatabaseHeaderOutputKDBX(mDatabaseKDBX, header, outputStream)
@@ -424,7 +430,7 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX)
 
     @Throws(IllegalArgumentException::class, IllegalStateException::class, IOException::class)
     private fun writeDateInstant(name: String, date: DateInstant) {
-        if (header!!.version.isBefore(FILE_VERSION_40)) {
+        if (header!!.version < FILE_VERSION_40) {
             writeString(name, date.toISO8601Format())
         } else {
             writeString(name, String(
@@ -515,12 +521,12 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX)
         xml.endTag(null, DatabaseKDBXXML.ElemBinaries)
     }
 
-    @Throws(IllegalArgumentException::class, IllegalStateException::class, IOException::class)
+    @Throws(IllegalArgumentException::class, IllegalStateException::class)
     private fun writeAutoType(autoType: AutoType) {
         xml.startTag(null, DatabaseKDBXXML.ElemAutoType)
 
         writeBoolean(DatabaseKDBXXML.ElemAutoTypeEnabled, autoType.enabled)
-        writeLong(DatabaseKDBXXML.ElemAutoTypeObfuscation, autoType.obfuscationOptions.toKotlinLong())
+        writeLong(DatabaseKDBXXML.ElemAutoTypeObfuscation, autoType.obfuscationOptions.toLong())
 
         if (autoType.defaultSequence.isNotEmpty()) {
             writeString(DatabaseKDBXXML.ElemAutoTypeDefaultSeq, autoType.defaultSequence, true)
@@ -678,7 +684,7 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX)
 
     @Throws(IllegalArgumentException::class, IllegalStateException::class, IOException::class)
     private fun writePreviousParentGroup(previousParentGroup: UUID) {
-        if (!header!!.version.isBefore(FILE_VERSION_41)
+        if (header!!.version >= FILE_VERSION_41
                 && previousParentGroup != DatabaseVersioned.UUID_ZERO) {
             writeUuid(DatabaseKDBXXML.ElemPreviousParentGroup, previousParentGroup)
         }
@@ -693,7 +699,7 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX)
         writeDateInstant(DatabaseKDBXXML.ElemLastAccessTime, node.lastAccessTime)
         writeDateInstant(DatabaseKDBXXML.ElemExpiryTime, node.expiryTime)
         writeBoolean(DatabaseKDBXXML.ElemExpires, node.expires)
-        writeLong(DatabaseKDBXXML.ElemUsageCount, node.usageCount.toKotlinLong())
+        writeLong(DatabaseKDBXXML.ElemUsageCount, node.usageCount.toLong())
         writeDateInstant(DatabaseKDBXXML.ElemLocationChanged, node.locationChanged)
 
         xml.endTag(null, DatabaseKDBXXML.ElemTimes)

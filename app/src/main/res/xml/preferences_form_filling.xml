@@ -42,6 +42,11 @@
             android:key="@string/settings_autofill_key"
             android:dependency="@string/settings_credential_provider_enable_key"
             android:title="@string/autofill_preference_title" />
+        <SwitchPreferenceCompat
+            android:key="@string/autofill_share_magikeyboard_key"
+            android:title="@string/autofill_share_magikeyboard_title"
+            android:summary="@string/autofill_share_magikeyboard_summary"
+            android:defaultValue="@bool/autofill_share_magikeyboard_default"/>
     </PreferenceCategory>
 
     <PreferenceCategory

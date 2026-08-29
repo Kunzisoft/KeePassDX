@@ -34,7 +34,7 @@
     <string name="clipboard_timeout">剪贴板超时设置</string>
     <string name="clipboard_timeout_summary">剪贴板存储时长（如果您的设备支持）</string>
     <string name="select_to_copy">选择%1$s以复制到剪贴板</string>
-    <string name="retrieving_db_key">读取数据库密钥中……</string>
+    <string name="retrieving_db_key">正在检索数据库密钥…</string>
     <string name="database">数据库</string>
     <string name="decrypting_db">正在解密数据库内容…</string>
     <string name="default_checkbox">设为默认数据库</string>
@@ -64,7 +64,7 @@
     <string name="error_out_of_memory">因内存不足无法加载数据库。</string>
     <string name="error_pass_gen_type">至少选择一种密码生成类型。</string>
     <string name="error_pass_match">密码不匹配。</string>
-    <string name="error_rounds_too_large">“变换次数”项设置过大。已设置为2147483648。</string>
+    <string name="error_rounds_too_large">“转换轮数”过高。设为 %1$s。</string>
     <string name="error_wrong_length">请在“长度”字段输入正整数。</string>
     <string name="file_browser">文件管理器</string>
     <string name="generate_password">生成密码</string>
@@ -99,10 +99,10 @@
     <string name="no_url_handler">需要安装网络浏览器才能打开这个网址。</string>
     <string name="progress_create">正在创建新数据库…</string>
     <string name="progress_title">正在处理…</string>
-    <string name="content_description_remove_from_list">删除</string>
+    <string name="content_description_remove_from_list">移除</string>
     <string name="root">Root</string>
-    <string name="rounds">迭代次数</string>
-    <string name="rounds_explanation">更多的迭代次数能更好地抵抗暴力破解攻击，但也会增加读取和保存的时间。</string>
+    <string name="rounds">转换轮数</string>
+    <string name="rounds_explanation">额外的加密轮数能更好地抵御暴力破解攻击，但可能会显著降低加载和保存的速度。</string>
     <string name="saving_database">正在保存数据库…</string>
     <string name="space">空格</string>
     <string name="sort_db">自然排序</string>
@@ -129,10 +129,10 @@
     <string name="icon_pack_choose_title">图标包</string>
     <string name="icon_pack_choose_summary">应用中使用的图标包</string>
     <string name="edit_entry">编辑条目</string>
-    <string name="key_derivation_function">密钥推导函数</string>
+    <string name="key_derivation_function">密钥派生函数</string>
     <string name="entry_not_found">找不到条目数据。</string>
     <string name="error_load_database">无法加载数据库。</string>
-    <string name="error_load_database_KDF_memory">无法加载密钥。尝试降低 KDF 的“内存使用”值。</string>
+    <string name="error_load_database_KDF_memory">KDF 内存使用量过高，无法加载。</string>
     <string name="error_autofill_enable_service">无法启用自动填充服务。</string>
     <string name="file_not_found_content">找不到文件</string>
     <string name="invalid_algorithm">算法无效。</string>
@@ -153,11 +153,11 @@
     <string name="show_recent_files_title">显示最近打开的文件</string>
     <string name="show_recent_files_summary">显示最近打开数据库的位置</string>
     <string name="encryption_explanation">用于所有数据的数据库加密算法</string>
-    <string name="kdf_explanation">将迭代主密钥以生成加密数据库所需的密钥，转换方式为随机加盐算法。</string>
+    <string name="kdf_explanation">为了生成加密算法的密钥，会使用随机加盐的密钥派生函数对主密钥进行转换。</string>
     <string name="memory_usage">内存使用量</string>
-    <string name="memory_usage_explanation">密钥推导算法使用的内存。</string>
-    <string name="parallelism">并行</string>
-    <string name="parallelism_explanation">密钥推导算法使用的并行运行程度（即线程数量）。</string>
+    <string name="memory_usage_explanation">密钥派生函数使用的内存量。</string>
+    <string name="parallelism">并行度</string>
+    <string name="parallelism_explanation">密钥派生函数使用的并行度（即线程数）。</string>
     <string name="sort_menu">排序</string>
     <string name="sort_title">标题</string>
     <string name="sort_username">用户名</string>
@@ -263,7 +263,7 @@
     <string name="education_entry_edit_title">编辑此条目</string>
     <string name="education_entry_edit_summary">使用自定义字段编辑条。自定义字段可以在不同的条目间引用。</string>
     <string name="education_generate_password_title">创建一个强密码</string>
-    <string name="education_generate_password_summary">依据表单中的标准进行简单的定义，随机为该条目生成一个强密码，不在担心忘记安全密码。</string>
+    <string name="education_generate_password_summary">生成一个强密码和你的条目相关联，依据表单的标准轻松定义它并不忘记它。</string>
     <string name="education_entry_new_field_title">添加自定义字段</string>
     <string name="education_entry_new_field_summary">添加一个新的字段并添加为其添加一个值，此时可以选择是否保护该字段及其值。</string>
     <string name="education_unlock_title">解锁数据库</string>
@@ -298,8 +298,6 @@
     <string name="lock_database_back_root_title">按“返回”锁定</string>
     <string name="lock_database_back_root_summary">如果您位于数据库的根屏幕，请按“返回”锁定数据库</string>
     <string name="recycle_bin">回收站</string>
-    <string name="keyboard_selection_entry_title">条目选择</string>
-    <string name="keyboard_selection_entry_summary">在 KeePassDX 中查看条目时，用该条目填充 Magikeyboard</string>
     <string name="delete_entered_password_title">删除密码</string>
     <string name="delete_entered_password_summary">在尝试连接数据库后删除输入的密码</string>
     <string name="content_description_open_file">打开文件</string>
@@ -315,7 +313,7 @@
     <string name="entry_password_generator">密码生成器</string>
     <string name="content_description_password_length">密码长度</string>
     <string name="entry_add_field">添加字段</string>
-    <string name="content_description_remove_field">删除字段</string>
+    <string name="content_description_remove_field">移除字段</string>
     <string name="entry_UUID">UUID</string>
     <string name="error_move_entry_here">你不能将条目移到此处。</string>
     <string name="error_copy_entry_here">您不能将条目复制到此处。</string>
@@ -379,7 +377,7 @@
     <string name="error_save_database">无法保存数据库。</string>
     <string name="menu_save_database">保存数据</string>
     <string name="menu_empty_recycle_bin">清空回收站</string>
-    <string name="command_execution">正在执行命令……</string>
+    <string name="command_execution">正在执行命令…</string>
     <string name="warning_permanently_delete_nodes">是否永久删除选中的条目？</string>
     <string name="recycle_bin_group_title">回收站（组）</string>
     <string name="enable_auto_save_database_title">自动保存数据库</string>
@@ -406,8 +404,8 @@
     <string name="remember_database_locations_summary">保留数据库存储的位置</string>
     <string name="remember_keyfile_locations_title">记住密钥文件位置</string>
     <string name="remember_keyfile_locations_summary">保留密钥文件存储的位置</string>
-    <string name="hide_broken_locations_title">隐藏已损坏的数据库路径</string>
-    <string name="hide_broken_locations_summary">在最近的数据库列表中隐藏已损坏的数据库的链接</string>
+    <string name="hide_broken_locations_title">隐藏已损坏的数据库链接</string>
+    <string name="hide_broken_locations_summary">在最近的数据库列表中隐藏已损坏的链接</string>
     <string name="warning_database_read_only">授予软件文件读写访问权限以保存数据库更改</string>
     <string name="education_setup_OTP_summary">设置一次性密码管理（HOTP / TOTP）以生成请求的用于双因素身份验证（2FA）的令牌。</string>
     <string name="education_setup_OTP_title">设置一次性密码</string>
@@ -440,19 +438,19 @@
     <string name="upload_attachment">上传 %1$s</string>
     <string name="education_add_attachment_summary">将附件上传到您的条目以保存重要的外部数据。</string>
     <string name="education_add_attachment_title">添加附件</string>
-    <string name="warning_sure_add_file">不论如何都要添加这个文件吗？</string>
+    <string name="warning_sure_add_file">仍要添加该文件吗？</string>
     <string name="warning_replace_file">上传此文件将替换现有文件。</string>
     <string name="warning_file_too_big">KeePass 数据库应该只包含小的实用程序文件（例如 PGP 密钥文件）。
 \n
 \n上传大文件会使增大数据库体积并降低性能。</string>
     <string name="content_description_credentials_information">凭据信息</string>
-    <string name="warning_remove_unlinked_attachment">删除未链接的数据可能会减少数据库的大小，但也可能会删除用于 KeePass 插件的数据。</string>
-    <string name="warning_sure_remove_data">无论如何要删除这些数据\?</string>
+    <string name="warning_remove_unlinked_attachment">移除未链接的数据可能会减少数据库的大小，但也可能会删除用于 KeePass 插件的数据。</string>
+    <string name="warning_sure_remove_data">仍要移除此数据吗？</string>
     <string name="warning_empty_keyfile">不推荐添加一个空的密钥文件。</string>
     <string name="warning_empty_keyfile_explanation">密钥文件的内容应该永不更改，在最好的情况下，应该包含随机生成的数据。</string>
     <string name="data">数据</string>
-    <string name="database_data_remove_unlinked_attachments_title">删除未链接的数据</string>
-    <string name="database_data_remove_unlinked_attachments_summary">删除包含于数据库中但未连接到一个条目的附件</string>
+    <string name="database_data_remove_unlinked_attachments_title">移除未链接的数据</string>
+    <string name="database_data_remove_unlinked_attachments_summary">移除数据库中包含但未链接到条目的附件</string>
     <string name="show_uuid_summary">显示与一个条目或分组相链接的 UUID</string>
     <string name="show_uuid_title">显示 UUID</string>
     <string name="error_save_read_only">以只读方式打开的数据库不允许保存数据。</string>
@@ -508,7 +506,7 @@
     <string name="autofill_inline_suggestions_title">内联建议</string>
     <string name="warning_database_revoked">文件管理器撤销了对此文件的访问，关闭数据库并从其位置重新打开它。</string>
     <string name="warning_database_info_changed_options">保存数据库或重新加载包含最新更改的数据库来合并数据和覆盖外部修改。</string>
-    <string name="warning_database_info_changed">数据库文件中包含的信息已在应用之外被修改。</string>
+    <string name="warning_database_info_changed">数据库中包含的信息已在应用之外被修改。</string>
     <string name="menu_reload_database">重新加载数据</string>
     <string name="unit_gibibyte">GiB</string>
     <string name="unit_mebibyte">兆字节</string>
@@ -520,10 +518,10 @@
     <string name="icon_section_standard">标准</string>
     <string name="style_brightness_summary">选择浅色或深色主题</string>
     <string name="style_brightness_title">主题亮度</string>
-    <string name="error_upload_file">上传文件数据时发生错误。</string>
-    <string name="error_file_to_big">你尝试上传的文件太大。</string>
+    <string name="error_upload_file">上传文件数据时出错。</string>
+    <string name="error_file_to_big">您尝试上传的文件太大。</string>
     <string name="content_description_otp_information">一次性密码信息</string>
-    <string name="error_remove_file">删除文件数据时发生了一个错误。</string>
+    <string name="error_remove_file">移除文件数据时出错。</string>
     <string name="error_duplicate_file">文件数据已存在。</string>
     <string name="properties">属性</string>
     <string name="error_export_app_properties">导出应用设置期间出错。</string>
@@ -535,7 +533,7 @@
     <string name="export_app_properties_title">导出应用设置</string>
     <string name="import_app_properties_summary">选择一个文件来导入应用设置</string>
     <string name="import_app_properties_title">导入应用设置</string>
-    <string name="error_start_database_action">对数据库执行操作时发生了一个错误。</string>
+    <string name="error_start_database_action">对数据库执行操作时出错。</string>
     <string name="error_move_group_here">你不能把一个组移动到此处。</string>
     <string name="error_word_reserved">这个单词是保留的，不能使用。</string>
     <string name="templates">模板</string>
@@ -632,8 +630,8 @@
     <string name="entropy_high">熵：高</string>
     <string name="entropy">熵：%1$s bit</string>
     <string name="content_description_hardware_key_checkbox">硬件密钥复选框</string>
-    <string name="waiting_challenge_request">等待挑战请求中…</string>
-    <string name="waiting_challenge_response">等待挑战响应中…</string>
+    <string name="waiting_challenge_request">正在等待挑战请求…</string>
+    <string name="waiting_challenge_response">正在等待挑战响应…</string>
     <string name="hardware_key">硬件密钥</string>
     <string name="error_no_hardware_key">选择硬件密钥。</string>
     <string name="error_XML_malformed">XML 文件畸形。</string>
@@ -686,7 +684,7 @@
     <string name="style_name_kunzite">Kunzite</string>
     <string name="style_name_light">浅色</string>
     <string name="style_name_dark">深色</string>
-    <string name="warning_database_info_changed_options_read_only">重新加载数据库最新变化。</string>
+    <string name="warning_database_info_changed_options_read_only">请重新加载数据库最新变化。</string>
     <string name="recursive_number_entries_summary">递归计算一个组当中的条目数</string>
     <string name="warning_large_keyfile">不建议添加大的密钥文件，这可能造成数据库打不开。</string>
     <string name="hide_templates_summary">模板未显示</string>
@@ -746,7 +744,7 @@
     <string name="keyboard_auto_switch_summary">在填充条目时尝试自动切换到魔法键盘</string>
     <string name="autofill_share_magikeyboard_title">分享到魔法键盘</string>
     <string name="autofill_share_magikeyboard_summary">将从自动填充中检索到的条目分享到魔法键盘</string>
-    <string name="error_passkey_credential_id">未找到与依赖方 %1$s 和凭据 ID %2$s 匹配的通行密钥</string>
+    <string name="error_passkey_credential_id">未找到依赖方 %1$s ，凭证 ID为 %2$s 的通行密钥</string>
     <string name="password_creation_description">在新条目中保存密码</string>
     <string name="password_selection_description">选择现有密码</string>
     <string name="error_password_result">无法返回密码</string>
@@ -768,4 +766,14 @@
     <string name="keyboard_share_browser">从 %1$s 分享到 KeePassDX</string>
     <string name="benchmarking">正在进行基准测试…</string>
     <string name="benchmark_calculation">计算 %1$s 秒</string>
+    <string name="error_memory_too_large">“内存使用量”过高。设为 %1$s。</string>
+    <string name="error_parallelism_too_large">“并行度”过高。设为 %1$s。</string>
+    <string name="error_missing_parent">没有主项目无法执行此操作。</string>
+    <string name="temporary_merge_success">成功完成了临时数据的合并</string>
+    <string name="reload_success">成功完成了重新加载</string>
+    <string name="autofill_suggestions_title">自动填充建议</string>
+    <string name="autofill_suggestions_summary">使用表单识别算法来建议条目</string>
+    <string name="passkey_pseudo_random_function">通行密钥伪随机函数</string>
+    <string name="error_load_database_KDF_parallelism">KDF 并行度过高，无法加载。</string>
+    <string name="parallelism_set_safe">设置处理器数量</string>
 </resources>

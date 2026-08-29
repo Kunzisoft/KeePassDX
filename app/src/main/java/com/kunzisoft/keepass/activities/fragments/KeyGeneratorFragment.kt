@@ -25,6 +25,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.StringRes
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
@@ -32,6 +35,7 @@ import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.adapters.KeyGeneratorPagerAdapter
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.viewmodels.KeyGeneratorViewModel
+import kotlinx.coroutines.launch
 
 class KeyGeneratorFragment : DatabaseFragment() {
 
@@ -79,24 +83,33 @@ class KeyGeneratorFragment : DatabaseFragment() {
             remove(PASSWORD_TAB_ARG)
         }
 
-        mKeyGeneratorViewModel.requireKeyGeneration.observe(viewLifecycleOwner) {
-            when (mSelectedTab) {
-                KeyGeneratorTab.PASSWORD -> {
-                    mKeyGeneratorViewModel.requirePasswordGeneration()
-                }
-                KeyGeneratorTab.PASSPHRASE -> {
-                    mKeyGeneratorViewModel.requirePassphraseGeneration()
-                }
-            }
-        }
+        lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                launch {
+                    mKeyGeneratorViewModel.requireKeyGeneration.collect {
+                        when (mSelectedTab) {
+                            KeyGeneratorTab.PASSWORD -> {
+                                mKeyGeneratorViewModel.requirePasswordGeneration()
+                            }
 
-        mKeyGeneratorViewModel.keyGeneratedValidated.observe(viewLifecycleOwner) {
-            when (mSelectedTab) {
-                KeyGeneratorTab.PASSWORD -> {
-                    mKeyGeneratorViewModel.validatePasswordGenerated()
+                            KeyGeneratorTab.PASSPHRASE -> {
+                                mKeyGeneratorViewModel.requirePassphraseGeneration()
+                            }
+                        }
+                    }
                 }
-                KeyGeneratorTab.PASSPHRASE -> {
-                    mKeyGeneratorViewModel.validatePassphraseGenerated()
+                launch {
+                    mKeyGeneratorViewModel.keyGeneratedValidated.collect {
+                        when (mSelectedTab) {
+                            KeyGeneratorTab.PASSWORD -> {
+                                mKeyGeneratorViewModel.validatePasswordGenerated()
+                            }
+
+                            KeyGeneratorTab.PASSPHRASE -> {
+                                mKeyGeneratorViewModel.validatePassphraseGenerated()
+                            }
+                        }
+                    }
                 }
             }
         }

@@ -22,12 +22,11 @@ package com.kunzisoft.keepass.database.element.node
 import com.kunzisoft.keepass.database.element.CustomData
 import com.kunzisoft.keepass.database.element.DateInstant
 import com.kunzisoft.keepass.database.element.Tags
-import com.kunzisoft.keepass.utils.UnsignedLong
 import java.util.UUID
 
 interface NodeKDBXInterface : NodeTimeInterface {
 
-    var usageCount: UnsignedLong
+    var usageCount: ULong
     var locationChanged: DateInstant
     var customData: CustomData
     var tags: Tags

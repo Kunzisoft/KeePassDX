@@ -67,7 +67,7 @@
     <string name="error_out_of_memory">Onvoldoende vrij geheugen om de gehele database te laden.</string>
     <string name="error_pass_gen_type">Selecteer ten minste één type wachtwoordgeneratie.</string>
     <string name="error_pass_match">De wachtwoorden komen niet overeen.</string>
-    <string name="error_rounds_too_large">\"Cycli-waarde\" te groot. Deze wordt ingesteld op 2147483648.</string>
+    <string name="error_rounds_too_large">\"Cycli-waarde\" te groot. Deze wordt ingesteld op %1$s.</string>
     <string name="error_wrong_length">Voer in het veld \"Lengte\" een positief geheel getal in.</string>
     <string name="file_browser">Bestandsbeheer</string>
     <string name="generate_password">Wachtwoord genereren</string>
@@ -134,7 +134,7 @@
     <string name="clipboard_error_clear">Klembord is niet gewist</string>
     <string name="entry_not_found">Geen itemgegevens gevonden.</string>
     <string name="error_load_database">De database is niet geladen.</string>
-    <string name="error_load_database_KDF_memory">De sleutel kan niet worden geladen. Probeer om het \"geheugengebruik\" van KDF te verminderen.</string>
+    <string name="error_load_database_KDF_memory">KDF-geheugengebruik te hoog. Kan niet laden.</string>
     <string name="error_string_key">Elke zin moet een veldnaam bevatten.</string>
     <string name="error_autofill_enable_service">De dienst automatisch aanvullen kan niet worden ingeschakeld.</string>
     <string name="field_name">Veldnaam</string>
@@ -242,7 +242,7 @@
     <string name="education_entry_edit_title">Item bewerken</string>
     <string name="education_entry_edit_summary">Bewerk het item met aangepaste velden. Referenties kunnen worden toegevoegd tussen velden van verschillende items.</string>
     <string name="education_generate_password_title">Genereer een sterk wachtwoord</string>
-    <string name="education_generate_password_summary">Genereer een sterk wachtwoord om aan het item te koppelen, definieer het eenvoudig volgens de criteria van het formulier en vergeet het veilige wachtwoord niet.</string>
+    <string name="education_generate_password_summary">Genereer een sterk wachtwoord om aan het item te koppelen, definieer het eenvoudig volgens de criteria van het formulier en vergeet het niet.</string>
     <string name="education_entry_new_field_title">Aangepaste velden toevoegen</string>
     <string name="education_entry_new_field_summary">Registreer een extra veld, voeg een waarde toe en bescherm dit desgewenst.</string>
     <string name="education_unlock_title">Ontgrendel je database</string>
@@ -301,8 +301,6 @@
     <string name="lock_database_back_root_title">Druk \'Terug\' om te vergrendelen</string>
     <string name="lock_database_back_root_summary">Druk in het hoofdscherm van de database op \'Terug\' om de database te vergrendelen</string>
     <string name="recycle_bin">Prullenbak</string>
-    <string name="keyboard_selection_entry_title">Itemselectie</string>
-    <string name="keyboard_selection_entry_summary">Vul, bij het bekijken van een item in KeePassDX, Magikeyboard met dat item</string>
     <string name="delete_entered_password_title">Wachtwoord wissen</string>
     <string name="delete_entered_password_summary">Wis het ingevoerde wachtwoord na een verbindingspoging met een database</string>
     <string name="content_description_open_file">Bestand openen</string>
@@ -514,7 +512,7 @@
     <string name="autofill_inline_suggestions_title">Inline suggesties</string>
     <string name="warning_database_revoked">Toegang tot het bestand is ingetrokken door de bestandsbeheerder, sluit de database en open deze opnieuw vanaf de locatie.</string>
     <string name="warning_database_info_changed_options">De gegevens samenvoegen, de externe wijzigingen overschrijven door de database op te slaan of deze opnieuw te laden met de jongste wijzigingen.</string>
-    <string name="warning_database_info_changed">De informatie in het databasebestand is buiten de app gewijzigd.</string>
+    <string name="warning_database_info_changed">De informatie in de database is buiten de app gewijzigd.</string>
     <string name="menu_reload_database">Gegevens opnieuw laden</string>
     <string name="error_rebuild_list">Kan de lijst niet correct opnieuw opbouwen.</string>
     <string name="error_database_uri_null">Database-URI kan niet worden opgehaald.</string>
@@ -544,7 +542,7 @@
     <string name="id_card">Identiteitskaart</string>
     <string name="personal_identification_number">Pincode</string>
     <string name="holder">Kaarthouder</string>
-    <string name="show_otp_token_summary">Toont OTP-tokens in de lijst met items</string>
+    <string name="show_otp_token_summary">Geeft standaard OTP-tokens weer</string>
     <string name="show_otp_token_title">OTP-token tonen</string>
     <string name="autofill_manual_selection_summary">Toon optie om de gebruiker een database-item te laten selecteren</string>
     <string name="autofill_manual_selection_title">Handmatige selectie</string>
@@ -689,7 +687,7 @@
     <string name="style_name_moon">Maan</string>
     <string name="style_name_follow_system">Systeem volgen</string>
     <string name="style_name_dark">Donker</string>
-    <string name="warning_database_info_changed_options_read_only">Database opnieuw laden met de jongste wijzigingen.</string>
+    <string name="warning_database_info_changed_options_read_only">Laad de database opnieuw met de jongste wijzigingen.</string>
     <string name="generate_keyfile">Sleutelbestand genereren</string>
     <string name="nodes">Knooppunten</string>
     <string name="hide_templates_summary">Sjablonen blijven verborgen</string>
@@ -749,7 +747,7 @@
     <string name="keyboard_auto_switch_summary">Probeer automatisch over te schakelen naar het Magikeyboard wanneer invoer wordt ingevuld</string>
     <string name="autofill_share_magikeyboard_title">Delen met Magikeyboard</string>
     <string name="autofill_share_magikeyboard_summary">Deel items die zijn opgehaald van automatisch aanvullen met Magikeyboard</string>
-    <string name="error_passkey_credential_id">Geen passkey gevonden met vertrouwende partij %1$s en credentialIds %2$s</string>
+    <string name="error_passkey_credential_id">Geen passkey gevonden met vertrouwende partij %1$s en inloggegevens %2$s</string>
     <string name="password_creation_description">Wachtwoord opslaan in nieuw item</string>
     <string name="password_selection_description">Kies een bestaand wachtwoord</string>
     <string name="error_password_result">Kan het wachtwoord niet retourneren</string>
@@ -771,4 +769,14 @@
     <string name="benchmark_calculation">Berekenen voor %1$s s</string>
     <string name="benchmarking">Benchmarking…</string>
     <string name="keyboard_share_browser">Delen van %1$s naar KeePassDX</string>
+    <string name="error_memory_too_large">\"Geheugengebruik\" te hoog. Instellen op %1$s.</string>
+    <string name="error_parallelism_too_large">\"Parallellisme\" te hoog. Instellen op %1$s.</string>
+    <string name="error_missing_parent">Deze actie kan niet worden uitgevoerd zonder een ouder.</string>
+    <string name="temporary_merge_success">Samenvoeging van tijdelijke gegevens met succes voltooid</string>
+    <string name="reload_success">Opnieuw laden met succes voltooid</string>
+    <string name="autofill_suggestions_title">Suggesties voor autom. invullen</string>
+    <string name="autofill_suggestions_summary">Formulierherkenningsalgoritme gebruiken voor suggesties</string>
+    <string name="passkey_pseudo_random_function">Passkey Pseudo-willekeurige functie</string>
+    <string name="error_load_database_KDF_parallelism">KDF-parallellisme te hoog. Kan niet laden.</string>
+    <string name="parallelism_set_safe">Aantal processors instellen</string>
 </resources>

@@ -1,98 +1,124 @@
 package com.kunzisoft.keepass.viewmodels
 
-import android.os.Parcel
-import android.os.Parcelable
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.kunzisoft.keepass.database.element.icon.IconImageCustom
 import com.kunzisoft.keepass.database.element.icon.IconImageStandard
-import com.kunzisoft.keepass.utils.readParcelableCompat
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
 
+/**
+ * ViewModel for icon picker.
+ */
+class IconPickerViewModel : ViewModel() {
 
-class IconPickerViewModel: ViewModel() {
+    private val _standardIconPicked = MutableSharedFlow<IconImageStandard>()
+    /**
+     * SharedFlow for standard icon picked event.
+     */
+    val standardIconPicked: SharedFlow<IconImageStandard> = _standardIconPicked.asSharedFlow()
 
-    val standardIconPicked: MutableLiveData<IconImageStandard> by lazy {
-        MutableLiveData<IconImageStandard>()
-    }
+    private val _customIconPicked = MutableSharedFlow<IconImageCustom>()
+    /**
+     * SharedFlow for custom icon picked event.
+     */
+    val customIconPicked: SharedFlow<IconImageCustom> = _customIconPicked.asSharedFlow()
 
-    val customIconPicked: MutableLiveData<IconImageCustom> by lazy {
-        MutableLiveData<IconImageCustom>()
-    }
+    private val _customIconsSelected = MutableStateFlow<List<IconImageCustom>>(emptyList())
+    /**
+     * StateFlow for list of selected custom icons.
+     */
+    val customIconsSelected: StateFlow<List<IconImageCustom>> = _customIconsSelected.asStateFlow()
 
-    val customIconsSelected: MutableLiveData<List<IconImageCustom>> by lazy {
-        MutableLiveData<List<IconImageCustom>>()
-    }
+    private val _customIconAdded = MutableSharedFlow<IconCustomState>()
+    /**
+     * SharedFlow for custom icon added event.
+     */
+    val customIconAdded: SharedFlow<IconCustomState> = _customIconAdded.asSharedFlow()
 
-    val customIconAdded: MutableLiveData<IconCustomState> by lazy {
-        MutableLiveData<IconCustomState>()
-    }
+    private val _customIconRemoved = MutableSharedFlow<IconCustomState>()
+    /**
+     * SharedFlow for custom icon removed event.
+     */
+    val customIconRemoved: SharedFlow<IconCustomState> = _customIconRemoved.asSharedFlow()
 
-    val customIconRemoved: MutableLiveData<IconCustomState> by lazy {
-        MutableLiveData<IconCustomState>()
-    }
+    private val _customIconUpdated = MutableSharedFlow<IconCustomState>()
+    /**
+     * SharedFlow for custom icon updated event.
+     */
+    val customIconUpdated: SharedFlow<IconCustomState> = _customIconUpdated.asSharedFlow()
 
-    val customIconUpdated : MutableLiveData<IconCustomState> by lazy {
-        MutableLiveData<IconCustomState>()
-    }
-
+    /**
+     * Pick a standard icon.
+     */
     fun pickStandardIcon(icon: IconImageStandard) {
-        standardIconPicked.value = icon
+        viewModelScope.launch {
+            _standardIconPicked.emit(icon)
+        }
     }
 
+    /**
+     * Pick a custom icon.
+     */
     fun pickCustomIcon(icon: IconImageCustom) {
-        customIconPicked.value = icon
+        viewModelScope.launch {
+            _customIconPicked.emit(icon)
+        }
     }
 
+    /**
+     * Select a list of custom icons.
+     */
     fun selectCustomIcons(icons: List<IconImageCustom>) {
-        customIconsSelected.value = icons
+        _customIconsSelected.value = icons
     }
 
+    /**
+     * Deselect all custom icons.
+     */
     fun deselectAllCustomIcons() {
-        customIconsSelected.value = listOf()
+        _customIconsSelected.value = emptyList()
     }
 
+    /**
+     * Add a custom icon.
+     */
     fun addCustomIcon(customIcon: IconCustomState) {
-        customIconAdded.value = customIcon
+        viewModelScope.launch {
+            _customIconAdded.emit(customIcon)
+        }
     }
 
+    /**
+     * Remove a custom icon.
+     */
     fun removeCustomIcon(customIcon: IconCustomState) {
-        customIconRemoved.value = customIcon
+        viewModelScope.launch {
+            _customIconRemoved.emit(customIcon)
+        }
     }
 
+    /**
+     * Update a custom icon.
+     */
     fun updateCustomIcon(customIcon: IconCustomState) {
-        customIconUpdated.value = customIcon
-    }
-
-    data class IconCustomState(var iconCustom: IconImageCustom? = null,
-                               var error: Boolean = true,
-                               var errorStringId: Int = -1,
-                               var errorConsumed: Boolean = false): Parcelable {
-
-        constructor(parcel: Parcel) : this(
-                parcel.readParcelableCompat(),
-                parcel.readByte() != 0.toByte(),
-                parcel.readInt(),
-                parcel.readByte() != 0.toByte())
-
-        override fun writeToParcel(parcel: Parcel, flags: Int) {
-            parcel.writeParcelable(iconCustom, flags)
-            parcel.writeByte(if (error) 1 else 0)
-            parcel.writeInt(errorStringId)
-            parcel.writeByte(if (errorConsumed) 1 else 0)
-        }
-
-        override fun describeContents(): Int {
-            return 0
-        }
-
-        companion object CREATOR : Parcelable.Creator<IconCustomState> {
-            override fun createFromParcel(parcel: Parcel): IconCustomState {
-                return IconCustomState(parcel)
-            }
-
-            override fun newArray(size: Int): Array<IconCustomState?> {
-                return arrayOfNulls(size)
-            }
+        viewModelScope.launch {
+            _customIconUpdated.emit(customIcon)
         }
     }
+
+    /**
+     * State of custom icon.
+     */
+    data class IconCustomState(
+        var iconCustom: IconImageCustom? = null,
+        var error: Boolean = true,
+        var errorStringId: Int = -1,
+        var errorConsumed: Boolean = false,
+    )
 }
