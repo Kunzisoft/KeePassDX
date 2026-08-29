@@ -33,11 +33,11 @@
     <string name="encryption_algorithm">Thuật toán mã hóa</string>
     <string name="key_derivation_function">Hàm dẫn xuất khóa</string>
     <string name="app_timeout">Giới hạn thời gian</string>
-    <string name="app_timeout_summary">Thời gian đếm ngược để khóa cơ sở dữ liệu</string>
+    <string name="app_timeout_summary">Đếm ngược thời gian trước khi khóa kho dữ liệu lại</string>
     <string name="application">Ứng dụng</string>
     <string name="brackets">Dấu ngoặc</string>
     <string name="extended_ASCII">Tranh ASCII mở rộng</string>
-    <string name="file_manager_install_description">Cần trình quản lý tệp có thể dùng ACTION_CREATE_DOCUMENT và ACTION_OPEN_DOCUMENT để tạo, mở và lưu tệp cơ sở dữ liệu.</string>
+    <string name="file_manager_install_description">Cần trình quản lý tệp có thể dùng ACTION_CREATE_DOCUMENT và ACTION_OPEN_DOCUMENT để tạo, mở và lưu tệp chứa kho dữ liệu.</string>
     <string name="allow">Cho phép</string>
     <string name="clipboard_cleared">Đã xóa bảng nhớ tạm</string>
     <string name="clipboard_error_title">Lỗi bảng nhớ tạm</string>
@@ -60,7 +60,7 @@
     <string name="content_description_hardware_key_checkbox">Hộp kiểm khóa truy cập</string>
     <string name="content_description_repeat_toggle_password_visibility">Công tắc lặp cho việc hiển thị mật khẩu</string>
     <string name="content_description_entry_icon">Biểu tượng đề mục</string>
-    <string name="content_description_database_color">Màu dữ liệu</string>
+    <string name="content_description_database_color">Màu kho dữ liệu</string>
     <string name="content_description_entry_foreground_color">Màu nền trước đề mục</string>
     <string name="content_description_entry_background_color">Màu nền sau đề mục</string>
     <string name="content_description_nav_header">Tiêu đề đầu trang</string>
@@ -79,13 +79,13 @@
     <string name="content_description_remove_from_list">Loại bỏ</string>
     <string name="content_description_keyboard_close_fields">Đóng các vùng</string>
     <string name="select_to_copy">Chọn để sao chép %1$s vào bảng nhớ tạm</string>
-    <string name="retrieving_db_key">Đang lấy khóa dữ liệu…</string>
+    <string name="retrieving_db_key">Đang lấy khóa của kho dữ liệu…</string>
     <string name="waiting_challenge_request">Đang chờ yêu cầu…</string>
     <string name="waiting_challenge_response">Đang chờ phản hồi…</string>
-    <string name="database">Dữ liệu</string>
+    <string name="database">Kho dữ liệu</string>
     <string name="template_group_name">Mẫu</string>
-    <string name="decrypting_db">Đang giải mã nội dung dữ liệu…</string>
-    <string name="default_checkbox">Đặt làm dữ liệu mặc định</string>
+    <string name="decrypting_db">Đang giải mã nội dung có trong kho dữ liệu…</string>
+    <string name="default_checkbox">Đặt làm kho dữ liệu mặc định</string>
     <string name="digits">Chữ số</string>
     <string name="html_about_licence">KeePassDX © %1$d Kunzisoft là &lt;strong&gt;phần mềm mã nguồn mở&lt;/strong&gt; và &lt;strong&gt;không có quảng cáo&lt;/strong&gt;.\nNó được cung cấp nguyên trạng theo giấy phép &lt;strong&gt;GPLv3&lt;/strong&gt;, không có bất kỳ sự can thiệp nào.</string>
     <string name="html_about_privacy">&lt;strong&gt;Không có dữ liệu người dùng nào được truy xuất&lt;/strong&gt;, ứng dụng này không kết nối với bất kỳ máy chủ nào, chỉ hoạt động cục bộ và hoàn toàn tôn trọng quyền riêng tư của người dùng.</string>
@@ -159,17 +159,17 @@
     <string name="error_arc4">Arcfour stream cipher không được hỗ trợ.</string>
     <string name="error_can_not_handle_uri">Không thể xử lý URI này trong KeePassDX.</string>
     <string name="error_file_not_create">Không thể tạo tệp.</string>
-    <string name="error_invalid_db">Không thể đọc dữ liệu.</string>
+    <string name="error_invalid_db">Không thể đọc nội dung trong kho dữ liệu.</string>
     <string name="error_invalid_path">Hãy chắc chắn rằng đường dẫn là chính xác.</string>
     <string name="error_invalid_OTP">Mã OTP bí mật không hợp lệ.</string>
     <string name="error_no_name">Nhập tên.</string>
     <string name="error_word_reserved">Từ này được bảo lưu và không thể sử dụng.</string>
     <string name="error_nokeyfile">Chọn một tệp khóa.</string>
     <string name="error_no_hardware_key">Chọn khóa phần cứng.</string>
-    <string name="error_out_of_memory">Không có bộ nhớ để tải toàn bộ dữ liệu của bạn.</string>
+    <string name="error_out_of_memory">Không có bộ nhớ để tải toàn bộ nội dung kho dữ liệu của bạn.</string>
     <string name="error_XML_malformed">XML không đúng định dạng.</string>
-    <string name="error_load_database">Không thể tải dữ liệu.</string>
-    <string name="error_load_database_KDF_memory">Không thể tải chìa khóa. Cố gắng giảm \"Mức sử dụng bộ nhớ\" KDF.</string>
+    <string name="error_load_database">Không thể tải nội dung trong kho dữ liệu.</string>
+    <string name="error_load_database_KDF_memory">Mức sử dụng bộ nhớ KDF quá cao. Không thể tải.</string>
     <string name="error_pass_gen_type">Phải chọn ít nhất một loại tạo mật khẩu.</string>
     <string name="error_disallow_no_credentials">Phải đặt ít nhất một thông tin xác thực.</string>
     <string name="error_pass_match">Mật khẩu không khớp.</string>
@@ -236,7 +236,7 @@
     <string name="list_entries_show_username_summary">Hiển thị tên đăng nhập trong danh sách đề mục</string>
     <string name="list_groups_show_number_entries_title">Hiển thị số lượng mục</string>
     <string name="show_otp_token_title">Hiển thị mã thông báo OTP</string>
-    <string name="show_otp_token_summary">Hiển thị mã thông báo OTP trong danh sách các mục</string>
+    <string name="show_otp_token_summary">Mặc định hiển thị các mã OTP</string>
     <string name="show_uuid_title">Hiển thị UUID</string>
     <string name="show_uuid_summary">Hiển thị UUID được liên kết với một mục hoặc một nhóm</string>
     <string name="list_groups_show_number_entries_summary">Hiển thị số lượng mục trong một nhóm</string>
@@ -369,7 +369,7 @@
     <string name="warning_sure_remove_data">Vẫn xóa dữ liệu này?</string>
     <string name="warning_empty_keyfile">Không nên thêm một tệp khóa trống.</string>
     <string name="warning_empty_keyfile_explanation">Nội dung của tệp khóa không bao giờ được thay đổi và trong trường hợp tốt nhất nên chứa dữ liệu được tạo ngẫu nhiên.</string>
-    <string name="warning_database_info_changed">Thông tin chứa trong tệp dữ liệu của bạn đã được sửa đổi ở bên ngoài ứng dụng.</string>
+    <string name="warning_database_info_changed">Thông tin chứa trong kho dữ liệu của bạn đã bị sửa đổi ở bên ngoài ứng dụng.</string>
     <string name="warning_database_info_changed_options">Hợp nhất dữ liệu, ghi đè các sửa đổi bên ngoài bằng cách lưu dữ liệu hoặc tải lại nó với những thay đổi mới nhất.</string>
     <string name="warning_database_info_reloaded">Tải lại dữ liệu sẽ xóa các phần dữ liệu được sửa đổi cục bộ.</string>
     <string name="warning_database_revoked">Quyền truy cập vào tệp đã bị người quản lý tệp thu hồi, đóng dữ liệu và mở lại từ vị trí của nó.</string>
@@ -579,7 +579,7 @@
     <string name="education_entry_edit_title">Chỉnh sửa đề mục</string>
     <string name="education_entry_edit_summary">Chỉnh sửa đề mục với các vùng tùy chỉnh. Dữ liệu có thể được tham chiếu giữa các vùng nhập khác nhau.</string>
     <string name="education_generate_password_title">Tạo mật khẩu mạnh</string>
-    <string name="education_generate_password_summary">Tạo một mật khẩu mạnh để liên kết với đề mục của bạn, dễ dàng xác định nó theo tiêu chí của biểu mẫu và đừng quên mật khẩu an toàn.</string>
+    <string name="education_generate_password_summary">Tạo một mật khẩu mạnh để liên kết với đề mục của bạn, dễ dàng xác định nó theo tiêu chí của biểu mẫu và cố đừng quên nó.</string>
     <string name="education_validate_entry_title">Xác thực đề mục</string>
     <string name="education_validate_entry_summary">Nhớ xác thực đề mục và lưu dữ liệu của bạn.\n\nNếu khóa tự động được kích hoạt và bạn quên rằng mình đang thực hiện sửa đổi, bạn có nguy cơ đánh mất dữ liệu của mình.</string>
     <string name="education_entry_new_field_title">Thêm các vùng tùy chỉnh</string>
@@ -711,7 +711,7 @@
     <string name="show_entry_colors_summary">Hiển thị màu nền trước và màu nền cho đề mục</string>
     <string name="hide_expired_entries_title">Ẩn các mục đã hết hạn</string>
     <string name="hide_expired_entries_summary">Các mục hết hạn không được hiển thị</string>
-    <string name="warning_database_info_changed_options_read_only">Tải lại dữ liệu với những thay đổi mới nhất.</string>
+    <string name="warning_database_info_changed_options_read_only">Vui lòng tải lại kho dữ liệu với các thay đổi mới.</string>
     <string name="entry_application_id">Id ứng dụng</string>
     <string name="error_otp_secret_length">Mã bí mật tối thiểu phải có %1$d ký tự.</string>
     <string name="generate_keyfile">Tạo ra tệp khóa</string>
@@ -781,4 +781,7 @@
     <string name="passkey_private_key">Khoá riêng tư của khoá truy cập</string>
     <string name="passkey_credential_id">Mã nhận dạng thông tin xác thực của khoá truy cập</string>
     <string name="passkey_user_handle">Định danh người dùng của khoá truy cập</string>
+    <string name="error_load_database_KDF_parallelism">Thuộc tính song song của hàm dẫn xuất khóa quá cao. Không thể tải.</string>
+    <string name="error_memory_too_large">\"Mức sử dụng bộ nhớ\" quá cao. Chuyển sang %1$s.</string>
+    <string name="error_parallelism_too_large">\"Thuộc tính song song\" quá cao. Chuyển sang %1$s.</string>
 </resources>
