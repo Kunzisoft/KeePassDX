@@ -1,4 +1,7 @@
-KeePassDX(4.5.0)
+KeePassDX(4.5.1)
+ * Fix Memory optimization #2666
+
+KeePassDX(4.5.0_beta06 - 4.5.0)
  * Add Passkey PRF Extension #2502 #2553
  * New OTP token views #1851 #2541
  * New search animation #2541

@@ -638,9 +638,7 @@ open class Database {
             databaseToMerge.kdfEngine?.checkLimits(limits)
             readDatabaseStream(databaseToMergeStream,
                 { databaseInputStream ->
-                    val databaseToMergeKDB = DatabaseKDB().apply {
-                        binaryCache = this@Database.binaryCache
-                    }
+                    val databaseToMergeKDB = DatabaseKDB()
                     DatabaseInputKDB(databaseToMergeKDB)
                         .openDatabase(databaseInputStream, progressTaskUpdater) {
                             if (databaseToMergeMasterCredential != null) {
@@ -656,9 +654,7 @@ open class Database {
                     databaseToMerge.setDatabaseKDB(databaseToMergeKDB)
                 },
                 { databaseInputStream ->
-                    val databaseToMergeKDBX = DatabaseKDBX().apply {
-                        binaryCache = this@Database.binaryCache
-                    }
+                    val databaseToMergeKDBX = DatabaseKDBX()
                     DatabaseInputKDBX(databaseToMergeKDBX).apply {
                         setMethodToCheckMemoryForBinary { memoryWanted ->
                             limits.isMemorySufficientForBinary(memoryWanted)
@@ -715,9 +711,7 @@ open class Database {
             // Retrieve the stream from the old database
             readDatabaseStream(databaseStream,
                 { databaseInputStream ->
-                    val databaseKDB = DatabaseKDB().apply {
-                        binaryCache = this@Database.binaryCache
-                    }
+                    val databaseKDB = DatabaseKDB()
                     DatabaseInputKDB(databaseKDB)
                         .openDatabase(databaseInputStream, progressTaskUpdater) {
                             this@Database.mDatabaseKDB?.let { thisDatabaseKDB ->
@@ -727,9 +721,7 @@ open class Database {
                     setDatabaseKDB(databaseKDB)
                 },
                 { databaseInputStream ->
-                    val databaseKDBX = DatabaseKDBX().apply {
-                        binaryCache = this@Database.binaryCache
-                    }
+                    val databaseKDBX = DatabaseKDBX()
                     DatabaseInputKDBX(databaseKDBX).apply {
                         setMethodToCheckMemoryForBinary { memoryWanted ->
                             limits.isMemorySufficientForBinary(memoryWanted)

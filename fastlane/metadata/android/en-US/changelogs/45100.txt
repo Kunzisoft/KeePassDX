@@ -1,0 +1,10 @@
+ * Add Passkey PRF Extension #2502 #2553
+ * New OTP token views #1851 #2541
+ * New search animation #2541
+ * Entry icon to fill the Magikeyboard #2590 #2538
+ * Indicator for special groups #2556
+ * Autofill suggestion settings #2574
+ * 1 second benchmark #2653 #2655 #2640
+ * Fix UV and Read-only modes saving #2541
+ * Fix 32 bytes XML v2 KeyFiles #2660
+ * Refactoring / fixes #996 #1911 #2456 #2523 #2541 #2542 #2543 #2575 #2576 #2581 #2578 #2591 #2600 #2630 #2658 #2666
