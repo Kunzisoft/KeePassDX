@@ -1,5 +1,6 @@
 KeePassDX(4.5.1)
  * Fix Memory optimization #2666
+ * Fix OTP token not hidden by default #2665
 
 KeePassDX(4.5.0_beta06 - 4.5.0)
  * Add Passkey PRF Extension #2502 #2553
