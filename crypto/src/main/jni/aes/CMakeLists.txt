@@ -20,4 +20,4 @@ add_library(
 find_library(log-lib log)
 
 target_link_libraries(aes ${log-lib})
-target_link_options(aes PRIVATE "-Wl,-z,max-page-size=16384")
+target_link_options(aes PRIVATE "-Wl,-z,max-page-size=16384" "-flto=thin")
