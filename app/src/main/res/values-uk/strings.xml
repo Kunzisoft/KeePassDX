@@ -18,7 +18,7 @@
     along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
 --><resources>
     <string name="feedback">Відгук</string>
-    <string name="homepage">Домівка</string>
+    <string name="homepage">Домашня сторінка</string>
     <string name="about_description">Android-версія менеджера паролів KeePass.</string>
     <string name="accept">Прийняти</string>
     <string name="add_entry">Додати запис</string>
