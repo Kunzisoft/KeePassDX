@@ -39,7 +39,7 @@ open class OtpTextFieldView @JvmOverloads constructor(
     defStyle: Int = 0
 ) : TextFieldView(context, attrs, defStyle) {
 
-    private var mShowOTP: Boolean = PreferencesUtil.showOTPToken(context)
+    private var mShowOTP: Boolean = false
 
     private var mLastToken: CharArray = charArrayOf()
 
@@ -67,6 +67,11 @@ open class OtpTextFieldView @JvmOverloads constructor(
     init {
         buildViews()
         containerView.addView(otpProgressView)
+        assignPreferences()
+    }
+
+    private fun assignPreferences() {
+        mShowOTP = PreferencesUtil.showOTPToken(context)
     }
 
     /**
@@ -95,6 +100,7 @@ open class OtpTextFieldView @JvmOverloads constructor(
      * @param otpModel The OTP model containing the secret and configuration.
      */
     fun setOtpModel(otpModel: OtpModel) {
+        assignPreferences()
         clearData()
         val otpElement = OtpElement(otpModel)
         setProtection(

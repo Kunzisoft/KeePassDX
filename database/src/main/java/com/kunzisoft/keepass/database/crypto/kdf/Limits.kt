@@ -49,7 +49,7 @@ data class Limits(
         // Operation involving large binary data
         BINARY(maxMemory = MAX_BINARY_BYTE, 1f/5),
         // Operation for Key Derivation Function (KDF) like Argon2
-        KDF(maxMemory = UInt.MAX_VALUE.toULong(), 1f/2)
+        KDF(maxMemory = UInt.MAX_VALUE.toULong(), 3f/4)
     }
 
     /**
