@@ -96,6 +96,7 @@ class InvalidCredentialsDatabaseException : DatabaseInputException {
     constructor() : super()
 }
 
+class KDFIterationDatabaseException : DatabaseInputException()
 class KDFParallelismDatabaseException : DatabaseInputException()
 class KDFMemoryDatabaseException : DatabaseInputException {
     constructor() : super()
