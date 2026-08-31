@@ -1,2 +1,3 @@
  * Correction des paramètres PRF #2673
  * Correction du langage multiple #2656
+ * Correction de la taille du token OTP #2672

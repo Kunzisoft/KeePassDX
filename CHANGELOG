@@ -1,6 +1,7 @@
 KeePassDX(4.5.2)
  * Fix PRF settings #2673
  * Fix multiple languages #2656
+ * Fix OTP token size #2672
 
 KeePassDX(4.5.1)
  * Fix Memory optimization #2666
