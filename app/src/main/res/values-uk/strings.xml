@@ -25,7 +25,7 @@
     <string name="add_group">Додати групу</string>
     <string name="encryption_algorithm">Алгоритм шифрування</string>
     <string name="app_timeout">Час очікування</string>
-    <string name="app_timeout_summary">Час бездіяльності до блокування бази даних</string>
+    <string name="app_timeout_summary">Час бездіяльності перед блокуванням бази даних</string>
     <string name="application">Застосунок</string>
     <string name="menu_app_settings">Налаштування застосунку</string>
     <string name="brackets">Дужки</string>
@@ -143,7 +143,7 @@
     <string name="allow_copy_password_summary">Дозволити копіювати пароль запису й захищені поля до буфера обміну</string>
     <string name="content_description_file_information">Відомості про файл</string>
     <string name="content_description_add_entry">Додати запис</string>
-    <string name="content_description_background">Тло</string>
+    <string name="content_description_background">Фон</string>
     <string name="clipboard_error_clear">Не вдалося очистити буфер обміну</string>
     <string name="clipboard_error">Деякі пристрої не дозволяють застосункам використовувати буфер обміну.</string>
     <string name="clipboard_error_title">Помилка буфера обміну</string>
