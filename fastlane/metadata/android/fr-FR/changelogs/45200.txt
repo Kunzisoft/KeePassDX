@@ -1,1 +1,2 @@
  * Correction des paramètres PRF #2673
+ * Correction du langage multiple #2656
