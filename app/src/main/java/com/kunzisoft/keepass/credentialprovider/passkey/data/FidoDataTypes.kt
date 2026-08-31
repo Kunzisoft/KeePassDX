@@ -266,18 +266,10 @@ data class AuthenticationExtensionsPRFValues(
         private const val SECOND = "second"
 
         fun JSONObject.getAuthenticationExtensionsPRFValues(): AuthenticationExtensionsPRFValues {
-            val first = Base64Helper.b64Decode(getString(FIRST))
-            if (first.size != 32) {
-                throw IllegalArgumentException("PRF salt 'first' must be 32 bytes, but was ${first.size}")
-            }
-            val second = if (has(SECOND)) {
-                val secondDecoded = Base64Helper.b64Decode(getString(SECOND))
-                if (secondDecoded.size != 32) {
-                    throw IllegalArgumentException("PRF salt 'second' must be 32 bytes, but was ${secondDecoded.size}")
-                }
-                secondDecoded
-            } else null
-            return AuthenticationExtensionsPRFValues(first, second)
+            return AuthenticationExtensionsPRFValues(
+                Base64Helper.b64Decode(getString(FIRST)),
+                if (has(SECOND)) Base64Helper.b64Decode(getString(SECOND)) else null
+            )
         }
     }
 }

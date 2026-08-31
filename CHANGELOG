@@ -1,3 +1,6 @@
+KeePassDX(4.5.2)
+ * Fix PRF settings #2673
+
 KeePassDX(4.5.1)
  * Fix Memory optimization #2666
  * Fix OTP token not hidden by default #2665
