@@ -39,8 +39,7 @@
     <string name="decrypting_db">Розшифрування вмісту бази даних…</string>
     <string name="default_checkbox">Використовувати як типову базу даних</string>
     <string name="digits">Цифри</string>
-    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft є застосунком з &lt;strong&gt;відкритим програмним кодом&lt;/strong&gt; та &lt;strong&gt;не містить реклами&lt;/strong&gt;.
-\nЗастосунок постачається як є, на умовах ліцензії &lt;strong&gt;GPLv3&lt;/strong&gt;, без будь-яких гарантій.</string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft — це застосунок з &lt;strong&gt;відкритим вихідним кодом&lt;/strong&gt; та &lt;strong&gt;без реклами&lt;/strong&gt;. \nВона надається «як є», на умовах ліцензії &lt;strong&gt;GPLv3&lt;/strong&gt;, без жодних гарантій.</string>
     <string name="select_database_file">Відкрити наявне сховище</string>
     <string name="entry_accessed">Останній доступ</string>
     <string name="entry_cancel">Скасувати</string>
@@ -149,7 +148,7 @@
     <string name="clipboard_error">Деякі пристрої не дозволяють застосункам використовувати буфер обміну.</string>
     <string name="clipboard_error_title">Помилка буфера обміну</string>
     <string name="allow">Дозволити</string>
-    <string name="key_derivation_function">Функція виведення ключа</string>
+    <string name="key_derivation_function">Функція формування ключа</string>
     <string name="encryption">Шифрування</string>
     <string name="security">Безпека</string>
     <string name="master_key">Головний ключ</string>
@@ -226,7 +225,7 @@
     <string name="entry_attachments">Вкладення</string>
     <string name="entry_history">Історія</string>
     <string name="entry_UUID">UUID</string>
-    <string name="html_about_contribution">Щоб &lt;strong&gt;зберігати нашу свободу&lt;/strong&gt;, &lt;strong&gt;налагодження&lt;/strong&gt;, &lt;strong&gt;додавати функції&lt;/strong&gt; та &lt;strong&gt;бути завжди активним проєктом&lt;/strong&gt;, ми розраховуємо на вашу &lt;strong&gt;допомогу&lt;/strong&gt;.</string>
+    <string name="html_about_contribution">Щоб &lt;strong&gt;зберігати нашу свободу&lt;/strong&gt;, &lt;strong&gt;виправляти помилки&lt;/strong&gt;, &lt;strong&gt;додавати нові функції&lt;/strong&gt; та &lt;strong&gt;завжди залишатися активними&lt;/strong&gt;, ми розраховуємо на ваш &lt;strong&gt;внесок&lt;/strong&gt;.</string>
     <string name="content_description_keyboard_close_fields">Закрити поля</string>
     <string name="content_description_remove_field">Вилучити поле</string>
     <string name="entry_add_attachment">Додати вкладення</string>
@@ -403,11 +402,11 @@
     <string name="sort_groups_before">Спочатку групи</string>
     <string name="sort_ascending">Спочатку менші ↓</string>
     <string name="sort_menu">Сортувати</string>
-    <string name="memory_usage_explanation">Обсяг пам’яті, який використовує функція виведення ключа.</string>
-    <string name="kdf_explanation">Щоб отримати ключ для алгоритму шифрування, головний ключ перетворюється за допомогою функції виведення ключа з випадковою сіллю.</string>
+    <string name="memory_usage_explanation">Обсяг пам’яті, який використовує функція формування ключа.</string>
+    <string name="kdf_explanation">Щоб отримати ключ для алгоритму шифрування, головний ключ перетворюється за допомогою функції формування ключа з випадковою сіллю.</string>
     <string name="do_not_kill_app">Не завершуйте роботу застосунку…</string>
     <string name="command_execution">Виконання команди…</string>
-    <string name="parallelism_explanation">Ступінь паралелізму (тобто кількість потоків), який використовує функція виведення ключа.</string>
+    <string name="parallelism_explanation">Ступінь паралелізму (тобто кількість потоків), який використовує функція формування ключа.</string>
     <string name="parallelism">Паралелізм</string>
     <string name="memory_usage">Використання пам’яті</string>
     <string name="encryption_explanation">Алгоритм шифрування бази даних, що застосовується до всіх даних</string>
@@ -635,14 +634,14 @@
     <string name="error_location_unknown">Розташування бази даних невідоме, тому дію неможливо виконати.</string>
     <string name="error_empty_key">Ключ не може бути порожнім.</string>
     <string name="corrupted_file">Пошкоджений файл.</string>
-    <string name="html_about_privacy">&lt;strong&gt;Жодні користувацькі дані не збираються&lt;/strong&gt;, цей застосунок не з\'єднується з жодним сервером, він працює лише локально та повністю поважає приватність користувачів.</string>
+    <string name="html_about_privacy">&lt;strong&gt;Жодні дані користувача не збираються&lt;/strong&gt;, цей застосунок не підключається до жодного сервера, працює лише локально та повністю поважає конфіденційність користувачів.</string>
     <string name="auto_type">Автовведення</string>
     <string name="merge_success">Об’єднання успішно завершено</string>
     <string name="menu_app_settings_summary">Пошук, блокування, історія, властивості</string>
     <string name="menu_form_filling_settings_summary">Клавіатура, автозаповнення, буфер обміну</string>
     <string name="menu_device_unlock_settings_summary">Біометрія, облікові дані пристрою</string>
     <string name="menu_database_settings_summary">Метадані, кошик, шаблони, історія</string>
-    <string name="menu_security_settings_summary">Шифрування, функція виведення ключа</string>
+    <string name="menu_security_settings_summary">Шифрування, функція формування ключа</string>
     <string name="master_key_settings_summary">Зміна, оновлення</string>
     <string name="warning_permission">Для показу сповіщення потрібен дозвіл</string>
     <string name="later">Пізніше</string>
