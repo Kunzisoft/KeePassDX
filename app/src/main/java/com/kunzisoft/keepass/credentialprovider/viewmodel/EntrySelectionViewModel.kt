@@ -24,6 +24,7 @@ import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.IOException
@@ -33,7 +34,7 @@ class EntrySelectionViewModel(application: Application): CredentialLauncherViewM
     private var searchShareForMagikeyboard: Boolean = false
     private var mLockDatabaseAfterSelection: Boolean = false
     private val mUiState = MutableStateFlow<UIState>(UIState.Loading)
-    val uiState: StateFlow<UIState> = mUiState
+    val uiState: StateFlow<UIState> = mUiState.asStateFlow()
 
     fun initialize() {
         searchShareForMagikeyboard = getApplication<Application>().isKeyboardActivatedInSettings()

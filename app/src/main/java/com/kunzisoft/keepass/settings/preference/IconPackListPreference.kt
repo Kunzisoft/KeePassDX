@@ -20,21 +20,21 @@
 package com.kunzisoft.keepass.settings.preference
 
 import android.content.Context
-import androidx.preference.ListPreference
 import android.util.AttributeSet
+import androidx.preference.ListPreference
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.icons.IconPackChooser
-import java.util.*
 
-class IconPackListPreference @JvmOverloads constructor(context: Context,
-                                                       attrs: AttributeSet? = null,
-                                                       defStyleAttr: Int = R.attr.dialogPreferenceStyle,
-                                                       defStyleRes: Int = defStyleAttr)
-    : ListPreference(context, attrs, defStyleAttr, defStyleRes) {
+class IconPackListPreference @JvmOverloads constructor(
+    context: Context,
+    attrs: AttributeSet? = null,
+    defStyleAttr: Int = R.attr.dialogPreferenceStyle,
+    defStyleRes: Int = defStyleAttr
+) : ListPreference(context, attrs, defStyleAttr, defStyleRes) {
 
     init {
-        val entries = ArrayList<String>()
-        val values = ArrayList<String>()
+        val entries = mutableListOf<String>()
+        val values = mutableListOf<String>()
         for (iconPack in IconPackChooser.getIconPackList(context)) {
             iconPack.id?.let { iconPackId ->
                 entries.add(iconPack.name)

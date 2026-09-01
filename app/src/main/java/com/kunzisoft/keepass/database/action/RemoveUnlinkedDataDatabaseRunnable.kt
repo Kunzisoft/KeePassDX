@@ -26,12 +26,12 @@ import com.kunzisoft.keepass.hardware.ChallengeRequest
 class RemoveUnlinkedDataDatabaseRunnable (
     context: Context,
     database: ContextualDatabase,
-    saveDatabase: Boolean,
+    save: Boolean,
     challengeResponseRetriever: (ChallengeRequest) -> ByteArray
 ) : SaveDatabaseRunnable(
     context = context,
     database = database,
-    saveDatabase = saveDatabase,
+    save = save,
     mainCredential = null,
     challengeOperation = ChallengeRequest.ChallengeOperation.UPDATE,
     challengeResponseRetriever = challengeResponseRetriever

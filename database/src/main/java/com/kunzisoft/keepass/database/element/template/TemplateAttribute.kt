@@ -20,22 +20,25 @@ package com.kunzisoft.keepass.database.element.template
 
 import android.os.Parcel
 import android.os.Parcelable
-import com.kunzisoft.keepass.utils.readParcelableCompat
 import com.kunzisoft.keepass.utils.readEnum
+import com.kunzisoft.keepass.utils.readParcelableCompat
 import com.kunzisoft.keepass.utils.writeEnum
 
-data class TemplateAttribute(var label: String,
-                             var type: TemplateAttributeType,
-                             var protected: Boolean = false,
-                             var options: TemplateAttributeOption = TemplateAttributeOption(),
-                             var action: TemplateAttributeAction = TemplateAttributeAction.NONE): Parcelable {
+data class TemplateAttribute(
+    var label: String,
+    var type: TemplateAttributeType,
+    var protected: Boolean = false,
+    var options: TemplateAttributeOption = TemplateAttributeOption(),
+    var action: TemplateAttributeAction = TemplateAttributeAction.NONE
+): Parcelable {
 
     constructor(parcel: Parcel) : this(
-            parcel.readString() ?: "",
-            parcel.readEnum<TemplateAttributeType>() ?: TemplateAttributeType.TEXT,
+        parcel.readString() ?: "",
+        parcel.readEnum<TemplateAttributeType>() ?: TemplateAttributeType.TEXT,
         parcel.readByte() != 0.toByte(),
         parcel.readParcelableCompat() ?: TemplateAttributeOption(),
-        parcel.readEnum<TemplateAttributeAction>() ?: TemplateAttributeAction.NONE)
+        parcel.readEnum<TemplateAttributeAction>() ?: TemplateAttributeAction.NONE
+    )
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(label)

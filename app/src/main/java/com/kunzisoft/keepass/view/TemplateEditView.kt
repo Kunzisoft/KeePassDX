@@ -27,10 +27,11 @@ import com.kunzisoft.keepass.model.PasskeyEntryFields
 import com.kunzisoft.keepass.otp.OtpEntryFields
 
 
-class TemplateEditView @JvmOverloads constructor(context: Context,
-                                                 attrs: AttributeSet? = null,
-                                                 defStyle: Int = 0)
-    : TemplateAbstractView<TextEditFieldView, TextSelectFieldView, DateTimeEditFieldView>
+class TemplateEditView @JvmOverloads constructor(
+    context: Context,
+    attrs: AttributeSet? = null,
+    defStyle: Int = 0
+) : TemplateAbstractView<TextEditFieldView, TextSelectFieldView, DateTimeEditFieldView>
         (context, attrs, defStyle) {
 
     // Current date time selection
@@ -125,23 +126,30 @@ class TemplateEditView @JvmOverloads constructor(context: Context,
         field: Field
     ): TextEditFieldView? {
         return context?.let {
-            (if (TemplateField.isStandardPasswordName(context, templateAttribute.label))
-                PasswordTextEditFieldView(it)
-            else TextEditFieldView(it)).apply {
+            var buildTextEditView = TextEditFieldView(it)
+            val needUserVerificationToReveal = true
+            when {
+                TemplateField.isStandardPasswordName(context, templateAttribute.label) -> {
+                    buildTextEditView = PasswordTextEditFieldView(it)
+                }
+            }
+            buildTextEditView.apply {
                 // hiddenProtectedValue (mHideProtectedValue) don't work with TextInputLayout
-                setProtection(
-                    protection = field.protectedValue.isProtected,
-                    isCurrentlyProtected = mUnprotectedFields.contains(field).not()
-                ) {
+                onRevealChanged = {
                     mOnChangeFieldProtectionClickListener?.invoke(
-                        FieldProtection(field, isCurrentlyProtected())
+                        FieldProtection(field, isRevealed(), needUserVerificationToReveal)
                     )
                 }
+                setProtection(
+                    isProtected = field.protectedValue.isProtected,
+                    isRevealedByDefault = mRevealedFields.contains(field.name),
+                    needUserVerificationToReveal = needUserVerificationToReveal
+                )
                 // Trick to bypass the onSaveInstanceState in rebuild child
                 onSaveInstanceState = {
-                    saveUnprotectedFieldState(field, isCurrentlyProtected())
+                    saveUnprotectedFieldState(field, isRevealed())
                 }
-                default = templateAttribute.default
+                default = templateAttribute.default.toCharArray()
                 setMaxChars(templateAttribute.options.getNumberChars())
                 setMaxLines(templateAttribute.options.getNumberLines())
                 setActionClick(templateAttribute, field, this)
@@ -151,7 +159,7 @@ class TemplateEditView @JvmOverloads constructor(context: Context,
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                     importantForAutofill = IMPORTANT_FOR_AUTOFILL_NO
                 }
-                mFields[field] = this
+                mFields[field.name] = this
             }
         }
     }
@@ -161,7 +169,7 @@ class TemplateEditView @JvmOverloads constructor(context: Context,
         return context?.let {
             TextSelectFieldView(it).apply {
                 setItems(templateAttribute.options.getListItems())
-                default = templateAttribute.default
+                default = templateAttribute.default.toCharArray()
                 setActionClick(templateAttribute, field, this)
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                     importantForAutofill = IMPORTANT_FOR_AUTOFILL_NO
@@ -177,8 +185,11 @@ class TemplateEditView @JvmOverloads constructor(context: Context,
             applyFontVisibility(mFontInVisibility)
             label = templateAttribute.alias
                 ?: TemplateField.getLocalizedName(context, field.name)
-            val fieldValue = field.protectedValue.stringValue
-            value = fieldValue.ifEmpty { templateAttribute.default }
+            val fieldValue = field.protectedValue.charArrayValue
+            value = if (fieldValue.isEmpty())
+                templateAttribute.default.toCharArray()
+            else
+                fieldValue
             // TODO edition and password generator at same time
             when (templateAttribute.action) {
                 TemplateAttributeAction.NONE -> {
@@ -227,13 +238,16 @@ class TemplateEditView @JvmOverloads constructor(context: Context,
     fun setPasswordField(passwordField: Field) {
         val passwordView = getFieldViewById(passwordField.name.hashCode())
         if (passwordView is TextEditFieldView?) {
-                passwordView?.value = passwordField.protectedValue.stringValue
+            passwordView?.value = passwordField.protectedValue.charArrayValue
         }
     }
 
     fun getPasswordField(): Field {
         val passwordView: TextEditFieldView? = templateContainerView.findViewWithTag(FIELD_PASSWORD_TAG)
-        return Field(TemplateField.LABEL_PASSWORD, ProtectedString(true, passwordView?.value ?: ""))
+        return Field(
+            name = TemplateField.LABEL_PASSWORD,
+            value = ProtectedString(true, passwordView?.value)
+        )
     }
 
     private fun setCurrentDateTimeSelection(action: (dateInstant: DateInstant) -> DateInstant) {
@@ -276,16 +290,18 @@ class TemplateEditView @JvmOverloads constructor(context: Context,
         return super.populateViewsWithEntryInfo(showEmptyFields)
     }
 
-    override fun populateEntryInfoWithViews(templateFieldNotEmpty: Boolean,
-                                            retrieveDefaultValues: Boolean) {
+    override fun populateEntryInfoWithViews(
+        templateFieldNotEmpty: Boolean,
+        retrieveDefaultValues: Boolean
+    ) {
         super.populateEntryInfoWithViews(templateFieldNotEmpty, retrieveDefaultValues)
-        val getField: (id: String) -> String? = { key ->
-            getCustomFieldOrNull(key)?.protectedValue?.stringValue
+        val getField: (id: String) -> CharArray? = { key ->
+            getCustomFieldOrNull(key)?.protectedValue?.charArrayValue
         }
         mEntryInfo?.otpModel = OtpEntryFields.parseFields(getField)?.otpModel
         mEntryInfo?.creditCard = CreditCardEntryFields.parseFields(getField)
         mEntryInfo?.passkey = PasskeyEntryFields.parseFields(getField)
-        mEntryInfo?.appOrigin = AppOriginEntryField.parseFields(getField)
+        mEntryInfo?.appOrigin = AppOriginEntryField.parseFields(getUrlFromView(), getField)
     }
 
     override fun onRestoreEntryInstanceState(state: SavedState) {

@@ -23,52 +23,76 @@ import android.content.Context
 import android.net.Uri
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.MainCredential
+import com.kunzisoft.keepass.database.element.MasterCredential
 import com.kunzisoft.keepass.database.exception.DatabaseException
 import com.kunzisoft.keepass.hardware.ChallengeRequest
 import com.kunzisoft.keepass.tasks.ActionRunnable
+import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
+import com.kunzisoft.keepass.utils.AppUtil.getLimits
+import com.kunzisoft.keepass.utils.AppUtil.getRelyingPartyId
+import com.kunzisoft.keepass.utils.clear
 import com.kunzisoft.keepass.utils.getUriOutputStream
 import java.io.File
 
 open class SaveDatabaseRunnable(
     protected var context: Context,
     protected var database: ContextualDatabase,
-    private var saveDatabase: Boolean,
+    private var save: Boolean,
     private var mainCredential: MainCredential?, // If null, uses composite Key
-    private var challengeOperation: ChallengeRequest.ChallengeOperation,
+    protected var challengeOperation: ChallengeRequest.ChallengeOperation,
     private var challengeResponseRetriever: (ChallengeRequest) -> ByteArray,
-    private var databaseCopyUri: Uri? = null
+    private var databaseCopyUri: Uri? = null,
+    private var dataModified: Boolean = !save,
+    protected var progressTaskUpdater: ProgressTaskUpdater? = null
 ) : ActionRunnable() {
 
+    private var mMasterCredential: MasterCredential? = null
     var afterSaveDatabase: ((Result) -> Unit)? = null
+
+    private var cachedHardwareResponse: ByteArray? = null
+    protected val cachingRetriever: (ChallengeRequest) -> ByteArray = { request ->
+        cachedHardwareResponse ?: challengeResponseRetriever(request).also {
+            cachedHardwareResponse = it
+        }
+    }
 
     override fun onStartRun() {}
 
     override fun onActionRun() {
         database.checkVersion()
         // Save database in all cases if it's a copy
-        if ((databaseCopyUri != null || saveDatabase) && result.isSuccess) {
+        if ((databaseCopyUri != null || save) && result.isSuccess) {
             try {
                 val contentResolver = context.contentResolver
+                mMasterCredential = mainCredential?.toMasterCredential(contentResolver)
                 // Build temp database file to avoid file corruption if error
                 database.saveData(
                     cacheFile = File(context.cacheDir, databaseCopyUri.hashCode().toString()),
                     databaseOutputStream = {
-                        contentResolver
-                            .getUriOutputStream(databaseCopyUri ?: database.fileUri)
+                        contentResolver.getUriOutputStream(databaseCopyUri ?: database.fileUri)
                     },
-                    isNewLocation = databaseCopyUri == null,
-                    masterCredential = mainCredential?.toMasterCredential(contentResolver),
+                    masterCredential = mMasterCredential,
                     challengeOperation = challengeOperation,
-                    challengeResponseRetriever = challengeResponseRetriever
+                    challengeResponseRetriever = cachingRetriever,
+                    relyingPartyId = context.getRelyingPartyId(),
+                    limits = context.getLimits(),
                 )
+                // Indicate data was saved only if it's not a new location
+                if (databaseCopyUri == null) {
+                    database.indicateUpToDateData()
+                }
             } catch (e: DatabaseException) {
                 setError(e)
             }
+        } else if (dataModified) {
+            database.indicateNotSavedData()
         }
     }
 
     override fun onFinishRun() {
         // Need to call super.onFinishRun() in child class
+        mMasterCredential?.clear()
+        cachedHardwareResponse?.clear()
         afterSaveDatabase?.invoke(result)
     }
 }

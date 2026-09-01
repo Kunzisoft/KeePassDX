@@ -1,10 +1,51 @@
 package com.kunzisoft.keepass.database.element
 
+import com.kunzisoft.keepass.hardware.ChallengeRequest
 import com.kunzisoft.keepass.hardware.HardwareKey
+import com.kunzisoft.keepass.utils.clear
 
-data class CompositeKey(var passwordData: ByteArray? = null,
-                        var keyFileData: ByteArray? = null,
-                        var hardwareKey: HardwareKey? = null) {
+data class CompositeKey(
+    var passwordData: ByteArray? = null,
+    var keyFileData: ByteArray? = null,
+    var hardwareKey: HardwareKey? = null
+) {
+
+    /**
+     * Build the master key from the composite key parts.
+     * @param transformSeed The transform seed for the hardware key challenge.
+     * @param challengeOperation The challenge operation type.
+     * // TODO
+     * @param challengeResponseRetriever The hardware key challenge retriever.
+     * @return The SHA-256 hash of all key parts.
+     */
+    fun toMasterKey(
+        relyingParty: String,
+        credentials: List<ByteArray>,
+        transformSeed: ByteArray?,
+        challengeOperation: ChallengeRequest.ChallengeOperation,
+        challengeResponseRetriever: (ChallengeRequest) -> ByteArray
+    ): ByteArray {
+        val hardwareKeyData = hardwareKey?.let {
+            MasterCredential.retrieveHardwareKey(challengeResponseRetriever.invoke(
+                ChallengeRequest(
+                    hardwareKey = it,
+                    operation = challengeOperation,
+                    relyingPartyId = relyingParty,
+                    credentials = credentials,
+                    seed = transformSeed
+                )
+            ))
+        }
+
+        val masterKey = MasterCredential.composedKeyToMasterKey(
+            passwordData = passwordData,
+            keyFileData = keyFileData,
+            hardwareKeyData = hardwareKeyData
+        )
+
+        hardwareKeyData?.clear()
+        return masterKey
+    }
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
@@ -30,5 +71,21 @@ data class CompositeKey(var passwordData: ByteArray? = null,
         result = 31 * result + (keyFileData?.contentHashCode() ?: 0)
         result = 31 * result + (hardwareKey?.hashCode() ?: 0)
         return result
+    }
+
+    fun copyOf(): CompositeKey {
+        return CompositeKey(
+            passwordData?.copyOf(),
+            keyFileData?.copyOf(),
+            hardwareKey
+        )
+    }
+
+    fun clear() {
+        passwordData?.clear()
+        keyFileData?.clear()
+        passwordData = null
+        keyFileData = null
+        hardwareKey = null
     }
 }

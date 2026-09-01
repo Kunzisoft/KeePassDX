@@ -20,20 +20,22 @@ import android.util.Log
 import com.kunzisoft.encrypt.Base64Helper
 import org.json.JSONException
 import org.json.JSONObject
-import kotlin.jvm.java
 
 data class PublicKeyCredentialRpEntity(
     val name: String,
     val id: String
 ) {
     companion object {
+        private const val NAME = "name"
+        private const val ID = "id"
+
         fun JSONObject.getPublicKeyCredentialRpEntity(
             parameterName: String
         ): PublicKeyCredentialRpEntity {
             val rpJson = this.getJSONObject(parameterName)
             return PublicKeyCredentialRpEntity(
-                rpJson.getString("name"),
-                rpJson.getString("id")
+                rpJson.getString(NAME),
+                rpJson.getString(ID)
             )
         }
     }
@@ -65,14 +67,18 @@ data class PublicKeyCredentialUserEntity(
     }
 
     companion object {
+        private const val NAME = "name"
+        private const val ID = "id"
+        private const val DISPLAY_NAME = "displayName"
+
         fun JSONObject.getPublicKeyCredentialUserEntity(
             parameterName: String
         ): PublicKeyCredentialUserEntity {
             val rpUser = this.getJSONObject(parameterName)
             return PublicKeyCredentialUserEntity(
-                rpUser.getString("name"),
-                Base64Helper.b64Decode(rpUser.getString("id")),
-                rpUser.getString("displayName")
+                rpUser.getString(NAME),
+                Base64Helper.b64Decode(rpUser.getString(ID)),
+                rpUser.getString(DISPLAY_NAME)
             )
         }
     }
@@ -83,6 +89,9 @@ data class PublicKeyCredentialParameters(
     val alg: Long
 ) {
     companion object {
+        private const val TYPE = "type"
+        private const val ALG = "alg"
+
         fun JSONObject.getPublicKeyCredentialParametersList(
             parameterName: String
         ): List<PublicKeyCredentialParameters> {
@@ -91,7 +100,7 @@ data class PublicKeyCredentialParameters(
             for (i in 0 until pubKeyCredParamsJson.length()) {
                 val e = pubKeyCredParamsJson.getJSONObject(i)
                 pubKeyCredParamsTmp.add(
-                    PublicKeyCredentialParameters(e.getString("type"), e.getLong("alg"))
+                    PublicKeyCredentialParameters(e.getString(TYPE), e.getLong(ALG))
                 )
             }
             return pubKeyCredParamsTmp.toList()
@@ -125,24 +134,29 @@ data class PublicKeyCredentialDescriptor(
     }
 
     companion object {
+        private const val TYPE = "type"
+        private const val ID = "id"
+        private const val TRANSPORTS = "transports"
+
         fun JSONObject.getPublicKeyCredentialDescriptorList(
             parameterName: String
         ): List<PublicKeyCredentialDescriptor> {
             val credentialsTmp: MutableList<PublicKeyCredentialDescriptor> = mutableListOf()
             try {
-                val credentialsJson = this.getJSONArray(parameterName)
+                val credentialsJson = this.optJSONArray(parameterName) ?: return emptyList()
                 for (i in 0 until credentialsJson.length()) {
                     val credentialJson = credentialsJson.getJSONObject(i)
 
                     val transports: MutableList<String> = mutableListOf()
-                    val transportsJson = credentialJson.getJSONArray("transports")
-                    for (j in 0 until transportsJson.length()) {
-                        transports.add(transportsJson.getString(j))
+                    credentialJson.optJSONArray(TRANSPORTS)?.let { transportsJson ->
+                        for (j in 0 until transportsJson.length()) {
+                            transports.add(transportsJson.getString(j))
+                        }
                     }
                     credentialsTmp.add(
                         PublicKeyCredentialDescriptor(
-                            type = credentialJson.getString("type"),
-                            id = Base64Helper.b64Decode(credentialJson.getString("id")),
+                            type = credentialJson.getString(TYPE),
+                            id = Base64Helper.b64Decode(credentialJson.getString(ID)),
                             transports = transports
                         )
                     )
@@ -167,19 +181,27 @@ data class AuthenticatorSelectionCriteria(
     val userVerification: UserVerificationRequirement = UserVerificationRequirement.PREFERRED
 ) {
     companion object {
+        private const val AUTHENTICATION_ATTACHMENTS = "authenticatorAttachment"
+        private const val RESIDENT_KEY = "residentKey"
+        private const val REQUIRE_RESIDENT_KEY = "requireResidentKey"
+        private const val USER_VERIFICATION = "userVerification"
+
         fun JSONObject.getAuthenticatorSelectionCriteria(
             parameterName: String
         ): AuthenticatorSelectionCriteria {
             val authenticatorSelection = this.optJSONObject(parameterName)
                 ?: return AuthenticatorSelectionCriteria(requireResidentKey = null)
-            val authenticatorAttachment = if (!authenticatorSelection.isNull("authenticatorAttachment"))
-                authenticatorSelection.getString("authenticatorAttachment") else null
-            var residentKey = if (!authenticatorSelection.isNull("residentKey"))
-                    ResidentKeyRequirement.fromString(authenticatorSelection.getString("residentKey"))
+            val authenticatorAttachment = if (!authenticatorSelection.isNull(AUTHENTICATION_ATTACHMENTS))
+                authenticatorSelection.getString(AUTHENTICATION_ATTACHMENTS) else null
+            var residentKey = if (!authenticatorSelection.isNull(RESIDENT_KEY))
+                    ResidentKeyRequirement.fromString(authenticatorSelection.getString(RESIDENT_KEY))
                 else null
-            val requireResidentKey = authenticatorSelection.optBoolean("requireResidentKey", false)
+            val requireResidentKey = authenticatorSelection.optBoolean(REQUIRE_RESIDENT_KEY, false)
             val userVerification = UserVerificationRequirement
-                .fromString(authenticatorSelection.optString("userVerification", "preferred"))
+                .fromString(authenticatorSelection.optString(
+                    USER_VERIFICATION,
+                    UserVerificationRequirement.PREFERRED.value
+                ))
                 ?: UserVerificationRequirement.PREFERRED
             // https://www.w3.org/TR/webauthn-3/#enumdef-residentkeyrequirement
             if (residentKey == null) {
@@ -196,6 +218,164 @@ data class AuthenticatorSelectionCriteria(
                 userVerification = userVerification
             )
         }
+    }
+}
+
+// https://www.w3.org/TR/webauthn-3/#prf-extension
+data class AuthenticationExtensionsPRFValues(
+    val first: ByteArray,
+    val second: ByteArray? = null
+) {
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as AuthenticationExtensionsPRFValues
+
+        if (!first.contentEquals(other.first)) return false
+        if (second != null) {
+            if (other.second == null) return false
+            if (!second.contentEquals(other.second)) return false
+        } else if (other.second != null) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = first.contentHashCode()
+        result = 31 * result + (second?.contentHashCode() ?: 0)
+        return result
+    }
+
+    fun toJSON(): JSONObject {
+        val json = JSONObject()
+        json.put(FIRST, Base64Helper.b64Encode(first))
+        second?.let { json.put(SECOND, Base64Helper.b64Encode(it)) }
+        return json
+    }
+
+    fun toAuthDataCbor(): Map<Int, Any> {
+        val map = mutableMapOf<Int, Any>()
+        map[1] = first
+        second?.let { map[2] = it }
+        return map
+    }
+
+    companion object {
+        private const val FIRST = "first"
+        private const val SECOND = "second"
+
+        fun JSONObject.getAuthenticationExtensionsPRFValues(): AuthenticationExtensionsPRFValues {
+            return AuthenticationExtensionsPRFValues(
+                Base64Helper.b64Decode(getString(FIRST)),
+                if (has(SECOND)) Base64Helper.b64Decode(getString(SECOND)) else null
+            )
+        }
+    }
+}
+
+data class AuthenticationExtensionsPRFInputs(
+    val eval: AuthenticationExtensionsPRFValues? = null,
+    val evalByCredential: Map<String, AuthenticationExtensionsPRFValues>? = null
+) {
+    companion object {
+        private const val EVAL = "eval"
+        private const val EVAL_BY_CREDENTIAL = "evalByCredential"
+
+        fun JSONObject.getAuthenticationExtensionsPRFInputs(): AuthenticationExtensionsPRFInputs {
+            val eval = if (has(EVAL)) getJSONObject(EVAL).let {
+                AuthenticationExtensionsPRFValues.run { it.getAuthenticationExtensionsPRFValues() }
+            } else null
+            val evalByCredentialJson = optJSONObject(EVAL_BY_CREDENTIAL)
+            val evalByCredential = evalByCredentialJson?.let {
+                val map = mutableMapOf<String, AuthenticationExtensionsPRFValues>()
+                it.keys().forEach { key ->
+                    map[key] = AuthenticationExtensionsPRFValues.run {
+                        it.getJSONObject(key).getAuthenticationExtensionsPRFValues()
+                    }
+                }
+                map.toMap()
+            }
+            return AuthenticationExtensionsPRFInputs(eval, evalByCredential)
+        }
+    }
+}
+
+data class AuthenticationExtensionsClientInputs(
+    val prf: AuthenticationExtensionsPRFInputs? = null
+) {
+    companion object {
+        private const val PRF = "prf"
+
+        fun JSONObject.getAuthenticationExtensionsClientInputs(
+            parameterName: String
+        ): AuthenticationExtensionsClientInputs {
+            val extensionsJson = optJSONObject(parameterName) ?: return AuthenticationExtensionsClientInputs()
+            val prfJson = extensionsJson.optJSONObject(PRF)
+            val prf = if (prfJson != null) {
+                AuthenticationExtensionsPRFInputs.run { prfJson.getAuthenticationExtensionsPRFInputs() }
+            } else if (extensionsJson.has(PRF)) {
+                AuthenticationExtensionsPRFInputs()
+            } else null
+            return AuthenticationExtensionsClientInputs(prf)
+        }
+    }
+}
+
+data class AuthenticationExtensionsPRFOutputs(
+    val enabled: Boolean? = null,
+    val results: AuthenticationExtensionsPRFValues? = null
+) {
+    fun toJSON(isRegistration: Boolean): JSONObject {
+        val json = JSONObject()
+        results?.let { prfValues ->
+            json.put(RESULTS, prfValues.toJSON())
+        }
+        if (isRegistration) {
+            json.put(ENABLED, true)
+        } else if (results == null) {
+            enabled?.let { json.put(ENABLED, it) }
+        }
+        return json
+    }
+
+    fun toAuthDataCbor(isRegistration: Boolean): Map<Int, Any> {
+        val map = mutableMapOf<Int, Any>()
+        results?.let {
+            map[2] = it.toAuthDataCbor() // results
+        }
+        if (isRegistration) {
+            map[1] = true // enabled
+        } else if (results == null) {
+            enabled?.let { map[1] = it }
+        }
+        return map
+    }
+
+    companion object {
+        private const val ENABLED = "enabled"
+        private const val RESULTS = "results"
+    }
+}
+
+data class AuthenticationExtensionsClientOutputs(
+    val prf: AuthenticationExtensionsPRFOutputs? = null
+) {
+    fun toJSON(isRegistration: Boolean): JSONObject {
+        val json = JSONObject()
+        prf?.let { json.put(PRF, it.toJSON(isRegistration)) }
+        return json
+    }
+
+    fun toAuthDataCbor(isRegistration: Boolean): Map<String, Any>? {
+        val prfAuthData = prf?.toAuthDataCbor(isRegistration) ?: return null
+        val map = mutableMapOf<String, Any>()
+        map[PRF] = prfAuthData
+        return map
+    }
+
+    companion object {
+        private const val PRF = "prf"
     }
 }
 

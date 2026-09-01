@@ -1,35 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:filterTouchesWhenObscured="true"
-    android:id="@+id/image_viewer_container"
-    android:background="?android:attr/windowBackground">
-    <include
-        android:id="@+id/toolbar"
-        layout="@layout/toolbar_default"/>
-
-    <FrameLayout
+    android:filterTouchesWhenObscured="true">
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/screenshot_mode_banner"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar">
-
-        <ProgressBar
-            android:id="@+id/image_viewer_progress"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center" />
-
+        android:layout_height="match_parent"
+        android:id="@+id/image_viewer_container"
+        android:background="?android:attr/windowBackground">
         <ImageView
             android:id="@+id/image_viewer_image"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:contentDescription="@string/entry_attachments" />
-    </FrameLayout>
-
-    <include layout="@layout/view_screenshot_mode_banner" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:fitsSystemWindows="true"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <ProgressBar
+            android:id="@+id/image_viewer_progress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+        <com.kunzisoft.keepass.view.ToolbarAction
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toTopOf="@+id/screenshot_mode_banner" />
+        <include layout="@layout/view_screenshot_mode_banner" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</FrameLayout>

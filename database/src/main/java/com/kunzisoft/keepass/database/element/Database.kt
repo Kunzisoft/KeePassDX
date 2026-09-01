@@ -22,6 +22,7 @@ package com.kunzisoft.keepass.database.element
 import android.util.Log
 import com.kunzisoft.keepass.database.crypto.EncryptionAlgorithm
 import com.kunzisoft.keepass.database.crypto.kdf.KdfEngine
+import com.kunzisoft.keepass.database.crypto.kdf.Limits
 import com.kunzisoft.keepass.database.element.binary.AttachmentPool
 import com.kunzisoft.keepass.database.element.binary.BinaryCache
 import com.kunzisoft.keepass.database.element.binary.BinaryData
@@ -33,7 +34,6 @@ import com.kunzisoft.keepass.database.element.icon.IconImageStandard
 import com.kunzisoft.keepass.database.element.icon.IconImageStandard.Companion.NUMBER_STANDARD_ICONS
 import com.kunzisoft.keepass.database.element.icon.IconsManager
 import com.kunzisoft.keepass.database.element.node.NodeHandler
-import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.node.NodeIdInt
 import com.kunzisoft.keepass.database.element.node.NodeIdUUID
 import com.kunzisoft.keepass.database.element.template.Template
@@ -52,8 +52,6 @@ import com.kunzisoft.keepass.database.file.input.DatabaseInputKDBX
 import com.kunzisoft.keepass.database.file.output.DatabaseOutputKDB
 import com.kunzisoft.keepass.database.file.output.DatabaseOutputKDBX
 import com.kunzisoft.keepass.database.merge.DatabaseKDBXMerger
-import com.kunzisoft.keepass.database.search.SearchHelper
-import com.kunzisoft.keepass.database.search.SearchParameters
 import com.kunzisoft.keepass.hardware.ChallengeRequest
 import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
 import com.kunzisoft.keepass.utils.SingletonHolder
@@ -66,6 +64,8 @@ import java.io.File
 import java.io.FileNotFoundException
 import java.io.InputStream
 import java.io.OutputStream
+import java.nio.charset.Charset
+import java.nio.charset.StandardCharsets
 import java.util.UUID
 
 
@@ -74,8 +74,6 @@ open class Database {
     // To keep a reference for specific methods provided by version
     private var mDatabaseKDB: DatabaseKDB? = null
     private var mDatabaseKDBX: DatabaseKDBX? = null
-
-    private var mSearchHelper: SearchHelper = SearchHelper()
 
     var isReadOnly = false
 
@@ -86,13 +84,6 @@ open class Database {
             field = value
             loadTimestamp = if (field) System.currentTimeMillis() else null
         }
-
-    /**
-     * To reload the main activity
-     */
-    var wasReloaded = false
-
-    var dataModifiedSinceLastLoading = false
 
     var loadTimestamp: Long? = null
         private set
@@ -178,37 +169,42 @@ open class Database {
     }
 
     fun entryIsTemplate(entry: Entry?): Boolean {
-        // Define is current entry is a template (in direct template group)
+        // Define if current entry is a template (in direct template group)
         if (entry == null || templatesGroup == null)
             return false
-        return templatesGroup == entry.parent
-    }
-
-    // Not the same as decode, here remove in all cases the template link in the entry data
-    fun removeTemplateConfiguration(entry: Entry): Entry {
-        entry.entryKDBX?.let {
-            mDatabaseKDBX?.decodeEntryWithTemplateConfiguration(it, false)?.let { decode ->
-                return Entry(decode)
-            }
-        }
-        return entry
+        // Retrieve the main historic entry to check if it's a template
+        val mainEntry = if (entry.isHistoric()) {
+            getEntryById(entry.getMainEntryHistoryId()) ?: entry
+        } else entry
+        return templatesGroup == mainEntry.parent
     }
 
     // Remove the template link in the entry data if it's a basic entry
     // or compress the template fields (as pseudo language) if it's a template entry
-    fun decodeEntryWithTemplateConfiguration(entry: Entry, lastEntryVersion: Entry? = null): Entry {
+    protected fun decodeEntryWithTemplateConfiguration(
+        entry: Entry
+    ): Entry {
         entry.entryKDBX?.let {
-            val lastEntry = lastEntryVersion ?: entry
-            mDatabaseKDBX?.decodeEntryWithTemplateConfiguration(it, entryIsTemplate(lastEntry))?.let { decode ->
+            mDatabaseKDBX?.decodeEntryWithTemplateConfiguration(
+                entryKDBX = it,
+                entryIsTemplate = entryIsTemplate(entry)
+            )?.let { decode ->
                 return Entry(decode)
             }
         }
         return entry
     }
 
-    fun encodeEntryWithTemplateConfiguration(entry: Entry, template: Template): Entry {
+    protected fun encodeEntryWithTemplateConfiguration(
+        entry: Entry,
+        template: Template
+    ): Entry {
         entry.entryKDBX?.let {
-            mDatabaseKDBX?.encodeEntryWithTemplateConfiguration(it, entryIsTemplate(entry), template)?.let { encode ->
+            mDatabaseKDBX?.encodeEntryWithTemplateConfiguration(
+                entryKDBX = it,
+                entryIsTemplate = entryIsTemplate(entry),
+                template = template
+            )?.let { encode ->
                 return Entry(encode)
             }
         }
@@ -224,8 +220,7 @@ open class Database {
         }
         set(name) {
             mDatabaseKDBX?.name = name
-            mDatabaseKDBX?.nameChanged = DateInstant()
-            dataModifiedSinceLastLoading = true
+            notifyNameChange()
         }
 
     val allowDescription: Boolean
@@ -237,8 +232,7 @@ open class Database {
         }
         set(description) {
             mDatabaseKDBX?.description = description
-            mDatabaseKDBX?.descriptionChanged = DateInstant()
-            dataModifiedSinceLastLoading = true
+            notifyDescriptionChange()
         }
 
     var defaultUsername: String
@@ -248,8 +242,7 @@ open class Database {
         set(username) {
             mDatabaseKDB?.defaultUserName = username
             mDatabaseKDBX?.defaultUserName = username
-            mDatabaseKDBX?.defaultUserNameChanged = DateInstant()
-            dataModifiedSinceLastLoading = true
+            notifyDefaultUserNameChange()
         }
 
     var customColor: Int?
@@ -265,8 +258,7 @@ open class Database {
         set(value) {
             mDatabaseKDB?.color = value
             mDatabaseKDBX?.color = value?.toFormattedColorString() ?: ""
-            mDatabaseKDBX?.settingsChanged = DateInstant()
-            dataModifiedSinceLastLoading = true
+            notifySettingsChange()
         }
 
     val allowOTP: Boolean
@@ -291,7 +283,7 @@ open class Database {
         get() = mDatabaseKDBX != null
 
     val availableCompressionAlgorithms: List<CompressionAlgorithm>
-        get() = mDatabaseKDBX?.availableCompressionAlgorithms ?: ArrayList()
+        get() = mDatabaseKDBX?.availableCompressionAlgorithms ?: emptyList()
 
     var compressionAlgorithm: CompressionAlgorithm?
         get() = mDatabaseKDBX?.compressionAlgorithm
@@ -299,8 +291,7 @@ open class Database {
             value?.let {
                 mDatabaseKDBX?.compressionAlgorithm = it
             }
-            mDatabaseKDBX?.settingsChanged = DateInstant()
-            dataModifiedSinceLastLoading = true
+            notifySettingsChange()
         }
 
     fun compressionForNewEntry(): Boolean {
@@ -309,20 +300,25 @@ open class Database {
         // Default compression not necessary if stored in header
         mDatabaseKDBX?.let {
             return it.compressionAlgorithm == CompressionAlgorithm.GZIP
-                    && it.kdbxVersion.isBefore(FILE_VERSION_40)
+                    && it.kdbxVersion < FILE_VERSION_40
         }
         return false
     }
 
-    fun updateDataBinaryCompression(oldCompression: CompressionAlgorithm,
-                                    newCompression: CompressionAlgorithm
+    fun updateDataBinaryCompression(
+        oldCompression: CompressionAlgorithm,
+        newCompression: CompressionAlgorithm
     ) {
         mDatabaseKDBX?.changeBinaryCompression(oldCompression, newCompression)
-        dataModifiedSinceLastLoading = true
     }
 
     val allowNoMasterKey: Boolean
         get() = mDatabaseKDBX != null
+
+    val passwordEncoding: Charset
+        get() = mDatabaseKDB?.passwordEncoding
+            ?: mDatabaseKDBX?.passwordEncoding
+            ?: DEFAULT_PASSWORD_ENCODING
 
     fun getEncryptionAlgorithmName(): String {
         return mDatabaseKDB?.encryptionAlgorithm?.toString()
@@ -331,18 +327,19 @@ open class Database {
     }
 
     val availableEncryptionAlgorithms: List<EncryptionAlgorithm>
-        get() = mDatabaseKDB?.availableEncryptionAlgorithms ?: mDatabaseKDBX?.availableEncryptionAlgorithms ?: ArrayList()
+        get() = mDatabaseKDB?.availableEncryptionAlgorithms ?: mDatabaseKDBX?.availableEncryptionAlgorithms ?: listOf()
 
     var encryptionAlgorithm: EncryptionAlgorithm?
         get() = mDatabaseKDB?.encryptionAlgorithm ?: mDatabaseKDBX?.encryptionAlgorithm
         set(algorithm) {
             algorithm?.let {
                 mDatabaseKDBX?.encryptionAlgorithm = algorithm
+                notifySettingsChange()
             }
         }
 
     val availableKdfEngines: List<KdfEngine>
-        get() = mDatabaseKDB?.kdfAvailableList ?: mDatabaseKDBX?.kdfAvailableList ?: ArrayList()
+        get() = mDatabaseKDB?.kdfAvailableList ?: mDatabaseKDBX?.kdfAvailableList ?: listOf()
 
     val allowKdfModification: Boolean
         get() = availableKdfEngines.size > 1
@@ -352,39 +349,7 @@ open class Database {
         set(kdfEngine) {
             mDatabaseKDB?.kdfEngine = kdfEngine
             mDatabaseKDBX?.kdfEngine = kdfEngine
-            mDatabaseKDBX?.settingsChanged = DateInstant()
-            dataModifiedSinceLastLoading = true
-        }
-
-    fun getKeyDerivationName(): String {
-        return kdfEngine?.toString() ?: ""
-    }
-
-    var numberKeyEncryptionRounds: Long
-        get() = mDatabaseKDB?.numberKeyEncryptionRounds ?: mDatabaseKDBX?.numberKeyEncryptionRounds ?: 0
-        set(numberRounds) {
-            mDatabaseKDB?.numberKeyEncryptionRounds = numberRounds
-            mDatabaseKDBX?.numberKeyEncryptionRounds = numberRounds
-            mDatabaseKDBX?.settingsChanged = DateInstant()
-            dataModifiedSinceLastLoading = true
-        }
-
-    var memoryUsage: Long
-        get() {
-            return mDatabaseKDBX?.memoryUsage ?: return KdfEngine.UNKNOWN_VALUE
-        }
-        set(memory) {
-            mDatabaseKDBX?.memoryUsage = memory
-            mDatabaseKDBX?.settingsChanged = DateInstant()
-            dataModifiedSinceLastLoading = true
-        }
-
-    var parallelism: Long
-        get() = mDatabaseKDBX?.parallelism ?: KdfEngine.UNKNOWN_VALUE
-        set(parallelism) {
-            mDatabaseKDBX?.parallelism = parallelism
-            mDatabaseKDBX?.settingsChanged = DateInstant()
-            dataModifiedSinceLastLoading = true
+            notifySettingsChange()
         }
 
     var masterKey: ByteArray
@@ -393,8 +358,7 @@ open class Database {
             mDatabaseKDB?.masterKey = masterKey
             mDatabaseKDBX?.masterKey = masterKey
             mDatabaseKDBX?.keyLastChanged = DateInstant()
-            mDatabaseKDBX?.settingsChanged = DateInstant()
-            dataModifiedSinceLastLoading = true
+            notifySettingsChange()
         }
 
     val transformSeed: ByteArray?
@@ -433,6 +397,12 @@ open class Database {
             return true
         }
 
+    val allowAddEntryInRoot: Boolean
+        get() = mDatabaseKDBX != null
+
+    val allowAddNoteInEachGroup: Boolean
+        get() = mDatabaseKDBX != null
+
     /**
      * Do not modify groups here, used for read only
      */
@@ -451,8 +421,7 @@ open class Database {
         }
         set(value) {
             mDatabaseKDBX?.historyMaxItems = value
-            mDatabaseKDBX?.settingsChanged = DateInstant()
-            dataModifiedSinceLastLoading = true
+            notifySettingsChange()
         }
 
     var historyMaxSize: Long
@@ -461,9 +430,24 @@ open class Database {
         }
         set(value) {
             mDatabaseKDBX?.historyMaxSize = value
-            mDatabaseKDBX?.settingsChanged = DateInstant()
-            dataModifiedSinceLastLoading = true
+            notifySettingsChange()
         }
+
+    fun notifyNameChange() {
+        mDatabaseKDBX?.notifyNameChange()
+    }
+
+    fun notifyDescriptionChange() {
+        mDatabaseKDBX?.notifyDescriptionChange()
+    }
+
+    fun notifyDefaultUserNameChange() {
+        mDatabaseKDBX?.notifyDefaultUserNameChange()
+    }
+
+    fun notifySettingsChange() {
+        mDatabaseKDBX?.notifySettingsChange()
+    }
 
     /**
      * Determine if a configurable RecycleBin is available or not for this version of database
@@ -484,7 +468,6 @@ open class Database {
             mDatabaseKDBX?.removeRecycleBin()
         }
         mDatabaseKDBX?.recycleBinChanged = DateInstant()
-        dataModifiedSinceLastLoading = true
     }
 
     val recycleBin: Group?
@@ -506,7 +489,6 @@ open class Database {
             mDatabaseKDBX?.removeRecycleBin()
         }
         mDatabaseKDBX?.recycleBinChanged = DateInstant()
-        dataModifiedSinceLastLoading = true
     }
 
     /**
@@ -523,7 +505,6 @@ open class Database {
     fun enableTemplates(enable: Boolean, templatesGroupName: String) {
         mDatabaseKDBX?.enableTemplatesGroup(enable, templatesGroupName)
         mDatabaseKDBX?.entryTemplatesGroupChanged = DateInstant()
-        dataModifiedSinceLastLoading = true
     }
 
     val templatesGroup: Group?
@@ -542,12 +523,11 @@ open class Database {
             mDatabaseKDBX?.removeTemplatesGroup()
         }
         mDatabaseKDBX?.entryTemplatesGroupChanged = DateInstant()
-        dataModifiedSinceLastLoading = true
     }
 
     val groupNamesNotAllowed: List<String>
         get() {
-            return mDatabaseKDB?.groupNamesNotAllowed ?: ArrayList()
+            return mDatabaseKDB?.groupNamesNotAllowed ?: listOf()
         }
 
     private fun setDatabaseKDB(databaseKDB: DatabaseKDB) {
@@ -566,8 +546,6 @@ open class Database {
         templateGroupName: String?
     ) {
         setDatabaseKDBX(DatabaseKDBX(databaseName, rootName, templateGroupName))
-        // Set Database state
-        this.dataModifiedSinceLastLoading = false
     }
 
     @Throws(DatabaseInputException::class)
@@ -578,7 +556,8 @@ open class Database {
         readOnly: Boolean,
         allowUserVerification: Boolean,
         cacheDirectory: File,
-        isRAMSufficient: (memoryWanted: Long) -> Boolean,
+        relyingPartyId: String,
+        limits: Limits,
         fixDuplicateUUID: Boolean,
         progressTaskUpdater: ProgressTaskUpdater?
     ) {
@@ -587,6 +566,7 @@ open class Database {
         this.allowUserVerification = allowUserVerification
 
         try {
+            kdfEngine?.checkLimits(limits)
             // Read database stream for the first time
             readDatabaseStream(databaseStream,
                     { databaseInputStream ->
@@ -595,7 +575,8 @@ open class Database {
                             changeDuplicateId = fixDuplicateUUID
                         }
                         DatabaseInputKDB(databaseKDB)
-                            .openDatabase(databaseInputStream,
+                            .openDatabase(
+                                databaseInputStream,
                                 progressTaskUpdater
                             ) {
                                  databaseKDB.deriveMasterKey(
@@ -610,11 +591,16 @@ open class Database {
                             changeDuplicateId = fixDuplicateUUID
                         }
                         DatabaseInputKDBX(databaseKDBX).apply {
-                            setMethodToCheckIfRAMIsSufficient(isRAMSufficient)
-                            openDatabase(databaseInputStream,
-                                progressTaskUpdater) {
+                            setMethodToCheckMemoryForBinary { memoryWanted ->
+                                limits.isMemorySufficientForBinary(memoryWanted)
+                            }
+                            openDatabase(
+                                databaseInputStream,
+                                progressTaskUpdater
+                            ) {
                                 databaseKDBX.deriveMasterKey(
                                     masterCredential = masterCredential,
+                                    relyingPartyId = relyingPartyId,
                                     challengeOperation = ChallengeRequest.ChallengeOperation.GET,
                                     challengeResponseRetriever = challengeResponseRetriever
                                 )
@@ -629,8 +615,6 @@ open class Database {
             if (e is DatabaseInputException)
                 throw e
             throw DatabaseInputException(e)
-        } finally {
-            dataModifiedSinceLastLoading = false
         }
     }
 
@@ -650,7 +634,8 @@ open class Database {
         databaseToMergeStream: InputStream,
         databaseToMergeMasterCredential: MasterCredential?,
         databaseToMergeChallengeResponseRetriever: (ChallengeRequest) -> ByteArray,
-        isRAMSufficient: (memoryWanted: Long) -> Boolean,
+        relyingPartyId: String,
+        limits: Limits,
         progressTaskUpdater: ProgressTaskUpdater?
     ) {
 
@@ -658,9 +643,11 @@ open class Database {
             throw MergeDatabaseKDBException()
         }
 
+        kdfEngine?.checkLimits(limits)
         // New database instance to get new changes
         val databaseToMerge = Database()
         try {
+            databaseToMerge.kdfEngine?.checkLimits(limits)
             readDatabaseStream(databaseToMergeStream,
                 { databaseInputStream ->
                     val databaseToMergeKDB = DatabaseKDB()
@@ -681,11 +668,14 @@ open class Database {
                 { databaseInputStream ->
                     val databaseToMergeKDBX = DatabaseKDBX()
                     DatabaseInputKDBX(databaseToMergeKDBX).apply {
-                        setMethodToCheckIfRAMIsSufficient(isRAMSufficient)
+                        setMethodToCheckMemoryForBinary { memoryWanted ->
+                            limits.isMemorySufficientForBinary(memoryWanted)
+                        }
                         openDatabase(databaseInputStream, progressTaskUpdater) {
                             if (databaseToMergeMasterCredential != null) {
                                 databaseToMergeKDBX.deriveMasterKey(
                                     masterCredential = databaseToMergeMasterCredential,
+                                    relyingPartyId = relyingPartyId,
                                     challengeOperation = ChallengeRequest.ChallengeOperation.UPDATE,
                                     challengeResponseRetriever = databaseToMergeChallengeResponseRetriever
                                 )
@@ -703,15 +693,15 @@ open class Database {
 
             mDatabaseKDBX?.let { currentDatabaseKDBX ->
                 val databaseMerger = DatabaseKDBXMerger(currentDatabaseKDBX).apply {
-                    this.isRAMSufficient = isRAMSufficient
+                    this.isRAMSufficient = { memoryWanted ->
+                        limits.isMemorySufficientForBinary(memoryWanted)
+                    }
                 }
                 databaseToMerge.mDatabaseKDB?.let { databaseKDBToMerge ->
                     databaseMerger.merge(databaseKDBToMerge)
-                    this.dataModifiedSinceLastLoading = true
                 }
                 databaseToMerge.mDatabaseKDBX?.let { databaseKDBXToMerge ->
                     databaseMerger.merge(databaseKDBXToMerge)
-                    this.dataModifiedSinceLastLoading = true
                 }
             }
         } catch (e: Exception) {
@@ -727,17 +717,15 @@ open class Database {
     @Throws(DatabaseInputException::class)
     fun reloadData(
         databaseStream: InputStream,
-        isRAMSufficient: (memoryWanted: Long) -> Boolean,
+        limits: Limits,
         progressTaskUpdater: ProgressTaskUpdater?
     ) {
         try {
+            kdfEngine?.checkLimits(limits)
             // Retrieve the stream from the old database
             readDatabaseStream(databaseStream,
                 { databaseInputStream ->
                     val databaseKDB = DatabaseKDB()
-                    mDatabaseKDB?.let {
-                        databaseKDB.binaryCache = it.binaryCache
-                    }
                     DatabaseInputKDB(databaseKDB)
                         .openDatabase(databaseInputStream, progressTaskUpdater) {
                             this@Database.mDatabaseKDB?.let { thisDatabaseKDB ->
@@ -748,11 +736,10 @@ open class Database {
                 },
                 { databaseInputStream ->
                     val databaseKDBX = DatabaseKDBX()
-                    mDatabaseKDBX?.let {
-                        databaseKDBX.binaryCache = it.binaryCache
-                    }
                     DatabaseInputKDBX(databaseKDBX).apply {
-                        setMethodToCheckIfRAMIsSufficient(isRAMSufficient)
+                        setMethodToCheckMemoryForBinary { memoryWanted ->
+                            limits.isMemorySufficientForBinary(memoryWanted)
+                        }
                         openDatabase(databaseInputStream, progressTaskUpdater) {
                             this@Database.mDatabaseKDBX?.let { thisDatabaseKDBX ->
                                 databaseKDBX.copyMasterKeyFrom(thisDatabaseKDBX)
@@ -768,8 +755,6 @@ open class Database {
             if (e is DatabaseException)
                 throw e
             throw DatabaseInputException(e)
-        } finally {
-            dataModifiedSinceLastLoading = false
         }
     }
 
@@ -806,7 +791,7 @@ open class Database {
                     else -> throw SignatureDatabaseException()
                 }
             }
-        } catch (fileNotFoundException : FileNotFoundException) {
+        } catch (_ : FileNotFoundException) {
             throw FileNotFoundDatabaseException()
         }
     }
@@ -815,12 +800,14 @@ open class Database {
     fun saveData(
         cacheFile: File,
         databaseOutputStream: () -> OutputStream?,
-        isNewLocation: Boolean,
         masterCredential: MasterCredential?,
         challengeOperation: ChallengeRequest.ChallengeOperation,
-        challengeResponseRetriever: (ChallengeRequest) -> ByteArray
+        challengeResponseRetriever: (ChallengeRequest) -> ByteArray,
+        relyingPartyId: String,
+        limits: Limits
     ) {
         try {
+            kdfEngine?.checkLimits(limits)
             // Save in a temp memory to avoid exception
             cacheFile.outputStream().use { outputStream ->
                 mDatabaseKDB?.let { databaseKDB ->
@@ -843,12 +830,14 @@ open class Database {
                                 // Build new master key from MainCredential
                                 databaseKDBX.deriveMasterKey(
                                     masterCredential = masterCredential,
+                                    relyingPartyId = relyingPartyId,
                                     challengeOperation = challengeOperation,
                                     challengeResponseRetriever = challengeResponseRetriever
                                 )
                             } else {
                                 // Reuse composite key parts
                                 databaseKDBX.deriveCompositeKey(
+                                    relyingPartyId = relyingPartyId,
                                     challengeOperation = challengeOperation,
                                     challengeResponseRetriever = challengeResponseRetriever
                                 )
@@ -877,9 +866,6 @@ open class Database {
             } catch (e: Exception) {
                 Log.e(TAG, "Cache file $cacheFile cannot be deleted", e)
             }
-            if (isNewLocation) {
-                this.dataModifiedSinceLastLoading = false
-            }
         }
     }
 
@@ -902,36 +888,14 @@ open class Database {
         return false
     }
 
-    fun createVirtualGroupFromSearch(
-        searchParameters: SearchParameters,
-        fromGroup: NodeId<*>? = null,
-        max: Int = Integer.MAX_VALUE
-    ): Group? {
-        return mSearchHelper.createVirtualGroupWithSearchResult(this,
-            searchParameters, fromGroup, max)
-    }
-
-    fun createVirtualGroupFromSearchInfo(
-        searchParameters: SearchParameters,
-        max: Int = Integer.MAX_VALUE
-    ): Group? {
-        return mSearchHelper.createVirtualGroupWithSearchResult(
-            database = this,
-            searchParameters = searchParameters,
-            fromGroup = null,
-            max = max
-        )
-    }
-
     val tagPool: Tags
-        get() {
-            return mDatabaseKDBX?.tagPool ?: Tags()
-        }
+        get() = mDatabaseKDBX?.tagPool ?: Tags()
+
+    val tagPoolWithoutHistory: Tags
+        get() = mDatabaseKDBX?.getTagPoolWithoutHistory() ?: Tags()
 
     val attachmentPool: AttachmentPool
-        get() {
-            return mDatabaseKDB?.attachmentPool ?: mDatabaseKDBX?.attachmentPool ?: AttachmentPool()
-        }
+        get() = mDatabaseKDB?.attachmentPool ?: mDatabaseKDBX?.attachmentPool ?: AttachmentPool()
 
     val allowMultipleAttachments: Boolean
         get() {
@@ -949,16 +913,26 @@ open class Database {
                         false)
     }
 
-    fun removeAttachmentIfNotUsed(attachment: Attachment) {
+    /**
+     * Remove the [binaryData] from the binary pool if not used
+     * @param clearCache Clear the cache if true
+     */
+    fun removeBinaryIfNotUsed(binaryData: BinaryData, clearCache: Boolean = false) {
         // No need in KDB database because unique attachment by entry
         // Don't clear to fix upload multiple times
-        mDatabaseKDBX?.removeUnlinkedAttachment(attachment.binaryData, false)
+        mDatabaseKDBX?.removeUnlinkedAttachment(binaryData, clearCache)
+    }
+    /**
+     * Remove the binary data of an [Attachment] from the binary pool if not used
+     * @param clearCache Clear the cache if true
+     */
+    fun removeAttachmentIfNotUsed(attachment: Attachment, clearCache: Boolean = false) {
+        removeBinaryIfNotUsed(attachment.binaryData, clearCache)
     }
 
     fun removeUnlinkedAttachments() {
         // No check in database KDB because unique attachment by entry
         mDatabaseKDBX?.removeUnlinkedAttachments(true)
-        dataModifiedSinceLastLoading = true
     }
 
     open fun clearIndexesAndBinaries(filesDirectory: File?) {
@@ -986,6 +960,8 @@ open class Database {
 
     open fun clearAndClose(filesDirectory: File? = null) {
         clearIndexesAndBinaries(filesDirectory)
+        this.mDatabaseKDB?.clearSensitiveData()
+        this.mDatabaseKDBX?.clearSensitiveData()
         this.mDatabaseKDB = null
         this.mDatabaseKDBX = null
         this.loaded = false
@@ -1015,7 +991,6 @@ open class Database {
     }
 
     fun createEntry(): Entry? {
-        dataModifiedSinceLastLoading = true
         mDatabaseKDB?.let { database ->
             return Entry(database.createEntry()).apply {
                 nodeId = database.newEntryId()
@@ -1030,10 +1005,7 @@ open class Database {
         return null
     }
 
-    fun createGroup(virtual: Boolean = false): Group? {
-        if (!virtual) {
-            dataModifiedSinceLastLoading = true
-        }
+    fun createGroup(): Group? {
         var group: Group? = null
         mDatabaseKDB?.let { database ->
             group = Group(database.createGroup()).apply {
@@ -1045,13 +1017,11 @@ open class Database {
                 setNodeId(database.newGroupId())
             }
         }
-        if (virtual)
-            group?.isVirtual = virtual
 
         return group
     }
 
-    fun getEntryById(id: NodeId<UUID>): Entry? {
+    fun getEntryById(id: EntryId): Entry? {
         mDatabaseKDB?.getEntryById(id)?.let {
             return Entry(it)
         }
@@ -1061,20 +1031,31 @@ open class Database {
         return null
     }
 
-    fun getGroupById(id: NodeId<*>): Group? {
-        if (id is NodeIdInt)
-            mDatabaseKDB?.getGroupById(id)?.let {
-                return Group(it)
+    fun getEntriesByIds(entriesIds: List<EntryId>): List<Entry> {
+        return entriesIds.mapNotNull { getEntryById(it) }
+    }
+
+    fun getGroupById(groupId: GroupId): Group? {
+        when (groupId) {
+            is NodeIdInt -> {
+                mDatabaseKDB?.getGroupById(groupId)?.let {
+                    return Group(it)
+                }
             }
-        else if (id is NodeIdUUID)
-            mDatabaseKDBX?.getGroupById(id)?.let {
-                return Group(it)
+            is NodeIdUUID -> {
+                mDatabaseKDBX?.getGroupById(groupId)?.let {
+                    return Group(it)
+                }
             }
+        }
         return null
     }
 
+    fun getGroupsByIds(groupsIds: List<GroupId>): List<Group> {
+        return groupsIds.mapNotNull { getGroupById(it) }
+    }
+
     fun addEntryTo(entry: Entry, parent: Group) {
-        dataModifiedSinceLastLoading = true
         entry.entryKDB?.let { entryKDB ->
             mDatabaseKDB?.addEntryTo(entryKDB, parent.groupKDB)
         }
@@ -1085,7 +1066,6 @@ open class Database {
     }
 
     fun updateEntry(entry: Entry) {
-        dataModifiedSinceLastLoading = true
         entry.entryKDB?.let { entryKDB ->
             mDatabaseKDB?.updateEntry(entryKDB)
         }
@@ -1095,7 +1075,6 @@ open class Database {
     }
 
     fun removeEntryFrom(entry: Entry, parent: Group) {
-        dataModifiedSinceLastLoading = true
         entry.entryKDB?.let { entryKDB ->
             mDatabaseKDB?.removeEntryFrom(entryKDB, parent.groupKDB)
         }
@@ -1106,7 +1085,6 @@ open class Database {
     }
 
     fun addGroupTo(group: Group, parent: Group) {
-        dataModifiedSinceLastLoading = true
         group.groupKDB?.let { groupKDB ->
             mDatabaseKDB?.addGroupTo(groupKDB, parent.groupKDB)
         }
@@ -1117,7 +1095,6 @@ open class Database {
     }
 
     fun updateGroup(group: Group) {
-        dataModifiedSinceLastLoading = true
         group.groupKDB?.let { entryKDB ->
             mDatabaseKDB?.updateGroup(entryKDB)
         }
@@ -1127,7 +1104,6 @@ open class Database {
     }
 
     fun removeGroupFrom(group: Group, parent: Group) {
-        dataModifiedSinceLastLoading = true
         group.groupKDB?.let { groupKDB ->
             mDatabaseKDB?.removeGroupFrom(groupKDB, parent.groupKDB)
         }
@@ -1143,12 +1119,41 @@ open class Database {
      * @param newParent
      */
     fun copyEntryTo(entryToCopy: Entry, newParent: Group): Entry {
-        val entryCopied = Entry(entryToCopy, false)
+        val entryCopied = Entry(entryToCopy, copyHistory = false)
         entryCopied.nodeId = mDatabaseKDB?.newEntryId() ?: mDatabaseKDBX?.newEntryId() ?: NodeIdUUID()
         entryCopied.parent = newParent
         entryCopied.title += " (~)"
         addEntryTo(entryCopied, newParent)
         return entryCopied
+    }
+
+    /**
+     * @return A duplicate group with the same values, a new random UUID and a new parent
+     * @param groupToCopy
+     * @param newParent
+     */
+    fun copyGroupTo(groupToCopy: Group, newParent: Group): Group {
+        val groupCopied = Group(groupToCopy)
+        val newId = mDatabaseKDB?.newGroupId() ?: mDatabaseKDBX?.newGroupId() ?: NodeIdUUID()
+        when (newId) {
+            is NodeIdInt -> groupCopied.setNodeId(newId)
+            is NodeIdUUID -> groupCopied.setNodeId(newId)
+        }
+        groupCopied.parent = newParent
+        groupCopied.title += " (~)"
+        addGroupTo(groupCopied, newParent)
+
+        // Copy entries
+        groupToCopy.getChildEntries().forEach {
+            copyEntryTo(it, groupCopied)
+        }
+
+        // Copy sub-groups
+        groupToCopy.getChildGroups().forEach {
+            copyGroupTo(it, groupCopied)
+        }
+
+        return groupCopied
     }
 
     fun moveEntryTo(entryToMove: Entry, newParent: Group) {
@@ -1166,7 +1171,6 @@ open class Database {
     }
 
     fun deleteEntry(entry: Entry) {
-        dataModifiedSinceLastLoading = true
         entry.entryKDBX?.id?.let { entryId ->
             mDatabaseKDBX?.addDeletedObject(entryId)
         }
@@ -1176,7 +1180,6 @@ open class Database {
     }
 
     fun deleteGroup(group: Group) {
-        dataModifiedSinceLastLoading = true
         group.doForEachChildAndForIt(
                 object : NodeHandler<Entry>() {
                     override fun operate(node: Entry): Boolean {
@@ -1359,5 +1362,7 @@ open class Database {
 
     companion object : SingletonHolder<Database>(::Database) {
         private val TAG = Database::class.java.name
+
+        val DEFAULT_PASSWORD_ENCODING: Charset = StandardCharsets.UTF_8
     }
 }

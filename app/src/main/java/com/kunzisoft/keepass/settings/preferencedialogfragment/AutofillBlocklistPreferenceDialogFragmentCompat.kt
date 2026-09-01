@@ -22,16 +22,13 @@ package com.kunzisoft.keepass.settings.preferencedialogfragment
 import android.os.Bundle
 import android.view.View
 import android.view.inputmethod.EditorInfo
-import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.model.SearchInfo
 import com.kunzisoft.keepass.settings.preferencedialogfragment.adapter.AutofillBlocklistAdapter
 import com.kunzisoft.keepass.utils.getParcelableArrayCompat
-import java.util.*
-import kotlin.Comparator
-import kotlin.collections.HashSet
+import java.util.TreeSet
 
 abstract class AutofillBlocklistPreferenceDialogFragmentCompat
     : InputPreferenceDialogFragmentCompat(),

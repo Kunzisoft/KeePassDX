@@ -12,9 +12,9 @@ class Argon2Test {
         val password = "password".toByteArray()
         val salt = "saltsaltsaltsalt".toByteArray() // 16 bytes
 
-        val iterations = 2L
-        val memory = 1024L * 64 // 64 MB
-        val parallelism = 2L
+        val iterations = 2u
+        val memory = 1024u * 64u // 64 MB
+        val parallelism = 2u
         val version = 0x13 // Argon2 v1.3
 
         val hash1 = Argon2Transformer.transformKey(

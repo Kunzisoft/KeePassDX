@@ -23,12 +23,11 @@ import android.content.res.Resources
 import android.graphics.Color
 import android.text.Editable
 import android.text.Spannable
-import android.text.SpannableString
 import android.text.SpannableStringBuilder
 import android.text.style.ForegroundColorSpan
 import com.kunzisoft.keepass.R
 import java.security.SecureRandom
-import java.util.*
+import java.util.Random
 
 class PasswordGenerator(private val resources: Resources) {
 
@@ -48,7 +47,7 @@ class PasswordGenerator(private val resources: Resources) {
         ignoreChars: String,
         atLeastOneFromEach: Boolean,
         excludeAmbiguousChar: Boolean
-    ): String {
+    ): CharArray {
         // Desired password length is 0 or less
         if (length <= 0) {
             throw IllegalArgumentException(resources.getString(R.string.error_wrong_length))
@@ -136,11 +135,12 @@ class PasswordGenerator(private val resources: Resources) {
             }
         }
 
-        return generateRandomString(SecureRandom(), passwordFilters)
+        return generateRandomCharArray(SecureRandom(), passwordFilters)
     }
 
-    private fun generateRandomString(random: Random, passwordFilters: PasswordFilters): String {
-        val randomString = StringBuilder()
+    private fun generateRandomCharArray(random: Random, passwordFilters: PasswordFilters): CharArray {
+        val randomCharArray = CharArray(passwordFilters.length)
+        val positions = (0 until passwordFilters.length).toMutableList()
 
         // Allocate appropriate memory for the password.
         var requiredCharactersLeft = passwordFilters.getRequiredCharactersLeft()
@@ -164,9 +164,9 @@ class PasswordGenerator(private val resources: Resources) {
             val nextChar = selectableChars[randomSelectableCharsIndex]
 
             // Put at random position
-            val randomStringMaxIndex = randomString.length
-            val randomStringIndex = if (randomStringMaxIndex > 0) random.nextInt(randomStringMaxIndex) else 0
-            randomString.insert(randomStringIndex, nextChar)
+            val posIndex = random.nextInt(positions.size)
+            val randomStringIndex = positions.removeAt(posIndex)
+            randomCharArray[randomStringIndex] = nextChar
 
             // Now figure out where it came from, and decrement the appropriate minimum value
             passwordFilters.getFilterThatContainsChar(nextChar)?.let {
@@ -176,7 +176,7 @@ class PasswordGenerator(private val resources: Resources) {
                 }
             }
         }
-        return randomString.toString()
+        return randomCharArray
     }
 
     private data class Filter(var chars: String,
@@ -269,23 +269,22 @@ class PasswordGenerator(private val resources: Resources) {
             }
         }
 
-        fun getColorizedPassword(password: String): Spannable {
-            val spannableString = SpannableStringBuilder()
-            if (password.isNotEmpty()) {
-                password.forEach { char ->
-                    colorFromChar(char)?.let { color ->
-                        val spannableColorChar = SpannableString(char.toString())
-                        spannableColorChar.setSpan(
-                            ForegroundColorSpan(color),
-                            0,
-                            1,
-                            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-                        )
-                        spannableString.append(spannableColorChar)
-                    } ?: spannableString.append(char)
+        fun getColorizedPassword(password: CharArray): Spannable {
+            val spannableStringBuilder = SpannableStringBuilder()
+            password.forEach { char ->
+                val color = colorFromChar(char)
+                val start = spannableStringBuilder.length
+                spannableStringBuilder.append(char)
+                if (color != null) {
+                    spannableStringBuilder.setSpan(
+                        ForegroundColorSpan(color),
+                        start,
+                        start + 1,
+                        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                    )
                 }
             }
-            return spannableString
+            return spannableStringBuilder
         }
 
         private fun colorFromChar(char: Char): Int? {

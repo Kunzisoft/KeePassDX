@@ -25,10 +25,11 @@ import com.kunzisoft.keepass.otp.OtpTokenType
 import com.kunzisoft.keepass.otp.OtpType
 import com.kunzisoft.keepass.otp.TokenCalculator
 import com.kunzisoft.keepass.otp.TokenCalculator.OTP_DEFAULT_ALGORITHM
+import com.kunzisoft.keepass.utils.clear
 import com.kunzisoft.keepass.utils.readEnum
 import com.kunzisoft.keepass.utils.writeEnum
 
-class OtpModel() : Parcelable {
+class OtpModel : Parcelable {
 
     var type: OtpType = OtpType.TOTP // ie : HOTP or TOTP
     var tokenType: OtpTokenType = OtpTokenType.RFC6238
@@ -39,6 +40,20 @@ class OtpModel() : Parcelable {
     var period: Int = TokenCalculator.TOTP_DEFAULT_PERIOD // ie : 30 seconds - only for TOTP
     var digits: Int = TokenCalculator.OTP_DEFAULT_DIGITS
     var algorithm: TokenCalculator.HashAlgorithm = OTP_DEFAULT_ALGORITHM
+
+    constructor()
+
+    constructor(otpModel: OtpModel) : this() {
+        type = otpModel.type
+        tokenType = otpModel.tokenType
+        name = otpModel.name
+        issuer = otpModel.issuer
+        secret = otpModel.secret?.copyOf()
+        counter = otpModel.counter
+        period = otpModel.period
+        digits = otpModel.digits
+        algorithm = otpModel.algorithm
+    }
 
     constructor(parcel: Parcel) : this() {
         type = parcel.readEnum<OtpType>() ?: type
@@ -61,8 +76,9 @@ class OtpModel() : Parcelable {
         if (type != other.type) return false
         // Token type is important only if it's a TOTP
         if (type == OtpType.TOTP && tokenType != other.tokenType) return false
-        if (secret == null || other.secret == null) return false
-        if (!secret!!.contentEquals(other.secret!!)) return false
+        if (secret == null && other.secret != null) return false
+        if (secret != null && other.secret == null) return false
+        if (secret != null && other.secret != null && !secret!!.contentEquals(other.secret!!)) return false
         // Counter only for HOTP
         if (type == OtpType.HOTP && counter != other.counter) return false
         // Step only for TOTP
@@ -104,6 +120,11 @@ class OtpModel() : Parcelable {
 
     override fun toString(): String {
         return "$type ($name)"
+    }
+    
+    fun clear() {
+        secret?.clear()
+        secret = null
     }
 
     companion object CREATOR : Parcelable.Creator<OtpModel> {

@@ -21,14 +21,14 @@ package com.kunzisoft.keepass.database.search
 
 import android.os.Parcel
 import android.os.Parcelable
+import com.kunzisoft.keepass.utils.readListCompat
+import com.kunzisoft.keepass.utils.writeListCompat
 
 /**
  * Parameters for searching strings in the database.
  */
 class SearchParameters() : Parcelable{
     var searchQuery: String = ""
-    // Add an optional string to search with the main search query
-    var searchOptions: List<String> = listOf()
     var allowEmptyQuery = true
     var caseSensitive = false
     var isRegex = false
@@ -41,17 +41,52 @@ class SearchParameters() : Parcelable{
     var searchByDomain = false
     var searchBySubDomain = false
     var searchInRelyingParty = false
+    // Optional passkey string to search, do not put in preferences
+    var credentialIds: List<String> = listOf()
     var searchInExpired = false
     var searchInNotes = true
     var searchInOTP = false
     var searchInOther = true
     var searchInUUIDs = false
     var searchInTags = false
+    var tagsToSearch: List<String> = listOf()
 
     var searchInCurrentGroup = false
     var searchInSearchableGroup = true
     var searchInRecycleBin = false
     var searchInTemplates = false
+
+    /**
+     * Create a deep copy of the search parameters.
+     */
+    fun copy(): SearchParameters {
+        val result = SearchParameters()
+        result.searchQuery = this.searchQuery
+        result.allowEmptyQuery = this.allowEmptyQuery
+        result.caseSensitive = this.caseSensitive
+        result.isRegex = this.isRegex
+        result.searchInTitles = this.searchInTitles
+        result.searchInUsernames = this.searchInUsernames
+        result.searchInPasswords = this.searchInPasswords
+        result.searchInAppIds = this.searchInAppIds
+        result.searchInUrls = this.searchInUrls
+        result.searchByDomain = this.searchByDomain
+        result.searchBySubDomain = this.searchBySubDomain
+        result.searchInRelyingParty = this.searchInRelyingParty
+        result.credentialIds = this.credentialIds.toList()
+        result.searchInExpired = this.searchInExpired
+        result.searchInNotes = this.searchInNotes
+        result.searchInOTP = this.searchInOTP
+        result.searchInOther = this.searchInOther
+        result.searchInUUIDs = this.searchInUUIDs
+        result.searchInTags = this.searchInTags
+        result.tagsToSearch = this.tagsToSearch.toList()
+        result.searchInCurrentGroup = this.searchInCurrentGroup
+        result.searchInSearchableGroup = this.searchInSearchableGroup
+        result.searchInRecycleBin = this.searchInRecycleBin
+        result.searchInTemplates = this.searchInTemplates
+        return result
+    }
 
     constructor(parcel: Parcel) : this() {
         searchQuery = parcel.readString() ?: searchQuery
@@ -66,12 +101,14 @@ class SearchParameters() : Parcelable{
         searchByDomain = parcel.readByte() != 0.toByte()
         searchBySubDomain = parcel.readByte() != 0.toByte()
         searchInRelyingParty = parcel.readByte() != 0.toByte()
+        credentialIds = parcel.readListCompat<String>()
         searchInExpired = parcel.readByte() != 0.toByte()
         searchInNotes = parcel.readByte() != 0.toByte()
         searchInOTP = parcel.readByte() != 0.toByte()
         searchInOther = parcel.readByte() != 0.toByte()
         searchInUUIDs = parcel.readByte() != 0.toByte()
         searchInTags = parcel.readByte() != 0.toByte()
+        tagsToSearch = parcel.readListCompat<String>()
         searchInCurrentGroup = parcel.readByte() != 0.toByte()
         searchInSearchableGroup = parcel.readByte() != 0.toByte()
         searchInRecycleBin = parcel.readByte() != 0.toByte()
@@ -91,12 +128,14 @@ class SearchParameters() : Parcelable{
         parcel.writeByte(if (searchByDomain) 1 else 0)
         parcel.writeByte(if (searchBySubDomain) 1 else 0)
         parcel.writeByte(if (searchInRelyingParty) 1 else 0)
+        parcel.writeListCompat(credentialIds)
         parcel.writeByte(if (searchInExpired) 1 else 0)
         parcel.writeByte(if (searchInNotes) 1 else 0)
         parcel.writeByte(if (searchInOTP) 1 else 0)
         parcel.writeByte(if (searchInOther) 1 else 0)
         parcel.writeByte(if (searchInUUIDs) 1 else 0)
         parcel.writeByte(if (searchInTags) 1 else 0)
+        parcel.writeListCompat(tagsToSearch)
         parcel.writeByte(if (searchInCurrentGroup) 1 else 0)
         parcel.writeByte(if (searchInSearchableGroup) 1 else 0)
         parcel.writeByte(if (searchInRecycleBin) 1 else 0)

@@ -20,10 +20,14 @@
 package com.kunzisoft.keepass.adapters
 
 import android.content.Context
+import android.graphics.drawable.Icon
+import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.kunzisoft.keepass.R
 import java.util.UUID
@@ -44,7 +48,20 @@ class KeyboardEntriesAdapter(context: Context) : RecyclerView.Adapter<KeyboardEn
     override fun onBindViewHolder(holder: EntryViewHolder, position: Int) {
         val entry = entries[position]
         holder.title.text = entry.title
-        holder.subtitle.text = entry.subtitle
+        holder.subtitle.apply {
+            val subtitle = entry.subtitle
+            isVisible = subtitle.isNotEmpty()
+            text = subtitle
+        }
+        holder.icon.apply {
+            val icon = entry.icon
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && icon != null) {
+                isVisible = true
+                setImageIcon(icon)
+            } else {
+                isVisible = false
+            }
+        }
         holder.itemView.isSelected = entry == selectedEntry
         holder.bind(entry, entrySelectionListener)
     }
@@ -76,6 +93,7 @@ class KeyboardEntriesAdapter(context: Context) : RecyclerView.Adapter<KeyboardEn
 
     inner class EntryViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
+        var icon: ImageView = itemView.findViewById(R.id.magikeyboard_entry_icon)
         var title: TextView = itemView.findViewById(R.id.magikeyboard_entry_text)
         var subtitle: TextView = itemView.findViewById(R.id.magikeyboard_entry_subtext)
 
@@ -90,6 +108,7 @@ class KeyboardEntriesAdapter(context: Context) : RecyclerView.Adapter<KeyboardEn
     
     data class KeyboardEntry(
         val id: UUID,
+        val icon: Icon?,
         val title: String,
         val subtitle: String
     )

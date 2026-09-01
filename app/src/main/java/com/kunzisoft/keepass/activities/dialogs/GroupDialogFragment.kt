@@ -36,7 +36,6 @@ import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.model.GroupInfo
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.utils.TimeUtil.getDateTimeString
-import com.kunzisoft.keepass.utils.UUIDUtils.asHexString
 import com.kunzisoft.keepass.utils.getParcelableCompat
 import com.kunzisoft.keepass.view.DateTimeFieldView
 
@@ -140,7 +139,7 @@ class GroupDialogFragment : DatabaseDialogFragment() {
             tagsListView.visibility = if (tags.isEmpty()) View.GONE else View.VISIBLE
             tagsAdapter?.setTags(tags)
             val notes = mGroupInfo.notes
-            if (notes == null || notes.isEmpty()) {
+            if (notes.isNullOrEmpty()) {
                 notesTextLabelView.visibility = View.GONE
                 notesTextView.visibility = View.GONE
             } else {
@@ -155,8 +154,8 @@ class GroupDialogFragment : DatabaseDialogFragment() {
             searchableView.text = stringFromInheritableBoolean(mGroupInfo.searchable)
             autoTypeView.text = stringFromInheritableBoolean(mGroupInfo.enableAutoType,
                 mGroupInfo.defaultAutoTypeSequence)
-            val uuid = mGroupInfo.id?.asHexString()
-            if (uuid == null || uuid.isEmpty()) {
+            val uuid = mGroupInfo.nodeId.toString()
+            if (uuid.isEmpty()) {
                 uuidContainerView.visibility = View.GONE
             } else {
                 uuidReferenceView.text = uuid
@@ -164,6 +163,9 @@ class GroupDialogFragment : DatabaseDialogFragment() {
                     visibility = if (PreferencesUtil.showUUID(context)) View.VISIBLE else View.GONE
                 }
             }
+
+            // To sort by access
+            mDatabaseViewModel.touchGroup(mGroupInfo)
 
             val builder = AlertDialog.Builder(activity)
             builder.setView(root)
@@ -176,7 +178,7 @@ class GroupDialogFragment : DatabaseDialogFragment() {
     }
 
     private fun stringFromInheritableBoolean(enable: Boolean?, value: String? = null): String {
-        val valueString = if (value != null && value.isNotEmpty()) " [$value]" else ""
+        val valueString = if (!value.isNullOrEmpty()) " [$value]" else ""
         return when {
             enable == null -> getString(R.string.inherited) + valueString
             enable -> getString(R.string.enable) + valueString

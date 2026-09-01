@@ -23,11 +23,13 @@ import android.content.Context
 import android.net.Uri
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.MainCredential
-import com.kunzisoft.keepass.database.element.binary.BinaryData
+import com.kunzisoft.keepass.database.element.MasterCredential
 import com.kunzisoft.keepass.database.exception.DatabaseException
 import com.kunzisoft.keepass.database.exception.UnknownDatabaseLocationException
 import com.kunzisoft.keepass.hardware.ChallengeRequest
 import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
+import com.kunzisoft.keepass.utils.AppUtil.getLimits
+import com.kunzisoft.keepass.utils.AppUtil.getRelyingPartyId
 import com.kunzisoft.keepass.utils.getUriInputStream
 
 class MergeDatabaseRunnable(
@@ -36,17 +38,21 @@ class MergeDatabaseRunnable(
     private val mDatabaseToMergeMainCredential: MainCredential?,
     private val mDatabaseToMergeChallengeResponseRetriever: (ChallengeRequest) -> ByteArray,
     database: ContextualDatabase,
-    saveDatabase: Boolean,
+    save: Boolean,
     challengeResponseRetriever: (ChallengeRequest) -> ByteArray,
-    private val progressTaskUpdater: ProgressTaskUpdater?,
+    progressTaskUpdater: ProgressTaskUpdater?
 ) : SaveDatabaseRunnable(
     context = context,
     database = database,
-    saveDatabase = saveDatabase,
+    save = save,
     mainCredential = null,
     challengeOperation = ChallengeRequest.ChallengeOperation.UPDATE,
-    challengeResponseRetriever = challengeResponseRetriever
+    challengeResponseRetriever = challengeResponseRetriever,
+    progressTaskUpdater = progressTaskUpdater
 ) {
+
+    private var mMergeMasterCredential: MasterCredential? = null
+
     override fun onStartRun() {
         database.wasReloaded = true
         super.onStartRun()
@@ -55,21 +61,26 @@ class MergeDatabaseRunnable(
     override fun onActionRun() {
         try {
             val contentResolver = context.contentResolver
+            mMergeMasterCredential = mDatabaseToMergeMainCredential?.toMasterCredential(contentResolver)
             database.mergeData(
-                context.contentResolver.getUriInputStream(
+                databaseToMergeStream = contentResolver.getUriInputStream(
                     mDatabaseToMergeUri ?: database.fileUri
                 ) ?: throw UnknownDatabaseLocationException(),
-                mDatabaseToMergeMainCredential?.toMasterCredential(contentResolver),
-                mDatabaseToMergeChallengeResponseRetriever,
-                { memoryWanted ->
-                    BinaryData.canMemoryBeAllocatedInRAM(context, memoryWanted)
-                },
-                progressTaskUpdater
+                databaseToMergeMasterCredential = mMergeMasterCredential,
+                databaseToMergeChallengeResponseRetriever = mDatabaseToMergeChallengeResponseRetriever,
+                relyingPartyId = context.getRelyingPartyId(),
+                limits = context.getLimits(),
+                progressTaskUpdater = progressTaskUpdater
             )
         } catch (e: DatabaseException) {
             setError(e)
         }
 
         super.onActionRun()
+    }
+
+    override fun onFinishRun() {
+        mMergeMasterCredential?.clear()
+        super.onFinishRun()
     }
 }

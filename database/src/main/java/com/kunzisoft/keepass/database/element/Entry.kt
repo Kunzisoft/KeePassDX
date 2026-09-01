@@ -32,12 +32,11 @@ import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.database.element.node.Node
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.node.NodeIdUUID
-import com.kunzisoft.keepass.database.element.node.Type
+import com.kunzisoft.keepass.database.element.node.NodeType
 import com.kunzisoft.keepass.model.AppOrigin
 import com.kunzisoft.keepass.model.AppOriginEntryField
 import com.kunzisoft.keepass.model.CreditCard
 import com.kunzisoft.keepass.model.CreditCardEntryFields
-import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.model.Passkey
 import com.kunzisoft.keepass.model.PasskeyEntryFields
 import com.kunzisoft.keepass.otp.OtpElement
@@ -45,14 +44,17 @@ import com.kunzisoft.keepass.otp.OtpEntryFields
 import com.kunzisoft.keepass.utils.StringUtil.toFormattedColorInt
 import com.kunzisoft.keepass.utils.StringUtil.toFormattedColorString
 import com.kunzisoft.keepass.utils.readParcelableCompat
+import java.io.IOException
 import java.util.UUID
+
+typealias EntryId = NodeId<UUID>
 
 class Entry : Node, EntryVersionedInterface<Group> {
 
     var entryKDB: EntryKDB? = null
-        private set
+        internal set
     var entryKDBX: EntryKDBX? = null
-        private set
+        internal set
 
     /**
      * Use this constructor to copy an Entry with exact same values
@@ -96,7 +98,7 @@ class Entry : Node, EntryVersionedInterface<Group> {
         dest.writeParcelable(entryKDBX, flags)
     }
 
-    override var nodeId: NodeId<UUID>
+    override var nodeId: EntryId
         get() = entryKDBX?.nodeId ?: entryKDB?.nodeId ?: NodeIdUUID()
         set(value) {
             entryKDB?.nodeId = value
@@ -119,7 +121,7 @@ class Entry : Node, EntryVersionedInterface<Group> {
             entryKDBX?.icon = value
         }
 
-    var tags: Tags
+    override var tags: Tags
         get() = entryKDBX?.tags ?: Tags()
         set(value) {
             entryKDBX?.tags = value
@@ -133,8 +135,8 @@ class Entry : Node, EntryVersionedInterface<Group> {
         entryKDBX?.previousParentGroup = previousParent?.groupKDBX?.id ?: DatabaseVersioned.UUID_ZERO
     }
 
-    override val type: Type
-        get() = Type.ENTRY
+    override val type: NodeType
+        get() = NodeType.ENTRY
 
     override var parent: Group?
         get() {
@@ -175,9 +177,9 @@ class Entry : Node, EntryVersionedInterface<Group> {
         return contained ?: false
     }
 
-    override fun nodeIndexInParentForNaturalOrder(): Int {
-        return entryKDB?.nodeIndexInParentForNaturalOrder()
-                ?: entryKDBX?.nodeIndexInParentForNaturalOrder()
+    override fun indexInParent(): Int {
+        return entryKDB?.indexInParent()
+                ?: entryKDBX?.indexInParent()
                 ?: -1
     }
 
@@ -226,8 +228,8 @@ class Entry : Node, EntryVersionedInterface<Group> {
             entryKDBX?.username = value
         }
 
-    override var password: String
-        get() = entryKDB?.password ?: entryKDBX?.password ?: ""
+    override var password: CharArray
+        get() = entryKDB?.password ?: entryKDBX?.password ?: charArrayOf()
         set(value) {
             entryKDB?.password = value
             entryKDBX?.password = value
@@ -301,16 +303,11 @@ class Entry : Node, EntryVersionedInterface<Group> {
         return if (isTan()) {
             "$PMS_TAN_ENTRY $username"
         } else {
-            if (title.isEmpty())
-                if (url.isEmpty())
-                    if (username.isEmpty())
-                            nodeId.toString()
-                    else
-                        username
-                else
-                    url
-            else
-                title
+            title.ifEmpty {
+                url.ifEmpty {
+                    username.ifEmpty { nodeId.toString() }
+                }
+            }
         }
     }
 
@@ -325,7 +322,7 @@ class Entry : Node, EntryVersionedInterface<Group> {
      * @return Map of label/value
      */
     fun getExtraFields(): List<Field> {
-        val extraFields = ArrayList<Field>()
+        val extraFields = mutableListOf<Field>()
         entryKDBX?.let {
             it.doForEachDecodedCustomField { field ->
                 extraFields.add(field)
@@ -341,20 +338,20 @@ class Entry : Node, EntryVersionedInterface<Group> {
         entryKDBX?.putField(field)
     }
 
-    private fun addExtraFields(fields: List<Field>) {
+    fun addExtraFields(fields: List<Field>) {
         fields.forEach {
             putExtraField(it)
         }
     }
 
-    private fun removeAllFields() {
+    fun removeAllFields() {
         entryKDBX?.removeAllFields()
     }
 
     fun getOtpElement(): OtpElement? {
         entryKDBX?.let {
             return OtpEntryFields.parseFields { key ->
-                it.getFieldValue(key)?.toString()
+                it.getFieldValue(key)?.charArrayValue
             }
         }
         return null
@@ -363,7 +360,7 @@ class Entry : Node, EntryVersionedInterface<Group> {
     fun getCreditCard(): CreditCard? {
         entryKDBX?.let {
             return CreditCardEntryFields.parseFields { key ->
-                it.getFieldValue(key)?.toString()
+                it.getFieldValue(key)?.charArrayValue
             }
         }
         return null
@@ -372,7 +369,7 @@ class Entry : Node, EntryVersionedInterface<Group> {
     fun getPasskey(): Passkey? {
         entryKDBX?.let {
             return PasskeyEntryFields.parseFields { key ->
-                it.getFieldValue(key)?.toString()
+                it.getFieldValue(key)?.charArrayValue
             }
         }
         return null
@@ -380,8 +377,8 @@ class Entry : Node, EntryVersionedInterface<Group> {
 
     fun getAppOrigin(): AppOrigin? {
         entryKDBX?.let {
-            return AppOriginEntryField.parseFields { key ->
-                it.getFieldValue(key)?.toString()
+            return AppOriginEntryField.parseFields(url) { key ->
+                it.getFieldValue(key)?.charArrayValue
             }
         }
         return null
@@ -396,7 +393,7 @@ class Entry : Node, EntryVersionedInterface<Group> {
     }
 
     fun getAttachments(attachmentPool: AttachmentPool, inHistory: Boolean = false): List<Attachment> {
-        val attachments = ArrayList<Attachment>()
+        val attachments = mutableListOf<Attachment>()
         entryKDB?.getAttachment(attachmentPool)?.let {
             attachments.add(it)
         }
@@ -416,23 +413,33 @@ class Entry : Node, EntryVersionedInterface<Group> {
         entryKDBX?.removeAttachment(attachment)
     }
 
-    private fun removeAllAttachments() {
+    fun removeAllAttachments() {
         entryKDB?.removeAttachment()
         entryKDBX?.removeAttachments()
     }
 
-    private fun putAttachment(attachment: Attachment, attachmentPool: AttachmentPool) {
+    fun putAttachment(attachment: Attachment, attachmentPool: AttachmentPool) {
         entryKDB?.putAttachment(attachment, attachmentPool)
         entryKDBX?.putAttachment(attachment, attachmentPool)
     }
 
-    fun getHistory(): ArrayList<Entry> {
-        val history = ArrayList<Entry>()
-        val entryKDBXHistory = entryKDBX?.history ?: ArrayList()
+    fun getHistory(): List<Entry> {
+        if (isHistoric())
+            throw IOException("Cannot get history from a historical entry")
+        val history = mutableListOf<Entry>()
+        val entryKDBXHistory = entryKDBX?.history ?: listOf()
         for (entryHistory in entryKDBXHistory) {
             history.add(Entry(entryHistory))
         }
         return history
+    }
+
+    fun getMainEntryHistoryId(): EntryId {
+        return entryKDBX?.historyMainEntryId?.let { NodeIdUUID(it) } ?: nodeId
+    }
+
+    fun isHistoric(): Boolean {
+        return entryKDBX?.isHistoric() ?: false
     }
 
     fun addEntryToHistory(entry: Entry) {
@@ -455,106 +462,12 @@ class Entry : Node, EntryVersionedInterface<Group> {
         return null
     }
 
+    fun clearHistory() {
+        entryKDBX?.clearHistory()
+    }
+
     fun getSize(attachmentPool: AttachmentPool): Long {
         return entryKDBX?.getSize(attachmentPool) ?: 0L
-    }
-
-    /*
-      ------------
-      Converter
-      ------------
-     */
-
-    /**
-     * Retrieve generated entry info.
-     * If are not [raw] data, remove parameter fields and add auto generated elements in auto custom fields
-     */
-    fun getEntryInfo(database: Database?,
-                     raw: Boolean = false,
-                     removeTemplateConfiguration: Boolean = true): EntryInfo {
-        val entryInfo = EntryInfo()
-        // Remove unwanted template fields
-        val baseInfo = if (removeTemplateConfiguration)
-            database?.removeTemplateConfiguration(this) ?: this
-        else
-            this
-        baseInfo.apply {
-            if (raw)
-                database?.stopManageEntry(this)
-            else
-                database?.startManageEntry(this)
-
-            entryInfo.id = nodeId.id
-            entryInfo.title = title
-            entryInfo.icon = icon
-            entryInfo.username = username
-            entryInfo.password = password
-            entryInfo.creationTime = creationTime
-            entryInfo.lastModificationTime = lastModificationTime
-            entryInfo.expires = expires
-            entryInfo.expiryTime = expiryTime
-            entryInfo.url = url
-            entryInfo.notes = notes
-            entryInfo.tags = tags
-            entryInfo.backgroundColor = backgroundColor
-            entryInfo.foregroundColor = foregroundColor
-            entryInfo.customData = customData
-            entryInfo.autoType = autoType
-            entryInfo.customFields = getExtraFields().toMutableList()
-            // Add otpElement to generate token
-            entryInfo.otpModel = getOtpElement()?.otpModel
-            // Add Credit Card
-            entryInfo.creditCard = getCreditCard()
-            // Add Passkey
-            entryInfo.passkey = getPasskey()
-            entryInfo.appOrigin = getAppOrigin()
-            if (!raw) {
-                // Replace parameter fields by generated OTP fields
-                entryInfo.customFields = OtpEntryFields.generateAutoFields(entryInfo.customFields)
-                entryInfo.customFields = PasskeyEntryFields.generateAutoFields(entryInfo.customFields)
-            }
-            database?.attachmentPool?.let { binaryPool ->
-                entryInfo.attachments = getAttachments(binaryPool).toMutableList()
-            }
-
-            if (!raw)
-                database?.stopManageEntry(this)
-        }
-        return entryInfo
-    }
-
-    fun setEntryInfo(database: Database?, newEntryInfo: EntryInfo) {
-        database?.startManageEntry(this)
-
-        removeAllFields()
-        removeAllAttachments()
-        // NodeId stay as is
-        title = newEntryInfo.title
-        icon = newEntryInfo.icon
-        username = newEntryInfo.username
-        password = newEntryInfo.password
-        // Update date time, creation time stay as is
-        lastModificationTime = DateInstant()
-        lastAccessTime = DateInstant()
-        expires = newEntryInfo.expires
-        expiryTime = newEntryInfo.expiryTime
-        url = newEntryInfo.url
-        notes = newEntryInfo.notes
-        tags = newEntryInfo.tags
-        backgroundColor = newEntryInfo.backgroundColor
-        foregroundColor = newEntryInfo.foregroundColor
-        customData = newEntryInfo.customData
-        autoType = newEntryInfo.autoType
-        addExtraFields(newEntryInfo.customFields)
-        // WARNING : Custom objects like creditCard, passkey and appOrigin are not directly saved
-        // Priority to custom fields
-        database?.attachmentPool?.let { binaryPool ->
-            newEntryInfo.attachments.forEach { attachment ->
-                putAttachment(attachment, binaryPool)
-            }
-        }
-
-        database?.stopManageEntry(this)
     }
 
     override fun equals(other: Any?): Boolean {

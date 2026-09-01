@@ -23,12 +23,14 @@ import android.content.Context
 import android.net.Uri
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.MainCredential
-import com.kunzisoft.keepass.database.element.binary.BinaryData
+import com.kunzisoft.keepass.database.element.MasterCredential
 import com.kunzisoft.keepass.database.exception.DatabaseInputException
 import com.kunzisoft.keepass.database.exception.UnknownDatabaseLocationException
 import com.kunzisoft.keepass.hardware.ChallengeRequest
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
+import com.kunzisoft.keepass.utils.AppUtil.getLimits
+import com.kunzisoft.keepass.utils.AppUtil.getRelyingPartyId
 import com.kunzisoft.keepass.utils.getBinaryDir
 import com.kunzisoft.keepass.utils.getUriInputStream
 
@@ -44,6 +46,7 @@ class LoadDatabaseRunnable(
     private val progressTaskUpdater: ProgressTaskUpdater?
 ) : ActionRunnable() {
 
+    private var mMasterCredential: MasterCredential? = null
     var afterLoadDatabase : ((Result) -> Unit)? = null
 
     private val binaryDir = context.getBinaryDir()
@@ -58,22 +61,24 @@ class LoadDatabaseRunnable(
             val contentResolver = context.contentResolver
             // Save database URI
             mDatabase.fileUri = mDatabaseUri
+            mMasterCredential = mMainCredential.toMasterCredential(contentResolver)
             mDatabase.loadData(
-                contentResolver.getUriInputStream(mDatabaseUri)
+                databaseStream = contentResolver.getUriInputStream(mDatabaseUri)
                     ?: throw UnknownDatabaseLocationException(),
-                mMainCredential.toMasterCredential(contentResolver),
-                mChallengeResponseRetriever,
-                mReadonly,
-                mAllowUserVerification,
-                binaryDir,
-                { memoryWanted ->
-                    BinaryData.canMemoryBeAllocatedInRAM(context, memoryWanted)
-                },
-                mFixDuplicateUUID,
-                progressTaskUpdater
+                masterCredential = mMasterCredential!!,
+                challengeResponseRetriever = mChallengeResponseRetriever,
+                readOnly = mReadonly,
+                allowUserVerification = mAllowUserVerification,
+                cacheDirectory = binaryDir,
+                relyingPartyId = context.getRelyingPartyId(),
+                limits = context.getLimits(),
+                fixDuplicateUUID = mFixDuplicateUUID,
+                progressTaskUpdater = progressTaskUpdater
             )
         } catch (e: DatabaseInputException) {
             setError(e)
+        } finally {
+            mDatabase.indicateUpToDateData()
         }
 
         if (!result.isSuccess) {
@@ -82,6 +87,7 @@ class LoadDatabaseRunnable(
     }
 
     override fun onFinishRun() {
+        mMasterCredential?.clear()
         afterLoadDatabase?.invoke(result)
     }
 }

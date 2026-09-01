@@ -661,8 +661,9 @@ public class KeyboardView extends View implements View.OnClickListener {
     }
 
     private void onBufferDraw() {
-        if (mBuffer == null || mKeyboardChanged) {
-            if (mBuffer == null || mKeyboardChanged &&
+        if (mBuffer == null || mKeyboardChanged ||
+                (mBuffer.getWidth() != getWidth() || mBuffer.getHeight() != getHeight())) {
+            if (mBuffer == null ||
                     (mBuffer.getWidth() != getWidth() || mBuffer.getHeight() != getHeight())) {
                 // Make sure our bitmap is at least 1x1
                 final int width = Math.max(1, getWidth());

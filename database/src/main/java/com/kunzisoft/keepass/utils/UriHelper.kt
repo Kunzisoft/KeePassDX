@@ -29,10 +29,15 @@ import android.content.pm.ResolveInfo
 import android.net.Uri
 import android.os.Build
 import android.util.Log
-import java.io.*
+import java.io.File
+import java.io.FileInputStream
+import java.io.FileNotFoundException
+import java.io.FileOutputStream
+import java.io.InputStream
+import java.io.OutputStream
 import java.net.MalformedURLException
 import java.net.URL
-import java.util.*
+import java.util.Locale
 
 fun String.parseUri(): Uri? {
     return if (this.isNotEmpty()) Uri.parse(this) else null

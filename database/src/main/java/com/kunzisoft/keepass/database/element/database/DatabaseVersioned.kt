@@ -29,9 +29,11 @@ import com.kunzisoft.keepass.database.element.group.GroupVersioned
 import com.kunzisoft.keepass.database.element.icon.IconImageStandard
 import com.kunzisoft.keepass.database.element.icon.IconsManager
 import com.kunzisoft.keepass.database.element.node.NodeId
-import com.kunzisoft.keepass.database.element.node.Type
+import com.kunzisoft.keepass.database.element.node.NodeType
 import com.kunzisoft.keepass.database.exception.DuplicateUuidDatabaseException
+import com.kunzisoft.keepass.utils.clear
 import java.io.UnsupportedEncodingException
+import java.nio.CharBuffer
 import java.nio.charset.Charset
 import java.util.UUID
 
@@ -48,14 +50,13 @@ abstract class DatabaseVersioned<
 
     abstract var kdfEngine: KdfEngine?
     abstract val kdfAvailableList: List<KdfEngine>
-    abstract var numberKeyEncryptionRounds: Long
 
     abstract val passwordEncoding: Charset
 
     var masterKey = ByteArray(32)
     var finalKey: ByteArray? = null
         protected set
-    var transformSeed: ByteArray? = null
+    open var transformSeed: ByteArray? = null
     open var fidoCredentials: List<ByteArray> = listOf()
 
     var checkKey = ByteArray(32)
@@ -91,7 +92,7 @@ abstract class DatabaseVersioned<
         return getGroupIndexes().filter { it != rootGroup }
     }
 
-    open fun isValidCredential(password: String?, containsKeyFile: Boolean): Boolean {
+    open fun isValidCredential(password: CharArray?, containsKeyFile: Boolean): Boolean {
         if (password == null && !containsKeyFile)
             return false
 
@@ -102,25 +103,30 @@ abstract class DatabaseVersioned<
 
         val bKey: ByteArray
         try {
-            bKey = password.toByteArray(encoding)
+            val charBuffer = CharBuffer.wrap(password)
+            val byteBuffer = encoding.encode(charBuffer)
+            bKey = ByteArray(byteBuffer.remaining())
+            byteBuffer.get(bKey)
         } catch (_: UnsupportedEncodingException) {
             return false
         }
 
-        val reEncoded: String
+        val reEncoded: CharArray
         try {
-            reEncoded = String(bKey, encoding)
+            reEncoded = String(bKey, encoding).toCharArray()
         } catch (_: UnsupportedEncodingException) {
             return false
         }
-        return password == reEncoded
+        val res = password.contentEquals(reEncoded)
+        bKey.clear()
+        reEncoded.clear()
+        return res
     }
 
     fun copyMasterKeyFrom(databaseVersioned: DatabaseVersioned<GroupId, EntryId, Group, Entry>) {
-        this.masterKey = databaseVersioned.masterKey
-        this.transformSeed = databaseVersioned.transformSeed
-        this.fidoCredentials = databaseVersioned.fidoCredentials
-        this.checkKey = databaseVersioned.checkKey
+        this.masterKey = databaseVersioned.masterKey.copyOf()
+        this.checkKey = databaseVersioned.checkKey.copyOf()
+        this.fidoCredentials = databaseVersioned.fidoCredentials // TODO Copy
     }
 
     /*
@@ -171,7 +177,7 @@ abstract class DatabaseVersioned<
                 group.parent?.addChildGroup(group)
                 this.groupIndexes[newGroupId] = group
             } else {
-                throw DuplicateUuidDatabaseException(Type.GROUP, groupId)
+                throw DuplicateUuidDatabaseException(NodeType.GROUP, groupId)
             }
         } else {
             this.groupIndexes[groupId] = group
@@ -207,7 +213,7 @@ abstract class DatabaseVersioned<
                 entry.parent?.addChildEntry(entry)
                 this.entryIndexes[newEntryId] = entry
             } else {
-                throw DuplicateUuidDatabaseException(Type.ENTRY, entryId)
+                throw DuplicateUuidDatabaseException(NodeType.ENTRY, entryId)
             }
         } else {
             this.entryIndexes[entryId] = entry
@@ -233,14 +239,14 @@ abstract class DatabaseVersioned<
 
     abstract fun getStandardIcon(iconId: Int): IconImageStandard
 
-    fun addGroupTo(newGroup: Group, parent: Group?) {
+    open fun addGroupTo(newGroup: Group, parent: Group?) {
         // Add tree to parent tree
         parent?.addChildGroup(newGroup)
         newGroup.parent = parent
         addGroupIndex(newGroup)
     }
 
-    fun updateGroup(group: Group) {
+    open fun updateGroup(group: Group) {
         group.parent?.updateChildGroup(group)
         val groupId = group.nodeId
         if (groupIndexes.containsKey(groupId)) {
@@ -277,6 +283,13 @@ abstract class DatabaseVersioned<
 
     abstract fun isInRecycleBin(group: Group): Boolean
 
+    open fun clearSensitiveData() {
+        masterKey.clear()
+        finalKey?.clear()
+        checkKey.clear()
+        transformSeed?.clear()
+    }
+
     fun clearIconsCache() {
         iconsManager.doForEachCustomIcon { _, binary ->
             try {
@@ -304,6 +317,7 @@ abstract class DatabaseVersioned<
     }
 
     fun clearAll() {
+        clearSensitiveData()
         clearIndexes()
         clearIconsCache()
         clearAttachmentsCache()

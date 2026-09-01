@@ -7,11 +7,16 @@ import android.os.Parcelable
 import com.kunzisoft.keepass.otp.OtpEntryFields
 import com.kunzisoft.keepass.utils.ObjectNameResource
 import com.kunzisoft.keepass.utils.readBooleanCompat
+import com.kunzisoft.keepass.utils.readListCompat
 import com.kunzisoft.keepass.utils.writeBooleanCompat
+import com.kunzisoft.keepass.utils.writeListCompat
 
 class SearchInfo : ObjectNameResource, Parcelable {
     var manualSelection: Boolean = false
-    var tag: String? = null
+
+    var isTagSearch: Boolean = false
+    var tags: List<String> = listOf()
+
     var applicationId: String? = null
         set(value) {
             field = when {
@@ -20,7 +25,7 @@ class SearchInfo : ObjectNameResource, Parcelable {
                 else -> null
             }
         }
-    // A web domain can also containing an IP
+    // A web domain can also include an IP
     var webDomain: String? = null
         set(value) {
             field = when {
@@ -42,7 +47,8 @@ class SearchInfo : ObjectNameResource, Parcelable {
 
     constructor(toCopy: SearchInfo?) {
         manualSelection = toCopy?.manualSelection ?: manualSelection
-        tag = toCopy?.tag
+        isTagSearch = toCopy?.isTagSearch ?: isTagSearch
+        tags = toCopy?.tags ?: listOf()
         applicationId = toCopy?.applicationId
         webDomain = toCopy?.webDomain
         webScheme = toCopy?.webScheme
@@ -53,8 +59,8 @@ class SearchInfo : ObjectNameResource, Parcelable {
 
     private constructor(parcel: Parcel) {
         manualSelection = parcel.readBooleanCompat()
-        val readTag = parcel.readString()
-        tag = if (readTag.isNullOrEmpty()) null else readTag
+        isTagSearch = parcel.readBooleanCompat()
+        tags = parcel.readListCompat()
         val readAppId = parcel.readString()
         applicationId = if (readAppId.isNullOrEmpty()) null else readAppId
         val readDomain = parcel.readString()
@@ -76,7 +82,8 @@ class SearchInfo : ObjectNameResource, Parcelable {
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeBooleanCompat(manualSelection)
-        parcel.writeString(tag ?: "")
+        parcel.writeBooleanCompat(isTagSearch)
+        parcel.writeListCompat(tags)
         parcel.writeString(applicationId ?: "")
         parcel.writeString(webDomain ?: "")
         parcel.writeString(webScheme ?: "")
@@ -95,7 +102,7 @@ class SearchInfo : ObjectNameResource, Parcelable {
     }
 
     fun containsOnlyNullValues(): Boolean {
-        return tag == null
+        return tags.isEmpty()
                 && applicationId == null
                 && webDomain == null
                 && webScheme == null
@@ -103,10 +110,6 @@ class SearchInfo : ObjectNameResource, Parcelable {
                 && credentialIds.isEmpty()
                 && otpString == null
     }
-
-    var isTagSearch: Boolean = false
-        get() = tag != null
-        private set
 
     var isAppIdSearch: Boolean = false
         get() = applicationId != null
@@ -129,7 +132,8 @@ class SearchInfo : ObjectNameResource, Parcelable {
         if (other !is SearchInfo) return false
 
         if (manualSelection != other.manualSelection) return false
-        if (tag != other.tag) return false
+        if (isTagSearch != other.isTagSearch) return false
+        if (tags != other.tags) return false
         if (applicationId != other.applicationId) return false
         if (webDomain != other.webDomain) return false
         if (webScheme != other.webScheme) return false
@@ -142,7 +146,8 @@ class SearchInfo : ObjectNameResource, Parcelable {
 
     override fun hashCode(): Int {
         var result = manualSelection.hashCode()
-        result = 31 * result + (tag?.hashCode() ?: 0)
+        result = 31 * result + (isTagSearch.hashCode())
+        result = 31 * result + (tags.hashCode())
         result = 31 * result + (applicationId?.hashCode() ?: 0)
         result = 31 * result + (webDomain?.hashCode() ?: 0)
         result = 31 * result + (webScheme?.hashCode() ?: 0)
@@ -153,7 +158,7 @@ class SearchInfo : ObjectNameResource, Parcelable {
     }
 
     override fun toString(): String {
-        return otpString ?: webDomain ?: applicationId ?: relyingParty ?: tag ?: ""
+        return otpString ?: webDomain ?: applicationId ?: relyingParty ?: if (tags.isEmpty()) "" else tags.toString()
     }
 
     fun optionsString(): List<String> {

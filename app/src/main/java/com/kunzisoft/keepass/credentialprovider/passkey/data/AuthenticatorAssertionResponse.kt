@@ -21,20 +21,21 @@ package com.kunzisoft.keepass.credentialprovider.passkey.data
 
 import android.util.Log
 import androidx.credentials.exceptions.GetCredentialUnknownException
-import com.kunzisoft.encrypt.Signature
 import com.kunzisoft.encrypt.Base64Helper.Companion.b64Encode
+import com.kunzisoft.encrypt.Signature
 import org.json.JSONObject
 
 class AuthenticatorAssertionResponse(
-    private val requestOptions: PublicKeyCredentialRequestOptions,
+    requestOptions: PublicKeyCredentialRequestOptions,
     private val userPresent: Boolean,
     private val userVerified: Boolean,
     private val backupEligibility: Boolean,
     private val backupState: Boolean,
     private var userHandle: String,
-    privateKey: String,
+    privateKey: CharArray,
     private val clientDataResponse: ClientDataResponse,
-) : AuthenticatorResponse {
+    override val clientExtensionResults: AuthenticationExtensionsClientOutputs? = null
+) : AuthenticatorExtensionResponse {
 
     override var clientJson = JSONObject()
     private var authenticatorData: ByteArray = AuthenticatorData.buildAuthenticatorData(
@@ -42,13 +43,23 @@ class AuthenticatorAssertionResponse(
         userPresent = userPresent,
         userVerified = userVerified,
         backupEligibility = backupEligibility,
-        backupState = backupState
-    )
+        backupState = backupState,
+        extensionsPresent = clientExtensionResults?.prf != null
+    ).let {
+        val prfAuthData = clientExtensionResults?.toAuthDataCbor(isRegistration = false)
+        if (prfAuthData != null) {
+            it + Cbor().encode(prfAuthData)
+        } else {
+            it
+        }
+    }
     private var signature: ByteArray = byteArrayOf()
 
     init {
         try {
-            signature = Signature.sign(privateKey, dataToSign())
+            // Wiped with the finally block, fix #2554
+            val privateKeyCopy = privateKey.copyOf()
+            signature = Signature.sign(privateKeyCopy, dataToSign())
         } catch (e: Exception) {
             Log.e(this::class.java.simpleName, "Unable to sign: ${e.message}")
             throw GetCredentialUnknownException("Signing failed")
@@ -65,7 +76,7 @@ class AuthenticatorAssertionResponse(
             put("clientDataJSON", clientDataResponse.buildResponse())
             put("authenticatorData", b64Encode(authenticatorData))
             put("signature", b64Encode(signature))
-            put("userHandle", userHandle)
+            put("userHandle", userHandle.ifEmpty { JSONObject.NULL })
         }
     }
 }

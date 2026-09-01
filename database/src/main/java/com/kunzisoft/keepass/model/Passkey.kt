@@ -20,18 +20,37 @@
 package com.kunzisoft.keepass.model
 
 import android.os.Parcelable
+import com.kunzisoft.keepass.utils.CharArrayUtil.clear
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class Passkey(
     val username: String,
-    val privateKeyPem: String,
+    val privateKeyPem: CharArray,
     val credentialId: String,
     val userHandle: String,
     val relyingParty: String,
     val backupEligibility: Boolean?,
-    val backupState: Boolean?
+    val backupState: Boolean?,
+    val prfSecret: CharArray? = null
 ): Parcelable {
+
+    constructor(passkey: Passkey) : this(
+        passkey.username,
+        passkey.privateKeyPem.copyOf(),
+        passkey.credentialId,
+        passkey.userHandle,
+        passkey.relyingParty,
+        passkey.backupEligibility,
+        passkey.backupState,
+        passkey.prfSecret?.copyOf()
+    )
+
+    fun clear() {
+        privateKeyPem.clear()
+        prfSecret?.clear()
+    }
+
     // Do not compare BE and BS because are modifiable by the user
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
@@ -40,20 +59,25 @@ data class Passkey(
         other as Passkey
 
         if (username != other.username) return false
-        if (privateKeyPem != other.privateKeyPem) return false
+        if (!privateKeyPem.contentEquals(other.privateKeyPem)) return false
         if (credentialId != other.credentialId) return false
         if (userHandle != other.userHandle) return false
         if (relyingParty != other.relyingParty) return false
+        if (prfSecret != null) {
+            if (other.prfSecret == null) return false
+            if (!prfSecret.contentEquals(other.prfSecret)) return false
+        } else if (other.prfSecret != null) return false
 
         return true
     }
 
     override fun hashCode(): Int {
         var result = username.hashCode()
-        result = 31 * result + privateKeyPem.hashCode()
+        result = 31 * result + privateKeyPem.contentHashCode()
         result = 31 * result + credentialId.hashCode()
         result = 31 * result + userHandle.hashCode()
         result = 31 * result + relyingParty.hashCode()
+        result = 31 * result + (prfSecret?.contentHashCode() ?: 0)
         return result
     }
 }

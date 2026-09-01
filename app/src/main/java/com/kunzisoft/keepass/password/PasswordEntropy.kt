@@ -22,12 +22,17 @@ package com.kunzisoft.keepass.password
 import android.content.res.Resources
 import android.graphics.Color
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.utils.IOActionTask
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Deferred
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import me.gosimple.nbvcxz.Nbvcxz
 import me.gosimple.nbvcxz.resources.Configuration
 import me.gosimple.nbvcxz.resources.ConfigurationBuilder
-import java.util.*
+import java.util.Locale
 import kotlin.math.min
 
 class PasswordEntropy(actionOnInitFinished: (() -> Unit)? = null) {
@@ -36,16 +41,17 @@ class PasswordEntropy(actionOnInitFinished: (() -> Unit)? = null) {
     private var entropyJob: Job? = null
 
     init {
-        IOActionTask({
-            // Create the password generator object
-            val configuration: Configuration = ConfigurationBuilder()
-                .setLocale(Locale.getDefault())
-                .setMinimumEntropy(80.0)
-                .createConfiguration()
-            mPasswordEntropyCalculator = Nbvcxz(configuration)
-        }, {
+        CoroutineScope(Dispatchers.Main).launch {
+            withContext(Dispatchers.IO) {
+                // Create the password generator object
+                val configuration: Configuration = ConfigurationBuilder()
+                    .setLocale(Locale.getDefault())
+                    .setMinimumEntropy(80.0)
+                    .createConfiguration()
+                mPasswordEntropyCalculator = Nbvcxz(configuration)
+            }
             actionOnInitFinished?.invoke()
-        }).execute()
+        }
     }
 
     enum class Strength(val color: Int) {

@@ -103,7 +103,7 @@
     <string name="error_can_not_handle_uri">ไม่สามารถเปิด ยูอาร์ไอ นี้ใน คียพาสดีเอ็กซ์ ได้</string>
     <string name="error_file_not_create">ไม่สามารถสร้างไฟล์</string>
     <string name="error_label_exists">ป้ายกำกับนี้มีอยู่แล้ว</string>
-    <string name="error_rounds_too_large">\"รอบการเปลี่ยนรูปแบบ\" สูงเกินไป ตั้งค่าเป็น 2147483648</string>
+    <string name="error_rounds_too_large">\"รอบการเปลี่ยนรูปแบบ\" สูงเกินไป ตั้งค่าเป็น %1$s</string>
     <string name="error_wrong_length">ป้อนจำนวนเต็มบวกในช่อง \"ความยาว\"</string>
     <string name="error_autofill_enable_service">ไม่สามารถเปิดใช้งานบริการป้อนข้อมูลอัตโนมัติ</string>
     <string name="error_field_name_already_exists">ชื่อช่องนี้มีอยู่แล้ว</string>
@@ -362,7 +362,6 @@
     <string name="keyboard_label">เมจิคีย์บอร์ด (KeePassDX)</string>
     <string name="keyboard_setting_label">การตั้งค่า เมจิคีย์บอร์ด</string>
     <string name="keyboard_entry_category">รายการ</string>
-    <string name="keyboard_selection_entry_title">การเลือกรายการ</string>
     <string name="keyboard_notification_entry_title">ข้อมูลการแจ้งเตือน</string>
     <string name="keyboard_notification_entry_summary">แสดงการแจ้งเตือนเพิ่มมีรายการให้ใช้งาน</string>
     <string name="keyboard_save_search_info_title">บันทึกข้อมูลที่ใช้ร่วมกัน</string>
@@ -565,7 +564,6 @@
     <string name="database_custom_color_title">สีของฐานข้อมูลที่กำหนดเอง</string>
     <string name="database_version_title">รุ่นของฐานข้อมูล</string>
     <string name="application_appearance">อินเตอร์เฟส</string>
-    <string name="keyboard_selection_entry_summary">เมื่อดูรายการใน คียพาสดีเอ็กซ์, เมจิคีย์บอร์ด จะใช้รายการนั้นด้วย</string>
     <string name="keyboard_save_search_info_summary">พยายามบันทึกข้อมูลที่ใช้ร่วมกันเมื่อเลือกกรอกรายการนั้นด้วยตนเองเพื่อใช้งานในอนาคตง่ายขึ้น</string>
     <string name="keyboard_notification_entry_clear_close_summary">ปิดฐานข้อมูลเมื่อปิดการแจ้งเตือน</string>
     <string name="text_appearance">ลักษณะตัวหนังสือ</string>
@@ -718,8 +716,6 @@
     <string name="check">ตรวจสอบ</string>
     <string name="menu_user_verification_disabled">ปิดใช้งานการตรวจสอบผู้ใช้</string>
     <string name="menu_user_verification_enabled">เปิดใช้งานการตรวจสอบผู้ใช้</string>
-    <string name="user_verification_mode_summary">เปิดใช้งานโหมดการตรวจสอบผู้ใช้โดยค่าเริ่มต้นเมื่อเปิดฐานข้อมูล</string>
-    <string name="user_verification_mode_title">โหมดการตรวจสอบผู้ใช้</string>
     <string name="user_verification">การตรวจสอบผู้ใช้</string>
     <string name="education_user_verification_title">การยืนยันสำหรับการกระทำที่ละเอียดอ่อน</string>
     <string name="education_user_verification_summary">การสลับโหมดการยืนยันผู้ใช้สำหรับเซสชั่นนี้. \n \n\"เปิดใช้งานการยืนยันผู้ใช้\" สำหรับการกระทำกับเขตข้อมูลที่ถูกป้องกันไว้และการตั้งค่าฐานข้อมูลต่างๆ\n\"เปิดใช้งานการยืนยันผู้ใช้\" ให้คุณเปลื่ยนแปลงข้อมูลต่างๆในฐานข้อมูลได้โดยไม่ต้องยืนยัน</string>

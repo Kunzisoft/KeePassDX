@@ -159,7 +159,7 @@ abstract class BinaryPool<T> {
      */
     protected fun orderedBinariesWithoutDuplication(condition: ((binary: BinaryData) -> Boolean) = { true })
     : List<KeyBinary<T>> {
-        val keyBinaryList = ArrayList<KeyBinary<T>>()
+        val keyBinaryList = mutableListOf<KeyBinary<T>>()
         for ((key, binary) in pool) {
             // Don't deduplicate
             val existentBinary =

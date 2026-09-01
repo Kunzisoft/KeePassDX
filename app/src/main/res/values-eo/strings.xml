@@ -130,7 +130,7 @@
     <string name="allow">Permesi</string>
     <string name="brackets">Krampoj</string>
     <string name="application">Aplikaĵo</string>
-    <string name="app_timeout">Tempolimo de aplikaĵo</string>
+    <string name="app_timeout">Tempolimo</string>
     <string name="encryption_algorithm">Ĉifrada algoritmo</string>
     <string name="encryption">Ĉifrado</string>
     <string name="security">Sekureco</string>
@@ -143,11 +143,14 @@
     <string name="contribution">Kontribuo</string>
     <string name="contact">Kontakto</string>
     <string name="clipboard_error">Iu aparatoj ne permesas al apoj uzi tondujon.</string>
-    <string name="about_description">Varianto de pasvort-manipulilo KeePass por Android</string>
+    <string name="about_description">Varianto de pasvort-manipulilo KeePass por Android.</string>
     <string name="key_derivation_function">Funkcio por derivado de ŝlosilo</string>
     <string name="info">Informo</string>
     <string name="feedback">Erar-raportoj kaj sugestoj</string>
     <string name="file_manager_install_description">Por krei, malfermi kaj konservi datumbazaj dosieroj necesiĝas dosier-manipulilo, kiu akceptas intenco-agojn ACTION_CREATE_DOCUMENT kaj ACTION_OPEN_DOCUMENT.</string>
     <string name="app_timeout_summary">Periodo de malaktiveco antaŭ ŝlosado de datumbazo</string>
     <string name="extended_ASCII">Etendita ASCII</string>
+    <string name="clipboard_timeout_summary">Daŭro de stokado en la tondujo (se subtenata de via aparato)</string>
+    <string name="content_description_password_checkbox">Pasvorta markobutono</string>
+    <string name="content_description_database_color">Datumbazo koloro</string>
 </resources>

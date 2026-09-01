@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    tools:parentTag="android.widget.FrameLayout">
+    <com.google.android.material.progressindicator.CircularProgressIndicator
+        android:id="@+id/otp_circular_progress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:indicatorSize="24dp"
+        app:trackThickness="@dimen/progress_thickness"
+        app:indicatorDirectionCircular="counterclockwise"
+        app:indicatorColor="?attr/colorSecondary"
+        android:layout_gravity="center" />
+    <TextView
+        android:id="@+id/otp_text_progress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/KeepassDXStyle.Text.Indicator"
+        android:layout_gravity="center"
+        tools:text="60"/>
+</merge>

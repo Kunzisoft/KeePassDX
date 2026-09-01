@@ -1,3 +1,22 @@
+/*
+ * Copyright 2025 Jeremy Jamet / Kunzisoft.
+ *
+ * This file is part of KeePassDX.
+ *
+ *  KeePassDX is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  KeePassDX is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
 package com.kunzisoft.keepass.credentialprovider.viewmodel
 
 import android.app.Activity.RESULT_CANCELED
@@ -25,8 +44,7 @@ import com.kunzisoft.keepass.credentialprovider.passkey.util.PasswordHelper.retr
 import com.kunzisoft.keepass.credentialprovider.passkey.util.PasswordHelper.retrievePasswordInfo
 import com.kunzisoft.keepass.credentialprovider.passkey.util.PasswordHelper.retrievePasswordUsageRequestParameters
 import com.kunzisoft.keepass.database.ContextualDatabase
-import com.kunzisoft.keepass.database.element.Entry
-import com.kunzisoft.keepass.database.element.node.NodeIdUUID
+import com.kunzisoft.keepass.database.element.EntryId
 import com.kunzisoft.keepass.database.helper.SearchHelper
 import com.kunzisoft.keepass.model.AppOrigin
 import com.kunzisoft.keepass.model.PasswordInfo
@@ -35,13 +53,10 @@ import com.kunzisoft.keepass.model.SearchInfo
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.IOException
 import java.io.InvalidObjectException
-import java.util.UUID
 
 @RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
 class PasswordLauncherViewModel(application: Application): CredentialLauncherViewModel(application) {
@@ -53,9 +68,6 @@ class PasswordLauncherViewModel(application: Application): CredentialLauncherVie
     private var mAppOrigin: AppOrigin? = null
 
     private var mLockDatabaseAfterSelection: Boolean = false
-
-    private val mUiState = MutableStateFlow<UIState>(UIState.Loading)
-    val uiState: StateFlow<UIState> = mUiState
 
     fun initialize() {
         mLockDatabaseAfterSelection = PreferencesUtil.isPasskeyCloseDatabaseEnable(getApplication())
@@ -111,7 +123,7 @@ class PasswordLauncherViewModel(application: Application): CredentialLauncherVie
     private suspend fun launchSelection(
         intent: Intent,
         database: ContextualDatabase?,
-        nodeId: UUID?,
+        nodeId: EntryId?,
         searchInfo: SearchInfo
     ) {
         withContext(Dispatchers.IO) {
@@ -166,12 +178,13 @@ class PasswordLauncherViewModel(application: Application): CredentialLauncherVie
     ) {
         withContext(Dispatchers.IO) {
             // Check AppOrigin
-            if (passwordInfo.appOrigin != mAppOrigin)
+            val origin = passwordInfo.appOrigin
+            if (origin == null || origin.isTheSameOriginThan(mAppOrigin).not())
                 throw SecurityException("Password origin do not match")
             else {
                 val passwordCredential = PasswordCredential(
                     id = passwordInfo.username,
-                    password = passwordInfo.password
+                    password = String(passwordInfo.password)
                 )
                 // Build the response
                 val result = Intent()
@@ -188,12 +201,11 @@ class PasswordLauncherViewModel(application: Application): CredentialLauncherVie
 
     private suspend fun selectPasswordAndSetResult(
         database: ContextualDatabase?,
-        nodeId: UUID
+        nodeId: EntryId
     ) {
         // To get the password from the database
         val entry = database
-            ?.getEntryById(NodeIdUUID(nodeId))
-            ?.getEntryInfo(database)
+            ?.getEntryInfoById(nodeId)
             ?: throw IOException(
                 "No entry with nodeId $nodeId found"
             )
@@ -335,14 +347,6 @@ class PasswordLauncherViewModel(application: Application): CredentialLauncherVie
                 }
             }
         }
-    }
-
-    sealed class UIState {
-        object Loading : UIState()
-        data class UpdateEntry(
-            val oldEntry: Entry,
-            val newEntry: Entry
-        ): UIState()
     }
 
     companion object {

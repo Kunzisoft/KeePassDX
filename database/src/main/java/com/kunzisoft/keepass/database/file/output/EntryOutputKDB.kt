@@ -22,19 +22,27 @@ package com.kunzisoft.keepass.database.file.output
 import com.kunzisoft.keepass.database.element.database.DatabaseKDB
 import com.kunzisoft.keepass.database.element.entry.EntryKDB
 import com.kunzisoft.keepass.database.exception.DatabaseOutputException
-import com.kunzisoft.keepass.utils.*
+import com.kunzisoft.keepass.utils.CharArrayUtil.toUtf8ByteArray
+import com.kunzisoft.keepass.utils.clear
+import com.kunzisoft.keepass.utils.dateTo5Bytes
+import com.kunzisoft.keepass.utils.readAllBytes
+import com.kunzisoft.keepass.utils.uIntTo4Bytes
+import com.kunzisoft.keepass.utils.uShortTo2Bytes
+import com.kunzisoft.keepass.utils.uuidTo16Bytes
+import com.kunzisoft.keepass.utils.writeStringToStream
 import java.io.IOException
 import java.io.OutputStream
-import java.nio.charset.Charset
 
 /**
  * Output the GroupKDB to the stream
  */
-class EntryOutputKDB(private val mDatabase: DatabaseKDB,
-                     private val mEntry: EntryKDB,
-                     private val mOutputStream: OutputStream) {
+class EntryOutputKDB(
+    private val mDatabase: DatabaseKDB,
+    private val mEntry: EntryKDB,
+    private val mOutputStream: OutputStream
+) {
 
-    //NOTE: Need be to careful about using ints.  The actual type written to file is a unsigned int
+    //NOTE: Need to be careful about using ints. The actual type written to file is an unsigned int
     @Throws(DatabaseOutputException::class)
     fun output() {
         try {
@@ -46,12 +54,12 @@ class EntryOutputKDB(private val mDatabase: DatabaseKDB,
             // Group ID
             mOutputStream.write(GROUPID_FIELD_TYPE)
             mOutputStream.write(GROUPID_FIELD_SIZE)
-            mOutputStream.write(uIntTo4Bytes(UnsignedInt(mEntry.parent!!.id)))
+            mOutputStream.write(uIntTo4Bytes(mEntry.parent!!.id.toUInt()))
 
             // Image ID
             mOutputStream.write(IMAGEID_FIELD_TYPE)
             mOutputStream.write(IMAGEID_FIELD_SIZE)
-            mOutputStream.write(uIntTo4Bytes(UnsignedInt(mEntry.icon.standard.id)))
+            mOutputStream.write(uIntTo4Bytes(mEntry.icon.standard.id.toUInt()))
 
             // Title
             //byte[] title = mEntry.title.getBytes("UTF-8");
@@ -95,7 +103,7 @@ class EntryOutputKDB(private val mDatabase: DatabaseKDB,
             val binaryData = mEntry.getBinary(mDatabase.attachmentPool)
             val binaryDataLength = binaryData?.getSize() ?: 0L
             // Write data length
-            mOutputStream.write(uIntTo4Bytes(UnsignedInt.fromKotlinLong(binaryDataLength)))
+            mOutputStream.write(uIntTo4Bytes(binaryDataLength.toUInt()))
             // Write data
             if (binaryDataLength > 0) {
                 binaryData?.getInputDataStream(mDatabase.binaryCache).use { inputStream ->
@@ -126,12 +134,13 @@ class EntryOutputKDB(private val mDatabase: DatabaseKDB,
     }
 
     @Throws(IOException::class)
-    private fun writePassword(str: String, os: OutputStream): Int {
-        val initial = str.toByteArray(Charset.forName("UTF-8"))
+    private fun writePassword(password: CharArray, os: OutputStream): Int {
+        val initial = password.toUtf8ByteArray()
         val length = initial.size + 1
-        os.write(uIntTo4Bytes(UnsignedInt(length)))
+        os.write(uIntTo4Bytes(length.toUInt()))
         os.write(initial)
         os.write(0x00)
+        initial.clear()
         return length
     }
 
@@ -155,11 +164,11 @@ class EntryOutputKDB(private val mDatabase: DatabaseKDB,
         private val BINARY_DATA_FIELD_TYPE:ByteArray = uShortTo2Bytes(14)
         private val END_FIELD_TYPE:ByteArray = uShortTo2Bytes(0xFFFF)
 
-        private val UUID_FIELD_SIZE:ByteArray = uIntTo4Bytes(UnsignedInt(16))
-        private val GROUPID_FIELD_SIZE:ByteArray = uIntTo4Bytes(UnsignedInt(4))
-        private val DATE_FIELD_SIZE:ByteArray = uIntTo4Bytes(UnsignedInt(5))
-        private val IMAGEID_FIELD_SIZE:ByteArray = uIntTo4Bytes(UnsignedInt(4))
-        private val ZERO_FIELD_SIZE:ByteArray = uIntTo4Bytes(UnsignedInt(0))
+        private val UUID_FIELD_SIZE:ByteArray = uIntTo4Bytes(16u)
+        private val GROUPID_FIELD_SIZE:ByteArray = uIntTo4Bytes(4u)
+        private val DATE_FIELD_SIZE:ByteArray = uIntTo4Bytes(5u)
+        private val IMAGEID_FIELD_SIZE:ByteArray = uIntTo4Bytes(4u)
+        private val ZERO_FIELD_SIZE:ByteArray = uIntTo4Bytes(0u)
         private val ZERO_FIVE:ByteArray = byteArrayOf(0x00, 0x00, 0x00, 0x00, 0x00)
     }
 }

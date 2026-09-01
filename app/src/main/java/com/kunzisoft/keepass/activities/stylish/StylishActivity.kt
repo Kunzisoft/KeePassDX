@@ -30,7 +30,6 @@ import android.util.Log
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
-import android.view.WindowManager.LayoutParams.FLAG_SECURE
 import androidx.annotation.StyleRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.preference.PreferenceManager
@@ -38,6 +37,7 @@ import com.google.android.material.color.DynamicColors
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.settings.NestedAppSettingsFragment.Companion.DATABASE_PREFERENCE_CHANGED
 import com.kunzisoft.keepass.settings.PreferencesUtil
+import com.kunzisoft.keepass.utils.AppUtil
 
 /**
  * Stylish Hide Activity that apply a dynamic style and sets FLAG_SECURE to prevent screenshots / from
@@ -59,37 +59,32 @@ abstract class StylishActivity : AppCompatActivity() {
                     intent.component = null
             }
             super.startActivity(intent)
-        } catch (e: ActivityNotFoundException) {
+        } catch (_: ActivityNotFoundException) {
             /* Catch the bad HTC implementation case */
             super.startActivity(Intent.createChooser(intent, null))
         }
     }
 
-    open fun applyCustomStyle(): Boolean {
-        return true
-    }
+    open fun applyCustomStyle(): Boolean = true
 
-    open fun finishActivityIfReloadRequested(): Boolean {
-        return false
-    }
+    open fun finishActivityIfReloadRequested(): Boolean = false
 
     open fun reloadActivity() {
-        if (!finishActivityIfReloadRequested()) {
-            startActivity(intent)
-        }
-        finish()
-        @Suppress("DEPRECATION")
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
+        if (finishActivityIfReloadRequested()) finish() else recreate()
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
             overrideActivityTransition(
                 OVERRIDE_TRANSITION_OPEN,
                 android.R.anim.fade_in,
                 android.R.anim.fade_out
             )
-        else
+        } else {
+            @Suppress("DEPRECATION")
             overridePendingTransition(
                 android.R.anim.fade_in,
                 android.R.anim.fade_out
             )
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -117,13 +112,7 @@ abstract class StylishActivity : AppCompatActivity() {
 
     private fun setScreenshotMode(isEnabled: Boolean) {
         findViewById<View>(R.id.screenshot_mode_banner)?.visibility = if (isEnabled) VISIBLE else GONE
-
-        // Several gingerbread devices have problems with FLAG_SECURE
-        if (isEnabled) {
-            window.clearFlags(FLAG_SECURE)
-        } else {
-            window.setFlags(FLAG_SECURE, FLAG_SECURE)
-        }
+        AppUtil.setScreenshotMode(window, isEnabled)
     }
 
     override fun onResume() {
@@ -133,13 +122,9 @@ abstract class StylishActivity : AppCompatActivity() {
             || DATABASE_PREFERENCE_CHANGED) {
             DATABASE_PREFERENCE_CHANGED = false
             Log.d(this.javaClass.name, "Theme change detected, restarting activity")
-            recreateActivity()
+            // To prevent KitKat bugs
+            Handler(Looper.getMainLooper()).post { reloadActivity() }
         }
         setScreenshotMode(PreferencesUtil.isScreenshotModeEnabled(this))
-    }
-
-    private fun recreateActivity() {
-        // To prevent KitKat bugs
-        Handler(Looper.getMainLooper()).post { recreate() }
     }
 }

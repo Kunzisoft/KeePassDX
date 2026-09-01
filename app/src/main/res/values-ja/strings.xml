@@ -74,7 +74,7 @@
     <string name="decrypting_db">データベースの内容を復号しています…</string>
     <string name="default_checkbox">デフォルトのデータベースとして使用</string>
     <string name="digits">数字</string>
-    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft は&lt;strong&gt;オープンソース&lt;/strong&gt;であり、&lt;strong&gt;広告はありません&lt;/strong&gt;。\n本ソフトウェアは&lt;strong&gt;GPLv3&lt;/strong&gt;ライセンスの下で提供されており、いかなる保証もありません。</string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft は&lt;strong&gt;オープンソース&lt;/strong&gt;で&lt;strong&gt;広告はありません&lt;/strong&gt;。\n本ソフトウェアは&lt;strong&gt;GPLv3&lt;/strong&gt;ライセンスの下で提供されており、いかなる保証もありません。</string>
     <string name="html_about_contribution">&lt;strong&gt;自由を維持し&lt;/strong&gt;、&lt;strong&gt;バグを修正し&lt;/strong&gt;、&lt;strong&gt;機能を追加し&lt;/strong&gt;、そして&lt;strong&gt;活発に開発し続ける&lt;/strong&gt;ために、私たちはあなたの&lt;strong&gt;貢献&lt;/strong&gt;に期待しています。</string>
     <string name="entry_accessed">最終アクセス</string>
     <string name="entry_cancel">キャンセル</string>
@@ -111,11 +111,11 @@
     <string name="error_nokeyfile">キーファイルを選択してください。</string>
     <string name="error_out_of_memory">データベース全体を読み込むメモリがありません。</string>
     <string name="error_load_database">データベースを読み込めませんでした。</string>
-    <string name="error_load_database_KDF_memory">鍵を読み込めませんでした。鍵導出関数の [メモリ使用量] を下げてみてください。</string>
+    <string name="error_load_database_KDF_memory">KDFのメモリ使用量が大きすぎます。読込できません。</string>
     <string name="error_pass_gen_type">少なくとも 1 つのパスワード生成タイプを選択する必要があります。</string>
     <string name="error_disallow_no_credentials">少なくとも 1 つの認証情報を設定する必要があります。</string>
     <string name="error_pass_match">パスワードが一致しません。</string>
-    <string name="error_rounds_too_large">[変換ラウンド] が多すぎます。2147483648 に設定します。</string>
+    <string name="error_rounds_too_large">[変換ラウンド] が多すぎます。%1$s に設定します。</string>
     <string name="error_string_key">各文字列にはフィールド名が必要です。</string>
     <string name="error_label_exists">このラベルはすでに存在します。</string>
     <string name="error_wrong_length">[長さ] フィールドには正の整数を入力してください。</string>
@@ -342,14 +342,12 @@
     <string name="recycle_bin">ゴミ箱</string>
     <string name="keyboard">キーボード</string>
     <string name="magic_keyboard_title">Magikeyboard</string>
-    <string name="magic_keyboard_explanation_summary">パスワードとすべての ID フィールドを格納するカスタム キーボードを有効にします</string>
+    <string name="magic_keyboard_explanation_summary">パスワードとすべての id フィールドを格納するカスタム キーボードを有効にします</string>
     <string name="device_keyboard_setting_title">デバイス キーボードの設定</string>
     <string name="keyboard_name">Magikeyboard</string>
     <string name="keyboard_label">Magikeyboard (KeePassDX)</string>
     <string name="keyboard_setting_label">Magikeyboard の設定</string>
     <string name="keyboard_entry_category">エントリー</string>
-    <string name="keyboard_selection_entry_title">エントリーの選択</string>
-    <string name="keyboard_selection_entry_summary">KeePassDX のエントリーを開いているとき、Magikeyboard にそのエントリーを格納します</string>
     <string name="keyboard_notification_entry_title">通知情報</string>
     <string name="keyboard_notification_entry_summary">エントリーが利用可能なとき、通知を表示します</string>
     <string name="keyboard_save_search_info_title">共有情報の保存</string>
@@ -402,13 +400,13 @@
     <string name="education_select_database_title">既存のデータベースを開く</string>
     <string name="education_select_database_summary">これまで使ってきたデータベース ファイルを、ファイルブラウザから開いて引き続き使用します。</string>
     <string name="education_new_node_title">データベースに項目を追加</string>
-    <string name="education_new_node_summary">エントリーはデジタル ID の管理に役立ちます。\n\nグループ（≒フォルダ）はデータベース内のエントリーを整理します。</string>
+    <string name="education_new_node_summary">エントリーはデジタル id の管理に役立ちます。\n\nグループ（≒フォルダ）はデータベース内のエントリーを整理します。</string>
     <string name="education_search_title">エントリーを検索</string>
     <string name="education_search_summary">パスワードを取得するには、タイトル、ユーザー名、または他のフィールドの内容を入力します。</string>
     <string name="education_entry_edit_title">エントリーを編集</string>
     <string name="education_entry_edit_summary">エントリーをカスタム フィールドとともに編集します。共有データは異なるエントリーのフィールド間で参照することができます。</string>
     <string name="education_generate_password_title">強力なパスワードを作成</string>
-    <string name="education_generate_password_summary">エントリーに関連付ける強力なパスワードを生成します。フォームの基準に従って定義することは簡単で、安全なパスワードを忘れることはありません。</string>
+    <string name="education_generate_password_summary">エントリーに紐付ける強力なパスワードを生成して、フォームの基準に沿ってパスワードを忘れないよう確実に設定して下さい。</string>
     <string name="education_entry_new_field_title">カスタム フィールドを追加</string>
     <string name="education_entry_new_field_summary">追加フィールドを登録し、値を追加し、必要に応じて保護します。</string>
     <string name="education_add_attachment_title">添付ファイルを追加</string>
@@ -500,7 +498,7 @@
     <string name="autofill_inline_suggestions_title">インライン自動入力</string>
     <string name="warning_database_revoked">ファイルへのアクセス権がファイル マネージャーによって取り消されました。データベースを閉じて、ファイルの場所から再度開いてください。</string>
     <string name="warning_database_info_changed_options">データベースを保存して外部の変更を上書きするか、再度読み込んで最新の変更を反映させてください。</string>
-    <string name="warning_database_info_changed">データベース ファイルに含まれる情報は、アプリの外部で変更されています。</string>
+    <string name="warning_database_info_changed">データベースに含まれる情報がこのアプリ外で変更されています。</string>
     <string name="menu_reload_database">再度読み込む</string>
     <string name="error_rebuild_list">リストを正しく再構築できません。</string>
     <string name="unit_gibibyte">GiB</string>
@@ -558,7 +556,7 @@
     <string name="holder">名義人</string>
     <string name="template_group_name">テンプレート</string>
     <string name="debit_credit_card">デビット / クレジットカード</string>
-    <string name="show_otp_token_summary">エントリーの一覧に OTP トークンを表示します</string>
+    <string name="show_otp_token_summary">OTPトークンをデフォルトで表示</string>
     <string name="show_otp_token_title">OTP トークンを表示</string>
     <string name="version">バージョン</string>
     <string name="standard">標準</string>
@@ -656,7 +654,7 @@
     <string name="master_key_settings_summary">変更、更新</string>
     <string name="later">後で</string>
     <string name="education_validate_entry_title">エントリを検証する</string>
-    <string name="warning_database_info_changed_options_read_only">最新の変更を加えてデータベースを再ロードします。</string>
+    <string name="warning_database_info_changed_options_read_only">データベースを再読込して最新の変更内容を反映して下さい。</string>
     <string name="warning_database_notification_permission">通知権限を使用すると、データベースのステータスを表示し、簡単にアクセスできるボタンでロックすることができます。
 \n
 \nこの権限を有効にしないと、別のアプリケーションがフォアグラウンドにある場合、バックグラウンドで開いているデータベースは表示されません。</string>
@@ -687,7 +685,7 @@
     <string name="hide_templates_title">テンプレートを非表示にする</string>
     <string name="hide_templates_summary">テンプレートは表示されません</string>
     <string name="error_otp_secret_length">秘密鍵は少なくとも %1$d 文字以上でないといけません。</string>
-    <string name="entry_application_id">アプリID</string>
+    <string name="entry_application_id">アプリ Id</string>
     <string name="warning_overwrite_data_title">既存データを上書きしますか？</string>
     <string name="warning_overwrite_data_description">この操作でエントリの既存データが上書きされ、履歴機能が有効ならば古いデータから復元できます。</string>
     <string name="credential_provider">認証プロバイダ</string>
@@ -703,7 +701,7 @@
     <string name="passkeys_privileged_apps_ask_message">%1$s がパスキー操作を行おうとしています。\n\n特権アプリ一覧に追加しますか？</string>
     <string name="passkeys_missing_signature_app_ask_title">署名がありません</string>
     <string name="passkeys_missing_signature_app_ask_explanation">警告: パスキーは別なクライアントから作成されたか署名が削除されています。セキュリティ上の問題を避ける為に認証対象のアプリが同一サービスに属した正しいものかを確認してください。\nアプリがブラウザなら、当該署名をエントリへ追加せずに、設定内の特権アプリ一覧へ追加してください。</string>
-    <string name="passkeys_missing_signature_app_ask_message">%1$s は認識されなかったので既存パスキーでの認証を試みます。</string>
+    <string name="passkeys_missing_signature_app_ask_message">%1$s が認識されなかったので既存のパスキーを使い認証を試みています。</string>
     <string name="passkeys_missing_signature_app_ask_question">アプリ署名をパスキーエントリへ追加しますか？</string>
     <string name="passkeys_auto_select_title">自動選択</string>
     <string name="passkeys_auto_select_summary">データベースが開いていて要求元アプリに互換性がある場合に限り、エントリを１つだけ自動選択します</string>
@@ -722,7 +720,7 @@
     <string name="credential_provider_locked_database_description">選択してロックを解除</string>
     <string name="passkey_username">パスキーのユーザー名</string>
     <string name="passkey_private_key">パスキーのプライベートキー</string>
-    <string name="passkey_credential_id">パスキーの認証ID</string>
+    <string name="passkey_credential_id">パスキーの認証Id</string>
     <string name="passkey_user_handle">パスキーのユーザーハンドル</string>
     <string name="passkey_relying_party">パスキーの信頼者</string>
     <string name="passkey_backup_eligibility">パスキーのバックアップ資格</string>
@@ -738,7 +736,7 @@
     <string name="keyboard_auto_switch_summary">入力完了時にマジックキーボードへの自動切替を試みる</string>
     <string name="autofill_share_magikeyboard_title">マジックキーボードへ共有</string>
     <string name="autofill_share_magikeyboard_summary">オートフィルからの取得項目をマジックキーボードへ共有</string>
-    <string name="error_passkey_credential_id">プロバイダ %1$s ・認証情報ID %2$s に対応するパスキーが見つかりませんでした</string>
+    <string name="error_passkey_credential_id">プロバイダ %1$s および認証情報Id %2$s に対応したパスキーが見つかりませんでした</string>
     <string name="password_creation_description">パスワードを新規エントリとして保存</string>
     <string name="password_selection_description">既存のパスワードを選択</string>
     <string name="error_password_result">パスワードを返せませんでした</string>
@@ -750,10 +748,24 @@
     <string name="check">チェック</string>
     <string name="user_verification_required_description_precise">%1$s は実際に本人であると確認する必要があります。</string>
     <string name="user_verification">ユーザー検証</string>
-    <string name="user_verification_mode_title">ユーザー検証モード</string>
-    <string name="user_verification_mode_summary">デフォルトでデータベースを開く際のユーザー検証モードを有効にします</string>
     <string name="menu_user_verification_enabled">ユーザー検証を有効化</string>
     <string name="menu_user_verification_disabled">ユーザー検証を無効化</string>
     <string name="education_user_verification_title">高機密性操作の検証</string>
     <string name="education_user_verification_summary">セッションのユーザー検証モードを変更します。\n\n”ユーザー検証を有効化” は保護項目とデータベース設定に対する操作を検証します。\n”ユーザー検証を無効化”は無検証でデータベース内のあらゆるデータが変更できます。</string>
+    <string name="content_description_share_url">URLを共有</string>
+    <string name="show_tags_title">タグを表示</string>
+    <string name="show_tags_summary">エントリの一覧にタグを表示</string>
+    <string name="benchmark_calculation">%1$s 秒で算出</string>
+    <string name="benchmarking">測定中です…</string>
+    <string name="keyboard_share_browser">%1$sからKeePassDXへ共有</string>
+    <string name="error_memory_too_large">“メモリ使用量” が多すぎです。%1$s へ設定します。</string>
+    <string name="error_parallelism_too_large">“並列実行数“ が多すぎです。%1$s へ設定します。</string>
+    <string name="error_missing_parent">親が存在しないとこの操作は実行できません。</string>
+    <string name="temporary_merge_success">一時的なデータの統合が正常終了しました</string>
+    <string name="reload_success">再読込が問題なく完了しました</string>
+    <string name="autofill_suggestions_title">候補の自動入力</string>
+    <string name="autofill_suggestions_summary">フォームの認識アルゴリズムを使い入力候補を提案</string>
+    <string name="passkey_pseudo_random_function">疑似乱数パスキー関数</string>
+    <string name="parallelism_set_safe">プロセッサの数を設定</string>
+    <string name="error_load_database_KDF_parallelism">KDFの並列度が大きすぎます。読込できません。</string>
 </resources>

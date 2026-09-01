@@ -72,7 +72,7 @@ class DateInstant : Parcelable {
         try {
             mInstant = parse(string, type)
             mType = type
-        } catch (e: Exception) {
+        } catch (_: Exception) {
             // Retry with second format
             try {
                 when (type) {
@@ -85,7 +85,7 @@ class DateInstant : Parcelable {
                         mType = Type.TIME
                     }
                 }
-            } catch (e: Exception) {
+            } catch (_: Exception) {
                 // Retry with third format
                 when (type) {
                     Type.DATE, Type.TIME -> {
@@ -100,6 +100,9 @@ class DateInstant : Parcelable {
             }
         }
     }
+
+    constructor(charArray: CharArray, type: Type = Type.DATE_TIME)
+            : this(String(charArray), type)
 
     constructor(type: Type) {
         mType = type
@@ -190,6 +193,10 @@ class DateInstant : Parcelable {
             Type.TIME -> timeFormat.print(mInstant)
             else -> dateTimeFormat.print(mInstant)
         }
+    }
+
+    fun toCharArray(): CharArray {
+        return toString().toCharArray()
     }
 
     override fun equals(other: Any?): Boolean {

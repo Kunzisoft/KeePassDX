@@ -21,30 +21,54 @@ package com.kunzisoft.keepass.database.action.node
 
 import android.content.Context
 import com.kunzisoft.keepass.database.ContextualDatabase
-import com.kunzisoft.keepass.database.element.Attachment
 import com.kunzisoft.keepass.database.element.Entry
-import com.kunzisoft.keepass.database.element.node.Node
 import com.kunzisoft.keepass.hardware.ChallengeRequest
+import com.kunzisoft.keepass.model.EntryInfo
 
 class UpdateEntryRunnable(
     context: Context,
     database: ContextualDatabase,
-    private val mOldEntry: Entry,
-    private val mNewEntry: Entry,
+    newEntry: EntryInfo,
     save: Boolean,
     afterActionNodesFinish: AfterActionNodesFinish?,
     challengeResponseRetriever: (ChallengeRequest) -> ByteArray
-) : ActionNodeDatabaseRunnable(context, database, afterActionNodesFinish, save, challengeResponseRetriever) {
+) : ActionNodeDatabaseRunnable(
+    context = context,
+    database = database,
+    afterActionNodesFinish = afterActionNodesFinish,
+    save = save,
+    challengeResponseRetriever = challengeResponseRetriever
+) {
+
+    private var mOldEntry: Entry? = null
+    private var mNewEntry: Entry? = null
+
+    init {
+        database.getEntryById(newEntry.nodeId)?.let { oldEntry ->
+            mOldEntry = oldEntry
+            // Create a clone
+            mNewEntry = database.updateEntry(Entry(oldEntry), newEntry)
+        }
+    }
 
     override fun nodeAction() {
-        if (mOldEntry.nodeId == mNewEntry.nodeId) {
+        val oldEntry = mOldEntry
+        val newEntry = mNewEntry
+        if (oldEntry != null && newEntry != null && oldEntry.nodeId == newEntry.nodeId) {
             // WARNING : Re attribute parent removed in entry edit activity to save memory
-            mNewEntry.addParentFrom(mOldEntry)
+            newEntry.addParentFrom(oldEntry)
+
+            // Re-attribute history removed to save memory in Bundle creation
+            // Clear to be sure
+            newEntry.clearHistory()
+            oldEntry.getHistory().forEach {
+                newEntry.addEntryToHistory(it)
+            }
 
             // Build oldest attachments
-            val oldEntryAttachments = mOldEntry.getAttachments(database.attachmentPool, true)
-            val newEntryAttachments = mNewEntry.getAttachments(database.attachmentPool, true)
-            val attachmentsToRemove = ArrayList<Attachment>(oldEntryAttachments)
+            val oldEntryAttachments = oldEntry.getAttachments(database.attachmentPool, true)
+            val newEntryAttachments = newEntry.getAttachments(database.attachmentPool, true)
+            val attachmentsToRemove = oldEntryAttachments.toMutableList()
             // Not use equals because only check name
             newEntryAttachments.forEach { newAttachment ->
                 oldEntryAttachments.forEach { oldAttachment ->
@@ -56,14 +80,14 @@ class UpdateEntryRunnable(
             }
 
             // Update entry with new values
-            mNewEntry.touch(modified = true, touchParents = true)
+            newEntry.touch(modified = true, touchParents = true)
 
             // Create an entry history (an entry history don't have history)
-            mNewEntry.addEntryToHistory(Entry(mOldEntry, copyHistory = false))
-            database.removeOldestEntryHistory(mNewEntry, database.attachmentPool)
+            newEntry.addEntryToHistory(Entry(oldEntry, copyHistory = false))
+            database.removeOldestEntryHistory(newEntry, database.attachmentPool)
 
             // Only change data in index
-            database.updateEntry(mNewEntry)
+            database.updateEntry(newEntry)
 
             // Remove oldest attachments
             attachmentsToRemove.forEach {
@@ -75,13 +99,13 @@ class UpdateEntryRunnable(
     override fun nodeFinish(): ActionNodesValues {
         if (!result.isSuccess) {
             // If we fail to save, back out changes to global structure
-            database.updateEntry(mOldEntry)
+            mOldEntry?.let { oldEntry ->
+                database.updateEntry(oldEntry)
+            }
         }
-
-        val oldNodesReturn = ArrayList<Node>()
-        oldNodesReturn.add(mOldEntry)
-        val newNodesReturn = ArrayList<Node>()
-        newNodesReturn.add(mNewEntry)
-        return ActionNodesValues(oldNodesReturn, newNodesReturn)
+        return ActionNodesValues(
+            oldEntriesIds = mOldEntry?.nodeId?.let { listOf(it) },
+            newEntriesIds = mNewEntry?.nodeId?.let { listOf(it) } ?: listOf()
+        )
     }
 }

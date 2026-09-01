@@ -1,6 +1,5 @@
 package com.kunzisoft.keepass.activities
 
-import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
@@ -14,12 +13,16 @@ import androidx.appcompat.widget.Toolbar
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.commit
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.fragments.KeyGeneratorFragment
 import com.kunzisoft.keepass.activities.legacy.DatabaseLockActivity
 import com.kunzisoft.keepass.settings.PreferencesUtil
-import com.kunzisoft.keepass.view.updateLockPaddingStart
+import com.kunzisoft.keepass.view.updateButtonPaddingStart
 import com.kunzisoft.keepass.viewmodels.KeyGeneratorViewModel
+import kotlinx.coroutines.launch
 
 class KeyGeneratorActivity : DatabaseLockActivity() {
 
@@ -63,11 +66,17 @@ class KeyGeneratorActivity : DatabaseLockActivity() {
             )
         }
 
-        keyGeneratorViewModel.keyGenerated.observe(this) { keyGenerated ->
-            setResult(Activity.RESULT_OK, Intent().apply {
-                putExtra(KEY_GENERATED, keyGenerated)
-            })
-            finish()
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                keyGeneratorViewModel.keyGenerated.collect { keyGenerated ->
+                    keyGenerated?.let {
+                        setResult(RESULT_OK, Intent().apply {
+                            putExtra(KEY_GENERATED, keyGenerated)
+                        })
+                        finish()
+                    }
+                }
+            }
         }
     }
 
@@ -86,7 +95,7 @@ class KeyGeneratorActivity : DatabaseLockActivity() {
         }
 
         // Padding if lock button visible
-        toolbar.updateLockPaddingStart()
+        toolbar.updateButtonPaddingStart()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -109,7 +118,7 @@ class KeyGeneratorActivity : DatabaseLockActivity() {
     }
 
     override fun onDatabaseBackPressed() {
-        setResult(Activity.RESULT_CANCELED, Intent())
+        setResult(RESULT_CANCELED, Intent())
         super.onDatabaseBackPressed()
     }
 
@@ -117,12 +126,14 @@ class KeyGeneratorActivity : DatabaseLockActivity() {
         private const val KEY_GENERATED = "KEY_GENERATED"
         private const val KEY_GENERATED_FRAGMENT_TAG = "KEY_GENERATED_FRAGMENT_TAG"
 
-        fun registerForGeneratedKeyResult(activity: FragmentActivity,
-                                          keyGeneratedListener: (String?) -> Unit): ActivityResultLauncher<Intent> {
+        fun registerForGeneratedKeyResult(
+            activity: FragmentActivity,
+            keyGeneratedListener: (CharArray?) -> Unit
+        ): ActivityResultLauncher<Intent> {
             return activity.registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-                if (result.resultCode == Activity.RESULT_OK) {
+                if (result.resultCode == RESULT_OK) {
                     keyGeneratedListener.invoke(
-                        result.data?.getStringExtra(KEY_GENERATED)
+                        result.data?.getCharArrayExtra(KEY_GENERATED)
                     )
                 } else {
                     keyGeneratedListener.invoke(null)
@@ -130,8 +141,10 @@ class KeyGeneratorActivity : DatabaseLockActivity() {
             }
         }
 
-        fun launch(context: FragmentActivity,
-                   resultLauncher: ActivityResultLauncher<Intent>) {
+        fun launch(
+            context: FragmentActivity,
+            resultLauncher: ActivityResultLauncher<Intent>
+        ) {
             // Create an instance to return the picker icon
             resultLauncher.launch(
                 Intent(context, KeyGeneratorActivity::class.java)

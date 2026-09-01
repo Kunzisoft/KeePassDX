@@ -31,23 +31,4 @@
         android:layout_height="match_parent"
         android:paddingBottom="120dp"
         android:clipToPadding="false" />
-    <LinearLayout
-        android:id="@+id/not_found_container"
-        android:layout_gravity="center"
-        android:orientation="vertical"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="gone">
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/not_found_img"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:src="@drawable/img_not_found"/>
-        <TextView
-            android:id="@+id/not_found_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/no_results"/>
-    </LinearLayout>
 </FrameLayout>

@@ -20,13 +20,21 @@
 package com.kunzisoft.keepass.tests.utils
 
 import com.kunzisoft.keepass.database.element.DateInstant
-import com.kunzisoft.keepass.utils.*
+import com.kunzisoft.keepass.utils.bytes16ToUuid
+import com.kunzisoft.keepass.utils.bytes2ToUShort
+import com.kunzisoft.keepass.utils.bytes4ToUInt
+import com.kunzisoft.keepass.utils.bytes5ToDate
+import com.kunzisoft.keepass.utils.bytes64ToULong
+import com.kunzisoft.keepass.utils.dateTo5Bytes
+import com.kunzisoft.keepass.utils.uIntTo4Bytes
+import com.kunzisoft.keepass.utils.uLongTo8Bytes
+import com.kunzisoft.keepass.utils.uShortTo2Bytes
+import com.kunzisoft.keepass.utils.uuidTo16Bytes
 import junit.framework.TestCase
 import org.joda.time.DateTime
 import org.joda.time.Instant
 import org.junit.Assert.assertArrayEquals
-import java.io.ByteArrayOutputStream
-import java.util.*
+import java.util.Random
 
 class ValuesTest : TestCase() {
 
@@ -133,7 +141,7 @@ class ValuesTest : TestCase() {
     }
 
     private fun testReadWriteByte(value: Byte) {
-        val dest: Byte = UnsignedInt(value.toInt() and 0xFF).toKotlinByte()
+        val dest: Byte = (value.toInt() and 0xFF).toByte()
         assert(value == dest)
     }
 
@@ -207,10 +215,7 @@ class ValuesTest : TestCase() {
             ulongBytes[i] = -1
         }
 
-        val byteArrayOutputStream = ByteArrayOutputStream()
-        byteArrayOutputStream.write(UnsignedLong.MAX_BYTES)
-        byteArrayOutputStream.close()
-        val uLongMax = byteArrayOutputStream.toByteArray()
+        val uLongMax = uLongTo8Bytes(ULong.MAX_VALUE)
 
         assertArrayEquals(ulongBytes, uLongMax)
     }

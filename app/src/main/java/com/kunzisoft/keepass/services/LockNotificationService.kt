@@ -25,7 +25,10 @@ import com.kunzisoft.keepass.utils.LockReceiver
 import com.kunzisoft.keepass.utils.registerLockReceiver
 import com.kunzisoft.keepass.utils.unregisterLockReceiver
 
-abstract class LockNotificationService : NotificationService() {
+
+typealias LockNotificationService = LockNotificationServiceParam<Void>
+
+abstract class LockNotificationServiceParam<T> : NotificationServiceParam<T>() {
 
     private var mLockReceiver: LockReceiver = LockReceiver {
         stopService()

@@ -26,6 +26,7 @@ import android.util.AttributeSet
 import android.util.TypedValue
 import android.view.ContextThemeWrapper
 import android.view.View
+import android.widget.RelativeLayout
 import androidx.annotation.StringRes
 import androidx.appcompat.widget.AppCompatImageButton
 import androidx.appcompat.widget.AppCompatTextView
@@ -34,19 +35,23 @@ import androidx.core.text.util.LinkifyCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.isVisible
 import com.kunzisoft.keepass.R
+import com.kunzisoft.keepass.database.element.Field
+import com.kunzisoft.keepass.database.element.security.ProtectedString
 import com.kunzisoft.keepass.model.AppOriginEntryField.APPLICATION_ID_FIELD_NAME
+import com.kunzisoft.keepass.model.FieldProtection
 import com.kunzisoft.keepass.utils.AppUtil.openExternalApp
 
-
-open class TextFieldView @JvmOverloads constructor(context: Context,
-                                              attrs: AttributeSet? = null,
-                                              defStyle: Int = 0)
-    : ProtectedTextFieldView(context, attrs, defStyle) {
+open class TextFieldView @JvmOverloads constructor(
+    context: Context,
+    attrs: AttributeSet? = null,
+    defStyle: Int = 0
+) : ProtectedTextFieldView(context, attrs, defStyle) {
 
     protected var labelViewId = ViewCompat.generateViewId()
-    private var valueViewId = ViewCompat.generateViewId()
-    private var showButtonId = ViewCompat.generateViewId()
-    private var copyButtonId = ViewCompat.generateViewId()
+    protected var valueViewId = ViewCompat.generateViewId()
+    protected var containerViewId = ViewCompat.generateViewId()
+    protected var showButtonId = ViewCompat.generateViewId()
+    protected var copyButtonId = ViewCompat.generateViewId()
 
     protected val labelView = AppCompatTextView(context).apply {
         setTextAppearance(context,
@@ -68,15 +73,14 @@ open class TextFieldView @JvmOverloads constructor(context: Context,
             
         }
     }
-    protected val valueView = AppCompatTextView(context).apply {
-        setTextAppearance(context,
-            R.style.KeepassDXStyle_TextAppearance_TextNode)
+    protected var containerView = RelativeLayout(context).apply {
         layoutParams = LayoutParams(
-            LayoutParams.MATCH_PARENT,
-            LayoutParams.WRAP_CONTENT).also {
+            LayoutParams.WRAP_CONTENT,
+            LayoutParams.WRAP_CONTENT
+        ).also {
             it.topMargin = TypedValue.applyDimension(
                 TypedValue.COMPLEX_UNIT_DIP,
-                4f,
+                2f,
                 resources.displayMetrics
             ).toInt()
             it.leftMargin = TypedValue.applyDimension(
@@ -87,6 +91,29 @@ open class TextFieldView @JvmOverloads constructor(context: Context,
             it.marginStart = TypedValue.applyDimension(
                 TypedValue.COMPLEX_UNIT_DIP,
                 8f,
+                resources.displayMetrics
+            ).toInt()
+            it.rightMargin = TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_DIP,
+                8f,
+                resources.displayMetrics
+            ).toInt()
+            it.marginEnd = TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_DIP,
+                8f,
+                resources.displayMetrics
+            ).toInt()
+        }
+    }
+    protected val valueView = AppCompatTextView(context).apply {
+        setTextAppearance(context,
+            R.style.KeepassDXStyle_TextAppearance_TextNode)
+        layoutParams = LayoutParams(
+            LayoutParams.MATCH_PARENT,
+            LayoutParams.WRAP_CONTENT).also {
+            it.topMargin = TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_DIP,
+                4f,
                 resources.displayMetrics
             ).toInt()
         }
@@ -113,6 +140,7 @@ open class TextFieldView @JvmOverloads constructor(context: Context,
         buildViews()
         addView(copyButton)
         addView(showButton)
+        addView(containerView)
         addView(labelView)
         addView(valueView)
     }
@@ -130,14 +158,10 @@ open class TextFieldView @JvmOverloads constructor(context: Context,
             layoutParams = (layoutParams as LayoutParams?)?.also {
                 if (copyButton.isVisible) {
                     it.addRule(LEFT_OF, copyButtonId)
-                    
                     it.addRule(START_OF, copyButtonId)
-                    
                 } else {
                     it.addRule(ALIGN_PARENT_RIGHT)
-                    
                     it.addRule(ALIGN_PARENT_END)
-                    
                 }
             }
         }
@@ -148,9 +172,19 @@ open class TextFieldView @JvmOverloads constructor(context: Context,
                 it.addRule(START_OF, showButtonId)
             }
         }
+        containerView.apply {
+            id = containerViewId
+            layoutParams = (layoutParams as LayoutParams?)?.also {
+                it.addRule(ALIGN_PARENT_START)
+                it.addRule(ALIGN_PARENT_LEFT)
+                it.addRule(BELOW, labelViewId)
+            }
+        }
         valueView.apply {
             id = valueViewId
             layoutParams = (layoutParams as LayoutParams?)?.also {
+                it.addRule(RIGHT_OF, containerViewId)
+                it.addRule(END_OF, containerViewId)
                 it.addRule(LEFT_OF, showButtonId)
                 it.addRule(START_OF, showButtonId)
                 it.addRule(BELOW, labelViewId)
@@ -175,20 +209,23 @@ open class TextFieldView @JvmOverloads constructor(context: Context,
         labelView.setText(labelId)
     }
 
-    override var value: String
+    override var value: CharArray
         get() {
-            return valueView.text.toString()
+            val sequence = valueView.text
+            val valueChars = CharArray(sequence.length)
+            android.text.TextUtils.getChars(sequence, 0, sequence.length, valueChars, 0)
+            return valueChars
         }
         set(value) {
-            valueView.text = value
+            valueView.setCharArray(value)
             changeProtectedValueParameters()
         }
 
     open fun setValue(@StringRes valueId: Int) {
-        value = resources.getString(valueId)
+        value = resources.getString(valueId).toCharArray()
     }
 
-    override var default: String = ""
+    override var default: CharArray = CharArray(0)
 
     fun setMaxChars(numberChars: Int) {
         when {
@@ -202,31 +239,46 @@ open class TextFieldView @JvmOverloads constructor(context: Context,
         }
     }
 
-    override fun setProtection(
-        protection: Boolean,
-        isCurrentlyProtected: Boolean,
-        onUnprotectClickListener: OnClickListener?
-    ) {
-        super.setProtection(protection, isCurrentlyProtected, onUnprotectClickListener)
-        showButton.isVisible = isProtected
+    override var onRevealChanged: ((isRevealed: Boolean) -> Unit)? = null
+
+    private val clickListener = OnClickListener {
         if (isProtected) {
-            showButton.setOnClickListener {
-                onUnprotectClickListener?.onClick(this@TextFieldView)
-            }
+            onRevealChanged?.invoke(isRevealed())
         }
     }
 
-    override fun changeProtectedValueParameters() {
-        val isCurrentlyProtected = isCurrentlyProtected()
-        showButton.isSelected = isCurrentlyProtected
+    override fun setProtection(
+        isProtected: Boolean,
+        isRevealedByDefault: Boolean,
+        needUserVerificationToReveal: Boolean
+    ) {
+        super.setProtection(isProtected, isRevealedByDefault, needUserVerificationToReveal)
+        showButton.isVisible = isProtected
+        showButton.setOnClickListener(clickListener)
+    }
+
+    override fun changeProtectedValueParameters(shouldRequestFocus: Boolean) {
+        val isMasked = !isRevealed()
+        showButton.isSelected = isMasked
         valueView.apply {
             if (showButton.isVisible) {
-                applyHiddenStyle(isCurrentlyProtected)
+                applyHiddenStyle(isMasked)
                 setCopyButtonState(mButtonState)
+                if (isMasked) {
+                    setOnClickListener(clickListener)
+                    setTextIsSelectable(false)
+                } else {
+                    setOnClickListener(null)
+                    setTextIsSelectable(true)
+                    linkify()
+                    if (shouldRequestFocus)
+                        requestFocus()
+                }
             } else {
-                linkify()
+                setOnClickListener(null)
                 isFocusable = true
                 setTextIsSelectable(true)
+                linkify()
             }
         }
         invalidate()
@@ -258,7 +310,6 @@ open class TextFieldView @JvmOverloads constructor(context: Context,
     private var mButtonState: ButtonState = ButtonState.DEACTIVATE
 
     fun setCopyButtonState(buttonState: ButtonState) {
-        val isCurrentlyProtected = isCurrentlyProtected()
         mButtonState = buttonState
         when (buttonState) {
             ButtonState.ACTIVATE -> {
@@ -267,8 +318,9 @@ open class TextFieldView @JvmOverloads constructor(context: Context,
                     isActivated = false
                 }
                 valueView.apply {
-                    isFocusable = !showButton.isVisible || !isCurrentlyProtected
-                    setTextIsSelectable(!showButton.isVisible || !isCurrentlyProtected)
+                    val selectable = isRevealed()
+                    isFocusable = selectable
+                    setTextIsSelectable(selectable)
                 }
             }
             ButtonState.DEACTIVATE -> {
@@ -296,9 +348,21 @@ open class TextFieldView @JvmOverloads constructor(context: Context,
         invalidate()
     }
 
-    fun setCopyButtonClickListener(onActionClickListener: ((label: String, value: String) -> Unit)?) {
+    fun setCopyButtonClickListener(onActionClickListener: ((fieldProtection: FieldProtection) -> Unit)?) {
         val clickListener = if (onActionClickListener != null)
-            OnClickListener { onActionClickListener.invoke(label, value) }
+            OnClickListener { onActionClickListener.invoke(
+                FieldProtection(
+                    field = Field(
+                        name = label,
+                        value = ProtectedString(
+                            enableProtection = isProtected,
+                            value = value
+                        )
+                    ),
+                    isRevealed = isRevealed(),
+                    needUserVerificationToReveal = needUserVerificationToReveal
+                )
+            ) }
         else
             null
         setOnActionClickListener(clickListener, null)

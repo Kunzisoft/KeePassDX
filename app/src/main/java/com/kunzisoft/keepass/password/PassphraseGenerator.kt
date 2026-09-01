@@ -19,18 +19,22 @@
  */
 package com.kunzisoft.keepass.password
 
+import com.kunzisoft.keepass.utils.clear
 import me.gosimple.nbvcxz.resources.Generator
 
 class PassphraseGenerator {
 
     @Throws(IllegalArgumentException::class)
-    fun generatePassphrase(wordCount: Int,
-                           wordSeparator: String,
-                           wordCase: WordCase): String {
+    fun generatePassphrase(
+        wordCount: Int,
+        wordSeparator: String,
+        wordCase: WordCase
+    ): CharArray {
         // From eff_large dictionary
         return when (wordCase) {
             WordCase.LOWER_CASE -> {
-                Generator.generatePassphrase(wordSeparator, wordCount)
+                // TODO Ask the lib to directly retrieve a CharArray
+                Generator.generatePassphrase(wordSeparator, wordCount).toCharArray()
             }
             WordCase.UPPER_CASE -> {
                 applyWordCase(wordCount, wordSeparator) { word ->
@@ -45,17 +49,24 @@ class PassphraseGenerator {
         }
     }
 
-    private fun applyWordCase(wordCount: Int,
-                              wordSeparator: String,
-                              wordAction: (word: String) -> String): String {
+    private fun applyWordCase(
+        wordCount: Int,
+        wordSeparator: String,
+        wordAction: (word: String) -> String
+    ): CharArray {
         val splitWords = Generator.generatePassphrase(TEMP_SPLIT, wordCount).split(TEMP_SPLIT)
         val stringBuilder = StringBuilder()
-        splitWords.forEach {
-            stringBuilder
-                .append(wordAction(it))
-                .append(wordSeparator)
+        splitWords.forEachIndexed { index, word ->
+            stringBuilder.append(wordAction(word))
+            if (index < splitWords.size - 1) {
+                stringBuilder.append(wordSeparator)
+            }
         }
-        return stringBuilder.toString().removeSuffix(wordSeparator)
+        val result = CharArray(stringBuilder.length)
+        stringBuilder.getChars(0, stringBuilder.length, result, 0)
+        stringBuilder.clear()
+        
+        return result
     }
 
     enum class WordCase {

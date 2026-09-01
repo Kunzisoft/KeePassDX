@@ -72,7 +72,7 @@ class AutofillLauncherActivity : DatabaseModeActivity() {
 
     override fun applyCustomStyle(): Boolean = false
 
-    override fun finishActivityIfReloadRequested(): Boolean = true
+    override fun finishActivityIfReloadRequested(): Boolean = false
 
     override fun manageDatabaseInfo(): Boolean  = false
 

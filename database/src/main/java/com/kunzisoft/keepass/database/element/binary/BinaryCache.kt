@@ -1,7 +1,6 @@
 package com.kunzisoft.keepass.database.element.binary
 
 import java.io.File
-import java.util.*
 
 class BinaryCache {
 
@@ -29,7 +28,7 @@ class BinaryCache {
     }
 
     // Similar to file storage but much faster TODO SparseArray
-    private val byteArrayList = HashMap<String, ByteArray>()
+    private val byteArrayList = mutableMapOf<String, ByteArray>()
 
     fun getByteArray(key: String): KeyByteArray {
         if (key == UNKNOWN) {

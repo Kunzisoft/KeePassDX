@@ -20,6 +20,7 @@
 package com.kunzisoft.keepass.credentialprovider.passkey.data
 
 import com.kunzisoft.encrypt.Base64Helper
+import com.kunzisoft.keepass.credentialprovider.passkey.data.AuthenticationExtensionsClientInputs.Companion.getAuthenticationExtensionsClientInputs
 import com.kunzisoft.keepass.credentialprovider.passkey.data.AuthenticatorSelectionCriteria.Companion.getAuthenticatorSelectionCriteria
 import com.kunzisoft.keepass.credentialprovider.passkey.data.PublicKeyCredentialDescriptor.Companion.getPublicKeyCredentialDescriptorList
 import com.kunzisoft.keepass.credentialprovider.passkey.data.PublicKeyCredentialParameters.Companion.getPublicKeyCredentialParametersList
@@ -56,6 +57,9 @@ class PublicKeyCredentialCreationOptions(
 
     var attestation: String =
         json.optString("attestation", "none")
+
+    val extensions: AuthenticationExtensionsClientInputs =
+        json.getAuthenticationExtensionsClientInputs("extensions")
 
     companion object {
         private val TAG = PublicKeyCredentialCreationOptions::class.simpleName

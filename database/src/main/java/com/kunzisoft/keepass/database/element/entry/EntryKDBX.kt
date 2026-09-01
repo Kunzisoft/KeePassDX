@@ -34,9 +34,8 @@ import com.kunzisoft.keepass.database.element.group.GroupKDBX
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.node.NodeIdUUID
 import com.kunzisoft.keepass.database.element.node.NodeKDBXInterface
-import com.kunzisoft.keepass.database.element.node.Type
+import com.kunzisoft.keepass.database.element.node.NodeType
 import com.kunzisoft.keepass.database.element.security.ProtectedString
-import com.kunzisoft.keepass.utils.UnsignedLong
 import com.kunzisoft.keepass.utils.readParcelableCompat
 import com.kunzisoft.keepass.utils.readStringIntMap
 import com.kunzisoft.keepass.utils.readStringParcelableMap
@@ -52,7 +51,7 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
     @Transient
     private var mDecodeRef = false
 
-    override var usageCount = UnsignedLong(0)
+    override var usageCount: ULong = 0u
     override var locationChanged = DateInstant()
     override var customData = CustomData()
     private var fields = LinkedHashMap<String, ProtectedString>()
@@ -64,7 +63,8 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
     override var previousParentGroup: UUID = DatabaseVersioned.UUID_ZERO
     var qualityCheck = true
     var autoType = AutoType()
-    var history = ArrayList<EntryKDBX>()
+    var historyMainEntryId: UUID? = null
+    var history = mutableListOf<EntryKDBX>()
     var additional = ""
 
     override var expires: Boolean = false
@@ -72,7 +72,7 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
     constructor() : super()
 
     constructor(parcel: Parcel) : super(parcel) {
-        usageCount = UnsignedLong(parcel.readLong())
+        usageCount = parcel.readLong().toULong()
         locationChanged = parcel.readParcelableCompat() ?: locationChanged
         customData = parcel.readParcelableCompat() ?: CustomData()
         fields = parcel.readStringParcelableMap()
@@ -81,8 +81,9 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
         backgroundColor = parcel.readString() ?: backgroundColor
         overrideURL = parcel.readString() ?: overrideURL
         tags = parcel.readParcelableCompat() ?: tags
-        previousParentGroup = parcel.readParcelableCompat<ParcelUuid>()?.uuid ?: DatabaseVersioned.UUID_ZERO
+        previousParentGroup = parcel.readParcelableCompat<ParcelUuid>()?.uuid ?: previousParentGroup
         autoType = parcel.readParcelableCompat() ?: autoType
+        historyMainEntryId = parcel.readParcelableCompat<ParcelUuid>()?.uuid ?: historyMainEntryId
         parcel.readTypedList(history, CREATOR)
         additional = parcel.readString() ?: additional
     }
@@ -97,7 +98,7 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
 
     override fun writeToParcel(dest: Parcel, flags: Int) {
         super.writeToParcel(dest, flags)
-        dest.writeLong(usageCount.toKotlinLong())
+        dest.writeLong(usageCount.toLong())
         dest.writeParcelable(locationChanged, flags)
         dest.writeParcelable(customData, flags)
         dest.writeStringParcelableMap(fields, flags)
@@ -108,6 +109,7 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
         dest.writeParcelable(tags, flags)
         dest.writeParcelable(ParcelUuid(previousParentGroup), flags)
         dest.writeParcelable(autoType, flags)
+        dest.writeParcelable(ParcelUuid(historyMainEntryId), flags)
         dest.writeTypedList(history)
         dest.writeString(additional)
     }
@@ -116,9 +118,11 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
      * Update with deep copy of each entry element
      * @param source
      */
-    fun updateWith(source: EntryKDBX,
-                   copyHistory: Boolean = true,
-                   updateParents: Boolean = true) {
+    fun updateWith(
+        source: EntryKDBX,
+        copyHistory: Boolean = true,
+        updateParents: Boolean = true
+    ) {
         super.updateWith(source, updateParents)
         usageCount = source.usageCount
         locationChanged = DateInstant(source.locationChanged)
@@ -133,6 +137,7 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
         tags = source.tags
         previousParentGroup = source.previousParentGroup
         autoType = AutoType(source.autoType)
+        historyMainEntryId = source.historyMainEntryId
         history.clear()
         if (copyHistory)
             history.addAll(source.history)
@@ -157,79 +162,80 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
         return NodeIdUUID(nodeId.id)
     }
 
-    override val type: Type
-        get() = Type.ENTRY
+    override val type: NodeType
+        get() = NodeType.ENTRY
 
     /**
      * Decode a reference key with the FieldReferencesEngine
-     * @param decodeRef
-     * @param key
-     * @return
      */
-    private fun decodeRefKey(decodeRef: Boolean, key: String, recursionLevel: Int): String {
-        return fields[key]?.toString()?.let { text ->
+    private fun decodeRefKey(decodeRef: Boolean, key: String, recursionLevel: Int): CharArray {
+        return fields[key]?.charArrayValue?.let { charArray ->
             return if (decodeRef) {
-                mDatabase?.getFieldReferenceValue(this, text, recursionLevel) ?: text
-            } else text
-        } ?: ""
+                mDatabase?.getFieldReferenceValue(
+                    entry = this,
+                    textReference = charArray,
+                    recursionLevel = recursionLevel
+                ) ?: charArray
+            } else charArray
+        } ?: charArrayOf()
     }
 
-    fun decodeTitleKey(recursionLevel: Int): String {
+    fun decodeTitleKey(recursionLevel: Int): CharArray {
         return decodeRefKey(mDecodeRef, STR_TITLE, recursionLevel)
     }
 
     override var title: String
-        get() = decodeTitleKey(0)
+        get() = String(decodeTitleKey(0))
         set(value) {
             val protect = mDatabase != null && mDatabase!!.memoryProtection.protectTitle
             fields[STR_TITLE] = ProtectedString(protect, value)
         }
 
-    fun decodeUsernameKey(recursionLevel: Int): String {
+    fun decodeUsernameKey(recursionLevel: Int): CharArray {
         return decodeRefKey(mDecodeRef, STR_USERNAME, recursionLevel)
     }
 
     override var username: String
-        get() = decodeUsernameKey(0)
+        get() = String(decodeUsernameKey(0))
         set(value) {
             val protect = mDatabase != null && mDatabase!!.memoryProtection.protectUserName
             fields[STR_USERNAME] = ProtectedString(protect, value)
         }
 
-    fun decodePasswordKey(recursionLevel: Int): String {
+    fun decodePasswordKey(recursionLevel: Int): CharArray {
         return decodeRefKey(mDecodeRef, STR_PASSWORD, recursionLevel)
     }
 
-    override var password: String
+    override var password: CharArray
         get() = decodePasswordKey(0)
         set(value) {
             val protect = mDatabase != null && mDatabase!!.memoryProtection.protectPassword
             fields[STR_PASSWORD] = ProtectedString(protect, value)
         }
 
-    fun decodeUrlKey(recursionLevel: Int): String {
+    fun decodeUrlKey(recursionLevel: Int): CharArray {
         return decodeRefKey(mDecodeRef, STR_URL, recursionLevel)
     }
 
     override var url
-        get() = decodeUrlKey(0)
+        get() = String(decodeUrlKey(0))
         set(value) {
             val protect = mDatabase != null && mDatabase!!.memoryProtection.protectUrl
             fields[STR_URL] = ProtectedString(protect, value)
         }
 
-    fun decodeNotesKey(recursionLevel: Int): String {
+    fun decodeNotesKey(recursionLevel: Int): CharArray {
         return decodeRefKey(mDecodeRef, STR_NOTES, recursionLevel)
     }
 
     override var notes: String
-        get() = decodeNotesKey(0)
+        get() = String(decodeNotesKey(0))
         set(value) {
             val protect = mDatabase != null && mDatabase!!.memoryProtection.protectNotes
             fields[STR_NOTES] = ProtectedString(protect, value)
         }
 
-    fun getCustomFieldValue(label: String, recursionLevel: Int = 0): String {
+    fun getCustomFieldValue(label: String, recursionLevel: Int = 0): CharArray {
         return decodeRefKey(mDecodeRef, label, recursionLevel)
     }
 
@@ -314,7 +320,7 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
      * It's a list because history labels can be defined multiple times
      */
     fun getAttachments(attachmentPool: AttachmentPool, inHistory: Boolean = false): List<Attachment> {
-        val entryAttachmentList = ArrayList<Attachment>()
+        val entryAttachmentList = mutableListOf<Attachment>()
         for ((label, poolId) in binaries) {
             attachmentPool[poolId]?.let { binary ->
                 entryAttachmentList.add(Attachment(label, binary))
@@ -353,7 +359,16 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
         return size
     }
 
+    fun isHistoric(): Boolean {
+        return historyMainEntryId != null
+    }
+
     fun addEntryToHistory(entry: EntryKDBX) {
+        // The current entry is no longer part of the history once we add a history entry to it
+        // And the history entry we add must not contain any history in it
+        historyMainEntryId = null
+        entry.clearHistory()
+        entry.historyMainEntryId = nodeId.id
         history.add(entry)
     }
 
@@ -377,9 +392,13 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
         } else null
     }
 
+    fun clearHistory() {
+        history.clear()
+    }
+
     override fun touch(modified: Boolean, touchParents: Boolean) {
         super.touch(modified, touchParents)
-        usageCount.plusOne()
+        usageCount++
     }
 
     companion object {

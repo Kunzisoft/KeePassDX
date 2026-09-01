@@ -19,13 +19,13 @@
  */
 package com.kunzisoft.keepass.tests.crypto
 
-import com.kunzisoft.keepass.utils.readBytesLength
 import com.kunzisoft.keepass.database.crypto.EncryptionAlgorithm
+import com.kunzisoft.keepass.utils.readBytesLength
 import org.junit.Assert.assertArrayEquals
 import org.junit.Test
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
-import java.util.*
+import java.util.Random
 import javax.crypto.Cipher
 import javax.crypto.CipherInputStream
 import javax.crypto.CipherOutputStream

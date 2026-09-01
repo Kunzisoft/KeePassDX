@@ -179,7 +179,7 @@
     <string name="education_entry_new_field_title">添加自定義欄位</string>
     <string name="education_field_copy_summary">已複製的欄位可以貼到任何地方。\n\n選擇需要的表格填寫方式。</string>
     <string name="education_field_copy_title">複製欄位</string>
-    <string name="education_generate_password_summary">依據表單中的標準進行簡單的定義，隨機為該條目生成一個強密碼，不在擔心忘記安全密碼。</string>
+    <string name="education_generate_password_summary">生成一個強密碼與您的條目關聯，根據表單的標準輕鬆設定它，並且不要忘記它。</string>
     <string name="education_generate_password_title">建立一個強密碼</string>
     <string name="education_lock_summary">可以設置在無操作和螢幕關閉的時候，鎖定資料庫。</string>
     <string name="education_lock_title">鎖定資料庫</string>
@@ -250,7 +250,7 @@
     <string name="error_invalid_path">請確保路徑正確。</string>
     <string name="error_label_exists">此標籤已存在。</string>
     <string name="error_load_database">無法載入資料庫。</string>
-    <string name="error_load_database_KDF_memory">無法載入密鑰。嘗試降低 KDF\"記憶體使用率\"。</string>
+    <string name="error_load_database_KDF_memory">KDF 記憶體使用率過高，無法載入。</string>
     <string name="error_move_entry_here">你不能移動項目至此處。</string>
     <string name="error_move_group_here">不能將群組移至此處。</string>
     <string name="error_no_name">請輸入用戶名。</string>
@@ -266,7 +266,7 @@
     <string name="error_rebuild_list">無法正確地重建列表。</string>
     <string name="error_registration_read_only">唯讀資料庫不允許儲存新項目。</string>
     <string name="error_remove_file">刪除檔案資料時發生了一個錯誤。</string>
-    <string name="error_rounds_too_large">次數太多，最大設置到 2147483648。</string>
+    <string name="error_rounds_too_large">次數太多，最大設置到 %1$s。</string>
     <string name="error_save_database">無法儲存資料庫。</string>
     <string name="error_start_database_action">對資料庫執行操作時發生了一個錯誤。</string>
     <string name="error_string_key">每個字串必須具有欄位名稱。</string>
@@ -354,8 +354,6 @@
     <string name="keyboard_previous_lock_title">鎖定資料庫</string>
     <string name="keyboard_save_search_info_summary">於 KeePassDX 手動選擇條目後，嘗試記住分享標的以供日後使用</string>
     <string name="keyboard_save_search_info_title">保存分享的訊息</string>
-    <string name="keyboard_selection_entry_summary">在 KeePassDX 中查看條目時，同時把該條目填充到 Magikeyboard</string>
-    <string name="keyboard_selection_entry_title">項目選擇</string>
     <string name="keyboard_setting_label">魔法鍵盤設置</string>
     <string name="keyboard_theme_title">鍵盤主題</string>
     <string name="keyfile_is_empty">密鑰檔案是空白的。</string>
@@ -490,7 +488,7 @@
     <string name="settings_database_force_changing_master_key_title">強制更換</string>
     <string name="settings_database_recommend_changing_master_key_summary">建議更改主密鑰（天）</string>
     <string name="settings_database_recommend_changing_master_key_title">建議更新</string>
-    <string name="show_otp_token_summary">在項目清單中顯示 OTP 令牌</string>
+    <string name="show_otp_token_summary">預設顯示一次性密碼令牌</string>
     <string name="show_otp_token_title">顯示 OTP 令牌</string>
     <string name="show_recent_files_summary">顯示最近使用的資料庫位置</string>
     <string name="show_recent_files_title">最近開啟的檔案</string>
@@ -536,9 +534,9 @@
     <string name="unavailable_feature_version">此裝置使用 Android %1$s, 但需要 %2$s 或更高。</string>
     <string name="underline">強調</string>
     <string name="unit_byte">B</string>
-    <string name="unit_gibibyte">GB</string>
+    <string name="unit_gibibyte">GiB</string>
     <string name="unit_kibibyte">KB</string>
-    <string name="unit_mebibyte">MB</string>
+    <string name="unit_mebibyte">MiB</string>
     <string name="unsupported_db_version">不支援的資料庫版本。</string>
     <string name="upload_attachment">上傳 %1$s</string>
     <string name="uppercase">大寫</string>
@@ -546,7 +544,7 @@
     <string name="version">版本</string>
     <string name="version_label">版本 %1$s</string>
     <string name="warning">警告</string>
-    <string name="warning_database_info_changed">資料庫檔案中包含的信息已在應用程式之外被修改。</string>
+    <string name="warning_database_info_changed">您資料庫中的資訊已在應用程式外被修改。</string>
     <string name="warning_database_info_changed_options">通過保存資料庫或用最近的更新重新加載資料庫來合并數據和覆蓋外部修改。</string>
     <string name="warning_database_link_revoked">訪問檔案管理器撤消訪問權限的檔案</string>
     <string name="warning_database_read_only">授予軟體檔案讀寫訪問權限以保存資料庫更改</string>
@@ -668,7 +666,7 @@
 \n如果不啟用此權限，當其他應用程式在前台運作時，您将无法在通知欄中查看背景運行的資料庫。</string>
     <string name="unlock_and_link_biometric">裝置解鎖連線</string>
     <string name="education_validate_entry_title">驗證條目</string>
-    <string name="warning_database_info_changed_options_read_only">以最新的變動重新載入資料庫。</string>
+    <string name="warning_database_info_changed_options_read_only">請使用最新的變更重新載入資料庫。</string>
     <string name="hide_templates_title">隱藏模板</string>
     <string name="generate_keyfile">產生密鑰檔案</string>
     <string name="recursive_number_entries_title">遞迴項目數</string>
@@ -698,7 +696,7 @@
     <string name="passkey_selection_description">選擇現有 passkey</string>
     <string name="passkey_username">Passkey 使用者名稱</string>
     <string name="passkey_private_key">Passkey 私鑰</string>
-    <string name="passkeys_missing_signature_app_ask_message">%1$s 無法識別，並嘗試使用現有 passkey 進行身份驗證。</string>
+    <string name="passkeys_missing_signature_app_ask_message">%1$s 無法識別，並嘗試使用現有密鑰進行驗證。</string>
     <string name="passkey_backup_state">通行金鑰備份狀態</string>
     <string name="clipboard_otp_notifications_title">OTP 通知</string>
     <string name="clipboard_otp_notifications_summary">打開通知即可從自動填充或魔法鍵盤填充的條目中複製 OTP</string>
@@ -714,8 +712,6 @@
     <string name="user_verification">用戶驗證</string>
     <string name="user_verification_device_credential_title">用戶驗證憑證</string>
     <string name="user_verification_device_credential_summary">如果可用，使用裝置憑證進行使用者驗證</string>
-    <string name="user_verification_mode_title">用户驗證模式</string>
-    <string name="user_verification_mode_summary">打開資料庫時預設啟用用户驗證模式</string>
     <string name="menu_user_verification_enabled">用戶驗證已啟用</string>
     <string name="menu_user_verification_disabled">用戶驗證已禁用</string>
     <string name="user_verification_preferred_title">首選用戶驗證</string>
@@ -735,7 +731,7 @@
     <string name="passkey_relying_party">通行密鑰依賴方</string>
     <string name="passkey_backup_eligibility">通行密鑰備份資格</string>
     <string name="error_passkey_result">無法返回通行密鑰</string>
-    <string name="error_passkey_credential_id">未找到與依賴方 %1$s 和憑據 ID %2$s 匹配的通行密鑰</string>
+    <string name="error_passkey_credential_id">未找到與依賴方 %1$s 及憑證 ID %2$s 對應的通行碼</string>
     <string name="password_creation_description">在新條目中保存密碼</string>
     <string name="password_selection_description">選擇現有密碼</string>
     <string name="error_password_result">無法返回密碼</string>
@@ -746,4 +742,20 @@
     <string name="user_verification_database_credential">請輸入資料庫密碼的前四個字符</string>
     <string name="first_chars">首個字元</string>
     <string name="check">檢查</string>
+    <string name="content_description_share_url">分享網址</string>
+    <string name="show_tags_title">顯示標籤</string>
+    <string name="show_tags_summary">在條目列表中顯示標籤</string>
+    <string name="benchmark_calculation">計算 %1$s 秒</string>
+    <string name="benchmarking">正在進行基準測試…</string>
+    <string name="keyboard_share_browser">從 %1$s 分享到 KeePassDX</string>
+    <string name="error_memory_too_large">「記憶體使用量」過高。設定為 %1$s。</string>
+    <string name="error_parallelism_too_large">「平行度」過高。設定為 %1$s。</string>
+    <string name="error_missing_parent">沒有父項無法執行此操作。</string>
+    <string name="temporary_merge_success">暫存資料合併成功完成</string>
+    <string name="reload_success">重新載入成功完成</string>
+    <string name="autofill_suggestions_title">自動填寫建議</string>
+    <string name="autofill_suggestions_summary">使用表單識別演算法來提供建議條目</string>
+    <string name="passkey_pseudo_random_function">通行碼偽隨機函數</string>
+    <string name="error_load_database_KDF_parallelism">KDF 並行度過高，無法載入。</string>
+    <string name="parallelism_set_safe">設定處理器數量</string>
 </resources>

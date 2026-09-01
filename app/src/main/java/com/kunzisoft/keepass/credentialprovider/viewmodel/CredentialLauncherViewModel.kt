@@ -16,16 +16,17 @@ import com.kunzisoft.keepass.model.SearchInfo
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 abstract class CredentialLauncherViewModel(application: Application): AndroidViewModel(application) {
 
     protected var mDatabase: ContextualDatabase? = null
 
-    protected var isResultLauncherRegistered: Boolean = false
+    private var isResultLauncherRegistered: Boolean = false
     private var mSelectionResult: ActivityResult? = null
     protected val mCredentialUiState = MutableStateFlow<CredentialState>(CredentialState.Loading)
-    val credentialUiState: StateFlow<CredentialState> = mCredentialUiState
+    val credentialUiState: StateFlow<CredentialState> = mCredentialUiState.asStateFlow()
 
     fun showError(error: Throwable) {
         Log.e(TAG, "Error on credential provider launch", error)
@@ -33,7 +34,9 @@ abstract class CredentialLauncherViewModel(application: Application): AndroidVie
     }
 
     open fun onResult() {
-        isResultLauncherRegistered = false
+        // No need to allow new Activity operation if finished
+        // and prevent workflow bug if activity is relaunched
+        // isResultLauncherRegistered = false
         mSelectionResult = null
     }
 

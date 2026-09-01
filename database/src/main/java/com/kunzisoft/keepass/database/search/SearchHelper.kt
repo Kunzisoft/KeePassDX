@@ -22,30 +22,48 @@ package com.kunzisoft.keepass.database.search
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.Entry
 import com.kunzisoft.keepass.database.element.Group
+import com.kunzisoft.keepass.database.element.GroupId
 import com.kunzisoft.keepass.database.element.node.NodeHandler
-import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.model.AppOriginEntryField.isAppId
 import com.kunzisoft.keepass.model.AppOriginEntryField.isAppIdSignature
 import com.kunzisoft.keepass.model.AppOriginEntryField.isWebDomain
+import com.kunzisoft.keepass.model.DatabaseInfo
 import com.kunzisoft.keepass.model.PasskeyEntryFields.isCredentialId
 import com.kunzisoft.keepass.model.PasskeyEntryFields.isPasskey
 import com.kunzisoft.keepass.model.PasskeyEntryFields.isRelyingParty
+import com.kunzisoft.keepass.model.SearchGroupInfo
+import com.kunzisoft.keepass.model.SortedEntryInfo
 import com.kunzisoft.keepass.otp.OtpEntryFields.isOTP
 import com.kunzisoft.keepass.otp.OtpEntryFields.isOTPURIField
 import com.kunzisoft.keepass.utils.UUIDUtils.asHexString
+import com.kunzisoft.keepass.utils.contains
 import com.kunzisoft.keepass.utils.inTheSameDomainAs
 
+/**
+ * Helper class for searching entries within a database.
+ * This class provides methods to iterate through groups and entries based on search parameters.
+ */
 class SearchHelper {
 
     private var incrementEntry = 0
 
-    fun createVirtualGroupWithSearchResult(database: Database,
-                                           searchParameters: SearchParameters,
-                                           fromGroup: NodeId<*>? = null,
-                                           max: Int): Group? {
+    /**
+     * Creates a [SearchGroupInfo] containing entries that match the specified search parameters.
+     * @param database The database info to search in.
+     * @param searchParameters The parameters defining the search query and scope.
+     * @param fromGroup The starting group ID for the search, defaults to root if null.
+     * @param max The maximum number of search results to return.
+     * @return A [SearchGroupInfo] containing the search results.
+     */
+    fun createGroupInfoWithSearchResult(
+        database: DatabaseInfo,
+        searchParameters: SearchParameters,
+        fromGroup: GroupId? = null,
+        max: Int
+    ): SearchGroupInfo {
 
-        val searchGroup = database.createGroup(virtual = true)
-        searchGroup?.title = "\"" + searchParameters.searchQuery + "\""
+        val searchGroup = SearchGroupInfo()
+        searchGroup.title = "\"" + searchParameters.searchQuery + "\""
 
         // Search all entries
         incrementEntry = 0
@@ -65,7 +83,13 @@ class SearchHelper {
                         if (database.entryIsTemplate(node) && !searchParameters.searchInTemplates)
                             return false
                         if (entryContainsString(database, node, searchParameters)) {
-                            searchGroup?.addChildEntry(node)
+                            searchGroup.addSearchResult(
+                                SortedEntryInfo(
+                                    entryToCopy = database.getEntryInfoFrom(node),
+                                    indexInParent = node.indexInParent(),
+                                    path = node.getPathString()
+                                )
+                            )
                             incrementEntry++
                         }
                         // Stop searching when we have max entries
@@ -85,16 +109,16 @@ class SearchHelper {
                 false
             )
         }
-
-        searchGroup?.getNumberOfChildEntries()
         return searchGroup
     }
 
-    private fun groupConditions(database: Database,
-                                group: Group?,
-                                searchParameters: SearchParameters,
-                                allowCustomSearchable: Boolean,
-                                max: Int): Boolean {
+    private fun groupConditions(
+        database: Database,
+        group: Group?,
+        searchParameters: SearchParameters,
+        allowCustomSearchable: Boolean,
+        max: Int
+    ): Boolean {
         return if (group == null)
             false
         else if (incrementEntry >= max)
@@ -111,9 +135,11 @@ class SearchHelper {
             true
     }
 
-    private fun entryContainsString(database: Database,
-                                    entry: Entry,
-                                    searchParameters: SearchParameters): Boolean {
+    private fun entryContainsString(
+        database: Database,
+        entry: Entry,
+        searchParameters: SearchParameters
+    ): Boolean {
         // To search in field references
         database.startManageEntry(entry)
         // Search all strings in the entry
@@ -126,13 +152,22 @@ class SearchHelper {
     companion object {
 
         /**
-         * Return true if the search query in search parameters is found in available parameters
+         * Checks if an entry matches the specified search parameters.
+         * @param entry The entry to search in.
+         * @param searchParameters The parameters defining the search query and scope.
+         * @return True if the entry matches the search criteria, false otherwise.
          */
         fun searchInEntry(
             entry: Entry,
             searchParameters: SearchParameters
         ): Boolean {
-            // Not found if the search string is empty
+            // Search in Tags
+            if (searchParameters.searchInTags) {
+                if (!entry.tags.containsAny(searchParameters.tagsToSearch))
+                    return false
+            }
+
+            // Show all if the search string is empty
             if (searchParameters.searchQuery.isEmpty())
                 return searchParameters.allowEmptyQuery
 
@@ -158,7 +193,7 @@ class SearchHelper {
             if (searchParameters.searchInAppIds) {
                 if (entry.getExtraFields().any { field ->
                         field.isAppId()
-                        && checkSearchQuery(field.protectedValue.stringValue, searchParameters)
+                        && checkSearchQuery(field.protectedValue.charArrayValue, searchParameters)
                     })
                     return true
             }
@@ -169,7 +204,7 @@ class SearchHelper {
                     return true
                 } else if (entry.getExtraFields().any { field ->
                         field.isWebDomain()
-                        && checkSearchQuery(field.protectedValue.stringValue, searchParameters) { stringToCheck, word ->
+                        && checkSearchQuery(field.protectedValue.toString(), searchParameters) { stringToCheck, word ->
                             specialWebDomainComparison(searchParameters, stringToCheck, word)
                         }
                     }) {
@@ -178,10 +213,10 @@ class SearchHelper {
             }
             if (searchParameters.searchInRelyingParty) {
                 val relyingParty = searchParameters.searchQuery
-                val credentialIds = searchParameters.searchOptions
+                val credentialIds = searchParameters.credentialIds
                 val containsRelyingParty = entry.getExtraFields().any { field ->
                         field.isRelyingParty()
-                                && field.protectedValue.stringValue
+                                && field.protectedValue.toString()
                                     .equals(relyingParty, ignoreCase = true)
                     }
                 // Check empty to allow any credential if not defined
@@ -191,7 +226,7 @@ class SearchHelper {
                     else entry.getExtraFields().any { field ->
                         field.isCredentialId() && credentialIds.any { credentialId ->
                            checkSearchQuery(
-                               stringToCheck =  field.protectedValue.stringValue,
+                               stringToCheck =  field.protectedValue.charArrayValue,
                                searchParameters = SearchParameters().apply {
                                    searchQuery = credentialId
                                    caseSensitive = false
@@ -214,7 +249,7 @@ class SearchHelper {
             if (searchParameters.searchInOTP) {
                 if (entry.getExtraFields().any { field ->
                     field.isOTPURIField()
-                    && checkSearchQuery(field.protectedValue.stringValue, searchParameters)
+                    && checkSearchQuery(field.protectedValue.charArrayValue, searchParameters)
                 })
                     return true
             }
@@ -225,12 +260,8 @@ class SearchHelper {
                     && !field.isWebDomain()
                     && !field.isOTP()
                     && !field.isPasskey()
-                    && checkSearchQuery(field.protectedValue.toString(), searchParameters)
+                    && checkSearchQuery(field.protectedValue.charArrayValue, searchParameters)
                 })
-                    return true
-            }
-            if (searchParameters.searchInTags) {
-                if (checkSearchQuery(entry.tags.toString(), searchParameters))
                     return true
             }
             return false
@@ -256,7 +287,18 @@ class SearchHelper {
         private fun checkSearchQuery(
             stringToCheck: String,
             searchParameters: SearchParameters,
-            specialComparison: ((check: String, word: String) -> Boolean?)? = null): Boolean {
+            specialComparison: ((check: String, word: String) -> Boolean?)? = null
+        ): Boolean {
+            return checkSearchQuery(stringToCheck.toCharArray(), searchParameters) { check, word ->
+                specialComparison?.invoke(String(check), word)
+            }
+        }
+
+        private fun checkSearchQuery(
+            stringToCheck: CharArray,
+            searchParameters: SearchParameters,
+            specialComparison: ((check: CharArray, word: String) -> Boolean?)? = null
+        ): Boolean {
             /*
             // TODO Search settings
             var removeAccents = true <- Too much time, to study
@@ -271,7 +313,7 @@ class SearchHelper {
                     searchParameters.searchQuery
                         .toRegex(setOf(RegexOption.DOT_MATCHES_ALL, RegexOption.IGNORE_CASE))
                 }
-                regex.matches(stringToCheck)
+                regex.matches(String(stringToCheck))
             } else {
                 specialComparison?.invoke(stringToCheck, searchParameters.searchQuery)
                     ?: run {
@@ -279,10 +321,7 @@ class SearchHelper {
                         var searchFound = true
                         searchParameters.searchQuery.split(" ").forEach { word ->
                             searchFound = searchFound
-                                    && stringToCheck.contains(
-                                word,
-                                !searchParameters.caseSensitive
-                                    )
+                                    && stringToCheck.contains(word, !searchParameters.caseSensitive)
                         }
                         searchFound
                     }

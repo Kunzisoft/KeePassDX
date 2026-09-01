@@ -552,7 +552,7 @@ class StructureParser(
         }
 
         fun allAutofillIds(): Array<AutofillId> {
-            val all = ArrayList<AutofillId>()
+            val all = mutableListOf<AutofillId>()
             usernameId?.let {
                 all.add(it)
             }

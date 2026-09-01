@@ -164,7 +164,7 @@
     <string name="error_disallow_no_credentials">অন্তত একটি শংসাপত্র সেট করা আবশ্যক.</string>
     <string name="error_string_key">প্রতিটি স্ট্রিং একটি ক্ষেত্রের নাম থাকতে হবে.</string>
     <string name="error_label_exists">এই লেবেলটি ইতিমধ্যেই বিদ্যমান।</string>
-    <string name="error_rounds_too_large">\"ট্রান্সফরমেশন রাউন্ড\" খুব বেশি। 2147483648 এ সেট করা হচ্ছে।</string>
+    <string name="error_rounds_too_large">\"ট্রান্সফরমেশন রাউন্ড\" খুব বেশি। %1$s এ সেট করা হচ্ছে।</string>
     <string name="error_move_entry_here">আপনি এখানে একটি এন্ট্রি সরাতে পারবেন না.</string>
     <string name="error_copy_entry_here">আপনি এখানে একটি এন্ট্রি কপি করতে পারবেন না.</string>
     <string name="error_copy_group_here">আপনি এখানে একটি গ্রুপ অনুলিপি করতে পারবেন না.</string>

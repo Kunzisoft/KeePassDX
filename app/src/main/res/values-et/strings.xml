@@ -176,7 +176,7 @@
     <string name="education_generate_password_title">Loo tugev salasõna</string>
     <string name="content_description_repeat_toggle_password_visibility">Lülita salasõna nähtavus korduvalt sisse/välja</string>
     <string name="build_label">Kompileerimise viide: %1$s</string>
-    <string name="error_load_database_KDF_memory">Võtit ei leidunud. Proovi vähendada seadistust KDFi „Mälukasutus“.</string>
+    <string name="error_load_database_KDF_memory">KDF-i mälukasutus on liiga suur. Laadimine ei õnnestu.</string>
     <string name="file_manager_install_description">Andmebaasifailide loomiseks, avamiseks ja salvestamiseks on vajalik failihalduri olemasolu, mis oskaks kasutada ACTION_CREATE_DOCUMENT ja ACTION_OPEN_DOCUMENT päringuid.</string>
     <string name="navigation_drawer_open">Menüü on avatud</string>
     <string name="navigation_drawer_close">Menüü on suletud</string>
@@ -187,7 +187,7 @@
     <string name="error_arc4">Arcfouri jadašiffer pole toetatud.</string>
     <string name="error_wrong_length">Väljale „Pikkus“ sisesta positiivne täisarv.</string>
     <string name="error_pass_gen_type">Vähemalt üks salasõna loomise tüüp peab olema valitud.</string>
-    <string name="error_rounds_too_large">Iteratsioonide kordade arv on liiga suur. Muudame väärtuseks 2147483648.</string>
+    <string name="error_rounds_too_large">Iteratsioonide kordade arv on liiga suur. Muudame väärtuseks %1$s.</string>
     <string name="error_string_key">Igal tekstil peab olema väljanimi.</string>
     <string name="error_otp_secret_key">Salavõti peab olema base32 vormingus.</string>
     <string name="error_otp_counter">Loendur peab olema vahemikus %1$d kuni %2$d.</string>
@@ -395,7 +395,7 @@
     <string name="warning_empty_recycle_bin">Kas kustutame kõik prügikastis asuvad sõlmed jäädavalt?</string>
     <string name="warning_sure_add_file">Kas ikkagi lisame faili?</string>
     <string name="warning_replace_file">Selle faili üleslaadimine asendab olemasoleva faili.</string>
-    <string name="warning_database_info_changed_options_read_only">Laadi andmebaas uuesti koos viimaste muudatustega.</string>
+    <string name="warning_database_info_changed_options_read_only">Palun laadi andmebaas uuesti koos viimaste muudatustega.</string>
     <string name="warning_database_info_reloaded">Andmebaasi uuesti laadimine kustutab võimalikud kohalikud muudatused.</string>
     <string name="database_history">Ajalugu</string>
     <string name="properties">Omadused</string>
@@ -415,7 +415,7 @@
     <string name="error_disallow_no_credentials">Vähemalt üks autentimise vahend peab olema sisestatud.</string>
     <string name="warning_permanently_delete_nodes">Kas kustutame valitud sõlmed jäädavalt?</string>
     <string name="show_otp_token_title">Näita ühekordse salasõna tunnusluba</string>
-    <string name="show_otp_token_summary">Näita ühekordse salasõna tunnuslube kirjete loendis</string>
+    <string name="show_otp_token_summary">Vaikimisi kuvab ühekordse salasõna koode</string>
     <string name="compression">Pakkimine</string>
     <string name="compression_gzip">Gzip</string>
     <string name="recycle_bin">Prügikast</string>
@@ -553,7 +553,7 @@
     <string name="education_create_database_summary">Loo oma esimene andmebaasifail, mis on mõeldud salasõnade halduseks.</string>
     <string name="education_select_database_summary">Ava varemloodud andmebaasifail, mis on mõeldud salasõnade halduseks.</string>
     <string name="device_unlock_prompt_store_credential_title">Link seadme lukustuse eemaldamisele</string>
-    <string name="unlock">Eemalda lukustus</string>
+    <string name="unlock">Ava lukustus</string>
     <string name="device_unlock_tap_delete">Seadme lukustuse eemaldamise võtmete kustutamiseks klõpsi</string>
     <string name="device_unlock_explanation_summary">Andmebaasi mugavamaks avamiseks kasuta nutiseadme lukustuse eemaldamise võimalusi</string>
     <string name="device_credential_unlock_enable_title">Lukustuse eemaldamine nutiseadme autentimisega</string>
@@ -598,7 +598,6 @@
     <string name="magic_keyboard_title">Maagiklahvistik</string>
     <string name="device_keyboard_setting_title">Nutiseadme klahvistiku seadistused</string>
     <string name="keyboard_entry_category">Sisestus</string>
-    <string name="keyboard_selection_entry_title">Sisestuse valik</string>
     <string name="magic_keyboard_explanation_summary">Lülita sisse kohandatud klahvistik, mis eeltäidab sinu saalsõnad ja muud olulised väljad</string>
     <string name="keyboard_label">Maagiklahvistik (KeePassDX)</string>
     <string name="keyboard_name">Maagiklahvistik (Magikeyboard)</string>
@@ -609,7 +608,6 @@
     <string name="keyboard_notification_entry_clear_close_title">Sulgemisel kustuta</string>
     <string name="keyboard_notification_entry_clear_close_summary">Teavituse sulgemisel sulge ka andmebaas</string>
     <string name="keyboard_save_search_info_summary">Hilisema mugava kasutamise jaoks proovi käsitsi sisestamisel salvestada jagatud teavet</string>
-    <string name="keyboard_selection_entry_summary">Kui vaatad mõnda kirjet rakenduses KeePassDX, siis edasta selle kirje andmed Maagiklahvistikule</string>
     <string name="keyboard_notification_entry_content_title">%1$s on Maagiklahvistikus saadaval</string>
     <string name="keyboard_entry_timeout_title">Aegumine</string>
     <string name="keyboard_entry_timeout_summary">Aeg, peale mida kirje kustub klahvistikus</string>
@@ -634,7 +632,7 @@
     <string name="education_device_unlock_summary">Andmebaasi lukustuse kiireks eemaldamiseks seo oma andmebaasi salasõna nutiseadme biomeetrilise või tavatuvastusega.</string>
     <string name="education_entry_edit_title">Kirje muutmine</string>
     <string name="education_entry_edit_summary">Võid kirjele lisada omaloodud välju ning ka neid omavahel siduda.</string>
-    <string name="education_generate_password_summary">Sisestusvormil leiduvate eelmistuste alusel saad antud kirje jaoks luua tugeva salasõna ning seda andmebaasis hoides tagad, et korralik salasõna ei unune.</string>
+    <string name="education_generate_password_summary">Sisestusvormil leiduvate eelduste alusel saad antud kirje jaoks luua tugeva salasõna ning seda andmebaasis hoides tagad, et sa teda ei unusta.</string>
     <string name="education_validate_entry_title">Kirje kontrollimine ja salvestamine</string>
     <string name="education_entry_new_field_title">Omaloodud väljade lisamine</string>
     <string name="education_entry_new_field_summary">Registreeri täiendav väli, lisa sinna sisu ning soovi korral ka kaitse seda.</string>
@@ -717,10 +715,24 @@
     <string name="error_passkey_credential_id">Pääsuvõtit ei leidu edastava osapoole „%1$s“ ja tuvastustunnuse (credentialId) „%2$s“ jaoks</string>
     <string name="user_verification_required_description_precise">%1$s eeldab tuvastamist, et tõesti on tegemist sinuga.</string>
     <string name="user_verification">Kasutaja verifitseerimine</string>
-    <string name="user_verification_mode_title">Kasutaja verifitseerimise režiim</string>
-    <string name="user_verification_mode_summary">Andmebaasi avamisel käivitab vaikimisi kasutaja verifitseerimise režiimi</string>
     <string name="menu_user_verification_enabled">Kasutaja verifitseerimine on lülitatud sisse</string>
     <string name="menu_user_verification_disabled">Kasutaja verifitseerimine on lülitatud välja</string>
     <string name="education_user_verification_title">Verifitseerimine turvatundlike toimingute puhul</string>
     <string name="education_user_verification_summary">Saad muuta kasutaja verifitseerimist sessioonikohaselt.\n\n„Kasutaja verifitseerimine on lülitatud sisse“ - kaitstud väljade ja andmebaasiseadistuste puhul on vajalik täiendav tuvastus.\n„Kasutaja verifitseerimine on lülitatud välja“ - saad muuta kõiki andmebaasis olevaid andmeid ilma täiendava tuvastuseta.</string>
+    <string name="content_description_share_url">Jagamise aadress</string>
+    <string name="show_tags_title">Näita silte</string>
+    <string name="show_tags_summary">Sildid on kuvatud kirjete loendis</string>
+    <string name="benchmark_calculation">Arvutamise kestus: %1$s sek</string>
+    <string name="benchmarking">Arvutan võrdlusanalüüsi jaoks…</string>
+    <string name="keyboard_share_browser">Jaga %1$s brauserist KeePassDX-i</string>
+    <string name="error_memory_too_large">Mälukasutus on liiga suur. Seadistan uueks piiriks %1$s.</string>
+    <string name="error_parallelism_too_large">Rööpsus on liiga suur. Seadistan uueks piiriks %1$s.</string>
+    <string name="error_missing_parent">Seda tegevust ei saa ilma ülemobjektita teha.</string>
+    <string name="temporary_merge_success">Andmete ajutine mestimine on kenasti tehtud</string>
+    <string name="reload_success">Andmete laadimine on kenasti tehtud</string>
+    <string name="autofill_suggestions_title">Automaattäite soovitused</string>
+    <string name="autofill_suggestions_summary">Sisestuste soovitamisel kasuta vormituvastuse algoritmi</string>
+    <string name="passkey_pseudo_random_function">Pääsuvõtme pseudojuhuslik funktsionaalsus</string>
+    <string name="error_load_database_KDF_parallelism">KDF-i rööpsus on liiga suur. Laadimine ei õnnestu.</string>
+    <string name="parallelism_set_safe">Seadista kasutatavate protsessorite arv</string>
 </resources>

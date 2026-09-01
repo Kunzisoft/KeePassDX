@@ -156,7 +156,7 @@
     <string name="error_pass_gen_type">Павінен быць абраны хаця б адзін тып генерацыі пароляў.</string>
     <string name="error_disallow_no_credentials">Павінен быць усталяваны хаця б адзін набор уліковых дадзеных.</string>
     <string name="error_pass_match">Паролі не супадаюць.</string>
-    <string name="error_rounds_too_large">Колькасць цыклаў пераўтварэння занадта высокая. Устаноўка 2147483648.</string>
+    <string name="error_rounds_too_large">Колькасць цыклаў пераўтварэння занадта высокая. Устаноўка %1$s.</string>
     <string name="error_string_key">Кожны радок павінен мець назву поля.</string>
     <string name="error_label_exists">Гэтая метка ўжо існуе.</string>
     <string name="error_wrong_length">Увядзіце станоўчае цэлае лік у полі Даўжыня.</string>
@@ -491,8 +491,6 @@
     <string name="keyboard_label">Магічная клавіятура (KeePassDX)</string>
     <string name="keyboard_setting_label">Налады магічнай клавіятуры</string>
     <string name="keyboard_entry_category">Запіс</string>
-    <string name="keyboard_selection_entry_title">Выбар запісу</string>
-    <string name="keyboard_selection_entry_summary">Пры праглядзе запісу ў KeePassDX, запоўніце магічную клавіятуру гэтым запісам</string>
     <string name="keyboard_notification_entry_title">Інфармацыя аб апавяшчэннях</string>
     <string name="keyboard_notification_entry_summary">Паказваць апавяшчэнне, калі запіс даступны</string>
     <string name="keyboard_save_search_info_title">Захаваць агульную інфармацыю</string>
@@ -682,8 +680,6 @@
     <string name="user_verification">Праверка карыстальніка</string>
     <string name="user_verification_device_credential_title">Уліковыя даныя для праверкі карыстальніка</string>
     <string name="user_verification_device_credential_summary">Выкарыстоўваць уліковыя даныя прылады для праверкі карыстальніка, калі магчыма</string>
-    <string name="user_verification_mode_title">Рэжым праверкі карыстальніка</string>
-    <string name="user_verification_mode_summary">Дазваляе прадвызначаную праверку карыстальніка падчас адкрыцця базы даных</string>
     <string name="menu_user_verification_enabled">Праверка карыстальніка ўключаная</string>
     <string name="menu_user_verification_disabled">Праверка карыстальніка выключаная</string>
     <string name="user_verification_preferred_title">Пераважная праверка карыстальніка</string>

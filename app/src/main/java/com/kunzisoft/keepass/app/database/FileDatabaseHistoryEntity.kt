@@ -27,22 +27,25 @@ import androidx.room.PrimaryKey
 data class FileDatabaseHistoryEntity(
         @PrimaryKey
         @ColumnInfo(name = "database_uri")
-            val databaseUri: String,
+        val databaseUri: String,
 
         @ColumnInfo(name = "database_alias")
-            var databaseAlias: String,
+        var databaseAlias: String,
 
         @ColumnInfo(name = "keyfile_uri")
-            var keyFileUri: String?,
+        var keyFileUri: String?,
 
         @ColumnInfo(name = "hardware_key")
-            var hardwareKey: String?,
+        var hardwareKey: String?,
 
         @ColumnInfo(name = "read_only")
-            var readOnly: Boolean?,
+        var readOnly: Boolean?,
+
+        @ColumnInfo(name = "user_verification")
+        var userVerification: Boolean?,
 
         @ColumnInfo(name = "updated")
-            val updated: Long
+        val updated: Long
 ) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
@@ -50,9 +53,7 @@ data class FileDatabaseHistoryEntity(
 
         other as FileDatabaseHistoryEntity
 
-        if (databaseUri != other.databaseUri) return false
-
-        return true
+        return databaseUri == other.databaseUri
     }
 
     override fun hashCode(): Int {

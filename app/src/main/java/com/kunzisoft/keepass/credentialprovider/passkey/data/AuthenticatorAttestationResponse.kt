@@ -36,7 +36,8 @@ class AuthenticatorAttestationResponse(
     private val publicKeyTypeId: Long,
     private val publicKeyCbor: ByteArray,
     private val clientDataResponse: ClientDataResponse,
-) : AuthenticatorResponse {
+    override val clientExtensionResults: AuthenticationExtensionsClientOutputs? = null
+) : AuthenticatorExtensionResponse {
 
     override var clientJson = JSONObject()
     var attestationObject: ByteArray
@@ -46,26 +47,33 @@ class AuthenticatorAttestationResponse(
     }
 
     private fun buildAuthData(): ByteArray {
-        return AuthenticatorData.buildAuthenticatorData(
+        val authData = AuthenticatorData.buildAuthenticatorData(
             relyingPartyId = requestOptions.relyingPartyEntity.id.toByteArray(),
             userPresent = userPresent,
             userVerified = userVerified,
             backupEligibility = backupEligibility,
             backupState = backupState,
-            attestedCredentialData = true
+            attestedCredentialData = true,
+            extensionsPresent = clientExtensionResults?.prf != null
         ) + AAGUID +
             //credIdLen
             byteArrayOf((credentialId.size shr 8).toByte(), credentialId.size.toByte()) +
             credentialId +
             credentialPublicKey
+        val prfAuthData = clientExtensionResults?.toAuthDataCbor(isRegistration = true)
+        return if (prfAuthData != null) {
+            authData + Cbor().encode(prfAuthData)
+        } else {
+            authData
+        }
     }
 
     internal fun defaultAttestationObject(): ByteArray {
         // https://www.w3.org/TR/webauthn-3/#attestation-object
         val ao = mutableMapOf<String, Any>()
-        ao.put("fmt", "none")
-        ao.put("attStmt", emptyMap<Any, Any>())
-        ao.put("authData", buildAuthData())
+        ao["fmt"] = "none"
+        ao["attStmt"] = emptyMap<Any, Any>()
+        ao["authData"] = buildAuthData()
         return Cbor().encode(ao)
     }
 

@@ -291,7 +291,6 @@
     <string name="keyboard_label">Magikeyboard (KeePassDX)</string>
     <string name="keyboard_setting_label">Rregullime për Magikeyboard</string>
     <string name="keyboard_entry_category">Zë</string>
-    <string name="keyboard_selection_entry_title">Përzgjedhje zërash</string>
     <string name="keyboard_notification_entry_summary">Shfaq një njoftim, kur ka një zë</string>
     <string name="keyboard_entry_timeout_title">Mbarim kohe</string>
     <string name="keyboard_appearance_category">Dukje</string>
@@ -431,7 +430,7 @@
     <string name="type">Lloj</string>
     <string name="seed"/>
     <string name="error_out_of_memory">S’ka kujtesë për të ngarkuar krejt bazën tuaj të të dhënave.</string>
-    <string name="error_rounds_too_large">“Raunde shndërrimi” shumë i lartë. Po vihet 2147483648.</string>
+    <string name="error_rounds_too_large">“Raunde shndërrimi” shumë i lartë. Po vihet %1$s.</string>
     <string name="error_string_key">Çdo varg duhet të ketë një emër fushe.</string>
     <string name="error_wrong_length">Te fusha “Gjatësi” jepni një numër të plotë pozitiv.</string>
     <string name="error_autofill_enable_service">S’u aktivizua dot shërbimi i vetëplotësimeve.</string>
@@ -587,7 +586,6 @@
     <string name="autofill_close_database_summary">Mbylle bazën e të dhënave, pas një përzgjedhjeje vetëplotësimi</string>
     <string name="education_entry_new_field_summary">Regjistroni një fushë shtesë, shtoni një vlerë dhe, në daçi, mbrojeni.</string>
     <string name="education_sort_summary">Zgjidhni si renditen zërat dhe grupet.</string>
-    <string name="keyboard_selection_entry_summary">Kur shihet një zë në KeePassDX, populloje Magikeyboard-in me atë zë</string>
     <string name="html_text_dev_feature_upgrade">Mos harroni ta mbani aplikacionin tuaj të përditësuar, duke instaluar versione të rinj.</string>
     <string name="device_unlock_invalid_key">S’mund të lexohet kyç shkyçjeje pajisjeje. Ju lutemi, fshijeni dhe përsëritni procedurën e njohjes së shkyçjeve.</string>
     <string name="temp_device_unlock_timeout_summary">Kohëzgjatje përdorimi shkyçjeve pajisjeje, para se të fshihet lënda e saj</string>
@@ -702,9 +700,10 @@
     <string name="credential_provider_service_subtitle">Kyçkalime, Shërbim furnizimi kredencialesh për vetëplotësim</string>
     <string name="menu_user_verification_disabled">Verifikimi i Përdoruesve është i çaktivizuar</string>
     <string name="menu_user_verification_enabled">Verifikim Përdoruesish është i aktivizuar</string>
-    <string name="user_verification_mode_summary">Aktivizon, si parazgjedhje, mënyrën Verifikim Përdoruesish, kur hapet një bazë të dhënash</string>
-    <string name="user_verification_mode_title">Mënyra Verifikim Përdoruesish</string>
     <string name="user_verification">Verifikim Përdoruesish</string>
     <string name="education_user_verification_summary">Ndrysho për sesionin mënyrë verifikimi përdoruesi. \n \n“Verifikim Përdoruesi i Aktivizuar” verifikon veprim në fusha të mbrojtura dhe rregullime baze të dhënash. \n“Verifikim Përdoruesi i Çaktivizuar” ju lejon të ndryshoni pa verifikim çfarëdo të dhënash në bazën tuaj të të dhënave.</string>
     <string name="education_user_verification_title">Verifikim për veprime me spec</string>
+    <string name="show_tags_title">Shfaq Etiketa</string>
+    <string name="show_tags_summary">Bën shfaqjen e Etiketave te lista e zërave</string>
+    <string name="benchmark_calculation">Njehsoje për %1$s s</string>
 </resources>

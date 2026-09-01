@@ -20,23 +20,19 @@
 package com.kunzisoft.keepass.activities.dialogs
 
 import android.app.Dialog
+import android.content.Context
 import android.os.Bundle
 import android.text.SpannableStringBuilder
+import android.text.format.Formatter
 import androidx.appcompat.app.AlertDialog
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.model.SnapFileDatabaseInfo
 import com.kunzisoft.keepass.utils.getParcelableCompat
+import java.text.DateFormat
+import java.util.Date
 
 
 class DatabaseChangedDialogFragment : DatabaseDialogFragment() {
-
-    var actionDatabaseListener: ActionDatabaseChangedListener? = null
-
-    override fun onPause() {
-        super.onPause()
-        actionDatabaseListener = null
-        this.dismiss()
-    }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         activity?.let { activity ->
@@ -67,7 +63,7 @@ class DatabaseChangedDialogFragment : DatabaseDialogFragment() {
                 }
                 builder.setMessage(stringBuilder)
                 builder.setPositiveButton(android.R.string.ok) { _, _ ->
-                    actionDatabaseListener?.onDatabaseChangeValidated()
+                    mDatabaseViewModel.onDatabaseChangeValidated()
                 }
                 return builder.create()
             }
@@ -75,8 +71,16 @@ class DatabaseChangedDialogFragment : DatabaseDialogFragment() {
         return super.onCreateDialog(savedInstanceState)
     }
 
-    interface ActionDatabaseChangedListener {
-        fun onDatabaseChangeValidated()
+    private fun SnapFileDatabaseInfo.toString(context: Context): String {
+        val lastModificationString = DateFormat.getDateTimeInstance()
+            .format(Date(lastModification ?: 0))
+        return "$lastModificationString, " +
+                Formatter.formatFileSize(context, size ?: 0)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        this.dismiss()
     }
 
     companion object {

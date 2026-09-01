@@ -28,14 +28,20 @@ class FidoPublicKeyCredential(
 ) {
 
     fun json(): String {
-        // see at https://www.w3.org/TR/webauthn-3/#sctn-authenticator-credential-properties-extension
-        val discoverableCredential = true
-        val rk = JSONObject()
-        rk.put("rk", discoverableCredential)
-        val credProps = JSONObject()
-        credProps.put("credProps", rk)
+        val isRegistration = response is AuthenticatorAttestationResponse
+        val clientExtensionResults = if (response is AuthenticatorExtensionResponse)
+                response.clientExtensionResults?.toJSON(isRegistration) ?: JSONObject()
+            else JSONObject()
 
-        // See RegistrationResponseJSON at
+        if (isRegistration) {
+            // see at https://www.w3.org/TR/webauthn-3/#sctn-authenticator-credential-properties-extension
+            val discoverableCredential = true
+            val rk = JSONObject()
+            rk.put("rk", discoverableCredential)
+            clientExtensionResults.put("credProps", rk)
+        }
+
+        // See RegistrationResponseJSON or AuthenticationResponseJSON at
         // https://w3c.github.io/webauthn/#ref-for-dom-publickeycredential-tojson
         val ret = JSONObject()
         ret.put("id", id)
@@ -43,7 +49,7 @@ class FidoPublicKeyCredential(
         ret.put("type", "public-key")
         ret.put("authenticatorAttachment", authenticatorAttachment)
         ret.put("response", response.json())
-        ret.put("clientExtensionResults", JSONObject()) // TODO credProps
+        ret.put("clientExtensionResults", clientExtensionResults)
 
         return ret.toString()
     }

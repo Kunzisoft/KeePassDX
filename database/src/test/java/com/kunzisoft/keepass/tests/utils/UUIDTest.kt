@@ -20,6 +20,7 @@
 package com.kunzisoft.keepass.tests.utils
 
 import com.kunzisoft.keepass.utils.UUIDUtils.asBytes
+import com.kunzisoft.keepass.utils.UUIDUtils.asHexCharArray
 import com.kunzisoft.keepass.utils.UUIDUtils.asHexString
 import com.kunzisoft.keepass.utils.UUIDUtils.asUUID
 import junit.framework.TestCase
@@ -31,6 +32,24 @@ class UUIDTest: TestCase() {
         val randomUUID = UUID.randomUUID()
         val hexStringUUID = randomUUID.asHexString()
         val retrievedUUID = hexStringUUID?.asUUID()
+        assertEquals(randomUUID, retrievedUUID)
+    }
+
+    fun testUUIDHexCharArray() {
+        val randomUUID = UUID.randomUUID()
+        val hexCharArrayUUID = randomUUID.asHexCharArray()
+        val retrievedUUID = hexCharArrayUUID?.asUUID()
+        assertEquals(randomUUID, retrievedUUID)
+
+        val hexStringUUID = randomUUID.asHexString()
+        assertTrue(hexStringUUID?.toCharArray().contentEquals(hexCharArrayUUID))
+    }
+
+    fun testCharArrayAsUUID() {
+        val randomUUID = UUID.randomUUID()
+        val hexCharArray = randomUUID.asHexCharArray()
+        assertNotNull(hexCharArray)
+        val retrievedUUID = hexCharArray!!.asUUID()
         assertEquals(randomUUID, retrievedUUID)
     }
 

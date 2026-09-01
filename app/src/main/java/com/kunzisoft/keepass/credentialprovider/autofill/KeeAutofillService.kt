@@ -47,6 +47,7 @@ import androidx.autofill.inline.v1.InlineSuggestionUi
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import com.kunzisoft.keepass.R
+import com.kunzisoft.keepass.credentialprovider.TypeMode
 import com.kunzisoft.keepass.credentialprovider.activity.AutofillLauncherActivity
 import com.kunzisoft.keepass.credentialprovider.autofill.StructureParser.Companion.APPLICATION_ID_POPUP_WINDOW
 import com.kunzisoft.keepass.credentialprovider.magikeyboard.MagikeyboardService
@@ -70,6 +71,7 @@ class KeeAutofillService : AutofillService() {
 
     private var mDatabaseTaskProvider: DatabaseTaskProvider? = null
     private var mDatabase: ContextualDatabase? = null
+    private var autofillSuggestionsEnabled: Boolean = false
     private var applicationIdBlocklist: Set<String>? = null
     private var webDomainBlocklist: Set<String>? = null
     private var askToSaveData: Boolean = false
@@ -96,6 +98,7 @@ class KeeAutofillService : AutofillService() {
     }
 
     private fun getPreferences() {
+        autofillSuggestionsEnabled = PreferencesUtil.isAutofillSuggestionsEnable(this)
         applicationIdBlocklist = PreferencesUtil.applicationIdBlocklist(this)
         webDomainBlocklist = PreferencesUtil.webDomainBlocklist(this)
         askToSaveData = PreferencesUtil.askToSaveAutofillData(this)
@@ -128,10 +131,14 @@ class KeeAutofillService : AutofillService() {
                 webDomain = parseResult.webDomain
             }
             // Add the search info to the magikeyboard service
-            MagikeyboardService.addSearchInfo(searchInfo)
+            MagikeyboardService.addSearchInfo(
+                context = application,
+                value = searchInfo,
+                from = TypeMode.AUTOFILL
+            )
 
             // Build search info only if applicationId or webDomain are not blocked
-            if (autofillAllowedFor(
+            if (autofillSuggestionsEnabled && autofillAllowedFor(
                     applicationId = parseResult.applicationId,
                     applicationIdBlocklist = applicationIdBlocklist,
                     webDomain = parseResult.webDomain,
@@ -161,7 +168,8 @@ class KeeAutofillService : AutofillService() {
                                 MagikeyboardService.addEntries(
                                     context = this,
                                     entryList = items,
-                                    autoSwitchKeyboard = switchToMagikeyboard
+                                    autoSwitchKeyboard = switchToMagikeyboard,
+                                    from = TypeMode.AUTOFILL
                                 )
                             } else {
                                 // Add OTP to clipboard notification #1347
@@ -269,8 +277,8 @@ class KeeAutofillService : AutofillService() {
                     // Tell the autofill framework the interest to save credentials
                     if (askToSaveData) {
                         var types: Int = SaveInfo.SAVE_DATA_TYPE_GENERIC
-                        val requiredIds = ArrayList<AutofillId>()
-                        val optionalIds = ArrayList<AutofillId>()
+                        val requiredIds = mutableListOf<AutofillId>()
+                        val optionalIds = mutableListOf<AutofillId>()
 
                         // Only if at least a password
                         parseResult.passwordId?.let { passwordInfo ->
@@ -433,13 +441,13 @@ class KeeAutofillService : AutofillService() {
                     val registerInfo = RegisterInfo(
                         searchInfo = searchInfo,
                         username = parseResult.usernameValue?.textValue?.toString(),
-                        password = parseResult.passwordValue?.textValue?.toString(),
-                        expiration = DateInstant(Instant(expiration)),
+                        password = parseResult.passwordValue?.textValue?.toString()?.toCharArray(),
+                        expiration = expiration?.let { DateInstant(Instant(it)) },
                         creditCard = parseResult.creditCardNumber?.textValue?.toString()?.let { cardNumber ->
                             CreditCard(
                                 cardholder = parseResult.creditCardHolder?.textValue?.toString(),
-                                number = cardNumber,
-                                cvv = parseResult.cardVerificationValue?.textValue?.toString()
+                                number = cardNumber.toCharArray(),
+                                cvv = parseResult.cardVerificationValue?.textValue?.toString()?.toCharArray()
                             )
                         }
                     )
@@ -471,21 +479,24 @@ class KeeAutofillService : AutofillService() {
     companion object {
         private val TAG = KeeAutofillService::class.java.name
 
-        fun autofillAllowedFor(applicationId: String?,
-                               webDomain: String?,
-                               context: Context
+        fun autofillAllowedFor(
+            applicationId: String?,
+            webDomain: String?,
+            context: Context
         ): Boolean {
             return autofillAllowedFor(
                 applicationId = applicationId,
                 applicationIdBlocklist = PreferencesUtil.applicationIdBlocklist(context),
                 webDomain = webDomain,
-                webDomainBlocklist = PreferencesUtil.webDomainBlocklist(context))
+                webDomainBlocklist = PreferencesUtil.webDomainBlocklist(context)
+            )
         }
 
-        fun autofillAllowedFor(applicationId: String?,
-                               applicationIdBlocklist: Set<String>?,
-                               webDomain: String?,
-                               webDomainBlocklist: Set<String>?
+        private fun autofillAllowedFor(
+            applicationId: String?,
+            applicationIdBlocklist: Set<String>?,
+            webDomain: String?,
+            webDomainBlocklist: Set<String>?
         ): Boolean {
             return autofillAllowedFor(applicationId, applicationIdBlocklist)
                     // To prevent unrecognized autofill popup id
@@ -493,7 +504,10 @@ class KeeAutofillService : AutofillService() {
                     && autofillAllowedFor(webDomain, webDomainBlocklist)
         }
 
-        fun autofillAllowedFor(element: String?, blockList: Set<String>?): Boolean {
+        private fun autofillAllowedFor(
+            element: String?,
+            blockList: Set<String>?
+        ): Boolean {
             element?.let { elementNotNull ->
                 if (blockList?.any { appIdBlocked ->
                             elementNotNull.contains(appIdBlocked)
@@ -504,14 +518,6 @@ class KeeAutofillService : AutofillService() {
                 }
             }
             return true
-        }
-
-        fun Context.isKeeAutofillActivated(): Boolean {
-            val activated = ContextCompat.getSystemService(
-                this,
-                AutofillManager::class.java
-            )?.hasEnabledAutofillServices() == true
-            return activated
         }
 
         fun Context.showAutofillDeviceSettings() {
@@ -526,5 +532,16 @@ class KeeAutofillService : AutofillService() {
                 Log.e(TAG, "Unable to choose the autofill service", e)
             }
         }
+    }
+}
+
+fun Context.isCredentialProviderActivated(): Boolean {
+    return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        ContextCompat.getSystemService(
+            this,
+            AutofillManager::class.java
+        )?.hasEnabledAutofillServices() == true
+    } else {
+        false
     }
 }

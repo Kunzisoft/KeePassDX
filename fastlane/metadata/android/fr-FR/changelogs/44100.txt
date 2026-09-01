@@ -1,0 +1,1 @@
+ * Correction d'un bug qui empêche l'affichage des champs protégés sur certains OS avec TextView mal implémenté #2524

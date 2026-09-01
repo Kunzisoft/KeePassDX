@@ -25,8 +25,9 @@ import org.joda.time.Instant
 import java.io.IOException
 import java.io.InputStream
 import java.io.OutputStream
+import java.nio.ByteBuffer
 import java.nio.charset.Charset
-import java.util.*
+import java.util.UUID
 
 /**
  * Read all data of stream and invoke [readBytes] each time the buffer is full or no more data to read.
@@ -86,7 +87,7 @@ fun InputStream.readBytes(length: Int, bufferSize: Int = DEFAULT_BUFFER_SIZE,
  *  be interpreted as an unsigned integer.
  */
 @Throws(IOException::class)
-fun InputStream.readBytes4ToUInt(): UnsignedInt {
+fun InputStream.readBytes4ToUInt(): UInt {
     return bytes4ToUInt(readBytesLength(4))
 }
 
@@ -111,6 +112,11 @@ fun InputStream.readBytesToString(length: Int, replaceCRLF: Boolean = true): Str
 }
 
 @Throws(IOException::class)
+fun InputStream.readBytesToCharArray(length: Int, replaceCRLF: Boolean = true): CharArray {
+    return bytesToCharArray(this.readBytesLength(length), replaceCRLF)
+}
+
+@Throws(IOException::class)
 fun InputStream.readBytesLength(length: Int): ByteArray {
     val buf = ByteArray(length)
     // WARNING this.read(buf, 0, length) Doesn't work
@@ -121,7 +127,7 @@ fun InputStream.readBytesLength(length: Int): ByteArray {
 }
 
 @Throws(IOException::class)
-fun OutputStream.write4BytesUInt(value: UnsignedInt) {
+fun OutputStream.write4BytesUInt(value: UInt) {
     this.write(uIntTo4Bytes(value))
 }
 
@@ -141,7 +147,7 @@ fun OutputStream.write8BytesLong(value: Long) {
 }
 
 @Throws(IOException::class)
-fun OutputStream.write8BytesLong(value: UnsignedLong) {
+fun OutputStream.write8BytesLong(value: ULong) {
     this.write(uLongTo8Bytes(value))
 }
 
@@ -161,15 +167,15 @@ fun bytes2ToUShort(buf: ByteArray): Int {
 /**
  * Read a 64 bit to unsigned long
  */
-fun bytes64ToULong(buf: ByteArray): UnsignedLong {
-    return UnsignedLong((buf[0].toLong() and 0xFF)
-            + (buf[1].toLong() and 0xFF shl 8)
-            + (buf[2].toLong() and 0xFF shl 16)
-            + (buf[3].toLong() and 0xFF shl 24)
-            + (buf[4].toLong() and 0xFF shl 32)
-            + (buf[5].toLong() and 0xFF shl 40)
-            + (buf[6].toLong() and 0xFF shl 48)
-            + (buf[7].toLong() and 0xFF shl 56))
+fun bytes64ToULong(buf: ByteArray): ULong {
+    return (buf[0].toLong() and 0xFF
+            or (buf[1].toLong() and 0xFF shl 8)
+            or (buf[2].toLong() and 0xFF shl 16)
+            or (buf[3].toLong() and 0xFF shl 24)
+            or (buf[4].toLong() and 0xFF shl 32)
+            or (buf[5].toLong() and 0xFF shl 40)
+            or (buf[6].toLong() and 0xFF shl 48)
+            or (buf[7].toLong() and 0xFF shl 56)).toULong()
 }
 
 /**
@@ -189,11 +195,11 @@ fun bytes64ToLong(buf: ByteArray): Long {
 /**
  * Read a 32-bit value.
  */
-fun bytes4ToUInt(buf: ByteArray): UnsignedInt {
-    return UnsignedInt((buf[0].toInt() and 0xFF)
-            + (buf[1].toInt() and 0xFF shl 8)
-            + (buf[2].toInt() and 0xFF shl 16)
-            + (buf[3].toInt() and 0xFF shl 24))
+fun bytes4ToUInt(buf: ByteArray): UInt {
+    return (buf[0].toInt() and 0xFF
+            or (buf[1].toInt() and 0xFF shl 8)
+            or (buf[2].toInt() and 0xFF shl 16)
+            or (buf[3].toInt() and 0xFF shl 24)).toUInt()
 }
 
 fun bytes16ToUuid(buf: ByteArray): UUID {
@@ -259,16 +265,16 @@ fun uShortTo2Bytes(value: Int): ByteArray {
 /**
  * Write a 32-bit Int value.
  */
-fun uIntTo4Bytes(value: UnsignedInt): ByteArray {
+fun uIntTo4Bytes(value: UInt): ByteArray {
     val buf = ByteArray(4)
     for (i in 0 until 4) {
-        buf[i] = (value.toKotlinInt().ushr(8 * i) and 0xFF).toByte()
+        buf[i] = (value.toInt().ushr(8 * i) and 0xFF).toByte()
     }
     return buf
 }
 
-fun uLongTo8Bytes(value: UnsignedLong): ByteArray {
-    return longTo8Bytes(value.toKotlinLong())
+fun uLongTo8Bytes(value: ULong): ByteArray {
+    return longTo8Bytes(value.toLong())
 }
 
 fun longTo8Bytes(value: Long): ByteArray {
@@ -299,8 +305,8 @@ fun dateTo5Bytes(dateInstant: DateInstant): ByteArray {
     val second = dateInstant.getSecond()
 
     val buf = ByteArray(5)
-    buf[0] = UnsignedInt(year shr 6 and 0x0000003F).toKotlinByte()
-    buf[1] = UnsignedInt(year and 0x0000003F shl 2 or (month shr 2 and 0x00000003)).toKotlinByte()
+    buf[0] = (year shr 6 and 0x0000003F).toByte()
+    buf[1] = (year and 0x0000003F shl 2 or (month shr 2 and 0x00000003)).toByte()
     buf[2] = (month and 0x00000003 shl 6
             or (day and 0x0000001F shl 1) or (hour shr 4 and 0x00000001)).toByte()
     buf[3] = (hour and 0x0000000F shl 4 or (minute shr 2 and 0x0000000F)).toByte()
@@ -313,8 +319,10 @@ private val defaultCharset = Charset.forName("UTF-8")
 
 private val CRLFbuf = byteArrayOf(0x0D, 0x0A)
 private val CRLF = String(CRLFbuf)
-private val SEP = System.getProperty("line.separator")
+private val SEP = System.lineSeparator()
 private val REPLACE = SEP != CRLF
+
+val MAX_BYTES = longTo8Bytes(ULong.MAX_VALUE.toLong())
 
 fun bytesToString(buf: ByteArray, replaceCRLF: Boolean = true): String {
     // length of null-terminated string (i.e. distance to null) within a byte buffer.
@@ -325,9 +333,55 @@ fun bytesToString(buf: ByteArray, replaceCRLF: Boolean = true): String {
     // Get string
     var jstring = String(buf, 0, len, defaultCharset)
     if (replaceCRLF && REPLACE) {
-        jstring = jstring.replace(CRLF, SEP!!)
+        jstring = jstring.replace(CRLF, SEP)
     }
     return jstring
+}
+
+fun bytesToCharArray(buf: ByteArray, replaceCRLF: Boolean = true): CharArray {
+    // length of null-terminated string (i.e. distance to null) within a byte buffer.
+    var len = 0
+    while (len < buf.size && buf[len].toInt() != 0) {
+        len++
+    }
+
+    val cb = defaultCharset.newDecoder()
+        .decode(ByteBuffer.wrap(buf, 0, len))
+    val decodedChars = CharArray(cb.remaining())
+    cb.get(decodedChars)
+
+    if (replaceCRLF && REPLACE && SEP != null) {
+        val sep = SEP
+        var crlfCount = 0
+        var i = 0
+        while (i < decodedChars.size - 1) {
+            if (decodedChars[i] == '\r' && decodedChars[i + 1] == '\n') {
+                crlfCount++
+                i += 2
+            } else {
+                i++
+            }
+        }
+
+        if (crlfCount > 0) {
+            val result = CharArray(decodedChars.size - crlfCount * (2 - sep.length))
+            var readIdx = 0
+            var writeIdx = 0
+            while (readIdx < decodedChars.size) {
+                if (readIdx < decodedChars.size - 1 && decodedChars[readIdx] == '\r' && decodedChars[readIdx + 1] == '\n') {
+                    for (j in sep.indices) {
+                        result[writeIdx++] = sep[j]
+                    }
+                    readIdx += 2
+                } else {
+                    result[writeIdx++] = decodedChars[readIdx++]
+                }
+            }
+            decodedChars.clear()
+            return result
+        }
+    }
+    return decodedChars
 }
 
 @Throws(IOException::class)
@@ -335,19 +389,19 @@ fun writeStringToStream(outputStream: OutputStream, string: String?): Int {
     var str = string
     if (str == null) {
         // Write out a null character
-        outputStream.write(uIntTo4Bytes(UnsignedInt(1)))
+        outputStream.write(uIntTo4Bytes(1u))
         outputStream.write(0x00)
         return 0
     }
 
     if (REPLACE) {
-        str = str.replace(SEP!!, CRLF)
+        str = str.replace(SEP, CRLF)
     }
 
     val initial = str.toByteArray(defaultCharset)
 
     val length = initial.size + 1
-    outputStream.write(uIntTo4Bytes(UnsignedInt(length)))
+    outputStream.write(uIntTo4Bytes(length.toUInt()))
     outputStream.write(initial)
     outputStream.write(0x00)
 

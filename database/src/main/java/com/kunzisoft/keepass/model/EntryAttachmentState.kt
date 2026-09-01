@@ -23,29 +23,29 @@ import android.os.Parcel
 import android.os.Parcelable
 import com.kunzisoft.keepass.database.element.Attachment
 import com.kunzisoft.keepass.database.element.binary.BinaryByte
-import com.kunzisoft.keepass.utils.readParcelableCompat
 import com.kunzisoft.keepass.utils.readEnum
+import com.kunzisoft.keepass.utils.readParcelableCompat
 import com.kunzisoft.keepass.utils.writeEnum
 
-data class EntryAttachmentState(var attachment: Attachment,
-                                var streamDirection: StreamDirection,
-                                var downloadState: AttachmentState = AttachmentState.NULL,
-                                var downloadProgression: Int = 0,
-                                var previewState: AttachmentState = AttachmentState.NULL) : Parcelable {
+data class EntryAttachmentState(
+    var attachment: Attachment,
+    var streamDirection: StreamDirection,
+    var downloadState: AttachmentState = AttachmentState.COMPLETE,
+    var downloadProgression: Int = 0
+) : Parcelable {
 
     constructor(parcel: Parcel) : this(
             parcel.readParcelableCompat() ?: Attachment("", BinaryByte()),
             parcel.readEnum<StreamDirection>() ?: StreamDirection.DOWNLOAD,
-            parcel.readEnum<AttachmentState>() ?: AttachmentState.NULL,
-            parcel.readInt(),
-            parcel.readEnum<AttachmentState>() ?: AttachmentState.NULL)
+            parcel.readEnum<AttachmentState>() ?: AttachmentState.COMPLETE,
+            parcel.readInt()
+    )
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeParcelable(attachment, flags)
         parcel.writeEnum(streamDirection)
         parcel.writeEnum(downloadState)
         parcel.writeInt(downloadProgression)
-        parcel.writeEnum(previewState)
     }
 
     override fun describeContents(): Int {
@@ -54,15 +54,24 @@ data class EntryAttachmentState(var attachment: Attachment,
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
-        if (other !is EntryAttachmentState) return false
+        if (javaClass != other?.javaClass) return false
 
+        other as EntryAttachmentState
+
+        if (downloadProgression != other.downloadProgression) return false
         if (attachment != other.attachment) return false
+        if (streamDirection != other.streamDirection) return false
+        if (downloadState != other.downloadState) return false
 
         return true
     }
 
     override fun hashCode(): Int {
-        return attachment.hashCode()
+        var result = downloadProgression
+        result = 31 * result + attachment.hashCode()
+        result = 31 * result + streamDirection.hashCode()
+        result = 31 * result + downloadState.hashCode()
+        return result
     }
 
     companion object CREATOR : Parcelable.Creator<EntryAttachmentState> {
@@ -77,5 +86,5 @@ data class EntryAttachmentState(var attachment: Attachment,
 }
 
 enum class AttachmentState {
-    NULL, START, IN_PROGRESS, COMPLETE, CANCELED, ERROR
+    START, IN_PROGRESS, COMPLETE, CANCELED, ERROR
 }

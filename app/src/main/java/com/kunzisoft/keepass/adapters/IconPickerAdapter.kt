@@ -16,7 +16,7 @@ class IconPickerAdapter<I: IconImageDraw>(val context: Context, private val tint
 
     private val inflater: LayoutInflater = LayoutInflater.from(context)
 
-    private val iconList = ArrayList<I>()
+    private val iconList = mutableListOf<I>()
 
     var iconDrawableFactory: IconDrawableFactory? = null
     var iconPickerListener: IconPickerListener<I>? = null

@@ -29,15 +29,17 @@ import com.kunzisoft.keepass.model.OtpModel
 import com.kunzisoft.keepass.otp.OtpElement
 import com.kunzisoft.keepass.otp.OtpType
 import com.kunzisoft.keepass.settings.PreferencesUtil.isOtpNotificationEnable
-import com.kunzisoft.keepass.timeout.ClipboardHelper
+import com.kunzisoft.keepass.timeout.timeoutCopyToClipboard
 import com.kunzisoft.keepass.utils.getParcelableExtraCompat
 import com.kunzisoft.keepass.utils.getParcelableList
 import com.kunzisoft.keepass.utils.putParcelableList
 
-class ClipboardEntryNotificationService : LockNotificationService() {
+class ClipboardEntryNotificationService : LockNotificationServiceParam<OtpElement>() {
+
+    private var otpModels: List<OtpModel>? = null
+    private var otpModelToCopy: OtpModel? = null
 
     override val notificationId = 485
-    private var clipboardHelper: ClipboardHelper? = null
 
     private var pendingCopyIntent: PendingIntent? = null
     private var pendingDeleteIntent: PendingIntent? = null
@@ -50,27 +52,24 @@ class ClipboardEntryNotificationService : LockNotificationService() {
         return getString(R.string.clipboard)
     }
 
-    override fun onCreate() {
-        super.onCreate()
-        clipboardHelper = ClipboardHelper(this)
-    }
-
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         super.onStartCommand(intent, flags, startId)
-
-        val otpModels: List<OtpModel>? = intent?.getParcelableList(EXTRA_LIST_OTP)
-        val otpModelToCopy: OtpModel? = intent?.getParcelableExtraCompat(EXTRA_OTP_TO_COPY)
-
         when (intent?.action) {
             null -> Log.w(TAG, "null intent")
             ACTION_NEW_NOTIFICATION -> {
-                if (otpModels != null && otpModels.isNotEmpty()) {
-                    newNotification(otpModels)
+                intent.getParcelableList<OtpModel>(EXTRA_LIST_OTP)?.let { models ->
+                    otpModels?.forEach { it.clear() }
+                    otpModels = models
+                    if (models.isNotEmpty()) {
+                        newNotification(models)
+                    }
                 }
             }
             ACTION_COPY_CLIPBOARD -> {
-                otpModelToCopy?.let {
-                    copyToClipboard(OtpElement(otpModelToCopy).token)
+                intent.getParcelableExtraCompat<OtpModel>(EXTRA_OTP_TO_COPY)?.let { model ->
+                    otpModelToCopy?.clear()
+                    otpModelToCopy = model
+                    copyOTPToClipboard(OtpElement(model).token)
                 }
                 stopService()
             }
@@ -80,6 +79,10 @@ class ClipboardEntryNotificationService : LockNotificationService() {
             else -> {}
         }
         return START_NOT_STICKY
+    }
+
+    override fun timerContentText(data: OtpElement?): String? {
+        return data?.token?.let { String(it) }
     }
 
     private fun newNotification(otpModels: List<OtpModel>) {
@@ -93,13 +96,13 @@ class ClipboardEntryNotificationService : LockNotificationService() {
             setSmallIcon(R.drawable.notification_ic_clipboard_key_24dp)
             setContentTitle(firstOtpModel.toString())
             setAutoCancel(false)
-            setContentText(otpElement.token)
+            setContentText(String(otpElement.token))
             setContentIntent(pendingCopyIntent)
             setDeleteIntent(pendingDeleteIntent)
         }
         // Add others OTP
         if (otpModels.size > 1) {
-            for (i in 1..<otpModels.size) {
+            for (i in 1 until otpModels.size) {
                 builder.addAction(
                     R.drawable.notification_ic_clipboard_key_24dp,
                     otpModels[i].toString(),
@@ -109,9 +112,11 @@ class ClipboardEntryNotificationService : LockNotificationService() {
         }
         if (otpElement.type == OtpType.TOTP) {
             defineTimerJob(
-                builder,
+                builder = builder,
                 type = NotificationServiceType.CLIPBOARD,
-                timeoutMilliseconds = otpElement.period * 1000L
+                timeoutMilliseconds = otpElement.period * 1000L,
+                timerData = otpElement,
+                actionAfterASecond = null
             ) {
                 stopService()
             }
@@ -155,14 +160,19 @@ class ClipboardEntryNotificationService : LockNotificationService() {
         )
     }
 
-    private fun copyToClipboard(otpToCopy: String) {
-        clipboardHelper?.copyToClipboard(
-            getString(R.string.entry_otp),
-            otpToCopy
+    private fun copyOTPToClipboard(value: CharArray?) {
+        timeoutCopyToClipboard(
+            label = getString(R.string.entry_otp),
+            value = value,
+            sensitive = true
         )
     }
 
     override fun onDestroy() {
+        otpModels?.forEach {
+            it.clear()
+        }
+        otpModelToCopy?.clear()
         pendingCopyIntent?.cancel()
         pendingDeleteIntent?.cancel()
         super.onDestroy()

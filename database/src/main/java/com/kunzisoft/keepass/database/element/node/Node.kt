@@ -20,10 +20,13 @@
 package com.kunzisoft.keepass.database.element.node
 
 import com.kunzisoft.keepass.database.element.Group
+import com.kunzisoft.keepass.database.element.Tags
 
 interface Node: NodeVersionedInterface<Group> {
 
     val nodeId: NodeId<*>?
+
+    var tags: Tags
 
     fun addParentFrom(node: Node) {
         parent = node.parent
@@ -45,13 +48,6 @@ interface Node: NodeVersionedInterface<Group> {
         }
         return pathNodes.joinToString("/") { it.title }
     }
-}
-
-/**
- * Type of available Nodes
- */
-enum class Type {
-    GROUP, ENTRY
 }
 
 

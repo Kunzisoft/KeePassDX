@@ -31,7 +31,7 @@ import com.kunzisoft.keepass.database.element.Field
 class KeyboardFieldsAdapter(context: Context) : RecyclerView.Adapter<KeyboardFieldsAdapter.FieldViewHolder>() {
 
     private val inflater: LayoutInflater = LayoutInflater.from(context)
-    private var fields: MutableList<Field> = ArrayList()
+    private var fields: MutableList<Field> = mutableListOf()
     var onItemClickListener: OnItemClickListener? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FieldViewHolder {

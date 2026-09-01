@@ -128,7 +128,7 @@
     <string name="discard_changes">Отхвърляне на промените?</string>
     <string name="menu_reload_database">Презареждане на данните</string>
     <string name="contribute">Допринасяне</string>
-    <string name="error_load_database_KDF_memory">Ключът не може да бъде зареден. Пробвайте да намалите използваната памет от функцията за извличане на ключове.</string>
+    <string name="error_load_database_KDF_memory">Функцията за извличане на ключове използва твърде много памет. Не може да зареди.</string>
     <string name="content_description_passphrase_word_count">Брой думи във фраза за достъп</string>
     <string name="search_filters">Филтри за търсене</string>
     <string name="current_group">Текуща група</string>
@@ -258,7 +258,7 @@
     <string name="keyboard_previous_database_credentials_title">Екран за въвеждане на главната парола</string>
     <string name="select_entry">Изберете запис</string>
     <string name="education_new_node_title">Добавете елементи към хранилището</string>
-    <string name="education_generate_password_summary">Създавайте надеждни пароли за записите, задайте лесно изискванията на формуляра и вашите изисквания за сигурност.</string>
+    <string name="education_generate_password_summary">Създавайте надеждни пароли за записите, задайте лесно изискванията на формуляра и вашите изисквания за сигурност. И не ги забравяйте.</string>
     <string name="education_add_attachment_summary">За да запазите важни външни данни можете да прикачвате файлове към записите.</string>
     <string name="download_progression">Изпълнение: %1$d%%</string>
     <string name="download_complete">Готово!</string>
@@ -346,7 +346,6 @@
     <string name="templates">Шаблони</string>
     <string name="keyboard_name">Magikeyboard</string>
     <string name="keyboard_setting_label">Настройки на Magikeyboard</string>
-    <string name="keyboard_selection_entry_title">Избор на записи</string>
     <string name="allow_no_password_title">Разрешаване без главна парола</string>
     <string name="keyboard_notification_entry_content_title">Записът %1$s е достъпен в Magikeyboard</string>
     <string name="keyboard_notification_entry_content_title_text">Запис</string>
@@ -433,7 +432,7 @@
     <string name="hint_generated_password">Създадена парола</string>
     <string name="hint_length">Дължина</string>
     <string name="invalid_credentials">Неправилна главна парола или файл с ключ.</string>
-    <string name="show_otp_token_summary">Показват се кодовете за достъп от OTP в списъка със записите</string>
+    <string name="show_otp_token_summary">Показване се кодовете за достъп от OTP по подразбиране</string>
     <string name="show_otp_token_title">Кодове от OTP</string>
     <string name="error_can_not_handle_uri">Указаният URI не може да бъде обработен от KeePassDX.</string>
     <string name="error_file_not_create">Файлът не може да бъде създаден.</string>
@@ -556,7 +555,6 @@
     <string name="disable">Изключване</string>
     <string name="notification">Известие</string>
     <string name="device_keyboard_setting_title">Настройки на клавиатурата на устройството</string>
-    <string name="keyboard_selection_entry_summary">При преглед на запис в KeePassDX, стойностите на Magikeyboard да бъдат попълнени с неговите данни</string>
     <string name="keyboard_notification_entry_title">Известие за наличие</string>
     <string name="error_disallow_no_credentials">Трябва да има зададена най-малко една парола.</string>
     <string name="error_pass_match">Паролите се различават.</string>
@@ -597,7 +595,7 @@
     <string name="keyboard_previous_fill_in_summary">Автоматично превключва предната клавиатура след докосване на бутона за автоматично действие</string>
     <string name="autofill_block_restart">Рестартирайте приложението, съдържащо формуляра, за да влезе в сила ограничението.</string>
     <string name="autofill_inline_suggestions_keyboard">Предложения за автом. попълване са добавени.</string>
-    <string name="error_rounds_too_large">Полето „Брой преобразувания“ има твърде голяма стойност. Променена е на 2147483648.</string>
+    <string name="error_rounds_too_large">Полето „Брой преобразувания“ има твърде голяма стойност. Променена е на %1$s.</string>
     <string name="error_string_key">Всяко поле трябва да има наименование.</string>
     <string name="error_label_exists">Такъв етикет вече съществува.</string>
     <string name="error_save_database">Хранилището не може да бъде запазено.</string>
@@ -664,7 +662,7 @@
     <string name="style_name_follow_system">Като системната</string>
     <string name="style_name_light">Светла</string>
     <string name="style_name_dark">Тъмна</string>
-    <string name="warning_database_info_changed_options_read_only">Презаредете последните промени в хранилището.</string>
+    <string name="warning_database_info_changed_options_read_only">Презаредете последните промени на хранилището.</string>
     <string name="generate_keyfile">Създаване на файл с ключ</string>
     <string name="nodes">Възли</string>
     <string name="recursive_number_entries_summary">Изчислява броя на всички записи в групата</string>
@@ -736,10 +734,24 @@
     <string name="check">Проверяване</string>
     <string name="user_verification_required_description_precise">%1$s изисква установяване на самоличността.</string>
     <string name="user_verification">Проверка на потребител</string>
-    <string name="user_verification_mode_title">Режим на проверка на потребител</string>
-    <string name="user_verification_mode_summary">Режимът за проверка на потребителя да е включен по подразбиране при отваряне на хранилището</string>
     <string name="menu_user_verification_enabled">Проверката на потребителя е включена</string>
     <string name="menu_user_verification_disabled">Проверката на потребителя е изключена</string>
     <string name="education_user_verification_title">Проверяване при чувствителни действия</string>
     <string name="education_user_verification_summary">Промяна на режима на проверяване на потребителя за сеанса.\n\n„Проверката на потребителя е включена“ проверява действията върху защитените полета и хранилището.\n„Проверката на потребителя е изключена“ дава възможност за променяне на всички данни на хранилището без проверка.</string>
+    <string name="content_description_share_url">Сподели URL</string>
+    <string name="show_tags_title">Покажи етикети</string>
+    <string name="show_tags_summary">Показва етикетите в списъка с записи</string>
+    <string name="benchmark_calculation">Изчислете за %1$s с</string>
+    <string name="benchmarking">Бенчмаркинг…</string>
+    <string name="keyboard_share_browser">Сподели от %1$s към KeePassDX</string>
+    <string name="error_load_database_KDF_parallelism">Функцията за извличане на ключове използва твърде висок паралелизъм. Не може да зареди.</string>
+    <string name="error_memory_too_large">Стойността „Използвана памет“ е твърде висока. Максималната стойност е %1$s.</string>
+    <string name="error_parallelism_too_large">Стойността „Паралелизъм“ е твърде висока. Максималната стойност е %1$s.</string>
+    <string name="error_missing_parent">Действието не може да бъде извършено без родителски елемент.</string>
+    <string name="parallelism_set_safe">Задаване на броя процесори</string>
+    <string name="temporary_merge_success">Временните данни са обединени</string>
+    <string name="reload_success">Презаредено</string>
+    <string name="autofill_suggestions_title">Попълване на предложения</string>
+    <string name="autofill_suggestions_summary">Използване на разпознаване на формуляри за предлагане на записи</string>
+    <string name="passkey_pseudo_random_function">Псевдослучайна функция на ключа за достъп</string>
 </resources>

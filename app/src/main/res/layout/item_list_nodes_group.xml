@@ -89,6 +89,14 @@
                 android:maxLines="2"
                 tools:text="Node Title" />
 
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/node_tags_list_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                android:orientation="horizontal"/>
+
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/node_meta"
                 style="@style/KeepassDXStyle.Meta.Group"

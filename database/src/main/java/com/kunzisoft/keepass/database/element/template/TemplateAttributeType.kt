@@ -18,6 +18,8 @@
  */
 package com.kunzisoft.keepass.database.element.template
 
+import com.kunzisoft.keepass.utils.contains
+
 enum class TemplateAttributeType(val typeString: String) {
     TEXT("text"),
     LIST("list"),
@@ -25,7 +27,7 @@ enum class TemplateAttributeType(val typeString: String) {
     DIVIDER("divider");
 
     companion object {
-        fun getFromString(label: String): TemplateAttributeType {
+        fun getFrom(label: CharArray): TemplateAttributeType {
             return when {
                 label.contains(TEXT.typeString, true) -> TEXT
                 label.contains(LIST.typeString, true) -> LIST

@@ -33,9 +33,11 @@ import com.kunzisoft.keepass.database.element.binary.BinaryData.Companion.BASE64
 import com.kunzisoft.keepass.model.CipherEncryptDatabase
 import com.kunzisoft.keepass.services.DeviceUnlockNotificationService
 import com.kunzisoft.keepass.settings.PreferencesUtil
-import com.kunzisoft.keepass.utils.IOActionTask
 import com.kunzisoft.keepass.utils.SingletonHolderParameter
-import java.util.LinkedList
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class CipherDatabaseAction(context: Context) {
 
@@ -49,7 +51,7 @@ class CipherDatabaseAction(context: Context) {
     private var mBinder: DeviceUnlockNotificationService.DeviceUnlockBinder? = null
     private var mServiceConnection: ServiceConnection? = null
 
-    private var mDatabaseListeners = LinkedList<CipherDatabaseListener>()
+    private var mDatabaseListeners = mutableListOf<CipherDatabaseListener>()
     private var mDeviceUnlockBroadcastReceiver = DeviceUnlockNotificationService.DeviceUnlockReceiver {
         deleteAll()
         removeAllDataAndDetach()
@@ -162,8 +164,8 @@ class CipherDatabaseAction(context: Context) {
                 }
             }
         } else {
-            IOActionTask(
-                {
+            CoroutineScope(Dispatchers.Main).launch {
+                val cipherDatabase = withContext(Dispatchers.IO) {
                     cipherDatabaseDao.getByDatabaseUri(databaseUri.toString())
                         ?.let { cipherDatabaseEntity ->
                             CipherEncryptDatabase().apply {
@@ -178,15 +180,13 @@ class CipherDatabaseAction(context: Context) {
                                 )
                             }
                         }
-                },
-                { cipherDatabase ->
-                    cipherDatabaseResultListener?.invoke(cipherDatabase) ?: run {
-                        mDatabaseListeners.forEach { listener ->
-                            listener.onCipherDatabaseRetrieved(databaseUri, cipherDatabase)
-                        }
+                }
+                cipherDatabaseResultListener?.invoke(cipherDatabase) ?: run {
+                    mDatabaseListeners.forEach { listener ->
+                        listener.onCipherDatabaseRetrieved(databaseUri, cipherDatabase)
                     }
                 }
-            ).execute()
+            }
         }
     }
 
@@ -230,8 +230,8 @@ class CipherDatabaseAction(context: Context) {
                     }
                 }
             } else {
-                IOActionTask(
-                    {
+                CoroutineScope(Dispatchers.Main).launch {
+                    withContext(Dispatchers.IO) {
                         val cipherDatabaseRetrieve =
                             cipherDatabaseDao.getByDatabaseUri(cipherDatabaseEntity.databaseUri)
                         // Update values if element not yet in the database
@@ -240,15 +240,13 @@ class CipherDatabaseAction(context: Context) {
                         } else {
                             cipherDatabaseDao.update(cipherDatabaseEntity)
                         }
-                    },
-                    {
-                        cipherDatabaseResultListener?.invoke() ?: run {
-                            mDatabaseListeners.forEach { listener ->
-                                listener.onCipherDatabaseAddedOrUpdated(cipherEncryptDatabase)
-                            }
+                    }
+                    cipherDatabaseResultListener?.invoke() ?: run {
+                        mDatabaseListeners.forEach { listener ->
+                            listener.onCipherDatabaseAddedOrUpdated(cipherEncryptDatabase)
                         }
                     }
-                ).execute()
+                }
             }
         }
     }
@@ -265,18 +263,16 @@ class CipherDatabaseAction(context: Context) {
                 }
             }
         } else {
-            IOActionTask(
-                {
+            CoroutineScope(Dispatchers.Main).launch {
+                withContext(Dispatchers.IO) {
                     cipherDatabaseDao.deleteByDatabaseUri(databaseUri.toString())
-                },
-                {
-                    cipherDatabaseResultListener?.invoke() ?: run {
-                        mDatabaseListeners.forEach { listener ->
-                            listener.onCipherDatabaseDeleted(databaseUri)
-                        }
+                }
+                cipherDatabaseResultListener?.invoke() ?: run {
+                    mDatabaseListeners.forEach { listener ->
+                        listener.onCipherDatabaseDeleted(databaseUri)
                     }
                 }
-            ).execute()
+            }
         }
         reloadPreferences()
     }
@@ -288,11 +284,11 @@ class CipherDatabaseAction(context: Context) {
             }
         }
         // To erase the residues
-        IOActionTask(
-            {
+        CoroutineScope(Dispatchers.Main).launch {
+            withContext(Dispatchers.IO) {
                 cipherDatabaseDao.deleteAll()
             }
-        ).execute()
+        }
         mDatabaseListeners.forEach { listener ->
             listener.onAllCipherDatabasesDeleted()
         }

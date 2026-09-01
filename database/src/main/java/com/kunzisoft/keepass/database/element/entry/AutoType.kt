@@ -21,7 +21,6 @@ package com.kunzisoft.keepass.database.element.entry
 
 import android.os.Parcel
 import android.os.Parcelable
-import com.kunzisoft.keepass.utils.UnsignedInt
 import com.kunzisoft.keepass.utils.readBooleanCompat
 import com.kunzisoft.keepass.utils.writeBooleanCompat
 
@@ -30,7 +29,7 @@ class AutoType : Parcelable {
     var enabled = true
     var obfuscationOptions = OBF_OPT_NONE
     var defaultSequence = ""
-    private var windowSeqPairs = ArrayList<AutoTypeItem>()
+    private var windowSeqPairs = mutableListOf<AutoTypeItem>()
 
     constructor()
 
@@ -44,7 +43,7 @@ class AutoType : Parcelable {
 
     constructor(parcel: Parcel) {
         this.enabled = parcel.readBooleanCompat()
-        this.obfuscationOptions = UnsignedInt(parcel.readInt())
+        this.obfuscationOptions = parcel.readInt().toUInt()
         this.defaultSequence = parcel.readString() ?: defaultSequence
         parcel.readTypedList(this.windowSeqPairs, AutoTypeItem.CREATOR)
     }
@@ -55,7 +54,7 @@ class AutoType : Parcelable {
 
     override fun writeToParcel(dest: Parcel, flags: Int) {
         dest.writeBooleanCompat(enabled)
-        dest.writeInt(obfuscationOptions.toKotlinInt())
+        dest.writeInt(obfuscationOptions.toInt())
         dest.writeString(defaultSequence)
         dest.writeTypedList(windowSeqPairs)
     }
@@ -96,8 +95,30 @@ class AutoType : Parcelable {
         }
     }
 
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as AutoType
+
+        if (enabled != other.enabled) return false
+        if (obfuscationOptions != other.obfuscationOptions) return false
+        if (defaultSequence != other.defaultSequence) return false
+        if (windowSeqPairs != other.windowSeqPairs) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = enabled.hashCode()
+        result = 31 * result + obfuscationOptions.hashCode()
+        result = 31 * result + defaultSequence.hashCode()
+        result = 31 * result + windowSeqPairs.hashCode()
+        return result
+    }
+
     companion object {
-        private val OBF_OPT_NONE = UnsignedInt(0)
+        private val OBF_OPT_NONE: UInt = 0u
 
         @JvmField
         val CREATOR: Parcelable.Creator<AutoType> = object : Parcelable.Creator<AutoType> {

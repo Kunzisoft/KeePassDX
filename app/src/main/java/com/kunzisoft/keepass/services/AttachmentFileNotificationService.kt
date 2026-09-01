@@ -43,7 +43,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.util.LinkedList
 import java.util.concurrent.CopyOnWriteArrayList
 
 
@@ -57,7 +56,7 @@ class AttachmentFileNotificationService: LockNotificationService() {
     private val attachmentNotificationList = CopyOnWriteArrayList<AttachmentNotification>()
 
     private var mActionTaskBinder = ActionTaskBinder()
-    private var mActionTaskListeners = LinkedList<ActionTaskListener>()
+    private var mActionTaskListeners = mutableListOf<ActionTaskListener>()
 
     private val mainScope = CoroutineScope(Dispatchers.Main)
 
@@ -236,7 +235,7 @@ class AttachmentFileNotificationService: LockNotificationService() {
             }
             setAutoCancel(false)
             when (attachmentNotification.entryAttachmentState.downloadState) {
-                AttachmentState.NULL, AttachmentState.START -> {
+                AttachmentState.START -> {
                     setContentText(getString(R.string.download_initialization))
                     setOngoing(true)
                 }
@@ -314,10 +313,12 @@ class AttachmentFileNotificationService: LockNotificationService() {
         super.onDestroy()
     }
 
-    private data class AttachmentNotification(var uri: Uri,
-                                              var notificationId: Int,
-                                              var entryAttachmentState: EntryAttachmentState,
-                                              var attachmentFileAction: AttachmentFileAction? = null) {
+    private data class AttachmentNotification(
+        var uri: Uri,
+        var notificationId: Int,
+        var entryAttachmentState: EntryAttachmentState,
+        var attachmentFileAction: AttachmentFileAction? = null
+    ) {
         override fun equals(other: Any?): Boolean {
             if (this === other) return true
             if (javaClass != other?.javaClass) return false
@@ -334,9 +335,11 @@ class AttachmentFileNotificationService: LockNotificationService() {
         }
     }
 
-    private fun actionStartUploadOrDownload(fileUri: Uri?,
-                                            intent: Intent,
-                                            streamDirection: StreamDirection) {
+    private fun actionStartUploadOrDownload(
+        fileUri: Uri?,
+        intent: Intent,
+        streamDirection: StreamDirection
+    ) {
         if (fileUri != null
                 && intent.hasExtra(ATTACHMENT_KEY)) {
             try {
@@ -344,7 +347,11 @@ class AttachmentFileNotificationService: LockNotificationService() {
 
                     val nextNotificationId = (attachmentNotificationList.maxByOrNull { it.notificationId }
                             ?.notificationId ?: notificationId) + 1
-                    val entryAttachmentState = EntryAttachmentState(entryAttachment, streamDirection)
+                    val entryAttachmentState = EntryAttachmentState(
+                        attachment = entryAttachment,
+                        streamDirection = streamDirection,
+                        downloadState = AttachmentState.START
+                    )
                     val attachmentNotification = AttachmentNotification(fileUri, nextNotificationId, entryAttachmentState)
 
                     // Add action to the list on start

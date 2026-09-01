@@ -43,10 +43,12 @@ const val DATABASE_START_TASK_ACTION = "com.kunzisoft.keepass.DATABASE_START_TAS
 const val DATABASE_STOP_TASK_ACTION = "com.kunzisoft.keepass.DATABASE_STOP_TASK_ACTION"
 
 const val LOCK_ACTION = "com.kunzisoft.keepass.LOCK"
+const val UPDATE_TIMEOUT_PROGRESS_ACTION = "com.kunzisoft.keepass.UPDATE_TIMEOUT_PROGRESS"
+const val EXTRA_PROGRESS = "com.kunzisoft.keepass.EXTRA_PROGRESS"
 const val REMOVE_ENTRY_MAGIKEYBOARD_ACTION = "com.kunzisoft.keepass.REMOVE_ENTRY_MAGIKEYBOARD"
 const val BACK_PREVIOUS_KEYBOARD_ACTION = "com.kunzisoft.keepass.BACK_PREVIOUS_KEYBOARD"
 
-class LockReceiver(private var lockAction: () -> Unit) : BroadcastReceiver() {
+open class LockReceiver(private var lockAction: () -> Unit) : BroadcastReceiver() {
 
     private var mLockPendingIntent: PendingIntent? = null
     var backToPreviousKeyboardAction: (() -> Unit)? = null
@@ -123,8 +125,11 @@ class LockReceiver(private var lockAction: () -> Unit) : BroadcastReceiver() {
     }
 }
 
-fun Context.registerLockReceiver(lockReceiver: LockReceiver?,
-                                 registerKeyboardAction: Boolean = false) {
+fun Context.registerLockReceiver(
+    lockReceiver: LockReceiver?,
+    registerKeyboardAction: Boolean = false,
+    registerTimeoutProgress: Boolean = false
+) {
     lockReceiver?.let {
         ContextCompat.registerReceiver(this, it, IntentFilter().apply {
             addAction(Intent.ACTION_SCREEN_OFF)
@@ -133,6 +138,9 @@ fun Context.registerLockReceiver(lockReceiver: LockReceiver?,
             if (registerKeyboardAction) {
                 addAction(REMOVE_ENTRY_MAGIKEYBOARD_ACTION)
                 addAction(BACK_PREVIOUS_KEYBOARD_ACTION)
+            }
+            if (registerTimeoutProgress) {
+                addAction(UPDATE_TIMEOUT_PROGRESS_ACTION)
             }
         }, ContextCompat.RECEIVER_EXPORTED)
     }

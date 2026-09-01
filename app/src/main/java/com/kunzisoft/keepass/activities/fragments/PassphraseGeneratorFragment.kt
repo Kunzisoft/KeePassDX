@@ -28,14 +28,19 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.google.android.material.slider.Slider
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.password.PassphraseGenerator
 import com.kunzisoft.keepass.settings.PreferencesUtil
-import com.kunzisoft.keepass.timeout.ClipboardHelper
+import com.kunzisoft.keepass.timeout.timeoutCopyToClipboard
+import com.kunzisoft.keepass.utils.clear
 import com.kunzisoft.keepass.view.PasswordEditView
 import com.kunzisoft.keepass.viewmodels.KeyGeneratorViewModel
+import kotlinx.coroutines.launch
 
 class PassphraseGeneratorFragment : DatabaseFragment() {
 
@@ -76,12 +81,11 @@ class PassphraseGeneratorFragment : DatabaseFragment() {
         context?.let { context ->
             passphraseCopyView?.visibility = if(PreferencesUtil.allowCopyProtectedFields(context))
                 View.VISIBLE else View.GONE
-            val clipboardHelper = ClipboardHelper(context)
             passphraseCopyView?.setOnClickListener {
-                clipboardHelper.timeoutCopyToClipboard(
-                    getString(R.string.passphrase),
-                    passwordEditView.passwordString,
-                    true
+                context.timeoutCopyToClipboard(
+                    label = getString(R.string.passphrase),
+                    value = passwordEditView.passwordCharArray,
+                    sensitive = true
                 )
             }
 
@@ -145,12 +149,19 @@ class PassphraseGeneratorFragment : DatabaseFragment() {
 
         generatePassphrase()
 
-        mKeyGeneratorViewModel.passphraseGeneratedValidated.observe(viewLifecycleOwner) {
-            mKeyGeneratorViewModel.setKeyGenerated(passwordEditView.passwordString)
-        }
-
-        mKeyGeneratorViewModel.requirePassphraseGeneration.observe(viewLifecycleOwner) {
-            generatePassphrase()
+        lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                launch {
+                    mKeyGeneratorViewModel.passphraseGeneratedValidated.collect {
+                        mKeyGeneratorViewModel.setKeyGenerated(passwordEditView.passwordCharArray)
+                    }
+                }
+                launch {
+                    mKeyGeneratorViewModel.requirePassphraseGeneration.collect {
+                        generatePassphrase()
+                    }
+                }
+            }
         }
 
         resetAppTimeoutWhenViewFocusedOrChanged(view)
@@ -159,7 +170,7 @@ class PassphraseGeneratorFragment : DatabaseFragment() {
     private fun getWordCount(): Int {
         return try {
             Integer.valueOf(wordCountText.text.toString())
-        } catch (numberException: NumberFormatException) {
+        } catch (_: NumberFormatException) {
             minSliderWordCount
         }
     }
@@ -210,17 +221,17 @@ class PassphraseGeneratorFragment : DatabaseFragment() {
     }
 
     private fun generatePassphrase() {
-        var passphrase = ""
         try {
-            passphrase = PassphraseGenerator().generatePassphrase(
+            val passphrase = PassphraseGenerator().generatePassphrase(
                 getWordCount(),
                 getWordSeparator(),
                 getWordCase())
+            passwordEditView.passwordCharArray = passphrase
+            charactersCountText.text = getString(R.string.character_count, passphrase.size)
+            passphrase.clear()
         } catch (e: Exception) {
             Log.e(TAG, "Unable to generate a passphrase", e)
         }
-        passwordEditView.passwordString = passphrase
-        charactersCountText.text = getString(R.string.character_count, passphrase.length)
     }
 
     override fun onDestroy() {

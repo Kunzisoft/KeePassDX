@@ -25,105 +25,116 @@ import android.util.Log
 import com.kunzisoft.keepass.hardware.HardwareKey
 import com.kunzisoft.keepass.model.DatabaseFile
 import com.kunzisoft.keepass.settings.PreferencesUtil
-import com.kunzisoft.keepass.utils.IOActionTask
 import com.kunzisoft.keepass.utils.SingletonHolderParameter
 import com.kunzisoft.keepass.utils.decodeUri
 import com.kunzisoft.keepass.utils.parseUri
 import com.kunzisoft.keepass.viewmodels.FileDatabaseInfo
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class FileDatabaseHistoryAction(private val applicationContext: Context) {
 
     private val databaseFileHistoryDao =
             AppDatabase.getDatabase(applicationContext).fileDatabaseHistoryDao()
 
-    fun getDatabaseFile(databaseUri: Uri,
-                        databaseFileResult: (DatabaseFile?) -> Unit) {
-        IOActionTask(
-            {
+    fun getDatabaseFile(
+        databaseUri: Uri,
+        databaseFileResult: (DatabaseFile?) -> Unit
+    ) {
+        CoroutineScope(Dispatchers.Main).launch {
+            val result = withContext(Dispatchers.IO) {
                 val fileDatabaseHistoryEntity =
                     databaseFileHistoryDao.getByDatabaseUri(databaseUri.toString())
                 val fileDatabaseInfo = FileDatabaseInfo(
                     applicationContext,
-                    databaseUri)
-                DatabaseFile(
                     databaseUri,
-                    fileDatabaseHistoryEntity?.keyFileUri?.parseUri(),
-                    HardwareKey.getHardwareKeyFromString(fileDatabaseHistoryEntity?.hardwareKey),
-                    fileDatabaseHistoryEntity?.readOnly,
-                    fileDatabaseHistoryEntity?.databaseUri?.decodeUri(),
-                    fileDatabaseInfo.retrieveDatabaseAlias(fileDatabaseHistoryEntity?.databaseAlias
-                        ?: ""),
-                    fileDatabaseInfo.exists,
-                    fileDatabaseInfo.getLastModificationString(),
-                    fileDatabaseInfo.getSizeString()
                 )
-            },
-            {
-                databaseFileResult.invoke(it)
+                DatabaseFile(
+                    databaseUri = databaseUri,
+                    keyFileUri = fileDatabaseHistoryEntity?.keyFileUri?.parseUri(),
+                    hardwareKey = HardwareKey.getHardwareKeyFromString(fileDatabaseHistoryEntity?.hardwareKey),
+                    readOnly = fileDatabaseHistoryEntity?.readOnly,
+                    userVerification = fileDatabaseHistoryEntity?.userVerification,
+                    databaseDecodedPath = fileDatabaseHistoryEntity?.databaseUri?.decodeUri(),
+                    databaseAlias = fileDatabaseInfo.retrieveDatabaseAlias(
+                        fileDatabaseHistoryEntity?.databaseAlias ?: "",
+                    ),
+                    databaseFileExists = fileDatabaseInfo.exists,
+                    databaseLastModified = fileDatabaseInfo.getLastModificationString(),
+                    databaseSize = fileDatabaseInfo.getSizeString(),
+                )
             }
-        ).execute()
+            databaseFileResult.invoke(result)
+        }
     }
 
-    fun getKeyFileUriByDatabaseUri(databaseUri: Uri,
-                                   keyFileUriResultListener: (Uri?) -> Unit) {
-        IOActionTask(
-            {
+    fun getKeyFileUriByDatabaseUri(
+        databaseUri: Uri,
+        keyFileUriResultListener: (Uri?) -> Unit
+    ) {
+        CoroutineScope(Dispatchers.Main).launch {
+            val result = withContext(Dispatchers.IO) {
                 databaseFileHistoryDao.getByDatabaseUri(databaseUri.toString())
-            },
-            {
-                it?.let { fileHistoryEntity ->
-                    fileHistoryEntity.keyFileUri?.let { keyFileUri ->
-                        keyFileUriResultListener.invoke(keyFileUri.parseUri())
-                    }
-                } ?: keyFileUriResultListener.invoke(null)
             }
-        ).execute()
+            result?.let { fileHistoryEntity ->
+                fileHistoryEntity.keyFileUri?.let { keyFileUri ->
+                    keyFileUriResultListener.invoke(keyFileUri.parseUri())
+                }
+            } ?: keyFileUriResultListener.invoke(null)
+        }
     }
 
     fun getDatabaseFileList(databaseFileListResult: (List<DatabaseFile>) -> Unit) {
-        IOActionTask(
-            {
+        CoroutineScope(Dispatchers.Main).launch {
+            val result = withContext(Dispatchers.IO) {
                 val hideBrokenLocations =
                     PreferencesUtil.hideBrokenLocations(
-                        applicationContext)
+                        applicationContext,
+                    )
                 // Show only uri accessible
-                val databaseFileListLoaded = ArrayList<DatabaseFile>()
+                val databaseFileListLoaded = mutableListOf<DatabaseFile>()
                 databaseFileHistoryDao.getAll().forEach { fileDatabaseHistoryEntity ->
                     val fileDatabaseInfo = FileDatabaseInfo(
                         applicationContext,
-                        fileDatabaseHistoryEntity.databaseUri)
+                        fileDatabaseHistoryEntity.databaseUri,
+                    )
                     if (hideBrokenLocations && fileDatabaseInfo.exists
                         || !hideBrokenLocations
                     ) {
                         databaseFileListLoaded.add(
                             DatabaseFile(
-                                fileDatabaseHistoryEntity.databaseUri.parseUri(),
-                                fileDatabaseHistoryEntity.keyFileUri?.parseUri(),
-                                HardwareKey.getHardwareKeyFromString(fileDatabaseHistoryEntity.hardwareKey),
-                                fileDatabaseHistoryEntity.readOnly,
-                                fileDatabaseHistoryEntity.databaseUri.decodeUri(),
-                                fileDatabaseInfo.retrieveDatabaseAlias(fileDatabaseHistoryEntity.databaseAlias),
-                                fileDatabaseInfo.exists,
-                                fileDatabaseInfo.getLastModificationString(),
-                                fileDatabaseInfo.getSizeString()
+                                databaseUri = fileDatabaseHistoryEntity.databaseUri.parseUri(),
+                                keyFileUri = fileDatabaseHistoryEntity.keyFileUri?.parseUri(),
+                                hardwareKey = HardwareKey.getHardwareKeyFromString(
+                                    fileDatabaseHistoryEntity.hardwareKey,
+                                ),
+                                readOnly = fileDatabaseHistoryEntity.readOnly,
+                                userVerification = fileDatabaseHistoryEntity.userVerification,
+                                databaseDecodedPath = fileDatabaseHistoryEntity.databaseUri.decodeUri(),
+                                databaseAlias = fileDatabaseInfo.retrieveDatabaseAlias(
+                                    fileDatabaseHistoryEntity.databaseAlias,
+                                ),
+                                databaseFileExists = fileDatabaseInfo.exists,
+                                databaseLastModified = fileDatabaseInfo.getLastModificationString(),
+                                databaseSize = fileDatabaseInfo.getSizeString(),
                             )
                         )
                     }
                 }
                 databaseFileListLoaded
-            },
-            { databaseFileList ->
-                databaseFileList?.let {
-                    databaseFileListResult.invoke(it)
-                }
             }
-        ).execute()
+            databaseFileListResult.invoke(result)
+        }
     }
 
-    fun addOrUpdateDatabaseUri(databaseUri: Uri,
-                               keyFileUri: Uri? = null,
-                               hardwareKey: HardwareKey? = null,
-                               databaseFileAddedOrUpdatedResult: ((DatabaseFile?) -> Unit)? = null) {
+    fun addOrUpdateDatabaseUri(
+        databaseUri: Uri,
+        keyFileUri: Uri? = null,
+        hardwareKey: HardwareKey? = null,
+        databaseFileAddedOrUpdatedResult: ((DatabaseFile?) -> Unit)? = null
+    ) {
         addOrUpdateDatabaseFile(DatabaseFile(
             databaseUri,
             keyFileUri,
@@ -131,10 +142,12 @@ class FileDatabaseHistoryAction(private val applicationContext: Context) {
         ), databaseFileAddedOrUpdatedResult)
     }
 
-    fun addOrUpdateDatabaseFile(databaseFileToAddOrUpdate: DatabaseFile,
-                                databaseFileAddedOrUpdatedResult: ((DatabaseFile?) -> Unit)? = null) {
-        IOActionTask(
-            {
+    fun addOrUpdateDatabaseFile(
+        databaseFileToAddOrUpdate: DatabaseFile,
+        databaseFileAddedOrUpdatedResult: ((DatabaseFile?) -> Unit)? = null
+    ) {
+        CoroutineScope(Dispatchers.Main).launch {
+            val result = withContext(Dispatchers.IO) {
                 databaseFileToAddOrUpdate.databaseUri?.let { databaseUri ->
                     // Try to get info in database first
                     val fileDatabaseHistoryRetrieve =
@@ -144,14 +157,19 @@ class FileDatabaseHistoryAction(private val applicationContext: Context) {
                     val fileDatabaseHistory =
                         FileDatabaseHistoryEntity(
                             databaseUri.toString(),
-                            databaseFileToAddOrUpdate.databaseAlias
+                            databaseAlias = databaseFileToAddOrUpdate.databaseAlias
                                 ?: fileDatabaseHistoryRetrieve?.databaseAlias
                                 ?: "",
-                            databaseFileToAddOrUpdate.keyFileUri?.toString(),
-                            databaseFileToAddOrUpdate.hardwareKey?.value,
-                            databaseFileToAddOrUpdate.readOnly
+                            keyFileUri = databaseFileToAddOrUpdate.keyFileUri?.toString(),
+                            hardwareKey = databaseFileToAddOrUpdate.hardwareKey?.value,
+                            readOnly = databaseFileToAddOrUpdate.readOnly
                                 ?: fileDatabaseHistoryRetrieve?.readOnly,
-                            System.currentTimeMillis()
+                            userVerification = databaseFileToAddOrUpdate.userVerification
+                                ?: fileDatabaseHistoryRetrieve?.userVerification
+                                ?: PreferencesUtil.isUserVerificationModeEnabledByDefault(
+                                    applicationContext,
+                                ),
+                            updated = System.currentTimeMillis(),
                         )
 
                     // Update values if history element not yet in the database
@@ -166,88 +184,88 @@ class FileDatabaseHistoryAction(private val applicationContext: Context) {
                     }
 
                     val fileDatabaseInfo =
-                        FileDatabaseInfo(applicationContext,
-                            fileDatabaseHistory.databaseUri)
+                        FileDatabaseInfo(
+                            applicationContext,
+                            fileDatabaseHistory.databaseUri,
+                        )
                     DatabaseFile(
-                        fileDatabaseHistory.databaseUri.parseUri(),
-                        fileDatabaseHistory.keyFileUri?.parseUri(),
-                        HardwareKey.getHardwareKeyFromString(fileDatabaseHistory.hardwareKey),
-                        fileDatabaseHistory.readOnly,
-                        fileDatabaseHistory.databaseUri.decodeUri(),
-                        fileDatabaseInfo.retrieveDatabaseAlias(fileDatabaseHistory.databaseAlias),
-                        fileDatabaseInfo.exists,
-                        fileDatabaseInfo.getLastModificationString(),
-                        fileDatabaseInfo.getSizeString()
+                        databaseUri = fileDatabaseHistory.databaseUri.parseUri(),
+                        keyFileUri = fileDatabaseHistory.keyFileUri?.parseUri(),
+                        hardwareKey = HardwareKey.getHardwareKeyFromString(fileDatabaseHistory.hardwareKey),
+                        readOnly = fileDatabaseHistory.readOnly,
+                        userVerification = fileDatabaseHistory.userVerification,
+                        databaseDecodedPath = fileDatabaseHistory.databaseUri.decodeUri(),
+                        databaseAlias = fileDatabaseInfo.retrieveDatabaseAlias(fileDatabaseHistory.databaseAlias),
+                        databaseFileExists = fileDatabaseInfo.exists,
+                        databaseLastModified = fileDatabaseInfo.getLastModificationString(),
+                        databaseSize = fileDatabaseInfo.getSizeString(),
                     )
                 }
-            },
-            {
-                databaseFileAddedOrUpdatedResult?.invoke(it)
             }
-        ).execute()
+            databaseFileAddedOrUpdatedResult?.invoke(result)
+        }
     }
 
-    fun deleteDatabaseFile(databaseFileToDelete: DatabaseFile,
-                           databaseFileDeletedResult: (DatabaseFile?) -> Unit) {
-        IOActionTask(
-            {
+    fun deleteDatabaseFile(
+        databaseFileToDelete: DatabaseFile,
+        databaseFileDeletedResult: (DatabaseFile?) -> Unit
+    ) {
+        CoroutineScope(Dispatchers.Main).launch {
+            val result = withContext(Dispatchers.IO) {
                 databaseFileToDelete.databaseUri?.let { databaseUri ->
                     databaseFileHistoryDao.getByDatabaseUri(databaseUri.toString())
                         ?.let { fileDatabaseHistory ->
                             val returnValue = databaseFileHistoryDao.delete(fileDatabaseHistory)
                             if (returnValue > 0) {
                                 DatabaseFile(
-                                    fileDatabaseHistory.databaseUri.parseUri(),
-                                    fileDatabaseHistory.keyFileUri?.parseUri(),
-                                    HardwareKey.getHardwareKeyFromString(fileDatabaseHistory.hardwareKey),
-                                    fileDatabaseHistory.readOnly,
-                                    fileDatabaseHistory.databaseUri.decodeUri(),
-                                    databaseFileToDelete.databaseAlias
+                                    databaseUri = fileDatabaseHistory.databaseUri.parseUri(),
+                                    keyFileUri = fileDatabaseHistory.keyFileUri?.parseUri(),
+                                    hardwareKey = HardwareKey.getHardwareKeyFromString(
+                                        fileDatabaseHistory.hardwareKey,
+                                    ),
+                                    readOnly = fileDatabaseHistory.readOnly,
+                                    userVerification = fileDatabaseHistory.userVerification,
+                                    databaseDecodedPath = fileDatabaseHistory.databaseUri.decodeUri(),
+                                    databaseAlias = databaseFileToDelete.databaseAlias,
                                 )
                             } else {
                                 null
                             }
                         }
                 }
-            },
-            {
-                databaseFileDeletedResult.invoke(it)
             }
-        ).execute()
+            databaseFileDeletedResult.invoke(result)
+        }
     }
 
-    fun deleteKeyFileByDatabaseUri(databaseUri: Uri,
-                                   result: (() ->Unit)? = null) {
-        IOActionTask(
-            {
+    fun deleteKeyFileByDatabaseUri(
+        databaseUri: Uri,
+        result: (() -> Unit)? = null
+    ) {
+        CoroutineScope(Dispatchers.Main).launch {
+            withContext(Dispatchers.IO) {
                 databaseFileHistoryDao.deleteKeyFileByDatabaseUri(databaseUri.toString())
-            },
-            {
-                result?.invoke()
             }
-        ).execute()
+            result?.invoke()
+        }
     }
 
-    fun deleteAllKeyFiles(result: (() ->Unit)? = null) {
-        IOActionTask(
-            {
+    fun deleteAllKeyFiles(result: (() -> Unit)? = null) {
+        CoroutineScope(Dispatchers.Main).launch {
+            withContext(Dispatchers.IO) {
                 databaseFileHistoryDao.deleteAllKeyFiles()
-            },
-            {
-                result?.invoke()
             }
-        ).execute()
+            result?.invoke()
+        }
     }
 
-    fun deleteAll(result: (() ->Unit)? = null) {
-        IOActionTask(
-            {
+    fun deleteAll(result: (() -> Unit)? = null) {
+        CoroutineScope(Dispatchers.Main).launch {
+            withContext(Dispatchers.IO) {
                 databaseFileHistoryDao.deleteAll()
-            },
-            {
-                result?.invoke()
             }
-        ).execute()
+            result?.invoke()
+        }
     }
 
     companion object : SingletonHolderParameter<FileDatabaseHistoryAction, Context>(::FileDatabaseHistoryAction) {

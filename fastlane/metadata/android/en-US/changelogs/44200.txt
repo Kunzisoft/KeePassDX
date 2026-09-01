@@ -1,0 +1,1 @@
+ * Fixed duplication of UUIDs by restoring the old behavior of sorting by access #2527 #1911

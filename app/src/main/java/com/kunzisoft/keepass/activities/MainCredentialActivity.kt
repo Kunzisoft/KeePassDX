@@ -36,9 +36,11 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.viewModels
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
 import androidx.biometric.BiometricManager
 import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.core.view.isVisible
 import androidx.fragment.app.commit
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
@@ -46,7 +48,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.google.android.material.snackbar.Snackbar
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.activities.dialogs.DuplicateUuidDialog
 import com.kunzisoft.keepass.activities.helpers.ExternalFileHelper
 import com.kunzisoft.keepass.activities.legacy.DatabaseModeActivity
 import com.kunzisoft.keepass.app.database.FileDatabaseHistoryAction
@@ -58,6 +59,7 @@ import com.kunzisoft.keepass.credentialprovider.SpecialMode
 import com.kunzisoft.keepass.credentialprovider.TypeMode
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.MainCredential
+import com.kunzisoft.keepass.database.element.Database.Companion.DEFAULT_PASSWORD_ENCODING
 import com.kunzisoft.keepass.database.exception.DuplicateUuidDatabaseException
 import com.kunzisoft.keepass.database.exception.FileNotFoundDatabaseException
 import com.kunzisoft.keepass.education.PasswordActivityEducation
@@ -86,10 +88,12 @@ import com.kunzisoft.keepass.utils.getParcelableExtraCompat
 import com.kunzisoft.keepass.view.MainCredentialView
 import com.kunzisoft.keepass.view.asError
 import com.kunzisoft.keepass.view.showActionErrorIfNeeded
-import com.kunzisoft.keepass.viewmodels.DatabaseFileViewModel
 import com.kunzisoft.keepass.viewmodels.DeviceUnlockViewModel
+import com.kunzisoft.keepass.viewmodels.MainCredentialViewModel
 import kotlinx.coroutines.launch
 import java.io.FileNotFoundException
+import java.nio.ByteBuffer
+import java.nio.CharBuffer
 
 
 class MainCredentialActivity : DatabaseModeActivity() {
@@ -99,13 +103,13 @@ class MainCredentialActivity : DatabaseModeActivity() {
     private var filenameView: TextView? = null
     private var logotypeButton: View? = null
     private var deviceUnlockButton: View? = null
-    private var mainCredentialView: MainCredentialView? = null
+    private lateinit var mainCredentialView: MainCredentialView
     private var confirmButtonView: Button? = null
     private var infoContainerView: ViewGroup? = null
     private lateinit var coordinatorLayout: CoordinatorLayout
     private var deviceUnlockFragment: DeviceUnlockFragment? = null
 
-    private val mDatabaseFileViewModel: DatabaseFileViewModel by viewModels()
+    private val mMainCredentialViewModel: MainCredentialViewModel by viewModels()
     private val mDeviceUnlockViewModel: DeviceUnlockViewModel? by lazy {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             ViewModelProvider(this)[DeviceUnlockViewModel::class.java]
@@ -113,19 +117,7 @@ class MainCredentialActivity : DatabaseModeActivity() {
     }
 
     private val mPasswordActivityEducation = PasswordActivityEducation(this)
-
-    private var mDefaultDatabase: Boolean = false
-    private var mDatabaseFileUri: Uri? = null
-
-    private var mRememberKeyFile: Boolean = false
     private var mExternalFileHelper: ExternalFileHelper? = null
-
-    private var mRememberHardwareKey: Boolean = false
-
-    private var mReadOnly: Boolean = false
-    private var mForceReadOnly: Boolean = false
-    private var mUserVerificationAllowed: Boolean = false
-    private var mForceUserVerificationAllowed: Boolean = false
 
     override fun manageDatabaseInfo(): Boolean  = false
 
@@ -148,37 +140,14 @@ class MainCredentialActivity : DatabaseModeActivity() {
         infoContainerView = findViewById(R.id.activity_password_info_container)
         coordinatorLayout = findViewById(R.id.activity_password_coordinator_layout)
 
-        mReadOnly = if (savedInstanceState != null && savedInstanceState.containsKey(KEY_READ_ONLY)) {
-            savedInstanceState.getBoolean(KEY_READ_ONLY)
-        } else {
-            false
-        }
-
-        mForceUserVerificationAllowed = mTypeMode.useUserVerification
-        mUserVerificationAllowed = if (mForceUserVerificationAllowed) {
-            true
-        } else {
-            if (savedInstanceState != null && savedInstanceState.containsKey(KEY_USER_VERIFICATION)) {
-                savedInstanceState.getBoolean(KEY_USER_VERIFICATION)
-            } else {
-                PreferencesUtil.isUserVerificationModeEnabledByDefault(this)
-            }
-        }
-
-        mRememberKeyFile = PreferencesUtil.rememberKeyFileLocations(this)
-        mRememberHardwareKey = PreferencesUtil.rememberHardwareKey(this)
-
         // Build elements to manage keyfile selection
         mExternalFileHelper = ExternalFileHelper(this)
         mExternalFileHelper?.buildOpenDocument { uri ->
             if (uri != null) {
-                mainCredentialView?.populateKeyFileView(uri)
+                mainCredentialView.populateKeyFileView(uri)
             }
         }
-        mainCredentialView?.setOpenKeyfileClickListener(mExternalFileHelper)
-        mainCredentialView?.onValidateListener = {
-            loadDatabase()
-        }
+        mainCredentialView.setOpenKeyfileClickListener(mExternalFileHelper)
 
         // If is a view intent
         getUriFromIntent(intent)
@@ -189,97 +158,161 @@ class MainCredentialActivity : DatabaseModeActivity() {
         }
 
         // Listen password checkbox to init advanced unlock and confirmation button
-        mainCredentialView?.onConditionToStoreCredentialChanged = { _, verified ->
+        mainCredentialView.onConditionToStoreCredentialChanged = { _, verified ->
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                mDeviceUnlockViewModel?.checkConditionToStoreCredential(
-                    condition = verified
-                )
+                mDeviceUnlockViewModel?.checkConditionToStoreCredential(condition = verified)
             }
-            // TODO Async by ViewModel
-            enableConfirmationButton()
+            mMainCredentialViewModel.onConditionChanged(mainCredentialView.isFill())
         }
 
-        // Observe if default database
-        mDatabaseFileViewModel.isDefaultDatabase.observe(this) { isDefaultDatabase ->
-            mDefaultDatabase = isDefaultDatabase
+        // Encapsulate function to load database
+        fun loadDatabase() {
+            mMainCredentialViewModel.loadDatabase(
+                mainCredential = mainCredentialView.getMainCredential(),
+                specialMode = mSpecialMode
+            )
         }
 
-        // Observe database file change
-        mDatabaseFileViewModel.databaseFileLoaded.observe(this) { databaseFile ->
-
-            // Force read only if the file does not exists
-            val databaseFileNotExists = databaseFile?.let {
-                !it.databaseFileExists
-            } ?: true
-            infoContainerView?.visibility = if (databaseFileNotExists) {
-                mReadOnly = true
-                View.VISIBLE
-            } else {
-                View.GONE
+        // If Activity is launch with a password and want to open directly
+        val intent = intent
+        // TODO Change to getCharArrayExtra(KEY_PASSWORD)
+        val password = intent.getStringExtra(KEY_PASSWORD)
+        // Consume the intent extra password
+        intent.removeExtra(KEY_PASSWORD)
+        if (password != null) {
+            mainCredentialView.populatePasswordTextView(password.toCharArray())
+        }
+        val launchImmediately = intent.getBooleanExtra(KEY_LAUNCH_IMMEDIATELY, false)
+        intent.removeExtra(KEY_LAUNCH_IMMEDIATELY)
+        if (launchImmediately) {
+            loadDatabase()
+        } else {
+            // Init Biometric elements
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                mDeviceUnlockViewModel?.connect(mMainCredentialViewModel.databaseFileUri)
             }
-            mForceReadOnly = databaseFileNotExists
-
-            // Restore read-only state from database file if not forced
-            if (!mForceReadOnly) {
-                databaseFile?.readOnly?.let { savedReadOnlyState ->
-                    mReadOnly = savedReadOnlyState
-                }
-            }
-
-            invalidateOptionsMenu()
-
-            // Post init uri with KeyFile only if needed
-            val databaseKeyFileUri = mainCredentialView?.getMainCredential()?.keyFileUri
-            val keyFileUri =
-                    if (mRememberKeyFile
-                            && (databaseKeyFileUri == null || databaseKeyFileUri.toString().isEmpty())) {
-                        databaseFile?.keyFileUri
-                    } else {
-                        databaseKeyFileUri
-                    }
-
-            val databaseHardwareKey = mainCredentialView?.getMainCredential()?.hardwareKey
-            val hardwareKey =
-                if (mRememberHardwareKey
-                    && databaseHardwareKey == null) {
-                    databaseFile?.hardwareKey
-                } else {
-                    databaseHardwareKey
-                }
-
-            // Define title
-            filenameView?.text = databaseFile?.databaseAlias ?: ""
-
-            onDatabaseFileLoaded(databaseFile?.databaseUri, keyFileUri, hardwareKey)
+        }
+        // To validate with the keyboard
+        mainCredentialView.onValidateListener = {
+            loadDatabase()
+        }
+        // Define listener for validate button
+        confirmButtonView?.setOnClickListener {
+            loadDatabase()
         }
 
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    mDeviceUnlockViewModel?.let { deviceUnlockViewModel ->
-                        deviceUnlockViewModel.uiState.collect { uiState ->
-                            // New value received
-                            uiState.credentialRequiredCipher?.let { cipher ->
-                                deviceUnlockViewModel.encryptCredential(
-                                    credential = getCredentialForEncryption(),
-                                    cipher = cipher
+                launch {
+                    mMainCredentialViewModel.databaseFileUIState.collect { state ->
+                        infoContainerView?.isVisible = state.showFileRevokedErrorMessage
+                        filenameView?.text = state.fileName
+                        state.keyFileUri?.let {
+                            mainCredentialView.populateKeyFileView(it)
+                        }
+                        state.hardwareKey?.let {
+                            mainCredentialView.populateHardwareKeyView(it)
+                        }
+                        // Enable or not the open button if setting is checked
+                        confirmButtonView?.isEnabled = state.confirmButtonEnabled
+                        invalidateOptionsMenu()
+                        mainCredentialView.focusPasswordFieldAndOpenKeyboard()
+                    }
+                }
+                launch {
+                    mMainCredentialViewModel.databaseFileEvent.collect { event ->
+                        when (event) {
+                            is MainCredentialViewModel.DatabaseFileEvent.ClearCredentialsView -> {
+                                clearCredentialsViews(
+                                    clearKeyFile = event.clearKeyFile,
+                                    clearHardwareKey = event.clearHardwareKey
                                 )
                             }
-                            uiState.cipherEncryptDatabase?.let { cipherEncryptDatabase ->
-                                onCredentialEncrypted(cipherEncryptDatabase)
-                                deviceUnlockViewModel.consumeCredentialEncrypted()
+                            is MainCredentialViewModel.DatabaseFileEvent.LoadDatabase -> {
+                                mDatabaseViewModel.loadDatabase(
+                                    databaseUri = event.databaseUri,
+                                    mainCredential = event.mainCredential,
+                                    readOnly = event.readOnly,
+                                    allowUserVerification = event.allowUserVerification,
+                                    cipherEncryptDatabase = event.cipherEncryptDatabase
+                                )
                             }
-                            uiState.cipherDecryptDatabase?.let { cipherDecryptDatabase ->
-                                onCredentialDecrypted(cipherDecryptDatabase)
-                                deviceUnlockViewModel.consumeCredentialDecrypted()
+                            is MainCredentialViewModel.DatabaseFileEvent.OpenGroup -> {
+                                clearCredentialsViews(
+                                    clearKeyFile = true,
+                                    clearHardwareKey = true
+                                )
+                                GroupActivity.launch(
+                                    this@MainCredentialActivity,
+                                    event.database,
+                                    onValidateSpecialMode = { onValidateSpecialMode() },
+                                    onCancelSpecialMode = { onCancelSpecialMode() },
+                                    onLaunchActivitySpecialMode = { onLaunchActivitySpecialMode() },
+                                    mCredentialActivityResultLauncher
+                                )
                             }
-                            uiState.exception?.let { error ->
-                                Snackbar.make(
-                                    coordinatorLayout,
-                                    deviceUnlockError(error, this@MainCredentialActivity),
-                                    Snackbar.LENGTH_LONG
-                                ).asError().show()
-                                deviceUnlockViewModel.exceptionShown()
+                            is MainCredentialViewModel.DatabaseFileEvent.ShowErrorSaveReadOnlyDatabase -> {
+                                Snackbar.make(coordinatorLayout,
+                                    R.string.error_save_read_only,
+                                    Snackbar.LENGTH_LONG).asError().show()
+                            }
+                            is MainCredentialViewModel.DatabaseFileEvent.ShowLoadDatabaseDuplicateUuidMessage -> {
+                                AlertDialog.Builder(this@MainCredentialActivity).apply {
+                                    val message = getString(R.string.contains_duplicate_uuid) +
+                                            "\n\n" + getString(R.string.contains_duplicate_uuid_procedure)
+                                    setMessage(message)
+                                    setPositiveButton(getString(android.R.string.ok)) { _, _ ->
+                                        event.databaseUri?.let { databaseFileUri ->
+                                            mDatabaseViewModel.loadDatabase(
+                                                databaseUri = databaseFileUri,
+                                                mainCredential = event.mainCredential,
+                                                readOnly = event.readOnly,
+                                                allowUserVerification = event.allowUserVerification,
+                                                cipherEncryptDatabase = event.cipherEncryptDatabase,
+                                                fixDuplicateUuid = true,
+                                            )
+                                        }
+                                    }
+                                    setNegativeButton(getString(android.R.string.cancel)) { _, _ -> }
+                                    create().show()
+                                }
+                            }
+                            is MainCredentialViewModel.DatabaseFileEvent.ShowWarningDatabaseAlreadyOpened -> {
+                                Toast.makeText(this@MainCredentialActivity,
+                                    R.string.warning_database_already_opened,
+                                    Toast.LENGTH_LONG
+                                ).show()
+                            }
+                        }
+                    }
+                }
+                launch {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        mDeviceUnlockViewModel?.let { deviceUnlockViewModel ->
+                            deviceUnlockViewModel.uiState.collect { uiState ->
+                                // New value received
+                                uiState.credentialRequiredCipher?.let { cipher ->
+                                    deviceUnlockViewModel.encryptCredential(
+                                        credential = getCredentialForEncryption(),
+                                        cipher = cipher
+                                    )
+                                }
+                                uiState.cipherEncryptDatabase?.let { cipherEncryptDatabase ->
+                                    onCredentialEncrypted(cipherEncryptDatabase)
+                                    deviceUnlockViewModel.consumeCredentialEncrypted()
+                                }
+                                uiState.cipherDecryptDatabase?.let { cipherDecryptDatabase ->
+                                    onCredentialDecrypted(cipherDecryptDatabase)
+                                    deviceUnlockViewModel.consumeCredentialDecrypted()
+                                }
+                                uiState.exception?.let { error ->
+                                    Snackbar.make(
+                                        coordinatorLayout,
+                                        deviceUnlockError(error, this@MainCredentialActivity),
+                                        Snackbar.LENGTH_LONG
+                                    ).asError().show()
+                                    deviceUnlockViewModel.exceptionShown()
+                                }
                             }
                         }
                     }
@@ -309,31 +342,24 @@ class MainCredentialActivity : DatabaseModeActivity() {
             }
         }
 
-        mRememberKeyFile = PreferencesUtil.rememberKeyFileLocations(this@MainCredentialActivity)
-        mRememberHardwareKey = PreferencesUtil.rememberHardwareKey(this@MainCredentialActivity)
+        mMainCredentialViewModel.refreshPreferences()
 
         // Back to previous keyboard is setting activated
         if (PreferencesUtil.isKeyboardPreviousDatabaseCredentialsEnable(this@MainCredentialActivity)) {
             sendBroadcast(Intent(BACK_PREVIOUS_KEYBOARD_ACTION))
         }
 
-        mDatabaseFileUri?.let { databaseFileUri ->
-            mDatabaseFileViewModel.loadDatabaseFile(databaseFileUri)
-        }
+        mMainCredentialViewModel.loadDatabaseFile(
+            mainCredential = mainCredentialView.getMainCredential(),
+            specialMode = mSpecialMode,
+            typeMode = mTypeMode
+        )
     }
 
     override fun onDatabaseRetrieved(database: ContextualDatabase) {
         super.onDatabaseRetrieved(database)
         // Trying to load another database
-        if (mDatabaseFileUri != null
-            && database.fileUri != null
-            && mDatabaseFileUri != database.fileUri) {
-            Toast.makeText(this,
-                R.string.warning_database_already_opened,
-                Toast.LENGTH_LONG
-            ).show()
-        }
-        launchGroupActivityIfLoaded(database)
+        mMainCredentialViewModel.onDatabaseRetrieved(database)
     }
 
     override fun onDatabaseActionFinished(
@@ -345,55 +371,33 @@ class MainCredentialActivity : DatabaseModeActivity() {
         when (actionTask) {
             ACTION_DATABASE_LOAD_TASK -> {
                 if (result.isSuccess) {
-                    launchGroupActivityIfLoaded(database)
+                    mMainCredentialViewModel.onDatabaseRetrieved(database)
                 } else {
-                    mainCredentialView?.requestPasswordFocus()
+                    mainCredentialView.requestPasswordFocus()
                     // Manage special exceptions
                     when (result.exception) {
                         is DuplicateUuidDatabaseException -> {
                             // Relaunch loading if we need to fix UUID
-                            showLoadDatabaseDuplicateUuidMessage {
-
-                                var databaseUri: Uri? = null
-                                var mainCredential = MainCredential()
-                                var readOnly = true
-                                var allowUserVerification = true
-                                var cipherEncryptDatabase: CipherEncryptDatabase? = null
-
-                                result.data?.let { resultData ->
-                                    databaseUri = resultData.getParcelableCompat(DATABASE_URI_KEY)
-                                    mainCredential =
-                                        resultData.getParcelableCompat(MAIN_CREDENTIAL_KEY)
-                                            ?: mainCredential
-                                    readOnly = resultData.getBoolean(READ_ONLY_KEY)
-                                    allowUserVerification = resultData.getBoolean(USER_VERIFICATION_KEY)
-                                    cipherEncryptDatabase =
-                                        resultData.getParcelableCompat(CIPHER_DATABASE_KEY)
-                                }
-
-                                databaseUri?.let { databaseFileUri ->
-                                    showProgressDialogAndLoadDatabase(
-                                        databaseFileUri,
-                                        mainCredential,
-                                        readOnly,
-                                        allowUserVerification,
-                                        cipherEncryptDatabase,
-                                        true
-                                    )
-                                }
+                            result.data?.let { resultData ->
+                                mMainCredentialViewModel.showLoadDatabaseDuplicateUuidMessage(
+                                    databaseUri = resultData.getParcelableCompat(DATABASE_URI_KEY),
+                                    mainCredential = resultData.getParcelableCompat(MAIN_CREDENTIAL_KEY) ?: MainCredential(),
+                                    readOnly = resultData.getBoolean(READ_ONLY_KEY),
+                                    allowUserVerification = resultData.getBoolean(USER_VERIFICATION_KEY),
+                                    cipherEncryptDatabase = resultData.getParcelableCompat(CIPHER_DATABASE_KEY)
+                                )
                             }
                         }
                         is FileNotFoundDatabaseException -> {
                             // Remove this default database inaccessible
-                            if (mDefaultDatabase) {
-                                mDatabaseFileViewModel.removeDefaultDatabase()
-                            }
+                            mMainCredentialViewModel.removeDefaultDatabase()
                         }
                     }
                 }
             }
         }
         coordinatorLayout.showActionErrorIfNeeded(result)
+        result.clear()
     }
 
     private fun getUriFromIntent(intent: Intent?) {
@@ -416,17 +420,16 @@ class MainCredentialActivity : DatabaseModeActivity() {
             intent?.removeExtra(KEY_KEYFILE)
             intent?.removeExtra(KEY_HARDWARE_KEY)
         } catch (_: Exception) {}
-        mDatabaseFileUri?.let {
-            mDatabaseFileViewModel.checkIfIsDefaultDatabase(it)
-        }
     }
 
-    private fun fillCredentials(databaseUri: Uri?,
-                                keyFileUri: Uri?,
-                                hardwareKey: HardwareKey?) {
-        mDatabaseFileUri = databaseUri
-        mainCredentialView?.populateKeyFileView(keyFileUri)
-        mainCredentialView?.populateHardwareKeyView(hardwareKey)
+    private fun fillCredentials(
+        databaseUri: Uri?,
+        keyFileUri: Uri?,
+        hardwareKey: HardwareKey?
+    ) {
+        mMainCredentialViewModel.assignDatabaseUri(databaseUri)
+        mainCredentialView.populateKeyFileView(keyFileUri)
+        mainCredentialView.populateHardwareKeyView(hardwareKey)
     }
 
     override fun onNewIntent(intent: Intent?) {
@@ -434,23 +437,15 @@ class MainCredentialActivity : DatabaseModeActivity() {
         getUriFromIntent(intent)
     }
 
-    private fun launchGroupActivityIfLoaded(database: ContextualDatabase) {
-        // Check if database really loaded
-        if (database.loaded) {
-            clearCredentialsViews(clearKeyFile = true, clearHardwareKey = true)
-            GroupActivity.launch(this,
-                database,
-                { onValidateSpecialMode() },
-                { onCancelSpecialMode() },
-                { onLaunchActivitySpecialMode() },
-                mCredentialActivityResultLauncher
-            )
-        }
-    }
-
     private val credentialStorageListener = object: MainCredentialView.CredentialStorageListener {
-        override fun passwordToStore(password: String?): ByteArray? {
-            return password?.toByteArray()
+        override fun passwordToStore(password: CharArray?): ByteArray? {
+            if (password == null) return null
+            val byteBuffer = DEFAULT_PASSWORD_ENCODING.encode(
+                CharBuffer.wrap(password)
+            )
+            val bytes = ByteArray(byteBuffer.remaining())
+            byteBuffer.get(bytes)
+            return bytes
         }
 
         override fun keyfileToStore(keyfile: Uri?): ByteArray? {
@@ -465,25 +460,31 @@ class MainCredentialActivity : DatabaseModeActivity() {
     }
 
     private fun getCredentialForEncryption(): ByteArray {
-        return mainCredentialView?.retrieveCredentialForStorage(credentialStorageListener)
+        return mainCredentialView.retrieveCredentialForStorage(credentialStorageListener)
             ?: byteArrayOf()
     }
 
     private fun onCredentialEncrypted(cipherEncryptDatabase: CipherEncryptDatabase) {
         // Load the database if password is registered with biometric
-        loadDatabase(mDatabaseFileUri,
-            mainCredentialView?.getMainCredential(),
-            cipherEncryptDatabase
+        mMainCredentialViewModel.loadDatabase(
+            mainCredential = mainCredentialView.getMainCredential(),
+            specialMode = mSpecialMode,
+            cipherEncryptDatabase = cipherEncryptDatabase
         )
     }
 
     private fun onCredentialDecrypted(cipherDecryptDatabase: CipherDecryptDatabase) {
         // Load the database if password is retrieve from biometric
         // Retrieve from biometric
-        val mainCredential = mainCredentialView?.getMainCredential() ?: MainCredential()
+        val tempMainCredential = mainCredentialView.getMainCredential()
         when (cipherDecryptDatabase.credentialStorage) {
             CredentialStorage.PASSWORD -> {
-                mainCredential.password = String(cipherDecryptDatabase.decryptedValue)
+                val charBuffer = DEFAULT_PASSWORD_ENCODING.decode(
+                    ByteBuffer.wrap(cipherDecryptDatabase.decryptedValue)
+                )
+                val password = CharArray(charBuffer.remaining())
+                charBuffer.get(password)
+                tempMainCredential.password = password
             }
             CredentialStorage.KEY_FILE -> {
                 // TODO advanced unlock key file
@@ -492,153 +493,41 @@ class MainCredentialActivity : DatabaseModeActivity() {
                 // TODO advanced unlock hardware key
             }
         }
-        loadDatabase(mDatabaseFileUri,
-            mainCredential,
-            null
+        mMainCredentialViewModel.loadDatabase(
+            mainCredential = tempMainCredential,
+            specialMode = mSpecialMode
         )
     }
 
-    private fun onDatabaseFileLoaded(databaseFileUri: Uri?,
-                                     keyFileUri: Uri?,
-                                     hardwareKey: HardwareKey?) {
-        // Define Key File text
-        if (mRememberKeyFile) {
-            mainCredentialView?.populateKeyFileView(keyFileUri)
-        }
-
-        // Define hardware key
-        if (mRememberHardwareKey) {
-            mainCredentialView?.populateHardwareKeyView(hardwareKey)
-        }
-
-        // Define listener for validate button
-        confirmButtonView?.setOnClickListener {
-            mainCredentialView?.validateCredential()
-        }
-
-        // If Activity is launch with a password and want to open directly
-        val intent = intent
-        val password = intent.getStringExtra(KEY_PASSWORD)
-        // Consume the intent extra password
-        intent.removeExtra(KEY_PASSWORD)
-        if (password != null) {
-            mainCredentialView?.populatePasswordTextView(password)
-        }
-        val launchImmediately = intent.getBooleanExtra(KEY_LAUNCH_IMMEDIATELY, false)
-        intent.removeExtra(KEY_LAUNCH_IMMEDIATELY)
-        if (launchImmediately) {
-            loadDatabase()
-        } else {
-            // Init Biometric elements
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                mDeviceUnlockViewModel?.connect(databaseFileUri)
-            }
-        }
-
-        enableConfirmationButton()
-
-        mainCredentialView?.focusPasswordFieldAndOpenKeyboard()
-    }
-
-    private fun enableConfirmationButton() {
-        // Enable or not the open button if setting is checked
-        if (!PreferencesUtil.emptyPasswordAllowed(this@MainCredentialActivity)) {
-            confirmButtonView?.isEnabled = mainCredentialView?.isFill() ?: false
-        } else {
-            confirmButtonView?.isEnabled = true
-        }
-    }
-
-    private fun clearCredentialsViews(clearKeyFile: Boolean = !mRememberKeyFile,
-                                      clearHardwareKey: Boolean = !mRememberHardwareKey) {
-        mainCredentialView?.populatePasswordTextView(null)
+    private fun clearCredentialsViews(
+        clearKeyFile: Boolean,
+        clearHardwareKey: Boolean
+    ) {
+        mainCredentialView.populatePasswordTextView(null)
         if (clearKeyFile) {
-            mainCredentialView?.populateKeyFileView(null)
+            mainCredentialView.populateKeyFileView(null)
         }
         if (clearHardwareKey) {
-            mainCredentialView?.populateHardwareKeyView(null)
+            mainCredentialView.populateHardwareKeyView(null)
         }
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        outState.putBoolean(KEY_READ_ONLY, mReadOnly)
-        outState.putBoolean(KEY_USER_VERIFICATION, mUserVerificationAllowed)
-        super.onSaveInstanceState(outState)
-    }
-
-    private fun loadDatabase() {
-        loadDatabase(mDatabaseFileUri,
-            mainCredentialView?.getMainCredential(),
-            null
-        )
-    }
-
-    private fun loadDatabase(databaseFileUri: Uri?,
-                             mainCredential: MainCredential?,
-                             cipherEncryptDatabase: CipherEncryptDatabase?) {
-
-        if (PreferencesUtil.deletePasswordAfterConnexionAttempt(this)) {
-            clearCredentialsViews()
-        }
-
-        if (mReadOnly && mSpecialMode == SpecialMode.REGISTRATION) {
-            Log.e(TAG, getString(R.string.error_save_read_only))
-            Snackbar.make(coordinatorLayout,
-                    R.string.error_save_read_only,
-                    Snackbar.LENGTH_LONG).asError().show()
-        } else {
-            databaseFileUri?.let { databaseUri ->
-                // Show the progress dialog and load the database
-                showProgressDialogAndLoadDatabase(
-                    databaseUri,
-                    mainCredential ?: MainCredential(),
-                    mReadOnly,
-                    mUserVerificationAllowed,
-                    cipherEncryptDatabase,
-                    false
-                )
-            }
-        }
-    }
-
-    private fun showProgressDialogAndLoadDatabase(databaseUri: Uri,
-                                                  mainCredential: MainCredential,
-                                                  readOnly: Boolean,
-                                                  allowUserVerification: Boolean,
-                                                  cipherEncryptDatabase: CipherEncryptDatabase?,
-                                                  fixDuplicateUUID: Boolean) {
-        mDatabaseViewModel.loadDatabase(
-            databaseUri,
-            mainCredential,
-            readOnly,
-            allowUserVerification,
-            cipherEncryptDatabase,
-            fixDuplicateUUID
-        )
-    }
-
-    private fun showLoadDatabaseDuplicateUuidMessage(loadDatabaseWithFix: (() -> Unit)? = null) {
-        DuplicateUuidDialog().apply {
-            positiveAction = loadDatabaseWithFix
-        }.show(supportFragmentManager, "duplicateUUIDDialog")
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         val inflater = menuInflater
         // Read menu
         inflater.inflate(R.menu.open_file, menu)
-        if (mForceReadOnly) {
-            menu.removeItem(R.id.menu_open_file_read_mode_key)
-        } else {
+        if (mMainCredentialViewModel.isReadOnlyToggleAllowed()) {
             changeDatabaseReadModeIcon(menu.findItem(R.id.menu_open_file_read_mode_key))
+        } else {
+            menu.removeItem(R.id.menu_open_file_read_mode_key)
         }
 
-        if (mForceUserVerificationAllowed) {
-            menu.removeItem(R.id.menu_open_file_user_verification_mode_key)
-        } else {
+        if (mMainCredentialViewModel.isUserVerificationToggleAllowed()) {
             changeUserVerificationModeIcon(
                 menu.findItem(R.id.menu_open_file_user_verification_mode_key)
             )
+        } else {
+            menu.removeItem(R.id.menu_open_file_user_verification_mode_key)
         }
 
         if (mSpecialMode == SpecialMode.DEFAULT) {
@@ -737,7 +626,7 @@ class MainCredentialActivity : DatabaseModeActivity() {
     }
 
     private fun changeDatabaseReadModeIcon(readOnlyMenuItem: MenuItem) {
-        if (mReadOnly) {
+        if (mMainCredentialViewModel.readOnly) {
             readOnlyMenuItem.setTitle(R.string.menu_file_selection_read_only)
             readOnlyMenuItem.setIcon(R.drawable.ic_read_only_white_24dp)
         } else {
@@ -747,7 +636,7 @@ class MainCredentialActivity : DatabaseModeActivity() {
     }
 
     private fun changeUserVerificationModeIcon(userVerificationMenuItem: MenuItem) {
-        if (mUserVerificationAllowed) {
+        if (mMainCredentialViewModel.userVerificationMode) {
             userVerificationMenuItem.setTitle(R.string.menu_user_verification_enabled)
             userVerificationMenuItem.setIcon(R.drawable.ic_user_verification_enabled_white_24dp)
         } else {
@@ -761,18 +650,30 @@ class MainCredentialActivity : DatabaseModeActivity() {
         when (item.itemId) {
             android.R.id.home -> finish()
             R.id.menu_open_file_read_mode_key -> {
-                mReadOnly = !mReadOnly
+                mMainCredentialViewModel.toggleReadOnly()
                 changeDatabaseReadModeIcon(item)
                 // Save the read-only state to database
-                mDatabaseFileUri?.let { databaseUri ->
+                mMainCredentialViewModel.databaseFileUri?.let { databaseUri ->
                     FileDatabaseHistoryAction.getInstance(applicationContext).addOrUpdateDatabaseFile(
-                        DatabaseFile(databaseUri = databaseUri, readOnly = mReadOnly)
+                        DatabaseFile(
+                            databaseUri = databaseUri,
+                            readOnly = mMainCredentialViewModel.readOnly
+                        )
                     )
                 }
             }
             R.id.menu_open_file_user_verification_mode_key -> {
-                mUserVerificationAllowed = !mUserVerificationAllowed
+                mMainCredentialViewModel.toggleUserVerificationMode()
                 changeUserVerificationModeIcon(item)
+                // Save the user verification state to database
+                mMainCredentialViewModel.databaseFileUri?.let { databaseUri ->
+                    FileDatabaseHistoryAction.getInstance(applicationContext).addOrUpdateDatabaseFile(
+                        DatabaseFile(
+                            databaseUri = databaseUri,
+                            userVerification = mMainCredentialViewModel.userVerificationMode
+                        )
+                    )
+                }
             }
             else -> MenuUtil.onDefaultMenuOptionsItemSelected(this, item)
         }
@@ -798,8 +699,6 @@ class MainCredentialActivity : DatabaseModeActivity() {
         private const val KEY_HARDWARE_KEY = "hardwareKey"
         private const val VIEW_INTENT = "android.intent.action.VIEW"
 
-        private const val KEY_READ_ONLY = "KEY_READ_ONLY"
-        private const val KEY_USER_VERIFICATION = "KEY_USER_VERIFICATION"
         private const val KEY_PASSWORD = "password"
         private const val KEY_LAUNCH_IMMEDIATELY = "launchImmediately"
 

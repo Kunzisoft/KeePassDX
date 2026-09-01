@@ -239,14 +239,16 @@ class PasskeyProviderService : CredentialProviderService() {
                         PasswordLauncherActivity.getPendingIntent(
                             context = applicationContext,
                             specialMode = SpecialMode.SELECTION,
-                            nodeId = passwordEntry.id,
+                            nodeId = passwordEntry.nodeId,
                             searchInfo = searchInfo,
                             userVerifiedWithAuth = false
                         )?.let { usagePendingIntent ->
                             passwordEntries.add(
                                 PasswordCredentialEntry(
                                     context = applicationContext,
-                                    username = passwordEntry.username,
+                                    username = passwordEntry.username.ifEmpty {
+                                        getString(R.string.credential_provider_database_username)
+                                    },
                                     icon = passwordEntry.buildIcon(
                                         this@PasskeyProviderService,
                                         database
@@ -440,7 +442,7 @@ class PasskeyProviderService : CredentialProviderService() {
                     PasskeyLauncherActivity.getPendingIntent(
                         context = applicationContext,
                         specialMode = SpecialMode.SELECTION,
-                        nodeId = passkeyEntry.id,
+                        nodeId = passkeyEntry.nodeId,
                         searchInfo = searchInfo,
                         appOrigin = passkeyEntry.appOrigin,
                         userVerification = userVerification,

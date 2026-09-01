@@ -1,1 +1,1 @@
-Siguran trezor i upravljač za lozinke otvorenog koda
+Upravljaj lozinkom/ključem u lokalnom i otvorenom trezoru

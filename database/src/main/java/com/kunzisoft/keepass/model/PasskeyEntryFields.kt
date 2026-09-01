@@ -1,6 +1,8 @@
 package com.kunzisoft.keepass.model
 
 import com.kunzisoft.keepass.database.element.Field
+import com.kunzisoft.keepass.database.element.containsWhen
+import com.kunzisoft.keepass.database.element.removeFirstWhen
 import com.kunzisoft.keepass.database.element.security.ProtectedString
 import com.kunzisoft.keepass.database.element.security.ProtectedString.Companion.toBooleanCompat
 import com.kunzisoft.keepass.database.element.security.ProtectedString.Companion.toFieldValue
@@ -16,6 +18,7 @@ object PasskeyEntryFields {
     const val FIELD_RELYING_PARTY = "KPEX_PASSKEY_RELYING_PARTY"
     const val FIELD_FLAG_BE = "KPEX_PASSKEY_FLAG_BE"
     const val FIELD_FLAG_BS = "KPEX_PASSKEY_FLAG_BS"
+    const val FIELD_PRF = "KPEX_PASSKEY_PRF"
 
     const val PASSKEY_FIELD = "Passkey"
     const val PASSKEY_TAG = "Passkey"
@@ -23,15 +26,17 @@ object PasskeyEntryFields {
     /**
      * Parse fields of an entry to retrieve a Passkey
      */
-    fun parseFields(getField: (id: String) -> String?): Passkey? {
-        val usernameField: String? = getField(FIELD_USERNAME)
-        val privateKeyField: String? = getField(FIELD_PRIVATE_KEY)
-        val credentialIdField: String? = getField(FIELD_CREDENTIAL_ID)
-        val userHandleField: String? = getField(FIELD_USER_HANDLE)
-        val relyingPartyField: String? = getField(FIELD_RELYING_PARTY)
+    fun parseFields(getField: (id: String) -> CharArray?): Passkey? {
+        val usernameField = getField(FIELD_USERNAME)
+        val privateKeyField = getField(FIELD_PRIVATE_KEY)
+        val credentialIdField = getField(FIELD_CREDENTIAL_ID)
+        val userHandleField = getField(FIELD_USER_HANDLE)
+        val relyingPartyField = getField(FIELD_RELYING_PARTY)
         // Optional fields
-        val backupEligibilityField: Boolean? = getField(FIELD_FLAG_BE)?.toBooleanCompat()
-        val backupStateField: Boolean? = getField(FIELD_FLAG_BS)?.toBooleanCompat()
+        val backupEligibilityField = getField(FIELD_FLAG_BE)?.let { String(it).toBooleanCompat() }
+        val backupStateField = getField(FIELD_FLAG_BS)?.let { String(it).toBooleanCompat() }
+        val prfField = getField(FIELD_PRF)
+
         if (usernameField == null
             || privateKeyField == null
             || credentialIdField == null
@@ -39,13 +44,14 @@ object PasskeyEntryFields {
             || relyingPartyField == null)
             return null
         return Passkey(
-            username = usernameField,
+            username = String(usernameField),
             privateKeyPem = privateKeyField,
-            credentialId = credentialIdField,
-            userHandle = userHandleField,
-            relyingParty = relyingPartyField,
+            credentialId = String(credentialIdField),
+            userHandle = String(userHandleField),
+            relyingParty = String(relyingPartyField),
             backupEligibility = backupEligibilityField,
-            backupState = backupStateField
+            backupState = backupStateField,
+            prfSecret = prfField
         )
     }
 
@@ -56,18 +62,20 @@ object PasskeyEntryFields {
                 || this.containsCustomField(FIELD_CREDENTIAL_ID)
                 || this.containsCustomField(FIELD_USER_HANDLE)
                 || this.containsCustomField(FIELD_RELYING_PARTY)
+                || this.containsCustomField(FIELD_PRF)
     }
 
     /**
      * Set a passkey in an entry,
      * return true if data has been overwritten
      */
-    fun EntryInfo.setPasskey(passkey: Passkey?): Boolean {
+    fun EntryInfo.setPasskey(passkey: Passkey?, addTag: Boolean = true): Boolean {
         var overwrite = false
         if (passkey != null) {
             if (containsPasskey())
                 overwrite = true
-            tags.put(PASSKEY_TAG)
+            if (addTag)
+                tags.put(PASSKEY_TAG)
             if (this.username.isEmpty())
                 this.username = passkey.username
             addOrReplaceField(
@@ -118,6 +126,14 @@ object PasskeyEntryFields {
                     )
                 )
             }
+            passkey.prfSecret?.let { prfSecret ->
+                addOrReplaceField(
+                    Field(
+                        FIELD_PRF,
+                        ProtectedString(enableProtection = true, prfSecret)
+                    )
+                )
+            }
         }
         return overwrite
     }
@@ -127,30 +143,25 @@ object PasskeyEntryFields {
      * Remove parameters fields use to generate auto fields
      */
     fun generateAutoFields(fieldsToParse: List<Field>): MutableList<Field> {
-        val newCustomFields: MutableList<Field> = ArrayList(fieldsToParse)
+        val newCustomFields: MutableList<Field> = fieldsToParse.toMutableList()
         // Remove parameter fields
-        val usernameField = Field(FIELD_USERNAME)
-        val privateKeyField = Field(FIELD_PRIVATE_KEY)
-        val credentialIdField = Field(FIELD_CREDENTIAL_ID)
-        val userHandleField = Field(FIELD_USER_HANDLE)
-        val relyingPartyField = Field(FIELD_RELYING_PARTY)
-        val backupEligibilityField = Field(FIELD_FLAG_BE)
-        val backupStateField = Field(FIELD_FLAG_BS)
-        newCustomFields.remove(usernameField)
-        newCustomFields.remove(privateKeyField)
-        newCustomFields.remove(credentialIdField)
-        newCustomFields.remove(userHandleField)
-        newCustomFields.remove(relyingPartyField)
-        newCustomFields.remove(backupEligibilityField)
-        newCustomFields.remove(backupStateField)
+        newCustomFields.removeFirstWhen(FIELD_USERNAME)
+        newCustomFields.removeFirstWhen(FIELD_PRIVATE_KEY)
+        newCustomFields.removeFirstWhen(FIELD_CREDENTIAL_ID)
+        newCustomFields.removeFirstWhen(FIELD_USER_HANDLE)
+        newCustomFields.removeFirstWhen(FIELD_RELYING_PARTY)
+        newCustomFields.removeFirstWhen(FIELD_FLAG_BE)
+        newCustomFields.removeFirstWhen(FIELD_FLAG_BS)
+        newCustomFields.removeFirstWhen(FIELD_PRF)
         // Empty auto generated Passkey field
-        if (fieldsToParse.contains(usernameField)
-            || fieldsToParse.contains(privateKeyField)
-            || fieldsToParse.contains(credentialIdField)
-            || fieldsToParse.contains(userHandleField)
-            || fieldsToParse.contains(relyingPartyField)
-            || fieldsToParse.contains(backupEligibilityField)
-            || fieldsToParse.contains(backupStateField)
+        if (fieldsToParse.containsWhen(FIELD_USERNAME)
+            || fieldsToParse.containsWhen(FIELD_PRIVATE_KEY)
+            || fieldsToParse.containsWhen(FIELD_CREDENTIAL_ID)
+            || fieldsToParse.containsWhen(FIELD_USER_HANDLE)
+            || fieldsToParse.containsWhen(FIELD_RELYING_PARTY)
+            || fieldsToParse.containsWhen(FIELD_FLAG_BE)
+            || fieldsToParse.containsWhen(FIELD_FLAG_BS)
+            || fieldsToParse.containsWhen(FIELD_PRF)
         )
             newCustomFields.add(
                 Field(
@@ -172,6 +183,7 @@ object PasskeyEntryFields {
             FIELD_CREDENTIAL_ID -> true
             FIELD_USER_HANDLE -> true
             FIELD_RELYING_PARTY -> true
+            FIELD_PRF -> true
             else -> false
         }
     }

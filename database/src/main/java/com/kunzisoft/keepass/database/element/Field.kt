@@ -53,17 +53,24 @@ class Field : Parcelable {
         dest.writeParcelable(protectedValue, flags)
     }
 
+    fun clear() {
+        protectedValue.clear()
+    }
+
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other !is Field) return false
 
         if (name != other.name) return false
+        if (protectedValue != other.protectedValue) return false
 
         return true
     }
 
     override fun hashCode(): Int {
-        return name.hashCode()
+        var result = name.hashCode()
+        result = 31 * result + protectedValue.hashCode()
+        return result
     }
 
     companion object {
@@ -79,4 +86,20 @@ class Field : Parcelable {
             }
         }
     }
+}
+
+/**
+ * Remove the first field with the [name]
+ */
+fun MutableList<Field>.removeFirstWhen(name: String) {
+    this.firstOrNull { it.name == name }?.let {
+        this.remove(it)
+    }
+}
+
+/**
+ * Return true if contains field with the [name]
+ */
+fun List<Field>.containsWhen(name: String): Boolean {
+    return this.firstOrNull { it.name == name } != null
 }

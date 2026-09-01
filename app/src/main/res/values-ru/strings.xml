@@ -69,7 +69,7 @@
     <string name="error_out_of_memory">Недостаточно памяти для работы с базой.</string>
     <string name="error_pass_gen_type">Выберите один или несколько типов символов.</string>
     <string name="error_pass_match">Пароли не совпадают.</string>
-    <string name="error_rounds_too_large">Предельное значение 2147483648.</string>
+    <string name="error_rounds_too_large">Значение раундов шифрования слишком велико. Предельное значение %1$s.</string>
     <string name="error_string_key">Каждое поле должно иметь название.</string>
     <string name="error_wrong_length">Поле \"Длина\" должно быть положительным целым числом.</string>
     <string name="field_name">Название поля</string>
@@ -108,7 +108,7 @@
     <string name="minus">-Дефис-</string>
     <string name="never">Никогда</string>
     <string name="no_results">Совпадения не найдены</string>
-    <string name="no_url_handler">Установите браузер, чтобы открыть этот URL.</string>
+    <string name="no_url_handler">Установите браузер, чтобы открыть эту ссылку.</string>
     <string name="progress_create">Создание новой базы…</string>
     <string name="progress_title">Обработка…</string>
     <string name="protection">Защита</string>
@@ -160,7 +160,7 @@
     <string name="edit_entry">Изменить запись</string>
     <string name="allow">Разрешить</string>
     <string name="error_load_database">Невозможно загрузить базу.</string>
-    <string name="error_load_database_KDF_memory">Невозможно загрузить ключ. Попробуйте уменьшить размер памяти, используемой функцией формирования ключа (KDF).</string>
+    <string name="error_load_database_KDF_memory">Использование памяти функцией формирования ключа (KDF) слишком велико. Не удалось загрузить.</string>
     <string name="list_entries_show_username_title">Показывать имя</string>
     <string name="list_entries_show_username_summary">Показывать имя пользователя в списке записей</string>
     <string name="menu_copy">Копировать</string>
@@ -238,7 +238,7 @@
     <string name="education_entry_edit_title">Редактируйте записи</string>
     <string name="education_entry_edit_summary">Редактируйте записи с пользовательскими полями. Возможны перекрёстные ссылки между полями разных записей.</string>
     <string name="education_generate_password_title">Создайте надёжный пароль</string>
-    <string name="education_generate_password_summary">Создайте надёжный пароль, связанный с записью, легко настраиваемый под критерии формы. И не забудьте главный пароль от базы.</string>
+    <string name="education_generate_password_summary">Создайте надёжный пароль, связанный с записью, легко настраиваемый под критерии формы. И не забудьте его.</string>
     <string name="education_entry_new_field_title">Добавляйте пользовательские поля</string>
     <string name="education_entry_new_field_summary">Зарегистрируйте дополнительное поле, добавьте значение и при необходимости защитите его.</string>
     <string name="education_unlock_title">Разблокируйте базу</string>
@@ -296,8 +296,6 @@
     <string name="lock_database_back_root_title">Блокировка нажатием \"Назад\"</string>
     <string name="lock_database_back_root_summary">Блокировка базы нажатием кнопки \"Назад\", если открыт её корневой раздел</string>
     <string name="recycle_bin">Корзина</string>
-    <string name="keyboard_selection_entry_title">Выбор записи</string>
-    <string name="keyboard_selection_entry_summary">При отображении записи в KeePassDX подставлять её данные в Magikeyboard</string>
     <string name="delete_entered_password_title">Удалять пароль</string>
     <string name="delete_entered_password_summary">Забывать введённый пароль после попытки входа в базу</string>
     <string name="content_description_open_file">Открыть файл</string>
@@ -344,7 +342,7 @@
     <string name="error_invalid_OTP">Некорректный OTP.</string>
     <string name="error_disallow_no_credentials">Должен быть установлен, по крайней мере, один пароль.</string>
     <string name="error_copy_group_here">Вы не можете копировать группу сюда.</string>
-    <string name="error_otp_secret_key">Секретный ключ должен быть в формате BASE32.</string>
+    <string name="error_otp_secret_key">Секретный ключ должен быть в формате Base32.</string>
     <string name="error_otp_counter">Счётчик должен быть в диапазоне между %1$d и %2$d.</string>
     <string name="error_otp_period">Время должно быть в диапазоне между %1$d и %2$d сек.</string>
     <string name="error_otp_digits">Токен должен содержать от %1$d до %2$d цифр.</string>
@@ -574,7 +572,7 @@
     <string name="debit_credit_card">Банковская карта</string>
     <string name="template_group_name">Шаблоны</string>
     <string name="show_otp_token_title">Показывать OTP</string>
-    <string name="show_otp_token_summary">Показывать токены OTP в списке записей</string>
+    <string name="show_otp_token_summary">Показывать токены OTP по умолчанию</string>
     <string name="menu_external_icon">Внешний значок</string>
     <string name="autofill_select_entry">Выбор записи…</string>
     <string name="autofill_manual_selection_summary">Показывать элемент управления для ручного выбора пользователем записи из базы</string>
@@ -668,7 +666,7 @@
 \nЕсли сработает автоматическая блокировка, а вы забудете, что вносили изменения, то рискуете потерять данные.</string>
     <string name="info">Информация</string>
     <string name="master_key_settings_summary">Изменение, обновление</string>
-    <string name="warning_permission">Разрешение необходимо для отображения уведомлений.</string>
+    <string name="warning_permission">Разрешение необходимо для отображения уведомлений</string>
     <string name="menu_appearance_settings_summary">Темы, цвета, значки, шрифты, атрибуты</string>
     <string name="configure">Настройка</string>
     <string name="education_validate_entry_title">Проверка записи</string>
@@ -758,11 +756,25 @@
     <string name="first_chars">Первые символы</string>
     <string name="check">Проверка</string>
     <string name="user_verification_required_description_precise">%1$s требует подтверждения вашей личности</string>
-    <string name="user_verification_mode_summary">Использовать режим проверки пользователя по умолчанию при открытии базы</string>
-    <string name="user_verification_mode_title">Режим проверки пользователя</string>
     <string name="user_verification">Проверка пользователя</string>
     <string name="menu_user_verification_enabled">Проверка пользователя включена</string>
     <string name="menu_user_verification_disabled">Проверка пользователя отключена</string>
     <string name="education_user_verification_title">Проверяйте действия с конфиденциальными данными</string>
     <string name="education_user_verification_summary">Измените режим проверки пользователя для сеанса. \n \n\"Проверка пользователя включена\": запрашивается проверка для действий в защищённых полях и настройках базы. \n\"Проверка пользователя отключена\": можно изменять любые данные в базе без проверки.</string>
+    <string name="content_description_share_url">Поделиться ссылкой</string>
+    <string name="show_tags_title">Показывать метки</string>
+    <string name="show_tags_summary">Показывать метки в списке записей</string>
+    <string name="benchmarking">Тестирование…</string>
+    <string name="keyboard_share_browser">Поделиться из %1$s в KeePassDX</string>
+    <string name="benchmark_calculation">Вычислено за %1$s сек.</string>
+    <string name="error_memory_too_large">Значение использования памяти слишком велико. Предельное значение %1$s.</string>
+    <string name="error_parallelism_too_large">Значение уровня параллелизма слишком велико. Предельное значение %1$s.</string>
+    <string name="error_missing_parent">Это действие невозможно выполнить без родительского элемента.</string>
+    <string name="temporary_merge_success">Временные данные успешно объединены</string>
+    <string name="reload_success">Перезагрузка успешно выполнена</string>
+    <string name="autofill_suggestions_title">Предложения автозаполнения</string>
+    <string name="autofill_suggestions_summary">Использовать алгоритм распознавания форм для предложения записей</string>
+    <string name="passkey_pseudo_random_function">Псевдослучайная функция ключа доступа</string>
+    <string name="error_load_database_KDF_parallelism">Параллелизм функции формирования ключа (KDF) слишком высок. Не удалось загрузить.</string>
+    <string name="parallelism_set_safe">Установить количество процессоров</string>
 </resources>

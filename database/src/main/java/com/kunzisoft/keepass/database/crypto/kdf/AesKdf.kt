@@ -21,10 +21,8 @@ package com.kunzisoft.keepass.database.crypto.kdf
 
 import com.kunzisoft.encrypt.HashManager
 import com.kunzisoft.encrypt.aes.AESTransformer
-import com.kunzisoft.keepass.utils.UnsignedLong
 import com.kunzisoft.keepass.utils.bytes16ToUuid
 import java.io.IOException
-import java.security.SecureRandom
 import java.util.UUID
 
 class AesKdf : KdfEngine() {
@@ -36,46 +34,67 @@ class AesKdf : KdfEngine() {
     override val defaultParameters: KdfParameters
         get() {
             return KdfParameters(uuid!!).apply {
-                setUInt64(PARAM_ROUNDS, UnsignedLong(defaultKeyRounds))
+                setUInt64(PARAM_ROUNDS, defaultKeyRounds)
             }
         }
 
-    override val defaultKeyRounds = 500000L
+    @Throws(SecurityException::class)
+    override fun checkLimits(limits: Limits) {
+        getValidatedRounds()
+    }
 
     @Throws(IOException::class)
-    override fun transform(masterKey: ByteArray, kdfParameters: KdfParameters): ByteArray {
+    override fun transform(masterKey: ByteArray): ByteArray {
 
-        var seed = kdfParameters.getByteArray(PARAM_SEED)
-        if (seed != null && seed.size != 32) {
-            seed = HashManager.hashSha256(seed)
+        var seed = parameters.getByteArray(PARAM_SEED) ?: ByteArray(0)
+        if (seed.size != 32) {
+            seed = HashManager.sha256(seed)
         }
 
         var currentMasterKey = masterKey
         if (currentMasterKey.size != 32) {
-            currentMasterKey = HashManager.hashSha256(currentMasterKey)
+            currentMasterKey = HashManager.sha256(currentMasterKey)
         }
 
-        val rounds = kdfParameters.getUInt64(PARAM_ROUNDS)?.toKotlinLong()
+        val rounds = getValidatedRounds()
 
         return AESTransformer.transformKey(seed, currentMasterKey, rounds) ?: ByteArray(0)
     }
 
-    override fun randomize(kdfParameters: KdfParameters) {
-        val random = SecureRandom()
-
-        val seed = ByteArray(32)
-        random.nextBytes(seed)
-
-        kdfParameters.setByteArray(PARAM_SEED, seed)
+    private fun getValidatedRounds(): ULong {
+        val rounds = parameters.getUInt64(PARAM_ROUNDS) ?: defaultKeyRounds
+        if (rounds !in minKeyRounds..maxKeyRounds)
+            throw SecurityException("Rounds parameter not in valid range")
+        return rounds
     }
 
-    override fun getKeyRounds(kdfParameters: KdfParameters): Long {
-        return kdfParameters.getUInt64(PARAM_ROUNDS)?.toKotlinLong() ?: defaultKeyRounds
+    override fun randomize() {
+        super.randomize()
+        parameters.setByteArray(PARAM_SEED, HashManager.generateRandom(32))
     }
 
-    override fun setKeyRounds(kdfParameters: KdfParameters, keyRounds: Long) {
-        kdfParameters.setUInt64(PARAM_ROUNDS, UnsignedLong(keyRounds))
+    override fun getSeed(): ByteArray? {
+        return parameters.getByteArray(PARAM_SEED)
     }
+
+    override fun getKeyRounds(): ULong {
+        return (parameters.getUInt64(PARAM_ROUNDS) ?: defaultKeyRounds)
+            .coerceIn(minKeyRounds, maxKeyRounds)
+    }
+
+    override fun setKeyRounds(keyRounds: ULong) {
+        parameters.setUInt64(
+            PARAM_ROUNDS,
+            keyRounds.coerceIn(minKeyRounds, maxKeyRounds)
+        )
+        onParametersChanged?.invoke()
+    }
+
+    override val defaultKeyRounds: ULong = 500_000u
+
+    override val minKeyRounds: ULong = 1u
+
+    override val maxKeyRounds: ULong = Long.MAX_VALUE.toULong() // Theoretically ULong.MAX_VALUE but limited by JVM
 
     override fun toString(): String {
         return "AES"

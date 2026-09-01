@@ -29,14 +29,16 @@ abstract class ActionNodeDatabaseRunnable(
     database: ContextualDatabase,
     private val afterActionNodesFinish: AfterActionNodesFinish?,
     save: Boolean,
-    challengeResponseRetriever: (ChallengeRequest) -> ByteArray
+    challengeResponseRetriever: (ChallengeRequest) -> ByteArray,
+    dataModified: Boolean = !save,
 ) : SaveDatabaseRunnable(
     context = context,
     database = database,
-    saveDatabase = save,
+    save = save,
     mainCredential = null,
     challengeOperation = ChallengeRequest.ChallengeOperation.UPDATE,
-    challengeResponseRetriever = challengeResponseRetriever
+    challengeResponseRetriever = challengeResponseRetriever,
+    dataModified = dataModified
 ) {
 
     /**

@@ -23,7 +23,6 @@ import android.os.Parcel
 import android.os.Parcelable
 import com.kunzisoft.keepass.utils.readStringParcelableMap
 import com.kunzisoft.keepass.utils.writeStringParcelableMap
-import java.util.*
 
 class CustomData : Parcelable {
 
@@ -77,6 +76,19 @@ class CustomData : Parcelable {
 
     override fun describeContents(): Int {
         return 0
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is CustomData) return false
+
+        if (mCustomDataItems != other.mCustomDataItems) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        return mCustomDataItems.hashCode()
     }
 
     companion object CREATOR : Parcelable.Creator<CustomData> {

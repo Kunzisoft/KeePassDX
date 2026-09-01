@@ -30,14 +30,19 @@ import android.widget.EditText
 import android.widget.ImageView
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.google.android.material.slider.Slider
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.password.PasswordGenerator
 import com.kunzisoft.keepass.settings.PreferencesUtil
-import com.kunzisoft.keepass.timeout.ClipboardHelper
+import com.kunzisoft.keepass.timeout.timeoutCopyToClipboard
+import com.kunzisoft.keepass.utils.clear
 import com.kunzisoft.keepass.view.PasswordEditView
 import com.kunzisoft.keepass.viewmodels.KeyGeneratorViewModel
+import kotlinx.coroutines.launch
 
 class PasswordGeneratorFragment : DatabaseFragment() {
 
@@ -97,12 +102,11 @@ class PasswordGeneratorFragment : DatabaseFragment() {
         context?.let { context ->
             passwordCopyView?.visibility = if(PreferencesUtil.allowCopyProtectedFields(context))
                 View.VISIBLE else View.GONE
-            val clipboardHelper = ClipboardHelper(context)
             passwordCopyView?.setOnClickListener {
-                clipboardHelper.timeoutCopyToClipboard(
-                    getString(R.string.password),
-                    passwordEditView.passwordString,
-                    true
+                context.timeoutCopyToClipboard(
+                    label = getString(R.string.password),
+                    value = passwordEditView.passwordCharArray,
+                    sensitive = true
                 )
             }
         }
@@ -194,12 +198,19 @@ class PasswordGeneratorFragment : DatabaseFragment() {
         // Pre-populate a password to possibly save the user a few clicks
         generatePassword()
 
-        mKeyGeneratorViewModel.passwordGeneratedValidated.observe(viewLifecycleOwner) {
-            mKeyGeneratorViewModel.setKeyGenerated(passwordEditView.passwordString)
-        }
-
-        mKeyGeneratorViewModel.requirePasswordGeneration.observe(viewLifecycleOwner) {
-            generatePassword()
+        lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                launch {
+                    mKeyGeneratorViewModel.passwordGeneratedValidated.collect {
+                        mKeyGeneratorViewModel.setKeyGenerated(passwordEditView.passwordCharArray)
+                    }
+                }
+                launch {
+                    mKeyGeneratorViewModel.requirePasswordGeneration.collect {
+                        generatePassword()
+                    }
+                }
+            }
         }
 
         resetAppTimeoutWhenViewFocusedOrChanged(view)
@@ -208,7 +219,7 @@ class PasswordGeneratorFragment : DatabaseFragment() {
     private fun getPasswordLength(): Int {
         return try {
             Integer.valueOf(lengthEditView.text.toString())
-        } catch (numberException: NumberFormatException) {
+        } catch (_: NumberFormatException) {
             minLengthSlider
         }
     }
@@ -291,9 +302,8 @@ class PasswordGeneratorFragment : DatabaseFragment() {
     }
 
     private fun generatePassword() {
-        var password = ""
         try {
-            password = PasswordGenerator(resources).generatePassword(
+            val password = PasswordGenerator(resources).generatePassword(
                 length = getPasswordLength(),
                 upperCase = uppercaseCompound.isChecked,
                 lowerCase = lowercaseCompound.isChecked,
@@ -309,10 +319,11 @@ class PasswordGeneratorFragment : DatabaseFragment() {
                 atLeastOneFromEach = atLeastOneCompound.isChecked,
                 excludeAmbiguousChar = excludeAmbiguousCompound.isChecked
             )
+            passwordEditView.passwordCharArray = password
+            password.clear()
         } catch (e: Exception) {
             Log.e(TAG, "Unable to generate a password", e)
         }
-        passwordEditView.passwordString = password
     }
 
     override fun onDestroy() {

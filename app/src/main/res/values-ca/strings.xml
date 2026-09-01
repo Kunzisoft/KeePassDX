@@ -66,7 +66,7 @@
     <string name="error_out_of_memory">No hi ha prou memòria per a carregar la base de dades sencera.</string>
     <string name="error_pass_gen_type">Heu de seleccionar com a mínim un tipus de generació de contrasenyes.</string>
     <string name="error_pass_match">Les contrasenyes no coincideixen.</string>
-    <string name="error_rounds_too_large">Massa passades. Establint a 2147483648.</string>
+    <string name="error_rounds_too_large">Massa passades. Establint a %1$s.</string>
     <string name="error_wrong_length">Inseriu un enter positiu al camp «Longitud».</string>
     <string name="file_browser">Gestor de fitxers</string>
     <string name="generate_password">Genera contrasenya</string>
@@ -128,7 +128,7 @@
     <string name="master_key">Clau mestra</string>
     <string name="edit_entry">Edita l\'entrada</string>
     <string name="contribution">Contribució</string>
-    <string name="contact">Contacte</string>
+    <string name="contact">Contacta</string>
     <string name="extended_ASCII">ASCII estès</string>
     <string name="sort_username">Nom d’usuari</string>
     <string name="sort_title">Títol</string>
@@ -501,8 +501,6 @@
     <string name="temp_device_unlock_enable_summary">No emmagatzemeu cap contingut xifrat per utilitzar el desbloqueig del dispositiu</string>
     <string name="database_data_remove_unlinked_attachments_summary">Elimina els adjunts continguts a la base de dades però no vinculats a una entrada</string>
     <string name="keyboard_label">Magikeyboard (KeePassDX)</string>
-    <string name="keyboard_selection_entry_title">Selecció d\'entrada</string>
-    <string name="keyboard_selection_entry_summary">Quan es visualitzi una entrada a KeePassDX, emplena el Magikeyboard amb aquesta entrada</string>
     <string name="keyboard_notification_entry_clear_close_title">Neteja en tancar</string>
     <string name="keyboard_entry_timeout_summary">Temps d\'espera per netejar l\'entrada del teclat</string>
     <string name="keyboard_keys_category">Tecles</string>
@@ -683,4 +681,25 @@
     <string name="style_name_sun">Sol</string>
     <string name="style_name_light">Clar</string>
     <string name="style_name_dark">Obscur</string>
+    <string name="clipboard_otp_notifications_title">Notificació OTP</string>
+    <string name="clipboard_otp_notifications_summary">Emet una notificació per copiar el codi OTP amb emplenament automàtic o el Magikeyboard</string>
+    <string name="entry_application_id">ID de l\'aplicació</string>
+    <string name="error_otp_secret_length">La clau secreta ha de tenir almenys %1$d caràcters de longitud.</string>
+    <string name="warning_overwrite_data_title">Voleu sobreescriure les dades actuals?</string>
+    <string name="warning_overwrite_data_description">Aquesta acció substituirà les dades actuals de l\'entrada, pots recuperar les dades antigues si tens activat l\'historial.</string>
+    <string name="credential_provider">Proveïdora de credencials</string>
+    <string name="passkeys">Passkeys</string>
+    <string name="passkeys_explanation_summary">Configura Passkeys per iniciar sessions de forma ràpida i segura</string>
+    <string name="passkeys_preference_title">Configuració de Passkeys</string>
+    <string name="passkeys_close_database_title">Tanca la base de dades</string>
+    <string name="passkeys_close_database_summary">Tanca la base de dades després de triar una passkey</string>
+    <string name="passkeys_privileged_apps_title">Aplicacions privilegiades</string>
+    <string name="passkeys_privileged_apps_summary">Gestiona els navegadors en la llista personalitzada d\'aplicacions privilegiades</string>
+    <string name="passkeys_privileged_apps_explanation">ALERTA: Una aplicació privilegiada fa de passareŀla per recuperar l\'origen d\'una autenticació. Assegura\'n la legitimitat per evitar incidències de seguretat.</string>
+    <string name="passkeys_privileged_apps_ask_title">No s\'ha reconegut l\'aplicació</string>
+    <string name="passkeys_privileged_apps_ask_message">%1$s intents per fer una acció Passkey.\n\nVols afegir-la a la llista d\'apps privilegiades?</string>
+    <string name="passkeys_missing_signature_app_ask_title">No té signatura</string>
+    <string name="passkeys_missing_signature_app_ask_explanation">ALERTA: Aquesta passkey es va crear en un altre client o se n\'ha esborrat la signatura. Assegura\'t que l\'aplicació que vols autenticar és part del mateix servei i que és legítima, per tal d\'evitar incidències de seguretat.\nSi l\'aplicació és un navegador, no n\'afegeixis la signatura a l\'entrada, sinó a la llista d\'aplicacions privilegiades, a la configuració.</string>
+    <string name="passkeys_missing_signature_app_ask_message">No s\'ha reconegut %1$s i intenta autenticar-se amb una passkey existent.</string>
+    <string name="passkeys_missing_signature_app_ask_question">Vols afegir la signatura de l\'app a l\'entrada passkey?</string>
 </resources>

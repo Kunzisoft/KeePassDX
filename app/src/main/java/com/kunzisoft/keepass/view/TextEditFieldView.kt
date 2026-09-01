@@ -4,8 +4,6 @@ import android.content.Context
 import android.os.Build
 import android.text.InputFilter
 import android.text.InputType
-import android.text.Spannable
-import android.text.SpannableString
 import android.text.method.PasswordTransformationMethod
 import android.text.method.SingleLineTransformationMethod
 import android.util.AttributeSet
@@ -23,10 +21,11 @@ import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.kunzisoft.keepass.R
 
-open class TextEditFieldView @JvmOverloads constructor(context: Context,
-                                                  attrs: AttributeSet? = null,
-                                                  defStyle: Int = 0)
-    : ProtectedTextFieldView(context, attrs, defStyle) {
+open class TextEditFieldView @JvmOverloads constructor(
+    context: Context,
+    attrs: AttributeSet? = null,
+    defStyle: Int = 0
+) : ProtectedTextFieldView(context, attrs, defStyle) {
 
     private var labelViewId = ViewCompat.generateViewId()
     private var valueViewId = ViewCompat.generateViewId()
@@ -46,7 +45,7 @@ open class TextEditFieldView @JvmOverloads constructor(context: Context,
         layoutParams = LinearLayout.LayoutParams(
                 LayoutParams.MATCH_PARENT,
                 LayoutParams.WRAP_CONTENT)
-        inputType = EditorInfo.TYPE_TEXT_FLAG_NO_SUGGESTIONS
+        inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             imeOptions = EditorInfo.IME_FLAG_NO_PERSONALIZED_LEARNING
             importantForAutofill = IMPORTANT_FOR_AUTOFILL_NO
@@ -120,19 +119,17 @@ open class TextEditFieldView @JvmOverloads constructor(context: Context,
             buildViews()
         }
 
-    protected open fun spannableValue(value: String?): Spannable? {
-        return SpannableString(value)
-    }
-
-    override var value: String
+    override var value: CharArray
         get() {
-            return valueView.text?.toString() ?: ""
+            val charArray = CharArray(valueView.length())
+            valueView.text?.getChars(0, valueView.length(), charArray, 0)
+            return charArray
         }
         set(value) {
-            valueView.setText(spannableValue(value))
+            valueView.setCharArray(value)
         }
 
-    override var default: String = ""
+    override var default: CharArray = CharArray(0)
 
     fun setMaxChars(numberChars: Int) {
         when {
@@ -150,18 +147,12 @@ open class TextEditFieldView @JvmOverloads constructor(context: Context,
     fun setMaxLines(numberLines: Int) {
         when {
             numberLines == 1 -> {
-                valueView.inputType = valueView.inputType or
-                    InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_NORMAL
+                valueView.inputType = (valueView.inputType and InputType.TYPE_TEXT_FLAG_MULTI_LINE.inv()) or
+                        InputType.TYPE_CLASS_TEXT
                 valueView.maxLines = 1
             }
-            numberLines <= 0 -> {
-                valueView.inputType = valueView.inputType or
-                    InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_MULTI_LINE
-                valueView.maxLines = MAX_LINES_LIMIT
-            }
             else -> {
-                @Suppress("KotlinConstantConditions")
-                val lines = if (numberLines > MAX_LINES_LIMIT) MAX_LINES_LIMIT else numberLines
+                val lines = if (numberLines !in 1..MAX_LINES_LIMIT) MAX_LINES_LIMIT else numberLines
                 valueView.inputType = valueView.inputType or
                         InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_MULTI_LINE
                 valueView.maxLines = lines
@@ -169,12 +160,14 @@ open class TextEditFieldView @JvmOverloads constructor(context: Context,
         }
     }
 
+    override var onRevealChanged: ((isRevealed: Boolean) -> Unit)? = null
+
     override fun setProtection(
-        protection: Boolean,
-        isCurrentlyProtected: Boolean,
-        onUnprotectClickListener: OnClickListener?
+        isProtected: Boolean,
+        isRevealedByDefault: Boolean,
+        needUserVerificationToReveal: Boolean
     ) {
-        super.setProtection(protection, isCurrentlyProtected, onUnprotectClickListener)
+        super.setProtection(isProtected, isRevealedByDefault, needUserVerificationToReveal)
         if (isProtected) {
             labelView.endIconMode = TextInputLayout.END_ICON_PASSWORD_TOGGLE
             // FIXME Called by itself during orientation change
@@ -185,14 +178,23 @@ open class TextEditFieldView @JvmOverloads constructor(context: Context,
         }
     }
 
-    override fun changeProtectedValueParameters() {
-        if (isCurrentlyProtected()) {
-            valueView.inputType = valueView.inputType or InputType.TYPE_TEXT_VARIATION_PASSWORD
-            valueView.transformationMethod = PasswordTransformationMethod.getInstance()
+    override fun changeProtectedValueParameters(shouldRequestFocus: Boolean) {
+        if (isProtected) {
+            if (isRevealed()) {
+                valueView.inputType = (valueView.inputType and InputType.TYPE_MASK_VARIATION.inv()) or
+                        InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
+                valueView.transformationMethod = SingleLineTransformationMethod.getInstance()
+            } else {
+                valueView.inputType = (valueView.inputType and InputType.TYPE_MASK_VARIATION.inv()) or
+                        InputType.TYPE_TEXT_VARIATION_PASSWORD
+                valueView.transformationMethod = PasswordTransformationMethod.getInstance()
+            }
         } else {
-            valueView.inputType = valueView.inputType or InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
-            valueView.transformationMethod = SingleLineTransformationMethod.getInstance()
+            valueView.inputType = valueView.inputType and InputType.TYPE_MASK_VARIATION.inv()
+            valueView.transformationMethod = if (valueView.maxLines > 1) null else SingleLineTransformationMethod.getInstance()
         }
+        if (shouldRequestFocus)
+            valueView.requestFocus()
     }
 
     override fun setOnActionClickListener(onActionClickListener: OnClickListener?,
