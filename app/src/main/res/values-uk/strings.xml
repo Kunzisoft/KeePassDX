@@ -171,7 +171,7 @@
     <string name="create_keepass_file">Створити нове сховище</string>
     <string name="menu_delete_entry_history">Видалити історію</string>
     <string name="menu_restore_entry_history">Відновити історію</string>
-    <string name="menu_empty_recycle_bin">Спорожнити кошик</string>
+    <string name="menu_empty_recycle_bin">Очистити кошик</string>
     <string name="menu_open_file_read_and_write">Дозволити зміни</string>
     <string name="menu_file_selection_read_only">Лише читання</string>
     <string name="menu_save_database">Зберегти дані</string>
@@ -210,7 +210,7 @@
     <string name="error_label_exists">Ця мітка вже існує.</string>
     <string name="error_string_key">Кожен рядок повинен мати назву поля.</string>
     <string name="error_disallow_no_credentials">Потрібно вказати принаймні одні облікові дані.</string>
-    <string name="error_load_database_KDF_memory">Значення «Використання пам’яті» для KDF завелике. Не вдається завантажити.</string>
+    <string name="error_load_database_KDF_memory">Значення «Використання пам’яті» для KDF завелике.</string>
     <string name="error_load_database">Не вдалося завантажити базу даних.</string>
     <string name="error_invalid_OTP">Недійсний секрет OTP.</string>
     <string name="entry_otp">OTP</string>
@@ -234,7 +234,7 @@
     <string name="discard">Відхилити</string>
     <string name="discard_changes">Відхилити зміни\?</string>
     <string name="validate">Підтвердити</string>
-    <string name="content_description_entry_icon">Піктограма запису</string>
+    <string name="content_description_entry_icon">Іконка запису</string>
     <string name="content_description_repeat_toggle_password_visibility">Повторно перемкнути видимість пароля</string>
     <string name="content_description_password_checkbox">Прапорець «Пароль»</string>
     <string name="content_description_add_node">Додати вузол</string>
@@ -242,8 +242,8 @@
     <string name="unavailable_feature_hardware">Не вдалося знайти відповідне обладнання.</string>
     <string name="hide_expired_entries_summary">Не показувати прострочені записи</string>
     <string name="hide_expired_entries_title">Приховувати прострочені записи</string>
-    <string name="icon_pack_choose_summary">Набір піктограм, що використовується в застосунку</string>
-    <string name="icon_pack_choose_title">Набір піктограм</string>
+    <string name="icon_pack_choose_summary">Набір іконок, що використовується в застосунку</string>
+    <string name="icon_pack_choose_title">Набір іконок</string>
     <string name="style_choose_summary">Тема, що використовується в застосунку</string>
     <string name="style_choose_title">Тема застосунку</string>
     <string name="download_complete">Готово!</string>
@@ -259,9 +259,9 @@
     <string name="html_text_dev_feature_encourage">ви заохочуєте розробників створювати &lt;strong&gt;нові функції&lt;/strong&gt; та &lt;strong&gt;виправляти помилки&lt;/strong&gt; відповідно до ваших зауважень.</string>
     <string name="html_text_dev_feature_buy_pro">Купуючи версію &lt;strong&gt;pro&lt;/strong&gt;,</string>
     <string name="html_text_dev_feature_contibute">&lt;strong&gt;Допомагаючи&lt;/strong&gt;,</string>
-    <string name="html_text_dev_feature">Ця функція ще &lt;strong&gt;розробляється&lt;/strong&gt; та потребує вашої &lt;strong&gt;участі&lt;/strong&gt;, щоб бути доступною якнайшвидше.</string>
+    <string name="html_text_dev_feature">Ця функція ще &lt;strong&gt;розробляється&lt;/strong&gt; та потребує вашого &lt;strong&gt;внеску&lt;/strong&gt;, щоб незабаром стати доступною.</string>
     <string name="html_text_donation">&lt;strong&gt;Допомагаючи&lt;/strong&gt; проєкту &lt;i&gt;(фінансово, кодом, перекладами)&lt;/i&gt;, ви допоможете йому продовжувати існувати та процвітати, а також матимете право на процедуру розблокування &lt;strong&gt;теми&lt;/strong&gt;.</string>
-    <string name="html_text_feature_generosity">Це &lt;strong&gt;оформлення стилю&lt;/strong&gt; доступне завдяки вашій великодушності.</string>
+    <string name="html_text_feature_generosity">Цей &lt;strong&gt;стиль оформлення&lt;/strong&gt; став можливим завдяки вашій щедрості.</string>
     <string name="html_text_buy_pro">Купуючи версію Pro, ви отримуєте доступ до цих &lt;strong&gt;стилів оформлення&lt;/strong&gt; та дуже допомагаєте &lt;strong&gt;розробці вільних проєктів.&lt;/strong&gt;</string>
     <string name="html_text_ad_free">На відміну від багатьох менеджерів паролів, цей є &lt;strong&gt;вільним від реклами&lt;/strong&gt;, &lt;strong&gt;вільним програмним забезпеченням з copyleft&lt;/strong&gt; та не збирає персональні дані на своїх серверах, незалежно від версії, якою ви користуєтесь.</string>
     <string name="education_donation_summary">Допоможіть підвищити стабільність і безпеку та додавати нові функції.</string>
@@ -561,15 +561,15 @@
     <string name="template_group_name">Шаблони</string>
     <string name="show_otp_token_summary">Типово показувати токени OTP</string>
     <string name="show_otp_token_title">Показувати токен OTP</string>
-    <string name="menu_external_icon">Зовнішня піктограма</string>
+    <string name="menu_external_icon">Зовнішня іконка</string>
     <string name="autofill_manual_selection_summary">Показувати можливість вибрати запис бази даних вручну</string>
     <string name="autofill_manual_selection_title">Ручний вибір</string>
     <string name="autofill_select_entry">Вибрати запис…</string>
-    <string name="hint_icon_name">Назва піктограми</string>
+    <string name="hint_icon_name">Назва іконки</string>
     <string name="permission">Дозвіл</string>
     <string name="warning_exact_alarm">Ви не дозволили застосунку використовувати точні будильники. Через це функції з таймером можуть спрацьовувати не точно в заданий час.</string>
     <string name="content_description_database_color">Колір бази даних</string>
-    <string name="content_description_entry_background_color">Колір тла запису</string>
+    <string name="content_description_entry_background_color">Колір фону запису</string>
     <string name="content_description_entry_foreground_color">Колір тексту запису</string>
     <string name="menu_merge_database">Об’єднати дані</string>
     <string name="warning_database_info_reloaded">Перезавантаження бази даних видалить локально змінені дані.</string>
@@ -608,7 +608,7 @@
     <string name="exclude_ambiguous_chars">Виключити неоднозначні символи</string>
     <string name="content_description_passphrase_word_count">Кількість слів парольної фрази</string>
     <string name="character_count">Кількість символів: %1$d</string>
-    <string name="entropy_high">Ентропія: висока</string>
+    <string name="entropy_high">Ентропія: Висока</string>
     <string name="consider_chars_filter">Враховувати символи</string>
     <string name="title_case">Кожне Слово З Великої</string>
     <string name="word_separator">Роздільник</string>
@@ -648,7 +648,7 @@
     <string name="ask">Запитувати</string>
     <string name="configure">Налаштувати</string>
     <string name="unlock_and_link_biometric">Прив’язати розблокування пристроєм</string>
-    <string name="menu_appearance_settings_summary">Теми, кольори, піктограми, шрифти, атрибути</string>
+    <string name="menu_appearance_settings_summary">Теми, кольори, іконки, шрифти, атрибути</string>
     <string name="unlock">Розблокувати</string>
     <string name="education_validate_entry_title">Підтвердьте запис</string>
     <string name="education_validate_entry_summary">Не забудьте підтвердити запис і зберегти базу даних.\n\nЯкщо ввімкнено автоматичне блокування й ви забудете, що вносили зміни, дані можуть бути втрачені.</string>
@@ -755,6 +755,7 @@
     <string name="autofill_suggestions_title">Підказки автозаповнення</string>
     <string name="autofill_suggestions_summary">Використовувати алгоритм розпізнавання форм для пропонування записів</string>
     <string name="passkey_pseudo_random_function">Псевдовипадкова функція ключа доступу</string>
-    <string name="error_load_database_KDF_parallelism">Значення «Паралелізм» для KDF завелике. Не вдається завантажити.</string>
+    <string name="error_load_database_KDF_parallelism">Значення «Паралелізм» для KDF завелике.</string>
     <string name="parallelism_set_safe">Встановити кількість процесорів</string>
+    <string name="error_load_database_KDF_iteration">Значення «Раунди перетворення» для KDF завелике.</string>
 </resources>
