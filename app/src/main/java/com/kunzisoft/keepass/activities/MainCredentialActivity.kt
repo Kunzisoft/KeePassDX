@@ -343,6 +343,7 @@ class MainCredentialActivity : DatabaseModeActivity() {
         }
 
         mMainCredentialViewModel.refreshPreferences()
+        mMainCredentialViewModel.onConditionChanged(mainCredentialView.isFill())
 
         // Back to previous keyboard is setting activated
         if (PreferencesUtil.isKeyboardPreviousDatabaseCredentialsEnable(this@MainCredentialActivity)) {
