@@ -134,7 +134,7 @@
     <string name="clipboard_error_clear">Klembord is niet gewist</string>
     <string name="entry_not_found">Geen itemgegevens gevonden.</string>
     <string name="error_load_database">De database is niet geladen.</string>
-    <string name="error_load_database_KDF_memory">KDF-geheugengebruik te hoog. Kan niet laden.</string>
+    <string name="error_load_database_KDF_memory">KDF-geheugengebruik te hoog.</string>
     <string name="error_string_key">Elke zin moet een veldnaam bevatten.</string>
     <string name="error_autofill_enable_service">De dienst automatisch aanvullen kan niet worden ingeschakeld.</string>
     <string name="field_name">Veldnaam</string>
@@ -777,6 +777,7 @@
     <string name="autofill_suggestions_title">Suggesties voor autom. invullen</string>
     <string name="autofill_suggestions_summary">Formulierherkenningsalgoritme gebruiken voor suggesties</string>
     <string name="passkey_pseudo_random_function">Passkey Pseudo-willekeurige functie</string>
-    <string name="error_load_database_KDF_parallelism">KDF-parallellisme te hoog. Kan niet laden.</string>
+    <string name="error_load_database_KDF_parallelism">KDF-parallellisme te hoog.</string>
     <string name="parallelism_set_safe">Aantal processors instellen</string>
+    <string name="error_load_database_KDF_iteration">KDF-iteratie te hoog.</string>
 </resources>

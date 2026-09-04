@@ -132,7 +132,7 @@
     <string name="key_derivation_function">密钥派生函数</string>
     <string name="entry_not_found">找不到条目数据。</string>
     <string name="error_load_database">无法加载数据库。</string>
-    <string name="error_load_database_KDF_memory">KDF 内存使用量过高，无法加载。</string>
+    <string name="error_load_database_KDF_memory">KDF 内存使用量过高。</string>
     <string name="error_autofill_enable_service">无法启用自动填充服务。</string>
     <string name="file_not_found_content">找不到文件</string>
     <string name="invalid_algorithm">算法无效。</string>
@@ -774,6 +774,7 @@
     <string name="autofill_suggestions_title">自动填充建议</string>
     <string name="autofill_suggestions_summary">使用表单识别算法来建议条目</string>
     <string name="passkey_pseudo_random_function">通行密钥伪随机函数</string>
-    <string name="error_load_database_KDF_parallelism">KDF 并行度过高，无法加载。</string>
+    <string name="error_load_database_KDF_parallelism">KDF 并行度过高。</string>
     <string name="parallelism_set_safe">设置处理器数量</string>
+    <string name="error_load_database_KDF_iteration">KDF 迭代过高。</string>
 </resources>
