@@ -1,0 +1,1 @@
+ * Correction de l'activation du bouton si pas de clé principale #2678

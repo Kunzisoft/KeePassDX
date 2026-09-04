@@ -1,0 +1,1 @@
+ * Fix enable unlock button if allow no master key #2678
