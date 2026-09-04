@@ -1,1 +1,2 @@
  * Fix enable unlock button if allow no master key #2678
+ * Fix 32 zero-byte key file
