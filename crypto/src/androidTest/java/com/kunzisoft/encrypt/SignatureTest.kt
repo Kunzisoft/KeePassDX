@@ -1,6 +1,9 @@
 package com.kunzisoft.encrypt
 
+import com.kunzisoft.encrypt.Signature.convertPrivateKeyToPem
 import com.kunzisoft.encrypt.Signature.fingerprintToUrlSafeBase64
+import com.kunzisoft.encrypt.Signature.generateKeyPair
+import com.kunzisoft.encrypt.Signature.sign
 import org.junit.Assert
 import org.junit.Test
 
@@ -117,7 +120,7 @@ class SignatureTest {
         -----END PRIVATE KEY-----
     """.trimIndent()
 
-    private val ed25519PemInLong =  """
+    private val ed25519PemInLong = """
         -----BEGIN PRIVATE KEY-----
         MFECAQEwBQYDK2VwBCIEIESP8edVGbqoR/pKNmy7j7FV8Y68zrIi/5VEuAJ281K6
         gSEAyJU1wQNaJUeyxPcWjN7xZKZUhCRoIFS/MQvbdd4QE7Q=
@@ -162,18 +165,61 @@ class SignatureTest {
     @Test
     fun testSingleSignature() {
         // Generate random input
-        val fingerprint = "A7:5C:63:72:A0:B6:7D:B0:16:86:B4:7D:F6:8C:91:51:6E:E1:62:29:EE:C4:C0:C6:7D:35:5E:32:20:7C:66:17"
+        val fingerprint =
+            "A7:5C:63:72:A0:B6:7D:B0:16:86:B4:7D:F6:8C:91:51:6E:E1:62:29:EE:C4:C0:C6:7D:35:5E:32:20:7C:66:17"
         val expected = "p1xjcqC2fbAWhrR99oyRUW7hYinuxMDGfTVeMiB8Zhc"
 
-        Assert.assertEquals("Check fingerprint app", expected, fingerprintToUrlSafeBase64(fingerprint))
+        Assert.assertEquals(
+            "Check fingerprint app",
+            expected,
+            fingerprintToUrlSafeBase64(fingerprint)
+        )
     }
 
     @Test
     fun testMultipleSignature() {
         // Generate random input
-        val fingerprint = "A7:5C:63:72:A0:B6:7D:B0:16:86:B4:7D:F6:8C:91:51:6E:E1:62:29:EE:C4:C0:C6:7D:35:5E:32:20:7C:66:17##SIG##DB:25:8A:A6:19:08:9B:D1:3D:BA:71:9E:5A:DA:EC:FF:7F:12:C8:8F:67:AD:68:3C:1F:BC:F2:28:B3:88:BD:91"
+        val fingerprint =
+            "A7:5C:63:72:A0:B6:7D:B0:16:86:B4:7D:F6:8C:91:51:6E:E1:62:29:EE:C4:C0:C6:7D:35:5E:32:20:7C:66:17##SIG##DB:25:8A:A6:19:08:9B:D1:3D:BA:71:9E:5A:DA:EC:FF:7F:12:C8:8F:67:AD:68:3C:1F:BC:F2:28:B3:88:BD:91"
         val expected = "p1xjcqC2fbAWhrR99oyRUW7hYinuxMDGfTVeMiB8Zhc"
 
-        Assert.assertEquals("Check fingerprint app", expected, fingerprintToUrlSafeBase64(fingerprint))
+        Assert.assertEquals(
+            "Check fingerprint app",
+            expected,
+            fingerprintToUrlSafeBase64(fingerprint)
+        )
     }
+
+
+    // region ML-DSA
+    @Test
+    fun testMlDsa44() {
+        checkMlDsaGenerateAndSign(-48)
+    }
+
+    @Test
+    fun testMlDsa65() {
+        checkMlDsaGenerateAndSign(-49)
+    }
+
+    @Test
+    fun testMlDsa87() {
+        checkMlDsaGenerateAndSign(-50)
+    }
+
+    fun checkMlDsaGenerateAndSign(id: Long) {
+        val keyPairNullable = generateKeyPair(listOf(id))
+        assert(keyPairNullable != null) { "no keyPair for $id was generated" }
+
+        val keyPair = keyPairNullable!!
+        assert(keyPair.second == id) { "wrong algorithm id" }
+
+        val pem = convertPrivateKeyToPem(keyPair.first.private)
+        assert(pem.size > 1)
+
+        val sig = sign(pem, "the test message".toByteArray())
+        assert(sig.size > 1)
+    }
+
+    // end region
 }

@@ -28,7 +28,9 @@ import org.bouncycastle.crypto.params.Ed25519PublicKeyParameters
 import org.bouncycastle.jcajce.provider.asymmetric.ec.BCECPublicKey
 import org.bouncycastle.jcajce.provider.asymmetric.edec.BCEdDSAPrivateKey
 import org.bouncycastle.jcajce.provider.asymmetric.edec.BCEdDSAPublicKey
+import org.bouncycastle.jcajce.provider.asymmetric.mldsa.BCMLDSAPrivateKey
 import org.bouncycastle.jcajce.provider.asymmetric.rsa.BCRSAPublicKey
+import org.bouncycastle.jcajce.spec.MLDSAParameterSpec
 import org.bouncycastle.jce.provider.BouncyCastleProvider
 import org.bouncycastle.openssl.PEMParser
 import org.bouncycastle.openssl.jcajce.JcaPEMKeyConverter
@@ -58,32 +60,42 @@ object Signature {
 
     const val ED_DSA_ALGORITHM: Long = -8
 
+    const val ML_DSA_44_ALGORITHM: Long = -48
+    const val ML_DSA_65_ALGORITHM: Long = -49
+    const val ML_DSA_87_ALGORITHM: Long = -50
+
+
     private const val BEGIN_PRIVATE_KEY = "-----BEGIN PRIVATE KEY-----"
     private const val BEGIN_PRIVATE_KEY_LINE_BREAK = "$BEGIN_PRIVATE_KEY\n"
     private const val END_PRIVATE_KEY = "-----END PRIVATE KEY-----"
-    private const val  END_PRIVATE_KEY_LINE_BREAK = "\n$END_PRIVATE_KEY"
+    private const val END_PRIVATE_KEY_LINE_BREAK = "\n$END_PRIVATE_KEY"
 
     // OIDs for algorithms
     private const val OID_RSA = "1.2.840.113549.1.1.1"
     private const val OID_EC = "1.2.840.10045.2.1"
     private const val OID_ED25519 = "1.3.101.112"
 
+    private const val BOUNCY_CASTLE_PROVIDER_NAME = BouncyCastleProvider.PROVIDER_NAME
+
     init {
-        Security.removeProvider(BouncyCastleProvider.PROVIDER_NAME)
-        Security.addProvider(BouncyCastleProvider())
+        Security.removeProvider(BOUNCY_CASTLE_PROVIDER_NAME)
+        val mostPreferredPosition = 1 // not 0 based
+        Security.insertProviderAt(BouncyCastleProvider(), mostPreferredPosition)
     }
 
     fun sign(privateKeyPem: CharArray, message: ByteArray): ByteArray {
         val privateKey = createPrivateKey(privateKeyPem)
+
         val algorithmSignature = when (val algorithmKey = privateKey.algorithm) {
             "EC", "ECDSA", OID_EC -> "SHA256withECDSA"
             "RSA", OID_RSA -> "SHA256withRSA"
             "Ed25519", OID_ED25519 -> "Ed25519"
+            "ML-DSA-44", "ML-DSA-65", "ML-DSA-87" -> "MLDSA"
             else -> throw SecurityException("$algorithmKey algorithm is unknown")
         }
         val sig = Signature.getInstance(
             algorithmSignature,
-            BouncyCastleProvider.PROVIDER_NAME
+            BOUNCY_CASTLE_PROVIDER_NAME
         )
         sig.initSign(privateKey)
         sig.update(message)
@@ -108,10 +120,12 @@ object Signature {
                 val pemString = String(workingBuffer)
                 var normalized = pemString
                 if (needsPrefixFix) {
-                    normalized = BEGIN_PRIVATE_KEY_LINE_BREAK + normalized.removePrefix(BEGIN_PRIVATE_KEY)
+                    normalized =
+                        BEGIN_PRIVATE_KEY_LINE_BREAK + normalized.removePrefix(BEGIN_PRIVATE_KEY)
                 }
                 if (needsSuffixFix) {
-                    normalized = normalized.removeSuffix(END_PRIVATE_KEY) + END_PRIVATE_KEY_LINE_BREAK
+                    normalized =
+                        normalized.removeSuffix(END_PRIVATE_KEY) + END_PRIVATE_KEY_LINE_BREAK
                 }
                 tempBuffer = normalized.toCharArray()
                 workingBuffer = tempBuffer
@@ -130,7 +144,19 @@ object Signature {
         }
     }
 
-    fun convertPrivateKeyToPem(privateKey: PrivateKey): CharArray {
+    fun convertPrivateKeyToPem(privateKeyIn: PrivateKey): CharArray {
+        var privateKey = privateKeyIn
+
+        // for ML-DSA
+        if (privateKey is BCMLDSAPrivateKey) {
+            privateKey.seed ?: throw SecurityException("private ML-DSA does not contain the seed")
+
+            // the pem is only 4 lines long, instead of 56, 87 or 105 lines respectively
+            val preferSeedOnlyEnabled = true
+            privateKey = privateKey.getPrivateKey(preferSeedOnlyEnabled)
+        }
+
+        // for ED25519
         var useV1Info = false
         if (privateKey is BCEdDSAPrivateKey) {
             // to generate PEM, which are compatible to KeepassXC
@@ -194,31 +220,55 @@ object Signature {
                     val es256CurveNameBC = "secp256r1"
                     val spec = ECGenParameterSpec(es256CurveNameBC)
                     val keyPairGen =
-                        KeyPairGenerator.getInstance("EC", BouncyCastleProvider.PROVIDER_NAME)
+                        KeyPairGenerator.getInstance("EC", BOUNCY_CASTLE_PROVIDER_NAME)
                     keyPairGen.initialize(spec)
                     val keyPair = keyPairGen.genKeyPair()
                     return Pair(keyPair, ES256_ALGORITHM)
 
                 }
+
                 RS256_ALGORITHM -> {
                     val keyPairGen =
-                        KeyPairGenerator.getInstance("RSA", BouncyCastleProvider.PROVIDER_NAME)
+                        KeyPairGenerator.getInstance("RSA", BOUNCY_CASTLE_PROVIDER_NAME)
                     keyPairGen.initialize(RS256_KEY_SIZE_IN_BITS)
                     val keyPair = keyPairGen.genKeyPair()
                     return Pair(keyPair, RS256_ALGORITHM)
 
                 }
+
                 ED_DSA_ALGORITHM -> {
                     val keyPairGen =
-                        KeyPairGenerator.getInstance("Ed25519", BouncyCastleProvider.PROVIDER_NAME)
+                        KeyPairGenerator.getInstance("Ed25519", BOUNCY_CASTLE_PROVIDER_NAME)
                     val keyPair = keyPairGen.genKeyPair()
                     return Pair(keyPair, ED_DSA_ALGORITHM)
+                }
+
+                ML_DSA_44_ALGORITHM -> {
+                    return generateKeyPairMlDsa(typeId, MLDSAParameterSpec.ml_dsa_44)
+                }
+
+                ML_DSA_65_ALGORITHM -> {
+                    return generateKeyPairMlDsa(typeId, MLDSAParameterSpec.ml_dsa_65)
+                }
+
+                ML_DSA_87_ALGORITHM -> {
+                    return generateKeyPairMlDsa(typeId, MLDSAParameterSpec.ml_dsa_87)
                 }
             }
         }
 
         Log.e(this::class.java.simpleName, "generateKeyPair: no known key type id found")
         return null
+    }
+
+    private fun generateKeyPairMlDsa(
+        mlDsaAlgorithmTypeId: Long,
+        mlDsaParameterSpec: MLDSAParameterSpec
+    ): Pair<KeyPair, Long> {
+        val keyPairGen = KeyPairGenerator.getInstance("MLDSA", BOUNCY_CASTLE_PROVIDER_NAME);
+        keyPairGen.initialize(mlDsaParameterSpec);
+        val keyPair = keyPairGen.genKeyPair();
+        return Pair(keyPair, mlDsaAlgorithmTypeId)
     }
 
     fun convertPublicKey(publicKeyIn: PublicKey, keyTypeId: Long): ByteArray? {
@@ -441,7 +491,10 @@ object Signature {
                 val byteValue = hexStringNoColons.substring(index, index + 2).toInt(16)
                 hashBytes[i] = byteValue.toByte()
             } catch (e: NumberFormatException) {
-                throw IllegalArgumentException("Invalid hex character in fingerprint: $hexStringNoColons", e)
+                throw IllegalArgumentException(
+                    "Invalid hex character in fingerprint: $hexStringNoColons",
+                    e
+                )
             }
         }
         return Base64Helper.b64Encode(hashBytes)
