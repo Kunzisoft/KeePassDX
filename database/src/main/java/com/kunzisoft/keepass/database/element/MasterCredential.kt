@@ -249,7 +249,7 @@ data class MasterCredential(
 
                 // Check 32 bytes key file
                 when (keyFileData.size) {
-                    32 -> return keyFileData
+                    32 -> return keyFileData.copyOf()
                     64 -> try {
                         return CodecUtil.decodeHex(String(keyFileData))
                     } catch (_: Exception) {

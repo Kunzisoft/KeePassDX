@@ -1,3 +1,7 @@
+KeePassDX(4.5.3)
+ * Fix enable unlock button if allow no master key #2678 (@SweetIceLolly)
+ * Fix 32 zero-byte key file (@Selaron)
+
 KeePassDX(4.5.2)
  * Fix PRF settings #2673
  * Fix multiple languages #2656
