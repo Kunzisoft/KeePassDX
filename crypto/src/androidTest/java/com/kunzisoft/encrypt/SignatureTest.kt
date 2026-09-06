@@ -216,6 +216,10 @@ class SignatureTest {
 
         val pem = convertPrivateKeyToPem(keyPair.first.private)
         assert(pem.size > 1)
+        val pemSpilted = String(pem).split("\n")
+
+        // see https://www.rfc-editor.org/rfc/rfc9881.html#name-private-key-format
+        assert(pemSpilted.size == 4)
 
         val sig = sign(pem, "the test message".toByteArray())
         assert(sig.size > 1)

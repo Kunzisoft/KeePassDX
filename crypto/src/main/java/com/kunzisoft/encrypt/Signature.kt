@@ -64,6 +64,8 @@ object Signature {
     const val ML_DSA_65_ALGORITHM: Long = -49
     const val ML_DSA_87_ALGORITHM: Long = -50
 
+    val ML_DSA_ALGORITHM_LIST = listOf(ML_DSA_44_ALGORITHM, ML_DSA_65_ALGORITHM, ML_DSA_87_ALGORITHM)
+
 
     private const val BEGIN_PRIVATE_KEY = "-----BEGIN PRIVATE KEY-----"
     private const val BEGIN_PRIVATE_KEY_LINE_BREAK = "$BEGIN_PRIVATE_KEY\n"
@@ -281,6 +283,8 @@ object Signature {
             return publicKeyIn.encoded
         } else if (keyTypeId == ED_DSA_ALGORITHM) {
             return publicKeyIn.encoded
+        } else if (keyTypeId in ML_DSA_ALGORITHM_LIST) {
+            return  publicKeyIn.encoded
         }
         Log.e(this::class.java.simpleName, "convertPublicKey: unknown key type id found")
         return null
