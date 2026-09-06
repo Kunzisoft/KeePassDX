@@ -25,6 +25,8 @@ import android.util.AndroidException
 import android.util.Log
 import org.bouncycastle.asn1.pkcs.PrivateKeyInfo
 import org.bouncycastle.crypto.params.Ed25519PublicKeyParameters
+import org.bouncycastle.jcajce.interfaces.MLDSAPrivateKey
+import org.bouncycastle.jcajce.interfaces.MLDSAPublicKey
 import org.bouncycastle.jcajce.provider.asymmetric.ec.BCECPublicKey
 import org.bouncycastle.jcajce.provider.asymmetric.edec.BCEdDSAPrivateKey
 import org.bouncycastle.jcajce.provider.asymmetric.edec.BCEdDSAPublicKey
@@ -35,6 +37,7 @@ import org.bouncycastle.jce.provider.BouncyCastleProvider
 import org.bouncycastle.openssl.PEMParser
 import org.bouncycastle.openssl.jcajce.JcaPEMKeyConverter
 import org.bouncycastle.openssl.jcajce.JcaPKCS8Generator
+import org.bouncycastle.operator.DefaultSignatureAlgorithmIdentifierFinder
 import org.bouncycastle.util.BigIntegers
 import org.bouncycastle.util.io.pem.PemWriter
 import java.io.CharArrayReader
@@ -60,12 +63,17 @@ object Signature {
 
     const val ED_DSA_ALGORITHM: Long = -8
 
-    const val ML_DSA_44_ALGORITHM: Long = -48
-    const val ML_DSA_65_ALGORITHM: Long = -49
-    const val ML_DSA_87_ALGORITHM: Long = -50
+    private const val ML_DSA_44_ALGORITHM: Long = -48
+    private const val ML_DSA_65_ALGORITHM: Long = -49
+    private const val ML_DSA_87_ALGORITHM: Long = -50
 
-    val ML_DSA_ALGORITHM_LIST = listOf(ML_DSA_44_ALGORITHM, ML_DSA_65_ALGORITHM, ML_DSA_87_ALGORITHM)
+    private val ML_DSA_ALGORITHM_LIST =
+        listOf(ML_DSA_44_ALGORITHM, ML_DSA_65_ALGORITHM, ML_DSA_87_ALGORITHM)
 
+
+    // https://www.iana.org/assignments/cose/cose.xhtml#key-common-parameters
+    private const val COSE_KEY_TYPE_LABEL = 1
+    private const val COSE_ALGORITHM_LABEL = 3
 
     private const val BEGIN_PRIVATE_KEY = "-----BEGIN PRIVATE KEY-----"
     private const val BEGIN_PRIVATE_KEY_LINE_BREAK = "$BEGIN_PRIVATE_KEY\n"
@@ -77,12 +85,17 @@ object Signature {
     private const val OID_EC = "1.2.840.10045.2.1"
     private const val OID_ED25519 = "1.3.101.112"
 
+    private val OID_ML_DSA_44 = findOID("ML-DSA-44")
+    private val OID_ML_DSA_65 = findOID("ML-DSA-65")
+    private val OID_ML_DSA_87 = findOID("ML-DSA-87")
+
+    private val OID_ML_DSA_LIST = listOf(OID_ML_DSA_44, OID_ML_DSA_65, OID_ML_DSA_87)
+
     private const val BOUNCY_CASTLE_PROVIDER_NAME = BouncyCastleProvider.PROVIDER_NAME
 
     init {
         Security.removeProvider(BOUNCY_CASTLE_PROVIDER_NAME)
-        val mostPreferredPosition = 1 // not 0 based
-        Security.insertProviderAt(BouncyCastleProvider(), mostPreferredPosition)
+        Security.addProvider(BouncyCastleProvider())
     }
 
     fun sign(privateKeyPem: CharArray, message: ByteArray): ByteArray {
@@ -92,7 +105,7 @@ object Signature {
             "EC", "ECDSA", OID_EC -> "SHA256withECDSA"
             "RSA", OID_RSA -> "SHA256withRSA"
             "Ed25519", OID_ED25519 -> "Ed25519"
-            "ML-DSA-44", "ML-DSA-65", "ML-DSA-87" -> "MLDSA"
+            "ML-DSA-44", "ML-DSA-65", "ML-DSA-87", "ML-DSA" -> "MLDSA"
             else -> throw SecurityException("$algorithmKey algorithm is unknown")
         }
         val sig = Signature.getInstance(
@@ -133,12 +146,10 @@ object Signature {
                 workingBuffer = tempBuffer
             }
 
-            return PEMParser(CharArrayReader(workingBuffer)).use { pemParser ->
-                val obj = pemParser.readObject()
-                val privateKeyInfo = obj as? PrivateKeyInfo
-                    ?: throw SecurityException("Invalid private key format or encrypted key not supported (type: ${obj?.javaClass?.name})")
-                JcaPEMKeyConverter().getPrivateKey(privateKeyInfo)
-            }
+            return PEMParser(CharArrayReader(workingBuffer))
+                .use { pemParser ->
+                    readWithPemParser(pemParser)
+                }
         } finally {
             // Securely wipe the input and any temporary buffers from memory
             privateKeyPem.fill('0')
@@ -146,11 +157,24 @@ object Signature {
         }
     }
 
+    private fun readWithPemParser(pemParser: PEMParser): PrivateKey {
+        val obj = pemParser.readObject()
+        val privateKeyInfo = obj as? PrivateKeyInfo
+            ?: throw SecurityException("Invalid private key format or encrypted key not supported (type: ${obj?.javaClass?.name})")
+
+        // necessary to enforce the use of the Bouncy Castle class
+        if (privateKeyInfo.privateKeyAlgorithm.algorithm.id in OID_ML_DSA_LIST) {
+            return BCMLDSAPrivateKey(privateKeyInfo)
+        }
+
+        return JcaPEMKeyConverter().getPrivateKey(privateKeyInfo)
+    }
+
     fun convertPrivateKeyToPem(privateKeyIn: PrivateKey): CharArray {
         var privateKey = privateKeyIn
 
         // for ML-DSA
-        if (privateKey is BCMLDSAPrivateKey) {
+        if (privateKey is MLDSAPrivateKey) {
             privateKey.seed ?: throw SecurityException("private ML-DSA does not contain the seed")
 
             // the pem is only 4 lines long, instead of 56, 87 or 105 lines respectively
@@ -284,17 +308,13 @@ object Signature {
         } else if (keyTypeId == ED_DSA_ALGORITHM) {
             return publicKeyIn.encoded
         } else if (keyTypeId in ML_DSA_ALGORITHM_LIST) {
-            return  publicKeyIn.encoded
+            return publicKeyIn.encoded
         }
         Log.e(this::class.java.simpleName, "convertPublicKey: unknown key type id found")
         return null
     }
 
     fun convertPublicKeyToMap(publicKeyIn: PublicKey, keyTypeId: Long): Map<Int, Any>? {
-
-        // https://www.iana.org/assignments/cose/cose.xhtml#key-common-parameters
-        val keyTypeLabel = 1
-        val algorithmLabel = 3
 
         if (keyTypeId == ES256_ALGORITHM) {
             if (publicKeyIn !is BCECPublicKey) {
@@ -310,8 +330,8 @@ object Signature {
             val es256KeyTypeId = 2
             val es256EllipticCurveP256Id = 1
 
-            publicKeyMap[keyTypeLabel] = es256KeyTypeId
-            publicKeyMap[algorithmLabel] = ES256_ALGORITHM
+            publicKeyMap[COSE_KEY_TYPE_LABEL] = es256KeyTypeId
+            publicKeyMap[COSE_ALGORITHM_LABEL] = ES256_ALGORITHM
 
             publicKeyMap[-1] = es256EllipticCurveP256Id
 
@@ -337,8 +357,8 @@ object Signature {
             val rs256ExponentSizeInBytes = 3
 
             val publicKeyMap = mutableMapOf<Int, Any>()
-            publicKeyMap[keyTypeLabel] = rs256KeyTypeId
-            publicKeyMap[algorithmLabel] = RS256_ALGORITHM
+            publicKeyMap[COSE_KEY_TYPE_LABEL] = rs256KeyTypeId
+            publicKeyMap[COSE_ALGORITHM_LABEL] = RS256_ALGORITHM
             publicKeyMap[-1] =
                 BigIntegers.asUnsignedByteArray(rs256KeySizeInBytes, publicKeyIn.modulus)
             publicKeyMap[-2] =
@@ -366,8 +386,8 @@ object Signature {
 
             val publicKeyLabel = -2
 
-            publicKeyMap[keyTypeLabel] = octetKeyPairId
-            publicKeyMap[algorithmLabel] = ED_DSA_ALGORITHM
+            publicKeyMap[COSE_KEY_TYPE_LABEL] = octetKeyPairId
+            publicKeyMap[COSE_ALGORITHM_LABEL] = ED_DSA_ALGORITHM
 
             publicKeyMap[curveLabel] = ed25519CurveId
 
@@ -379,10 +399,42 @@ object Signature {
             )
 
             return publicKeyMap
+        } else if (keyTypeId in ML_DSA_ALGORITHM_LIST) {
+            return convertPublicKeyToMapMlDsa(publicKeyIn, keyTypeId)
         }
 
         Log.e(this::class.java.simpleName, "convertPublicKeyToMap: no known key type id found")
         return null
+    }
+
+    private fun convertPublicKeyToMapMlDsa(
+        publicKeyIn: PublicKey,
+        keyTypeId: Long
+    ): Map<Int, Any>? {
+        if (publicKeyIn !is MLDSAPublicKey) {
+            val msg =
+                "publicKey object has wrong type for keyTypeId $keyTypeId: ${publicKeyIn.javaClass.canonicalName}"
+            Log.e(this::class.java.simpleName, msg)
+            return null
+        }
+
+        val publicKeyMap = mutableMapOf<Int, Any>()
+
+        // https://datatracker.ietf.org/doc/html/rfc9964
+        val algorithmKeyPairId = 7 // AKP for short
+        publicKeyMap[COSE_KEY_TYPE_LABEL] = algorithmKeyPairId
+        publicKeyMap[COSE_ALGORITHM_LABEL] = keyTypeId
+
+        val encodedPublicKey = convertPublicKey(publicKeyIn, keyTypeId)
+        if (encodedPublicKey == null) {
+            val msg = "the encoded ML-DSA public key for COSE is null"
+            Log.e(this::class.java.simpleName, msg)
+            return null
+        }
+
+        val akpPublicKeyId = -1
+        publicKeyMap[akpPublicKeyId] = publicKeyIn.publicData
+        return publicKeyMap
     }
 
 
@@ -502,5 +554,9 @@ object Signature {
             }
         }
         return Base64Helper.b64Encode(hashBytes)
+    }
+
+    fun findOID(signatureAlgorithm: String): String {
+        return DefaultSignatureAlgorithmIdentifierFinder().find(signatureAlgorithm).algorithm.id
     }
 }
