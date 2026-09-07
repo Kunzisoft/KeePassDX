@@ -69,6 +69,7 @@ import com.kunzisoft.keepass.credentialprovider.UserVerificationHelper.Companion
 import com.kunzisoft.keepass.credentialprovider.passkey.util.PasskeyHelper.buildPasskeyResponseAndSetResult
 import com.kunzisoft.keepass.credentialprovider.passkey.util.PasswordHelper.buildPasswordResponseAndSetResult
 import com.kunzisoft.keepass.database.ContextualDatabase
+import com.kunzisoft.keepass.database.element.Attachment
 import com.kunzisoft.keepass.database.element.DateInstant
 import com.kunzisoft.keepass.database.element.EntryId
 import com.kunzisoft.keepass.database.element.Field
@@ -403,6 +404,15 @@ class EntryEditActivity : DatabaseLockActivity() {
                 launch {
                     mAttachmentsViewModel.attachmentEvents.collect { event ->
                         when (event) {
+                            is AttachmentsViewModel.AttachmentEvent.OnBuildNewAttachment -> {
+                                mDatabaseViewModel.buildNewBinaryAttachment()?.let { binaryAttachment ->
+                                    mAttachmentsViewModel.onNewBinaryAttachmentBuilt(
+                                        attachment = Attachment(event.fileName, binaryAttachment),
+                                        allowMultipleAttachment = mDatabase?.allowMultipleAttachments ?: true,
+                                        attachmentToUploadUri = event.attachmentToUploadUri
+                                    )
+                                }
+                            }
                             is AttachmentsViewModel.AttachmentEvent.OnStartUploadAttachment -> {
                                 // Start uploading in service
                                 mAttachmentFileBinderManager?.startUploadAttachment(
