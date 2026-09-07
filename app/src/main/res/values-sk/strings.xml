@@ -338,7 +338,7 @@
     <string name="international_bank_account_number">IBAN</string>
     <string name="entry_otp">OTP</string>
     <string name="error_load_database">Databázu sa nepodarilo načítať.</string>
-    <string name="error_load_database_KDF_memory">Využitie pamäte KDF je príliš vysoké. Nepodarilo sa načítať.</string>
+    <string name="error_load_database_KDF_memory">Využitie pamäte KDF je príliš vysoké.</string>
     <string name="field_name">Názov poľa</string>
     <string name="subdomain_search_title">Vyhľadávanie subdomény</string>
     <string name="subdomain_search_summary">Vyhľadávajte webové domény s obmedzeniami subdomén</string>
@@ -767,6 +767,7 @@
     <string name="autofill_suggestions_title">Návrhy na automatické vypĺňanie</string>
     <string name="autofill_suggestions_summary">Na navrhovanie záznamov použite algoritmus rozpoznávania formulárov</string>
     <string name="passkey_pseudo_random_function">Pseudonáhodná funkcia prístupového kľúča</string>
-    <string name="error_load_database_KDF_parallelism">Paralelizmus KDF je príliš vysoký. Načítanie sa nepodarilo.</string>
+    <string name="error_load_database_KDF_parallelism">Paralelizmus KDF je príliš vysoký.</string>
     <string name="parallelism_set_safe">Nastaviť počet procesorov</string>
+    <string name="error_load_database_KDF_iteration">Počet iterácií KDF je príliš vysoký.</string>
 </resources>

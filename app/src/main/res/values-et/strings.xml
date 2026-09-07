@@ -176,7 +176,7 @@
     <string name="education_generate_password_title">Loo tugev salasõna</string>
     <string name="content_description_repeat_toggle_password_visibility">Lülita salasõna nähtavus korduvalt sisse/välja</string>
     <string name="build_label">Kompileerimise viide: %1$s</string>
-    <string name="error_load_database_KDF_memory">KDF-i mälukasutus on liiga suur. Laadimine ei õnnestu.</string>
+    <string name="error_load_database_KDF_memory">KDF-i mälukasutus on liiga suur.</string>
     <string name="file_manager_install_description">Andmebaasifailide loomiseks, avamiseks ja salvestamiseks on vajalik failihalduri olemasolu, mis oskaks kasutada ACTION_CREATE_DOCUMENT ja ACTION_OPEN_DOCUMENT päringuid.</string>
     <string name="navigation_drawer_open">Menüü on avatud</string>
     <string name="navigation_drawer_close">Menüü on suletud</string>
@@ -733,6 +733,7 @@
     <string name="autofill_suggestions_title">Automaattäite soovitused</string>
     <string name="autofill_suggestions_summary">Sisestuste soovitamisel kasuta vormituvastuse algoritmi</string>
     <string name="passkey_pseudo_random_function">Pääsuvõtme pseudojuhuslik funktsionaalsus</string>
-    <string name="error_load_database_KDF_parallelism">KDF-i rööpsus on liiga suur. Laadimine ei õnnestu.</string>
+    <string name="error_load_database_KDF_parallelism">KDF-i rööpsus on liiga suur.</string>
     <string name="parallelism_set_safe">Seadista kasutatavate protsessorite arv</string>
+    <string name="error_load_database_KDF_iteration">KDF-i korduste arv on liiga suur.</string>
 </resources>

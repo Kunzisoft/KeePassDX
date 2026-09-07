@@ -273,7 +273,7 @@
     <string name="icon_pack_choose_summary">Pacchetto di icone usato nell\'app</string>
     <string name="edit_entry">Modifica elemento</string>
     <string name="error_load_database">Caricamento del database fallito.</string>
-    <string name="error_load_database_KDF_memory">Utilizzo di memoria KDF troppo alto. Impossibile caricare.</string>
+    <string name="error_load_database_KDF_memory">Utilizzo di memoria KDF troppo alto.</string>
     <string name="list_entries_show_username_title">Mostra nomi utente</string>
     <string name="list_entries_show_username_summary">Mostra i nomi utente negli elenchi</string>
     <string name="clipboard">Appunti</string>
@@ -770,7 +770,7 @@
     <string name="benchmark_calculation">Calcola per %1$s s</string>
     <string name="benchmarking">Analisi comparativa…</string>
     <string name="keyboard_share_browser">Condividi da %1$s a KeePassDX</string>
-    <string name="error_load_database_KDF_parallelism">Parallelismo KDF troppo alto. Impossibile caricare.</string>
+    <string name="error_load_database_KDF_parallelism">Parallelismo KDF troppo alto.</string>
     <string name="error_memory_too_large">\"Utilizzo di memoria\" troppo alto. Lo imposto a %1$s.</string>
     <string name="error_parallelism_too_large">\"Parallelismo\" troppo alto. Lo imposto a %1$s.</string>
     <string name="error_missing_parent">Questa azione non può essere eseguita senza un genitore.</string>
@@ -780,4 +780,5 @@
     <string name="autofill_suggestions_title">Suggerimenti di completamento automatico</string>
     <string name="autofill_suggestions_summary">Usa l\'algoritmo di riconoscimento dei moduli per suggerire le voci</string>
     <string name="passkey_pseudo_random_function">Funzione pseudo-casuale della passkey</string>
+    <string name="error_load_database_KDF_iteration">Iterazione KDF troppo alta.</string>
 </resources>
