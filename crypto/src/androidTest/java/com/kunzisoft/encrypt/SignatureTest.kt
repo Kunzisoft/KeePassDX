@@ -1,6 +1,7 @@
 package com.kunzisoft.encrypt
 
 import com.kunzisoft.encrypt.Signature.convertPrivateKeyToPem
+import com.kunzisoft.encrypt.Signature.createPrivateKey
 import com.kunzisoft.encrypt.Signature.fingerprintToUrlSafeBase64
 import com.kunzisoft.encrypt.Signature.generateKeyPair
 import com.kunzisoft.encrypt.Signature.sign
@@ -192,6 +193,51 @@ class SignatureTest {
 
 
     // region ML-DSA
+
+    @Test
+    fun testSeedOnly() {
+        val privateKey = createPrivateKey(SignatureTestData.mlDsa44SeedOnly.toCharArray())
+        val pem = convertPrivateKeyToPem(privateKey)
+        assert(checkPem(pem))
+    }
+
+    @Test
+    fun testSeedAndPrivateKeyOnly() {
+        val privateKey = createPrivateKey(SignatureTestData.mlDsa44SeedAndPrivateKey.toCharArray())
+        val pem = convertPrivateKeyToPem(privateKey)
+        assert(checkPem(pem))
+    }
+
+    @Test
+    fun testPrivateKeyWithoutSeedIsUnsupported() {
+        val keyAsPem = SignatureTestData.mlDsa44PrivateKeyWithoutSeed.toCharArray()
+        val privateKey = createPrivateKey(keyAsPem)
+        try {
+            convertPrivateKeyToPem(privateKey)
+
+            assert(false) {
+                "the convertPrivateKeyToPem should throw an Exception, " +
+                        "because ML DSA private key without a seed is not supported"
+            }
+        } catch (e: SecurityException) {
+            assert(e.message != null)
+            assert("does not contain the seed" in e.message!!.lowercase())
+            return
+        } catch (otherException: Exception) {
+            assert(false) { "wrong type of Exception: ${otherException.javaClass.name}" }
+        }
+        assert(false)
+    }
+
+    @Test
+    fun testReadMlDsa44Pem() {
+        val privateKey = createPrivateKey(SignatureTestData.mlDsa44SeedOnly.toCharArray())
+        val thePackage = privateKey.javaClass.`package`!!.name.lowercase()
+        val isOpenssl = "openssl" in thePackage
+        assert(isOpenssl.not())
+        assert("bouncycastle" in thePackage)
+    }
+
     @Test
     fun testMlDsa44() {
         checkMlDsaGenerateAndSign(-48)
@@ -215,14 +261,17 @@ class SignatureTest {
         assert(keyPair.second == id) { "wrong algorithm id" }
 
         val pem = convertPrivateKeyToPem(keyPair.first.private)
-        assert(pem.size > 1)
-        val pemSpilted = String(pem).split("\n")
-
-        // see https://www.rfc-editor.org/rfc/rfc9881.html#name-private-key-format
-        assert(pemSpilted.size == 4)
+        assert(checkPem(pem))
 
         val sig = sign(pem, "the test message".toByteArray())
         assert(sig.size > 1)
+    }
+
+    fun checkPem(pem: CharArray): Boolean {
+        val pemSplited = String(pem).split("\n")
+
+        // see https://www.rfc-editor.org/rfc/rfc9881.html#name-private-key-format
+        return pemSplited.size == 4
     }
 
     // end region
