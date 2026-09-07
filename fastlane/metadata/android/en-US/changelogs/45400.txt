@@ -1,1 +1,2 @@
  * Fix for adding attachments #2694
+ * Fix custom icon selection exception ##2684

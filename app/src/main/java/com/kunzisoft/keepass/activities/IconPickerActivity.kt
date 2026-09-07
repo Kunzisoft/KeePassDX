@@ -304,10 +304,11 @@ class IconPickerActivity : DatabaseLockActivity() {
                                     iconCustomState.iconCustom = customIcon
                                     mDatabase?.let { database ->
                                         BinaryDatabaseManager.resizeBitmapAndStoreDataInBinaryFile(
-                                                contentResolver,
-                                                database,
-                                                iconToUploadUri,
-                                                binary)
+                                            contentResolver,
+                                            database,
+                                            iconToUploadUri,
+                                            binary
+                                        )
                                         when {
                                             binary == null -> {
                                             }

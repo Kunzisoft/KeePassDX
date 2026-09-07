@@ -5,6 +5,7 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.util.Log
+import androidx.core.graphics.scale
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.element.binary.BinaryCache
 import com.kunzisoft.keepass.database.element.binary.BinaryData
@@ -122,7 +123,7 @@ object BinaryDatabaseManager {
                     BitmapFactory.decodeStream(inputStream)?.let { bitmap ->
                         val bitmapResized = bitmap.resize(DEFAULT_ICON_WIDTH)
                         val byteArrayOutputStream = ByteArrayOutputStream()
-                        bitmapResized?.compress(Bitmap.CompressFormat.PNG, 0, byteArrayOutputStream)
+                        bitmapResized.compress(Bitmap.CompressFormat.PNG, 0, byteArrayOutputStream)
                         val bitmapData: ByteArray = byteArrayOutputStream.toByteArray()
                         val byteArrayInputStream = ByteArrayInputStream(bitmapData)
                         uploadToDatabase(
@@ -145,7 +146,7 @@ object BinaryDatabaseManager {
      * @param maxSize
      * @return
      */
-    private fun Bitmap.resize(maxSize: Int): Bitmap? {
+    private fun Bitmap.resize(maxSize: Int): Bitmap {
         var width = this.width
         var height = this.height
         val bitmapRatio = width.toFloat() / height.toFloat()
@@ -156,7 +157,7 @@ object BinaryDatabaseManager {
             height = maxSize
             width = (height * bitmapRatio).toInt()
         }
-        return Bitmap.createScaledBitmap(this, width, height, true)
+        return this.scale(width, height)
     }
 
     fun loadBitmap(
