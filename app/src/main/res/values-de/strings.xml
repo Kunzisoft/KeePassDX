@@ -274,7 +274,7 @@
     <string name="education_read_only_summary">Den Öffnungsmodus für die Sitzung ändern. \n \n„Schreibgeschützt“ verhindert unbeabsichtigte Änderungen an der Datenbank. \nMit „Änderbar“ lässt sich jedes Element frei bearbeiten, hinzufügen oder löschen.</string>
     <string name="edit_entry">Eintrag bearbeiten</string>
     <string name="error_load_database">Die Datenbank konnte nicht geladen werden.</string>
-    <string name="error_load_database_KDF_memory">KDF-Speicherverbrauch zu hoch. Laden nicht möglich.</string>
+    <string name="error_load_database_KDF_memory">KDF-Speicherverbrauch zu hoch.</string>
     <string name="list_entries_show_username_title">Benutzernamen anzeigen</string>
     <string name="list_entries_show_username_summary">Benutzernamen in Eintragslisten anzeigen</string>
     <string name="build_label">Build %1$s</string>
@@ -774,5 +774,6 @@
     <string name="autofill_suggestions_summary">Die Formularerkennung verwenden, um Einträge vorzuschlagen</string>
     <string name="passkey_pseudo_random_function">Passkey-Pseudozufallsfunktion</string>
     <string name="error_missing_parent">Diese Aktion kann nicht ohne ein übergeordnetes Element ausgeführt werden.</string>
-    <string name="error_load_database_KDF_parallelism">KDF-Parallelität zu hoch. Laden nicht möglich.</string>
+    <string name="error_load_database_KDF_parallelism">KDF-Parallelität zu hoch.</string>
+    <string name="error_load_database_KDF_iteration">KDF-Iteration zu hoch.</string>
 </resources>
