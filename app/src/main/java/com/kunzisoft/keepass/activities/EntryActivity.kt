@@ -83,7 +83,6 @@ import com.kunzisoft.keepass.view.changeControlColor
 import com.kunzisoft.keepass.view.changeTitleColor
 import com.kunzisoft.keepass.view.hideByFading
 import com.kunzisoft.keepass.view.setTransparentNavigationBar
-import com.kunzisoft.keepass.view.showActionErrorIfNeeded
 import com.kunzisoft.keepass.view.showByFading
 import com.kunzisoft.keepass.view.showError
 import com.kunzisoft.keepass.viewmodels.AttachmentsViewModel
@@ -125,6 +124,8 @@ class EntryActivity : DatabaseLockActivity() {
     }
 
     override fun manageDatabaseInfo(): Boolean = true
+
+    override fun snackbarAnchorView(): View? = coordinatorLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -428,9 +429,7 @@ class EntryActivity : DatabaseLockActivity() {
 
     override fun finishActivityIfReloadRequested(): Boolean = false
 
-    override fun viewToInvalidateTimeout(): View? {
-        return coordinatorLayout
-    }
+    override fun viewToInvalidateTimeout(): View? = coordinatorLayout
 
     override fun onDatabaseRetrieved(database: ContextualDatabase) {
         super.onDatabaseRetrieved(database)
@@ -451,7 +450,6 @@ class EntryActivity : DatabaseLockActivity() {
                     finish()
             }
         }
-        coordinatorLayout?.showActionErrorIfNeeded(result)
     }
 
     override fun onResume() {

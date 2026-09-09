@@ -39,10 +39,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.helpers.ExternalFileHelper
 import com.kunzisoft.keepass.activities.legacy.DatabaseLockActivity
-import com.kunzisoft.keepass.database.ContextualDatabase
-import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.timeout.TimeoutHelper
-import com.kunzisoft.keepass.view.showActionErrorIfNeeded
 import com.kunzisoft.keepass.view.showError
 import com.kunzisoft.keepass.viewmodels.SetMainCredentialViewModel
 import com.kunzisoft.keepass.viewmodels.SettingsViewModel
@@ -180,23 +177,11 @@ open class SettingsActivity
      * Retrieve the main fragment to show in first
      * @return The main fragment
      */
-    protected open fun retrieveMainFragment(): Fragment {
-        return MainPreferenceFragment()
-    }
+    protected open fun retrieveMainFragment(): Fragment = MainPreferenceFragment()
 
-    override fun viewToInvalidateTimeout(): View? {
-        return coordinatorLayout
-    }
+    override fun viewToInvalidateTimeout(): View? = coordinatorLayout
 
-    override fun onDatabaseActionFinished(
-        database: ContextualDatabase,
-        actionTask: String,
-        result: ActionRunnable.Result
-    ) {
-        super.onDatabaseActionFinished(database, actionTask, result)
-
-        coordinatorLayout?.showActionErrorIfNeeded(result)
-    }
+    override fun snackbarAnchorView(): View? = coordinatorLayout
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {

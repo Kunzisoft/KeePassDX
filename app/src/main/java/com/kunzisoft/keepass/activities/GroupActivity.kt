@@ -108,7 +108,6 @@ import com.kunzisoft.keepass.view.WindowInsetPosition
 import com.kunzisoft.keepass.view.applyWindowInsets
 import com.kunzisoft.keepass.view.hideByFading
 import com.kunzisoft.keepass.view.setTransparentNavigationBar
-import com.kunzisoft.keepass.view.showActionErrorIfNeeded
 import com.kunzisoft.keepass.view.showByFading
 import com.kunzisoft.keepass.view.showError
 import com.kunzisoft.keepass.view.toastError
@@ -271,6 +270,8 @@ class GroupActivity : DatabaseLockActivity() {
     }
 
     override fun manageDatabaseInfo(): Boolean = true
+
+    override fun snackbarAnchorView(): View? = coordinatorError
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -803,9 +804,7 @@ class GroupActivity : DatabaseLockActivity() {
         }
     }
 
-    override fun viewToInvalidateTimeout(): View? {
-        return drawerLayout
-    }
+    override fun viewToInvalidateTimeout(): View? = drawerLayout
 
     private fun loadGroup(clearSearch: Boolean = false) {
         if (clearSearch)
@@ -893,7 +892,6 @@ class GroupActivity : DatabaseLockActivity() {
             || actionTask == ACTION_DATABASE_UPDATE_ENTRY_TASK
             || actionTask == ACTION_DATABASE_MOVE_NODES_TASK
             || actionTask == ACTION_DATABASE_COPY_NODES_TASK) {
-            coordinatorError?.showActionErrorIfNeeded(result)
             finishNodeAction()
         }
     }

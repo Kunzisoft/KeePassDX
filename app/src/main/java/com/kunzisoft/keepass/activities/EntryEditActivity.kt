@@ -101,7 +101,6 @@ import com.kunzisoft.keepass.view.applyWindowInsets
 import com.kunzisoft.keepass.view.asError
 import com.kunzisoft.keepass.view.hideByFading
 import com.kunzisoft.keepass.view.setTransparentNavigationBar
-import com.kunzisoft.keepass.view.showActionErrorIfNeeded
 import com.kunzisoft.keepass.view.showByFading
 import com.kunzisoft.keepass.view.showError
 import com.kunzisoft.keepass.view.updateButtonPaddingEnd
@@ -161,6 +160,8 @@ class EntryEditActivity : DatabaseLockActivity() {
     }
 
     override fun manageDatabaseInfo(): Boolean = true
+
+    override fun snackbarAnchorView(): View? = coordinatorLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -531,7 +532,6 @@ class EntryEditActivity : DatabaseLockActivity() {
                 }
             }
         }
-        coordinatorLayout?.showActionErrorIfNeeded(result)
     }
 
     private fun entryValidatedForSave(entry: EntryInfo) {

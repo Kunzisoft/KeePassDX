@@ -1,6 +1,7 @@
  # KeePassDX(4.5.4)
  * Fix for adding attachments #2694
  * Fix custom icon selection exception ##2684
+ * Fix database error display #2701
  * Add ML-DSA 44, ML-DSA 65, and ML-DSA 87 passkeys algorithm #2695 #2696 (@cali-95)
 
 KeePassDX(4.5.3)

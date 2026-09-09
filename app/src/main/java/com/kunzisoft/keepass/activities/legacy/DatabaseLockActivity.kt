@@ -54,7 +54,6 @@ import com.kunzisoft.keepass.utils.LockReceiver
 import com.kunzisoft.keepass.utils.closeDatabase
 import com.kunzisoft.keepass.utils.registerLockReceiver
 import com.kunzisoft.keepass.utils.unregisterLockReceiver
-import com.kunzisoft.keepass.view.showActionErrorIfNeeded
 import com.kunzisoft.keepass.viewmodels.NodesViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -185,7 +184,6 @@ abstract class DatabaseLockActivity : DatabaseModeActivity() {
                         Toast.LENGTH_LONG
                     ).show()
                 } else {
-                    this.showActionErrorIfNeeded(result)
                     finish()
                 }
             }
