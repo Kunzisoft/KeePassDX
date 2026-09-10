@@ -30,6 +30,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.annotation.StringRes
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -159,6 +160,14 @@ abstract class DatabaseLockActivity : DatabaseModeActivity() {
 
     abstract fun viewToInvalidateTimeout(): View?
 
+    private fun showDatabaseAction(@StringRes stringId: Int) {
+        Toast.makeText(
+            this,
+            stringId,
+            Toast.LENGTH_SHORT
+        ).show()
+    }
+
     override fun onDatabaseActionFinished(
         database: ContextualDatabase,
         actionTask: String,
@@ -167,11 +176,11 @@ abstract class DatabaseLockActivity : DatabaseModeActivity() {
         when (actionTask) {
             DatabaseTaskNotificationService.ACTION_DATABASE_MERGE_TASK,
             DatabaseTaskNotificationService.ACTION_DATABASE_RELOAD_TASK -> {
+                // TODO Harmonize success and error
                 // Reload the current activity
                 if (result.isSuccess) {
                     reloadActivity()
-                    Toast.makeText(
-                        this,
+                    showDatabaseAction(
                         when (actionTask) {
                             DatabaseTaskNotificationService.ACTION_DATABASE_MERGE_TASK ->
                                 if (database.isReadOnly || !PreferencesUtil.isAutoSaveDatabaseEnabled(this))
@@ -180,20 +189,16 @@ abstract class DatabaseLockActivity : DatabaseModeActivity() {
                                     R.string.merge_success
                             else ->
                                 R.string.reload_success
-                        },
-                        Toast.LENGTH_LONG
-                    ).show()
+                        }
+                    )
                 } else {
                     lockAndExit()
                 }
             }
-            DatabaseTaskNotificationService.ACTION_DATABASE_SAVE -> {
-                if (result.isSuccess) {
-                    Toast.makeText(
-                        this,
-                        R.string.save_success,
-                        Toast.LENGTH_LONG
-                    ).show()
+            else -> {
+                if (result.isSuccess
+                    && result.data?.getBoolean(DatabaseTaskNotificationService.SAVE_DATABASE_KEY, false) == true) {
+                    showDatabaseAction(R.string.save_success)
                 }
             }
         }

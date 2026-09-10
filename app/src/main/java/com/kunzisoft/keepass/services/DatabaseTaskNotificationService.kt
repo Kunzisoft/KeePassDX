@@ -419,7 +419,15 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                     },
                     { result ->
                         if (isMainAction) {
+                            val save = !database.isReadOnly
+                                    && (intentAction == ACTION_DATABASE_SAVE
+                                    || intent?.getBooleanExtra(SAVE_DATABASE_KEY, false) == true)
                             try {
+                                // To indicate a save action
+                                if (result.data == null)
+                                    result.data = Bundle()
+                                result.data?.putBoolean(SAVE_DATABASE_KEY, save)
+
                                 mActionTaskListeners.forEach { actionTaskListener ->
                                     mTaskRemovedRequested = false
                                     actionTaskListener.onActionFinished(
@@ -430,9 +438,6 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                                 }
                             } finally {
                                 // Save the database info after performing action
-                                val save = !database.isReadOnly
-                                        && (intentAction == ACTION_DATABASE_SAVE
-                                        || intent?.getBooleanExtra(SAVE_DATABASE_KEY, false) == true)
                                 if (save)
                                     saveDatabaseInfo()
                                 else {
