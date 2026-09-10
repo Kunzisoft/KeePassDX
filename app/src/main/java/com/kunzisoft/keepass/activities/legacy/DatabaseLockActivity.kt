@@ -198,7 +198,7 @@ abstract class DatabaseLockActivity : DatabaseModeActivity() {
             else -> {
                 if (result.isSuccess
                     && result.data?.getBoolean(DatabaseTaskNotificationService.SAVE_DATABASE_KEY, false) == true) {
-                    // TODO showDatabaseAction(R.string.save_success)
+                    showDatabaseAction(R.string.save_success)
                 }
             }
         }
