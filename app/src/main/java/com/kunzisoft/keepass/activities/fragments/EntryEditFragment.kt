@@ -316,8 +316,8 @@ class EntryEditFragment: DatabaseFragment() {
 
     private fun removeTagCondition(
         field: Field,
-        condition :(field: Field) -> Boolean,
-        tagName : String
+        condition: (field: Field) -> Boolean,
+        tagName: String
     ) {
         if (condition.invoke(field)
             && templateView.getEntryInfo().customFields.none { field -> condition.invoke(field) }) {

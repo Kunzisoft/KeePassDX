@@ -1,4 +1,5 @@
  * Fix for adding attachments #2694
  * Fix custom icon selection exception ##2684
  * Fix database error display #2701
+ * Fix remove Credit Card tag #2698
  * Add ML-DSA 44, ML-DSA 65, and ML-DSA 87 passkeys algorithm #2695 #2696 (@cali-95)
