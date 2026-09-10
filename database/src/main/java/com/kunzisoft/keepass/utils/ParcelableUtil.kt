@@ -283,3 +283,16 @@ fun <T : Enum<T>> Parcel.writeEnum(value: T?) =
 fun Parcel.readBooleanCompat(): Boolean = readByte().toInt() != 0
 
 fun Parcel.writeBooleanCompat(value: Boolean) = writeByte((if (value) 1 else 0).toByte())
+
+fun Parcel.writeIntCompat(value: Int?) {
+    if (value != null) {
+        writeBooleanCompat(true)
+        writeInt(value)
+    } else {
+        writeBooleanCompat(false)
+    }
+}
+
+fun Parcel.readIntCompat(): Int? {
+    return if (readBooleanCompat()) { readInt() } else null
+}
