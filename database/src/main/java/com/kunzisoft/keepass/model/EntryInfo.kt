@@ -40,11 +40,11 @@ import com.kunzisoft.keepass.otp.OtpEntryFields.isOTP
 import com.kunzisoft.keepass.otp.OtpEntryFields.setOtp
 import com.kunzisoft.keepass.utils.CharArrayUtil.clear
 import com.kunzisoft.keepass.utils.readCharArrayCompat
-import com.kunzisoft.keepass.utils.readIntCompat
 import com.kunzisoft.keepass.utils.readListCompat
+import com.kunzisoft.keepass.utils.readNullableIntCompat
 import com.kunzisoft.keepass.utils.readParcelableCompat
 import com.kunzisoft.keepass.utils.writeCharArrayCompat
-import com.kunzisoft.keepass.utils.writeIntCompat
+import com.kunzisoft.keepass.utils.writeNullableIntCompat
 import java.util.Locale
 
 /**
@@ -106,8 +106,8 @@ open class EntryInfo : NodeInfo {
         password = parcel.readCharArrayCompat() ?: password
         url = parcel.readString() ?: url
         notes = parcel.readString() ?: notes
-        backgroundColor = parcel.readIntCompat()
-        foregroundColor = parcel.readIntCompat()
+        backgroundColor = parcel.readNullableIntCompat()
+        foregroundColor = parcel.readNullableIntCompat()
         parcel.readListCompat(customFields)
         parcel.readListCompat(attachments)
         autoType = parcel.readParcelableCompat() ?: autoType
@@ -129,8 +129,8 @@ open class EntryInfo : NodeInfo {
         parcel.writeCharArrayCompat(password)
         parcel.writeString(url)
         parcel.writeString(notes)
-        parcel.writeIntCompat(backgroundColor)
-        parcel.writeIntCompat(foregroundColor)
+        parcel.writeNullableIntCompat(backgroundColor)
+        parcel.writeNullableIntCompat(foregroundColor)
         parcel.writeList(customFields)
         parcel.writeList(attachments)
         parcel.writeParcelable(autoType, flags)

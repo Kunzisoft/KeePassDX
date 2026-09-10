@@ -24,10 +24,10 @@ import android.os.Parcelable
 import com.kunzisoft.keepass.database.element.Tags
 import com.kunzisoft.keepass.database.element.database.DatabaseVersioned
 import com.kunzisoft.keepass.database.element.icon.IconImage
-import com.kunzisoft.keepass.utils.readIntCompat
 import com.kunzisoft.keepass.utils.readListCompat
+import com.kunzisoft.keepass.utils.readNullableIntCompat
 import com.kunzisoft.keepass.utils.readParcelableCompat
-import com.kunzisoft.keepass.utils.writeIntCompat
+import com.kunzisoft.keepass.utils.writeNullableIntCompat
 import java.util.UUID
 
 class Template : Parcelable {
@@ -96,8 +96,8 @@ class Template : Parcelable {
         uuid = parcel.readParcelableCompat<ParcelUuid>()?.uuid ?: uuid
         title = parcel.readString() ?: title
         icon = parcel.readParcelableCompat() ?: icon
-        backgroundColor = parcel.readIntCompat()
-        foregroundColor = parcel.readIntCompat()
+        backgroundColor = parcel.readNullableIntCompat()
+        foregroundColor = parcel.readNullableIntCompat()
         tags = parcel.readParcelableCompat() ?: tags
         parcel.readListCompat(sections)
     }
@@ -107,8 +107,8 @@ class Template : Parcelable {
         parcel.writeParcelable(ParcelUuid(uuid), flags)
         parcel.writeString(title)
         parcel.writeParcelable(icon, flags)
-        parcel.writeIntCompat(backgroundColor)
-        parcel.writeIntCompat(foregroundColor)
+        parcel.writeNullableIntCompat(backgroundColor)
+        parcel.writeNullableIntCompat(foregroundColor)
         parcel.writeParcelable(tags, flags)
         parcel.writeList(sections)
     }

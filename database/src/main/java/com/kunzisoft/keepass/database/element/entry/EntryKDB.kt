@@ -32,8 +32,10 @@ import com.kunzisoft.keepass.database.element.node.NodeIdUUID
 import com.kunzisoft.keepass.database.element.node.NodeKDBInterface
 import com.kunzisoft.keepass.database.element.node.NodeType
 import com.kunzisoft.keepass.utils.readCharArrayCompat
+import com.kunzisoft.keepass.utils.readNullableIntCompat
 import com.kunzisoft.keepass.utils.readParcelableCompat
 import com.kunzisoft.keepass.utils.writeCharArrayCompat
+import com.kunzisoft.keepass.utils.writeNullableIntCompat
 import java.util.UUID
 
 /**
@@ -119,8 +121,7 @@ class EntryKDB : EntryVersioned<Int, UUID, GroupKDB, EntryKDB>, NodeKDBInterface
         url = parcel.readString() ?: url
         notes = parcel.readString() ?: notes
         binaryDescription = parcel.readString() ?: binaryDescription
-        val rawBinaryDataId = parcel.readInt()
-        binaryDataId = if (rawBinaryDataId == -1) null else rawBinaryDataId
+        binaryDataId = parcel.readNullableIntCompat()
     }
 
     override fun readParentParcelable(parcel: Parcel): GroupKDB? {
@@ -139,7 +140,7 @@ class EntryKDB : EntryVersioned<Int, UUID, GroupKDB, EntryKDB>, NodeKDBInterface
         dest.writeString(url)
         dest.writeString(notes)
         dest.writeString(binaryDescription)
-        dest.writeInt(binaryDataId ?: -1)
+        dest.writeNullableIntCompat(binaryDataId)
     }
 
     fun updateWith(source: EntryKDB,
