@@ -756,4 +756,11 @@
     <string name="error_memory_too_large">\"Uso de memoria\" muy alto. Ajustando a %1$s.</string>
     <string name="autofill_suggestions_title">Sugerencias de autocompletado</string>
     <string name="autofill_suggestions_summary">Usar el algoritmo de reconocimiento de formularios para sugerir entradas</string>
+    <string name="error_load_database_KDF_iteration">El iteraciones de KDF es demasiado alto.</string>
+    <string name="error_load_database_KDF_parallelism">El paralelismo de KDF es demasiado alto.</string>
+    <string name="error_missing_parent">Esta acción no se puede realizar sin un padre.</string>
+    <string name="parallelism_set_safe">Establecer el número de procesadores</string>
+    <string name="temporary_merge_success">La fusión de datos temporal se ha completado con éxito</string>
+    <string name="reload_success">La recarga se ha completado correctamente</string>
+    <string name="save_success">Se ha guardado correctamente</string>
 </resources>
