@@ -43,14 +43,12 @@ class ContextualDatabase: DatabaseInfo() {
     // Database file URI
     var fileUri: Uri? = null
 
-    // Factory to draw icons
-    val iconDrawableFactory = IconDrawableFactory(
-        retrieveBinaryCache = { binaryCache },
-        retrieveCustomIconBinary = { iconId -> getBinaryForCustomIcon(iconId) }
-    )
-
     // To reload the main activity
     var wasReloaded = false
+
+    // File description
+    var snapFileDatabaseInfo: SnapFileDatabaseInfo? = null
+        private set
 
     // To defined if unsaved data still remaining
     private val mDataModifiedSinceLastLoading = MutableStateFlow(false)
@@ -58,9 +56,11 @@ class ContextualDatabase: DatabaseInfo() {
     val dataModifiedSinceLastLoading: Boolean
         get() = mDataModifiedSinceLastLoading.value
 
-    // File description
-    var snapFileDatabaseInfo: SnapFileDatabaseInfo? = null
-        private set
+    // Factory to draw icons
+    val iconDrawableFactory = IconDrawableFactory(
+        retrieveBinaryCache = { binaryCache },
+        retrieveCustomIconBinary = { iconId -> getBinaryForCustomIcon(iconId) }
+    )
 
     /**
      * Save the database file info

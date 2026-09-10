@@ -467,9 +467,10 @@ class GroupViewModel(application: Application): AndroidViewModel(application) {
     }
 
     fun databaseActionsAllowed(): Boolean = groupUIState.value.loaded
-    fun saveDatabaseActionAllowed(): Boolean = mDatabase?.isReadOnly == false
-    fun mergeDatabaseActionAllowed(): Boolean = saveDatabaseActionAllowed() && mDatabase?.isMergeDataAllowed() == true
-    fun reloadDatabaseActionAllowed(): Boolean = true
+    fun databaseInfoExists(): Boolean = mDatabase?.snapFileDatabaseInfo?.exists != false
+    fun saveDatabaseActionAllowed(): Boolean = mDatabase?.isReadOnly == false && databaseInfoExists()
+    fun mergeDatabaseActionAllowed(): Boolean = saveDatabaseActionAllowed() && mDatabase?.isMergeDataAllowed() == true && databaseInfoExists()
+    fun reloadDatabaseActionAllowed(): Boolean = databaseInfoExists()
     fun mergeFromDatabaseActionAllowed(): Boolean = mergeDatabaseActionAllowed()
     fun copyToDatabaseActionAllowed(): Boolean = true
 

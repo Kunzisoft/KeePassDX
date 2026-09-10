@@ -40,14 +40,17 @@ abstract class ActionRunnable: Runnable {
         }
     }
 
-    abstract fun onStartRun()
+    /**
+     * Method called before the action to init parameters
+     */
+    open fun onStartRun() {}
 
     abstract fun onActionRun()
 
     /**
      * Method called when the action is finished
      */
-    abstract fun onFinishRun()
+    open fun onFinishRun() {}
 
     protected fun setError(message: String) {
         result.isSuccess = false
