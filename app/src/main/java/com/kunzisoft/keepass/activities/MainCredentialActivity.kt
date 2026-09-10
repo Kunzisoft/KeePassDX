@@ -120,7 +120,7 @@ class MainCredentialActivity : DatabaseModeActivity() {
 
     override fun manageDatabaseInfo(): Boolean  = false
 
-    override fun snackbarAnchorView(): View = coordinatorLayout
+    override fun errorCoordinatorView(): View = coordinatorLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -117,6 +117,7 @@ class EntryEditActivity : DatabaseLockActivity() {
 
     // Views
     private var container: View? = null
+    private var coordinatorError: CoordinatorLayout? = null
     private var coordinatorLayout: CoordinatorLayout? = null
     private var scrollView: NestedScrollView? = null
     private var templateSelectorSpinner: Spinner? = null
@@ -161,7 +162,7 @@ class EntryEditActivity : DatabaseLockActivity() {
 
     override fun manageDatabaseInfo(): Boolean = true
 
-    override fun snackbarAnchorView(): View? = coordinatorLayout
+    override fun errorCoordinatorView(): View? = coordinatorError
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -170,6 +171,7 @@ class EntryEditActivity : DatabaseLockActivity() {
         // Bottom Bar
         entryEditAddToolBar = findViewById(R.id.entry_edit_bottom_bar)
         container = findViewById(R.id.activity_entry_edit_container)
+        coordinatorError = findViewById(R.id.error_coordinator)
         coordinatorLayout = findViewById(R.id.entry_edit_coordinator_layout)
         scrollView = findViewById(R.id.entry_edit_scroll)
         scrollView?.scrollBarStyle = View.SCROLLBARS_INSIDE_INSET

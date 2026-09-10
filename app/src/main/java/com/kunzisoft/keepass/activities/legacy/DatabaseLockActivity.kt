@@ -184,7 +184,7 @@ abstract class DatabaseLockActivity : DatabaseModeActivity() {
                         Toast.LENGTH_LONG
                     ).show()
                 } else {
-                    finish()
+                    lockAndExit()
                 }
             }
         }

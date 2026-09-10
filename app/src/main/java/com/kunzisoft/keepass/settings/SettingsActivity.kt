@@ -181,7 +181,7 @@ open class SettingsActivity
 
     override fun viewToInvalidateTimeout(): View? = coordinatorLayout
 
-    override fun snackbarAnchorView(): View? = coordinatorLayout
+    override fun errorCoordinatorView(): View? = coordinatorLayout
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
