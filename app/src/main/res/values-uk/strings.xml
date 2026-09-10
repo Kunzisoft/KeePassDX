@@ -758,4 +758,5 @@
     <string name="error_load_database_KDF_parallelism">Значення «Паралелізм» для KDF завелике.</string>
     <string name="parallelism_set_safe">Встановити кількість процесорів</string>
     <string name="error_load_database_KDF_iteration">Значення «Раунди перетворення» для KDF завелике.</string>
+    <string name="save_success">Збереження завершено успішно</string>
 </resources>
