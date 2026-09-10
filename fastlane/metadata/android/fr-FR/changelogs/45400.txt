@@ -3,4 +3,5 @@
  * Correction de l'affichage des erreurs de bases de données #2701
  * Correction de la suppression du tag Credit Card #2698
  * Correction de la couleur customisée blanche #2703
+ * Correction de l'affichage du Magiclavier #2704
  * Ajout des algorithmes de clés d'authentification ML-DSA 44, ML-DSA 65, and ML-DSA 87 #2695 #2696 (@cali-95)
