@@ -94,6 +94,7 @@ import java.util.EnumSet
 class EntryActivity : DatabaseLockActivity() {
 
     private var container: View? = null
+    private var coordinatorError: CoordinatorLayout? = null
     private var coordinatorLayout: CoordinatorLayout? = null
     private var collapsingToolbarLayout: CollapsingToolbarLayout? = null
     private var appBarLayout: AppBarLayout? = null
@@ -125,7 +126,7 @@ class EntryActivity : DatabaseLockActivity() {
 
     override fun manageDatabaseInfo(): Boolean = true
 
-    override fun snackbarAnchorView(): View? = coordinatorLayout
+    override fun errorCoordinatorView(): View? = coordinatorError
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -139,6 +140,7 @@ class EntryActivity : DatabaseLockActivity() {
 
         // Get views
         container = findViewById(R.id.activity_entry_container)
+        coordinatorError = findViewById(R.id.error_coordinator)
         coordinatorLayout = findViewById(R.id.toolbar_coordinator)
         collapsingToolbarLayout = findViewById(R.id.toolbar_layout)
         appBarLayout = findViewById(R.id.app_bar)

@@ -173,7 +173,7 @@ abstract class DatabaseActivity : StylishActivity(), DatabaseRetrieval {
                                 }
 
                                 is DatabaseViewModel.ActionState.OnDatabaseActionFinished -> {
-                                    snackbarAnchorView()?.showActionErrorIfNeeded(uiState.result)
+                                    errorCoordinatorView()?.showActionErrorIfNeeded(uiState.result)
                                         ?: showActionErrorIfNeeded(uiState.result)
                                     onDatabaseActionFinished(
                                         uiState.database,
@@ -230,9 +230,9 @@ abstract class DatabaseActivity : StylishActivity(), DatabaseRetrieval {
     open fun manageDatabaseInfo(): Boolean  = true
 
     /**
-     * Anchor view for Snackbar error messages
+     * Coordinator view for Snackbar error messages
      */
-    open fun snackbarAnchorView(): android.view.View? = null
+    open fun errorCoordinatorView(): android.view.View? = null
 
     override fun onDatabaseActionFinished(
         database: ContextualDatabase,

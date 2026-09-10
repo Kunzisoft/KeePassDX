@@ -122,5 +122,10 @@
             app:layout_constraintBottom_toBottomOf="parent"
             layout="@layout/view_screenshot_mode_banner" />
 
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:id="@+id/error_coordinator"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>

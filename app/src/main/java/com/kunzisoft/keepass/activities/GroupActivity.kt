@@ -271,7 +271,7 @@ class GroupActivity : DatabaseLockActivity() {
 
     override fun manageDatabaseInfo(): Boolean = true
 
-    override fun snackbarAnchorView(): View? = coordinatorError
+    override fun errorCoordinatorView(): View? = coordinatorError
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
