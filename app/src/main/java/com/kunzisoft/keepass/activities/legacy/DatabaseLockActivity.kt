@@ -187,6 +187,15 @@ abstract class DatabaseLockActivity : DatabaseModeActivity() {
                     lockAndExit()
                 }
             }
+            DatabaseTaskNotificationService.ACTION_DATABASE_SAVE -> {
+                if (result.isSuccess) {
+                    Toast.makeText(
+                        this,
+                        R.string.save_success,
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+            }
         }
     }
 
