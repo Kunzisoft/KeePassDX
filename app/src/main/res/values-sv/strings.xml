@@ -269,7 +269,7 @@
     <string name="education_read_only_title">Skrivskydda din databas</string>
     <string name="education_read_only_summary">Ändra öppningsläge för sessionen.\n\n\"Skrivskyddad\" förhindrar oavsiktliga ändringar i databasen.\n\"Ändringsbar\" låter dig lägga till, ta bort och ändra alla objekt.</string>
     <string name="error_load_database">Kunde inte ladda in databasen.</string>
-    <string name="error_load_database_KDF_memory">Det gick inte att läsa in nyckeln. Prova att sänka KDF-inställningen \"Minnesanvändning\".</string>
+    <string name="error_load_database_KDF_memory">KDF: minnesanvändningen är för hög.</string>
     <string name="list_entries_show_username_title">Visa användarnamn</string>
     <string name="list_entries_show_username_summary">Visa användarnamn i postlistor</string>
     <string name="clipboard">Urklipp</string>
@@ -748,4 +748,15 @@
     <string name="user_verification_database_credential">Ange de fyra första tecknen i ditt databaslösenord</string>
     <string name="first_chars">Första tecknen</string>
     <string name="check">Kontrollera</string>
+    <string name="error_memory_too_large">”Minnesanvändning” är för hög. Ställs in på %1$s.</string>
+    <string name="error_parallelism_too_large">”Parallellism” är för hög. Ställs in på %1$s.</string>
+    <string name="error_missing_parent">Åtgärden kan inte utföras utan en överordnad grupp.</string>
+    <string name="temporary_merge_success">Sammanslagningen av tillfälliga data slutfördes.</string>
+    <string name="reload_success">Omladdningen slutfördes.</string>
+    <string name="autofill_suggestions_title">Förslag för autofyllning</string>
+    <string name="autofill_suggestions_summary">Använd formulärigenkänningsalgoritmen för att föreslå poster.</string>
+    <string name="passkey_pseudo_random_function">Pseudoslumpfunktion för passkey</string>
+    <string name="error_load_database_KDF_parallelism">KDF: parallellismen är för hög.</string>
+    <string name="parallelism_set_safe">Ange antal processorer</string>
+    <string name="error_load_database_KDF_iteration">KDF-iterationsantalet är för högt.</string>
 </resources>

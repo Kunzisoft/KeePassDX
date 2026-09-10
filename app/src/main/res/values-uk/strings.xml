@@ -39,7 +39,7 @@
     <string name="decrypting_db">Розшифрування вмісту бази даних…</string>
     <string name="default_checkbox">Використовувати як типову базу даних</string>
     <string name="digits">Цифри</string>
-    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft — це застосунок з &lt;strong&gt;відкритим вихідним кодом&lt;/strong&gt; та &lt;strong&gt;без реклами&lt;/strong&gt;. \nВона надається «як є», на умовах ліцензії &lt;strong&gt;GPLv3&lt;/strong&gt;, без жодних гарантій.</string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft має &lt;strong&gt;відкритим код&lt;/strong&gt; та &lt;strong&gt;не містить реклами&lt;/strong&gt;. \nВін надається «як є», на умовах ліцензії &lt;strong&gt;GPLv3&lt;/strong&gt;, без жодних гарантій.</string>
     <string name="select_database_file">Відкрити наявне сховище</string>
     <string name="entry_accessed">Останній доступ</string>
     <string name="entry_cancel">Скасувати</string>
@@ -143,7 +143,7 @@
     <string name="allow_copy_password_summary">Дозволити копіювати пароль запису й захищені поля до буфера обміну</string>
     <string name="content_description_file_information">Відомості про файл</string>
     <string name="content_description_add_entry">Додати запис</string>
-    <string name="content_description_background">Фон</string>
+    <string name="content_description_background">Тло</string>
     <string name="clipboard_error_clear">Не вдалося очистити буфер обміну</string>
     <string name="clipboard_error">Деякі пристрої не дозволяють застосункам використовувати буфер обміну.</string>
     <string name="clipboard_error_title">Помилка буфера обміну</string>
@@ -234,7 +234,7 @@
     <string name="discard">Відхилити</string>
     <string name="discard_changes">Відхилити зміни\?</string>
     <string name="validate">Підтвердити</string>
-    <string name="content_description_entry_icon">Іконка запису</string>
+    <string name="content_description_entry_icon">Піктограма запису</string>
     <string name="content_description_repeat_toggle_password_visibility">Повторно перемкнути видимість пароля</string>
     <string name="content_description_password_checkbox">Прапорець «Пароль»</string>
     <string name="content_description_add_node">Додати вузол</string>
@@ -561,11 +561,11 @@
     <string name="template_group_name">Шаблони</string>
     <string name="show_otp_token_summary">Типово показувати токени OTP</string>
     <string name="show_otp_token_title">Показувати токен OTP</string>
-    <string name="menu_external_icon">Зовнішня іконка</string>
+    <string name="menu_external_icon">Зовнішня піктограма</string>
     <string name="autofill_manual_selection_summary">Показувати можливість вибрати запис бази даних вручну</string>
     <string name="autofill_manual_selection_title">Ручний вибір</string>
     <string name="autofill_select_entry">Вибрати запис…</string>
-    <string name="hint_icon_name">Назва іконки</string>
+    <string name="hint_icon_name">Назва піктограми</string>
     <string name="permission">Дозвіл</string>
     <string name="warning_exact_alarm">Ви не дозволили застосунку використовувати точні будильники. Через це функції з таймером можуть спрацьовувати не точно в заданий час.</string>
     <string name="content_description_database_color">Колір бази даних</string>
@@ -634,7 +634,7 @@
     <string name="error_location_unknown">Розташування бази даних невідоме, тому дію неможливо виконати.</string>
     <string name="error_empty_key">Ключ не може бути порожнім.</string>
     <string name="corrupted_file">Пошкоджений файл.</string>
-    <string name="html_about_privacy">&lt;strong&gt;Жодні дані користувача не збираються&lt;/strong&gt;, цей застосунок не підключається до жодного сервера, працює лише локально та повністю поважає конфіденційність користувачів.</string>
+    <string name="html_about_privacy">&lt;strong&gt;Жодні дані користувача не збираються&lt;/strong&gt;, цей застосунок не під\'єднується до жодного сервера, працює лише локально та цілком поважає приватність користувачів.</string>
     <string name="auto_type">Автовведення</string>
     <string name="merge_success">Об’єднання успішно завершено</string>
     <string name="menu_app_settings_summary">Пошук, блокування, історія, властивості</string>
