@@ -27,8 +27,6 @@ import com.kunzisoft.keepass.database.element.template.TemplateField.LABEL_NUMBE
 
 object CreditCardEntryFields {
 
-    const val CREDIT_CARD_TAG = "Credit Card"
-
     /**
      * Parse fields of an entry to retrieve a Passkey
      */
@@ -48,7 +46,6 @@ object CreditCardEntryFields {
 
     fun EntryInfo.setCreditCard(creditCard: CreditCard?) {
         if (creditCard != null) {
-            tags.put(CREDIT_CARD_TAG)
             creditCard.cardholder?.let {
                 addOrReplaceField(
                     Field(
@@ -81,7 +78,6 @@ object CreditCardEntryFields {
      */
     fun Field.isCreditCard(): Boolean {
         return when(name) {
-            CREDIT_CARD_TAG -> true
             LABEL_HOLDER -> true
             LABEL_NUMBER -> true
             LABEL_CVV -> true

@@ -69,7 +69,6 @@ import com.kunzisoft.keepass.utils.MenuUtil
 import com.kunzisoft.keepass.utils.UriUtil.openUrl
 import com.kunzisoft.keepass.utils.getParcelableCompat
 import com.kunzisoft.keepass.view.asError
-import com.kunzisoft.keepass.view.showActionErrorIfNeeded
 import com.kunzisoft.keepass.viewmodels.DatabaseFilesViewModel
 import com.kunzisoft.keepass.viewmodels.SetMainCredentialViewModel
 import kotlinx.coroutines.launch
@@ -99,6 +98,8 @@ class FileDatabaseSelectActivity : DatabaseModeActivity() {
     private val mSetMainCredentialViewModel: SetMainCredentialViewModel by viewModels()
 
     override fun manageDatabaseInfo(): Boolean  = false
+
+    override fun errorCoordinatorView(): View = coordinatorLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -260,7 +261,6 @@ class FileDatabaseSelectActivity : DatabaseModeActivity() {
                         database,
                         false
                     )
-                    coordinatorLayout.showActionErrorIfNeeded(result)
                 }
                 ACTION_DATABASE_LOAD_TASK -> {
                     launchGroupActivityIfLoaded(database)

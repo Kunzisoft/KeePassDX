@@ -5,6 +5,7 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.util.Log
+import androidx.core.graphics.scale
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.element.binary.BinaryCache
 import com.kunzisoft.keepass.database.element.binary.BinaryData
@@ -19,6 +20,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
+import java.io.IOException
 import java.io.InputStream
 import java.io.OutputStream
 import kotlin.math.ceil
@@ -28,24 +30,29 @@ import kotlin.math.pow
 
 object BinaryDatabaseManager {
 
-    fun downloadFromDatabase(database: ContextualDatabase,
-                             attachmentToUploadUri: Uri,
-                             binaryData: BinaryData,
-                             contentResolver: ContentResolver,
-                             update: ((percent: Int)->Unit)? = null,
-                             canceled: ()-> Boolean = { false },
-                             bufferSize: Int = DEFAULT_BUFFER_SIZE) {
-        contentResolver.getUriOutputStream(attachmentToUploadUri)?.use { outputStream ->
+    fun downloadFromDatabase(
+        database: ContextualDatabase,
+        attachmentToUploadUri: Uri,
+        binaryData: BinaryData,
+        contentResolver: ContentResolver,
+        update: ((percent: Int)->Unit)? = null,
+        canceled: ()-> Boolean = { false },
+        bufferSize: Int = DEFAULT_BUFFER_SIZE
+    ) {
+        (contentResolver.getUriOutputStream(attachmentToUploadUri)
+            ?: throw IOException("Unable to open output stream")).use { outputStream ->
             downloadFromDatabase(database.binaryCache, outputStream, binaryData, update, canceled, bufferSize)
         }
     }
 
-    private fun downloadFromDatabase(binaryCache: BinaryCache,
-                                     outputStream: OutputStream,
-                                     binaryData: BinaryData,
-                                     update: ((percent: Int)->Unit)? = null,
-                                     canceled: ()-> Boolean = { false },
-                                     bufferSize: Int = DEFAULT_BUFFER_SIZE) {
+    private fun downloadFromDatabase(
+        binaryCache: BinaryCache,
+        outputStream: OutputStream,
+        binaryData: BinaryData,
+        update: ((percent: Int)->Unit)? = null,
+        canceled: ()-> Boolean = { false },
+        bufferSize: Int = DEFAULT_BUFFER_SIZE
+    ) {
         val fileSize = binaryData.getSize()
         var dataDownloaded = 0L
         binaryData.getUnGzipInputDataStream(binaryCache).use { inputStream ->
@@ -62,26 +69,33 @@ object BinaryDatabaseManager {
         }
     }
 
-    fun uploadToDatabase(database: ContextualDatabase,
-                         attachmentFromDownloadUri: Uri,
-                         binaryData: BinaryData,
-                         contentResolver: ContentResolver,
-                         update: ((percent: Int)->Unit)? = null,
-                         canceled: ()-> Boolean = { false },
-                         bufferSize: Int = DEFAULT_BUFFER_SIZE) {
-        val fileSize = contentResolver.openFileDescriptor(attachmentFromDownloadUri, "r")?.statSize ?: 0
-        contentResolver.getUriInputStream(attachmentFromDownloadUri)?.use { inputStream ->
+    fun uploadToDatabase(
+        database: ContextualDatabase,
+        attachmentFromDownloadUri: Uri,
+        binaryData: BinaryData,
+        contentResolver: ContentResolver,
+        update: ((percent: Int)->Unit)? = null,
+        canceled: ()-> Boolean = { false },
+        bufferSize: Int = DEFAULT_BUFFER_SIZE
+    ) {
+        val fileSize = contentResolver.openFileDescriptor(attachmentFromDownloadUri, "r")?.use {
+            it.statSize
+        } ?: 0
+        (contentResolver.getUriInputStream(attachmentFromDownloadUri)
+            ?: throw IOException("Unable to open input stream")).use { inputStream ->
             uploadToDatabase(database.binaryCache, inputStream, fileSize, binaryData, update, canceled, bufferSize)
         }
     }
 
-    private fun uploadToDatabase(binaryCache: BinaryCache,
-                                 inputStream: InputStream,
-                                 fileSize: Long,
-                                 binaryData: BinaryData,
-                                 update: ((percent: Int)->Unit)? = null,
-                                 canceled: ()-> Boolean = { false },
-                                 bufferSize: Int = DEFAULT_BUFFER_SIZE) {
+    private fun uploadToDatabase(
+        binaryCache: BinaryCache,
+        inputStream: InputStream,
+        fileSize: Long,
+        binaryData: BinaryData,
+        update: ((percent: Int)->Unit)? = null,
+        canceled: ()-> Boolean = { false },
+        bufferSize: Int = DEFAULT_BUFFER_SIZE
+    ) {
         var dataUploaded = 0L
         binaryData.getGzipOutputDataStream(binaryCache).use { outputStream ->
             inputStream.readAllBytes(bufferSize, canceled) { buffer ->
@@ -97,17 +111,19 @@ object BinaryDatabaseManager {
         }
     }
 
-    fun resizeBitmapAndStoreDataInBinaryFile(contentResolver: ContentResolver,
-                                             database: ContextualDatabase,
-                                             bitmapUri: Uri?,
-                                             binaryData: BinaryData?) {
+    fun resizeBitmapAndStoreDataInBinaryFile(
+        contentResolver: ContentResolver,
+        database: ContextualDatabase,
+        bitmapUri: Uri?,
+        binaryData: BinaryData?
+    ) {
         try {
             binaryData?.let {
                 contentResolver.getUriInputStream(bitmapUri)?.use { inputStream ->
                     BitmapFactory.decodeStream(inputStream)?.let { bitmap ->
                         val bitmapResized = bitmap.resize(DEFAULT_ICON_WIDTH)
                         val byteArrayOutputStream = ByteArrayOutputStream()
-                        bitmapResized?.compress(Bitmap.CompressFormat.PNG, 0, byteArrayOutputStream)
+                        bitmapResized.compress(Bitmap.CompressFormat.PNG, 0, byteArrayOutputStream)
                         val bitmapData: ByteArray = byteArrayOutputStream.toByteArray()
                         val byteArrayInputStream = ByteArrayInputStream(bitmapData)
                         uploadToDatabase(
@@ -130,7 +146,7 @@ object BinaryDatabaseManager {
      * @param maxSize
      * @return
      */
-    private fun Bitmap.resize(maxSize: Int): Bitmap? {
+    private fun Bitmap.resize(maxSize: Int): Bitmap {
         var width = this.width
         var height = this.height
         val bitmapRatio = width.toFloat() / height.toFloat()
@@ -141,7 +157,7 @@ object BinaryDatabaseManager {
             height = maxSize
             width = (height * bitmapRatio).toInt()
         }
-        return Bitmap.createScaledBitmap(this, width, height, true)
+        return this.scale(width, height)
     }
 
     fun loadBitmap(
@@ -169,9 +185,11 @@ object BinaryDatabaseManager {
         }
     }
 
-    private fun decodeSampledBitmap(binaryData: BinaryData,
-                                    binaryCache: BinaryCache,
-                                    maxWidth: Int): Bitmap? {
+    private fun decodeSampledBitmap(
+        binaryData: BinaryData,
+        binaryCache: BinaryCache,
+        maxWidth: Int
+    ): Bitmap? {
         // First decode with inJustDecodeBounds=true to check dimensions
         return BitmapFactory.Options().run {
             try {
@@ -191,7 +209,7 @@ object BinaryDatabaseManager {
                 binaryData.getUnGzipInputDataStream(binaryCache).use {
                     BitmapFactory.decodeStream(it, null, this)
                 }
-            } catch (e: Exception) {
+            } catch (_: Exception) {
                 null
             }
         }

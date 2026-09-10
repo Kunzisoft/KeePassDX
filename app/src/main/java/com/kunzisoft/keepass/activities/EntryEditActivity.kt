@@ -69,6 +69,7 @@ import com.kunzisoft.keepass.credentialprovider.UserVerificationHelper.Companion
 import com.kunzisoft.keepass.credentialprovider.passkey.util.PasskeyHelper.buildPasskeyResponseAndSetResult
 import com.kunzisoft.keepass.credentialprovider.passkey.util.PasswordHelper.buildPasswordResponseAndSetResult
 import com.kunzisoft.keepass.database.ContextualDatabase
+import com.kunzisoft.keepass.database.element.Attachment
 import com.kunzisoft.keepass.database.element.DateInstant
 import com.kunzisoft.keepass.database.element.EntryId
 import com.kunzisoft.keepass.database.element.Field
@@ -100,7 +101,6 @@ import com.kunzisoft.keepass.view.applyWindowInsets
 import com.kunzisoft.keepass.view.asError
 import com.kunzisoft.keepass.view.hideByFading
 import com.kunzisoft.keepass.view.setTransparentNavigationBar
-import com.kunzisoft.keepass.view.showActionErrorIfNeeded
 import com.kunzisoft.keepass.view.showByFading
 import com.kunzisoft.keepass.view.showError
 import com.kunzisoft.keepass.view.updateButtonPaddingEnd
@@ -117,6 +117,7 @@ class EntryEditActivity : DatabaseLockActivity() {
 
     // Views
     private var container: View? = null
+    private var coordinatorError: CoordinatorLayout? = null
     private var coordinatorLayout: CoordinatorLayout? = null
     private var scrollView: NestedScrollView? = null
     private var templateSelectorSpinner: Spinner? = null
@@ -161,6 +162,8 @@ class EntryEditActivity : DatabaseLockActivity() {
 
     override fun manageDatabaseInfo(): Boolean = true
 
+    override fun errorCoordinatorView(): View? = coordinatorError
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_entry_edit)
@@ -168,6 +171,7 @@ class EntryEditActivity : DatabaseLockActivity() {
         // Bottom Bar
         entryEditAddToolBar = findViewById(R.id.entry_edit_bottom_bar)
         container = findViewById(R.id.activity_entry_edit_container)
+        coordinatorError = findViewById(R.id.error_coordinator)
         coordinatorLayout = findViewById(R.id.entry_edit_coordinator_layout)
         scrollView = findViewById(R.id.entry_edit_scroll)
         scrollView?.scrollBarStyle = View.SCROLLBARS_INSIDE_INSET
@@ -403,6 +407,15 @@ class EntryEditActivity : DatabaseLockActivity() {
                 launch {
                     mAttachmentsViewModel.attachmentEvents.collect { event ->
                         when (event) {
+                            is AttachmentsViewModel.AttachmentEvent.OnBuildNewAttachment -> {
+                                mDatabaseViewModel.buildNewBinaryAttachment()?.let { binaryAttachment ->
+                                    mAttachmentsViewModel.onNewBinaryAttachmentBuilt(
+                                        attachment = Attachment(event.fileName, binaryAttachment),
+                                        allowMultipleAttachment = mDatabase?.allowMultipleAttachments ?: true,
+                                        attachmentToUploadUri = event.attachmentToUploadUri
+                                    )
+                                }
+                            }
                             is AttachmentsViewModel.AttachmentEvent.OnStartUploadAttachment -> {
                                 // Start uploading in service
                                 mAttachmentFileBinderManager?.startUploadAttachment(
@@ -521,7 +534,6 @@ class EntryEditActivity : DatabaseLockActivity() {
                 }
             }
         }
-        coordinatorLayout?.showActionErrorIfNeeded(result)
     }
 
     private fun entryValidatedForSave(entry: EntryInfo) {

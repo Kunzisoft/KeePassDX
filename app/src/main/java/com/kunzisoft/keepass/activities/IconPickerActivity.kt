@@ -67,6 +67,7 @@ class IconPickerActivity : DatabaseLockActivity() {
 
     private lateinit var toolbar: Toolbar
     private lateinit var coordinatorLayout: CoordinatorLayout
+    private lateinit var container: ViewGroup
     private lateinit var uploadButton: View
     private var lockView: View? = null
 
@@ -95,6 +96,7 @@ class IconPickerActivity : DatabaseLockActivity() {
         updateIconsSelectedViews()
 
         coordinatorLayout = findViewById(R.id.icon_picker_coordinator)
+        container = findViewById(R.id.icon_picker_container)
 
         mExternalFileHelper = ExternalFileHelper(this)
         mExternalFileHelper?.buildOpenDocument { uri ->
@@ -198,9 +200,7 @@ class IconPickerActivity : DatabaseLockActivity() {
         }
     }
 
-    override fun viewToInvalidateTimeout(): View? {
-        return findViewById<ViewGroup>(R.id.icon_picker_container)
-    }
+    override fun viewToInvalidateTimeout(): View = container
 
     override fun finishActivityIfReloadRequested(): Boolean = true
 
@@ -304,10 +304,11 @@ class IconPickerActivity : DatabaseLockActivity() {
                                     iconCustomState.iconCustom = customIcon
                                     mDatabase?.let { database ->
                                         BinaryDatabaseManager.resizeBitmapAndStoreDataInBinaryFile(
-                                                contentResolver,
-                                                database,
-                                                iconToUploadUri,
-                                                binary)
+                                            contentResolver,
+                                            database,
+                                            iconToUploadUri,
+                                            binary
+                                        )
                                         when {
                                             binary == null -> {
                                             }

@@ -21,7 +21,6 @@ package com.kunzisoft.keepass.database.action
 
 import android.content.Context
 import com.kunzisoft.keepass.database.ContextualDatabase
-import com.kunzisoft.keepass.database.exception.DatabaseException
 import com.kunzisoft.keepass.database.exception.UnknownDatabaseLocationException
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
@@ -35,32 +34,26 @@ class ReloadDatabaseRunnable(
     private val progressTaskUpdater: ProgressTaskUpdater?
 ) : ActionRunnable() {
 
-    var afterReloadDatabase : ((Result) -> Unit)? = null
-
     private val binaryDir = context.getBinaryDir()
-
-    override fun onStartRun() {
-        // Clear before we load
-        mDatabase.clearIndexesAndBinaries(binaryDir)
-        mDatabase.wasReloaded = true
-    }
+    var afterReloadDatabase : ((Result) -> Unit)? = null
 
     override fun onActionRun() {
         try {
-            mDatabase.reloadData(
-                databaseStream = context.contentResolver.getUriInputStream(mDatabase.fileUri)
-                    ?: throw UnknownDatabaseLocationException(),
-                limits = context.getLimits(),
-                progressTaskUpdater = progressTaskUpdater
-            )
-        } catch (e: DatabaseException) {
+            mDatabase.apply {
+                val databaseStream = context.contentResolver.getUriInputStream(fileUri)
+                    ?: throw UnknownDatabaseLocationException()
+                // Clear before database load
+                clearIndexesAndBinaries(binaryDir)
+                reloadData(
+                    databaseStream = databaseStream,
+                    limits = context.getLimits(),
+                    progressTaskUpdater = progressTaskUpdater
+                )
+                wasReloaded = true
+                indicateUpToDateData()
+            }
+        } catch (e: Exception) {
             setError(e)
-        } finally {
-            mDatabase.indicateUpToDateData()
-        }
-
-        if (!result.isSuccess) {
-            mDatabase.clearAndClose(binaryDir)
         }
     }
 

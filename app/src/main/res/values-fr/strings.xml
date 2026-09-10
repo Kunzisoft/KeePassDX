@@ -771,6 +771,7 @@
     <string name="error_missing_parent">Cette action ne peut être effectuée sans parent.</string>
     <string name="temporary_merge_success">La fusion des données temporaires s\'est déroulée avec succès</string>
     <string name="reload_success">Le rechargement s\'est déroulé avec succès</string>
+    <string name="save_success">La sauvegarde s\'est déroulée avec succès</string>
     <string name="autofill_suggestions_title">Suggestions de saisie automatique</string>
     <string name="autofill_suggestions_summary">Utilise l\'algorithme de reconnaissance de formulaires pour proposer des entrées</string>
     <string name="passkey_pseudo_random_function">Fonction pseudo-aléatoire de clé d\'accès</string>

@@ -88,9 +88,11 @@ class SearchFragment: DatabaseFragment() {
     // Use the inner EditText for the keyboard
     private fun showKeyboard(view: View) {
         if (!mSearchViewModel.autoSearch && view.hasFocus()) {
-            if (PreferencesUtil.isKeyboardPreviousSearchEnable(requireContext())) {
-                // Change to the previous keyboard and show it
-                context?.sendBroadcast(Intent(BACK_PREVIOUS_KEYBOARD_ACTION))
+            context?.applicationContext?.let { context ->
+                if (PreferencesUtil.isKeyboardPreviousSearchEnable(context)) {
+                    // Change to the previous keyboard and show it
+                    context.sendBroadcast(Intent(BACK_PREVIOUS_KEYBOARD_ACTION))
+                }
             }
             val innerEditText = view.findViewById<View>(androidx.appcompat.R.id.search_src_text)
             (innerEditText ?: view).post {

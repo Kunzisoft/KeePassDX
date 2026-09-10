@@ -41,8 +41,10 @@ import com.kunzisoft.keepass.otp.OtpEntryFields.setOtp
 import com.kunzisoft.keepass.utils.CharArrayUtil.clear
 import com.kunzisoft.keepass.utils.readCharArrayCompat
 import com.kunzisoft.keepass.utils.readListCompat
+import com.kunzisoft.keepass.utils.readNullableIntCompat
 import com.kunzisoft.keepass.utils.readParcelableCompat
 import com.kunzisoft.keepass.utils.writeCharArrayCompat
+import com.kunzisoft.keepass.utils.writeNullableIntCompat
 import java.util.Locale
 
 /**
@@ -104,10 +106,8 @@ open class EntryInfo : NodeInfo {
         password = parcel.readCharArrayCompat() ?: password
         url = parcel.readString() ?: url
         notes = parcel.readString() ?: notes
-        val readBgColor = parcel.readInt()
-        backgroundColor = if (readBgColor == -1) null else readBgColor
-        val readFgColor = parcel.readInt()
-        foregroundColor = if (readFgColor == -1) null else readFgColor
+        backgroundColor = parcel.readNullableIntCompat()
+        foregroundColor = parcel.readNullableIntCompat()
         parcel.readListCompat(customFields)
         parcel.readListCompat(attachments)
         autoType = parcel.readParcelableCompat() ?: autoType
@@ -129,8 +129,8 @@ open class EntryInfo : NodeInfo {
         parcel.writeCharArrayCompat(password)
         parcel.writeString(url)
         parcel.writeString(notes)
-        parcel.writeInt(backgroundColor ?: -1)
-        parcel.writeInt(foregroundColor ?: -1)
+        parcel.writeNullableIntCompat(backgroundColor)
+        parcel.writeNullableIntCompat(foregroundColor)
         parcel.writeList(customFields)
         parcel.writeList(attachments)
         parcel.writeParcelable(autoType, flags)
