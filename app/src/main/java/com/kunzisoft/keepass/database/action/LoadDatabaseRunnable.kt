@@ -55,10 +55,10 @@ class LoadDatabaseRunnable(
                 ?: throw UnknownDatabaseLocationException()
             masterCredential = mMainCredential.toMasterCredential(contentResolver)
             mDatabase.apply {
-                // Save database URI
-                fileUri = mDatabaseUri
                 // Clear binaries before database loading
                 clearAndClose(binaryDir)
+                // Save database URI
+                fileUri = mDatabaseUri
                 loadData(
                     databaseStream = databaseStream,
                     masterCredential = masterCredential!!,
