@@ -218,7 +218,7 @@
     <string name="education_entry_edit_title">Editar entrada</string>
     <string name="education_entry_edit_summary">Edita tu entrada con campos personalizados. Se pueden añadir referencias entre campos de distintos elementos.</string>
     <string name="education_generate_password_title">Crear una contraseña segura</string>
-    <string name="education_generate_password_summary">Genera una contraseña segura para asociarla a tu entrada. Defínela fácilmente según los criterios del formulario y no olvides proteger la contraseña.</string>
+    <string name="education_generate_password_summary">Genera una contraseña segura para asociarla a tu entrada. Defínela fácilmente según los criterios del formulario y no la olvides.</string>
     <string name="education_entry_new_field_title">Añadir campos personalizados</string>
     <string name="education_entry_new_field_summary">Registra un campo adicional, añade un valor y, opcionalmente, protégelo.</string>
     <string name="education_unlock_title">Desbloquee su base de datos</string>
@@ -501,7 +501,7 @@
     <string name="unit_byte">B</string>
     <string name="autofill_inline_suggestions_title">Sugerencias en línea</string>
     <string name="warning_database_info_changed_options">Fusionar los datos, sobrescribir las modificaciones externas guardando la base de datos o recargarla con los últimos cambios.</string>
-    <string name="warning_database_info_changed">La información contenida en su archivo de base de datos ha sido modificada fuera de la aplicación.</string>
+    <string name="warning_database_info_changed">La información contenida en tu de base de datos ha sido modificada fuera de la aplicación.</string>
     <string name="menu_reload_database">Recargar datos</string>
     <string name="error_otp_type">El tipo de OTP existente no es reconocido por este formulario, y es posible que su validación ya no genere correctamente el token.</string>
     <string name="download_canceled">¡Cancelada!</string>
@@ -671,7 +671,7 @@
     <string name="style_name_follow_system">Seguir el sistema</string>
     <string name="style_name_light">Claro</string>
     <string name="style_name_dark">Oscuro</string>
-    <string name="warning_database_info_changed_options_read_only">Recargue la base de datos con los últimos cambios.</string>
+    <string name="warning_database_info_changed_options_read_only">Vuelve a cargar la base de datos con los cambios más recientes.</string>
     <string name="nodes">Nodos</string>
     <string name="recursive_number_entries_summary">Calcula recursivamente el número de apuntes en un grupo</string>
     <string name="warning_large_keyfile">No se recomienda agregar un archivo de clave grande , esto puede impedir que se abra la base de datos.</string>
