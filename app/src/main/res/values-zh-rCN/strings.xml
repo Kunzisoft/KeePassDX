@@ -777,4 +777,5 @@
     <string name="error_load_database_KDF_parallelism">KDF 并行度过高。</string>
     <string name="parallelism_set_safe">设置处理器数量</string>
     <string name="error_load_database_KDF_iteration">KDF 迭代过高。</string>
+    <string name="save_success">成功完成了保存</string>
 </resources>
