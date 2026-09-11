@@ -28,6 +28,7 @@ class KeyGeneratorActivity : DatabaseLockActivity() {
 
     private lateinit var toolbar: Toolbar
     private lateinit var coordinatorLayout: CoordinatorLayout
+    private lateinit var container: ViewGroup
     private lateinit var validationButton: View
     private var lockView: View? = null
 
@@ -47,6 +48,7 @@ class KeyGeneratorActivity : DatabaseLockActivity() {
         supportActionBar?.setDisplayShowHomeEnabled(true)
 
         coordinatorLayout = findViewById(R.id.key_generator_coordinator)
+        container = findViewById(R.id.key_generator_container)
 
         lockView = findViewById(R.id.lock_button)
         lockView?.setOnClickListener {
@@ -80,9 +82,7 @@ class KeyGeneratorActivity : DatabaseLockActivity() {
         }
     }
 
-    override fun viewToInvalidateTimeout(): View? {
-        return findViewById<ViewGroup>(R.id.key_generator_container)
-    }
+    override fun viewToInvalidateTimeout(): View = container
 
     override fun onResume() {
         super.onResume()

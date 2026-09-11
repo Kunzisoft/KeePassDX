@@ -130,7 +130,7 @@
     <string name="html_about_licence">KeePassDX © %1$d Kunzisoft jest &lt;strong&gt;open source&lt;/strong&gt; i &lt;strong&gt;bez reklam&lt;/strong&gt;. \nJest on dostarczany w stanie, zgodnie z licencją &lt;strong&gt;GPLv3&lt;/strong&gt; bez żadnych gwarancji.</string>
     <string name="entry_not_found">Nie znaleziono danych wejściowych.</string>
     <string name="error_load_database">Nie można załadować bazy danych.</string>
-    <string name="error_load_database_KDF_memory">Zbyt wysokie użycie pamięci KDF. Nie można załadować.</string>
+    <string name="error_load_database_KDF_memory">Zbyt wysokie użycie pamięci KDF.</string>
     <string name="error_string_key">Każdy ciąg musi mieć nazwę pola.</string>
     <string name="error_autofill_enable_service">Nie można włączyć usługi automatycznego wypełniania.</string>
     <string name="field_name">Nazwa pola</string>
@@ -765,6 +765,7 @@
     <string name="autofill_suggestions_title">Sugestie automatycznego wypełniania</string>
     <string name="autofill_suggestions_summary">Użyj algorytmu rozpoznawania formularzy, aby sugerować wpisy</string>
     <string name="passkey_pseudo_random_function">Funkcja pseudolosowa klucza dostępu</string>
-    <string name="error_load_database_KDF_parallelism">Zbyt wysoki poziom równoległości KDF. Nie można załadować.</string>
+    <string name="error_load_database_KDF_parallelism">Zbyt wysoka równoległość KDF.</string>
     <string name="parallelism_set_safe">Ustaw liczbę procesorów</string>
+    <string name="error_load_database_KDF_iteration">Zbyt wysokie iteracje KDF.</string>
 </resources>

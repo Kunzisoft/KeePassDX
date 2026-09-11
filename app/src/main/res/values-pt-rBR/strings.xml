@@ -234,7 +234,7 @@
     <string name="education_entry_edit_title">Modifique a entrada</string>
     <string name="education_entry_edit_summary">Edite a sua entrada com campos personalizados. Os conjuntos de dados podem ser referenciados entre campos de entradas diferentes.</string>
     <string name="education_generate_password_title">Criar uma senha forte</string>
-    <string name="education_generate_password_summary">Gere uma senha forte para associar a sua entrada, defina-a facilmente de acordo com os critérios do formulário e lembre-se de torná-la segura.</string>
+    <string name="education_generate_password_summary">Gere uma senha forte para associar ao seu registro, defina-a facilmente de acordo com os critérios do formulário e não se esqueça dela.</string>
     <string name="education_entry_new_field_title">Adicione campos customizados</string>
     <string name="education_entry_new_field_summary">Registre um campo adicional, adicione um valor e, opcionalmente, proteja-o.</string>
     <string name="education_unlock_title">Desbloqueie seu banco de dados</string>
@@ -272,7 +272,7 @@
     <string name="icon_pack_choose_summary">Pacote de ícones usado no aplicativo</string>
     <string name="edit_entry">Editar entrada</string>
     <string name="error_load_database">Não foi possível carregar o banco de dados.</string>
-    <string name="error_load_database_KDF_memory">Não pôde carregar a chave. Tente diminuir o \"Uso de Memória\" do KDF.</string>
+    <string name="error_load_database_KDF_memory">Uso de memória do KDF muito alto.</string>
     <string name="list_entries_show_username_title">Mostrar nomes de usuário</string>
     <string name="list_entries_show_username_summary">Exibe nomes de usuário em listas de entrada</string>
     <string name="clipboard">Área de transferência</string>
@@ -509,7 +509,7 @@
     <string name="configure_biometric">Nenhuma credencial biométrica ou de dispositivo está registrada.</string>
     <string name="warning_database_revoked">Acesso ao arquivo revogado pelo gerenciador de arquivos, feche o banco de dados e reabra-o de sua localização.</string>
     <string name="warning_database_info_changed_options">Mescle os dados, substitua as modificações externas salvando o banco de dados ou recarregue-o com as alterações mais recentes.</string>
-    <string name="warning_database_info_changed">As informações contidas em seu arquivo de banco de dados foram modificadas fora do aplicativo.</string>
+    <string name="warning_database_info_changed">As informações contidas no seu banco de dados foram modificadas fora do aplicativo.</string>
     <string name="warning_empty_recycle_bin">Deletar permanentemente todos os nós da lixeira\?</string>
     <string name="error_export_app_properties">Houve um erro durante a exportação das configurações do aplicativo.</string>
     <string name="success_export_app_properties">As configurações do aplicativo foram exportadas</string>
@@ -523,7 +523,7 @@
     <string name="save_mode">Modo salvar</string>
     <string name="search_mode">Modo busca</string>
     <string name="menu_external_icon">Ícone externo</string>
-    <string name="show_otp_token_summary">Exibe tokens OTP na lista de entradas</string>
+    <string name="show_otp_token_summary">Exibe tokens OTP por padrão</string>
     <string name="show_otp_token_title">Mostrar token OTP</string>
     <string name="show_uuid_summary">Exibe o UUID vinculado a uma entrada ou grupo</string>
     <string name="show_uuid_title">Mostrar UUID</string>
@@ -685,7 +685,7 @@
     <string name="style_name_simple">Simples</string>
     <string name="style_name_divine">Divino</string>
     <string name="style_name_dark">Escuro</string>
-    <string name="warning_database_info_changed_options_read_only">Recarregar o banco de dados com as alterações mais recentes.</string>
+    <string name="warning_database_info_changed_options_read_only">Por favor, recarregue o banco de dados com as alterações mais recentes.</string>
     <string name="generate_keyfile">Gerar arquivo-chave</string>
     <string name="nodes">Nós</string>
     <string name="recursive_number_entries_title">Quantidade recursiva de entradas</string>
@@ -704,7 +704,7 @@
     <string name="passkeys_privileged_apps_ask_message">%1$s tenta fazer uma ação de Passkey.\n\nAdicionar à lista de aplicativos privilegiados?</string>
     <string name="passkeys_missing_signature_app_ask_title">Assinatura faltando</string>
     <string name="passkeys_missing_signature_app_ask_explanation">AVISO: A chave de acesso foi criada a partir de outro cliente ou a assinatura foi excluída. Certifique-se de que o aplicativo que você deseja autenticar faz parte do mesmo serviço e é legítimo para evitar problemas de segurança.\nSe o aplicativo for um navegador, não adicione sua assinatura à entrada, mas à lista de aplicativos privilegiados nas configurações.</string>
-    <string name="passkeys_missing_signature_app_ask_message">%1$s não é reconhecido e tenta autenticar com uma Passkey existente.</string>
+    <string name="passkeys_missing_signature_app_ask_message">%1$s não é reconhecido e tenta autenticar com uma passkey existente.</string>
     <string name="passkeys_missing_signature_app_ask_question">Adicionar a assinatura do aplicativo à entrada de chave de acesso?</string>
     <string name="passkeys_auto_select_title">Auto selecionar</string>
     <string name="passkeys_auto_select_summary">Selecionar automaticamente se houver apenas uma entrada e o banco de dados estiver aberto, apenas se o aplicativo solicitante for compatível</string>
@@ -749,7 +749,7 @@
     <string name="autofill_share_magikeyboard_title">Compartilhar com o Magikeyboard</string>
     <string name="autofill_share_magikeyboard_summary">Compartilhar entradas recuperadas do preenchimento automático com o Magikeyboard</string>
     <string name="education_user_verification_title">Verificação para ações sensíveis</string>
-    <string name="error_passkey_credential_id">Nenhuma chave de acesso encontrada para a parte confiável %1$s e os ids de credencial %2$s</string>
+    <string name="error_passkey_credential_id">Nenhuma passkey encontrada para a parte confiável %1$s e os ids de credencial %2$s</string>
     <string name="password_creation_description">Salvar senha em nova entrada</string>
     <string name="password_selection_description">Selecionar uma senha existente</string>
     <string name="error_password_result">Não foi possível retornar a senha</string>
@@ -767,4 +767,15 @@
     <string name="benchmark_calculation">Calcular para %1$s s</string>
     <string name="keyboard_share_browser">Compartilhar de %1$s para KeePassDX</string>
     <string name="benchmarking">Avaliando performance…</string>
+    <string name="error_load_database_KDF_iteration">Iteração do KDF muito alta.</string>
+    <string name="error_load_database_KDF_parallelism">Paralelismo do KDF muito alto.</string>
+    <string name="error_memory_too_large">\"Uso de memória\" muito alto. Definindo para %1$s.</string>
+    <string name="error_parallelism_too_large">\"Paralelismo\" muito alto. Definindo para %1$s.</string>
+    <string name="error_missing_parent">Esta ação não pode ser realizada sem um elemento pai.</string>
+    <string name="parallelism_set_safe">Definir número de processadores</string>
+    <string name="temporary_merge_success">Mesclagem de dados temporários concluída com sucesso</string>
+    <string name="reload_success">Recarregamento concluído com sucesso</string>
+    <string name="autofill_suggestions_title">Sugestões de preenchimento automático</string>
+    <string name="autofill_suggestions_summary">Use o algoritmo de reconhecimento de formulários para sugerir entradas</string>
+    <string name="passkey_pseudo_random_function">Função Pseudoaleatória de Chave de Acesso</string>
 </resources>
