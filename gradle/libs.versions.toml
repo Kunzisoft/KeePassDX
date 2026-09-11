@@ -25,7 +25,8 @@ autofill = "1.1.0"
 chroma = "2.6"
 taptargetview = "1.13.3"
 nbvcxz = "1.5.1"
-credentials = "1.2.2"
+credentials = "1.5.0"
+providerevents = "1.0.0-beta01"
 bouncycastle = "1.84"
 junit = "4.13.2"
 robolectric = "4.11.1"
@@ -58,6 +59,7 @@ taptargetview = { group = "com.getkeepsafe.taptargetview", name = "taptargetview
 commons-io = { group = "commons-io", name = "commons-io", version.ref = "commons-io" }
 nbvcxz = { group = "me.gosimple", name = "nbvcxz", version.ref = "nbvcxz" }
 androidx-credentials = { group = "androidx.credentials", name = "credentials", version.ref = "credentials" }
+androidx-providerevents = { group = "androidx.credentials.providerevents", name = "providerevents", version.ref = "providerevents" }
 bouncycastle-pkix = { group = "org.bouncycastle", name = "bcpkix-jdk18on", version.ref = "bouncycastle" }
 androidx-test-runner = { group = "androidx.test", name = "runner", version.ref = "android-test" }
 androidx-test-core = { group = "androidx.test", name = "core", version.ref = "android-test" }

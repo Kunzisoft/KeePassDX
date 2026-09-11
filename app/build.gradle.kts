@@ -17,7 +17,7 @@ android {
 
     defaultConfig {
         applicationId = "com.kunzisoft.keepass"
-        minSdk = 19
+        minSdk = 21
         targetSdk = 36
         versionCode = 45400
         versionName = "4.5.4"
@@ -160,6 +160,7 @@ dependencies {
     // Credentials
     implementation(libs.nbvcxz)
     implementation(libs.androidx.credentials)
+    implementation(libs.androidx.providerevents)
     // Modules import
     implementation(project(":database"))
     implementation(project(":icon-pack"))

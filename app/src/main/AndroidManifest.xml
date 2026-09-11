@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:installLocation="auto">
+    <uses-sdk tools:overrideLibrary="
+        androidx.credentials.providerevents,
+        androidx.credentials" />
     <supports-screens
       android:smallScreens="true"
       android:normalScreens="true"
