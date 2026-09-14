@@ -643,7 +643,7 @@
     <string name="passphrase">Phrase de passe</string>
     <string name="colorize_password_summary">Coloriser les caractères du mot de passe par type</string>
     <string name="consider_chars_filter">Considérer les caractères</string>
-    <string name="word_separator">Séparateur</string>
+    <string name="words_separator">Séparateur</string>
     <string name="character_count">Nombre de caractères : %1$d</string>
     <string name="auto_type">Auto-Type</string>
     <string name="error_empty_key">La clé ne peut pas être vide.</string>

@@ -612,7 +612,7 @@
     <string name="entropy_high">Entropia: alta</string>
     <string name="entropy_calculate">Entropia: calcular…</string>
     <string name="consider_chars_filter">Considerar caracteres</string>
-    <string name="word_separator">Separador</string>
+    <string name="words_separator">Separador</string>
     <string name="ignore_chars_filter">Ignorar caracteres</string>
     <string name="upper_case">MAIÚSCULAS</string>
     <string name="title_case">Capitalização de Título</string>

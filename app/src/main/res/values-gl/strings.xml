@@ -612,7 +612,7 @@
     <string name="download_initialization">A inicializar…</string>
     <string name="download_progression">En progreso: %1$d%%</string>
     <string name="entropy_calculate">Entropía: A calcular…</string>
-    <string name="word_separator">Separador</string>
+    <string name="words_separator">Separador</string>
     <string name="ignore_chars_filter">Ignorar caracteres</string>
     <string name="lower_case">minúsculas</string>
     <string name="upper_case">MAIÚSCULAS</string>

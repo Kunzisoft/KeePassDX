@@ -611,7 +611,7 @@
     <string name="at_least_one_char">Co najmniej po jednym znaku z każdego</string>
     <string name="exclude_ambiguous_chars">Wyklucz niejednoznaczne znaki</string>
     <string name="consider_chars_filter">Rozważ znaki</string>
-    <string name="word_separator">Separator</string>
+    <string name="words_separator">Separator</string>
     <string name="lower_case">małe litery</string>
     <string name="upper_case">DUŻE LITERY</string>
     <string name="title_case">Jak Nazwy Własne</string>

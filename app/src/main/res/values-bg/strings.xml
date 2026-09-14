@@ -380,7 +380,7 @@
     <string name="entropy">Ентропия: %1$s бита</string>
     <string name="entropy_high">Ентропия: висока</string>
     <string name="consider_chars_filter">Допълнителни знаци</string>
-    <string name="word_separator">Разделител</string>
+    <string name="words_separator">Разделител</string>
     <string name="ignore_chars_filter">Пренебрегнати знаци</string>
     <string name="title_case">Всяка Дума</string>
     <string name="screenshot_mode_banner_text">Режим екранни снимки</string>

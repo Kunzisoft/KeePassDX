@@ -405,7 +405,7 @@
     <string name="at_least_one_char">Vähemalt üks tähemärk igast</string>
     <string name="exclude_ambiguous_chars">Välista mitmetähenduslikud tähemärgid</string>
     <string name="consider_chars_filter">Arvesta tähemärkidega</string>
-    <string name="word_separator">Eraldaja</string>
+    <string name="words_separator">Eraldaja</string>
     <string name="ignore_chars_filter">Eira tähemärke</string>
     <string name="lower_case">väiketähed</string>
     <string name="upper_case">SUURTÄHED</string>

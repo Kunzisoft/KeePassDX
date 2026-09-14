@@ -563,7 +563,7 @@
     <string name="at_least_one_char">Setidaknya satu karakter dari masing-masing</string>
     <string name="exclude_ambiguous_chars">Kecualikan karakter ambigu</string>
     <string name="consider_chars_filter">Pertimbangkan karakter</string>
-    <string name="word_separator">Pemisah</string>
+    <string name="words_separator">Pemisah</string>
     <string name="ignore_chars_filter">Abaikan karakter</string>
     <string name="lower_case">huruf kecil</string>
     <string name="upper_case">HURUF BESAR</string>

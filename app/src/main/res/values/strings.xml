@@ -701,7 +701,8 @@
     <string name="at_least_one_char">At least one character from each</string>
     <string name="exclude_ambiguous_chars">Exclude ambiguous characters</string>
     <string name="consider_chars_filter">Consider characters</string>
-    <string name="word_separator">Separator</string>
+    <string name="words">Words</string>
+    <string name="words_separator">Separator</string>
     <string name="ignore_chars_filter">Ignore characters</string>
     <string name="lower_case">lower case</string>
     <string name="upper_case">UPPER CASE</string>
