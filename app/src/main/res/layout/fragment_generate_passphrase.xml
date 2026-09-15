@@ -92,53 +92,10 @@
                     android:layout_height="wrap_content"
                     style="@style/KeepassDXStyle.Title"
                     android:text="@string/words"/>
-                <androidx.constraintlayout.widget.ConstraintLayout
+                <com.kunzisoft.keepass.view.PassphraseConditionsView
                     android:id="@+id/passphrase_words_conditions_view"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/card_view_padding"
-                    android:orientation="vertical">
-                    <RelativeLayout
-                        android:id="@+id/passphrase_slider_container"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        app:layout_constraintTop_toTopOf="parent">
-                        <com.google.android.material.slider.Slider
-                            android:id="@+id/slider_word_count"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_toStartOf="@+id/word_count"
-                            android:layout_alignBottom="@+id/word_count"
-                            android:contentDescription="@string/content_description_password_length"
-                            android:stepSize="1"
-                            android:value="@integer/passphrase_generator_word_count_default"
-                            android:valueFrom="@integer/passphrase_generator_word_count_min"
-                            android:valueTo="@integer/passphrase_generator_word_count_max" />
-                        <EditText
-                            android:id="@+id/word_count"
-                            android:layout_width="50dp"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentEnd="true"
-                            android:inputType="number"
-                            android:maxLength="2"
-                            android:maxLines="1" />
-                    </RelativeLayout>
-                    <Spinner
-                        android:id="@+id/word_case"
-                        android:layout_width="wrap_content"
-                        android:layout_height="48dp"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/passphrase_slider_container"/>
-                    <TextView
-                        android:id="@+id/character_count"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        tools:text="Character count: 51"
-                        app:layout_constraintStart_toEndOf="@+id/word_case"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="@+id/word_case"
-                        app:layout_constraintBottom_toBottomOf="@+id/word_case"/>
-                </androidx.constraintlayout.widget.ConstraintLayout>
+                    android:layout_height="wrap_content" />
             </LinearLayout>
 
             <LinearLayout
