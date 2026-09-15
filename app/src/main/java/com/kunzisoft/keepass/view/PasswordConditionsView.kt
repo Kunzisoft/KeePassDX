@@ -43,9 +43,9 @@ class PasswordConditionsView @JvmOverloads constructor(
     private val uppercaseFilterView: CompoundButton
     private val lowercaseFilterView: CompoundButton
     private val digitsFilterView: CompoundButton
+    private val spaceFilterView: CompoundButton
     private val minusFilterView: CompoundButton
     private val underlineFilterView: CompoundButton
-    private val spaceFilterView: CompoundButton
     private val specialsFilterView: CompoundButton
     private val bracketsFilterView: CompoundButton
     private val extendedFilterView: CompoundButton
@@ -69,9 +69,9 @@ class PasswordConditionsView @JvmOverloads constructor(
         uppercaseFilterView = findViewById(R.id.upperCase_filter)
         lowercaseFilterView = findViewById(R.id.lowerCase_filter)
         digitsFilterView = findViewById(R.id.digits_filter)
+        spaceFilterView = findViewById(R.id.space_filter)
         minusFilterView = findViewById(R.id.minus_filter)
         underlineFilterView = findViewById(R.id.underline_filter)
-        spaceFilterView = findViewById(R.id.space_filter)
         specialsFilterView = findViewById(R.id.special_filter)
         bracketsFilterView = findViewById(R.id.brackets_filter)
         extendedFilterView = findViewById(R.id.extendedASCII_filter)
@@ -92,13 +92,13 @@ class PasswordConditionsView @JvmOverloads constructor(
         digitsFilterView.setOnCheckedChangeListener { _, _ ->
             onConditionsChanged?.invoke()
         }
+        spaceFilterView.setOnCheckedChangeListener { _, _ ->
+            onConditionsChanged?.invoke()
+        }
         minusFilterView.setOnCheckedChangeListener { _, _ ->
             onConditionsChanged?.invoke()
         }
         underlineFilterView.setOnCheckedChangeListener { _, _ ->
-            onConditionsChanged?.invoke()
-        }
-        spaceFilterView.setOnCheckedChangeListener { _, _ ->
             onConditionsChanged?.invoke()
         }
         specialsFilterView.setOnCheckedChangeListener { _, _ ->
@@ -184,12 +184,12 @@ class PasswordConditionsView @JvmOverloads constructor(
             optionsSet.add(context.getString(R.string.value_password_lowercase))
         if (digitsFilterView.isChecked)
             optionsSet.add(context.getString(R.string.value_password_digits))
+        if (spaceFilterView.isChecked)
+            optionsSet.add(context.getString(R.string.value_password_space))
         if (minusFilterView.isChecked)
             optionsSet.add(context.getString(R.string.value_password_minus))
         if (underlineFilterView.isChecked)
             optionsSet.add(context.getString(R.string.value_password_underline))
-        if (spaceFilterView.isChecked)
-            optionsSet.add(context.getString(R.string.value_password_space))
         if (specialsFilterView.isChecked)
             optionsSet.add(context.getString(R.string.value_password_special))
         if (bracketsFilterView.isChecked)
@@ -207,9 +207,9 @@ class PasswordConditionsView @JvmOverloads constructor(
         uppercaseFilterView.isChecked = false
         lowercaseFilterView.isChecked = false
         digitsFilterView.isChecked = false
+        spaceFilterView.isChecked = false
         minusFilterView.isChecked = false
         underlineFilterView.isChecked = false
-        spaceFilterView.isChecked = false
         specialsFilterView.isChecked = false
         bracketsFilterView.isChecked = false
         extendedFilterView.isChecked = false
@@ -220,9 +220,9 @@ class PasswordConditionsView @JvmOverloads constructor(
                 context.getString(R.string.value_password_uppercase) -> uppercaseFilterView.isChecked = true
                 context.getString(R.string.value_password_lowercase) -> lowercaseFilterView.isChecked = true
                 context.getString(R.string.value_password_digits) -> digitsFilterView.isChecked = true
+                context.getString(R.string.value_password_space) -> spaceFilterView.isChecked = true
                 context.getString(R.string.value_password_minus) -> minusFilterView.isChecked = true
                 context.getString(R.string.value_password_underline) -> underlineFilterView.isChecked = true
-                context.getString(R.string.value_password_space) -> spaceFilterView.isChecked = true
                 context.getString(R.string.value_password_special) -> specialsFilterView.isChecked = true
                 context.getString(R.string.value_password_brackets) -> bracketsFilterView.isChecked = true
                 context.getString(R.string.value_password_extended) -> extendedFilterView.isChecked = true
@@ -260,16 +260,16 @@ class PasswordConditionsView @JvmOverloads constructor(
         return digitsFilterView.isChecked
     }
 
+    fun isSpaceChecked(): Boolean {
+        return spaceFilterView.isChecked
+    }
+
     fun isMinusChecked(): Boolean {
         return minusFilterView.isChecked
     }
 
     fun isUnderlineChecked(): Boolean {
         return underlineFilterView.isChecked
-    }
-
-    fun isSpaceChecked(): Boolean {
-        return spaceFilterView.isChecked
     }
 
     fun isSpecialsChecked(): Boolean {
