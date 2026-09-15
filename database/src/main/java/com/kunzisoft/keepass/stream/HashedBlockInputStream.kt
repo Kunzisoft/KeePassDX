@@ -78,7 +78,7 @@ class HashedBlockInputStream(private val baseStream: InputStream) : InputStream(
         bufferPos = 0
 
         val index = baseStream.readBytes4ToUInt()
-        if (index.toKotlinLong() != bufferIndex) {
+        if (index.toLong() != bufferIndex) {
             throw IOException("Invalid data format")
         }
         bufferIndex++
@@ -88,7 +88,7 @@ class HashedBlockInputStream(private val baseStream: InputStream) : InputStream(
             throw IOException("Invalid data format")
         }
 
-        val bufferSize = baseStream.readBytes4ToUInt().toKotlinInt()
+        val bufferSize = baseStream.readBytes4ToUInt().toInt()
         if (bufferSize == 0) {
             for (hash in 0 until HASH_SIZE) {
                 if (storedHash[hash].toInt() != 0) {
@@ -106,7 +106,7 @@ class HashedBlockInputStream(private val baseStream: InputStream) : InputStream(
             throw IOException("Invalid data format")
         }
 
-        val computedHash = HashManager.hashSha256(buffer)
+        val computedHash = HashManager.sha256(buffer)
         if (computedHash.size != HASH_SIZE) {
             throw IOException("Hash wrong size")
         }

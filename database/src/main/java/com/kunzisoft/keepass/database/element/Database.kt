@@ -22,7 +22,7 @@ package com.kunzisoft.keepass.database.element
 import android.util.Log
 import com.kunzisoft.keepass.database.crypto.EncryptionAlgorithm
 import com.kunzisoft.keepass.database.crypto.kdf.KdfEngine
-import com.kunzisoft.keepass.database.crypto.kdf.KdfParameters
+import com.kunzisoft.keepass.database.crypto.kdf.Limits
 import com.kunzisoft.keepass.database.element.binary.AttachmentPool
 import com.kunzisoft.keepass.database.element.binary.BinaryCache
 import com.kunzisoft.keepass.database.element.binary.BinaryData
@@ -212,7 +212,7 @@ open class Database {
         }
         set(name) {
             mDatabaseKDBX?.name = name
-            mDatabaseKDBX?.nameChanged = DateInstant()
+            notifyNameChange()
         }
 
     val allowDescription: Boolean
@@ -224,7 +224,7 @@ open class Database {
         }
         set(description) {
             mDatabaseKDBX?.description = description
-            mDatabaseKDBX?.descriptionChanged = DateInstant()
+            notifyDescriptionChange()
         }
 
     var defaultUsername: String
@@ -234,7 +234,7 @@ open class Database {
         set(username) {
             mDatabaseKDB?.defaultUserName = username
             mDatabaseKDBX?.defaultUserName = username
-            mDatabaseKDBX?.defaultUserNameChanged = DateInstant()
+            notifyDefaultUserNameChange()
         }
 
     var customColor: Int?
@@ -250,7 +250,7 @@ open class Database {
         set(value) {
             mDatabaseKDB?.color = value
             mDatabaseKDBX?.color = value?.toFormattedColorString() ?: ""
-            mDatabaseKDBX?.settingsChanged = DateInstant()
+            notifySettingsChange()
         }
 
     val allowOTP: Boolean
@@ -283,7 +283,7 @@ open class Database {
             value?.let {
                 mDatabaseKDBX?.compressionAlgorithm = it
             }
-            mDatabaseKDBX?.settingsChanged = DateInstant()
+            notifySettingsChange()
         }
 
     fun compressionForNewEntry(): Boolean {
@@ -292,7 +292,7 @@ open class Database {
         // Default compression not necessary if stored in header
         mDatabaseKDBX?.let {
             return it.compressionAlgorithm == CompressionAlgorithm.GZIP
-                    && it.kdbxVersion.isBefore(FILE_VERSION_40)
+                    && it.kdbxVersion < FILE_VERSION_40
         }
         return false
     }
@@ -326,6 +326,7 @@ open class Database {
         set(algorithm) {
             algorithm?.let {
                 mDatabaseKDBX?.encryptionAlgorithm = algorithm
+                notifySettingsChange()
             }
         }
 
@@ -340,35 +341,7 @@ open class Database {
         set(kdfEngine) {
             mDatabaseKDB?.kdfEngine = kdfEngine
             mDatabaseKDBX?.kdfEngine = kdfEngine
-            mDatabaseKDBX?.settingsChanged = DateInstant()
-        }
-
-    fun getKeyDerivationName(): String {
-        return kdfEngine?.toString() ?: ""
-    }
-
-    var numberKeyEncryptionRounds: Long
-        get() = mDatabaseKDB?.numberKeyEncryptionRounds ?: mDatabaseKDBX?.numberKeyEncryptionRounds ?: 0
-        set(numberRounds) {
-            mDatabaseKDB?.numberKeyEncryptionRounds = numberRounds
-            mDatabaseKDBX?.numberKeyEncryptionRounds = numberRounds
-            mDatabaseKDBX?.settingsChanged = DateInstant()
-        }
-
-    var memoryUsage: Long
-        get() {
-            return mDatabaseKDBX?.memoryUsage ?: return KdfEngine.UNKNOWN_VALUE
-        }
-        set(memory) {
-            mDatabaseKDBX?.memoryUsage = memory
-            mDatabaseKDBX?.settingsChanged = DateInstant()
-        }
-
-    var parallelism: Long
-        get() = mDatabaseKDBX?.parallelism ?: KdfEngine.UNKNOWN_VALUE
-        set(parallelism) {
-            mDatabaseKDBX?.parallelism = parallelism
-            mDatabaseKDBX?.settingsChanged = DateInstant()
+            notifySettingsChange()
         }
 
     var masterKey: ByteArray
@@ -377,14 +350,11 @@ open class Database {
             mDatabaseKDB?.masterKey = masterKey
             mDatabaseKDBX?.masterKey = masterKey
             mDatabaseKDBX?.keyLastChanged = DateInstant()
-            mDatabaseKDBX?.settingsChanged = DateInstant()
+            notifySettingsChange()
         }
 
     val transformSeed: ByteArray?
         get() = mDatabaseKDB?.transformSeed ?: mDatabaseKDBX?.transformSeed
-
-    val kdfParameters: KdfParameters?
-        get() = mDatabaseKDBX?.kdfParameters
 
     private val checkKey: ByteArray
         get() = mDatabaseKDB?.checkKey ?: mDatabaseKDBX?.checkKey ?: ByteArray(32)
@@ -443,7 +413,7 @@ open class Database {
         }
         set(value) {
             mDatabaseKDBX?.historyMaxItems = value
-            mDatabaseKDBX?.settingsChanged = DateInstant()
+            notifySettingsChange()
         }
 
     var historyMaxSize: Long
@@ -452,8 +422,24 @@ open class Database {
         }
         set(value) {
             mDatabaseKDBX?.historyMaxSize = value
-            mDatabaseKDBX?.settingsChanged = DateInstant()
+            notifySettingsChange()
         }
+
+    fun notifyNameChange() {
+        mDatabaseKDBX?.notifyNameChange()
+    }
+
+    fun notifyDescriptionChange() {
+        mDatabaseKDBX?.notifyDescriptionChange()
+    }
+
+    fun notifyDefaultUserNameChange() {
+        mDatabaseKDBX?.notifyDefaultUserNameChange()
+    }
+
+    fun notifySettingsChange() {
+        mDatabaseKDBX?.notifySettingsChange()
+    }
 
     /**
      * Determine if a configurable RecycleBin is available or not for this version of database
@@ -562,7 +548,7 @@ open class Database {
         readOnly: Boolean,
         allowUserVerification: Boolean,
         cacheDirectory: File,
-        isRAMSufficient: (memoryWanted: Long) -> Boolean,
+        limits: Limits,
         fixDuplicateUUID: Boolean,
         progressTaskUpdater: ProgressTaskUpdater?
     ) {
@@ -571,6 +557,7 @@ open class Database {
         this.allowUserVerification = allowUserVerification
 
         try {
+            kdfEngine?.checkLimits(limits)
             // Read database stream for the first time
             readDatabaseStream(databaseStream,
                     { databaseInputStream ->
@@ -579,7 +566,8 @@ open class Database {
                             changeDuplicateId = fixDuplicateUUID
                         }
                         DatabaseInputKDB(databaseKDB)
-                            .openDatabase(databaseInputStream,
+                            .openDatabase(
+                                databaseInputStream,
                                 progressTaskUpdater
                             ) {
                                  databaseKDB.deriveMasterKey(
@@ -594,9 +582,13 @@ open class Database {
                             changeDuplicateId = fixDuplicateUUID
                         }
                         DatabaseInputKDBX(databaseKDBX).apply {
-                            setMethodToCheckIfRAMIsSufficient(isRAMSufficient)
-                            openDatabase(databaseInputStream,
-                                progressTaskUpdater) {
+                            setMethodToCheckMemoryForBinary { memoryWanted ->
+                                limits.isMemorySufficientForBinary(memoryWanted)
+                            }
+                            openDatabase(
+                                databaseInputStream,
+                                progressTaskUpdater
+                            ) {
                                 databaseKDBX.deriveMasterKey(
                                     masterCredential,
                                     challengeResponseRetriever
@@ -631,7 +623,7 @@ open class Database {
         databaseToMergeStream: InputStream,
         databaseToMergeMasterCredential: MasterCredential?,
         databaseToMergeChallengeResponseRetriever: (HardwareKey, ByteArray?) -> ByteArray,
-        isRAMSufficient: (memoryWanted: Long) -> Boolean,
+        limits: Limits,
         progressTaskUpdater: ProgressTaskUpdater?
     ) {
 
@@ -639,9 +631,11 @@ open class Database {
             throw MergeDatabaseKDBException()
         }
 
+        kdfEngine?.checkLimits(limits)
         // New database instance to get new changes
         val databaseToMerge = Database()
         try {
+            databaseToMerge.kdfEngine?.checkLimits(limits)
             readDatabaseStream(databaseToMergeStream,
                 { databaseInputStream ->
                     val databaseToMergeKDB = DatabaseKDB()
@@ -662,7 +656,9 @@ open class Database {
                 { databaseInputStream ->
                     val databaseToMergeKDBX = DatabaseKDBX()
                     DatabaseInputKDBX(databaseToMergeKDBX).apply {
-                        setMethodToCheckIfRAMIsSufficient(isRAMSufficient)
+                        setMethodToCheckMemoryForBinary { memoryWanted ->
+                            limits.isMemorySufficientForBinary(memoryWanted)
+                        }
                         openDatabase(databaseInputStream, progressTaskUpdater) {
                             if (databaseToMergeMasterCredential != null) {
                                 databaseToMergeKDBX.deriveMasterKey(
@@ -683,7 +679,9 @@ open class Database {
 
             mDatabaseKDBX?.let { currentDatabaseKDBX ->
                 val databaseMerger = DatabaseKDBXMerger(currentDatabaseKDBX).apply {
-                    this.isRAMSufficient = isRAMSufficient
+                    this.isRAMSufficient = { memoryWanted ->
+                        limits.isMemorySufficientForBinary(memoryWanted)
+                    }
                 }
                 databaseToMerge.mDatabaseKDB?.let { databaseKDBToMerge ->
                     databaseMerger.merge(databaseKDBToMerge)
@@ -705,17 +703,15 @@ open class Database {
     @Throws(DatabaseInputException::class)
     fun reloadData(
         databaseStream: InputStream,
-        isRAMSufficient: (memoryWanted: Long) -> Boolean,
+        limits: Limits,
         progressTaskUpdater: ProgressTaskUpdater?
     ) {
         try {
+            kdfEngine?.checkLimits(limits)
             // Retrieve the stream from the old database
             readDatabaseStream(databaseStream,
                 { databaseInputStream ->
                     val databaseKDB = DatabaseKDB()
-                    mDatabaseKDB?.let {
-                        databaseKDB.binaryCache = it.binaryCache
-                    }
                     DatabaseInputKDB(databaseKDB)
                         .openDatabase(databaseInputStream, progressTaskUpdater) {
                             this@Database.mDatabaseKDB?.let { thisDatabaseKDB ->
@@ -726,11 +722,10 @@ open class Database {
                 },
                 { databaseInputStream ->
                     val databaseKDBX = DatabaseKDBX()
-                    mDatabaseKDBX?.let {
-                        databaseKDBX.binaryCache = it.binaryCache
-                    }
                     DatabaseInputKDBX(databaseKDBX).apply {
-                        setMethodToCheckIfRAMIsSufficient(isRAMSufficient)
+                        setMethodToCheckMemoryForBinary { memoryWanted ->
+                            limits.isMemorySufficientForBinary(memoryWanted)
+                        }
                         openDatabase(databaseInputStream, progressTaskUpdater) {
                             this@Database.mDatabaseKDBX?.let { thisDatabaseKDBX ->
                                 databaseKDBX.copyMasterKeyFrom(thisDatabaseKDBX)
@@ -792,9 +787,11 @@ open class Database {
         cacheFile: File,
         databaseOutputStream: () -> OutputStream?,
         masterCredential: MasterCredential?,
-        challengeResponseRetriever: (HardwareKey, ByteArray?) -> ByteArray
+        challengeResponseRetriever: (HardwareKey, ByteArray?) -> ByteArray,
+        limits: Limits
     ) {
         try {
+            kdfEngine?.checkLimits(limits)
             // Save in a temp memory to avoid exception
             cacheFile.outputStream().use { outputStream ->
                 mDatabaseKDB?.let { databaseKDB ->

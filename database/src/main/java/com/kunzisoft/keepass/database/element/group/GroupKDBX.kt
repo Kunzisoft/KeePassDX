@@ -31,16 +31,17 @@ import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.node.NodeIdUUID
 import com.kunzisoft.keepass.database.element.node.NodeKDBXInterface
 import com.kunzisoft.keepass.database.element.node.NodeType
-import com.kunzisoft.keepass.utils.UnsignedLong
 import com.kunzisoft.keepass.utils.readBooleanCompat
+import com.kunzisoft.keepass.utils.readNullableBooleanCompat
 import com.kunzisoft.keepass.utils.readParcelableCompat
 import com.kunzisoft.keepass.utils.readSerializableCompat
 import com.kunzisoft.keepass.utils.writeBooleanCompat
+import com.kunzisoft.keepass.utils.writeNullableBooleanCompat
 import java.util.UUID
 
 class GroupKDBX : GroupVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInterface {
 
-    override var usageCount = UnsignedLong(0)
+    override var usageCount: ULong = 0u
     override var locationChanged = DateInstant()
     override var customData = CustomData()
     var notes = ""
@@ -68,15 +69,13 @@ class GroupKDBX : GroupVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
     constructor() : super()
 
     constructor(parcel: Parcel) : super(parcel) {
-        usageCount = UnsignedLong(parcel.readLong())
+        usageCount = parcel.readLong().toULong()
         locationChanged = parcel.readParcelableCompat() ?: locationChanged
         customData = parcel.readParcelableCompat() ?: CustomData()
         notes = parcel.readString() ?: notes
         isExpanded = parcel.readBooleanCompat()
-        val isSearchingEnabled = parcel.readInt()
-        enableSearching = if (isSearchingEnabled == -1) null else isSearchingEnabled == 1
-        val isAutoTypeEnabled = parcel.readInt()
-        enableAutoType = if (isAutoTypeEnabled == -1) null else isAutoTypeEnabled == 1
+        enableSearching = parcel.readNullableBooleanCompat()
+        enableAutoType = parcel.readNullableBooleanCompat()
         defaultAutoTypeSequence = parcel.readString() ?: defaultAutoTypeSequence
         lastTopVisibleEntry = parcel.readSerializableCompat() ?: UUID.randomUUID()
         tags = parcel.readParcelableCompat() ?: tags
@@ -93,13 +92,13 @@ class GroupKDBX : GroupVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
 
     override fun writeToParcel(dest: Parcel, flags: Int) {
         super.writeToParcel(dest, flags)
-        dest.writeLong(usageCount.toKotlinLong())
+        dest.writeLong(usageCount.toLong())
         dest.writeParcelable(locationChanged, flags)
         dest.writeParcelable(customData, flags)
         dest.writeString(notes)
         dest.writeBooleanCompat(isExpanded)
-        dest.writeInt(if (enableSearching == null) -1 else if (enableSearching!!) 1 else 0)
-        dest.writeInt(if (enableAutoType == null) -1 else if (enableAutoType!!) 1 else 0)
+        dest.writeNullableBooleanCompat(enableSearching)
+        dest.writeNullableBooleanCompat(enableAutoType)
         dest.writeString(defaultAutoTypeSequence)
         dest.writeSerializable(lastTopVisibleEntry)
         dest.writeParcelable(tags, flags)

@@ -87,7 +87,6 @@ import com.kunzisoft.keepass.utils.getParcelableCompat
 import com.kunzisoft.keepass.utils.getParcelableExtraCompat
 import com.kunzisoft.keepass.view.MainCredentialView
 import com.kunzisoft.keepass.view.asError
-import com.kunzisoft.keepass.view.showActionErrorIfNeeded
 import com.kunzisoft.keepass.viewmodels.DeviceUnlockViewModel
 import com.kunzisoft.keepass.viewmodels.MainCredentialViewModel
 import kotlinx.coroutines.launch
@@ -120,6 +119,8 @@ class MainCredentialActivity : DatabaseModeActivity() {
     private var mExternalFileHelper: ExternalFileHelper? = null
 
     override fun manageDatabaseInfo(): Boolean  = false
+
+    override fun errorCoordinatorView(): View = coordinatorLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -343,6 +344,7 @@ class MainCredentialActivity : DatabaseModeActivity() {
         }
 
         mMainCredentialViewModel.refreshPreferences()
+        mMainCredentialViewModel.onConditionChanged(mainCredentialView.isFill())
 
         // Back to previous keyboard is setting activated
         if (PreferencesUtil.isKeyboardPreviousDatabaseCredentialsEnable(this@MainCredentialActivity)) {
@@ -396,7 +398,6 @@ class MainCredentialActivity : DatabaseModeActivity() {
                 }
             }
         }
-        coordinatorLayout.showActionErrorIfNeeded(result)
         result.clear()
     }
 

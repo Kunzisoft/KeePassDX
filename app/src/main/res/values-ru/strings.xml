@@ -19,10 +19,10 @@
 --><resources>
     <string name="feedback">Отзыв</string>
     <string name="homepage">Сайт</string>
-    <string name="about_description">Android–версия менеджера паролей KeePass.</string>
+    <string name="about_description">Имплементация менеджера паролей KeePass для Android.</string>
     <string name="accept">Принять</string>
-    <string name="add_entry">Новая запись</string>
-    <string name="add_group">Новая группа</string>
+    <string name="add_entry">Добавить запись</string>
+    <string name="add_group">Добавить группу</string>
     <string name="encryption_algorithm">Алгоритм шифрования</string>
     <string name="app_timeout">Задержка</string>
     <string name="app_timeout_summary">Время неактивности до блокировки базы</string>
@@ -32,7 +32,7 @@
     <string name="file_manager_install_description">Создание, открытие и сохранение файла базы требует установки файлового менеджера, который принимает действия Intent ACTION_CREATE_DOCUMENT и ACTION_OPEN_DOCUMENT.</string>
     <string name="clipboard_cleared">Буфер обмена очищен</string>
     <string name="clipboard_error_title">Ошибка буфера обмена</string>
-    <string name="clipboard_error">Некоторые устройства не дают приложению использовать буфер обмена.</string>
+    <string name="clipboard_error">Некоторые устройства не дают приложениям использовать буфер обмена.</string>
     <string name="clipboard_error_clear">Не удалось очистить буфер обмена</string>
     <string name="clipboard_timeout">Задержка очистки буфера обмена</string>
     <string name="clipboard_timeout_summary">Продолжительность хранения в буфере обмена (если поддерживается устройством)</string>
@@ -69,7 +69,7 @@
     <string name="error_out_of_memory">Недостаточно памяти для работы с базой.</string>
     <string name="error_pass_gen_type">Выберите один или несколько типов символов.</string>
     <string name="error_pass_match">Пароли не совпадают.</string>
-    <string name="error_rounds_too_large">Предельное значение 2147483648.</string>
+    <string name="error_rounds_too_large">Значение раундов шифрования слишком велико. Предельное значение %1$s.</string>
     <string name="error_string_key">Каждое поле должно иметь название.</string>
     <string name="error_wrong_length">Поле \"Длина\" должно быть положительным целым числом.</string>
     <string name="field_name">Название поля</string>
@@ -160,7 +160,7 @@
     <string name="edit_entry">Изменить запись</string>
     <string name="allow">Разрешить</string>
     <string name="error_load_database">Невозможно загрузить базу.</string>
-    <string name="error_load_database_KDF_memory">Невозможно загрузить ключ. Попробуйте уменьшить размер памяти, используемой функцией формирования ключа (KDF).</string>
+    <string name="error_load_database_KDF_memory">Использование памяти функцией формирования ключа (KDF) слишком велико.</string>
     <string name="list_entries_show_username_title">Показывать имя</string>
     <string name="list_entries_show_username_summary">Показывать имя пользователя в списке записей</string>
     <string name="menu_copy">Копировать</string>
@@ -238,7 +238,7 @@
     <string name="education_entry_edit_title">Редактируйте записи</string>
     <string name="education_entry_edit_summary">Редактируйте записи с пользовательскими полями. Возможны перекрёстные ссылки между полями разных записей.</string>
     <string name="education_generate_password_title">Создайте надёжный пароль</string>
-    <string name="education_generate_password_summary">Создайте надёжный пароль, связанный с записью, легко настраиваемый под критерии формы. И не забудьте главный пароль от базы.</string>
+    <string name="education_generate_password_summary">Создайте надёжный пароль, связанный с записью, легко настраиваемый под критерии формы. И не забудьте его.</string>
     <string name="education_entry_new_field_title">Добавляйте пользовательские поля</string>
     <string name="education_entry_new_field_summary">Зарегистрируйте дополнительное поле, добавьте значение и при необходимости защитите его.</string>
     <string name="education_unlock_title">Разблокируйте базу</string>
@@ -296,12 +296,10 @@
     <string name="lock_database_back_root_title">Блокировка нажатием \"Назад\"</string>
     <string name="lock_database_back_root_summary">Блокировка базы нажатием кнопки \"Назад\", если открыт её корневой раздел</string>
     <string name="recycle_bin">Корзина</string>
-    <string name="keyboard_selection_entry_title">Выбор записи</string>
-    <string name="keyboard_selection_entry_summary">При отображении записи в KeePassDX подставлять её данные в Magikeyboard</string>
     <string name="delete_entered_password_title">Удалять пароль</string>
     <string name="delete_entered_password_summary">Забывать введённый пароль после попытки входа в базу</string>
     <string name="content_description_open_file">Открыть файл</string>
-    <string name="content_description_node_children">Дочерний узел</string>
+    <string name="content_description_node_children">Дочерние узлы</string>
     <string name="content_description_add_node">Добавить узел</string>
     <string name="content_description_add_entry">Добавить запись</string>
     <string name="content_description_add_group">Добавить группу</string>
@@ -574,7 +572,7 @@
     <string name="debit_credit_card">Банковская карта</string>
     <string name="template_group_name">Шаблоны</string>
     <string name="show_otp_token_title">Показывать OTP</string>
-    <string name="show_otp_token_summary">Показывать токены OTP в списке записей</string>
+    <string name="show_otp_token_summary">Показывать токены OTP по умолчанию</string>
     <string name="menu_external_icon">Внешний значок</string>
     <string name="autofill_select_entry">Выбор записи…</string>
     <string name="autofill_manual_selection_summary">Показывать элемент управления для ручного выбора пользователем записи из базы</string>
@@ -619,7 +617,7 @@
     <string name="keyboard_previous_search_title">Экран поиска</string>
     <string name="entropy">Энтропия: %1$s бит</string>
     <string name="entropy_high">Энтропия: высокая</string>
-    <string name="word_separator">Разделитель</string>
+    <string name="words_separator">Разделитель</string>
     <string name="character_count">Количество символов: %1$d</string>
     <string name="ignore_chars_filter">Исключить символы</string>
     <string name="title_case">С Заглавных</string>
@@ -668,7 +666,7 @@
 \nЕсли сработает автоматическая блокировка, а вы забудете, что вносили изменения, то рискуете потерять данные.</string>
     <string name="info">Информация</string>
     <string name="master_key_settings_summary">Изменение, обновление</string>
-    <string name="warning_permission">Разрешение необходимо для отображения уведомлений.</string>
+    <string name="warning_permission">Разрешение необходимо для отображения уведомлений</string>
     <string name="menu_appearance_settings_summary">Темы, цвета, значки, шрифты, атрибуты</string>
     <string name="configure">Настройка</string>
     <string name="education_validate_entry_title">Проверка записи</string>
@@ -769,4 +767,15 @@
     <string name="benchmarking">Тестирование…</string>
     <string name="keyboard_share_browser">Поделиться из %1$s в KeePassDX</string>
     <string name="benchmark_calculation">Вычислено за %1$s сек.</string>
+    <string name="error_memory_too_large">Значение использования памяти слишком велико. Предельное значение %1$s.</string>
+    <string name="error_parallelism_too_large">Значение уровня параллелизма слишком велико. Предельное значение %1$s.</string>
+    <string name="error_missing_parent">Это действие невозможно выполнить без родительского элемента.</string>
+    <string name="temporary_merge_success">Временные данные успешно объединены</string>
+    <string name="reload_success">Перезагрузка успешно выполнена</string>
+    <string name="autofill_suggestions_title">Предложения автозаполнения</string>
+    <string name="autofill_suggestions_summary">Использовать алгоритм распознавания форм для предложения записей</string>
+    <string name="passkey_pseudo_random_function">Псевдослучайная функция ключа доступа</string>
+    <string name="error_load_database_KDF_parallelism">Параллелизм функции формирования ключа (KDF) слишком высок.</string>
+    <string name="parallelism_set_safe">Установить количество процессоров</string>
+    <string name="error_load_database_KDF_iteration">Количество итераций функции формирования ключа (KDF) слишком велико.</string>
 </resources>

@@ -1,0 +1,7 @@
+ * Correction de l'exception pendant la sélection du gabarit #2617
+ * Correction des défilements vers le champ OTP #2621
+ * Correction des comparateurs dans les SortedList #2630
+ * Correction des caractères spéciaux dans les champs d'entrée #2632
+ * Correction de la requête des packages dans le manifest #996
+ * Correction de l'expiration pendant l'enregistrement par remplissage auutomatique #2600
+ * Correction des paramètres KDF max #2640

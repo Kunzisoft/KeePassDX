@@ -1,19 +1,20 @@
 KeePassDX adalah <b>pengaman dan pengelola kata sandi</b> yang memungkinkan pengeditan <b>data terenkripsi dalam satu berkas</b> dalam format KeePass terbuka dan <b>pengisian formulir dengan cara yang aman</b>, tidak memerlukan <b>koneksi internet</b>, dan mengintegrasikan standar desain Android. Aplikasi ini <b>sumber terbuka, tanpa iklan</b>.
 
 <b>Fitur</b>
-
-- Membuat berkas/entri dan grup basis data.
-- Mendukung berkas .kdb dan .kdbx (versi 1 hingga 4) dengan algoritma AES - Twofish - ChaCha20 - Argon2.
-- Kompatibel dengan sebagian besar program alternatif (KeePass, KeePassXC, KeeWeb, dll.).
-- Memungkinkan pembukaan dan penyalinan kolom URI/URL dengan cepat.
-- Pengenalan biometrik untuk pembukaan kunci cepat (sidik jari/pembuka kunci wajah/ dll.).
-- Manajemen kata sandi satu kali (HOTP/TOTP) untuk autentikasi dua faktor (2FA).
-- Desain Material dengan tema.
-- Isi-Otomatis dan integrasi.
-- Papan ketik untuk mengisi kolom.
-- Templat dinamis.
+Kunci akses untuk otentikasi dan penyimpanan lokal kunci pribadi.
+- Pengenalan biometrik untuk membuka kunci dengan cepat (sidik jari / pengenalan wajah / …).
+- Pengelolaan kata sandi sekali pakai (HOTP / TOTP) untuk otentikasi dua faktor (2FA).
+- Pengisian otomatis untuk memudahkan pengisian formulir dengan kata sandi.
+- Magikeyboard untuk mengisi kolom apa pun secara efisien.
+- Membuat berkas basis data terenkripsi.
+- Pengelompokan kredensial berdasarkan entri dan dalam pohon grup.
+- Memungkinkan membuka dan menyalin kolom URI/URL dengan cepat.
+- Templat dinamis untuk setiap jenis entri.
 - Riwayat setiap entri.
-- Manajemen pengaturan yang presisi.
+- Pengelolaan pengaturan yang presisi.
+- Desain Material dengan tema.
+- Dukungan untuk berkas .kdb dan .kdbx (versi 1 hingga 4) dengan algoritma AES, Twofish, ChaCha20, dan Argon2.
+- Kompatibel dengan sebagian besar program alternatif (KeePass, KeePassXC, KeeWeb, …).
 - Kode ditulis dalam bahasa asli (Kotlin/Java/JNI/C).
 
 Anda dapat berdonasi atau membeli versi pro untuk layanan yang lebih baik dan pengembangan fitur yang Anda inginkan dengan cepat: <a href="https://play.google.com/store/apps/details?id=com.kunzisoft.keepass.pro">https://play.google.com/store/apps/details?id=com.kunzisoft.keepass.pro</a>

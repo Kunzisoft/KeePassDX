@@ -34,8 +34,10 @@ import com.kunzisoft.keepass.otp.OtpEntryFields
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.utils.KeyboardUtil.hideKeyboard
 import com.kunzisoft.keepass.utils.clear
+import com.kunzisoft.keepass.utils.readNullableIntCompat
 import com.kunzisoft.keepass.utils.readParcelableCompat
 import com.kunzisoft.keepass.utils.readSetCompat
+import com.kunzisoft.keepass.utils.writeNullableIntCompat
 import com.kunzisoft.keepass.utils.writeSetCompat
 
 
@@ -804,9 +806,7 @@ abstract class TemplateAbstractView<
             template = parcel.readParcelableCompat() ?: template
             entryInfo = parcel.readParcelableCompat() ?: entryInfo
             revealFields = parcel.readSetCompat<String>()
-            val dateTimeViewId = parcel.readInt()
-            if (dateTimeViewId != -1)
-                tempDateTimeViewId = dateTimeViewId
+            tempDateTimeViewId = parcel.readNullableIntCompat()
         }
 
         override fun writeToParcel(out: Parcel, flags: Int) {
@@ -814,7 +814,7 @@ abstract class TemplateAbstractView<
             out.writeParcelable(template, flags)
             out.writeParcelable(entryInfo, flags)
             out.writeSetCompat(revealFields)
-            out.writeInt(tempDateTimeViewId ?: -1)
+            out.writeNullableIntCompat(tempDateTimeViewId)
         }
 
         companion object {

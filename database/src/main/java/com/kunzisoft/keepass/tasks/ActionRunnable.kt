@@ -40,14 +40,17 @@ abstract class ActionRunnable: Runnable {
         }
     }
 
-    abstract fun onStartRun()
+    /**
+     * Method called before the action to init parameters
+     */
+    open fun onStartRun() {}
 
     abstract fun onActionRun()
 
     /**
      * Method called when the action is finished
      */
-    abstract fun onFinishRun()
+    open fun onFinishRun() {}
 
     protected fun setError(message: String) {
         result.isSuccess = false
@@ -57,10 +60,14 @@ abstract class ActionRunnable: Runnable {
     }
 
     protected fun setError(exception: Exception) {
-        result.isSuccess = false
-        result.exception = null
-        result.message = exception.message
-        showLog()
+        if (exception is DatabaseException) {
+            setError(exception)
+        } else {
+            result.isSuccess = false
+            result.exception = null
+            result.message = exception.message
+            showLog()
+        }
     }
 
     protected fun setError(exception: DatabaseException) {

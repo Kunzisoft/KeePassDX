@@ -108,7 +108,6 @@ import com.kunzisoft.keepass.view.WindowInsetPosition
 import com.kunzisoft.keepass.view.applyWindowInsets
 import com.kunzisoft.keepass.view.hideByFading
 import com.kunzisoft.keepass.view.setTransparentNavigationBar
-import com.kunzisoft.keepass.view.showActionErrorIfNeeded
 import com.kunzisoft.keepass.view.showByFading
 import com.kunzisoft.keepass.view.showError
 import com.kunzisoft.keepass.view.toastError
@@ -272,6 +271,8 @@ class GroupActivity : DatabaseLockActivity() {
 
     override fun manageDatabaseInfo(): Boolean = true
 
+    override fun errorCoordinatorView(): View? = coordinatorError
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -422,6 +423,37 @@ class GroupActivity : DatabaseLockActivity() {
                 if (mSearchViewModel.isSearchActivated)
                     showSearch()
                 launch {
+                    mDatabaseViewModel.databaseMetadata.collect { metadata ->
+                        if (metadata != null) {
+                            val databaseName = metadata.name.let { name ->
+                                if (name.isNullOrEmpty())
+                                    getString(R.string.database) else name
+                            }
+                            databaseNavView?.setDatabaseName(databaseName)
+                            databaseNameView?.text = databaseName
+
+                            databaseNavView?.setDatabasePath(metadata.path)
+                            databaseNavView?.setDatabaseVersion(metadata.version ?: "-")
+
+                            val databaseIsModified = metadata.isModified
+                            databaseNavView?.setDatabaseModifiedSinceLastLoading(databaseIsModified)
+                            databaseModifiedView?.isVisible = databaseIsModified
+
+                            val databaseColor = metadata.color
+                            databaseNavView?.setDatabaseColor(databaseColor)
+                            if (databaseColor != null) {
+                                databaseColorView?.visibility = View.VISIBLE
+                                databaseColorView?.setColorFilter(
+                                    databaseColor,
+                                    PorterDuff.Mode.SRC_IN
+                                )
+                            } else {
+                                databaseColorView?.visibility = View.GONE
+                            }
+                        }
+                    }
+                }
+                launch {
                     mGroupViewModel.groupUIState.collect { state ->
                         // Load
                         if (state.loaded)
@@ -455,7 +487,6 @@ class GroupActivity : DatabaseLockActivity() {
                         .distinctUntilChanged()
                         .collect { group ->
                             // Show current group
-                            refreshDatabaseViews()
                             touchGroup(group)
                             mSearchViewModel.onMainGroupLoaded(mGroupViewModel.mainGroup)
                         }
@@ -773,9 +804,7 @@ class GroupActivity : DatabaseLockActivity() {
         }
     }
 
-    override fun viewToInvalidateTimeout(): View? {
-        return drawerLayout
-    }
+    override fun viewToInvalidateTimeout(): View? = drawerLayout
 
     private fun loadGroup(clearSearch: Boolean = false) {
         if (clearSearch)
@@ -807,32 +836,7 @@ class GroupActivity : DatabaseLockActivity() {
 
         // Update view
         mBreadcrumbAdapter?.iconDrawableFactory = database.iconDrawableFactory
-        refreshDatabaseViews()
         invalidateOptionsMenu()
-    }
-
-    private fun refreshDatabaseViews() {
-        mDatabase?.let {
-            val databaseName = it.name.ifEmpty { getString(R.string.database) }
-            databaseNavView?.setDatabaseName(databaseName)
-            databaseNameView?.text = databaseName
-            databaseNavView?.setDatabasePath(it.fileUri?.toString())
-            databaseNavView?.setDatabaseVersion(it.version)
-            val modified = it.dataModifiedSinceLastLoading
-            databaseNavView?.setDatabaseModifiedSinceLastLoading(modified)
-            databaseModifiedView?.isVisible = modified
-            val customColor = it.customColor
-            databaseNavView?.setDatabaseColor(customColor)
-            if (customColor != null) {
-                databaseColorView?.visibility = View.VISIBLE
-                databaseColorView?.setColorFilter(
-                    customColor,
-                    PorterDuff.Mode.SRC_IN
-                )
-            } else {
-                databaseColorView?.visibility = View.GONE
-            }
-        }
     }
 
     override fun onDatabaseActionFinished(
@@ -888,7 +892,6 @@ class GroupActivity : DatabaseLockActivity() {
             || actionTask == ACTION_DATABASE_UPDATE_ENTRY_TASK
             || actionTask == ACTION_DATABASE_MOVE_NODES_TASK
             || actionTask == ACTION_DATABASE_COPY_NODES_TASK) {
-            coordinatorError?.showActionErrorIfNeeded(result)
             finishNodeAction()
         }
     }

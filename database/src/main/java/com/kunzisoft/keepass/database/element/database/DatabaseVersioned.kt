@@ -50,14 +50,13 @@ abstract class DatabaseVersioned<
 
     abstract var kdfEngine: KdfEngine?
     abstract val kdfAvailableList: List<KdfEngine>
-    abstract var numberKeyEncryptionRounds: Long
 
     abstract val passwordEncoding: Charset
 
     var masterKey = ByteArray(32)
     var finalKey: ByteArray? = null
         protected set
-    var transformSeed: ByteArray? = null
+    open var transformSeed: ByteArray? = null
 
     var checkKey = ByteArray(32)
 
@@ -125,7 +124,6 @@ abstract class DatabaseVersioned<
 
     fun copyMasterKeyFrom(databaseVersioned: DatabaseVersioned<GroupId, EntryId, Group, Entry>) {
         this.masterKey = databaseVersioned.masterKey.copyOf()
-        this.transformSeed = databaseVersioned.transformSeed?.copyOf()
         this.checkKey = databaseVersioned.checkKey.copyOf()
     }
 

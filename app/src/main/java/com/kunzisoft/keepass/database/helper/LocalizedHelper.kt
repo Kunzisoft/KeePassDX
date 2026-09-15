@@ -35,7 +35,9 @@ import com.kunzisoft.keepass.database.exception.FileNotFoundDatabaseException
 import com.kunzisoft.keepass.database.exception.HardwareKeyDatabaseException
 import com.kunzisoft.keepass.database.exception.InvalidAlgorithmDatabaseException
 import com.kunzisoft.keepass.database.exception.InvalidCredentialsDatabaseException
+import com.kunzisoft.keepass.database.exception.KDFIterationDatabaseException
 import com.kunzisoft.keepass.database.exception.KDFMemoryDatabaseException
+import com.kunzisoft.keepass.database.exception.KDFParallelismDatabaseException
 import com.kunzisoft.keepass.database.exception.LocalizedException
 import com.kunzisoft.keepass.database.exception.MergeDatabaseKDBException
 import com.kunzisoft.keepass.database.exception.MissingParentDatabaseException
@@ -50,6 +52,7 @@ import com.kunzisoft.keepass.database.exception.XMLMalformedDatabaseException
 import com.kunzisoft.keepass.model.PasskeyEntryFields.FIELD_CREDENTIAL_ID
 import com.kunzisoft.keepass.model.PasskeyEntryFields.FIELD_FLAG_BE
 import com.kunzisoft.keepass.model.PasskeyEntryFields.FIELD_FLAG_BS
+import com.kunzisoft.keepass.model.PasskeyEntryFields.FIELD_PRF
 import com.kunzisoft.keepass.model.PasskeyEntryFields.FIELD_PRIVATE_KEY
 import com.kunzisoft.keepass.model.PasskeyEntryFields.FIELD_RELYING_PARTY
 import com.kunzisoft.keepass.model.PasskeyEntryFields.FIELD_USERNAME
@@ -69,6 +72,8 @@ fun LocalizedException.getLocalizedMessage(resources: Resources): String? =
         is SignatureDatabaseException -> resources.getString(R.string.invalid_db_sig)
         is VersionDatabaseException -> resources.getString(R.string.unsupported_db_version)
         is InvalidCredentialsDatabaseException -> resources.getString(R.string.invalid_credentials)
+        is KDFIterationDatabaseException -> resources.getString(R.string.error_load_database_KDF_iteration)
+        is KDFParallelismDatabaseException -> resources.getString(R.string.error_load_database_KDF_parallelism)
         is KDFMemoryDatabaseException -> resources.getString(R.string.error_load_database_KDF_memory)
         is NoMemoryDatabaseException -> resources.getString(R.string.error_out_of_memory)
         is DuplicateUuidDatabaseException -> resources.getString(R.string.invalid_db_same_uuid, parameters[0], parameters[1])
@@ -158,6 +163,7 @@ fun TemplateField.getLocalizedName(context: Context?, name: String): String {
         FIELD_RELYING_PARTY.equals(name, true) -> context.getString(R.string.passkey_relying_party)
         FIELD_FLAG_BE.equals(name, true) -> context.getString(R.string.passkey_backup_eligibility)
         FIELD_FLAG_BS.equals(name, true) -> context.getString(R.string.passkey_backup_state)
+        FIELD_PRF.equals(name, true) -> context.getString(R.string.passkey_pseudo_random_function)
 
         else -> name
     }

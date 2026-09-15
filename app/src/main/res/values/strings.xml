@@ -175,11 +175,15 @@
     <string name="error_out_of_memory">No memory to load your entire database.</string>
     <string name="error_XML_malformed">XML malformed.</string>
     <string name="error_load_database">Could not load the database.</string>
-    <string name="error_load_database_KDF_memory">Could not load the key. Try to lower the KDF \"Memory Usage\".</string>
+    <string name="error_load_database_KDF_iteration">KDF iteration too high.</string>
+    <string name="error_load_database_KDF_parallelism">KDF parallelism too high.</string>
+    <string name="error_load_database_KDF_memory">KDF memory usage too high.</string>
     <string name="error_pass_gen_type">At least one password generation type must be selected.</string>
     <string name="error_disallow_no_credentials">At least one credential must be set.</string>
     <string name="error_pass_match">The passwords do not match.</string>
-    <string name="error_rounds_too_large">\"Transformation rounds\" too high. Setting to 2147483648.</string>
+    <string name="error_rounds_too_large">\"Transformation rounds\" too high. Setting to %1$s.</string>
+    <string name="error_memory_too_large">\"Memory usage\" too high. Setting to %1$s.</string>
+    <string name="error_parallelism_too_large">\"Parallelism\" too high. Setting to %1$s.</string>
     <string name="error_string_key">Each string must have a field name.</string>
     <string name="error_label_exists">This label already exists.</string>
     <string name="error_wrong_length">Enter a positive integer number in the \"Length\" field.</string>
@@ -347,6 +351,7 @@
     <string name="memory_usage_explanation">Amount of memory to be used by the key derivation function.</string>
     <string name="parallelism">Parallelism</string>
     <string name="parallelism_explanation">Degree of parallelism (i.e. number of threads) used by the key derivation function.</string>
+    <string name="parallelism_set_safe">Set number of processors</string>
     <string name="saving_database">Saving database…</string>
     <string name="command_execution">Executing the command…</string>
     <string name="do_not_kill_app">Do not kill the app…</string>
@@ -400,6 +405,7 @@
     <string name="temporary_merge_success">Temporary data merge successfully completed</string>
     <string name="merge_success">Merge successfully completed</string>
     <string name="reload_success">Reload successfully completed</string>
+    <string name="save_success">Save successfully completed</string>
     <string name="permission">Permission</string>
     <string name="version_label">Version %1$s</string>
     <string name="build_label">Build %1$s</string>
@@ -439,7 +445,7 @@
     <string name="passkeys_privileged_apps_ask_message">%1$s attempts to perform a Passkey action.\n\nAdd it to the list of privileged apps?</string>
     <string name="passkeys_missing_signature_app_ask_title">Signature missing</string>
     <string name="passkeys_missing_signature_app_ask_explanation">WARNING: The passkey was created from another client or the signature has been deleted. Ensure the app you want to authenticate is part of the same service and is legitimate to avoid security issues.\nIf the app is a browser, do not add its signature to the entry, but to the list of privileged apps in the settings.</string>
-    <string name="passkeys_missing_signature_app_ask_message">%1$s is unrecognised and attempts to authenticate with an existing passkey.</string>
+    <string name="passkeys_missing_signature_app_ask_message">%1$s is unrecognized and attempts to authenticate with an existing passkey.</string>
     <string name="passkeys_missing_signature_app_ask_question">Add app signature to passkey entry?</string>
     <string name="passkeys_auto_select_title">Auto select</string>
     <string name="passkeys_auto_select_summary">Auto select if only one entry and the database is open, only if the requesting app is compatible</string>
@@ -553,8 +559,6 @@
     <string name="keyboard_label">Magikeyboard (KeePassDX)</string>
     <string name="keyboard_setting_label">Magikeyboard settings</string>
     <string name="keyboard_entry_category">Entry</string>
-    <string name="keyboard_selection_entry_title">Entry selection</string>
-    <string name="keyboard_selection_entry_summary">When viewing an entry in KeePassDX, populate Magikeyboard with that entry</string>
     <string name="keyboard_notification_entry_title">Notification info</string>
     <string name="keyboard_notification_entry_summary">Show a notification when an entry is available</string>
     <string name="keyboard_save_search_info_title">Save shared info</string>
@@ -639,7 +643,7 @@
     <string name="education_entry_edit_title">Edit the entry</string>
     <string name="education_entry_edit_summary">Edit your entry with custom fields. Pool data can be referenced between different entry fields.</string>
     <string name="education_generate_password_title">Create a strong password</string>
-    <string name="education_generate_password_summary">Generate a strong password to associate with your entry, easily define it according to the criteria of the form and don\'t forget secure password.</string>
+    <string name="education_generate_password_summary">Generate a strong password to associate with your entry, easily define it according to the criteria of the form and don\'t forget it.</string>
     <string name="education_validate_entry_title">Validate the entry</string>
     <string name="education_validate_entry_summary">Remember to validate your entry and save your database.\n\nIf an automatic lock is activated and you forget you were making a modification, you risk losing your data.</string>
     <string name="education_entry_new_field_title">Add custom fields</string>
@@ -698,7 +702,8 @@
     <string name="at_least_one_char">At least one character from each</string>
     <string name="exclude_ambiguous_chars">Exclude ambiguous characters</string>
     <string name="consider_chars_filter">Consider characters</string>
-    <string name="word_separator">Separator</string>
+    <string name="words">Words</string>
+    <string name="words_separator">Separator</string>
     <string name="ignore_chars_filter">Ignore characters</string>
     <string name="lower_case">lower case</string>
     <string name="upper_case">UPPER CASE</string>
@@ -796,8 +801,9 @@
     <string name="passkey_relying_party">Passkey Relying Party</string>
     <string name="passkey_backup_eligibility">Passkey Backup Eligibility</string>
     <string name="passkey_backup_state">Passkey Backup State</string>
+    <string name="passkey_pseudo_random_function">Passkey Pseudo-Random Function</string>
     <string name="error_passkey_result">Unable to return the passkey</string>
-    <string name="error_passkey_credential_id">No passkey found with relying party %1$s and credentialIds %2$s</string>
+    <string name="error_passkey_credential_id">No passkey found with relying party %1$s and credential Ids %2$s</string>
     <string name="password_creation_description">Save password in new entry</string>
     <string name="password_selection_description">Select an existing password</string>
     <string name="error_password_result">Unable to return the password</string>

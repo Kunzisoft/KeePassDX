@@ -86,7 +86,6 @@ import com.kunzisoft.keepass.view.changeControlColor
 import com.kunzisoft.keepass.view.changeTitleColor
 import com.kunzisoft.keepass.view.hideByFading
 import com.kunzisoft.keepass.view.setTransparentNavigationBar
-import com.kunzisoft.keepass.view.showActionErrorIfNeeded
 import com.kunzisoft.keepass.view.showByFading
 import com.kunzisoft.keepass.view.showError
 import com.kunzisoft.keepass.viewmodels.AttachmentsViewModel
@@ -98,6 +97,7 @@ import java.util.EnumSet
 class EntryActivity : DatabaseLockActivity() {
 
     private var container: View? = null
+    private var coordinatorError: CoordinatorLayout? = null
     private var coordinatorLayout: CoordinatorLayout? = null
     private var collapsingToolbarLayout: CollapsingToolbarLayout? = null
     private var appBarLayout: AppBarLayout? = null
@@ -129,6 +129,8 @@ class EntryActivity : DatabaseLockActivity() {
 
     override fun manageDatabaseInfo(): Boolean = true
 
+    override fun errorCoordinatorView(): View? = coordinatorError
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -141,6 +143,7 @@ class EntryActivity : DatabaseLockActivity() {
 
         // Get views
         container = findViewById(R.id.activity_entry_container)
+        coordinatorError = findViewById(R.id.error_coordinator)
         coordinatorLayout = findViewById(R.id.toolbar_coordinator)
         collapsingToolbarLayout = findViewById(R.id.toolbar_layout)
         appBarLayout = findViewById(R.id.app_bar)
@@ -231,6 +234,10 @@ class EntryActivity : DatabaseLockActivity() {
         // Init attachment service binder manager
         mAttachmentFileBinderManager = AttachmentFileBinderManager(this)
 
+        titleIconView?.setOnClickListener {
+            mEntryViewModel.sendToMagikeyboard()
+        }
+
         lockView?.setOnClickListener {
             lockAndExit()
         }
@@ -300,7 +307,8 @@ class EntryActivity : DatabaseLockActivity() {
                                 MagikeyboardService.addEntry(
                                     context = this@EntryActivity,
                                     entry = event.entryInfo,
-                                    autoSwitchKeyboard = event.autoSwitch
+                                    autoSwitchKeyboard = event.autoSwitch,
+                                    notify = true
                                 )
                             }
                             is EntryViewModel.EntryEvent.AttachmentSelected -> {
@@ -462,9 +470,7 @@ class EntryActivity : DatabaseLockActivity() {
 
     override fun finishActivityIfReloadRequested(): Boolean = false
 
-    override fun viewToInvalidateTimeout(): View? {
-        return coordinatorLayout
-    }
+    override fun viewToInvalidateTimeout(): View? = coordinatorLayout
 
     override fun onDatabaseRetrieved(database: ContextualDatabase) {
         super.onDatabaseRetrieved(database)
@@ -485,7 +491,6 @@ class EntryActivity : DatabaseLockActivity() {
                     finish()
             }
         }
-        coordinatorLayout?.showActionErrorIfNeeded(result)
     }
 
     override fun onResume() {

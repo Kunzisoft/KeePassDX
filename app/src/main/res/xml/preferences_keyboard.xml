@@ -40,14 +40,6 @@
             android:dependency="@string/keyboard_notification_entry_clear_close_key"/>
     </PreferenceCategory>
     <PreferenceCategory
-        android:title="@string/keyboard_entry_category">
-        <SwitchPreferenceCompat
-            android:key="@string/keyboard_selection_entry_key"
-            android:title="@string/keyboard_selection_entry_title"
-            android:summary="@string/keyboard_selection_entry_summary"
-            android:defaultValue="@bool/keyboard_selection_entry_default"/>
-    </PreferenceCategory>
-    <PreferenceCategory
         android:title="@string/save">
         <SwitchPreferenceCompat
             android:key="@string/keyboard_save_search_info_key"

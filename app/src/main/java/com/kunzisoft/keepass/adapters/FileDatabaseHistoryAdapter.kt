@@ -59,7 +59,7 @@ class FileDatabaseHistoryAdapter(context: Context)
                 val indexItem1 = mListPosition.indexOf(item1)
                 val indexItem2 = mListPosition.indexOf(item2)
                 return if (indexItem1 == -1 && indexItem2 == -1)
-                    -1
+                    0
                 else if (indexItem1 < indexItem2)
                     -1
                 else if (indexItem1 > indexItem2)

@@ -63,7 +63,7 @@
     <string name="error_out_of_memory">Telefonen gjekk tom for minne ved lesinga av databasen din. Databasen er kanskje for stor.</string>
     <string name="error_pass_gen_type">Du må velja minst éin passordlagingstype.</string>
     <string name="error_pass_match">Passorda samsvarer ikkje.</string>
-    <string name="error_rounds_too_large">For mange omgangar. Bruker 2147483648.</string>
+    <string name="error_rounds_too_large">For mange omgangar. Bruker %1$s.</string>
     <string name="error_wrong_length">Bruk eit positivt heiltal i feltet for lengde.</string>
     <string name="file_browser">Filbehandlar</string>
     <string name="generate_password">Lag passord</string>
@@ -310,7 +310,7 @@
     <string name="download_finalization">Fullfører…</string>
     <string name="unit_mebibyte">MiB</string>
     <string name="unit_gibibyte">GiB</string>
-    <string name="word_separator">Separator</string>
+    <string name="words_separator">Separator</string>
     <string name="ignore_chars_filter">Ignorer teikn</string>
     <string name="style_brightness_summary">Vel eit lyst eller mørkt tema</string>
     <string name="icon_section_custom">Eigendefinert</string>

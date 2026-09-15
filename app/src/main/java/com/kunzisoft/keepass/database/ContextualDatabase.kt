@@ -34,6 +34,8 @@ import com.kunzisoft.keepass.model.RegisterInfo
 import com.kunzisoft.keepass.model.SnapFileDatabaseInfo
 import com.kunzisoft.keepass.utils.SingletonHolder
 import com.kunzisoft.keepass.viewmodels.FileDatabaseInfo
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import java.io.File
 
 class ContextualDatabase: DatabaseInfo() {
@@ -41,18 +43,8 @@ class ContextualDatabase: DatabaseInfo() {
     // Database file URI
     var fileUri: Uri? = null
 
-    // Factory to draw icons
-    val iconDrawableFactory = IconDrawableFactory(
-        retrieveBinaryCache = { binaryCache },
-        retrieveCustomIconBinary = { iconId -> getBinaryForCustomIcon(iconId) }
-    )
-
     // To reload the main activity
     var wasReloaded = false
-
-    // To defined if unsaved data still remaining
-    var dataModifiedSinceLastLoading = false
-        private set
 
     // File description
     var snapFileDatabaseInfo: SnapFileDatabaseInfo? = null
@@ -60,6 +52,18 @@ class ContextualDatabase: DatabaseInfo() {
 
     // Content provider
     val ephemeralLinkManager = EphemeralLinkManager()
+
+    // To defined if unsaved data still remaining
+    private val mDataModifiedSinceLastLoading = MutableStateFlow(false)
+    val dataModifiedSinceLastLoadingFlow = mDataModifiedSinceLastLoading.asStateFlow()
+    val dataModifiedSinceLastLoading: Boolean
+        get() = mDataModifiedSinceLastLoading.value
+
+    // Factory to draw icons
+    val iconDrawableFactory = IconDrawableFactory(
+        retrieveBinaryCache = { binaryCache },
+        retrieveCustomIconBinary = { iconId -> getBinaryForCustomIcon(iconId) }
+    )
 
     /**
      * Save the database file info
@@ -81,14 +85,14 @@ class ContextualDatabase: DatabaseInfo() {
      * Data are not necessarily changed from the app
      */
     fun indicateNotSavedData() {
-        dataModifiedSinceLastLoading = true
+        mDataModifiedSinceLastLoading.value = true
     }
 
     /**
      * Indicate that data in the database is up to date
      */
     fun indicateUpToDateData() {
-        dataModifiedSinceLastLoading = false
+        mDataModifiedSinceLastLoading.value = false
     }
 
     /**

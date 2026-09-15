@@ -36,10 +36,12 @@ class IconCustomFragment : IconFragment<IconImageCustom>() {
         return R.layout.fragment_icon_grid
     }
 
-    override fun defineIconList(database: ContextualDatabase?) {
+    override fun retrieveIconList(database: ContextualDatabase?): List<IconImageCustom> {
+        val icons = mutableListOf<IconImageCustom>()
         database?.doForEachCustomIcons { customIcon, _ ->
-            iconPickerAdapter.addIcon(customIcon, false)
+            icons.add(customIcon)
         }
+        return icons
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

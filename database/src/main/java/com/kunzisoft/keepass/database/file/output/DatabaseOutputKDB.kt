@@ -22,20 +22,24 @@ package com.kunzisoft.keepass.database.file.output
 import android.graphics.Color
 import com.kunzisoft.encrypt.HashManager
 import com.kunzisoft.keepass.database.crypto.EncryptionAlgorithm
+import com.kunzisoft.keepass.database.crypto.kdf.KdfEngine
 import com.kunzisoft.keepass.database.element.database.DatabaseKDB
 import com.kunzisoft.keepass.database.element.entry.EntryKDB
 import com.kunzisoft.keepass.database.element.group.GroupKDB
 import com.kunzisoft.keepass.database.exception.DatabaseOutputException
 import com.kunzisoft.keepass.database.file.DatabaseHeader
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDB
-import com.kunzisoft.keepass.utils.UnsignedInt
 import com.kunzisoft.keepass.utils.write2BytesUShort
 import com.kunzisoft.keepass.utils.write4BytesUInt
 import java.io.BufferedOutputStream
 import java.io.ByteArrayOutputStream
 import java.io.IOException
 import java.io.OutputStream
-import java.security.*
+import java.security.DigestOutputStream
+import java.security.InvalidAlgorithmParameterException
+import java.security.InvalidKeyException
+import java.security.MessageDigest
+import java.security.SecureRandom
 import javax.crypto.Cipher
 import javax.crypto.CipherOutputStream
 
@@ -48,10 +52,15 @@ class DatabaseOutputKDB(private val mDatabaseKDB: DatabaseKDB)
     private var mEntryList = mutableListOf<EntryKDB>()
 
     @Throws(DatabaseOutputException::class)
-    fun getFinalKey(header: DatabaseHeader): ByteArray? {
+    private fun getFinalKey(
+        header: DatabaseHeader
+    ): ByteArray? {
         try {
             val headerKDB = header as DatabaseHeaderKDB
-            mDatabaseKDB.makeFinalKey(headerKDB.masterSeed, headerKDB.transformSeed, mDatabaseKDB.numberKeyEncryptionRounds)
+            mDatabaseKDB.makeFinalKey(
+                headerKDB.masterSeed,
+                headerKDB.transformSeed
+            )
             return mDatabaseKDB.finalKey
         } catch (e: IOException) {
             throw DatabaseOutputException("Key creation failed.", e)
@@ -59,8 +68,10 @@ class DatabaseOutputKDB(private val mDatabaseKDB: DatabaseKDB)
     }
 
     @Throws(DatabaseOutputException::class)
-    override fun writeDatabase(outputStream: OutputStream,
-                               assignMasterKey: () -> Unit) {
+    override fun writeDatabase(
+        outputStream: OutputStream,
+        assignMasterKey: (() -> Unit)
+    ) {
         // Before we output the header, we should sort our list of groups
         // and remove any orphaned nodes that are no longer part of the tree hierarchy
         // also remove the virtual root not present in kdb
@@ -106,8 +117,10 @@ class DatabaseOutputKDB(private val mDatabaseKDB: DatabaseKDB)
     }
 
     @Throws(DatabaseOutputException::class)
-    private fun outputHeader(outputStream: OutputStream,
-                             assignMasterKey: () -> Unit): DatabaseHeaderKDB {
+    private fun outputHeader(
+        outputStream: OutputStream,
+        assignMasterKey: () -> Unit
+    ): DatabaseHeaderKDB {
         // Build header
         val header = DatabaseHeaderKDB()
         header.signature1 = DatabaseHeaderKDB.DBSIG_1
@@ -116,19 +129,19 @@ class DatabaseOutputKDB(private val mDatabaseKDB: DatabaseKDB)
 
         when (mDatabaseKDB.encryptionAlgorithm) {
             EncryptionAlgorithm.AESRijndael -> {
-                header.flags = UnsignedInt(header.flags.toKotlinInt() or DatabaseHeaderKDB.FLAG_RIJNDAEL.toKotlinInt())
+                header.flags = header.flags or DatabaseHeaderKDB.FLAG_RIJNDAEL
             }
             EncryptionAlgorithm.Twofish -> {
-                header.flags = UnsignedInt(header.flags.toKotlinInt() or DatabaseHeaderKDB.FLAG_TWOFISH.toKotlinInt())
+                header.flags = header.flags or DatabaseHeaderKDB.FLAG_TWOFISH
             }
             else -> throw DatabaseOutputException("Unsupported algorithm.")
         }
 
         header.version = DatabaseHeaderKDB.DBVER_DW
         // To remove root
-        header.numGroups = UnsignedInt(mGroupList.size)
-        header.numEntries = UnsignedInt(mEntryList.size)
-        header.numKeyEncRounds = UnsignedInt.fromKotlinLong(mDatabaseKDB.numberKeyEncryptionRounds)
+        header.numGroups = mGroupList.size.toUInt()
+        header.numEntries = mEntryList.size.toUInt()
+        header.numKeyEncRounds = (mDatabaseKDB.kdfEngine?.getKeyRounds()?.toLong() ?: KdfEngine.UNKNOWN_LONG_VALUE).toUInt()
 
         setIVs(header)
 
@@ -136,7 +149,7 @@ class DatabaseOutputKDB(private val mDatabaseKDB: DatabaseKDB)
         assignMasterKey()
 
         // Header checksum
-        val headerDigest: MessageDigest = HashManager.getHash256()
+        val headerDigest: MessageDigest = HashManager.getSha256()
 
         // Output header for the purpose of calculating the header checksum
         val headerDos = DigestOutputStream(NullOutputStream(), headerDigest)
@@ -153,7 +166,7 @@ class DatabaseOutputKDB(private val mDatabaseKDB: DatabaseKDB)
         headerHashBlock = getHeaderHashBuffer(headerHash)
 
         // Content checksum
-        val messageDigest: MessageDigest = HashManager.getHash256()
+        val messageDigest: MessageDigest = HashManager.getSha256()
 
         // Output database for the purpose of calculating the content checksum
         val dos = DigestOutputStream(NullOutputStream(), messageDigest)
@@ -195,7 +208,7 @@ class DatabaseOutputKDB(private val mDatabaseKDB: DatabaseKDB)
         if (headerHashBlock != null) {
             try {
                 outputStream.write2BytesUShort(0x0000)
-                outputStream.write4BytesUInt(UnsignedInt(headerHashBlock!!.size))
+                outputStream.write4BytesUInt(headerHashBlock!!.size.toUInt())
                 outputStream.write(headerHashBlock!!)
             } catch (e: IOException) {
                 throw DatabaseOutputException("Failed to output header hash.", e)
@@ -285,7 +298,7 @@ class DatabaseOutputKDB(private val mDatabaseKDB: DatabaseKDB)
                     Color.red(it)
                 )
             }
-            outputStream.write4BytesUInt(UnsignedInt(reversColor))
+            outputStream.write4BytesUInt(reversColor.toUInt())
         }
     }
 
@@ -294,7 +307,7 @@ class DatabaseOutputKDB(private val mDatabaseKDB: DatabaseKDB)
             val byteArrayOutputStream = ByteArrayOutputStream()
             writeExtData(headerDigest, byteArrayOutputStream)
             byteArrayOutputStream.toByteArray()
-        } catch (e: IOException) {
+        } catch (_: IOException) {
             null
         }
 
@@ -314,7 +327,7 @@ class DatabaseOutputKDB(private val mDatabaseKDB: DatabaseKDB)
     @Throws(IOException::class)
     private fun writeExtDataField(outputStream: OutputStream, fieldType: Int, data: ByteArray?, fieldSize: Int) {
         outputStream.write2BytesUShort(fieldType)
-        outputStream.write4BytesUInt(UnsignedInt(fieldSize))
+        outputStream.write4BytesUInt(fieldSize.toUInt())
         if (data != null) {
             outputStream.write(data)
         }

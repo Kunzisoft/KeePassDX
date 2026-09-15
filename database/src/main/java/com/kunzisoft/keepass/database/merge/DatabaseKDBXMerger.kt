@@ -41,7 +41,7 @@ import java.util.UUID
 
 class DatabaseKDBXMerger(private var database: DatabaseKDBX) {
 
-    var isRAMSufficient: (memoryWanted: Long) -> Boolean = {true}
+    var isRAMSufficient: (memoryWanted: ULong) -> Boolean = { true }
 
     /**
      * Merge a KDB database in a KDBX database, by default all data are copied from the KDB
@@ -108,7 +108,7 @@ class DatabaseKDBXMerger(private var database: DatabaseKDBX) {
                 srcEntryToMerge.getAttachment(databaseToMerge.attachmentPool)?.let { attachment ->
                     val binarySize = attachment.binaryData.getSize()
                     val binaryData = database.buildNewBinaryAttachment(
-                        isRAMSufficient.invoke(binarySize),
+                        isRAMSufficient.invoke(binarySize.toULong()),
                         attachment.binaryData.isCompressed,
                         attachment.binaryData.isProtected
                     )
@@ -224,9 +224,6 @@ class DatabaseKDBXMerger(private var database: DatabaseKDBX) {
             database.historyMaxSize = databaseToMerge.historyMaxSize
             database.encryptionAlgorithm = databaseToMerge.encryptionAlgorithm
             database.kdfEngine = databaseToMerge.kdfEngine
-            database.numberKeyEncryptionRounds = databaseToMerge.numberKeyEncryptionRounds
-            database.memoryUsage = databaseToMerge.memoryUsage
-            database.parallelism = databaseToMerge.parallelism
             database.settingsChanged = databaseToMerge.settingsChanged
         }
 
@@ -480,7 +477,7 @@ class DatabaseKDBXMerger(private var database: DatabaseKDBX) {
             entryToMerge.getAttachments(databaseToMerge.attachmentPool).forEach { attachment ->
                 val binarySize = attachment.binaryData.getSize()
                 val binaryData = database.buildNewBinaryAttachment(
-                    isRAMSufficient.invoke(binarySize),
+                    isRAMSufficient.invoke(binarySize.toULong()),
                     attachment.binaryData.isCompressed,
                     attachment.binaryData.isProtected
                 )

@@ -39,13 +39,15 @@ import com.kunzisoft.keepass.activities.dialogs.SetOTPDialogFragment
 import com.kunzisoft.keepass.adapters.EntryAttachmentsItemsAdapter
 import com.kunzisoft.keepass.adapters.TagsProposalAdapter
 import com.kunzisoft.keepass.database.ContextualDatabase
-import com.kunzisoft.keepass.database.element.Attachment
 import com.kunzisoft.keepass.database.element.Field
 import com.kunzisoft.keepass.model.EntryAttachmentState
 import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.model.FieldProtection
+import com.kunzisoft.keepass.model.PasskeyEntryFields
+import com.kunzisoft.keepass.model.PasskeyEntryFields.isPasskey
 import com.kunzisoft.keepass.model.StreamDirection
 import com.kunzisoft.keepass.otp.OtpEntryFields
+import com.kunzisoft.keepass.otp.OtpEntryFields.isOTP
 import com.kunzisoft.keepass.view.TagsCompletionView
 import com.kunzisoft.keepass.view.TemplateEditView
 import com.kunzisoft.keepass.view.collapse
@@ -148,6 +150,18 @@ class EntryEditFragment: DatabaseFragment() {
             }
         }
 
+        // Listen to focus changes to scroll to the focused field
+        view.viewTreeObserver.addOnGlobalFocusChangeListener { _, newFocus ->
+            if (newFocus != null) {
+                if (isChildOf(newFocus, templateView)
+                    || isChildOf(newFocus, tagsCompletionView)) {
+                    getFieldViewPosition(newFocus) { position ->
+                        mEntryEditViewModel.scrollTo(position)
+                    }
+                }
+            }
+        }
+
         lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 launch {
@@ -192,10 +206,6 @@ class EntryEditFragment: DatabaseFragment() {
                                     newField?.let {
                                         if (!templateView.putCustomField(it)) {
                                             mEntryEditViewModel.showCustomFieldEditionError()
-                                        } else {
-                                            getFieldViewPosition(it) { _, position ->
-                                                mEntryEditViewModel.scrollTo(position)
-                                            }
                                         }
                                     }
                                 }
@@ -211,6 +221,18 @@ class EntryEditFragment: DatabaseFragment() {
                                 if (newField == null) {
                                     oldField?.let {
                                         templateView.removeCustomField(it)
+                                        // If no more OTP fields, remove the OTP tag
+                                        removeTagCondition(
+                                            field = it,
+                                            condition = { field -> field.isOTP() },
+                                            tagName = OtpEntryFields.OTP_TAG
+                                        )
+                                        // If no more Passkey fields, remove the Passkey tag
+                                        removeTagCondition(
+                                            field = it,
+                                            condition = { field -> field.isPasskey() },
+                                            tagName = PasskeyEntryFields.PASSKEY_TAG
+                                        )
                                     }
                                 }
                             }
@@ -267,15 +289,6 @@ class EntryEditFragment: DatabaseFragment() {
                 launch {
                     mAttachmentsViewModel.attachmentEvents.collect { event ->
                         when (event) {
-                            is AttachmentsViewModel.AttachmentEvent.OnBuildNewAttachment -> {
-                                mDatabaseViewModel.buildNewBinaryAttachment()?.let { binaryAttachment ->
-                                    mAttachmentsViewModel.onNewBinaryAttachmentBuilt(
-                                        attachment = Attachment(event.fileName, binaryAttachment),
-                                        allowMultipleAttachment = mAllowMultipleAttachments,
-                                        attachmentToUploadUri = event.attachmentToUploadUri
-                                    )
-                                }
-                            }
                             is AttachmentsViewModel.AttachmentEvent.OnEntryReadyForSave -> {
                                 mEntryEditViewModel.saveEntryInfo(event.entryInfo)
                             }
@@ -298,6 +311,17 @@ class EntryEditFragment: DatabaseFragment() {
                     }
                 }
             }
+        }
+    }
+
+    private fun removeTagCondition(
+        field: Field,
+        condition: (field: Field) -> Boolean,
+        tagName: String
+    ) {
+        if (condition.invoke(field)
+            && templateView.getEntryInfo().customFields.none { field -> condition.invoke(field) }) {
+            tagsCompletionView.removeObjectSync(tagName)
         }
     }
 
@@ -354,18 +378,27 @@ class EntryEditFragment: DatabaseFragment() {
         templateView.setFieldProtection(fieldProtection)
     }
 
+    private fun isChildOf(child: View, parent: View): Boolean {
+        var current: View? = child
+        while (current != null) {
+            if (current == parent) return true
+            current = current.parent as? View
+        }
+        return false
+    }
+
     private fun getFieldViewPosition(
-        field: Field,
-        position: (field: Field, Float) -> Unit
+        view: View,
+        position: (Float) -> Unit
     ) {
-        templateView.postDelayed({
-            templateView.findViewById<View>(field.name.hashCode())?.let { view ->
+        view.post {
+            if (isChildOf(view, rootView)) {
                 val rect = Rect()
                 view.getDrawingRect(rect)
                 (rootView as ViewGroup).offsetDescendantRectToMyCoords(view, rect)
-                position.invoke(field, rect.top.toFloat())
+                position.invoke(rect.top.toFloat())
             }
-        }, 250)
+        }
     }
 
     /* -------------

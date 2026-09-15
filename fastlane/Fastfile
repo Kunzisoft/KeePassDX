@@ -13,6 +13,8 @@ default_platform(:android)
 
 platform :android do
 
+  GRADLE_FILE_PATH = "app/build.gradle.kts"
+
   desc "Runs all the tests"
   lane :tests do
     gradle(task: "test")
@@ -33,15 +35,23 @@ platform :android do
       }
     )
     sh("mkdir", "-p", "../releases")
-    @releaseFile = "../releases/KeePassDX-" + android_get_version_name + "-" + options[:flavor] + ".apk"
+    @releaseFile = "../releases/KeePassDX-" + android_get_version_name(gradle_file: GRADLE_FILE_PATH) + "-" + options[:flavor] + ".apk"
     sh("cp", "../app/build/outputs/apk/" + options[:flavor] + "/release/app-" + options[:flavor] + "-release.apk", @releaseFile)
   end
   
   desc "Build each flavor and create release"
   lane :build_release do |options|
-    build(flavor: "free", storefile: options[:storefile], storepass: options[:storepass], keyalias: options[:keyalias], keypass: options[:keypass])
-    build(flavor: "libre", storefile: options[:storefile], storepass: options[:storepass], keyalias: options[:keyalias], keypass: options[:keypass])
-    sh("./releaseDescGenerator.sh", android_get_version_code, android_get_version_name)
+    signing_options = {
+      storefile: options[:storefile],
+      storepass: options[:storepass],
+      keyalias: options[:keyalias],
+      keypass: options[:keypass]
+    }
+
+    build(signing_options.merge(flavor: "free"))
+    build(signing_options.merge(flavor: "libre"))
+
+    sh("./releaseDescGenerator.sh", android_get_version_code(gradle_file: GRADLE_FILE_PATH), android_get_version_name(gradle_file: GRADLE_FILE_PATH))
   end
 
   desc "Deploy a new Free Beta version to the Google Play"

@@ -20,15 +20,14 @@
 package com.kunzisoft.keepass.database.crypto
 
 import com.kunzisoft.encrypt.HashManager
-import com.kunzisoft.keepass.utils.UnsignedInt
 import com.kunzisoft.encrypt.StreamCipher
 
-enum class CrsAlgorithm(val id: UnsignedInt) {
+enum class CrsAlgorithm(val id: UInt) {
 
-    Null(UnsignedInt(0)),
-    ArcFourVariant(UnsignedInt(1)),
-    Salsa20(UnsignedInt(2)),
-    ChaCha20(UnsignedInt(3));
+    Null(0u),
+    ArcFourVariant(1u),
+    Salsa20(2u),
+    ChaCha20(3u);
 
     companion object {
 
@@ -41,7 +40,7 @@ enum class CrsAlgorithm(val id: UnsignedInt) {
             }
         }
 
-        fun fromId(num: UnsignedInt): CrsAlgorithm? {
+        fun fromId(num: UInt): CrsAlgorithm? {
             for (e in values()) {
                 if (e.id == num) {
                     return e

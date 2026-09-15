@@ -127,7 +127,7 @@
     <string name="error_copy_entry_here">നിങ്ങൾക്ക് ഇവിടെ ഒരു എൻ‌ട്രി പകർ‌ത്താൻ‌ കഴിയില്ല.</string>
     <string name="error_label_exists">ഈ ലേബൽ ഇതിനകം നിലവിലുണ്ട്.</string>
     <string name="error_string_key">ഓരോ സ്ട്രിംഗിനും ഒരു ഫീൽഡ് നാമം ഉണ്ടായിരിക്കണം.</string>
-    <string name="error_rounds_too_large">\"Transformation rounds\" too high. Setting to 2147483648.</string>
+    <string name="error_rounds_too_large">\"Transformation rounds\" too high. Setting to %1$s.</string>
     <string name="error_disallow_no_credentials">കുറഞ്ഞത് ഒരു ക്രെഡൻഷ്യലെങ്കിലും സജ്ജമാക്കിയിരിക്കണം.</string>
     <string name="error_load_database_KDF_memory">കീ ലോഡുചെയ്യാനായില്ല. KDF \"മെമ്മറി ഉപയോഗം\" കുറയ്ക്കാൻ ശ്രമിക്കുക.</string>
     <string name="error_out_of_memory">നിങ്ങളുടെ മുഴുവൻ ഡാറ്റാബേസും ലോഡുചെയ്യാൻ മെമ്മറിയൊന്നുമില്ല.</string>
@@ -321,7 +321,6 @@
     <string name="keyboard_appearance_category">രൂപം</string>
     <string name="keyboard_notification_entry_content_title_text">എൻട്രി</string>
     <string name="keyboard_notification_entry_clear_close_summary">അറിയിപ്പ് അടയ്‌ക്കുമ്പോൾ ഡാറ്റാബേസ് അടയ്‌ക്കുക</string>
-    <string name="keyboard_selection_entry_title">എൻട്രി തിരഞ്ഞെടുക്കൽ</string>
     <string name="compression">കംപ്രഷൻ</string>
     <string name="database_default_username_title">സ്ഥിരസ്ഥിതി ഉപയോക്തൃനാമം</string>
     <string name="database_data_compression_summary">ഡാറ്റ കംപ്രഷൻ ഡാറ്റാബേസിന്റെ വലുപ്പം കുറയ്ക്കുന്നു</string>

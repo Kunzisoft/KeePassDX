@@ -20,7 +20,6 @@
 package com.kunzisoft.keepass.stream
 
 import com.kunzisoft.encrypt.HashManager
-import com.kunzisoft.keepass.utils.UnsignedInt
 import com.kunzisoft.keepass.utils.write4BytesUInt
 import com.kunzisoft.keepass.utils.write8BytesLong
 import java.io.IOException
@@ -101,11 +100,11 @@ class HashedBlockOutputStream : OutputStream {
 
     @Throws(IOException::class)
     private fun writeHashedBlock() {
-        baseStream.write4BytesUInt(UnsignedInt.fromKotlinLong(bufferIndex))
+        baseStream.write4BytesUInt(bufferIndex.toUInt())
         bufferIndex++
 
         if (bufferPos > 0) {
-            val messageDigest: MessageDigest = HashManager.getHash256()
+            val messageDigest: MessageDigest = HashManager.getSha256()
             messageDigest.update(buffer, 0, bufferPos)
             val hash: ByteArray = messageDigest.digest()
             baseStream.write(hash)
@@ -118,7 +117,7 @@ class HashedBlockOutputStream : OutputStream {
             baseStream.write8BytesLong(0L)
         }
 
-        baseStream.write4BytesUInt(UnsignedInt(bufferPos))
+        baseStream.write4BytesUInt(bufferPos.toUInt())
 
         if (bufferPos > 0) {
             baseStream.write(buffer, 0, bufferPos)

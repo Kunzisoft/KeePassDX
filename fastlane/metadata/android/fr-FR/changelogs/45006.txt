@@ -1,0 +1,9 @@
+ * Extension Passkey PRF #2502 #2553
+ * Vues OTP et animation recherche #1851 #2541
+ * Icône d'entrée pour Magikeyboard #2590 #2538
+ * Indicateur pour groupes spéciaux #2556
+ * Paramètres de remplissage auto #2574
+ * Benchmark d'une seconde #2653 #2655 #2640
+ * Correction modes UV et Lecture seule #2541
+ * Correction fichiers clé XML v2 #2660
+ * Refactorisations et corrections #996 #1911 #2456 #2523 #2541 #2542 #2543 #2575 #2576 #2581 #2578 #2591 #2600 #2630 #2658

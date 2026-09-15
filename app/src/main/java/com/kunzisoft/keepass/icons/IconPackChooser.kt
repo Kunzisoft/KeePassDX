@@ -42,12 +42,12 @@ object IconPackChooser {
 
 
     /**
-     * Built the icon pack chooser based on imports made in *build.gradle*
+     * Built the icon pack chooser based on imports made in *build.gradle.kts*
      *
      *
      * Dynamic import can be done for each flavor by prefixing the 'implementation' command with the name of the flavor.< br/>
      * (ex : `libreImplementation project(path: ':icon-pack-classic')` <br></br>
-     * Each name of icon pack must be in `ICON_PACKS` in the build.gradle file
+     * Each name of icon pack must be in `ICON_PACKS` in the build.gradle.kts file
      *
      * @param context Context to construct each pack with the resources
      * @return An unique instance of [IconPackChooser], recall [.build] provide the same instance

@@ -304,6 +304,68 @@ object PreferencesUtil {
         }
     }
 
+    fun getDefaultPassphraseSeparatorLength(context: Context): Int {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        return prefs.getInt(context.getString(R.string.passphrase_generator_separator_length_key), 1)
+    }
+
+    fun setDefaultPassphraseSeparatorLength(context: Context, length: Int) {
+        PreferenceManager.getDefaultSharedPreferences(context).edit().apply {
+            putInt(
+                context.getString(R.string.passphrase_generator_separator_length_key),
+                length
+            )
+            apply()
+        }
+    }
+
+    fun getDefaultPassphraseSeparatorOptions(context: Context): Set<String> {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        // Space by default
+        return prefs.getStringSet(context.getString(R.string.passphrase_generator_separator_options_key),
+            setOf(context.getString(R.string.value_password_space))) ?: setOf()
+    }
+
+    fun setDefaultPassphraseSeparatorOptions(context: Context, optionsSet: Set<String>) {
+        PreferenceManager.getDefaultSharedPreferences(context).edit().apply {
+            putStringSet(
+                context.getString(R.string.passphrase_generator_separator_options_key),
+                optionsSet
+            )
+            apply()
+        }
+    }
+
+    fun getDefaultPassphraseSeparatorConsiderChars(context: Context): String {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        return prefs.getString(context.getString(R.string.passphrase_generator_separator_consider_chars_key), "") ?: ""
+    }
+
+    fun setDefaultPassphraseSeparatorConsiderChars(context: Context, considerChars: String) {
+        PreferenceManager.getDefaultSharedPreferences(context).edit().apply {
+            putString(
+                context.getString(R.string.passphrase_generator_separator_consider_chars_key),
+                considerChars
+            )
+            apply()
+        }
+    }
+
+    fun getDefaultPassphraseSeparatorIgnoreChars(context: Context): String {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        return prefs.getString(context.getString(R.string.passphrase_generator_separator_ignore_chars_key), "") ?: ""
+    }
+
+    fun setDefaultPassphraseSeparatorIgnoreChars(context: Context, ignoreChars: String) {
+        PreferenceManager.getDefaultSharedPreferences(context).edit().apply {
+            putString(
+                context.getString(R.string.passphrase_generator_separator_ignore_chars_key),
+                ignoreChars
+            )
+            apply()
+        }
+    }
+
     fun getDefaultPassphraseWordCount(context: Context): Int {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
         return prefs.getInt(context.getString(R.string.passphrase_generator_word_count_key),
@@ -334,22 +396,6 @@ object PreferencesUtil {
             putInt(
                 context.getString(R.string.passphrase_generator_word_case_key),
                 wordCase.ordinal
-            )
-            apply()
-        }
-    }
-
-    fun getDefaultPassphraseSeparator(context: Context): String {
-        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
-        return prefs.getString(context.getString(R.string.passphrase_generator_separator_key),
-            context.getString(R.string.passphrase_generator_separator_default)) ?: ""
-    }
-
-    fun setDefaultPassphraseSeparator(context: Context, separator: String) {
-        PreferenceManager.getDefaultSharedPreferences(context).edit().apply {
-            putString(
-                context.getString(R.string.passphrase_generator_separator_key),
-                separator
             )
             apply()
         }
@@ -646,12 +692,6 @@ object PreferencesUtil {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
         return prefs.getBoolean(context.getString(R.string.keyboard_notification_entry_key),
             context.resources.getBoolean(R.bool.keyboard_notification_entry_default))
-    }
-
-    fun isKeyboardEntrySelectionEnable(context: Context): Boolean {
-        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
-        return prefs.getBoolean(context.getString(R.string.keyboard_selection_entry_key),
-            context.resources.getBoolean(R.bool.keyboard_selection_entry_default))
     }
 
     fun isKeyboardSaveSearchInfoEnable(context: Context): Boolean {
@@ -955,7 +995,6 @@ object PreferencesUtil {
                 context.getString(R.string.keyboard_notification_entry_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.keyboard_notification_entry_clear_close_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.keyboard_entry_timeout_key) -> editor.putString(name, value.toLong().toString())
-                context.getString(R.string.keyboard_selection_entry_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.keyboard_save_search_info_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.keyboard_auto_go_action_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.keyboard_key_vibrate_key) -> editor.putBoolean(name, value.toBoolean())
@@ -1003,7 +1042,10 @@ object PreferencesUtil {
                 context.getString(R.string.password_generator_ignore_chars_key) -> editor.putString(name, value)
                 context.getString(R.string.passphrase_generator_word_count_key) -> editor.putInt(name, value.toInt())
                 context.getString(R.string.passphrase_generator_word_case_key) -> editor.putInt(name, value.toInt())
-                context.getString(R.string.passphrase_generator_separator_key) -> editor.putString(name, value)
+                context.getString(R.string.passphrase_generator_separator_length_key) -> editor.putInt(name, value.toInt())
+                context.getString(R.string.passphrase_generator_separator_options_key) -> editor.putStringSet(name, getStringSetFromProperties(value))
+                context.getString(R.string.passphrase_generator_separator_consider_chars_key) -> editor.putString(name, value)
+                context.getString(R.string.passphrase_generator_separator_ignore_chars_key) -> editor.putString(name, value)
 
                 context.getString(R.string.sort_node_key) -> editor.putString(name, value)
                 context.getString(R.string.sort_group_before_key) -> editor.putBoolean(name, value.toBoolean())
