@@ -623,7 +623,7 @@
     <string name="entropy_high">Entropie: vysoká</string>
     <string name="exclude_ambiguous_chars">Vyloučit víceznačné znaky</string>
     <string name="consider_chars_filter">Uvážit znaky</string>
-    <string name="word_separator">Oddělovač</string>
+    <string name="words_separator">Oddělovač</string>
     <string name="ignore_chars_filter">Vyloučit znaky</string>
     <string name="lower_case">malá písmena</string>
     <string name="upper_case">VELKÁ PÍSMENA</string>

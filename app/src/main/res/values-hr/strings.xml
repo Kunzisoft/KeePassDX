@@ -617,7 +617,7 @@
     <string name="consider_chars_filter">Uzmi u obzir znakove</string>
     <string name="keyboard_previous_search_title">Ekran pretrage</string>
     <string name="keyboard_previous_search_summary">Automatski se vrati na prethodnu tipkovnicu na ekranu pretrage</string>
-    <string name="word_separator">Znak razdvajanja</string>
+    <string name="words_separator">Znak razdvajanja</string>
     <string name="ignore_chars_filter">Zanemari znakove</string>
     <string name="lower_case">mala slova</string>
     <string name="title_case">Velika Početna Slova</string>

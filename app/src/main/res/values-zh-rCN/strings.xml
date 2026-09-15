@@ -617,7 +617,7 @@
     <string name="at_least_one_char">每种至少有一个字符</string>
     <string name="exclude_ambiguous_chars">排除模棱两可的字符</string>
     <string name="consider_chars_filter">考虑字符</string>
-    <string name="word_separator">分隔符</string>
+    <string name="words_separator">分隔符</string>
     <string name="ignore_chars_filter">忽略字符</string>
     <string name="lower_case">小写</string>
     <string name="upper_case">大写</string>

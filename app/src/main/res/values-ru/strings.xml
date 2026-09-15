@@ -617,7 +617,7 @@
     <string name="keyboard_previous_search_title">Экран поиска</string>
     <string name="entropy">Энтропия: %1$s бит</string>
     <string name="entropy_high">Энтропия: высокая</string>
-    <string name="word_separator">Разделитель</string>
+    <string name="words_separator">Разделитель</string>
     <string name="character_count">Количество символов: %1$d</string>
     <string name="ignore_chars_filter">Исключить символы</string>
     <string name="title_case">С Заглавных</string>

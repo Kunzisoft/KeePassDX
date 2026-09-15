@@ -310,7 +310,7 @@
     <string name="download_finalization">Fullfører…</string>
     <string name="unit_mebibyte">MiB</string>
     <string name="unit_gibibyte">GiB</string>
-    <string name="word_separator">Separator</string>
+    <string name="words_separator">Separator</string>
     <string name="ignore_chars_filter">Ignorer teikn</string>
     <string name="style_brightness_summary">Vel eit lyst eller mørkt tema</string>
     <string name="icon_section_custom">Eigendefinert</string>

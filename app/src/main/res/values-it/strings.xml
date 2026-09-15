@@ -625,7 +625,7 @@
     <string name="at_least_one_char">Almeno un carattere di ciascuno</string>
     <string name="exclude_ambiguous_chars">Escludere i caratteri ambigui</string>
     <string name="consider_chars_filter">Includi i caratteri</string>
-    <string name="word_separator">Separatore</string>
+    <string name="words_separator">Separatore</string>
     <string name="ignore_chars_filter">Ignorare i caratteri</string>
     <string name="lower_case">minuscolo</string>
     <string name="upper_case">MAIUSCOLO</string>

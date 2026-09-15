@@ -619,7 +619,7 @@
     <string name="at_least_one_char">Хаця б адзін сімвал з кожнай</string>
     <string name="exclude_ambiguous_chars">Выключыць неадназначныя сімвалы</string>
     <string name="consider_chars_filter">Разглядаць сімвалы</string>
-    <string name="word_separator">Падзяляльнік слоў</string>
+    <string name="words_separator">Падзяляльнік слоў</string>
     <string name="ignore_chars_filter">Ігнараваць сімвалы</string>
     <string name="lower_case">ніжні рэгістр</string>
     <string name="upper_case">ВЕРХНІ РЭГІСТР</string>

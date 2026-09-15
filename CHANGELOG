@@ -1,3 +1,6 @@
+ # KeePassDX(4.6.0_beta01)
+ * Custom separator for Passphrase #2102
+
  # KeePassDX(4.5.4)
  * Fix for adding attachments #2694
  * Fix custom icon selection exception ##2684

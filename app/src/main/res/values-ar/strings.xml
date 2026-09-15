@@ -563,7 +563,7 @@
     <string name="education_generate_password_summary">قم بإنشاء كلمة سر قوية لربطها بإدخالك، وحددها بسهولة وفقًا لمعايير النموذج، ولا تنساها.</string>
     <string name="education_setup_OTP_title">إعداد رمز التحقق لمرة واحدة (OTP)</string>
     <string name="style_brightness_title">سطوع السمة</string>
-    <string name="word_separator">الفاصل</string>
+    <string name="words_separator">الفاصل</string>
     <string name="screenshot_mode_banner_text">وضع لقطة الشاشة</string>
     <string name="style_brightness_summary">اختيار سمة فاتحة او داكنة</string>
     <string name="icon_section_standard">قياسي</string>

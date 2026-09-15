@@ -633,7 +633,7 @@
     <string name="html_text_dev_feature_thanks">Milesker zure ekarpenarengatik.</string>
     <string name="unit_kibibyte">KiB</string>
     <string name="unit_byte">B</string>
-    <string name="word_separator">Bereizlea</string>
+    <string name="words_separator">Bereizlea</string>
     <string name="ignore_chars_filter">Baztertu karaktereak</string>
     <string name="consider_chars_filter">Aintzat hatu karaktereak</string>
     <string name="unit_mebibyte">MiB</string>

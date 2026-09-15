@@ -644,7 +644,7 @@
     <string name="at_least_one_char">Z každého aspoň jeden znak</string>
     <string name="exclude_ambiguous_chars">Vylúčte nejednoznačné znaky</string>
     <string name="consider_chars_filter">Zvážiť znaky</string>
-    <string name="word_separator">Oddelovač</string>
+    <string name="words_separator">Oddelovač</string>
     <string name="upper_case">VEĽKÉ PÍSMENÁ</string>
     <string name="icon_section_custom">Vlastná</string>
     <string name="icon_pack_choose_summary">Balík ikon používaný v aplikácii</string>

@@ -630,7 +630,7 @@
     <string name="entropy_calculate">Entropie: Berechnen …</string>
     <string name="at_least_one_char">Mindestens ein Zeichen von jedem</string>
     <string name="consider_chars_filter">Zeichen beinhalten</string>
-    <string name="word_separator">Trennzeichen</string>
+    <string name="words_separator">Trennzeichen</string>
     <string name="ignore_chars_filter">Zeichen ignorieren</string>
     <string name="lower_case">Kleinbuchstaben</string>
     <string name="upper_case">GROẞBUCHSTABEN</string>

@@ -612,7 +612,7 @@
     <string name="at_least_one_char">Hər birindən ən az bir hərf (simvol)</string>
     <string name="exclude_ambiguous_chars">Qeyri-müəyyən hərfləri (simvolları) istisna et</string>
     <string name="consider_chars_filter">Hərfləri (simvolları) nəzərə al</string>
-    <string name="word_separator">Ayırıcı</string>
+    <string name="words_separator">Ayırıcı</string>
     <string name="ignore_chars_filter">Hərfləri (simvolları) nəzərə alma</string>
     <string name="lower_case">kiçik hərf</string>
     <string name="upper_case">BÖYÜK HƏRF</string>

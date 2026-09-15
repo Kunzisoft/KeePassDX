@@ -630,7 +630,7 @@
     <string name="at_least_one_char">Ít nhất một ký tự từ mỗi</string>
     <string name="exclude_ambiguous_chars">Loại trừ các ký tự mơ hồ</string>
     <string name="consider_chars_filter">Xem xét các ký tự</string>
-    <string name="word_separator">Dấu phân cách</string>
+    <string name="words_separator">Dấu phân cách</string>
     <string name="ignore_chars_filter">Bỏ qua các ký tự</string>
     <string name="lower_case">chữ thường</string>
     <string name="upper_case">CHỮ HOA</string>

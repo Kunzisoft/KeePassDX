@@ -658,7 +658,7 @@
     <string name="at_least_one_char">Bent po vieną simbolį iš kiekvienos</string>
     <string name="exclude_ambiguous_chars">Neįtraukti dviprasmiškų simbolių</string>
     <string name="consider_chars_filter">Apsvarstyti simbolius</string>
-    <string name="word_separator">Skyriklis</string>
+    <string name="words_separator">Skyriklis</string>
     <string name="ignore_chars_filter">Ignoruoti simbolius</string>
     <string name="lower_case">mažosios raidės</string>
     <string name="upper_case">DIDŽIOSIOS RAIDĖS</string>

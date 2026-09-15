@@ -655,7 +655,7 @@
     <string name="consider_chars_filter">Vurder karakterer</string>
     <string name="entropy_calculate">Entropi: Beregn…</string>
     <string name="at_least_one_char">Minst ett tegn fra hver</string>
-    <string name="word_separator">Separator</string>
+    <string name="words_separator">Separator</string>
     <string name="ignore_chars_filter">Ignorer tegn</string>
     <string name="warning_database_info_changed_options_read_only">Vennligst last inn databasen på nytt med de siste endringene.</string>
     <string name="keyboard_previous_search_title">Søkeskjerm</string>

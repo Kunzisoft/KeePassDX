@@ -617,7 +617,7 @@
     <string name="error_no_hardware_key">選擇硬件密鑰。</string>
     <string name="enable_screenshot_mode_summary">允許第三方應用程式對本應用程式錄影或截圖</string>
     <string name="character_count">字元數： %1$d</string>
-    <string name="word_separator">分隔符號</string>
+    <string name="words_separator">分隔符號</string>
     <string name="screenshot_mode_banner_text">螢幕截圖模式</string>
     <string name="auto_type">自動填入</string>
     <string name="info">資訊</string>
