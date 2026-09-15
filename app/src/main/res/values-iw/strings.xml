@@ -607,7 +607,7 @@
     <string name="enable_screenshot_mode_summary">אפשר ליישומים של צד שלישי להקליט או לצלם צילומי מסך של היישום</string>
     <string name="exclude_ambiguous_chars">החרגת תווים דו־משמעיים</string>
     <string name="consider_chars_filter">שקול תווים</string>
-    <string name="word_separator">מפריד</string>
+    <string name="words_separator">מפריד</string>
     <string name="ignore_chars_filter">התעלם מתווים</string>
     <string name="lower_case">אותיות קטנות</string>
     <string name="upper_case">אותיות רישיות</string>

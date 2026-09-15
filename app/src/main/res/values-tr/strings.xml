@@ -621,7 +621,7 @@
     <string name="ignore_chars_filter">Karakterleri yoksay</string>
     <string name="character_count">Karakter sayısı: %1$d</string>
     <string name="entropy_calculate">Entropi: Hesapla…</string>
-    <string name="word_separator">Ayırıcı</string>
+    <string name="words_separator">Ayırıcı</string>
     <string name="upper_case">BÜYÜK HARF</string>
     <string name="title_case">İlk Harfleri Büyük</string>
     <string name="html_about_privacy">&lt;strong&gt;Hiçbir kullanıcı verisi alınmaz&lt;/strong&gt;, bu uygulama herhangi bir sunucuya bağlanmaz, yalnızca yerel olarak çalışır ve kullanıcıların gizliliğine tamamen saygı duyar.</string>

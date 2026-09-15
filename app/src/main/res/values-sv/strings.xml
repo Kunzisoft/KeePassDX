@@ -695,7 +695,7 @@
     <string name="at_least_one_char">Minst ett tecken från varje</string>
     <string name="exclude_ambiguous_chars">Uteslut tvetydiga tecken</string>
     <string name="consider_chars_filter">Ta hänsyn till tecken</string>
-    <string name="word_separator">Avgränsare</string>
+    <string name="words_separator">Avgränsare</string>
     <string name="ignore_chars_filter">Ignorera tecken</string>
     <string name="lower_case">gemener</string>
     <string name="upper_case">VERSALER</string>

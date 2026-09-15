@@ -243,7 +243,7 @@
     <string name="templates">Veidnes</string>
     <string name="tags">Birkas</string>
     <string name="expired">Beidzies derīguma termiņš</string>
-    <string name="word_separator">Atdalītājs</string>
+    <string name="words_separator">Atdalītājs</string>
     <string name="style_name_light">Gaišs</string>
     <string name="style_name_dark">Tumšs</string>
     <string name="menu_form_filling_settings">Veidlapu aizpildīšana</string>

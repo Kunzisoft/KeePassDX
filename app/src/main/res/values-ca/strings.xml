@@ -398,7 +398,7 @@
     <string name="content_description_repeat_toggle_password_visibility">Repetir canvi de visibilitat de contrasenya</string>
     <string name="auto_type_sequence">Seqüència d\'Auto-Escriptura</string>
     <string name="personal_identification_number">PIN</string>
-    <string name="word_separator">Separador</string>
+    <string name="words_separator">Separador</string>
     <string name="compression_gzip">Gzip</string>
     <string name="waiting_challenge_response">Esperant la resposta de desafiament…</string>
     <string name="bank_name">Nom del banc</string>

@@ -621,7 +621,7 @@
     <string name="entropy">Entropie: %1$s bit</string>
     <string name="entropy_high">Entropie: Hoog</string>
     <string name="entropy_calculate">Entropie: Berekenen…</string>
-    <string name="word_separator">Scheidingsteken</string>
+    <string name="words_separator">Scheidingsteken</string>
     <string name="lower_case">kleine letters</string>
     <string name="upper_case">GROTE LETTERS</string>
     <string name="at_least_one_char">Minstens een teken van elk</string>

@@ -633,7 +633,7 @@
     <string name="search_filters">Keresési szűrők</string>
     <string name="current_group">Jelenlegi csoport</string>
     <string name="auto_type_sequence">Automatikus bevitelsorozat</string>
-    <string name="word_separator">Elválasztó</string>
+    <string name="words_separator">Elválasztó</string>
     <string name="enable_screenshot_mode_summary">Engedélyezés a harmadik féltől származó alkalmazásoknak, hogy képernyőképet vagy felvételt készítsenek az alkalmazásról</string>
     <string name="menu_security_settings_summary">Titkosítás, kulcselőállító függvény</string>
     <string name="waiting_challenge_response">Várakozás a kihívás válaszára…</string>

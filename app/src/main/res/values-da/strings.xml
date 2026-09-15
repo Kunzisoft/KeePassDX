@@ -556,7 +556,7 @@
     <string name="passphrase">Adgangssætning</string>
     <string name="colorize_password_title">Farvelæg adgangskoder</string>
     <string name="colorize_password_summary">Farvelæg adgangskodetegn efter type</string>
-    <string name="word_separator">Adskillelsestegn</string>
+    <string name="words_separator">Adskillelsestegn</string>
     <string name="ignore_chars_filter">Ignorer tegn</string>
     <string name="lower_case">små bogstaver</string>
     <string name="upper_case">STORE BOGSTAVER</string>

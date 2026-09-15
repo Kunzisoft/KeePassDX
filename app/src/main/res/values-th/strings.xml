@@ -214,7 +214,7 @@
     <string name="at_least_one_char">อย่างน้อยหนึ่งอักขระจากแต่ละตัว</string>
     <string name="exclude_ambiguous_chars">ยกเว้นอักขระที่คลุมเครือ</string>
     <string name="consider_chars_filter">เลือกใช้ตัวอักษร</string>
-    <string name="word_separator">ตัวคั่น</string>
+    <string name="words_separator">ตัวคั่น</string>
     <string name="ignore_chars_filter">ละเว้นอักขระ</string>
     <string name="lower_case">ตัวพิมพ์เล็ก</string>
     <string name="character_count">จำนวนตัวอักษร: %1$d</string>

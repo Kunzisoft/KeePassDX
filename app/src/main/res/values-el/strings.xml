@@ -627,7 +627,7 @@
     <string name="ignore_chars_filter">Αγνοήστε χαρακτήρες</string>
     <string name="lower_case">πεζά γράμματα</string>
     <string name="upper_case">ΚΕΦΑΛΑΙΑ ΓΡΑΜΜΑΤΑ</string>
-    <string name="word_separator">Διαχωριστής</string>
+    <string name="words_separator">Διαχωριστής</string>
     <string name="character_count">Αριθμός χαρακτήρων: %1$d</string>
     <string name="error_no_hardware_key">Επιλέξτε ένα κλειδί υλικού.</string>
     <string name="error_XML_malformed">Το XML είναι εσφαλμένο.</string>

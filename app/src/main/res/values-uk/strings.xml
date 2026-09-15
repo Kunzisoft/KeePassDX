@@ -611,7 +611,7 @@
     <string name="entropy_high">Ентропія: Висока</string>
     <string name="consider_chars_filter">Враховувати символи</string>
     <string name="title_case">Кожне Слово З Великої</string>
-    <string name="word_separator">Роздільник</string>
+    <string name="words_separator">Роздільник</string>
     <string name="upper_case">ВЕРХНІЙ РЕГІСТР</string>
     <string name="content_description_hardware_key_checkbox">Прапорець «Апаратний ключ»</string>
     <string name="hardware_key">Апаратний ключ</string>
