@@ -39,7 +39,6 @@ import com.kunzisoft.keepass.activities.dialogs.SetOTPDialogFragment
 import com.kunzisoft.keepass.adapters.EntryAttachmentsItemsAdapter
 import com.kunzisoft.keepass.adapters.TagsProposalAdapter
 import com.kunzisoft.keepass.database.ContextualDatabase
-import com.kunzisoft.keepass.database.element.Attachment
 import com.kunzisoft.keepass.database.element.Field
 import com.kunzisoft.keepass.model.EntryAttachmentState
 import com.kunzisoft.keepass.model.EntryInfo
@@ -290,15 +289,6 @@ class EntryEditFragment: DatabaseFragment() {
                 launch {
                     mAttachmentsViewModel.attachmentEvents.collect { event ->
                         when (event) {
-                            is AttachmentsViewModel.AttachmentEvent.OnBuildNewAttachment -> {
-                                mDatabaseViewModel.buildNewBinaryAttachment()?.let { binaryAttachment ->
-                                    mAttachmentsViewModel.onNewBinaryAttachmentBuilt(
-                                        attachment = Attachment(event.fileName, binaryAttachment),
-                                        allowMultipleAttachment = mAllowMultipleAttachments,
-                                        attachmentToUploadUri = event.attachmentToUploadUri
-                                    )
-                                }
-                            }
                             is AttachmentsViewModel.AttachmentEvent.OnEntryReadyForSave -> {
                                 mEntryEditViewModel.saveEntryInfo(event.entryInfo)
                             }
@@ -326,8 +316,8 @@ class EntryEditFragment: DatabaseFragment() {
 
     private fun removeTagCondition(
         field: Field,
-        condition :(field: Field) -> Boolean,
-        tagName : String
+        condition: (field: Field) -> Boolean,
+        tagName: String
     ) {
         if (condition.invoke(field)
             && templateView.getEntryInfo().customFields.none { field -> condition.invoke(field) }) {

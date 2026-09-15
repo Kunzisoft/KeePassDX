@@ -51,7 +51,7 @@ class AttachmentsViewModel : ViewModel() {
     )
     val attachmentsUIState = _attachmentsUIState.asStateFlow()
 
-    private val _attachmentEvents = MutableSharedFlow<AttachmentEvent>(replay = 0)
+    private val _attachmentEvents = MutableSharedFlow<AttachmentEvent>(replay = 1)
     val attachmentEvents: SharedFlow<AttachmentEvent> = _attachmentEvents.asSharedFlow()
 
     private val tempAttachments: List<EntryAttachmentState>

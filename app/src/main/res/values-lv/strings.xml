@@ -316,7 +316,7 @@
     <string name="keyboard_entry_timeout_summary">Gaidīšanas laiks, pēc kura jānotīra tastatūras ieraksts</string>
     <string name="select_entry">Atlasīt ierakstu</string>
     <string name="autofill_manual_selection_summary">Rāda iespēju ļaut lietotājam pašrocīgi atlasīt datubāzes ierakstu</string>
-    <string name="contribution">Līdzdarbošanās</string>
+    <string name="contribution">Līdzdalība</string>
     <string name="parallelism_set_safe">Iestatīt procesoru skaitu</string>
     <string name="command_execution">Izpilda komandu…</string>
 </resources>

@@ -249,9 +249,10 @@ class EntryViewModel(application: Application): AndroidViewModel(application) {
     fun entryHistoryActionsAllowed(): Boolean = entryUIState.value.loaded && entryIsHistory && mDatabase?.isReadOnly == false
 
     fun databaseActionsAllowed(): Boolean = entryUIState.value.loaded
-    fun saveDatabaseActionAllowed(): Boolean = !entryIsHistory && mDatabase?.isReadOnly == false
-    fun mergeDatabaseActionAllowed(): Boolean = !entryIsHistory && saveDatabaseActionAllowed() && mDatabase?.isMergeDataAllowed() == true
-    fun reloadDatabaseActionAllowed(): Boolean = !entryIsHistory
+    fun databaseInfoExists(): Boolean = mDatabase?.snapFileDatabaseInfo?.exists != false
+    fun saveDatabaseActionAllowed(): Boolean = !entryIsHistory && mDatabase?.isReadOnly == false && databaseInfoExists()
+    fun mergeDatabaseActionAllowed(): Boolean = !entryIsHistory && saveDatabaseActionAllowed() && mDatabase?.isMergeDataAllowed() == true && databaseInfoExists()
+    fun reloadDatabaseActionAllowed(): Boolean = !entryIsHistory && databaseInfoExists()
 
             /**
      * Sealed class for entry events.

@@ -106,36 +106,52 @@ class AttachmentFileBinderManager(private val activity: FragmentActivity) {
     }
 
     @Synchronized
-    private fun start(bundle: Bundle? = null, actionTask: String) {
+    private fun start(
+        bundle: Bundle? = null,
+        actionTask: String
+    ) {
         if (bundle != null)
             mIntentTask.putExtras(bundle)
         mIntentTask.action = actionTask
         activity.startService(mIntentTask)
     }
 
-    fun startUploadAttachment(uploadFileUri: Uri,
-                              attachment: Attachment) {
-        start(Bundle().apply {
-            putParcelable(AttachmentFileNotificationService.FILE_URI_KEY, uploadFileUri)
-            putParcelable(AttachmentFileNotificationService.ATTACHMENT_KEY, attachment)
-        }, ACTION_ATTACHMENT_FILE_START_UPLOAD)
+    fun startUploadAttachment(
+        uploadFileUri: Uri,
+        attachment: Attachment
+    ) {
+        start(
+            bundle = Bundle().apply {
+                putParcelable(AttachmentFileNotificationService.FILE_URI_KEY, uploadFileUri)
+                putParcelable(AttachmentFileNotificationService.ATTACHMENT_KEY, attachment)
+            },
+            actionTask = ACTION_ATTACHMENT_FILE_START_UPLOAD
+        )
     }
 
     fun stopUploadAllAttachments() {
-        start(null, ACTION_ATTACHMENT_FILE_STOP_UPLOAD)
+        start(actionTask = ACTION_ATTACHMENT_FILE_STOP_UPLOAD)
     }
 
-    fun startDownloadAttachment(downloadFileUri: Uri,
-                                attachment: Attachment) {
-        start(Bundle().apply {
-            putParcelable(AttachmentFileNotificationService.FILE_URI_KEY, downloadFileUri)
-            putParcelable(AttachmentFileNotificationService.ATTACHMENT_KEY, attachment)
-        }, ACTION_ATTACHMENT_FILE_START_DOWNLOAD)
+    fun startDownloadAttachment(
+        downloadFileUri: Uri,
+        attachment: Attachment
+    ) {
+        start(
+            bundle = Bundle().apply {
+                putParcelable(AttachmentFileNotificationService.FILE_URI_KEY, downloadFileUri)
+                putParcelable(AttachmentFileNotificationService.ATTACHMENT_KEY, attachment)
+            },
+            actionTask = ACTION_ATTACHMENT_FILE_START_DOWNLOAD
+        )
     }
 
     fun removeBinaryAttachment(attachment: Attachment) {
-        start(Bundle().apply {
-            putParcelable(AttachmentFileNotificationService.ATTACHMENT_KEY, attachment)
-        }, ACTION_ATTACHMENT_REMOVE)
+        start(
+            bundle = Bundle().apply {
+                putParcelable(AttachmentFileNotificationService.ATTACHMENT_KEY, attachment)
+            },
+            actionTask = ACTION_ATTACHMENT_REMOVE
+        )
     }
 }

@@ -285,7 +285,7 @@
 \n\"Modifiable\" vous permet d’ajouter, de supprimer ou de modifier tous les éléments comme vous le souhaitez.</string>
     <string name="edit_entry">Modifier l’entrée</string>
     <string name="error_load_database">Impossible de charger la base de données.</string>
-    <string name="error_load_database_KDF_memory">La mémoire d\'utilisation KDF est trop élevée. Impossible de charger.</string>
+    <string name="error_load_database_KDF_memory">La mémoire d\'utilisation KDF est trop élevée.</string>
     <string name="list_entries_show_username_title">Afficher les noms d’utilisateur</string>
     <string name="list_entries_show_username_summary">Affiche les noms d’utilisateur dans les listes d’entrées</string>
     <string name="build_label">Compilation %1$s</string>
@@ -771,8 +771,10 @@
     <string name="error_missing_parent">Cette action ne peut être effectuée sans parent.</string>
     <string name="temporary_merge_success">La fusion des données temporaires s\'est déroulée avec succès</string>
     <string name="reload_success">Le rechargement s\'est déroulé avec succès</string>
+    <string name="save_success">La sauvegarde s\'est déroulée avec succès</string>
     <string name="autofill_suggestions_title">Suggestions de saisie automatique</string>
     <string name="autofill_suggestions_summary">Utilise l\'algorithme de reconnaissance de formulaires pour proposer des entrées</string>
     <string name="passkey_pseudo_random_function">Fonction pseudo-aléatoire de clé d\'accès</string>
-    <string name="error_load_database_KDF_parallelism">Le parallélisme KDF est trop élevé. Impossible de charger.</string>
+    <string name="error_load_database_KDF_parallelism">Le parallélisme KDF est trop élevé.</string>
+    <string name="error_load_database_KDF_iteration">Nombre d\'itérations KDF trop élevé.</string>
 </resources>

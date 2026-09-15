@@ -23,6 +23,7 @@ import android.util.Log
 import com.kunzisoft.encrypt.HashManager
 import com.kunzisoft.encrypt.argon2.Argon2Transformer
 import com.kunzisoft.encrypt.argon2.Argon2Type
+import com.kunzisoft.keepass.database.exception.KDFIterationDatabaseException
 import com.kunzisoft.keepass.database.exception.KDFMemoryDatabaseException
 import com.kunzisoft.keepass.database.exception.KDFParallelismDatabaseException
 import com.kunzisoft.keepass.utils.bytes16ToUuid
@@ -57,8 +58,6 @@ class Argon2Kdf(private val type: Type) : KdfEngine() {
         val parallelism = validated.parallelism.toLong()
         if (parallelism > limits.parallelism) {
             Log.w(TAG, "Parallelism is above the maximum number of processors.")
-            if (parallelism > (limits.parallelism * 128))
-                throw KDFParallelismDatabaseException()
         }
         if (!limits.isMemorySufficient(validated.memory, Limits.LimitOperationType.KDF))
             throw KDFMemoryDatabaseException()
@@ -107,15 +106,15 @@ class Argon2Kdf(private val type: Type) : KdfEngine() {
     private fun getValidatedParameters(): ValidatedParams {
         val parallelism = parameters.getUInt32(PARAM_PARALLELISM) ?: DEFAULT_PARALLELISM
         if (parallelism !in MIN_PARALLELISM..MAX_PARALLELISM)
-            throw SecurityException("Parallelism not in valid range")
+            throw KDFParallelismDatabaseException()
 
         val memory = parameters.getUInt64(PARAM_MEMORY) ?: DEFAULT_MEMORY
         if (memory !in MIN_MEMORY..MAX_MEMORY)
-            throw SecurityException("Memory not in valid range")
+            throw KDFMemoryDatabaseException()
 
         val iterations = parameters.getUInt64(PARAM_ITERATIONS) ?: DEFAULT_ITERATIONS
         if (iterations !in MIN_ITERATIONS..MAX_ITERATIONS)
-            throw SecurityException("Iterations not in valid range")
+            throw KDFIterationDatabaseException()
 
         return ValidatedParams(parallelism, memory, iterations)
     }

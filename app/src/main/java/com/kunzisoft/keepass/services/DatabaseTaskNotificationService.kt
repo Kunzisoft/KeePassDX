@@ -84,7 +84,6 @@ import com.kunzisoft.keepass.utils.getParcelableList
 import com.kunzisoft.keepass.utils.getSerializableCompat
 import com.kunzisoft.keepass.utils.getSerializableExtraCompat
 import com.kunzisoft.keepass.utils.putParcelableList
-import com.kunzisoft.keepass.viewmodels.FileDatabaseInfo
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Deferred
@@ -198,40 +197,42 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
 
     fun checkDatabaseInfo() {
         try {
-            mDatabase?.fileUri?.let {
-                val previousDatabaseInfo = mDatabase?.snapFileDatabaseInfo
-                val lastFileDatabaseInfo = SnapFileDatabaseInfo.fromFileDatabaseInfo(
-                    FileDatabaseInfo(applicationContext, it))
+            mDatabase?.let { database ->
+                database.fileUri?.let {
+                    val previousDatabaseInfo = database.snapFileDatabaseInfo
+                    database.saveDatabaseInfo(applicationContext)
+                    val lastFileDatabaseInfo = database.snapFileDatabaseInfo ?: return
 
-                val oldDatabaseModification = previousDatabaseInfo?.lastModification
-                val newDatabaseModification = lastFileDatabaseInfo.lastModification
-                val oldDatabaseSize = previousDatabaseInfo?.size
+                    val oldDatabaseModification = previousDatabaseInfo?.lastModification
+                    val newDatabaseModification = lastFileDatabaseInfo.lastModification
+                    val oldDatabaseSize = previousDatabaseInfo?.size
 
-                val conditionExists = previousDatabaseInfo != null
-                        && previousDatabaseInfo.exists != lastFileDatabaseInfo.exists
-                // To prevent dialog opening too often
-                // Add 10 seconds delta time to prevent spamming
-                val conditionLastModification =
-                    (oldDatabaseModification != null && newDatabaseModification != null
-                            && oldDatabaseSize != null
-                            && oldDatabaseModification > 0 && newDatabaseModification > 0
-                            && oldDatabaseSize > 0
-                            && oldDatabaseModification + 10000 < newDatabaseModification)
+                    val conditionExists = previousDatabaseInfo != null
+                            && previousDatabaseInfo.exists != lastFileDatabaseInfo.exists
+                    // To prevent dialog opening too often
+                    // Add 10 seconds delta time to prevent spamming
+                    val conditionLastModification =
+                        (oldDatabaseModification != null && newDatabaseModification != null
+                                && oldDatabaseSize != null
+                                && oldDatabaseModification > 0 && newDatabaseModification > 0
+                                && oldDatabaseSize > 0
+                                && oldDatabaseModification + 10000 < newDatabaseModification)
 
-                if (conditionExists || conditionLastModification) {
-                    // Indicate a change in the database
-                    mDatabase?.indicateNotSavedData()
-                    // Show the dialog only if it's real new info and not a delay after a save
-                    Log.i(TAG, "Database file modified " +
-                            "$previousDatabaseInfo != $lastFileDatabaseInfo ")
-                    // Call listener to indicate a change in database info
-                    if (!mSaveState) {
-                        mDatabaseInfoListeners.forEach { listener ->
-                            listener.onDatabaseInfoChanged(
-                                previousDatabaseInfo,
-                                lastFileDatabaseInfo,
-                                mDatabase?.isReadOnly ?: true
-                            )
+                    if (conditionExists || conditionLastModification) {
+                        // Indicate a change in the database
+                        database.indicateNotSavedData()
+                        // Show the dialog only if it's real new info and not a delay after a save
+                        Log.i(TAG, "Database file modified " +
+                                "$previousDatabaseInfo != $lastFileDatabaseInfo ")
+                        // Call listener to indicate a change in database info
+                        if (!mSaveState) {
+                            mDatabaseInfoListeners.forEach { listener ->
+                                listener.onDatabaseInfoChanged(
+                                    previousDatabaseInfo,
+                                    lastFileDatabaseInfo,
+                                    database.isReadOnly
+                                )
+                            }
                         }
                     }
                 }
@@ -418,7 +419,15 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                     },
                     { result ->
                         if (isMainAction) {
+                            val save = !database.isReadOnly
+                                    && (intentAction == ACTION_DATABASE_SAVE
+                                    || intent?.getBooleanExtra(SAVE_DATABASE_KEY, false) == true)
                             try {
+                                // To indicate a save action
+                                if (result.data == null)
+                                    result.data = Bundle()
+                                result.data?.putBoolean(SAVE_DATABASE_KEY, save)
+
                                 mActionTaskListeners.forEach { actionTaskListener ->
                                     mTaskRemovedRequested = false
                                     actionTaskListener.onActionFinished(
@@ -429,9 +438,6 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                                 }
                             } finally {
                                 // Save the database info after performing action
-                                val save = !database.isReadOnly
-                                        && (intentAction == ACTION_DATABASE_SAVE
-                                        || intent?.getBooleanExtra(SAVE_DATABASE_KEY, false) == true)
                                 if (save)
                                     saveDatabaseInfo()
                                 else {

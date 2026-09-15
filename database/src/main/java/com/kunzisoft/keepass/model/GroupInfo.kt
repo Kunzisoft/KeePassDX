@@ -26,7 +26,9 @@ import com.kunzisoft.keepass.database.element.GroupId
 import com.kunzisoft.keepass.database.element.icon.IconImageStandard
 import com.kunzisoft.keepass.database.element.icon.IconImageStandard.Companion.FOLDER_ID
 import com.kunzisoft.keepass.database.element.node.NodeIdUUID
+import com.kunzisoft.keepass.utils.readNullableBooleanCompat
 import com.kunzisoft.keepass.utils.readParcelableCompat
+import com.kunzisoft.keepass.utils.writeNullableBooleanCompat
 
 /**
  * Data class representing information about a group in the database.
@@ -66,10 +68,8 @@ open class GroupInfo : NodeInfo {
     constructor(parcel: Parcel): super(parcel) {
         nodeId = parcel.readParcelableCompat<GroupId>() ?: nodeId
         notes = parcel.readString()
-        val isSearchingEnabled = parcel.readInt()
-        searchable = if (isSearchingEnabled == -1) null else isSearchingEnabled == 1
-        val isAutoTypeEnabled = parcel.readInt()
-        enableAutoType = if (isAutoTypeEnabled == -1) null else isAutoTypeEnabled == 1
+        searchable = parcel.readNullableBooleanCompat()
+        enableAutoType = parcel.readNullableBooleanCompat()
         defaultAutoTypeSequence = parcel.readString() ?: defaultAutoTypeSequence
     }
 
@@ -77,8 +77,8 @@ open class GroupInfo : NodeInfo {
         super.writeToParcel(parcel, flags)
         parcel.writeParcelable(nodeId, flags)
         parcel.writeString(notes)
-        parcel.writeInt(if (searchable == null) -1 else if (searchable!!) 1 else 0)
-        parcel.writeInt(if (enableAutoType == null) -1 else if (enableAutoType!!) 1 else 0)
+        parcel.writeNullableBooleanCompat(searchable)
+        parcel.writeNullableBooleanCompat(enableAutoType)
         parcel.writeString(defaultAutoTypeSequence)
     }
 

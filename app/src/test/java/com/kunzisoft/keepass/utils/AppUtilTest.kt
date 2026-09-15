@@ -59,8 +59,8 @@ class AppUtilTest {
         memoryInfo.availMem = 1000L
         shadowOf(activityManager).setMemoryInfo(memoryInfo)
 
-        // KDF type: maxMemory = Long.MAX_VALUE, ratio = 0.5f
-        assertEquals(500uL, context.getSafeMemoryLimit(Limits.LimitOperationType.KDF))
+        // KDF type: maxMemory = Long.MAX_VALUE, ratio = 0.75f
+        assertEquals(750uL, context.getSafeMemoryLimit(Limits.LimitOperationType.KDF))
 
         // BINARY type: maxMemory = MAX_BINARY_BYTE, ratio = 0.2f (1/5)
         // 1000 * 0.2 = 200
@@ -91,9 +91,9 @@ class AppUtilTest {
         memoryInfo.availMem = 1000L
         shadowOf(activityManager).setMemoryInfo(memoryInfo)
 
-        // KDF: ratio 0.5, limit 500
+        // KDF: ratio 0.75, limit 500
         assertTrue(context.isMemorySufficient(400u, Limits.LimitOperationType.KDF))
-        assertFalse(context.isMemorySufficient(600u, Limits.LimitOperationType.KDF))
+        assertFalse(context.isMemorySufficient(800u, Limits.LimitOperationType.KDF))
     }
 
     @Test

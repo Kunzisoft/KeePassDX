@@ -40,7 +40,7 @@ All pull requests will undergo a manual review process — just having a feature
 
 All contributions must be compatible with the [GPL-3.0 License](https://www.gnu.org/licenses/gpl-3.0.html). By submitting a pull request, the author agrees to license their contribution in accordance with these terms.
 
-## Code Generation
+## Development Assistance
 
 Contributors must explicitly state that they have manually reviewed, tested, and understood every line of the code provided.
 
@@ -49,7 +49,9 @@ Contributors must ensure that the materials and code provided do not infringe on
 Contributors are required to use the resources at their disposal (AI tools, <!--{_Jar Brains, Super-Smart Bunny,_}--> etc...) 
 efficiently, ethically and pragmatically. Brute-force automated generation loops, which result in excessive consumption (of cloud computing, <!--{_neural, carrots,_}--> etc...) resources or overly verbose and bloated code, should be completely avoided in favor of a manually streamlined, energy-efficient and well-thought-out architecture. Architectural choices are ideally discussed beforehand. 
 
-All code must clearly identify its author and each generation tool must be identified and explicitly described in the Pull Request (specific model preferably local and fully open source, agent, service used, <!--{_number of neural connection, super-nutritious carrots ,_}--> etc...) to verify its compatibility with the project. An estimate evaluation of the tools and resources used may be requested for validation.
+All code in the Pull Request must clearly identify its author and any code-generation tools that might affect the quality or ethical standards of the project. (specific model preferably local and fully open source, agent, service used, <!--{_number of neural connection, super-nutritious carrots ,_}--> etc...).
+The project doesn't require maintainers to determine the nature of the intelligence that produce the code.
+The Pull Request contributor remains responsible for every piece of code submitted.
 
 Pull Requests may be refused based on substandard code quality, unnecessary technical debt, architectural inefficiency, or an excessive estimated energy footprint.
 

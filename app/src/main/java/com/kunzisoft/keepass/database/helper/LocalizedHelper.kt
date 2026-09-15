@@ -35,6 +35,7 @@ import com.kunzisoft.keepass.database.exception.FileNotFoundDatabaseException
 import com.kunzisoft.keepass.database.exception.HardwareKeyDatabaseException
 import com.kunzisoft.keepass.database.exception.InvalidAlgorithmDatabaseException
 import com.kunzisoft.keepass.database.exception.InvalidCredentialsDatabaseException
+import com.kunzisoft.keepass.database.exception.KDFIterationDatabaseException
 import com.kunzisoft.keepass.database.exception.KDFMemoryDatabaseException
 import com.kunzisoft.keepass.database.exception.KDFParallelismDatabaseException
 import com.kunzisoft.keepass.database.exception.LocalizedException
@@ -71,6 +72,7 @@ fun LocalizedException.getLocalizedMessage(resources: Resources): String? =
         is SignatureDatabaseException -> resources.getString(R.string.invalid_db_sig)
         is VersionDatabaseException -> resources.getString(R.string.unsupported_db_version)
         is InvalidCredentialsDatabaseException -> resources.getString(R.string.invalid_credentials)
+        is KDFIterationDatabaseException -> resources.getString(R.string.error_load_database_KDF_iteration)
         is KDFParallelismDatabaseException -> resources.getString(R.string.error_load_database_KDF_parallelism)
         is KDFMemoryDatabaseException -> resources.getString(R.string.error_load_database_KDF_memory)
         is NoMemoryDatabaseException -> resources.getString(R.string.error_out_of_memory)

@@ -30,10 +30,12 @@ class IconStandardFragment : IconFragment<IconImageStandard>() {
         return R.layout.fragment_icon_grid
     }
 
-    override fun defineIconList(database: ContextualDatabase?) {
+    override fun retrieveIconList(database: ContextualDatabase?): List<IconImageStandard> {
+        val icons = mutableListOf<IconImageStandard>()
         database?.doForEachStandardIcons { standardIcon ->
-            iconPickerAdapter.addIcon(standardIcon, false)
+            icons.add(standardIcon)
         }
+        return icons
     }
 
     override fun onIconClickListener(icon: IconImageStandard) {
