@@ -78,11 +78,11 @@ class UnavailableFeatureDialogFragment : DialogFragment() {
             try {
                 fieldValue = field.getInt(Any())
             } catch (e: IllegalArgumentException) {
-                e.printStackTrace()
+                android.util.Log.w("KeePassDX", e)
             } catch (e: IllegalAccessException) {
-                e.printStackTrace()
+                android.util.Log.w("KeePassDX", e)
             } catch (e: NullPointerException) {
-                e.printStackTrace()
+                android.util.Log.w("KeePassDX", e)
             }
 
             if (fieldValue == apiNumber) {
