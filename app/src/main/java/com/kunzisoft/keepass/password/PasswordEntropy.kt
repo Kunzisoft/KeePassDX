@@ -103,7 +103,7 @@ class PasswordEntropy(actionOnInitFinished: (() -> Unit)? = null) {
                             EntropyStrength(Strength.VERY_UNGUESSABLE, HIGH_ENTROPY, 100)
                         }
                     } catch (e: Exception) {
-                        e.printStackTrace()
+                        android.util.Log.w("PasswordEntropy", e)
                         null
                     }
                 }
