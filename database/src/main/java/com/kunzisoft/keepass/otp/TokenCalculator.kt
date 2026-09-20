@@ -129,7 +129,7 @@ object TokenCalculator {
 
             r = binary
         } catch (e: Exception) {
-            e.printStackTrace()
+            android.util.Log.w("TokenCalculator", e)
         }
         return r
     }
