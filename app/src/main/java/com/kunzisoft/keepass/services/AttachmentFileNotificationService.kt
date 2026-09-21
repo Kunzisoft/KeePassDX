@@ -446,7 +446,7 @@ class AttachmentFileNotificationService: LockNotificationService() {
                                     }
                                 }
                         } catch (e: Exception) {
-                            e.printStackTrace()
+                            Log.e("KeePassDX", "Error", e)
                             downloadState = AttachmentState.ERROR
                         }
                     }
