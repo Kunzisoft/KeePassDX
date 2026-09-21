@@ -19,6 +19,8 @@
  */
 package com.kunzisoft.keepass.password
 
+import android.util.Log
+
 import android.content.res.Resources
 import android.graphics.Color
 import com.kunzisoft.keepass.R
@@ -103,7 +105,7 @@ class PasswordEntropy(actionOnInitFinished: (() -> Unit)? = null) {
                             EntropyStrength(Strength.VERY_UNGUESSABLE, HIGH_ENTROPY, 100)
                         }
                     } catch (e: Exception) {
-                        e.printStackTrace()
+                        Log.e("KeePassDX", "Error", e)
                         null
                     }
                 }

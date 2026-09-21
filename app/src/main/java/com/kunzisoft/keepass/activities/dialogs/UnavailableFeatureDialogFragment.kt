@@ -19,6 +19,8 @@
  */
 package com.kunzisoft.keepass.activities.dialogs
 
+import android.util.Log
+
 import android.app.Dialog
 import android.os.Build
 import android.os.Bundle
@@ -78,11 +80,11 @@ class UnavailableFeatureDialogFragment : DialogFragment() {
             try {
                 fieldValue = field.getInt(Any())
             } catch (e: IllegalArgumentException) {
-                e.printStackTrace()
+                Log.e("KeePassDX", "Error", e)
             } catch (e: IllegalAccessException) {
-                e.printStackTrace()
+                Log.e("KeePassDX", "Error", e)
             } catch (e: NullPointerException) {
-                e.printStackTrace()
+                Log.e("KeePassDX", "Error", e)
             }
 
             if (fieldValue == apiNumber) {
