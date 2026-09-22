@@ -759,4 +759,5 @@
     <string name="error_load_database_KDF_parallelism">KDF: parallellismen är för hög.</string>
     <string name="parallelism_set_safe">Ange antal processorer</string>
     <string name="error_load_database_KDF_iteration">KDF-iterationsantalet är för högt.</string>
+    <string name="save_success">Spara har slutförts utan problem</string>
 </resources>
