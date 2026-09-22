@@ -285,7 +285,7 @@
     <string name="keyboard_key_sound_title">Sonar al pulsar las teclas</string>
     <string name="selection_mode">Modo de selección</string>
     <string name="do_not_kill_app">No cierre la aplicación…</string>
-    <string name="lock_database_back_root_summary">Pulse \'Atrás\' para bloquear la base de datos si se encuentra en la pantalla raíz de la base de datos</string>
+    <string name="lock_database_back_root_summary">Pulsa \'Atrás\' para bloquear la base de datos si se encuentra en la pantalla principal de la base de datos</string>
     <string name="recycle_bin">Papelera de reciclaje</string>
     <string name="delete_entered_password_title">Eliminar contraseña</string>
     <string name="delete_entered_password_summary">Elimina la contraseña introducida tras un intento de conexión a una base de datos</string>
@@ -318,7 +318,7 @@
     <string name="enable">Activar</string>
     <string name="disable">Desactivar</string>
     <string name="education_read_only_summary">Cambiar el modo de apertura de la sesión. \n \n\"Protegido contra escritura\" evita cambios involuntarios en la base de datos. \n\"Modificable\" permite añadir, eliminar o modificar todos los elementos a tu gusto.</string>
-    <string name="lock_database_back_root_title">Presione ‘Atrás’ para bloquear</string>
+    <string name="lock_database_back_root_title">Pulsar \'Atrás\' para bloquear</string>
     <string name="content_description_repeat_toggle_password_visibility">Repetir conmutación de visibilidad de contraseña</string>
     <string name="master_key">Clave maestra</string>
     <string name="security">Seguridad</string>
