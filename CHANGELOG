@@ -1,3 +1,6 @@
+ # KeePassDX(4.5.5)
+ * Fix deleting history #2718
+
  # KeePassDX(4.5.4)
  * Fix for adding attachments #2694
  * Fix custom icon selection exception ##2684

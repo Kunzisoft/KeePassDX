@@ -1,0 +1,1 @@
+ * Fix deleting history #2718

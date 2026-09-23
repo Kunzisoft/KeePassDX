@@ -1,0 +1,1 @@
+ * Correction de la suppression de l'historique #2718
