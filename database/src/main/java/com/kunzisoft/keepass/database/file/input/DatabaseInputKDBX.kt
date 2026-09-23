@@ -46,6 +46,7 @@ import com.kunzisoft.keepass.database.element.security.MemoryProtectionConfig
 import com.kunzisoft.keepass.database.element.security.ProtectedString
 import com.kunzisoft.keepass.database.exception.CorruptedDatabaseException
 import com.kunzisoft.keepass.database.exception.DatabaseInputException
+import com.kunzisoft.keepass.database.exception.HeaderHmacMismatchException
 import com.kunzisoft.keepass.database.exception.InvalidAlgorithmDatabaseException
 import com.kunzisoft.keepass.database.exception.InvalidCredentialsDatabaseException
 import com.kunzisoft.keepass.database.exception.KDFMemoryDatabaseException
@@ -190,7 +191,7 @@ class DatabaseInputKDBX(database: DatabaseKDBX)
                 }
                 // Mac doesn't match
                 if (!headerHmac.contentEquals(storedHmac)) {
-                    throw InvalidCredentialsDatabaseException()
+                    throw HeaderHmacMismatchException()
                 }
 
                 val hmIs = HmacBlockInputStream(databaseInputStream, true, hmacKey)

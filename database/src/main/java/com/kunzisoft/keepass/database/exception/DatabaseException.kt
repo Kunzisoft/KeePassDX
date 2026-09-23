@@ -90,6 +90,8 @@ class EmptyKeyDatabaseException : DatabaseException()
 
 class SignatureDatabaseException : DatabaseInputException()
 
+class HeaderHmacMismatchException : DatabaseInputException()
+
 class VersionDatabaseException : DatabaseInputException()
 
 class InvalidCredentialsDatabaseException : DatabaseInputException {
