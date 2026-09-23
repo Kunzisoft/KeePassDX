@@ -1,1 +1,2 @@
  * Fix deleting history #2718
+ * Fix validation button #2719

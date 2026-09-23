@@ -1,1 +1,2 @@
  * Correction de la suppression de l'historique #2718
+ * Correction du bouton de validation #2719

@@ -1,5 +1,6 @@
  # KeePassDX(4.5.5)
  * Fix deleting history #2718
+ * Fix validation button #2719
 
  # KeePassDX(4.5.4)
  * Fix for adding attachments #2694
