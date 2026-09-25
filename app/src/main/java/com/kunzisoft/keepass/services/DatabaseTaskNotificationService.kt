@@ -543,6 +543,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
             (intentAction != ACTION_DATABASE_TOUCH_ENTRY_TASK
                     && intentAction != ACTION_DATABASE_TOUCH_GROUP_TASK)) {
             mProgressMessage.titleId = newTitleId
+            mProgressMessage.cancelable = null
         }
 
         // Updated later
