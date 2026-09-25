@@ -29,6 +29,7 @@ import com.kunzisoft.keepass.model.AttachmentState
 import com.kunzisoft.keepass.model.EntryAttachmentState
 import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.model.StreamDirection
+import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -51,7 +52,11 @@ class AttachmentsViewModel : ViewModel() {
     )
     val attachmentsUIState = _attachmentsUIState.asStateFlow()
 
-    private val _attachmentEvents = MutableSharedFlow<AttachmentEvent>(replay = 1)
+    private val _attachmentEvents = MutableSharedFlow<AttachmentEvent>(
+        replay = 0,
+        extraBufferCapacity = 1,
+        onBufferOverflow = BufferOverflow.DROP_OLDEST
+    )
     val attachmentEvents: SharedFlow<AttachmentEvent> = _attachmentEvents.asSharedFlow()
 
     private val tempAttachments: List<EntryAttachmentState>

@@ -65,7 +65,7 @@ open class SaveDatabaseRunnable(
                 mMasterCredential = mainCredential?.toMasterCredential(contentResolver)
                 // Build temp database file to avoid file corruption if error
                 database.saveData(
-                    cacheFile = File(context.cacheDir, databaseCopyUri.hashCode().toString()),
+                    cacheFile = File.createTempFile("db_", ".tmp", context.cacheDir),
                     databaseOutputStream = {
                         contentResolver.getUriOutputStream(databaseCopyUri ?: database.fileUri)
                     },

@@ -240,6 +240,7 @@
     <string name="invalid_algorithm">Wrong algorithm.</string>
     <string name="invalid_db_same_uuid">%1$s with the same UUID %2$s already exists.</string>
     <string name="invalid_db_sig">Could not recognize the database format.</string>
+    <string name="invalid_db_hmac">Database signature verification failed. This may be caused by file corruption or external app modification.</string>
     <string name="keyfile_is_empty">The keyfile is empty.</string>
     <string name="length">Length</string>
     <string name="nodes">Nodes</string>
