@@ -780,4 +780,5 @@
     <string name="parallelism_set_safe">Nastavit počet procesorů</string>
     <string name="error_load_database_KDF_iteration">Iterace KDF je příliš vysoká.</string>
     <string name="save_success">Úspěšně uloženo</string>
+    <string name="words">Slova</string>
 </resources>
