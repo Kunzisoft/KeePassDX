@@ -770,4 +770,5 @@
     <string name="parallelism_set_safe">İşlemci sayısını ayarla</string>
     <string name="error_load_database_KDF_iteration">KDF yinelemesi çok yüksek.</string>
     <string name="save_success">Kaydetme işlemi başarıyla tamamlandı</string>
+    <string name="words">Sözcükler</string>
 </resources>
