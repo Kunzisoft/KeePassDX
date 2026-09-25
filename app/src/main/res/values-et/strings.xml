@@ -737,4 +737,5 @@
     <string name="parallelism_set_safe">Seadista kasutatavate protsessorite arv</string>
     <string name="error_load_database_KDF_iteration">KDF-i korduste arv on liiga suur.</string>
     <string name="save_success">Salvestamine on kenasti tehtud</string>
+    <string name="words">Sõnu</string>
 </resources>
