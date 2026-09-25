@@ -779,4 +779,5 @@
     <string name="parallelism_set_safe">Установить количество процессоров</string>
     <string name="error_load_database_KDF_iteration">Количество итераций функции формирования ключа (KDF) слишком велико.</string>
     <string name="save_success">Сохранение успешно завершено</string>
+    <string name="words">Слова</string>
 </resources>
