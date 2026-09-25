@@ -769,4 +769,5 @@
     <string name="parallelism_set_safe">Ustaw liczbę procesorów</string>
     <string name="error_load_database_KDF_iteration">Zbyt wysokie iteracje KDF.</string>
     <string name="save_success">Zapisywanie zakończone pomyślnie</string>
+    <string name="words">Słowa</string>
 </resources>
