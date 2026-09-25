@@ -127,7 +127,7 @@
     <string name="error_nokeyfile">حدِّد ملف المفتاح.</string>
     <string name="error_out_of_memory">لا توجد ذاكرة كافية لتحميل قاعدة البيانات بالكامل.</string>
     <string name="error_load_database">تعذر تحميل قاعدة البيانات.</string>
-    <string name="error_load_database_KDF_memory">استخدام الذاكرة في KDF مرتفع جدًّا. تعذّر التحميل.</string>
+    <string name="error_load_database_KDF_memory">استخدام الذاكرة في KDF مرتفع جدًّا.</string>
     <string name="error_pass_gen_type">يجب تحديد نوع واحد على الأقل لتوليد كلمة السر.</string>
     <string name="error_rounds_too_large">عدد جولات التحويل مرتفع جدًا. تم ضبطه على %1$s.</string>
     <string name="error_string_key">يجب أن يكون لكل حقل اسم.</string>
@@ -517,7 +517,7 @@
     <string name="delete_entered_password_summary">يحذف كلمة السر التي تم إدخالها بعد محاولة الاتصال بقاعدة البيانات</string>
     <string name="education_lock_summary">يمكنك قفل قاعدة البيانات بسرعة، حيث يمكنك ضبط التطبيق لقفلها بعد فترة، وعندما تنطفئ الشاشة.</string>
     <string name="education_sort_title">فرز العناصر</string>
-    <string name="contribute">ساهم</string>
+    <string name="contribute">المساهمة</string>
     <string name="upload_attachment">ارفع %1$s</string>
     <string name="download_canceled">تم الإلغاء!</string>
     <string name="unit_kibibyte">KiB</string>
@@ -551,7 +551,7 @@
     <string name="content_description_entry_foreground_color">لون مقدمة المدخل</string>
     <string name="keyboard_previous_fill_in_summary">العودة تلقائيًا إلى لوحة المفاتيح السابقة بعد تنفيذ \"إجراء المفتاح التلقائي\"</string>
     <string name="download_attachment">ثبِّت %1$s</string>
-    <string name="html_about_privacy">لا يتم جمع أي بيانات للمستخدم، لا يتصل هذا التطبيق بأي خادم، و يعمل محليًا فقط، و يحترم خصوصية المستخدمين احترامًا كاملًا.</string>
+    <string name="html_about_privacy">لا يتم جمع أي بيانات للمستخدم، لا يتصل هذا التطبيق بأي خادم، ويعمل محلياً فقط، و يحترم خصوصية المستخدمين احترامًا كاملًا.</string>
     <string name="error_cancel_by_user">تم الإلغاء من قبل المستخدم.</string>
     <string name="show_otp_token_title">عرض رمز OTP</string>
     <string name="show_otp_token_summary">يعرض رموز OTP افتراضيًا</string>
@@ -750,6 +750,8 @@
     <string name="autofill_suggestions_title">اقتراحات الملء التلقائي</string>
     <string name="autofill_suggestions_summary">استخدم خوارزمية التعرُّف على النماذج لاقتراح مُدخلات</string>
     <string name="passkey_pseudo_random_function">دالة Passkey شبه العشوائية</string>
-    <string name="error_load_database_KDF_parallelism">مستوى التوازي في KDF مرتفع جدًّا. تعذّر التحميل.</string>
+    <string name="error_load_database_KDF_parallelism">مستوى التوازي في KDF مرتفع جدًّا.</string>
     <string name="parallelism_set_safe">عيّن عدد المعالجات</string>
+    <string name="error_load_database_KDF_iteration">عدد تكرارات KDF مرتفع جدًّا.</string>
+    <string name="save_success">اكتمل الحفظ بنجاح</string>
 </resources>
