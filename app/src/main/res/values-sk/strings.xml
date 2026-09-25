@@ -771,4 +771,5 @@
     <string name="parallelism_set_safe">Nastaviť počet procesorov</string>
     <string name="error_load_database_KDF_iteration">Počet iterácií KDF je príliš vysoký.</string>
     <string name="save_success">Uloženie prebehlo úspešne</string>
+    <string name="words">Slová</string>
 </resources>
