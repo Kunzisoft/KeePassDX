@@ -1,4 +1,9 @@
- # KeePassDX(4.5.4)
+KeePassDX(4.5.5)
+ * Fix deleting history #2718
+ * Fix validation button #2719
+ * New error message after file modification #2725
+
+KeePassDX(4.5.4)
  * Fix for adding attachments #2694
  * Fix custom icon selection exception ##2684
  * Fix database error display #2701

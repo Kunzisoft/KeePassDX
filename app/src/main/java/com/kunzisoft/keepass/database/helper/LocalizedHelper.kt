@@ -45,6 +45,7 @@ import com.kunzisoft.keepass.database.exception.MoveEntryDatabaseException
 import com.kunzisoft.keepass.database.exception.MoveGroupDatabaseException
 import com.kunzisoft.keepass.database.exception.NoMemoryDatabaseException
 import com.kunzisoft.keepass.database.exception.RegisterInReadOnlyDatabaseException
+import com.kunzisoft.keepass.database.exception.HeaderHmacMismatchException
 import com.kunzisoft.keepass.database.exception.SignatureDatabaseException
 import com.kunzisoft.keepass.database.exception.UnknownDatabaseLocationException
 import com.kunzisoft.keepass.database.exception.VersionDatabaseException
@@ -69,6 +70,7 @@ fun LocalizedException.getLocalizedMessage(resources: Resources): String? =
         is RegisterInReadOnlyDatabaseException -> resources.getString(R.string.error_save_read_only)
         is HardwareKeyDatabaseException -> resources.getString(R.string.error_hardware_key_unsupported)
         is EmptyKeyDatabaseException -> resources.getString(R.string.error_empty_key)
+        is HeaderHmacMismatchException -> resources.getString(R.string.invalid_db_hmac)
         is SignatureDatabaseException -> resources.getString(R.string.invalid_db_sig)
         is VersionDatabaseException -> resources.getString(R.string.unsupported_db_version)
         is InvalidCredentialsDatabaseException -> resources.getString(R.string.invalid_credentials)
