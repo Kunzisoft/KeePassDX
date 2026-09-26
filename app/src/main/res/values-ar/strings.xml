@@ -754,4 +754,5 @@
     <string name="parallelism_set_safe">عيّن عدد المعالجات</string>
     <string name="error_load_database_KDF_iteration">عدد تكرارات KDF مرتفع جدًّا.</string>
     <string name="save_success">اكتمل الحفظ بنجاح</string>
+    <string name="words">الكلمات</string>
 </resources>
