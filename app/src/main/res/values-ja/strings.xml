@@ -770,4 +770,5 @@
     <string name="error_load_database_KDF_parallelism">KDFの並列度が大きすぎます。</string>
     <string name="error_load_database_KDF_iteration">KDFの反復回数が多すぎます。</string>
     <string name="save_success">保存に成功しました</string>
+    <string name="words">単語</string>
 </resources>
