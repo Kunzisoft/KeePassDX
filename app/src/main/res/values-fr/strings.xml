@@ -777,4 +777,5 @@
     <string name="passkey_pseudo_random_function">Fonction pseudo-aléatoire de clé d\'accès</string>
     <string name="error_load_database_KDF_parallelism">Le parallélisme KDF est trop élevé.</string>
     <string name="error_load_database_KDF_iteration">Nombre d\'itérations KDF trop élevé.</string>
+    <string name="words">Mots</string>
 </resources>
