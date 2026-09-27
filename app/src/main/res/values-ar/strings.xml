@@ -107,7 +107,7 @@
     <string name="about_description">تطبيق أندرويد لمدير كلمات السر KeePass.</string>
     <string name="add_entry">إضافة مدخل</string>
     <string name="edit_entry">تعديل مدخل</string>
-    <string name="key_derivation_function">دالة اشتقاق المفتاح</string>
+    <string name="key_derivation_function">عملية توليد المفتاح</string>
     <string name="app_timeout">المهلة</string>
     <string name="app_timeout_summary">مدة الخمول قبل قفل قاعدة البيانات</string>
     <string name="file_manager_install_description">يلزم وجود مدير ملفات يدعم الإجراءين ACTION_CREATE_DOCUMENT وACTION_OPEN_DOCUMENT لإنشاء ملفات قاعدة البيانات وفتحها وحفظها.</string>
