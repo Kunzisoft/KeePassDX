@@ -20,6 +20,7 @@
 package com.kunzisoft.keepass.database.element.group
 
 import android.os.Parcel
+import android.util.Log
 import com.kunzisoft.keepass.database.element.entry.EntryVersioned
 import com.kunzisoft.keepass.database.element.node.NodeVersioned
 
@@ -50,6 +51,7 @@ abstract class GroupVersioned
         dest.writeString(titleGroup)
     }
 
+    @Synchronized
     protected fun updateWith(
         source: GroupVersioned<GroupId, EntryId, Group, Entry>,
         updateParents: Boolean = true
@@ -58,8 +60,8 @@ abstract class GroupVersioned
         titleGroup = source.titleGroup
         if (updateParents) {
             removeChildren()
-            childGroups.addAll(source.childGroups)
-            childEntries.addAll(source.childEntries)
+            childGroups.addAll(source.getChildGroups())
+            childEntries.addAll(source.getChildEntries())
         }
     }
 
@@ -78,14 +80,17 @@ abstract class GroupVersioned
         return level
     }
 
+    @Synchronized
     override fun getChildGroups(): List<Group> {
-        return childGroups
+        return childGroups.toList()
     }
 
+    @Synchronized
     override fun getChildEntries(): List<Entry> {
-        return childEntries
+        return childEntries.toList()
     }
 
+    @Synchronized
     override fun addChildGroup(group: Group) {
         if (childGroups.contains(group))
             removeChildGroup(group)
@@ -94,6 +99,7 @@ abstract class GroupVersioned
         this.childGroups.add(group)
     }
 
+    @Synchronized
     override fun addChildEntry(entry: Entry) {
         if (childEntries.contains(entry))
             removeChildEntry(entry)
@@ -102,32 +108,43 @@ abstract class GroupVersioned
         this.childEntries.add(entry)
     }
 
+    @Synchronized
     override fun updateChildGroup(group: Group) {
         val index = this.childGroups.indexOfFirst { it.nodeId == group.nodeId }
         if (index >= 0) {
             val oldGroup = this.childGroups.removeAt(index)
             group.indexInParent = oldGroup.indexInParent
             this.childGroups.add(index, group)
+        } else {
+            Log.w(TAG, "Unable to find the group to update")
+            addChildGroup(group)
         }
     }
 
+    @Synchronized
     override fun updateChildEntry(entry: Entry) {
         val index = this.childEntries.indexOfFirst { it.nodeId == entry.nodeId }
         if (index >= 0) {
             val oldEntry = this.childEntries.removeAt(index)
             entry.indexInParent = oldEntry.indexInParent
             this.childEntries.add(index, entry)
+        } else {
+            Log.w(TAG, "Unable to find the entry to update")
+            addChildEntry(entry)
         }
     }
 
+    @Synchronized
     override fun removeChildGroup(group: Group) {
         this.childGroups.remove(group)
     }
 
+    @Synchronized
     override fun removeChildEntry(entry: Entry) {
         this.childEntries.remove(entry)
     }
 
+    @Synchronized
     override fun removeChildren() {
         this.childGroups.clear()
         this.childEntries.clear()
@@ -135,8 +152,12 @@ abstract class GroupVersioned
 
     override fun indexInParent(): Int {
         return if (indexInParent == -1)
-            childGroups.indexOf(this)
+            getChildGroups().indexOf(this)
         else
             indexInParent
+    }
+
+    companion object {
+        private val TAG = GroupVersioned::class.simpleName
     }
 }

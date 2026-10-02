@@ -403,12 +403,12 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX)
         writePreviousParentGroup(entry.previousParentGroup)
         writeTimes(entry)
         writeFields(entry.getFields())
-        writeEntryBinaries(entry.binaries)
+        writeEntryBinaries(entry.getBinaries())
         writeCustomData(entry.customData)
         writeAutoType(entry.autoType)
 
         if (!isHistory) {
-            writeEntryHistory(entry.history)
+            writeEntryHistory(entry.getHistory())
         }
 
         xml.endTag(null, DatabaseKDBXXML.ElemEntry)
