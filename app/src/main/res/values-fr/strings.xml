@@ -692,7 +692,7 @@
     <string name="warning_large_keyfile">Il n\'est pas recommandé d\'ajouter un fichier clé volumineux, car cela pourrait empêcher l\'ouverture de la base de données.</string>
     <string name="hide_templates_title">Cacher les gabarits</string>
     <string name="hide_templates_summary">Les gabarits ne sont pas affichés</string>
-    <string name="error_otp_secret_length">La clé secrète doit avoir ai moins %1$d caractères.</string>
+    <string name="error_otp_secret_length">La clé secrète doit avoir au moins %1$d caractères.</string>
     <string name="entry_application_id">ID d\'Application</string>
     <string name="warning_overwrite_data_title">Écraser les données existantes ?</string>
     <string name="warning_overwrite_data_description">Cette action va remplacer la donnée existante de cette entrée, vous pourrez récupérer l\'ancienne donnée si l\'historique est activé.</string>
