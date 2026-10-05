@@ -781,4 +781,6 @@
     <string name="autofill_suggestions_summary">Usa l\'algoritmo di riconoscimento dei moduli per suggerire le voci</string>
     <string name="passkey_pseudo_random_function">Funzione pseudo-casuale della passkey</string>
     <string name="error_load_database_KDF_iteration">Iterazione KDF troppo alta.</string>
+    <string name="save_success">Salvataggio riuscito</string>
+    <string name="words">Parole</string>
 </resources>
