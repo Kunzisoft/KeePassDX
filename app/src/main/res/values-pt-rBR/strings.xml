@@ -52,7 +52,7 @@
     <string name="entry_modified">Modificado</string>
     <string name="entry_password">Senha</string>
     <string name="save">Salvar</string>
-    <string name="entry_title">Titulo</string>
+    <string name="entry_title">Título</string>
     <string name="entry_url">URL</string>
     <string name="entry_user_name">Nome de usuário</string>
     <string name="error_arc4">A cifra de fluxo Arcfour não é suportada.</string>
@@ -147,7 +147,7 @@
     <string name="menu_open_file_read_and_write">Modificável</string>
     <string name="protection">Proteção</string>
     <string name="read_only">Somente leitura</string>
-    <string name="read_only_warning">KeePassDX precisa de permissões de escrita para poder mudar qualquer coisa no seu banco.</string>
+    <string name="read_only_warning">Dependendo do seu gerenciador de arquivos, o KeePassDX pode não ter permissão para gravar no seu armazenamento.</string>
     <string name="show_recent_files_title">Exibir arquivos recentes</string>
     <string name="show_recent_files_summary">Exibir locais de bancos de dados recentes</string>
     <string name="encryption_explanation">Algoritmo de criptografia usado para todos os dados</string>
@@ -159,7 +159,7 @@
     <string name="sort_menu">Ordenar</string>
     <string name="sort_ascending">Menores primeiro ↓</string>
     <string name="sort_groups_before">Grupos antes</string>
-    <string name="sort_recycle_bin_bottom">Lixeira no fundo</string>
+    <string name="sort_recycle_bin_bottom">Lixeira por último</string>
     <string name="sort_title">Título</string>
     <string name="sort_username">Nome de usuário</string>
     <string name="sort_creation_time">Data de criação</string>
@@ -339,7 +339,7 @@
     <string name="otp_period">Período (segundos)</string>
     <string name="otp_counter">Contador</string>
     <string name="otp_digits">Dígitos</string>
-    <string name="otp_algorithm">Algorítimo</string>
+    <string name="otp_algorithm">Algoritmo</string>
     <string name="entry_otp">OTP</string>
     <string name="error_invalid_OTP">Segredo OTP inválido.</string>
     <string name="error_disallow_no_credentials">Ao menos uma credencial deve ser definida.</string>
@@ -539,7 +539,7 @@
     <string name="education_device_unlock_summary">Vincule sua senha à credencial biométrica ou do dispositivo digitalizada para desbloquear rapidamente seu banco de dados.</string>
     <string name="education_device_unlock_title">Desbloqueio do banco de dados do dispositivo</string>
     <string name="autofill_inline_suggestions_keyboard">Sugestões de preenchimento automático adicionadas.</string>
-    <string name="error_save_read_only">A salvação de dados não é permitida para um banco de dados aberto apenas como leitura.</string>
+    <string name="error_save_read_only">Não é permitido salvar dados em um banco de dados aberto como somente leitura.</string>
     <string name="autofill_ask_to_save_data_summary">Pedir para salvar dados ao terminar de preencher um formulário</string>
     <string name="autofill_ask_to_save_data_title">Perguntar para salvar dados</string>
     <string name="autofill_save_search_info_summary">Tente salvar informações de pesquisa ao fazer uma seleção manual de entrada para facilitar usos posteriores</string>
@@ -605,7 +605,7 @@
     <string name="search_filters">Filtros de pesquisa</string>
     <string name="case_sensitive">Sensível a maiúsculas e minúsculas</string>
     <string name="current_group">Grupo atual</string>
-    <string name="content_description_passphrase_word_count">Número de palavras da senha</string>
+    <string name="content_description_passphrase_word_count">Número de palavras da frase secreta</string>
     <string name="warning_database_already_opened">Um banco de dados já está aberto, feche-o primeiro para abrir o novo</string>
     <string name="keyboard_previous_search_title">Tela de busca</string>
     <string name="entropy_calculate">Entropia: Calculando…</string>
@@ -727,14 +727,14 @@
     <string name="passkey_selection_description">Selecione uma chave de acesso existente</string>
     <string name="credential_provider_database_username">Banco de dados KeePassDX</string>
     <string name="credential_provider_locked_database_description">Selecione para desbloquear</string>
-    <string name="passkey_username">Nome da chave de acesso</string>
-    <string name="passkey_private_key">Chavde de acesso privada</string>
+    <string name="passkey_username">Nome de usuário da chave de acesso</string>
+    <string name="passkey_private_key">Chave privada da chave de acesso</string>
     <string name="passkey_credential_id">Id de credencial Passkey</string>
-    <string name="passkey_user_handle">Nome de usuário da chave de acesso</string>
+    <string name="passkey_user_handle">ID do usuário da chave de acesso</string>
     <string name="passkey_backup_eligibility">Elegibilidade para Backup de chave de acesso</string>
     <string name="passkey_backup_state">Status de backup da chave de acesso</string>
     <string name="error_passkey_result">Incapaz de retornar a chave de acesso</string>
-    <string name="passkey_relying_party">Chave de acesso com autenticador externo</string>
+    <string name="passkey_relying_party">Parte confiável da chave de acesso</string>
     <string name="clipboard_otp_notifications_title">Notificação OTP</string>
     <string name="clipboard_otp_notifications_summary">Abra uma notificação para copiar o OTP de entradas preenchidas com o preenchimento automático ou magikeyboard</string>
     <string name="user_verification">Verificação do usuário</string>
@@ -778,4 +778,6 @@
     <string name="autofill_suggestions_title">Sugestões de preenchimento automático</string>
     <string name="autofill_suggestions_summary">Use o algoritmo de reconhecimento de formulários para sugerir entradas</string>
     <string name="passkey_pseudo_random_function">Função Pseudoaleatória de Chave de Acesso</string>
+    <string name="save_success">Salvo com sucesso</string>
+    <string name="words">Palavras</string>
 </resources>
