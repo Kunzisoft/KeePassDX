@@ -62,7 +62,7 @@
     <string name="content_description_remove_from_list">لابردن</string>
     <string name="content_description_keyboard_close_fields">داخستنی کێڵگەکان</string>
     <string name="content_description_share_url">هاوبەشکردنی بەستەر</string>
-    <string name="select_to_copy">هەڵبژێرە بۆ کۆپیکردنی %1$s بۆ بیرگە</string>
+    <string name="select_to_copy">هەڵبژێرە بۆ کۆپیکردنی %1$s بۆ تەختەی کۆپیکردن</string>
     <string name="retrieving_db_key">هێنانەوەی کلیلی بنکەدراوە…</string>
     <string name="waiting_challenge_request">چاوەڕوانی داواکاریی ئاڵنگاری…</string>
     <string name="waiting_challenge_response">چاوەڕوانی وەڵامی ئاڵنگاری…</string>
