@@ -287,17 +287,9 @@ class EntryEditFragment: DatabaseFragment() {
                     }
                 }
                 launch {
-                    mAttachmentsViewModel.attachmentEvents.collect { event ->
-                        when (event) {
-                            is AttachmentsViewModel.AttachmentEvent.OnEntryReadyForSave -> {
-                                mEntryEditViewModel.saveEntryInfo(event.entryInfo)
-                            }
-                            is AttachmentsViewModel.AttachmentEvent.HighlightAttachment -> {
-                                getAttachmentViewPosition(event.attachment) { _, position ->
-                                    mEntryEditViewModel.scrollTo(position)
-                                }
-                            }
-                            else -> {}
+                    mAttachmentsViewModel.highlightAttachment.collect { attachment ->
+                        getAttachmentViewPosition(attachment) { _, position ->
+                            mEntryEditViewModel.scrollTo(position)
                         }
                     }
                 }
@@ -368,10 +360,10 @@ class EntryEditFragment: DatabaseFragment() {
     }
 
     private fun retrieveEntryInfo(): EntryInfo {
-        val entryInfo = templateView.getEntryInfo()
-        entryInfo.tags = tagsCompletionView.getTags()
-        entryInfo.attachments = mAttachmentsViewModel.getAttachments().toMutableList()
-        return entryInfo
+        return templateView.getEntryInfo().apply {
+            tags = tagsCompletionView.getTags()
+            attachments = mAttachmentsViewModel.getAttachments().toMutableList()
+        }
     }
 
     private fun updateFieldProtection(fieldProtection: FieldProtection) {

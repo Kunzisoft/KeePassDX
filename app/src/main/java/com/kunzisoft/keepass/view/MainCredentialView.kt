@@ -34,8 +34,6 @@ import android.widget.EditText
 import android.widget.FrameLayout
 import android.widget.TextView
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.activities.helpers.ExternalFileHelper
-import com.kunzisoft.keepass.activities.helpers.setOpenDocumentClickListener
 import com.kunzisoft.keepass.database.MainCredential
 import com.kunzisoft.keepass.hardware.HardwareKey
 import com.kunzisoft.keepass.model.CredentialStorage
@@ -50,7 +48,8 @@ class MainCredentialView @JvmOverloads constructor(context: Context,
     private var checkboxPasswordView: CompoundButton
     private var passwordTextView: EditText
     private var checkboxKeyFileView: CompoundButton
-    private var keyFileSelectionView: KeyFileSelectionView
+    var keyFileSelectionView: KeyFileSelectionView
+        private set
     private var checkboxHardwareView: CompoundButton
     private var hardwareKeySelectionView: HardwareKeySelectionView
 
@@ -174,10 +173,6 @@ class MainCredentialView @JvmOverloads constructor(context: Context,
             if (!checkboxHardwareView.isChecked)
                 checkboxHardwareView.isChecked = true
         }
-    }
-
-    fun setOpenKeyfileClickListener(externalFileHelper: ExternalFileHelper?) {
-        keyFileSelectionView.setOpenDocumentClickListener(externalFileHelper)
     }
 
     fun isFill(): Boolean {

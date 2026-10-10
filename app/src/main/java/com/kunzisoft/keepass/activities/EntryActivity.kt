@@ -51,7 +51,8 @@ import com.google.android.material.progressindicator.LinearProgressIndicator
 import com.google.android.material.tabs.TabLayout
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.fragments.EntryFragment
-import com.kunzisoft.keepass.activities.helpers.ExternalFileHelper
+import com.kunzisoft.keepass.activities.helpers.ExternalFileHelper.registerCreateFile
+import com.kunzisoft.keepass.activities.helpers.ExternalFileHelper.createFile
 import com.kunzisoft.keepass.activities.legacy.DatabaseLockActivity
 import com.kunzisoft.keepass.adapters.TagsAdapter
 import com.kunzisoft.keepass.credentialprovider.SpecialMode
@@ -115,9 +116,20 @@ class EntryActivity : DatabaseLockActivity() {
 
     private val mEntryActivityEducation = EntryActivityEducation(this)
 
-    private var mAttachmentFileBinderManager: AttachmentFileBinderManager? = null
-    private var mExternalFileHelper: ExternalFileHelper? = null
+    private var mAttachmentFileBinderManager: AttachmentFileBinderManager = AttachmentFileBinderManager()
     private var mAttachmentSelected: Attachment? = null
+    private var createAttachmentResultLauncher: ActivityResultLauncher<String> = registerCreateFile { uri ->
+        mAttachmentSelected?.let { attachment ->
+            uri?.let {
+                mAttachmentFileBinderManager.startDownloadAttachment(
+                    activity = this@EntryActivity,
+                    downloadFileUri = uri,
+                    attachment
+                )
+            }
+            mAttachmentSelected = null
+        }
+    }
 
     private var mEntryActivityResultLauncher = EntryEditActivity.registerForEntryResult(this) {
         // Reload the current id from database
@@ -217,20 +229,6 @@ class EntryActivity : DatabaseLockActivity() {
             Log.e(TAG, "Unable to retrieve the entry key")
         }
 
-        // Init SAF manager
-        mExternalFileHelper = ExternalFileHelper(this)
-        mExternalFileHelper?.buildCreateDocument { createdFileUri ->
-            mAttachmentSelected?.let { attachment ->
-                if (createdFileUri != null) {
-                    mAttachmentFileBinderManager
-                        ?.startDownloadAttachment(createdFileUri, attachment)
-                }
-                mAttachmentSelected = null
-            }
-        }
-        // Init attachment service binder manager
-        mAttachmentFileBinderManager = AttachmentFileBinderManager(this)
-
         titleIconView?.setOnClickListener {
             mEntryViewModel.sendToMagikeyboard()
         }
@@ -310,7 +308,10 @@ class EntryActivity : DatabaseLockActivity() {
                             }
                             is EntryViewModel.EntryEvent.AttachmentSelected -> {
                                 mAttachmentSelected = event.attachment
-                                mExternalFileHelper?.createDocument(event.attachment.name)
+                                createFile(
+                                    createFileResultLauncher = createAttachmentResultLauncher,
+                                    titleString = event.attachment.name
+                                )
                             }
                             is EntryViewModel.EntryEvent.HistorySelected -> {
                                 mDatabase?.let { database ->
@@ -464,8 +465,9 @@ class EntryActivity : DatabaseLockActivity() {
             View.GONE
         }
 
-        mAttachmentFileBinderManager?.apply {
-            registerProgressTask()
+        // To show the attachment download progress
+        mAttachmentFileBinderManager.apply {
+            registerProgressTask(this@EntryActivity)
             onActionTaskListener = object : AttachmentFileNotificationService.ActionTaskListener {
                 override fun onAttachmentAction(fileUri: Uri, entryAttachmentState: EntryAttachmentState) {
                     mAttachmentsViewModel.onAttachmentAction(entryAttachmentState)
@@ -480,8 +482,7 @@ class EntryActivity : DatabaseLockActivity() {
     }
 
     override fun onPause() {
-        mAttachmentFileBinderManager?.unregisterProgressTask()
-
+        mAttachmentFileBinderManager.unregisterProgressTask(this)
         super.onPause()
     }
 
