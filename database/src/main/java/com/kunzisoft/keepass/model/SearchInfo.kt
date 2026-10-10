@@ -172,7 +172,7 @@ class SearchInfo : ObjectNameResource, Parcelable {
     companion object {
         // https://gist.github.com/rishabhmhjn/8663966
         const val APPLICATION_ID_REGEX = "^(?:[a-zA-Z]+(?:\\d*[a-zA-Z_]*)*)(?:\\.[a-zA-Z]+(?:\\d*[a-zA-Z_]*)*)+\$"
-        const val WEB_DOMAIN_REGEX = "^(?!://)([a-zA-Z0-9-_]+\\.)*[a-zA-Z]{2,11}?\$"
+        const val WEB_DOMAIN_REGEX = "^([a-zA-Z0-9-_]*://)?([a-zA-Z0-9-_]{2,})(\\.[a-zA-Z]{2,11})?\$"
         const val WEB_IP_REGEX = "^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\$"
 
         @JvmField
