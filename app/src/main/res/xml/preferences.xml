@@ -47,6 +47,13 @@
 			android:persistent="false" />
 	</PreferenceCategory>
 
+    <PreferenceCategory android:title="Coordinated KDBX (experimental)">
+        <Preference android:key="coordinator_settings"
+            android:title="HTTPS coordinated database"
+            android:summary="Configure native shared KDBX without FileSync"
+            android:persistent="false" />
+    </PreferenceCategory>
+
 	<PreferenceCategory
 		android:key="@string/settings_database_category_key"
 		android:title="@string/database">

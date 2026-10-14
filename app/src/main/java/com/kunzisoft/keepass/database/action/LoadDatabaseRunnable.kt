@@ -22,6 +22,7 @@ package com.kunzisoft.keepass.database.action
 import android.content.Context
 import android.net.Uri
 import com.kunzisoft.keepass.database.ContextualDatabase
+import com.kunzisoft.keepass.coordination.CoordinatorSession
 import com.kunzisoft.keepass.database.MainCredential
 import com.kunzisoft.keepass.database.element.MasterCredential
 import com.kunzisoft.keepass.database.exception.UnknownDatabaseLocationException
@@ -51,19 +52,23 @@ class LoadDatabaseRunnable(
     override fun onActionRun() {
         try {
             val contentResolver = context.contentResolver
-            val databaseStream = contentResolver.getUriInputStream(mDatabaseUri)
+            // A coordinator-backed database acquires its edit lease BEFORE reading
+            // the encrypted file. Busy editors fall back to read-only automatically.
+            mDatabase.clearAndClose(binaryDir)
+            val coordinator = if (CoordinatorSession.handles(mDatabaseUri))
+                CoordinatorSession.open(context, mDatabaseUri, !mReadonly) else null
+            val databaseStream = coordinator?.input ?: contentResolver.getUriInputStream(mDatabaseUri)
                 ?: throw UnknownDatabaseLocationException()
             masterCredential = mMainCredential.toMasterCredential(contentResolver)
             mDatabase.apply {
-                // Clear binaries before database loading
-                clearAndClose(binaryDir)
-                // Save database URI
+                // Save database URI. The previous database was closed above,
+                // before the new coordinator lease was acquired.
                 fileUri = mDatabaseUri
                 loadData(
                     databaseStream = databaseStream,
                     masterCredential = masterCredential!!,
                     challengeResponseRetriever = mChallengeResponseRetriever,
-                    readOnly = mReadonly,
+                    readOnly = mReadonly || (coordinator?.readOnly == true),
                     allowUserVerification = mAllowUserVerification,
                     cacheDirectory = binaryDir,
                     limits = context.getLimits(),

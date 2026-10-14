@@ -7,6 +7,7 @@
       android:normalScreens="true"
       android:largeScreens="true"
       android:anyDensity="true" />
+    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission
         android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission
@@ -180,6 +181,18 @@
             android:name="com.kunzisoft.keepass.activities.AboutActivity"
             android:launchMode="singleTask"
             android:label="@string/about" />
+        <provider
+            android:name="com.kunzisoft.keepass.coordination.CoordinatorDocumentsProvider"
+            android:authorities="${applicationId}.coordinator"
+            android:permission="android.permission.MANAGE_DOCUMENTS"
+            android:exported="true"
+            android:grantUriPermissions="true">
+            <intent-filter>
+                <action android:name="android.content.action.DOCUMENTS_PROVIDER" />
+            </intent-filter>
+        </provider>
+        <activity android:name="com.kunzisoft.keepass.coordination.CoordinatorSettingsActivity"
+            android:exported="false" />
         <activity
             android:name="com.kunzisoft.keepass.settings.SettingsActivity" />
         <activity

@@ -20,6 +20,8 @@
 package com.kunzisoft.keepass.settings
 
 import android.content.Context
+import android.content.Intent
+import com.kunzisoft.keepass.coordination.CoordinatorSettingsActivity
 import android.os.Bundle
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
@@ -77,6 +79,12 @@ class MainPreferenceFragment : PreferenceFragmentCompat() {
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.preferences, rootKey)
+
+        // Configure one opt-in coordinator, without a separate application.
+        findPreference<Preference>("coordinator_settings")?.setOnPreferenceClickListener {
+            startActivity(Intent(requireContext(), CoordinatorSettingsActivity::class.java))
+            true
+        }
 
         // add listeners for non-default actions
         findPreference<Preference>(getString(R.string.settings_app_key))?.apply {

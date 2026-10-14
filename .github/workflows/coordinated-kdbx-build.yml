@@ -1,0 +1,36 @@
+name: Coordinated KDBX - KeePassDX build and tests
+
+on:
+  push:
+    branches: ["feature/coordinated-kdbx"]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  android:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 75
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - uses: android-actions/setup-android@v3
+      - name: Install Android platform
+        run: sdkmanager 'platforms;android-36' 'build-tools;36.0.0'
+      - name: Run Android unit tests and compile app
+        run: |
+          chmod +x ./gradlew
+          ./gradlew --no-daemon --stacktrace \
+            :app:testLibreDebugUnitTest :app:assembleLibreDebug
+      - name: Preserve built APK for testing
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: keepassdx-libre-debug-unsigned
+          path: app/build/outputs/apk/libre/debug/*.apk
+          if-no-files-found: error

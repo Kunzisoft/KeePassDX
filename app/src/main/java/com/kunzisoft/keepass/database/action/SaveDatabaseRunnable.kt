@@ -22,6 +22,9 @@ package com.kunzisoft.keepass.database.action
 import android.content.Context
 import android.net.Uri
 import com.kunzisoft.keepass.database.ContextualDatabase
+import com.kunzisoft.keepass.coordination.CoordinatorSession
+import com.kunzisoft.keepass.database.exception.DatabaseOutputException
+import java.io.ByteArrayOutputStream
 import com.kunzisoft.keepass.database.MainCredential
 import com.kunzisoft.keepass.database.element.MasterCredential
 import com.kunzisoft.keepass.database.exception.DatabaseException
@@ -63,22 +66,34 @@ open class SaveDatabaseRunnable(
             try {
                 val contentResolver = context.contentResolver
                 mMasterCredential = mainCredential?.toMasterCredential(contentResolver)
-                // Build temp database file to avoid file corruption if error
+                // Coordinator writes must be acknowledged by the server BEFORE
+                // marking the database clean. An Android file-provider close
+                // callback would be too late for this guarantee.
+                val destination = databaseCopyUri ?: database.fileUri
+                val coordinated = databaseCopyUri == null && CoordinatorSession.handles(destination)
+                val staging = if (coordinated) ByteArrayOutputStream() else null
                 database.saveData(
                     cacheFile = File.createTempFile("db_", ".tmp", context.cacheDir),
                     databaseOutputStream = {
-                        contentResolver.getUriOutputStream(databaseCopyUri ?: database.fileUri)
+                        staging ?: contentResolver.getUriOutputStream(destination)
                     },
                     masterCredential = mMasterCredential,
                     challengeResponseRetriever = cachingRetriever,
                     limits = context.getLimits()
                 )
-                // Indicate data was saved only if it's not a new location
+                if (coordinated) {
+                    // Publish only after a complete, fsync'ed and atomically
+                    // installed encrypted recovery revision is retained.
+                    val encrypted = staging!!.toByteArray()
+                    CoordinatorSession.persistAndPublish(context, destination!!, encrypted)
+                }
+                // Indicate data was saved only after remote publication succeeded.
                 if (databaseCopyUri == null) {
                     database.indicateUpToDateData()
                 }
-            } catch (e: DatabaseException) {
-                setError(e)
+            } catch (e: Exception) {
+                database.indicateNotSavedData()
+                setError(if (e is DatabaseException) e else DatabaseOutputException(e))
             }
         } else if (dataModified) {
             database.indicateNotSavedData()

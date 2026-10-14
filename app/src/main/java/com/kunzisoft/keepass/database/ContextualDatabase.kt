@@ -19,6 +19,8 @@
  */
 package com.kunzisoft.keepass.database
 
+import com.kunzisoft.keepass.coordination.CoordinatorSession
+
 import android.content.Context
 import android.net.Uri
 import android.util.Log
@@ -167,6 +169,7 @@ class ContextualDatabase: DatabaseInfo() {
     }
 
     override fun clearAndClose(filesDirectory: File?) {
+        CoordinatorSession.close()
         super.clearAndClose(filesDirectory)
         this.fileUri = null
     }
