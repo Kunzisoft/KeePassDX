@@ -1,0 +1,2 @@
+ * Web domains without TLD in Autofill #2744 (@LukaZ2)
+ * Fix upload attachment in Android 12 #2745

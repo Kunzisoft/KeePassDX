@@ -22,16 +22,12 @@ package com.kunzisoft.keepass.utils
 import android.content.ContentResolver
 import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.net.Uri
-import android.os.Build
 import android.util.Log
 import android.widget.Toast
 import androidx.documentfile.provider.DocumentFile
-import com.kunzisoft.keepass.BuildConfig
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.app.database.FileDatabaseHistoryAction
-import com.kunzisoft.keepass.education.Education
 import java.io.File
 
 
@@ -174,7 +170,7 @@ object UriUtil {
                     }
                 }
             }
-        } catch (e: Exception) {
+        } catch (_: Exception) {
             return this.getParcelableExtraCompat(key)
         }
         return null
@@ -191,7 +187,7 @@ object UriUtil {
                 }
                 this.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(newUrl)))
             }
-        } catch (e: Exception) {
+        } catch (_: Exception) {
             Toast.makeText(this, R.string.no_url_handler, Toast.LENGTH_LONG).show()
         }
     }

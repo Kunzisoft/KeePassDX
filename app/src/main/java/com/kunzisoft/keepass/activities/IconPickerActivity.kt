@@ -41,7 +41,8 @@ import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.IconEditDialogFragment
 import com.kunzisoft.keepass.activities.fragments.IconPickerFragment
 import com.kunzisoft.keepass.activities.helpers.ExternalFileHelper
-import com.kunzisoft.keepass.activities.helpers.setOpenDocumentClickListener
+import com.kunzisoft.keepass.activities.helpers.ExternalFileHelper.registerOpenFile
+import com.kunzisoft.keepass.activities.helpers.ExternalFileHelper.setOpenFileClickListener
 import com.kunzisoft.keepass.activities.legacy.DatabaseLockActivity
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.element.icon.IconImage
@@ -79,7 +80,9 @@ class IconPickerActivity : DatabaseLockActivity() {
     private var mCustomIconsSelectionMode = false
     private var mIconsSelected: List<IconImageCustom> = emptyList()
 
-    private var mExternalFileHelper: ExternalFileHelper? = null
+    private var openIconFileResultLauncher: ExternalFileHelper.OpenFileResultLauncher = registerOpenFile { uri ->
+        addCustomIcon(uri)
+    }
 
     override fun manageDatabaseInfo(): Boolean = true
 
@@ -97,11 +100,6 @@ class IconPickerActivity : DatabaseLockActivity() {
 
         coordinatorLayout = findViewById(R.id.icon_picker_coordinator)
         container = findViewById(R.id.icon_picker_container)
-
-        mExternalFileHelper = ExternalFileHelper(this)
-        mExternalFileHelper?.buildOpenDocument { uri ->
-            addCustomIcon(uri)
-        }
 
         uploadButton = findViewById(R.id.icon_picker_upload)
 
@@ -208,7 +206,7 @@ class IconPickerActivity : DatabaseLockActivity() {
         super.onDatabaseRetrieved(database)
 
         if (database.allowCustomIcons) {
-            uploadButton.setOpenDocumentClickListener(mExternalFileHelper)
+            uploadButton.setOpenFileClickListener(this, openIconFileResultLauncher)
         } else {
             uploadButton.visibility = View.GONE
         }

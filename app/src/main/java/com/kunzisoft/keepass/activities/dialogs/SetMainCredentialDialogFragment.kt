@@ -30,6 +30,7 @@ import android.util.Log
 import android.view.View
 import android.widget.CompoundButton
 import android.widget.EditText
+import androidx.activity.result.ActivityResultLauncher
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
@@ -38,7 +39,10 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.google.android.material.textfield.TextInputLayout
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.helpers.ExternalFileHelper
-import com.kunzisoft.keepass.activities.helpers.setOpenDocumentClickListener
+import com.kunzisoft.keepass.activities.helpers.ExternalFileHelper.createFile
+import com.kunzisoft.keepass.activities.helpers.ExternalFileHelper.registerCreateDatabaseFile
+import com.kunzisoft.keepass.activities.helpers.ExternalFileHelper.registerOpenFile
+import com.kunzisoft.keepass.activities.helpers.ExternalFileHelper.setOpenFileClickListener
 import com.kunzisoft.keepass.credentialprovider.activity.HardwareKeyActivity
 import com.kunzisoft.keepass.database.element.MasterCredential
 import com.kunzisoft.keepass.database.element.binary.BinaryData.Companion.MAX_BINARY_BYTE
@@ -72,7 +76,24 @@ class SetMainCredentialDialogFragment : DatabaseDialogFragment() {
     private lateinit var hardwareKeyCheckBox: CompoundButton
     private lateinit var hardwareKeySelectionView: HardwareKeySelectionView
 
-    private var mExternalFileHelper: ExternalFileHelper? = null
+    private var createKeyFileResultLauncher: ActivityResultLauncher<String> = registerCreateDatabaseFile { uri ->
+        uri?.let { uri ->
+            createKeyFile(uri)
+            keyFileSelectionView.error = null
+            keyFileCheckBox.isChecked = true
+            keyFileSelectionView.uri = uri
+        }
+    }
+    private var openKeyFileResultLauncher: ExternalFileHelper.OpenFileResultLauncher = registerOpenFile { uri ->
+        uri?.let { uri ->
+            uri.getDocumentFile(requireContext())?.length()?.let { lengthFile ->
+                keyFileSelectionView.error = null
+                keyFileCheckBox.isChecked = true
+                keyFileSelectionView.uri = uri
+                mSetMainCredentialViewModel.showKeyFileLengthConfirmation(lengthFile)
+            }
+        }
+    }
 
     private val mSetMainCredentialViewModel: SetMainCredentialViewModel by activityViewModels()
     private var mConfirmationDialog: AlertDialog? = null
@@ -173,29 +194,13 @@ class SetMainCredentialDialogFragment : DatabaseDialogFragment() {
             hardwareKeyCheckBox = rootView.findViewById(R.id.hardware_key_checkbox)
             hardwareKeySelectionView = rootView.findViewById(R.id.hardware_key_selection)
 
-            mExternalFileHelper = ExternalFileHelper(this)
-            mExternalFileHelper?.buildCreateDocument { createdFileUri ->
-                createdFileUri?.let { uri ->
-                    createKeyFile(uri)
-                    keyFileSelectionView.error = null
-                    keyFileCheckBox.isChecked = true
-                    keyFileSelectionView.uri = uri
-                }
-            }
-            mExternalFileHelper?.buildOpenDocument { uri ->
-                uri?.let { pathUri ->
-                    pathUri.getDocumentFile(requireContext())?.length()?.let { lengthFile ->
-                        keyFileSelectionView.error = null
-                        keyFileCheckBox.isChecked = true
-                        keyFileSelectionView.uri = pathUri
-                        mSetMainCredentialViewModel.showKeyFileLengthConfirmation(lengthFile)
-                    }
-                }
-            }
             keyFileGenerateButton.setOnClickListener {
-                mExternalFileHelper?.createDocument(DEFAULT_KEYFILE_NAME)
+                createFile(
+                    createFileResultLauncher = createKeyFileResultLauncher,
+                    titleString = DEFAULT_KEYFILE_NAME
+                )
             }
-            keyFileSelectionView.setOpenDocumentClickListener(mExternalFileHelper)
+            keyFileSelectionView.setOpenFileClickListener(this, openKeyFileResultLauncher)
 
             hardwareKeySelectionView.selectionListener = { hardwareKey ->
                 hardwareKeyCheckBox.isChecked = true
