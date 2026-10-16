@@ -131,9 +131,11 @@ class EntryActivity : DatabaseLockActivity() {
         }
     }
 
-    private var mEntryActivityResultLauncher = EntryEditActivity.registerForEntryResult(this) {
-        // Reload the current id from database
-        mEntryViewModel.loadDatabase(mDatabase)
+    private var mEntryActivityResultLauncher = EntryEditActivity.registerForEntryResult(this) { entryId ->
+        entryId?.let {
+            // Reload the current id from database
+            mEntryViewModel.loadDatabase(mDatabase)
+        }
     }
 
     override fun manageDatabaseInfo(): Boolean = true
