@@ -44,7 +44,7 @@
     <string name="digits">Ψηφία</string>
     <string name="html_about_licence">Το KeePassDX © %1$d Kunzisoft είναι &lt;strong&gt;ανοιχτού κώδικα&lt;/strong&gt; και &lt;strong&gt;χωρίς διαφημίσεις&lt;/strong&gt;.
 \nΠαρέχεται ως έχει, με άδεια &lt;strong&gt;GPLv3&lt;/strong&gt;, χωρίς καμία εγγύηση.</string>
-    <string name="select_database_file">Ανοίξτε την υπάρχον κρύπτη</string>
+    <string name="select_database_file">Ανοίξτε την υπάρχουσα κρύπτη</string>
     <string name="entry_accessed">Πρόσβαση</string>
     <string name="entry_cancel">Άκυρο</string>
     <string name="entry_notes">Σημειώσεις</string>
@@ -694,4 +694,32 @@
     <string name="hide_templates_summary">Τα πρότυπα δεν εμφανίζονται</string>
     <string name="recursive_number_entries_title">Αναδρομικός αριθμός καταχωρήσεων</string>
     <string name="error_otp_secret_length">Το μυστικό κλειδί πρέπει να έχει τουλάχιστον %1$d χαρακτήρες.</string>
+    <string name="clipboard_otp_notifications_title">Ειδοποίηση OTP</string>
+    <string name="clipboard_otp_notifications_summary">Ανοίξτε μια ειδοποίηση για να αντιγράψετε το OTP από καταχωρίσεις που συμπληρώθηκαν με αυτόματη συμπλήρωση ή magikeyboard</string>
+    <string name="content_description_share_url">Κοινοποίηση URL</string>
+    <string name="entry_application_id">Αναγνωριστικό εφαρμογής</string>
+    <string name="error_load_database_KDF_iteration">Πολύ υψηλή επανάληψη συνάρτησης παραγωγής κλειδιού.</string>
+    <string name="error_load_database_KDF_parallelism">Πολύ υψηλός παραλληλισμός συνάρτησης παραγωγής κλειδιού.</string>
+    <string name="error_memory_too_large">Πολύ υψηλή \"Χρήση μνήμης\". Ορισμός σε %1$s.</string>
+    <string name="error_parallelism_too_large">Πολύ υψηλός \"Παραλληλισμός\". Ορισμός σε %1$s.</string>
+    <string name="error_missing_parent">Αυτή η ενέργεια δεν μπορεί να πραγματοποιηθεί χωρίς γονέα.</string>
+    <string name="show_tags_title">Εμφάνιση Ετικετών</string>
+    <string name="show_tags_summary">Εμφανίζει τις ετικέτες στη λίστα καταχωρίσεων</string>
+    <string name="parallelism_set_safe">Ορισμός αριθμού επεξεργαστών</string>
+    <string name="warning_overwrite_data_title">Αντικατάσταση υπάρχοντων δεδομένων;</string>
+    <string name="warning_overwrite_data_description">Αυτή η ενέργεια θα αντικαταστήσει τα υπάρχοντα δεδομένα στην καταχώρηση, μπορείτε να παραλάβετε τα παλιά δεδομένα αν το ιστορικό είναι ενεργοποιημένο.</string>
+    <string name="temporary_merge_success">Η συγχώνευση προσωρινών δεδομένων ολοκληρώθηκε με επιτυχία</string>
+    <string name="reload_success">Η επαναφόρτωση ολοκληρώθηκε επιτυχημένα</string>
+    <string name="save_success">Η αποθήκευση ολοκληρώθηκε επιτυχημένα</string>
+    <string name="credential_provider">Πάροχος διαπιστευτηρίων</string>
+    <string name="passkeys_close_database_title">Κλείσιμο βάσης δεδομένων</string>
+    <string name="passkeys_privileged_apps_title">Προνομιούχες εφαρμογές</string>
+    <string name="passkeys_privileged_apps_summary">Διαχειριστείτε τους φυλλομετρητές στην προσαρμοσμένη λίστα προνομιούχων εφαρμογών</string>
+    <string name="passkeys_privileged_apps_explanation">ΠΡΟΕΙΔΟΠΟΙΗΣΗ: Μία προνομιούχα εφαρμογή λειτουργεί ως πύλη για την παραλαβή της προέλευσης μιας πιστοποίησης. Εξασφαλίστε τη γνησιότητα για να αποφύγετε θέματα ασφαλείας.</string>
+    <string name="passkeys_privileged_apps_ask_title">Η εφαρμογή δεν αναγνωρίστηκε</string>
+    <string name="passkeys_missing_signature_app_ask_title">Λείπει η υπογραφή</string>
+    <string name="passkeys_auto_select_title">Αυτόματη επιλογή</string>
+    <string name="passkeys_backup_eligibility_title">Δυνατότητα αντιγράφων ασφαλείας</string>
+    <string name="passkeys_backup_eligibility_summary">Αποφάσισε κατά τη δημιουργία αν η πηγή διαπιστευτηρίων του δημόσιου κλειδιού επιτρέπεται να αποθηκευτεί σε αντίγραφο ασφαλείας</string>
+    <string name="passkeys_backup_state_title">Κατάσταση Αντιγράφου Ασφαλείας</string>
 </resources>
