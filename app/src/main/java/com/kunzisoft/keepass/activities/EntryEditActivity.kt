@@ -56,6 +56,8 @@ import com.kunzisoft.keepass.activities.dialogs.OverwriteDataDialogFragment
 import com.kunzisoft.keepass.activities.dialogs.ReplaceFileDialogFragment
 import com.kunzisoft.keepass.activities.fragments.EntryEditFragment
 import com.kunzisoft.keepass.activities.helpers.ExternalFileHelper
+import com.kunzisoft.keepass.activities.helpers.ExternalFileHelper.openFile
+import com.kunzisoft.keepass.activities.helpers.ExternalFileHelper.registerOpenFile
 import com.kunzisoft.keepass.activities.legacy.DatabaseLockActivity
 import com.kunzisoft.keepass.adapters.TemplatesSelectorAdapter
 import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper
@@ -134,8 +136,22 @@ class EntryEditActivity : DatabaseLockActivity() {
     private val mUserVerificationViewModel: UserVerificationViewModel by viewModels()
 
     // To manage attachments
-    private var mExternalFileHelper: ExternalFileHelper? = null
-    private var mAttachmentFileBinderManager: AttachmentFileBinderManager? = null
+    private var mAttachmentFileBinderManager: AttachmentFileBinderManager = AttachmentFileBinderManager()
+    private var openAttachmentResultLauncher: ExternalFileHelper.OpenFileResultLauncher = registerOpenFile { uri ->
+        uri?.let { attachmentToUploadUri ->
+            attachmentToUploadUri.getDocumentFile(this)?.also { documentFile ->
+                documentFile.name?.let { fileName ->
+                    if (documentFile.length() > MAX_WARNING_BINARY_FILE) {
+                        FileTooBigDialogFragment.build(attachmentToUploadUri, fileName)
+                            .show(supportFragmentManager, "fileTooBigFragment")
+                    } else {
+                        mAttachmentsViewModel.buildNewAttachment(attachmentToUploadUri, fileName)
+                    }
+                }
+            }
+        }
+    }
+
     // Education
     private var mEntryEditActivityEducation = EntryEditActivityEducation(this)
 
@@ -206,25 +222,6 @@ class EntryEditActivity : DatabaseLockActivity() {
             registerInfo = intent.retrieveRegisterInfo()
                 ?: intent.retrieveSearchInfo()?.toRegisterInfo()
         )
-
-        // To retrieve attachment
-        mExternalFileHelper = ExternalFileHelper(this)
-        mExternalFileHelper?.buildOpenDocument { uri ->
-            uri?.let { attachmentToUploadUri ->
-                attachmentToUploadUri.getDocumentFile(this)?.also { documentFile ->
-                    documentFile.name?.let { fileName ->
-                        if (documentFile.length() > MAX_WARNING_BINARY_FILE) {
-                            FileTooBigDialogFragment.build(attachmentToUploadUri, fileName)
-                                .show(supportFragmentManager, "fileTooBigFragment")
-                        } else {
-                            mAttachmentsViewModel.buildNewAttachment(attachmentToUploadUri, fileName)
-                        }
-                    }
-                }
-            }
-        }
-
-        mAttachmentFileBinderManager = AttachmentFileBinderManager(this)
 
         // Lock button
         lockView?.setOnClickListener { lockAndExit() }
@@ -306,7 +303,7 @@ class EntryEditActivity : DatabaseLockActivity() {
                                 updateEntry(event.entry)
                             }
                             is EntryEditViewModel.EntryEditEvent.CloseEntry -> {
-                                mAttachmentFileBinderManager?.stopUploadAllAttachments()
+                                mAttachmentFileBinderManager.stopUploadAllAttachments(this@EntryEditActivity)
                                 when(event.closeType) {
                                     EntryEditViewModel.CloseType.DATABASE_BACK_PRESSED -> {
                                         super@EntryEditActivity.onDatabaseBackPressed()
@@ -405,7 +402,7 @@ class EntryEditActivity : DatabaseLockActivity() {
                     }
                 }
                 launch {
-                    mAttachmentsViewModel.attachmentEvents.collect { event ->
+                    for (event in mAttachmentsViewModel.attachmentStateEvents) {
                         when (event) {
                             is AttachmentsViewModel.AttachmentEvent.OnBuildNewAttachment -> {
                                 mDatabaseViewModel.buildNewBinaryAttachment()?.let { binaryAttachment ->
@@ -418,17 +415,25 @@ class EntryEditActivity : DatabaseLockActivity() {
                             }
                             is AttachmentsViewModel.AttachmentEvent.OnStartUploadAttachment -> {
                                 // Start uploading in service
-                                mAttachmentFileBinderManager?.startUploadAttachment(
+                                mAttachmentFileBinderManager.startUploadAttachment(
+                                    activity = this@EntryEditActivity,
                                     uploadFileUri = event.attachmentToUploadUri,
                                     attachment = event.attachment
                                 )
                             }
-                            is AttachmentsViewModel.AttachmentEvent.DeleteAttachment -> {
-                                mAttachmentFileBinderManager?.removeBinaryAttachment(event.attachment)
+                            is AttachmentsViewModel.AttachmentEvent.OnDeleteAttachment -> {
+                                mAttachmentFileBinderManager.removeBinaryAttachment(
+                                    activity = this@EntryEditActivity,
+                                    event.attachment
+                                )
                             }
-                            is AttachmentsViewModel.AttachmentEvent.OnAttachmentError -> {
+                            AttachmentsViewModel.AttachmentEvent.OnAttachmentError -> {
                                 coordinatorLayout?.let {
-                                    Snackbar.make(it, R.string.error_file_not_create, Snackbar.LENGTH_LONG).asError().show()
+                                    Snackbar.make(
+                                        it,
+                                        R.string.error_file_not_create,
+                                        Snackbar.LENGTH_LONG
+                                    ).asError().show()
                                 }
                             }
                             is AttachmentsViewModel.AttachmentEvent.ShowReplaceFile -> {
@@ -437,7 +442,9 @@ class EntryEditActivity : DatabaseLockActivity() {
                                     event.attachment
                                 ).show(supportFragmentManager, "replacementFileFragment")
                             }
-                            else -> {}
+                            is AttachmentsViewModel.AttachmentEvent.OnEntryReadyForSave -> {
+                                mEntryEditViewModel.saveEntryInfo(event.entryInfo)
+                            }
                         }
                     }
                 }
@@ -594,8 +601,9 @@ class EntryEditActivity : DatabaseLockActivity() {
         entryEditAddToolBar?.updateButtonPaddingStart()
         entryEditAddToolBar?.updateButtonPaddingEnd()
 
-        mAttachmentFileBinderManager?.apply {
-            registerProgressTask()
+        // To show the attachment upload progress
+        mAttachmentFileBinderManager.apply {
+            registerProgressTask(this@EntryEditActivity)
             onActionTaskListener = object : AttachmentFileNotificationService.ActionTaskListener {
                 override fun onAttachmentAction(fileUri: Uri, entryAttachmentState: EntryAttachmentState) {
                     mAttachmentsViewModel.onAttachmentAction(entryAttachmentState)
@@ -610,8 +618,7 @@ class EntryEditActivity : DatabaseLockActivity() {
     }
 
     override fun onPause() {
-        mAttachmentFileBinderManager?.unregisterProgressTask()
-
+        mAttachmentFileBinderManager.unregisterProgressTask(this)
         super.onPause()
     }
 
@@ -630,7 +637,7 @@ class EntryEditActivity : DatabaseLockActivity() {
      * Add a new attachment
      */
     private fun addNewAttachment() {
-        mExternalFileHelper?.openDocument()
+        openFile(openFileResultLauncher = openAttachmentResultLauncher)
     }
 
     /**
@@ -644,7 +651,7 @@ class EntryEditActivity : DatabaseLockActivity() {
      * Validate the new entry or update an existing entry in the database
      */
     private fun requestEntryValidation() {
-        mAttachmentFileBinderManager?.stopUploadAllAttachments()
+        mAttachmentFileBinderManager.stopUploadAllAttachments(this)
         mEntryEditViewModel.requestEntryValidation()
     }
 

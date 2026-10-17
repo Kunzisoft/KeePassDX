@@ -71,8 +71,11 @@ abstract class NodeVersioned<IdType, Parent : GroupVersionedInterface<Parent, En
         return 0
     }
 
-    protected fun updateWith(source: NodeVersioned<IdType, Parent, Entry>,
-                             updateParents: Boolean = true) {
+    @Synchronized
+    protected fun updateWith(
+        source: NodeVersioned<IdType, Parent, Entry>,
+        updateParents: Boolean = true
+    ) {
         this.nodeId = copyNodeId(source.nodeId)
         if (updateParents) {
             this.parent = source.parent
@@ -127,7 +130,11 @@ abstract class NodeVersioned<IdType, Parent : GroupVersionedInterface<Parent, En
         return false
     }
 
-    override fun touch(modified: Boolean, touchParents: Boolean) {
+    @Synchronized
+    override fun touch(
+        modified: Boolean,
+        touchParents: Boolean
+    ) {
         val now = DateInstant()
         lastAccessTime = now
 

@@ -446,9 +446,9 @@ object OtpEntryFields {
         parseOTPUri(otpString)?.let { otpElement ->
             if (addTag)
                 tags.put(OTP_TAG)
-            if (title.isEmpty())
+            if (title.isEmpty() && otpElement.isIssuerPopulated())
                 title = otpElement.issuer
-            if (username.isEmpty())
+            if (username.isEmpty() && otpElement.isNamePopulated())
                 username = otpElement.name
             // Add OTP field
             val mutableCustomFields = customFields

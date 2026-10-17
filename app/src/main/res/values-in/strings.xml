@@ -77,7 +77,7 @@
     <string name="error_pass_match">Kata sandi tidak sesuai.</string>
     <string name="error_disallow_no_credentials">Setidaknya ada satu kredensial yang harus ditetapkan.</string>
     <string name="error_pass_gen_type">Setidaknya ada satu jenis pembuatan kata sandi yang harus dipilih.</string>
-    <string name="error_load_database_KDF_memory">Tidak bisa memuat kunci. Cobalah untuk mengurangi penggunaan memori (mematikan aplikasi lainnya).</string>
+    <string name="error_load_database_KDF_memory">Memori yang digunakan KDF terlalu tinggi.</string>
     <string name="error_load_database">Tidak dapat memuat basis data.</string>
     <string name="error_out_of_memory">Tidak cukup memori untuk memuat seluruh basis data Anda.</string>
     <string name="entry_keyfile">File Kunci</string>
@@ -563,7 +563,7 @@
     <string name="at_least_one_char">Setidaknya satu karakter dari masing-masing</string>
     <string name="exclude_ambiguous_chars">Kecualikan karakter ambigu</string>
     <string name="consider_chars_filter">Pertimbangkan karakter</string>
-    <string name="words_separator">Pemisah</string>
+    <string name="word_separator">Pemisah</string>
     <string name="ignore_chars_filter">Abaikan karakter</string>
     <string name="lower_case">huruf kecil</string>
     <string name="upper_case">HURUF BESAR</string>
@@ -753,4 +753,8 @@
     <string name="autofill_suggestions_title">Saran pengisian otomatis</string>
     <string name="autofill_suggestions_summary">Gunakan algoritme pengenalan formulir untuk menyarankan entri</string>
     <string name="passkey_pseudo_random_function">Fungsi Pseudorandom Passkey</string>
+    <string name="error_load_database_KDF_iteration">Jumlah Iterasi KDF terlalu tinggi.</string>
+    <string name="error_load_database_KDF_parallelism">Tingkat paralelisme KDF terlalu tinggi.</string>
+    <string name="parallelism_set_safe">Tentukan jumlah prosesor</string>
+    <string name="save_success">Penyimpanan berhasil diselesaikan</string>
 </resources>

@@ -19,7 +19,7 @@
 --><resources>
     <string name="feedback">प्रतिक्रिया</string>
     <string name="homepage">होमपेज</string>
-    <string name="about_description">एंड्रॉयड पर आधारित KeePass पासवर्ड मैनेजर</string>
+    <string name="about_description">कीपास पासवर्ड मैनेजर का एंड्रॉइड कार्यान्वयन।</string>
     <string name="accept">स्वीकार करें</string>
     <string name="add_entry">रिकॉर्ड जोड़ें</string>
     <string name="edit_entry">रिकॉर्ड संपादित करें</string>
@@ -170,4 +170,19 @@
     <string name="clipboard_otp_notifications_title">ओटीपी सूचना</string>
     <string name="content_description_add_item">आइटम जोड़ें</string>
     <string name="content_description_hardware_key_checkbox">हार्डवेयर कुंजी चेकबॉक्स</string>
+    <string name="clipboard_otp_notifications_summary">ऑटोफिल या मैजिकीबोर्ड के साथ आबादी वाली प्रविष्टियों से ओटीपी को काॅपी करने के लिए एक नोटीफिकेशन खोलें</string>
+    <string name="content_description_entry_foreground_color">अग्रभूमि रंग प्रवेश</string>
+    <string name="content_description_entry_background_color">प्रवेश पृष्ठभूमि रंग</string>
+    <string name="content_description_nav_header">नेविगेशन हेडर</string>
+    <string name="navigation_drawer_open">नेविगेशन दराज खुला</string>
+    <string name="navigation_drawer_close">नेविगेशन दराज बंद</string>
+    <string name="content_description_passphrase_word_count">पासफ़रेज़ शब्द गिनती</string>
+    <string name="content_description_share_url">यूआरएल शेएर करें</string>
+    <string name="waiting_challenge_request">चुनौती अनुरोध के लिए प्रतीक्षा…</string>
+    <string name="waiting_challenge_response">चुनौती प्रतिक्रिया के लिए प्रतीक्षा…</string>
+    <string name="html_about_contribution">आदेश &lt;strong&gt;हमारी स्वतंत्रता&lt;/strong&gt;, &lt;strong&gt;बग फिक्स&lt;/strong&gt;, &lt;strong&gt;सुविधाएँ जोड़ें&lt;/strong&gt; और &lt;strong&gt;हमेशा सक्रिय होना&lt;/strong&gt;, हम आपकी गिनती करते हैं &lt;strong&gt;योगदान&lt;/strong&gt;।</string>
+    <string name="expired">एक्सपय़रड</string>
+    <string name="hardware_key">हार्डवेयर की</string>
+    <string name="searchable">खोज योग्य</string>
+    <string name="auto_type">ऑटो-टाइप</string>
 </resources>

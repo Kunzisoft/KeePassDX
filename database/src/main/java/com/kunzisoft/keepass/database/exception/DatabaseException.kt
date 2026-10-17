@@ -94,9 +94,7 @@ class HeaderHmacMismatchException : DatabaseInputException()
 
 class VersionDatabaseException : DatabaseInputException()
 
-class InvalidCredentialsDatabaseException : DatabaseInputException {
-    constructor() : super()
-}
+class InvalidCredentialsDatabaseException : DatabaseInputException()
 
 class KDFIterationDatabaseException : DatabaseInputException()
 class KDFParallelismDatabaseException : DatabaseInputException()

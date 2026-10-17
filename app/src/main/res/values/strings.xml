@@ -236,7 +236,7 @@
     <string name="hint_pass">Password</string>
     <string name="password">Password</string>
     <string name="passphrase">Passphrase</string>
-    <string name="invalid_credentials">Could not read credentials.</string>
+    <string name="invalid_credentials">Unable to decrypt the file data with the credentials.</string>
     <string name="invalid_algorithm">Wrong algorithm.</string>
     <string name="invalid_db_same_uuid">%1$s with the same UUID %2$s already exists.</string>
     <string name="invalid_db_sig">Could not recognize the database format.</string>
@@ -702,8 +702,7 @@
     <string name="at_least_one_char">At least one character from each</string>
     <string name="exclude_ambiguous_chars">Exclude ambiguous characters</string>
     <string name="consider_chars_filter">Consider characters</string>
-    <string name="words">Words</string>
-    <string name="words_separator">Separator</string>
+    <string name="word_separator">Separator</string>
     <string name="ignore_chars_filter">Ignore characters</string>
     <string name="lower_case">lower case</string>
     <string name="upper_case">UPPER CASE</string>

@@ -621,7 +621,7 @@
     <string name="entropy">Entropie: %1$s bit</string>
     <string name="entropy_high">Entropie: Hoog</string>
     <string name="entropy_calculate">Entropie: Berekenen…</string>
-    <string name="words_separator">Scheidingsteken</string>
+    <string name="word_separator">Scheidingsteken</string>
     <string name="lower_case">kleine letters</string>
     <string name="upper_case">GROTE LETTERS</string>
     <string name="at_least_one_char">Minstens een teken van elk</string>
@@ -780,4 +780,6 @@
     <string name="error_load_database_KDF_parallelism">KDF-parallellisme te hoog.</string>
     <string name="parallelism_set_safe">Aantal processors instellen</string>
     <string name="error_load_database_KDF_iteration">KDF-iteratie te hoog.</string>
+    <string name="save_success">Opslaan is met succes voltooid</string>
+    <string name="words">Woorden</string>
 </resources>

@@ -623,7 +623,7 @@
     <string name="entropy_high">Entropie: vysoká</string>
     <string name="exclude_ambiguous_chars">Vyloučit víceznačné znaky</string>
     <string name="consider_chars_filter">Uvážit znaky</string>
-    <string name="words_separator">Oddělovač</string>
+    <string name="word_separator">Oddělovač</string>
     <string name="ignore_chars_filter">Vyloučit znaky</string>
     <string name="lower_case">malá písmena</string>
     <string name="upper_case">VELKÁ PÍSMENA</string>
@@ -779,4 +779,6 @@
     <string name="error_load_database_KDF_parallelism">Paralelismus KDF je příliš vysoký.</string>
     <string name="parallelism_set_safe">Nastavit počet procesorů</string>
     <string name="error_load_database_KDF_iteration">Iterace KDF je příliš vysoká.</string>
+    <string name="save_success">Úspěšně uloženo</string>
+    <string name="words">Slova</string>
 </resources>

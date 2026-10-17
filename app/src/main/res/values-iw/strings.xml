@@ -607,7 +607,7 @@
     <string name="enable_screenshot_mode_summary">אפשר ליישומים של צד שלישי להקליט או לצלם צילומי מסך של היישום</string>
     <string name="exclude_ambiguous_chars">החרגת תווים דו־משמעיים</string>
     <string name="consider_chars_filter">שקול תווים</string>
-    <string name="words_separator">מפריד</string>
+    <string name="word_separator">מפריד</string>
     <string name="ignore_chars_filter">התעלם מתווים</string>
     <string name="lower_case">אותיות קטנות</string>
     <string name="upper_case">אותיות רישיות</string>
@@ -749,4 +749,15 @@
     <string name="benchmark_calculation">חשב עבור %1$s s</string>
     <string name="benchmarking">מבצע מדידת ביצועים…</string>
     <string name="keyboard_share_browser">שתף מ־ %1$s ל־KeePassDX</string>
+    <string name="error_load_database_KDF_iteration"></string>
+    <string name="error_load_database_KDF_parallelism"></string>
+    <string name="error_memory_too_large"></string>
+    <string name="error_parallelism_too_large"></string>
+    <string name="error_missing_parent"></string>
+    <string name="parallelism_set_safe"></string>
+    <string name="temporary_merge_success"></string>
+    <string name="reload_success"></string>
+    <string name="save_success"></string>
+    <string name="autofill_suggestions_title"></string>
+    <string name="autofill_suggestions_summary"></string>
 </resources>

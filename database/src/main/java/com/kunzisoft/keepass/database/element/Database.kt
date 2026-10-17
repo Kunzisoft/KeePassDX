@@ -1035,7 +1035,10 @@ open class Database {
         return groupsIds.mapNotNull { getGroupById(it) }
     }
 
-    fun addEntryTo(entry: Entry, parent: Group) {
+    fun addEntryTo(
+        entry: Entry,
+        parent: Group
+    ) {
         entry.entryKDB?.let { entryKDB ->
             mDatabaseKDB?.addEntryTo(entryKDB, parent.groupKDB)
         }
@@ -1054,7 +1057,10 @@ open class Database {
         }
     }
 
-    fun removeEntryFrom(entry: Entry, parent: Group) {
+    fun removeEntryFrom(
+        entry: Entry,
+        parent: Group
+    ) {
         entry.entryKDB?.let { entryKDB ->
             mDatabaseKDB?.removeEntryFrom(entryKDB, parent.groupKDB)
         }
@@ -1064,7 +1070,10 @@ open class Database {
         entry.afterAssignNewParent()
     }
 
-    fun addGroupTo(group: Group, parent: Group) {
+    fun addGroupTo(
+        group: Group,
+        parent: Group
+    ) {
         group.groupKDB?.let { groupKDB ->
             mDatabaseKDB?.addGroupTo(groupKDB, parent.groupKDB)
         }
@@ -1083,7 +1092,10 @@ open class Database {
         }
     }
 
-    fun removeGroupFrom(group: Group, parent: Group) {
+    fun removeGroupFrom(
+        group: Group,
+        parent: Group
+    ) {
         group.groupKDB?.let { groupKDB ->
             mDatabaseKDB?.removeGroupFrom(groupKDB, parent.groupKDB)
         }

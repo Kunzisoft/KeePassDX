@@ -405,7 +405,7 @@
     <string name="at_least_one_char">Vähemalt üks tähemärk igast</string>
     <string name="exclude_ambiguous_chars">Välista mitmetähenduslikud tähemärgid</string>
     <string name="consider_chars_filter">Arvesta tähemärkidega</string>
-    <string name="words_separator">Eraldaja</string>
+    <string name="word_separator">Eraldaja</string>
     <string name="ignore_chars_filter">Eira tähemärke</string>
     <string name="lower_case">väiketähed</string>
     <string name="upper_case">SUURTÄHED</string>
@@ -736,4 +736,6 @@
     <string name="error_load_database_KDF_parallelism">KDF-i rööpsus on liiga suur.</string>
     <string name="parallelism_set_safe">Seadista kasutatavate protsessorite arv</string>
     <string name="error_load_database_KDF_iteration">KDF-i korduste arv on liiga suur.</string>
+    <string name="save_success">Salvestamine on kenasti tehtud</string>
+    <string name="words">Sõnu</string>
 </resources>

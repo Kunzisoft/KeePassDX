@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="contact">सम्पर्क</string>
+    <string name="info">जानकारी</string>
+    <string name="contribution">योगदान</string>
+    <string name="feedback">प्रतिक्रिया</string>
+    <string name="homepage">गृहपृष्ठ</string>
+    <string name="about_description">KeePass पासवर्ड प्रबन्धकको एन्ड्रोइड कार्यान्वयन।</string>
+    <string name="accept">स्वीकार गर्नुहोस्</string>
+    <string name="add_group">समूह थप्नुहोस्</string>
+    <string name="security">सुरक्षा</string>
+    <string name="app_timeout">समय-समाप्ति</string>
+    <string name="app_timeout_summary">डेटाबेस लक गर्नुअघिको निष्क्रिय समय</string>
+    <string name="application">अनुप्रयोग</string>
+    <string name="allow">अनुमति दिनुहोस्</string>
+    <string name="clipboard_otp_notifications_title">ओटिपी (OTP) सूचना</string>
+    <string name="content_description_background">पृष्ठभुमि</string>
+    <string name="content_description_open_file">फाइल खोल्नुहोस्</string>
+    <string name="content_description_add_group">समूह थप्नुहोस्</string>
+    <string name="content_description_file_information">फाइलको जानकारी</string>
+    <string name="content_description_credentials_information">प्रमाणपत्र सम्बन्धी जानकारी</string>
+    <string name="content_description_password_checkbox">पासवर्ड चेकबक्स</string>
+    <string name="content_description_database_color">डेटाबेसको रङ</string>
+</resources>

@@ -749,46 +749,64 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
         return false
     }
 
+    @Synchronized
     fun getDeletedObject(nodeId: EntryId): DeletedObject? {
         return deletedObjects.find { it.uuid == nodeId.id }
     }
 
+    @Synchronized
     fun addDeletedObject(deletedObject: DeletedObject) {
         this.deletedObjects.add(deletedObject)
     }
 
+    @Synchronized
     fun addDeletedObject(objectId: UUID) {
         addDeletedObject(DeletedObject(objectId))
     }
 
-    override fun addGroupTo(newGroup: GroupKDBX, parent: GroupKDBX?) {
+    @Synchronized
+    override fun addGroupTo(
+        newGroup: GroupKDBX,
+        parent: GroupKDBX?
+    ) {
         super.addGroupTo(newGroup, parent)
         tagPool.put(newGroup.tags)
     }
 
+    @Synchronized
     override fun updateGroup(group: GroupKDBX) {
         super.updateGroup(group)
         tagPool.put(group.tags)
     }
 
-    override fun addEntryTo(newEntry: EntryKDBX, parent: GroupKDBX?) {
+    @Synchronized
+    override fun addEntryTo(
+        newEntry: EntryKDBX,
+        parent: GroupKDBX?
+    ) {
         super.addEntryTo(newEntry, parent)
         tagPool.put(newEntry.tags)
         mFieldReferenceEngine.clear()
     }
 
+    @Synchronized
     override fun updateEntry(entry: EntryKDBX) {
         super.updateEntry(entry)
         tagPool.put(entry.tags)
         mFieldReferenceEngine.clear()
     }
 
-    override fun removeEntryFrom(entryToRemove: EntryKDBX, parent: GroupKDBX?) {
+    @Synchronized
+    override fun removeEntryFrom(
+        entryToRemove: EntryKDBX,
+        parent: GroupKDBX?
+    ) {
         super.removeEntryFrom(entryToRemove, parent)
         // Do not remove tags from pool, it's only in temp memory
         mFieldReferenceEngine.clear()
     }
 
+    @Synchronized
     fun getTagPoolWithoutHistory(): Tags {
         val activeTags = Tags()
         getGroupIndexes().forEach { group ->

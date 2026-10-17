@@ -128,7 +128,7 @@
     <string name="discard_changes">Отхвърляне на промените?</string>
     <string name="menu_reload_database">Презареждане на данните</string>
     <string name="contribute">Допринасяне</string>
-    <string name="error_load_database_KDF_memory">Функцията за извличане на ключове използва твърде много памет. Не може да зареди.</string>
+    <string name="error_load_database_KDF_memory">Функцията за извличане на ключове използва твърде много памет.</string>
     <string name="content_description_passphrase_word_count">Брой думи във фраза за достъп</string>
     <string name="search_filters">Филтри за търсене</string>
     <string name="current_group">Текуща група</string>
@@ -380,7 +380,7 @@
     <string name="entropy">Ентропия: %1$s бита</string>
     <string name="entropy_high">Ентропия: висока</string>
     <string name="consider_chars_filter">Допълнителни знаци</string>
-    <string name="words_separator">Разделител</string>
+    <string name="word_separator">Разделител</string>
     <string name="ignore_chars_filter">Пренебрегнати знаци</string>
     <string name="title_case">Всяка Дума</string>
     <string name="screenshot_mode_banner_text">Режим екранни снимки</string>
@@ -744,7 +744,7 @@
     <string name="benchmark_calculation">Изчислете за %1$s с</string>
     <string name="benchmarking">Бенчмаркинг…</string>
     <string name="keyboard_share_browser">Сподели от %1$s към KeePassDX</string>
-    <string name="error_load_database_KDF_parallelism">Функцията за извличане на ключове използва твърде висок паралелизъм. Не може да зареди.</string>
+    <string name="error_load_database_KDF_parallelism">Функцията за извличане на ключове използва твърде висок паралелизъм.</string>
     <string name="error_memory_too_large">Стойността „Използвана памет“ е твърде висока. Максималната стойност е %1$s.</string>
     <string name="error_parallelism_too_large">Стойността „Паралелизъм“ е твърде висока. Максималната стойност е %1$s.</string>
     <string name="error_missing_parent">Действието не може да бъде извършено без родителски елемент.</string>
@@ -754,4 +754,7 @@
     <string name="autofill_suggestions_title">Попълване на предложения</string>
     <string name="autofill_suggestions_summary">Използване на разпознаване на формуляри за предлагане на записи</string>
     <string name="passkey_pseudo_random_function">Псевдослучайна функция на ключа за достъп</string>
+    <string name="error_load_database_KDF_iteration">Функцията за извличане на ключове използва твърде много завъртания.</string>
+    <string name="save_success">Запазено</string>
+    <string name="words">Думи</string>
 </resources>

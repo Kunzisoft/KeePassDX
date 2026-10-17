@@ -143,8 +143,11 @@ class EntryKDB : EntryVersioned<Int, UUID, GroupKDB, EntryKDB>, NodeKDBInterface
         dest.writeNullableIntCompat(binaryDataId)
     }
 
-    fun updateWith(source: EntryKDB,
-                   updateParents: Boolean = true) {
+    @Synchronized
+    fun updateWith(
+        source: EntryKDB,
+        updateParents: Boolean = true
+    ) {
         super.updateWith(source, updateParents)
         title = source.title
         username = source.username
@@ -168,6 +171,7 @@ class EntryKDB : EntryVersioned<Int, UUID, GroupKDB, EntryKDB>, NodeKDBInterface
     override val type: NodeType
         get() = NodeType.ENTRY
 
+    @Synchronized
     fun getAttachment(attachmentPool: AttachmentPool): Attachment? {
         binaryDataId?.let { poolId ->
             attachmentPool[poolId]?.let { binary ->
@@ -177,10 +181,12 @@ class EntryKDB : EntryVersioned<Int, UUID, GroupKDB, EntryKDB>, NodeKDBInterface
         return null
     }
 
+    @Synchronized
     fun containsAttachment(): Boolean {
         return binaryDataId != null
     }
 
+    @Synchronized
     fun getBinary(attachmentPool: AttachmentPool): BinaryData? {
         this.binaryDataId?.let {
             return attachmentPool[it]
@@ -188,15 +194,24 @@ class EntryKDB : EntryVersioned<Int, UUID, GroupKDB, EntryKDB>, NodeKDBInterface
         return null
     }
 
-    fun putBinary(binaryData: BinaryData, attachmentPool: AttachmentPool) {
+    @Synchronized
+    fun putBinary(
+        binaryData: BinaryData,
+        attachmentPool: AttachmentPool
+    ) {
         this.binaryDataId = attachmentPool.put(binaryData)
     }
 
-    fun putAttachment(attachment: Attachment, attachmentPool: AttachmentPool) {
+    @Synchronized
+    fun putAttachment(
+        attachment: Attachment,
+        attachmentPool: AttachmentPool
+    ) {
         this.binaryDescription = attachment.name
         this.binaryDataId = attachmentPool.put(attachment.binaryData)
     }
 
+    @Synchronized
     fun removeAttachment(attachment: Attachment? = null) {
         if (attachment == null || this.binaryDescription == attachment.name) {
             this.binaryDescription = ""
