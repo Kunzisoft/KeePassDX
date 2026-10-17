@@ -64,8 +64,8 @@
     <string name="content_description_share_url">هاوبەشکردنی بەستەر</string>
     <string name="select_to_copy">هەڵبژێرە بۆ کۆپیکردنی %1$s بۆ تەختەی کۆپیکردن</string>
     <string name="retrieving_db_key">هێنانەوەی کلیلی بنکەدراوە…</string>
-    <string name="waiting_challenge_request">چاوەڕوانی داواکاریی ئاڵنگاری…</string>
-    <string name="waiting_challenge_response">چاوەڕوانی وەڵامی ئاڵنگاری…</string>
+    <string name="waiting_challenge_request">چاوەڕوانی داواکاریی تاقیکردنەوە…</string>
+    <string name="waiting_challenge_response">چاوەڕوانی وەڵامی تاقیکردنەوەکە…</string>
     <string name="database">بنکەدراوە</string>
     <string name="template_group_name">قاڵبەکان</string>
     <string name="decrypting_db">لادانی پەنهانکاریی ناوەڕۆکی بنکەدراوە…</string>
@@ -77,7 +77,7 @@
     <string name="entry_accessed">دەستپێگەیشتوو</string>
     <string name="entry_cancel">پاشگەزبوونەوە</string>
     <string name="entry_notes">تێبینییەکان</string>
-    <string name="entry_confpassword">دووپاتکردنەوەی تێپەڕوشە</string>
+    <string name="entry_confpassword">دووپاتکردنەوەی تێپەڕەوشە</string>
     <string name="entry_created">دروستکراو</string>
     <string name="entry_expires">بەسەر دەچێت</string>
     <string name="expired">بەسەرچوو</string>
@@ -93,6 +93,6 @@
     <string name="inherited">میرات</string>
     <string name="auto_type">نووسینی خۆکار</string>
     <string name="auto_type_sequence">ڕێزبەندی نووسینی خۆکار</string>
-    <string name="entry_not_found">داتای تۆمار نەدۆزرایەوە</string>
-    <string name="entry_password">تێپەڕوشە</string>
+    <string name="entry_not_found">داتای تۆمار نەدۆزرایەوە.</string>
+    <string name="entry_password">تێپەڕەوشە</string>
 </resources>
