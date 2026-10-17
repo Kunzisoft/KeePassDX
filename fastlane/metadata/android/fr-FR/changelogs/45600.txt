@@ -1,2 +1,4 @@
  * Domaines web sans TLD pour le remplissage automatique #2744 (@LukaZ2)
  * Correction du téléversement des pièces jointes dans Android 12 #2745
+ * Correction de la synchronisation des méthodes pour les UUIDs dupliquées #2716
+ * Correction des fichiers joints avec Android 12 #2745

@@ -1,2 +1,4 @@
  * Web domains without TLD in Autofill #2744 (@LukaZ2)
  * Fix upload attachment in Android 12 #2745
+ * Fix synchronized method for duplicate UUIDs #2716
+ * Fix attach file in Android 12 #2745
