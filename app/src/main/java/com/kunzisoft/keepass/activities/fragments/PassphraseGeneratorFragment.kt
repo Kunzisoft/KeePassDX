@@ -25,12 +25,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.Spinner
-import android.widget.TextView
+import android.widget.*
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
@@ -40,11 +35,9 @@ import com.google.android.material.slider.Slider
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.password.PassphraseGenerator
-import com.kunzisoft.keepass.password.PasswordGenerator
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.timeout.timeoutCopyToClipboard
 import com.kunzisoft.keepass.utils.clear
-import com.kunzisoft.keepass.view.PasswordConditionsView
 import com.kunzisoft.keepass.view.PasswordEditView
 import com.kunzisoft.keepass.viewmodels.KeyGeneratorViewModel
 import kotlinx.coroutines.launch
@@ -52,11 +45,11 @@ import kotlinx.coroutines.launch
 class PassphraseGeneratorFragment : DatabaseFragment() {
 
     private lateinit var passwordEditView: PasswordEditView
-    private lateinit var passwordConditionsView: PasswordConditionsView
 
     private lateinit var sliderWordCount: Slider
     private lateinit var wordCountText: EditText
     private lateinit var charactersCountText: TextView
+    private lateinit var wordSeparator: EditText
     private lateinit var wordCaseSpinner: Spinner
 
     private var minSliderWordCount: Int = 0
@@ -65,18 +58,13 @@ class PassphraseGeneratorFragment : DatabaseFragment() {
 
     private val mKeyGeneratorViewModel: KeyGeneratorViewModel by activityViewModels()
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
+    override fun onCreateView(inflater: LayoutInflater,
+                              container: ViewGroup?,
+                              savedInstanceState: Bundle?): View {
         return inflater.inflate(R.layout.fragment_generate_passphrase, container, false)
     }
 
-    override fun onViewCreated(
-        view: View,
-        savedInstanceState: Bundle?
-    ) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         passwordEditView = view.findViewById(R.id.passphrase_view)
@@ -84,14 +72,14 @@ class PassphraseGeneratorFragment : DatabaseFragment() {
         sliderWordCount = view.findViewById(R.id.slider_word_count)
         wordCountText = view.findViewById(R.id.word_count)
         charactersCountText = view.findViewById(R.id.character_count)
-        passwordConditionsView = view.findViewById(R.id.passphrase_separator_conditions_view)
+        wordSeparator = view.findViewById(R.id.word_separator)
         wordCaseSpinner = view.findViewById(R.id.word_case)
 
         minSliderWordCount = resources.getInteger(R.integer.passphrase_generator_word_count_min)
         maxSliderWordCount = resources.getInteger(R.integer.passphrase_generator_word_count_max)
 
         context?.let { context ->
-            passphraseCopyView?.visibility = if (PreferencesUtil.allowCopyProtectedFields(context))
+            passphraseCopyView?.visibility = if(PreferencesUtil.allowCopyProtectedFields(context))
                 View.VISIBLE else View.GONE
             passphraseCopyView?.setOnClickListener {
                 context.timeoutCopyToClipboard(
@@ -101,21 +89,14 @@ class PassphraseGeneratorFragment : DatabaseFragment() {
                 )
             }
 
-            wordCaseAdapter = ArrayAdapter(
-                context,
-                android.R.layout.simple_spinner_item,
-                resources.getStringArray(R.array.word_case_array)
-            ).apply {
+            wordCaseAdapter = ArrayAdapter(context,
+                android.R.layout.simple_spinner_item, resources.getStringArray(R.array.word_case_array)).apply {
                 setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             }
             wordCaseSpinner.adapter = wordCaseAdapter
         }
 
         loadSettings()
-
-        passwordConditionsView.onConditionsChanged = {
-            generatePassphrase()
-        }
 
         var listenSlider = true
         var listenEditText = true
@@ -155,13 +136,11 @@ class PassphraseGeneratorFragment : DatabaseFragment() {
                 }
             }
         }
-        wordCaseSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(
-                parent: AdapterView<*>?,
-                view: View?,
-                position: Int,
-                id: Long
-            ) {
+        wordSeparator.doOnTextChanged { _, _, _, _ ->
+            generatePassphrase()
+        }
+        wordCaseSpinner.onItemSelectedListener = object: AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 generatePassphrase()
             }
 
@@ -216,30 +195,7 @@ class PassphraseGeneratorFragment : DatabaseFragment() {
     }
 
     private fun getWordSeparator(): String {
-        return try {
-            val generatedSeparator = PasswordGenerator(resources).generatePassword(
-                length = passwordConditionsView.getPasswordLength(),
-                upperCase = passwordConditionsView.isUppercaseChecked(),
-                lowerCase = passwordConditionsView.isLowercaseChecked(),
-                digits = passwordConditionsView.isDigitsChecked(),
-                minus = passwordConditionsView.isMinusChecked(),
-                underline = passwordConditionsView.isUnderlineChecked(),
-                space = passwordConditionsView.isSpaceChecked(),
-                specials = passwordConditionsView.isSpecialsChecked(),
-                brackets = passwordConditionsView.isBracketsChecked(),
-                extended = passwordConditionsView.isExtendedChecked(),
-                considerChars = passwordConditionsView.getConsiderChars(),
-                ignoreChars = passwordConditionsView.getIgnoreChars(),
-                atLeastOneFromEach = passwordConditionsView.isAtLeastOneChecked(),
-                excludeAmbiguousChar = passwordConditionsView.isExcludeAmbiguousChecked()
-            )
-            val separatorStr = String(generatedSeparator)
-            generatedSeparator.clear()
-            separatorStr.ifEmpty { " " }
-        } catch (e: Exception) {
-            Log.e(TAG, "Unable to generate a separator", e)
-            " "
-        }
+        return wordSeparator.text.toString().ifEmpty { " " }
     }
 
     private fun getWordCase(): PassphraseGenerator.WordCase {
@@ -256,13 +212,20 @@ class PassphraseGeneratorFragment : DatabaseFragment() {
         wordCaseSpinner.setSelection(wordCase.ordinal)
     }
 
+    private fun getSeparator(): String {
+        return wordSeparator.text?.toString() ?: ""
+    }
+
+    private fun setSeparator(separator: String) {
+        wordSeparator.setText(separator)
+    }
+
     private fun generatePassphrase() {
         try {
             val passphrase = PassphraseGenerator().generatePassphrase(
                 getWordCount(),
                 getWordSeparator(),
-                getWordCase()
-            )
+                getWordCase())
             passwordEditView.passwordCharArray = passphrase
             charactersCountText.text = getString(R.string.character_count, passphrase.size)
             passphrase.clear()
@@ -280,10 +243,7 @@ class PassphraseGeneratorFragment : DatabaseFragment() {
         context?.let { context ->
             PreferencesUtil.setDefaultPassphraseWordCount(context, getWordCount())
             PreferencesUtil.setDefaultPassphraseWordCase(context, getWordCase())
-            PreferencesUtil.setDefaultPassphraseSeparatorOptions(context, passwordConditionsView.getOptions())
-            PreferencesUtil.setDefaultPassphraseSeparatorLength(context, passwordConditionsView.getPasswordLength())
-            PreferencesUtil.setDefaultPassphraseSeparatorConsiderChars(context, passwordConditionsView.getConsiderChars())
-            PreferencesUtil.setDefaultPassphraseSeparatorIgnoreChars(context, passwordConditionsView.getIgnoreChars())
+            PreferencesUtil.setDefaultPassphraseSeparator(context, getSeparator())
         }
     }
 
@@ -291,10 +251,7 @@ class PassphraseGeneratorFragment : DatabaseFragment() {
         context?.let { context ->
             setWordCount(PreferencesUtil.getDefaultPassphraseWordCount(context))
             setWordCase(PreferencesUtil.getDefaultPassphraseWordCase(context))
-            passwordConditionsView.setOptions(PreferencesUtil.getDefaultPassphraseSeparatorOptions(context))
-            passwordConditionsView.setPasswordLength(PreferencesUtil.getDefaultPassphraseSeparatorLength(context))
-            passwordConditionsView.setConsiderChars(PreferencesUtil.getDefaultPassphraseSeparatorConsiderChars(context))
-            passwordConditionsView.setIgnoreChars(PreferencesUtil.getDefaultPassphraseSeparatorIgnoreChars(context))
+            setSeparator(PreferencesUtil.getDefaultPassphraseSeparator(context))
         }
     }
 
@@ -303,6 +260,6 @@ class PassphraseGeneratorFragment : DatabaseFragment() {
     }
 
     companion object {
-        private val TAG = PassphraseGenerator::class.simpleName
+        private const val TAG = "PassphraseGnrtrFrgmt"
     }
 }
