@@ -749,4 +749,15 @@
     <string name="benchmark_calculation">חשב עבור %1$s s</string>
     <string name="benchmarking">מבצע מדידת ביצועים…</string>
     <string name="keyboard_share_browser">שתף מ־ %1$s ל־KeePassDX</string>
+    <string name="error_load_database_KDF_iteration"></string>
+    <string name="error_load_database_KDF_parallelism"></string>
+    <string name="error_memory_too_large"></string>
+    <string name="error_parallelism_too_large"></string>
+    <string name="error_missing_parent"></string>
+    <string name="parallelism_set_safe"></string>
+    <string name="temporary_merge_success"></string>
+    <string name="reload_success"></string>
+    <string name="save_success"></string>
+    <string name="autofill_suggestions_title"></string>
+    <string name="autofill_suggestions_summary"></string>
 </resources>

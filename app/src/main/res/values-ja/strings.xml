@@ -216,7 +216,7 @@
     <string name="root">ルート</string>
     <string name="encryption_explanation">すべてのデータに使用されるデータベース暗号化アルゴリズム</string>
     <string name="kdf_explanation">暗号化アルゴリズム用の鍵を生成するために、マスターキーはランダムなソルト付き鍵導出関数を使用して変換されます。</string>
-    <string name="rounds">変換ラウンド</string>
+    <string name="rounds">ラウンド変換</string>
     <string name="rounds_explanation">変換ラウンドを増やすことでブルートフォース攻撃に対する保護が強化されますが、読み込みと保存がとても遅くなる可能性があります。</string>
     <string name="memory_usage">メモリ使用量</string>
     <string name="memory_usage_explanation">鍵導出関数が使用するメモリの量です。</string>
@@ -769,4 +769,6 @@
     <string name="parallelism_set_safe">プロセッサの数を設定</string>
     <string name="error_load_database_KDF_parallelism">KDFの並列度が大きすぎます。</string>
     <string name="error_load_database_KDF_iteration">KDFの反復回数が多すぎます。</string>
+    <string name="save_success">保存に成功しました</string>
+    <string name="words">単語</string>
 </resources>

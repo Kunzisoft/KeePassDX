@@ -319,4 +319,6 @@
     <string name="contribution">Līdzdalība</string>
     <string name="parallelism_set_safe">Iestatīt procesoru skaitu</string>
     <string name="command_execution">Izpilda komandu…</string>
+    <string name="save_success">Saglabāšana pabeigta sekmīgi</string>
+    <string name="permission">Atļauja</string>
 </resources>
