@@ -2,3 +2,4 @@
  * Fix upload attachment in Android 12 #2745
  * Fix synchronized method for duplicate UUIDs #2716
  * Fix attach file in Android 12 #2745
+ * Fix error message on wrong password #2739
