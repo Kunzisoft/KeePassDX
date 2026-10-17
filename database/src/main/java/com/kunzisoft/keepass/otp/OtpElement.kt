@@ -19,11 +19,11 @@
  */
 package com.kunzisoft.keepass.otp
 
+import android.util.Base64
 import com.kunzisoft.keepass.model.OtpModel
 import com.kunzisoft.keepass.utils.CharArrayUtil.removeSpaceChars
 import com.kunzisoft.keepass.utils.CharArrayUtil.toUtf8ByteArray
 import com.kunzisoft.keepass.utils.CodecUtil
-import android.util.Base64
 import com.kunzisoft.keepass.utils.clear
 import java.nio.CharBuffer
 import java.util.Locale
@@ -74,11 +74,15 @@ data class OtpElement(var otpModel: OtpModel = OtpModel()) {
             otpModel.name = value
         }
 
+    fun isNamePopulated(): Boolean = name.isNotEmpty() && name != OtpModel.DEFAULT_NAME
+
     var issuer
         get() = otpModel.issuer
         set(value) {
             otpModel.issuer = value
         }
+
+    fun isIssuerPopulated(): Boolean = issuer.isNotEmpty() && issuer != OtpModel.DEFAULT_ISSUER
 
     var secret
         get() = otpModel.secret
