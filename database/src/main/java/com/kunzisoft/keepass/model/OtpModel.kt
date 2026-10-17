@@ -33,8 +33,8 @@ class OtpModel : Parcelable {
 
     var type: OtpType = OtpType.TOTP // ie : HOTP or TOTP
     var tokenType: OtpTokenType = OtpTokenType.RFC6238
-    var name: String = "OTP" // ie : user@email.com
-    var issuer: String = "None" // ie : Gitlab
+    var name: String = DEFAULT_NAME // ie : user@email.com
+    var issuer: String = DEFAULT_ISSUER // ie : Gitlab
     var secret: ByteArray? = null // Seed
     var counter: Long = TokenCalculator.HOTP_INITIAL_COUNTER // ie : 5 - only for HOTP
     var period: Int = TokenCalculator.TOTP_DEFAULT_PERIOD // ie : 30 seconds - only for TOTP
@@ -128,6 +128,9 @@ class OtpModel : Parcelable {
     }
 
     companion object CREATOR : Parcelable.Creator<OtpModel> {
+        const val DEFAULT_NAME = "OTP"
+        const val DEFAULT_ISSUER = "None"
+
         override fun createFromParcel(parcel: Parcel): OtpModel {
             return OtpModel(parcel)
         }

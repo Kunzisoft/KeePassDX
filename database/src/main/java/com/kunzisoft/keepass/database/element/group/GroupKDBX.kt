@@ -105,8 +105,11 @@ class GroupKDBX : GroupVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
         dest.writeParcelable(ParcelUuid(previousParentGroup), flags)
     }
 
-    fun updateWith(source: GroupKDBX,
-                   updateParents: Boolean = true) {
+    @Synchronized
+    fun updateWith(
+        source: GroupKDBX,
+        updateParents: Boolean = true
+    ) {
         super.updateWith(source, updateParents)
         usageCount = source.usageCount
         locationChanged = DateInstant(source.locationChanged)

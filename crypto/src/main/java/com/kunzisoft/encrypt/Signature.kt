@@ -474,17 +474,17 @@ object Signature {
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.P)
                 throw AndroidException("API level ${Build.VERSION.SDK_INT} not supported")
             val signatures = mutableSetOf<String>()
-            // Includes past and current keys if rotation occurred. This is generally preferred.
+            // Add current content signers first so that the current signer is the primary/first fingerprint
+            // (used for Android passkey origin generation).
+            apkContentsSigners?.forEach { signature ->
+                signatureToSha256Fingerprint(signature)?.let { signatures.add(it) }
+            }
+            // Include signing certificate history (past and current keys) for trust checks.
             signingCertificateHistory?.forEach { signature ->
                 signatureToSha256Fingerprint(signature)?.let { signatures.add(it) }
             }
-            // If only one signer and history is empty (e.g. new app), this might be needed.
-            // Or if multiple signers are explicitly used for the APK content.
-            if (hasMultipleSigners()) {
-                apkContentsSigners?.forEach { signature ->
-                    signatureToSha256Fingerprint(signature)?.let { signatures.add(it) }
-                }
-            } else { // Fallback for single signer if history was somehow null/empty
+            // Fallback for single signer if apkContentsSigners was somehow empty/null
+            if (signatures.isEmpty()) {
                 signingCertificateHistory?.firstOrNull()?.let {
                     signatureToSha256Fingerprint(it)?.let { fp -> signatures.add(fp) }
                 }

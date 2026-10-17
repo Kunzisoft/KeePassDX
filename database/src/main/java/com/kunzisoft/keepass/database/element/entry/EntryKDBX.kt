@@ -55,7 +55,7 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
     override var locationChanged = DateInstant()
     override var customData = CustomData()
     private var fields = LinkedHashMap<String, ProtectedString>()
-    var binaries = LinkedHashMap<String, Int>() // Map<Label, PoolId>
+    private var binaries = LinkedHashMap<String, Int>() // Map<Label, PoolId>
     var foregroundColor = ""
     var backgroundColor = ""
     var overrideURL = ""
@@ -64,7 +64,7 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
     var qualityCheck = true
     var autoType = AutoType()
     var historyMainEntryId: UUID? = null
-    var history = mutableListOf<EntryKDBX>()
+    private var history = mutableListOf<EntryKDBX>()
     var additional = ""
 
     override var expires: Boolean = false
@@ -269,6 +269,11 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
         locationChanged = DateInstant()
     }
 
+    @Synchronized
+    fun getBinaries(): LinkedHashMap<String, Int> {
+        return binaries
+    }
+
     private fun isStandardField(key: String): Boolean {
         return (key == STR_TITLE
                 || key == STR_USERNAME
@@ -292,26 +297,35 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
         }
     }
 
+    @Synchronized
     fun getFieldValue(label: String): ProtectedString? {
         return fields[label]
     }
 
+    @Synchronized
     fun getFields(): List<Field> {
         return fields.map { Field(it.key, it.value) }
     }
 
+    @Synchronized
     fun putField(field: Field) {
         putField(field.name, field.protectedValue)
     }
 
-    fun putField(label: String, value: ProtectedString) {
+    @Synchronized
+    fun putField(
+        label: String,
+        value: ProtectedString
+    ) {
         fields[label] = value
     }
 
+    @Synchronized
     fun removeField(name: String) {
         fields.remove(name)
     }
 
+    @Synchronized
     fun removeAllFields() {
         fields.clear()
     }
@@ -319,7 +333,11 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
     /**
      * It's a list because history labels can be defined multiple times
      */
-    fun getAttachments(attachmentPool: AttachmentPool, inHistory: Boolean = false): List<Attachment> {
+    @Synchronized
+    fun getAttachments(
+        attachmentPool: AttachmentPool,
+        inHistory: Boolean = false
+    ): List<Attachment> {
         val entryAttachmentList = mutableListOf<Attachment>()
         for ((label, poolId) in binaries) {
             attachmentPool[poolId]?.let { binary ->
@@ -334,22 +352,30 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
         return entryAttachmentList
     }
 
+    @Synchronized
     fun containsAttachment(): Boolean {
         return binaries.isNotEmpty()
     }
 
-    fun putAttachment(attachment: Attachment, attachmentPool: AttachmentPool) {
+    @Synchronized
+    fun putAttachment(
+        attachment: Attachment,
+        attachmentPool: AttachmentPool
+    ) {
         binaries[attachment.name] = attachmentPool.put(attachment.binaryData)
     }
 
+    @Synchronized
     fun removeAttachment(attachment: Attachment) {
         binaries.remove(attachment.name)
     }
 
+    @Synchronized
     fun removeAttachments() {
         binaries.clear()
     }
 
+    @Synchronized
     private fun getAttachmentsSize(attachmentPool: AttachmentPool): Long {
         var size = 0L
         for ((label, poolId) in binaries) {
@@ -363,6 +389,16 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
         return historyMainEntryId != null
     }
 
+    @Synchronized
+    fun getHistory() = history.toList()
+
+    @Synchronized
+    fun setHistory(value: List<EntryKDBX>) {
+        history.clear()
+        history.addAll(value)
+    }
+
+    @Synchronized
     fun addEntryToHistory(entry: EntryKDBX) {
         // The current entry is no longer part of the history once we add a history entry to it
         // And the history entry we add must not contain any history in it
@@ -372,10 +408,12 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
         history.add(entry)
     }
 
+    @Synchronized
     fun removeEntryFromHistory(position: Int): EntryKDBX {
         return history.removeAt(position)
     }
 
+    @Synchronized
     fun removeOldestEntryFromHistory(): EntryKDBX? {
         var min: DateInstant? = null
         var index = -1
@@ -392,6 +430,7 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
         } else null
     }
 
+    @Synchronized
     fun clearHistory() {
         history.clear()
     }

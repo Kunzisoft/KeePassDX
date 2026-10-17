@@ -764,4 +764,6 @@
     <string name="error_load_database_KDF_parallelism">Paralelismul KDF prea mare.</string>
     <string name="parallelism_set_safe">Setează numărul de procesoare</string>
     <string name="error_load_database_KDF_iteration">Iterația KDF este prea mare.</string>
+    <string name="save_success">Salvare finalizată cu succes</string>
+    <string name="words">Cuvinte</string>
 </resources>

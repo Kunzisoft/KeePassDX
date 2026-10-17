@@ -531,16 +531,16 @@ class DatabaseKDBXMerger(private var database: DatabaseKDBX) {
      */
     private fun EntryKDBX.addHistoryFrom(entryA: EntryKDBX) {
         // Keep entry as history if already not present
-        entryA.history.forEach { history ->
+        entryA.getHistory().forEach { history ->
             // If history not present
-            if (!this.history.any {
+            if (!this.getHistory().any {
                     it.lastModificationTime == history.lastModificationTime
                 }) {
                 this.addEntryToHistory(history)
             }
         }
         // Last entry not present
-        if (this.history.find {
+        if (this.getHistory().find {
                 it.lastModificationTime == entryA.lastModificationTime
             } == null) {
             val history = EntryKDBX().apply {

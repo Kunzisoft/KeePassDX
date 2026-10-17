@@ -772,4 +772,6 @@
     <string name="error_load_database_KDF_parallelism">A KDF párhuzamossági értéke túl magas.</string>
     <string name="parallelism_set_safe">Processzorok számának beállítása</string>
     <string name="error_load_database_KDF_iteration">A KDF iterációs értéke túl magas.</string>
+    <string name="save_success">A mentés sikeresen befejeződött</string>
+    <string name="words">Szavak</string>
 </resources>

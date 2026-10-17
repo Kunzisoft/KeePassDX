@@ -60,6 +60,10 @@ import com.kunzisoft.keepass.activities.dialogs.SortDialogFragment
 import com.kunzisoft.keepass.activities.fragments.GroupFragment
 import com.kunzisoft.keepass.activities.fragments.SearchFragment
 import com.kunzisoft.keepass.activities.helpers.ExternalFileHelper
+import com.kunzisoft.keepass.activities.helpers.ExternalFileHelper.createDatabaseFile
+import com.kunzisoft.keepass.activities.helpers.ExternalFileHelper.openFile
+import com.kunzisoft.keepass.activities.helpers.ExternalFileHelper.registerCreateDatabaseFile
+import com.kunzisoft.keepass.activities.helpers.ExternalFileHelper.registerOpenFile
 import com.kunzisoft.keepass.activities.legacy.DatabaseLockActivity
 import com.kunzisoft.keepass.adapters.BreadcrumbAdapter
 import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper
@@ -122,7 +126,6 @@ import com.kunzisoft.keepass.viewmodels.UserVerificationViewModel
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.mapNotNull
 import kotlinx.coroutines.launch
-import org.joda.time.LocalDateTime
 import java.util.EnumSet
 
 
@@ -160,9 +163,15 @@ class GroupActivity : DatabaseLockActivity() {
 
     private var activeActionMode: ActionMode? = null
 
-    // Manage merge
-    private var mExternalFileHelper: ExternalFileHelper? = null
-
+    // Manage "merge from" and "save to"
+    private var openDatabaseToMergeFileResultLauncher: ExternalFileHelper.OpenFileResultLauncher = registerOpenFile { uri ->
+        launchDialogToAskMainCredential(uri)
+    }
+    private var createDatabaseBackupFileResultLauncher: ActivityResultLauncher<String> = registerCreateDatabaseFile { uri ->
+        uri?.let {
+            saveDatabaseTo(it)
+        }
+    }
 
     private val mEntryActivityResultLauncher = EntryEditActivity.registerForEntryResult(this) { entryId ->
         entryId?.let {
@@ -330,17 +339,6 @@ class GroupActivity : DatabaseLockActivity() {
         drawerLayout?.addDrawerListener(toggle)
         toggle.syncState()
 
-        // Manage "merge from" and "save to"
-        mExternalFileHelper = ExternalFileHelper(this)
-        mExternalFileHelper?.buildOpenDocument { uri ->
-            launchDialogToAskMainCredential(uri)
-        }
-        mExternalFileHelper?.buildCreateDocument("application/x-keepass") { uri ->
-            uri?.let {
-                saveDatabaseTo(it)
-            }
-        }
-
         // Menu in drawer
         databaseNavView?.apply {
             inflateMenu(R.menu.settings)
@@ -363,7 +361,7 @@ class GroupActivity : DatabaseLockActivity() {
                             )
                         } else {
                             // Open document picker directly without verification
-                            mExternalFileHelper?.openDocument()
+                            openFile(openDatabaseToMergeFileResultLauncher)
                         }
                     }
                     R.id.menu_save_copy_to -> {
@@ -377,12 +375,7 @@ class GroupActivity : DatabaseLockActivity() {
                             )
                         } else {
                             // Create document directly without verification
-                            mExternalFileHelper?.createDocument(
-                                getString(R.string.database_file_name_default) +
-                                        "_" +
-                                        LocalDateTime.now().toString() +
-                                        mDatabase?.defaultFileExtension
-                            )
+                            createDatabaseBackupFile()
                         }
                     }
                     R.id.menu_lock_all -> {
@@ -735,15 +728,10 @@ class GroupActivity : DatabaseLockActivity() {
                                 editEntry(data.database, data.entryId)
                             }
                             UserVerificationActionType.MERGE_FROM_DATABASE -> {
-                                mExternalFileHelper?.openDocument()
+                                openFile(openDatabaseToMergeFileResultLauncher)
                             }
                             UserVerificationActionType.SAVE_DATABASE_COPY_TO -> {
-                                mExternalFileHelper?.createDocument(
-                                    getString(R.string.database_file_name_default) +
-                                            "_" +
-                                            LocalDateTime.now().toString() +
-                                            data.database?.defaultFileExtension
-                                )
+                                createDatabaseBackupFile()
                             }
                             else -> {}
                         }
@@ -802,6 +790,14 @@ class GroupActivity : DatabaseLockActivity() {
                 }
             }
         }
+    }
+
+    private fun createDatabaseBackupFile() {
+        createDatabaseFile(
+            createDatabaseBackupFileResultLauncher,
+            addCurrentDateToName = true,
+            extension = mDatabase?.defaultFileExtension
+        )
     }
 
     override fun viewToInvalidateTimeout(): View? = drawerLayout

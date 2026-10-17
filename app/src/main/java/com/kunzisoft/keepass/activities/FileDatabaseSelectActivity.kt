@@ -45,7 +45,11 @@ import com.google.android.material.snackbar.Snackbar
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.SetMainCredentialDialogFragment
 import com.kunzisoft.keepass.activities.helpers.ExternalFileHelper
-import com.kunzisoft.keepass.activities.helpers.setOpenDocumentClickListener
+import com.kunzisoft.keepass.activities.helpers.ExternalFileHelper.createDatabaseFile
+import com.kunzisoft.keepass.activities.helpers.ExternalFileHelper.openFile
+import com.kunzisoft.keepass.activities.helpers.ExternalFileHelper.registerCreateDatabaseFile
+import com.kunzisoft.keepass.activities.helpers.ExternalFileHelper.registerOpenFile
+import com.kunzisoft.keepass.activities.helpers.ExternalFileHelper.setOpenFileClickListener
 import com.kunzisoft.keepass.activities.legacy.DatabaseModeActivity
 import com.kunzisoft.keepass.adapters.FileDatabaseHistoryAdapter
 import com.kunzisoft.keepass.app.database.FileDatabaseHistoryAction
@@ -93,7 +97,22 @@ class FileDatabaseSelectActivity : DatabaseModeActivity() {
 
     private var mDatabaseFileUri: Uri? = null
 
-    private var mExternalFileHelper: ExternalFileHelper? = null
+    private var openDatabaseFileResultLauncher: ExternalFileHelper.OpenFileResultLauncher = registerOpenFile { uri ->
+        uri?.let {
+            launchMainCredentialActivityWithPath(uri)
+        }
+    }
+    private var createDatabaseFileResultLauncher: ActivityResultLauncher<String> = registerCreateDatabaseFile { uri ->
+        mDatabaseFileUri = uri
+        if (mDatabaseFileUri != null) {
+            SetMainCredentialDialogFragment.getInstance(true)
+                .show(supportFragmentManager, "passwordDialog")
+        } else {
+            val error = getString(R.string.error_create_database)
+            Snackbar.make(coordinatorLayout, error, Snackbar.LENGTH_LONG).asError().show()
+            Log.e(TAG, error)
+        }
+    }
 
     private val mSetMainCredentialViewModel: SetMainCredentialViewModel by viewModels()
 
@@ -124,28 +143,11 @@ class FileDatabaseSelectActivity : DatabaseModeActivity() {
 
         // Create database button
         createDatabaseButtonView = findViewById(R.id.create_database_button)
-        createDatabaseButtonView?.setOnClickListener { createNewFile() }
+        createDatabaseButtonView?.setOnClickListener { createNewDatabaseFile() }
 
         // Open database button
-        mExternalFileHelper = ExternalFileHelper(this)
-        mExternalFileHelper?.buildOpenDocument { uri ->
-            uri?.let {
-                launchMainCredentialActivityWithPath(uri)
-            }
-        }
-        mExternalFileHelper?.buildCreateDocument("application/x-keepass") { databaseFileCreatedUri ->
-            mDatabaseFileUri = databaseFileCreatedUri
-            if (mDatabaseFileUri != null) {
-                SetMainCredentialDialogFragment.getInstance(true)
-                    .show(supportFragmentManager, "passwordDialog")
-            } else {
-                val error = getString(R.string.error_create_database)
-                Snackbar.make(coordinatorLayout, error, Snackbar.LENGTH_LONG).asError().show()
-                Log.e(TAG, error)
-            }
-        }
         openDatabaseButtonView = findViewById(R.id.open_database_button)
-        openDatabaseButtonView?.setOpenDocumentClickListener(mExternalFileHelper)
+        openDatabaseButtonView?.setOpenFileClickListener(this, openDatabaseFileResultLauncher)
 
         // History list
         val fileDatabaseHistoryRecyclerView = findViewById<RecyclerView>(R.id.file_list)
@@ -270,12 +272,10 @@ class FileDatabaseSelectActivity : DatabaseModeActivity() {
     }
 
     /**
-     * Create a new file by calling the content provider
+     * Create a new database file by calling the content provider
      */
-    private fun createNewFile() {
-        mExternalFileHelper?.createDocument(
-            getString(R.string.database_file_name_default) +
-                getString(R.string.database_file_extension_default))
+    private fun createNewDatabaseFile() {
+        createDatabaseFile(createDatabaseFileResultLauncher)
     }
 
     private fun fileNoFoundAction(e: FileNotFoundException) {
@@ -424,7 +424,7 @@ class FileDatabaseSelectActivity : DatabaseModeActivity() {
                 && mFileDatabaseSelectActivityEducation.checkAndPerformedCreateDatabaseEducation(
                         createDatabaseButtonView!!,
                 {
-                    createNewFile()
+                    createNewDatabaseFile()
                 },
                 {
                     // But if the user cancel, it can also select a database
@@ -437,7 +437,7 @@ class FileDatabaseSelectActivity : DatabaseModeActivity() {
                 openDatabaseButtonView!!,
             { tapTargetView ->
                 tapTargetView?.let {
-                    mExternalFileHelper?.openDocument()
+                    openFile(openDatabaseFileResultLauncher)
                 }
             },
             {

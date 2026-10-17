@@ -54,8 +54,11 @@ class GroupKDB : GroupVersioned<Int, UUID, GroupKDB, EntryKDB>, NodeKDBInterface
         dest.writeInt(groupFlags)
     }
 
-    fun updateWith(source: GroupKDB,
-                   updateParents: Boolean = true) {
+    @Synchronized
+    fun updateWith(
+        source: GroupKDB,
+        updateParents: Boolean = true
+    ) {
         super.updateWith(source, updateParents)
         groupFlags = source.groupFlags
     }

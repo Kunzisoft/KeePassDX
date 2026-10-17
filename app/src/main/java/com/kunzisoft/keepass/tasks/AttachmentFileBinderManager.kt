@@ -37,11 +37,9 @@ import com.kunzisoft.keepass.services.AttachmentFileNotificationService.Companio
 import com.kunzisoft.keepass.services.AttachmentFileNotificationService.Companion.ACTION_ATTACHMENT_FILE_STOP_UPLOAD
 import com.kunzisoft.keepass.services.AttachmentFileNotificationService.Companion.ACTION_ATTACHMENT_REMOVE
 
-class AttachmentFileBinderManager(private val activity: FragmentActivity) {
+class AttachmentFileBinderManager {
 
     var onActionTaskListener: AttachmentFileNotificationService.ActionTaskListener? = null
-
-    private var mIntentTask = Intent(activity, AttachmentFileNotificationService::class.java)
 
     private var mBinder: AttachmentFileNotificationService.ActionTaskBinder? = null
 
@@ -63,8 +61,14 @@ class AttachmentFileBinderManager(private val activity: FragmentActivity) {
         }
     }
 
+    private fun intentService(activity: FragmentActivity): Intent {
+        return Intent(activity, AttachmentFileNotificationService::class.java)
+    }
+
     @Synchronized
-    fun registerProgressTask() {
+    fun registerProgressTask(
+        activity: FragmentActivity
+    ) {
         // Check if a service is currently running else do nothing
         if (mServiceConnection == null) {
             mServiceConnection = object : ServiceConnection {
@@ -83,12 +87,14 @@ class AttachmentFileBinderManager(private val activity: FragmentActivity) {
         }
 
         mServiceConnection?.let {
-            activity.bindService(mIntentTask, it, BIND_NOT_FOREGROUND or BIND_ABOVE_CLIENT)
+            activity.bindService(intentService(activity), it, BIND_NOT_FOREGROUND or BIND_ABOVE_CLIENT)
         }
     }
 
     @Synchronized
-    fun unregisterProgressTask() {
+    fun unregisterProgressTask(
+        activity: FragmentActivity
+    ) {
         onActionTaskListener = null
 
         mBinder?.removeActionTaskListener(mActionTaskListener)
@@ -101,26 +107,32 @@ class AttachmentFileBinderManager(private val activity: FragmentActivity) {
     }
 
     @Synchronized
-    fun consumeAttachmentAction(attachment: EntryAttachmentState) {
+    fun consumeAttachmentAction(
+        attachment: EntryAttachmentState
+    ) {
         mBinder?.getService()?.removeAttachmentAction(attachment)
     }
 
     @Synchronized
     private fun start(
+        activity: FragmentActivity,
         bundle: Bundle? = null,
         actionTask: String
     ) {
+        val intent = intentService(activity)
         if (bundle != null)
-            mIntentTask.putExtras(bundle)
-        mIntentTask.action = actionTask
-        activity.startService(mIntentTask)
+            intent.putExtras(bundle)
+        intent.action = actionTask
+        activity.startService(intent)
     }
 
     fun startUploadAttachment(
+        activity: FragmentActivity,
         uploadFileUri: Uri,
         attachment: Attachment
     ) {
         start(
+            activity = activity,
             bundle = Bundle().apply {
                 putParcelable(AttachmentFileNotificationService.FILE_URI_KEY, uploadFileUri)
                 putParcelable(AttachmentFileNotificationService.ATTACHMENT_KEY, attachment)
@@ -129,15 +141,22 @@ class AttachmentFileBinderManager(private val activity: FragmentActivity) {
         )
     }
 
-    fun stopUploadAllAttachments() {
-        start(actionTask = ACTION_ATTACHMENT_FILE_STOP_UPLOAD)
+    fun stopUploadAllAttachments(
+        activity: FragmentActivity
+    ) {
+        start(
+            activity = activity,
+            actionTask = ACTION_ATTACHMENT_FILE_STOP_UPLOAD
+        )
     }
 
     fun startDownloadAttachment(
+        activity: FragmentActivity,
         downloadFileUri: Uri,
         attachment: Attachment
     ) {
         start(
+            activity = activity,
             bundle = Bundle().apply {
                 putParcelable(AttachmentFileNotificationService.FILE_URI_KEY, downloadFileUri)
                 putParcelable(AttachmentFileNotificationService.ATTACHMENT_KEY, attachment)
@@ -146,8 +165,12 @@ class AttachmentFileBinderManager(private val activity: FragmentActivity) {
         )
     }
 
-    fun removeBinaryAttachment(attachment: Attachment) {
+    fun removeBinaryAttachment(
+        activity: FragmentActivity,
+        attachment: Attachment
+    ) {
         start(
+            activity = activity,
             bundle = Bundle().apply {
                 putParcelable(AttachmentFileNotificationService.ATTACHMENT_KEY, attachment)
             },
