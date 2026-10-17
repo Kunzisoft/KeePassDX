@@ -19,6 +19,7 @@
  */
 package com.kunzisoft.keepass.model
 
+import com.kunzisoft.encrypt.Signature.SIGNATURE_DELIMITER
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNotEquals
@@ -205,6 +206,30 @@ class AppOriginTest {
         } catch (_: SecurityException) {
             // expected
         }
+
+        // Rotated key, entry saved with fingerprint1, call fingerprint2##SIG##fingerprint1
+        val compareRotated = AppOrigin(false)
+        val rotatedFingerprint = "$fingerprint2$SIGNATURE_DELIMITER$fingerprint1"
+        compareRotated.addAndroidOrigin(AndroidOrigin(packageAndroid1, rotatedFingerprint))
+        val resultRotated = app.checkAndroidOrigin(compareRotated)
+        assertTrue(resultRotated.startsWith("android:apk-key-hash:"))
+
+        // Verify the origin value from fingerprint2 (the current signer, listed first)
+        val expectedRotatedOrigin = AndroidOrigin(packageAndroid1, fingerprint2).toOriginValue()
+        assertEquals(expectedRotatedOrigin, resultRotated)
+    }
+
+    @Test
+    fun testHasMatchingFingerprintWith() {
+        val originSingle1 = AndroidOrigin(packageAndroid1, fingerprint1)
+        val originSingle2 = AndroidOrigin(packageAndroid1, fingerprint2)
+        val originRotated = AndroidOrigin(packageAndroid1, "$fingerprint2$SIGNATURE_DELIMITER$fingerprint1")
+
+        assertTrue(originSingle1.hasMatchingFingerprintWith(originSingle1))
+        assertTrue(originSingle1.hasMatchingFingerprintWith(originRotated))
+        assertTrue(originRotated.hasMatchingFingerprintWith(originSingle1))
+        assertTrue(originSingle2.hasMatchingFingerprintWith(originRotated))
+        assertFalse(originSingle1.hasMatchingFingerprintWith(originSingle2))
     }
 
     @Test

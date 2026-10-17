@@ -21,6 +21,7 @@ package com.kunzisoft.keepass.model
 
 import android.os.Parcelable
 import android.util.Log
+import com.kunzisoft.encrypt.Signature.SIGNATURE_DELIMITER
 import com.kunzisoft.encrypt.Signature.fingerprintToUrlSafeBase64
 import com.kunzisoft.keepass.model.WebOrigin.Companion.WEB_ORIGIN_DEFAULT_SCHEME
 import kotlinx.parcelize.Parcelize
@@ -85,14 +86,15 @@ data class AppOrigin(
         if (other == null)
             return null
         androidOrigins.forEach { androidOrigin ->
-            if (other.androidOrigins.any {
-                    it.packageName == androidOrigin.packageName
-                            && it.fingerprint == androidOrigin.fingerprint
-                })
+            other.androidOrigins.find {
+                it.packageName == androidOrigin.packageName
+                        && androidOrigin.hasMatchingFingerprintWith(it)
+            }?.let { matchingInOther ->
                 return AndroidOrigin(
                     packageName = androidOrigin.packageName,
-                    fingerprint = androidOrigin.fingerprint
+                    fingerprint = matchingInOther.fingerprint ?: androidOrigin.fingerprint
                 )
+            }
         }
         return null
     }
@@ -253,6 +255,33 @@ data class AndroidOrigin(
     val packageName: String,
     val fingerprint: String?
 ) : Parcelable {
+
+    /**
+     * Checks if this [AndroidOrigin] has a matching fingerprint with another [AndroidOrigin].
+     *
+     * Fingerprints can contain multiple signatures separated by [SIGNATURE_DELIMITER].
+     * Returns true if both fingerprints are null, or if they share at least one common signature.
+     *
+     * @param other The other [AndroidOrigin] to compare with.
+     * @return True if fingerprints match or share a common signature, false otherwise.
+     */
+    fun hasMatchingFingerprintWith(other: AndroidOrigin): Boolean {
+        if (this.fingerprint == null && other.fingerprint == null)
+            return true
+        if (this.fingerprint == null || other.fingerprint == null)
+            return false
+        if (this.fingerprint == other.fingerprint)
+            return true
+        val thisSignatures = this.fingerprint.split(SIGNATURE_DELIMITER)
+            .map { it.trim() }
+            .filter { it.isNotEmpty() }
+            .toSet()
+        val otherSignatures = other.fingerprint.split(SIGNATURE_DELIMITER)
+            .map { it.trim() }
+            .filter { it.isNotEmpty() }
+            .toSet()
+        return thisSignatures.intersect(otherSignatures).isNotEmpty()
+    }
 
     /**
      * Creates an Android App Origin string of the form "android:apk-key-hash:<base64_urlsafe_hash>"

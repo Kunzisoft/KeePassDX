@@ -4,3 +4,4 @@
  * Correction des fichiers joints avec Android 12 #2745
  * Correction du message d'erreur lors d'un mauvais mot de passe #2739
  * Correction du champ nom utilisateur OTP #2747
+ * Correction du roulement des clés de signature pour app native #2752
