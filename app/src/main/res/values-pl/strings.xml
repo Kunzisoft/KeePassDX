@@ -74,7 +74,7 @@
     <string name="hint_length">Długość</string>
     <string name="password">Hasło</string>
     <string name="hint_pass">Hasło</string>
-    <string name="invalid_credentials">Nie można odczytać poświadczeń.</string>
+    <string name="invalid_credentials">Nie można odszyfrować danych pliku za pomocą podanych poświadczeń.</string>
     <string name="invalid_db_sig">Nie można rozpoznać formatu bazy danych.</string>
     <string name="length">Długość</string>
     <string name="list_size_title">Rozmiar elementów listy</string>
@@ -770,4 +770,5 @@
     <string name="error_load_database_KDF_iteration">Zbyt wysokie iteracje KDF.</string>
     <string name="save_success">Zapisywanie zakończone pomyślnie</string>
     <string name="words">Słowa</string>
+    <string name="invalid_db_hmac">Weryfikacja podpisu bazy danych nie powiodła się. Może to wynikać z uszkodzenia pliku lub jego modyfikacji przez zewnętrzną aplikację.</string>
 </resources>
