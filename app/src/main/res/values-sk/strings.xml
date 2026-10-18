@@ -76,7 +76,7 @@
     <string name="hint_length">Dĺžka</string>
     <string name="password">Heslo</string>
     <string name="hint_pass">Heslo</string>
-    <string name="invalid_credentials">Nepodarilo sa prečítať poverenia.</string>
+    <string name="invalid_credentials">S použitými prihlasovacími údajmi sa nepodarilo dešifrovať súbor.</string>
     <string name="invalid_db_sig">Nepodarilo sa rozpoznať formát databázy.</string>
     <string name="length">Dĺžka</string>
     <string name="list_size_title">Veľkosť položiek zoznamu</string>
@@ -772,4 +772,5 @@
     <string name="error_load_database_KDF_iteration">Počet iterácií KDF je príliš vysoký.</string>
     <string name="save_success">Uloženie prebehlo úspešne</string>
     <string name="words">Slová</string>
+    <string name="invalid_db_hmac">Overenie podpisu databázy zlyhalo. Príčinou môže byť poškodenie súboru alebo úprava zo strany externej aplikácie.</string>
 </resources>
