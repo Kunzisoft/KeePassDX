@@ -75,7 +75,7 @@
     <string name="hint_length">Довжина</string>
     <string name="password">Пароль</string>
     <string name="hint_pass">Пароль</string>
-    <string name="invalid_credentials">Не вдалося прочитати облікові дані.</string>
+    <string name="invalid_credentials">Не вдалося розшифрувати дані файлу за допомогою цих облікових даних.</string>
     <string name="invalid_db_sig">Не вдалося розпізнати формат бази даних.</string>
     <string name="length">Довжина</string>
     <string name="list_size_title">Розмір елементів списку</string>
@@ -760,4 +760,5 @@
     <string name="error_load_database_KDF_iteration">Значення «Раунди перетворення» для KDF завелике.</string>
     <string name="save_success">Збереження завершено успішно</string>
     <string name="words">Слова</string>
+    <string name="invalid_db_hmac">Не вдалося перевірити підпис бази даних. Причиною цього може бути пошкодження файлу або внесення змін зовнішнім додатком.</string>
 </resources>
