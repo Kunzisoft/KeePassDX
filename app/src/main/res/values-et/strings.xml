@@ -380,7 +380,7 @@
     <string name="search_mode">Otsinguviis</string>
     <string name="save_mode">Salvestusviis</string>
     <string name="selection_mode">Valikuviis</string>
-    <string name="invalid_credentials">Salasõna või võtmefaili ei õnnestunud lugeda.</string>
+    <string name="invalid_credentials">Faili andmete dekrüptimine antud tunnuste alusel ei õnnestunud.</string>
     <string name="protection">Kaitse</string>
     <string name="underline">Allajoonitud</string>
     <string name="search">Otsi</string>
@@ -738,4 +738,5 @@
     <string name="error_load_database_KDF_iteration">KDF-i korduste arv on liiga suur.</string>
     <string name="save_success">Salvestamine on kenasti tehtud</string>
     <string name="words">Sõnu</string>
+    <string name="invalid_db_hmac">Andmebaasi allkirja õigsuse kontrollimine ei õnnestunud. See võib olla põhjustatud asjaolust, et fail on katki või välise rakenduse poolt tehtud muudatustest.</string>
 </resources>
