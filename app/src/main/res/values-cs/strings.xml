@@ -81,7 +81,7 @@
     <string name="hint_length">Délka</string>
     <string name="hint_pass">Heslo</string>
     <string name="password">Heslo</string>
-    <string name="invalid_credentials">Nebylo možno načíst autentizační údaje.</string>
+    <string name="invalid_credentials">Nepodařilo se dešifrovat soubor s údaji.</string>
     <string name="invalid_algorithm">Nesprávný algoritmus.</string>
     <string name="invalid_db_sig">Nepodařilo se rozpoznat formát databáze.</string>
     <string name="keyfile_is_empty">Soubor klíče je prázdný.</string>
@@ -781,4 +781,5 @@
     <string name="error_load_database_KDF_iteration">Iterace KDF je příliš vysoká.</string>
     <string name="save_success">Úspěšně uloženo</string>
     <string name="words">Slova</string>
+    <string name="invalid_db_hmac">Ověření podpisu databáze selhalo. To může být způsobeno poškozením souboru nebo modifikací externí aplikací.</string>
 </resources>
