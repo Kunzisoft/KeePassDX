@@ -144,7 +144,7 @@
     <string name="hint_length">長さ</string>
     <string name="hint_pass">パスワード</string>
     <string name="password">パスワード</string>
-    <string name="invalid_credentials">認証情報が読み取れませんでした。</string>
+    <string name="invalid_credentials">指定された認証情報ではファイルデータを復号化できませんでした。</string>
     <string name="invalid_algorithm">間違ったアルゴリズムです。</string>
     <string name="invalid_db_same_uuid">同じ UUID %2$s を持つ %1$s がすでに存在します。</string>
     <string name="invalid_db_sig">データベースの形式が認識できませんでした。</string>
@@ -771,4 +771,5 @@
     <string name="error_load_database_KDF_iteration">KDFの反復回数が多すぎます。</string>
     <string name="save_success">保存に成功しました</string>
     <string name="words">単語</string>
+    <string name="invalid_db_hmac">データベースの署名検証に失敗しました。これはファイルの破損や外部アプリによる変更が原因の可能性があります。</string>
 </resources>
