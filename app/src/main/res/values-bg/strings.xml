@@ -431,7 +431,7 @@
     <string name="html_text_dev_feature_work_hard">Работим усърдно, за да добавим бързо тази възможност.</string>
     <string name="hint_generated_password">Създадена парола</string>
     <string name="hint_length">Дължина</string>
-    <string name="invalid_credentials">Неправилна главна парола или файл с ключ.</string>
+    <string name="invalid_credentials">Файлът не може да бъде разшифрован с тези данни.</string>
     <string name="show_otp_token_summary">Показване се кодовете за достъп от OTP по подразбиране</string>
     <string name="show_otp_token_title">Кодове от OTP</string>
     <string name="error_can_not_handle_uri">Указаният URI не може да бъде обработен от KeePassDX.</string>
@@ -757,4 +757,5 @@
     <string name="error_load_database_KDF_iteration">Функцията за извличане на ключове използва твърде много завъртания.</string>
     <string name="save_success">Запазено</string>
     <string name="words">Думи</string>
+    <string name="invalid_db_hmac">Подписът на хранилището не може да бъде проверен. Може да е причинено от повреден файл или промяна от друго приложение.</string>
 </resources>
