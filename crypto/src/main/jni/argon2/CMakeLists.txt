@@ -16,4 +16,4 @@ add_library(
     argon2_jni.c
 )
 
-target_link_options(argon2 PRIVATE "-Wl,-z,max-page-size=16384")
+target_link_options(argon2 PRIVATE "-Wl,-z,max-page-size=16384" "-flto=thin")
