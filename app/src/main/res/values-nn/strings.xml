@@ -19,7 +19,7 @@
 --><resources>
     <string name="feedback">Tilbakemelding</string>
     <string name="homepage">Heimeside</string>
-    <string name="about_description"></string>
+    <string name="about_description">KeePassDX er ei Android-utgåve av KeePass-passordbehandlaren.</string>
     <string name="accept">Godta</string>
     <string name="add_entry">Legg til oppføring</string>
     <string name="add_group">Legg til gruppe</string>
