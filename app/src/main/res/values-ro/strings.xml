@@ -132,7 +132,7 @@
     <string name="hint_length">Lungime</string>
     <string name="hint_pass">Parolă</string>
     <string name="password">Parolă</string>
-    <string name="invalid_credentials">Nu s-au putut citi acreditările.</string>
+    <string name="invalid_credentials">Nu s-au putut decripta datele fișierului cu datele de autentificare.</string>
     <string name="invalid_algorithm">Algoritm greșit.</string>
     <string name="invalid_db_same_uuid">%1$s cu același UUID %2$s există deja.</string>
     <string name="invalid_db_sig">Nu s-a putut recunoaște formatul bazei de date.</string>
@@ -766,4 +766,5 @@
     <string name="error_load_database_KDF_iteration">Iterația KDF este prea mare.</string>
     <string name="save_success">Salvare finalizată cu succes</string>
     <string name="words">Cuvinte</string>
+    <string name="invalid_db_hmac">Verificarea semnăturii bazei de date a eșuat. Aceasta poate fi cauzată de deteriorarea fișierului sau de modificarea acestuia de către o aplicație externă.</string>
 </resources>
