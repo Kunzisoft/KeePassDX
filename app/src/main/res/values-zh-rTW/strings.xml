@@ -322,7 +322,7 @@
     <string name="import_app_properties_title">導入應用程式設定</string>
     <string name="international_bank_account_number">IBAN</string>
     <string name="invalid_algorithm">無效的演算法。</string>
-    <string name="invalid_credentials">無法獲取身份驗證信息。</string>
+    <string name="invalid_credentials">無法使用該憑證解密檔案資料。</string>
     <string name="invalid_db_same_uuid">與%1$s的 UUID 相同的%2$s已經存在。</string>
     <string name="invalid_db_sig">無法辨識資料庫格式。</string>
     <string name="kdf_explanation">為生成加密演算法的密鑰，主密鑰使用隨機跳轉密鑰推算函數進行轉換。</string>
@@ -761,4 +761,5 @@
     <string name="error_load_database_KDF_iteration">KDF 迭代過高。</string>
     <string name="save_success">成功保存</string>
     <string name="words">單字</string>
+    <string name="invalid_db_hmac">資料庫簽章驗證失敗。這可能是由於檔案損毀或外部應用程式進行修改所致。</string>
 </resources>
