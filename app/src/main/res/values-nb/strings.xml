@@ -70,7 +70,7 @@
     <string name="error_nokeyfile">En nøkkelfil er påkrevd.</string>
     <string name="error_out_of_memory">Enheten slapp opp for minne under fortolkning av databasen din.</string>
     <string name="error_load_database">Kunne ikke laste inn databasen.</string>
-    <string name="error_load_database_KDF_memory">KDF minnebruk for høyt. Kan ikke laste inn.</string>
+    <string name="error_load_database_KDF_memory">KDF minnebruk for høyt. Prøv å senke minnebruk</string>
     <string name="error_pass_gen_type">Minst én passordgenereringstype må velges.</string>
     <string name="error_pass_match">Passordene samsvarer ikke.</string>
     <string name="error_rounds_too_large">\"Omganger\" er for stort. Setter til %1$s.</string>
@@ -762,4 +762,5 @@
     <string name="parallelism_set_safe">Sett antall prosessorer</string>
     <string name="error_missing_parent">Denne handlingen kan ikke utføres uten et forelderobjekt</string>
     <string name="passkey_pseudo_random_function">Passnøkkel Pseudo-Tilfeldig-Funksjon</string>
+    <string name="error_load_database_KDF_parallelism">KDF parallelisme for høy. Kunne ikke laste inn.</string>
 </resources>
