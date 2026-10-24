@@ -732,7 +732,11 @@ class MagikeyboardService : InputMethodService(),
                             && context.isAutoSwitchMagikeyboardAllowed()
                             && context.currentDefaultKeyboard() != context.getMagikeyboardId()
                         ) {
-                            context.startActivity(context.getSwitchMagikeyboardIntent())
+                            try {
+                                context.startActivity(context.getSwitchMagikeyboardIntent())
+                            } catch (e: Exception) {
+                                Log.e(TAG, "Unable to switch to Magikeyboard", e)
+                            }
                         }
                     }
                     if (notify) {
@@ -766,8 +770,7 @@ class MagikeyboardService : InputMethodService(),
         }
 
         fun Context.isAutoSwitchMagikeyboardAllowed(): Boolean {
-            return this.getSwitchMagikeyboardIntent()
-                .resolveActivity(this.packageManager) != null
+            return this.isMagikeyboardActivated()
         }
 
         fun Context.isMagikeyboardActivated(): Boolean {
