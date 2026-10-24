@@ -42,8 +42,7 @@
     <string name="decrypting_db">Adatbázis-tartalom titkosításának feloldása…</string>
     <string name="default_checkbox">Használat alapértelmezett adatbázisként</string>
     <string name="digits">Számok</string>
-    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft. A program &lt;strong&gt;nyílt forráskódú&lt;/strong&gt; és &lt;strong&gt;reklámmentes&lt;/strong&gt;.
-\nA program jelen állapotában kerül közreadásra, &lt;strong&gt;GPLv3&lt;/strong&gt; licenc alatt, bármilyen garancia nélkül.</string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft. A program &lt;strong&gt;nyílt forráskódú&lt;/strong&gt; és &lt;strong&gt;reklámmentes&lt;/strong&gt;. \nA program jelen állapotában kerül közreadásra, &lt;strong&gt;GPLv3&lt;/strong&gt; licenc alatt, bármilyen garancia nélkül.</string>
     <string name="select_database_file">Létező széf megnyitása</string>
     <string name="entry_accessed">Utolsó hozzáférés</string>
     <string name="entry_cancel">Mégse</string>
