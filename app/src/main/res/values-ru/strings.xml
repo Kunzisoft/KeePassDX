@@ -84,7 +84,7 @@
     <string name="hint_length">Длина</string>
     <string name="hint_pass">Пароль</string>
     <string name="password">Пароль</string>
-    <string name="invalid_credentials">Неправильный главный пароль или файл ключа.</string>
+    <string name="invalid_credentials">Невозможно расшифровать файл с помощью учётных данных.</string>
     <string name="invalid_algorithm">Неправильный алгоритм.</string>
     <string name="invalid_db_sig">Невозможно определить формат базы.</string>
     <string name="keyfile_is_empty">Файл ключа пуст.</string>
@@ -780,4 +780,5 @@
     <string name="error_load_database_KDF_iteration">Количество итераций функции формирования ключа (KDF) слишком велико.</string>
     <string name="save_success">Сохранение успешно завершено</string>
     <string name="words">Слова</string>
+    <string name="invalid_db_hmac">Невозможно проверить подпись базы. Это может быть вызвано повреждением файла или его изменением другим приложением.</string>
 </resources>

@@ -83,7 +83,7 @@
     <string name="hint_length">Hossz</string>
     <string name="hint_pass">Jelszó</string>
     <string name="password">Jelszó</string>
-    <string name="invalid_credentials">A hitelesítési adatok nem olvashatók.</string>
+    <string name="invalid_credentials">A fájl adatai nem fejthetők vissza a megadott hitelesítési adatokkal.</string>
     <string name="invalid_algorithm">Hibás algoritmus.</string>
     <string name="invalid_db_sig">Az adatbázis formátuma nem ismerhető fel.</string>
     <string name="keyfile_is_empty">A kulcsfájl üres.</string>
@@ -774,4 +774,5 @@
     <string name="error_load_database_KDF_iteration">A KDF iterációs értéke túl magas.</string>
     <string name="save_success">A mentés sikeresen befejeződött</string>
     <string name="words">Szavak</string>
+    <string name="invalid_db_hmac">Az adatbázis aláírásának ellenőrzése nem sikerült. Ezt fájlsérülés vagy egy külső alkalmazás általi módosítás okozhatja.</string>
 </resources>

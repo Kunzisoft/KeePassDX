@@ -13,7 +13,7 @@
     <string name="encryption">نهێنیکردن</string>
     <string name="encryption_algorithm">ئەلگۆریتمی نهێنیکردن</string>
     <string name="key_derivation_function">نەخشەی دەرهێنانی کلیل</string>
-    <string name="app_timeout">بەسەرچوونی کات</string>
+    <string name="app_timeout">ماوە</string>
     <string name="app_timeout_summary">ماوەی بێجووڵەیی پێش داخستنی بنکەدراوەکە</string>
     <string name="application">بەرنامە</string>
     <string name="brackets">کەوانەکان</string>

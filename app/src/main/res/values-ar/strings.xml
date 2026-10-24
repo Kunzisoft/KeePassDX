@@ -135,7 +135,7 @@
     <string name="error_autofill_enable_service">تعذر تفعيل خدمة الملء التلقائي.</string>
     <string name="file_not_found_content">تعذر العثور على الملف</string>
     <string name="file_browser">مدير الملفات</string>
-    <string name="invalid_credentials">تعذر قراءة بيانات الاعتماد.</string>
+    <string name="invalid_credentials">تعذّر فك تعمية بيانات الملف مع الاعتمادات.</string>
     <string name="invalid_db_sig">تعذر التعرف على تنسيق قاعدة البيانات.</string>
     <string name="keyfile_is_empty">ملف المفتاح فارغ.</string>
     <string name="list_entries_show_username_title">عرض أسماء المستخدمين</string>
@@ -755,4 +755,5 @@
     <string name="error_load_database_KDF_iteration">عدد تكرارات KDF مرتفع جدًّا.</string>
     <string name="save_success">اكتمل الحفظ بنجاح</string>
     <string name="words">الكلمات</string>
+    <string name="invalid_db_hmac">فشل التحقق من توقيع قاعدة البيانات. وقد يكون السبب في ذلك تلف الملف أو إجراء تعديلات عليه بواسطة تطبيق خارجي.</string>
 </resources>

@@ -90,7 +90,7 @@
     <string name="hint_length">Uzunluk</string>
     <string name="hint_pass">Parola</string>
     <string name="password">Parola</string>
-    <string name="invalid_credentials">Kimlik bilgileri okunamadı.</string>
+    <string name="invalid_credentials">Kimlik bilgileriyle dosya verilerinin şifresi çözülemedi.</string>
     <string name="invalid_algorithm">Yanlış algoritma.</string>
     <string name="invalid_db_sig">Veri tabanı biçimi tanınamadı.</string>
     <string name="keyfile_is_empty">Anahtar dosya boş.</string>
@@ -771,4 +771,5 @@
     <string name="error_load_database_KDF_iteration">KDF yinelemesi çok yüksek.</string>
     <string name="save_success">Kaydetme işlemi başarıyla tamamlandı</string>
     <string name="words">Sözcükler</string>
+    <string name="invalid_db_hmac">Veri tabanı imzası doğrulaması başarısız oldu. Bunun nedeni, dosyanın bozulmuş olması veya harici bir uygulama tarafından değiştirilmiş olması olabilir.</string>
 </resources>

@@ -90,7 +90,7 @@
     <string name="hint_length">Länge</string>
     <string name="hint_pass">Passwort</string>
     <string name="password">Passwort</string>
-    <string name="invalid_credentials">Anmeldedaten konnten nicht gelesen werden.</string>
+    <string name="invalid_credentials">Datei konnte mit den Anmeldedaten nicht entschlüsselt werden.</string>
     <string name="invalid_algorithm">Falscher Algorithmus.</string>
     <string name="invalid_db_sig">Datenbankformat nicht erkannt.</string>
     <string name="keyfile_is_empty">Die Schlüsseldatei ist leer.</string>
@@ -778,4 +778,5 @@
     <string name="error_load_database_KDF_iteration">KDF-Iteration zu hoch.</string>
     <string name="save_success">Speichern erfolgreich abgeschlossen</string>
     <string name="words">Wörter</string>
+    <string name="invalid_db_hmac">Das Überprüfen der Datenbanksignatur ist fehlgeschlagen. Dies kann durch eine beschädigte Datei oder aufgrund Änderungen durch eine externe App verursacht worden sein.</string>
 </resources>
