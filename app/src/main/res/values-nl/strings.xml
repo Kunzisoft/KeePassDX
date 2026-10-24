@@ -41,7 +41,7 @@
     <string name="decrypting_db">Database-inhoud decoderen …</string>
     <string name="default_checkbox">Als standaarddatabase gebruiken</string>
     <string name="digits">Cijfers</string>
-    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft is &lt;strong&gt;open source&lt;/strong&gt; en &lt;strong&gt;zonder reclame&lt;/strong&gt;. \nHet wordt geleverd zoals het is, onder &lt;strong&gt;GPLv3&lt;/strong&gt; -licentie, zonder enige garantie.</string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft is &lt;strong&gt;open source&lt;/strong&gt; en &lt;strong&gt;zonder reclame&lt;/strong&gt;, &lt;strong&gt;onafhankelijk&lt;/strong&gt; en volledig onderhouden door &lt;strong&gt;vrijwillige&lt;/strong&gt; ontwikkeling. \nHet wordt geleverd zoals het is, onder &lt;strong&gt;GPLv3&lt;/strong&gt; -licentie, zonder enige garantie.</string>
     <string name="select_database_file">Bestaande kluis openen</string>
     <string name="entry_accessed">Laatst geopend</string>
     <string name="entry_cancel">Annuleren</string>
@@ -782,4 +782,6 @@
     <string name="save_success">Opslaan is met succes voltooid</string>
     <string name="words">Woorden</string>
     <string name="invalid_db_hmac">Verificatie van de databasehandtekening is mislukt. Dit kan worden veroorzaakt door bestandscorruptie of externe app-wijziging.</string>
+    <string name="get_keepro">Neem KeePro Support</string>
+    <string name="html_about_get_keepro">Met de aanschaf van &lt;strong&gt;KeePro Support&lt;/strong&gt;, financiert u rechtstreeks de voortdurende actieve ontwikkeling en toekomstige functies en ontgrendelt optionele visuele stijlen.</string>
 </resources>
