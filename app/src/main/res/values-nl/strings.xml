@@ -41,8 +41,7 @@
     <string name="decrypting_db">Database-inhoud decoderen …</string>
     <string name="default_checkbox">Als standaarddatabase gebruiken</string>
     <string name="digits">Cijfers</string>
-    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft is &lt;strong&gt;open source&lt;/strong&gt; en &lt;strong&gt;zonder reclame&lt;/strong&gt;.
-\nHet wordt geleverd zoals het is, onder &lt;strong&gt;GPLv3&lt;/strong&gt; -licentie, zonder enige garantie.</string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft is &lt;strong&gt;open source&lt;/strong&gt; en &lt;strong&gt;zonder reclame&lt;/strong&gt;. \nHet wordt geleverd zoals het is, onder &lt;strong&gt;GPLv3&lt;/strong&gt; -licentie, zonder enige garantie.</string>
     <string name="select_database_file">Bestaande kluis openen</string>
     <string name="entry_accessed">Laatst geopend</string>
     <string name="entry_cancel">Annuleren</string>
