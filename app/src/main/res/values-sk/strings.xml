@@ -39,8 +39,7 @@
     <string name="decrypting_db">Dešifrujem obsah databázy…</string>
     <string name="default_checkbox">Použiť ako predvolenú databázu</string>
     <string name="digits">Číslice</string>
-    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft je &lt;strong&gt;open source&lt;/strong&gt; a &lt;strong&gt;bez reklamy&lt;/strong&gt;.
-\nPoskytuje sa tak, ako je, na základe licencie &lt;strong&gt;GPLv3&lt;/strong&gt; bez akejkoľvek záruky.</string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft je &lt;strong&gt;open source&lt;/strong&gt; a &lt;strong&gt;bez reklamy&lt;/strong&gt;. \nPoskytuje sa tak, ako je, na základe licencie &lt;strong&gt;GPLv3&lt;/strong&gt; bez akejkoľvek záruky.</string>
     <string name="select_database_file">Otvoriť existujúci trezor</string>
     <string name="entry_accessed">Pristupované</string>
     <string name="entry_cancel">Zrušiť</string>
