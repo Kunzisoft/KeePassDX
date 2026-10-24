@@ -26,11 +26,5 @@
             android:orderInCategory="92"
             app:iconTint="?attr/colorControlNormal"
             app:showAsAction="ifRoom" />
-        <item android:id="@+id/menu_contribute"
-            android:icon="@drawable/ic_heart_white_24dp"
-            android:title="@string/contribute"
-            android:orderInCategory="93"
-            app:iconTint="?attr/colorControlNormal"
-            app:showAsAction="ifRoom" />
     </group>
 </menu>

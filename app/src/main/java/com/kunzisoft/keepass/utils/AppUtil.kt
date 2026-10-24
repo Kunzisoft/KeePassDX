@@ -20,6 +20,7 @@ import com.kunzisoft.keepass.database.crypto.kdf.Limits
 import com.kunzisoft.keepass.education.Education
 import com.kunzisoft.keepass.model.SearchInfo
 import com.kunzisoft.keepass.settings.PreferencesUtil
+import com.kunzisoft.keepass.utils.UriUtil.openUrl
 import java.security.SecureRandom
 import kotlin.math.min
 
@@ -82,10 +83,23 @@ object AppUtil {
         }
     }
 
+    /**
+     * Opens the contribution link
+     */
+    fun Context.openContributionLink() {
+        if (BuildConfig.CLOSED_STORE) {
+            openExternalApp(getString(R.string.keepro_app_id))
+        } else {
+            openUrl(R.string.contribution_url)
+        }
+    }
+
+    fun Context.isKeeProAppInstalled(): Boolean = isExternalAppInstalled(
+        this.getString(R.string.keepro_app_id), false)
+
     fun Context.isContributingUser(): Boolean {
         return (Education.isEducationScreenReclickedPerformed(this)
-                || isExternalAppInstalled(this.getString(R.string.keepro_app_id), false)
-                )
+                || isKeeProAppInstalled())
     }
 
     @RequiresApi(Build.VERSION_CODES.P)

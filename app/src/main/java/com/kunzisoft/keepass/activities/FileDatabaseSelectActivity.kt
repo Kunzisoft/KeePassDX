@@ -406,7 +406,7 @@ class FileDatabaseSelectActivity : DatabaseModeActivity() {
         super.onCreateOptionsMenu(menu)
 
         if (mSpecialMode == SpecialMode.DEFAULT) {
-            MenuUtil.defaultMenuInflater(this, menuInflater, menu)
+            MenuUtil.defaultMenuInflater(menuInflater, menu)
         }
 
         Handler(Looper.getMainLooper()).post {

@@ -26,7 +26,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.text.HtmlCompat
 import androidx.fragment.app.DialogFragment
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.utils.UriUtil.openUrl
+import com.kunzisoft.keepass.utils.AppUtil.openContributionLink
 
 /**
  * Custom Dialog that asks the user to download the pro version or make a donation.
@@ -51,8 +51,8 @@ class UnderDevelopmentFeatureDialogFragment : DialogFragment() {
                 stringBuilder.append(HtmlCompat.fromHtml(getString(R.string.html_text_dev_feature), HtmlCompat.FROM_HTML_MODE_LEGACY)).append("\n\n")
                         .append(HtmlCompat.fromHtml(getString(R.string.html_text_dev_feature_contibute), HtmlCompat.FROM_HTML_MODE_LEGACY)).append(" ")
                         .append(HtmlCompat.fromHtml(getString(R.string.html_text_dev_feature_encourage), HtmlCompat.FROM_HTML_MODE_LEGACY))
-                builder.setPositiveButton(R.string.contribute) { _, _ ->
-                    context?.openUrl(R.string.contribution_url)
+                builder.setPositiveButton(R.string.get_keepro) { _, _ ->
+                    context?.openContributionLink()
                 }
             //}
             builder.setMessage(stringBuilder)
