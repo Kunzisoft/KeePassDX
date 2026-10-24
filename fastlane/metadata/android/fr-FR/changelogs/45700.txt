@@ -1,0 +1,2 @@
+ * Correction de KeePro pour le Play Store #2769
+ * Correction de l'obfuscation pour le Play Store #2770

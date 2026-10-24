@@ -1,0 +1,2 @@
+ * Fix KeePro for Play Store #2769
+ * Fix Play Store obfuscation #2770
