@@ -127,7 +127,7 @@
     <string name="clipboard_error_title">Błąd schowka</string>
     <string name="clipboard_error">Niektóre urządzenia nie pozwalają aplikacjom korzystać ze schowka.</string>
     <string name="clipboard_error_clear">Nie udało się wyczyścić schowka</string>
-    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft jest &lt;strong&gt;open source&lt;/strong&gt; i &lt;strong&gt;bez reklam&lt;/strong&gt;. \nJest on dostarczany w stanie, zgodnie z licencją &lt;strong&gt;GPLv3&lt;/strong&gt; bez żadnych gwarancji.</string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft to oprogramowanie o &lt;strong&gt;otwartym kodzie źródłowym&lt;/strong&gt;, &lt;strong&gt;pozbawione reklam&lt;/strong&gt;, &lt;strong&gt;niezależne&lt;/strong&gt; i rozwijane w całości dzięki &lt;strong&gt;dobrowolnemu&lt;/strong&gt; zaangażowaniu twórców.\nJest on dostarczany w stanie, w jakim się znajduje, na podstawie licencji &lt;strong&gt;GPLv3&lt;/strong&gt;, bez jakiejkolwiek gwarancji.</string>
     <string name="entry_not_found">Nie znaleziono danych wejściowych.</string>
     <string name="error_load_database">Nie można załadować bazy danych.</string>
     <string name="error_load_database_KDF_memory">Zbyt wysokie użycie pamięci KDF.</string>
@@ -771,4 +771,6 @@
     <string name="save_success">Zapisywanie zakończone pomyślnie</string>
     <string name="words">Słowa</string>
     <string name="invalid_db_hmac">Weryfikacja podpisu bazy danych nie powiodła się. Może to wynikać z uszkodzenia pliku lub jego modyfikacji przez zewnętrzną aplikację.</string>
+    <string name="get_keepro">Uzyskaj KeePro Support</string>
+    <string name="html_about_get_keepro">Kupując &lt;strong&gt;KeePro Support&lt;/strong&gt;, bezpośrednio wspierasz dalszy aktywny rozwój aplikacji oraz powstawanie nowych funkcji, a także zyskujesz dostęp do opcjonalnych stylów wizualnych.</string>
 </resources>
