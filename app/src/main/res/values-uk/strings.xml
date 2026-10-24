@@ -39,7 +39,7 @@
     <string name="decrypting_db">Розшифрування вмісту бази даних…</string>
     <string name="default_checkbox">Використовувати як типову базу даних</string>
     <string name="digits">Цифри</string>
-    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft має &lt;strong&gt;відкритим код&lt;/strong&gt; та &lt;strong&gt;не містить реклами&lt;/strong&gt;. \nВін надається «як є», на умовах ліцензії &lt;strong&gt;GPLv3&lt;/strong&gt;, без жодних гарантій.</string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft — це &lt;strong&gt;програмне забезпечення з відкритим вихідним кодом&lt;/strong&gt;, &lt;strong&gt;без реклами&lt;/strong&gt;, &lt;strong&gt;незалежне&lt;/strong&gt; та розроблюване виключно на &lt;strong&gt;добровільних засадах&lt;/strong&gt;.\nВоно надається «як є» за ліцензією &lt;strong&gt;GPLv3&lt;/strong&gt;, без жодних гарантій.</string>
     <string name="select_database_file">Відкрити наявне сховище</string>
     <string name="entry_accessed">Останній доступ</string>
     <string name="entry_cancel">Скасувати</string>
@@ -761,4 +761,6 @@
     <string name="save_success">Збереження завершено успішно</string>
     <string name="words">Слова</string>
     <string name="invalid_db_hmac">Не вдалося перевірити підпис бази даних. Причиною цього може бути пошкодження файлу або внесення змін зовнішнім додатком.</string>
+    <string name="get_keepro">Отримати підтримку KeePro</string>
+    <string name="html_about_get_keepro">Придбавши &lt;strong&gt;підтримку KeePro&lt;/strong&gt;, ви безпосередньо фінансуєте подальшу активну розробку, створення нових функцій і отримуєте доступ до додаткових необов’язкових візуальних стилів.</string>
 </resources>
