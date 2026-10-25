@@ -14,11 +14,11 @@
     <string name="encryption_algorithm">ئەلگۆریتمی نهێنیکردن</string>
     <string name="key_derivation_function">نەخشەی دەرهێنانی کلیل</string>
     <string name="app_timeout">ماوە</string>
-    <string name="app_timeout_summary">ماوەی بێجووڵەیی پێش داخستنی بنکەدراوەکە</string>
+    <string name="app_timeout_summary">ماوەی بێچالاکی پێش قفڵکردنی بنکەدراوەکە</string>
     <string name="application">بەرنامە</string>
     <string name="brackets">کەوانەکان</string>
     <string name="extended_ASCII">ASCIIی فراوانکراو</string>
-    <string name="file_manager_install_description">پێویستت بە پەڕگە بەڕێوەبەرێک هەیە کە پشتیوانیی کرداری مەبەستی ACTION_CREATE_DOCUMENT و ACTION_OPEN_DOCUMENT بکات بۆ دروستکردن، کردنەوە، و پاشەکەوتکردنی پەڕگەکانی بنکەدراوەکە.</string>
+    <string name="file_manager_install_description">پێویستت بە بەڕێوەبەرێکی پەڕگە هەیە کە پشتیوانی لە کرداری مەبەستی ACTION_CREATE_DOCUMENT و ACTION_OPEN_DOCUMENT بکات بۆ دروستکردن، کردنەوە و پاشەکەوتکردنی پەڕگەکانی بنکەدراوە.</string>
     <string name="allow">ڕێگەپێدان</string>
     <string name="clipboard_cleared">تەختەی کۆپیکردن پاککرایەوە</string>
     <string name="clipboard_error_title">هەڵە لە تەختەی کۆپیکردندا</string>
@@ -95,4 +95,5 @@
     <string name="auto_type_sequence">ڕێزبەندی نووسینی خۆکار</string>
     <string name="entry_not_found">داتای تۆمار نەدۆزرایەوە.</string>
     <string name="entry_password">تێپەڕەوشە</string>
+    <string name="get_keepro">پشتیوانیی KeePro وەربگرە</string>
 </resources>
