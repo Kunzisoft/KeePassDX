@@ -74,7 +74,7 @@
     <string name="decrypting_db">データベースの内容を復号しています…</string>
     <string name="default_checkbox">デフォルトのデータベースとして使用</string>
     <string name="digits">数字</string>
-    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft は&lt;strong&gt;オープンソース&lt;/strong&gt;で&lt;strong&gt;広告はありません&lt;/strong&gt;。\n本ソフトウェアは&lt;strong&gt;GPLv3&lt;/strong&gt;ライセンスの下で提供されており、いかなる保証もありません。</string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft は&lt;strong&gt;オープンソース&lt;/strong&gt;、&lt;strong&gt;広告なし&lt;/strong&gt;、&lt;strong&gt;独立系&lt;/strong&gt;でメンテナンスはすべて&lt;strong&gt;ボランティア&lt;/strong&gt;による開発により行われています。\n本ソフトウェアは&lt;strong&gt;GPLv3&lt;/strong&gt;ライセンスに基づきありのまま提供され、いかなる保証もありません。</string>
     <string name="html_about_contribution">&lt;strong&gt;自由を維持し&lt;/strong&gt;、&lt;strong&gt;バグを修正し&lt;/strong&gt;、&lt;strong&gt;機能を追加し&lt;/strong&gt;、そして&lt;strong&gt;活発に開発し続ける&lt;/strong&gt;ために、私たちはあなたの&lt;strong&gt;貢献&lt;/strong&gt;に期待しています。</string>
     <string name="entry_accessed">最終アクセス</string>
     <string name="entry_cancel">キャンセル</string>
@@ -772,4 +772,6 @@
     <string name="save_success">保存に成功しました</string>
     <string name="words">単語</string>
     <string name="invalid_db_hmac">データベースの署名検証に失敗しました。これはファイルの破損や外部アプリによる変更が原因の可能性があります。</string>
+    <string name="get_keepro">KeeProのサポートを入手</string>
+    <string name="html_about_get_keepro">&lt;strong&gt;KeeProサポート&lt;/strong&gt;をご購入いただくと、継続的な開発・今後の機能追加へ直接資金を提供でき、オプションのビジュアルスタイルも利用できるようになります。</string>
 </resources>
