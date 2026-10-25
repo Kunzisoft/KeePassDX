@@ -367,6 +367,7 @@ class KeeAutofillService : AutofillService() {
                                             setInlinePresentation(it)
                                         }
                                         setDialogPresentation(remoteViewsUnlock)
+                                        setMenuPresentation(remoteViewsUnlock)
                                     }.build()
                                 )
                             } catch (e: Exception) {
