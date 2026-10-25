@@ -39,7 +39,7 @@
     <string name="decrypting_db">Dešifrujem obsah databázy…</string>
     <string name="default_checkbox">Použiť ako predvolenú databázu</string>
     <string name="digits">Číslice</string>
-    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft je &lt;strong&gt;open source&lt;/strong&gt; a &lt;strong&gt;bez reklamy&lt;/strong&gt;. \nPoskytuje sa tak, ako je, na základe licencie &lt;strong&gt;GPLv3&lt;/strong&gt; bez akejkoľvek záruky.</string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft je &lt;strong&gt;s otvoreným zdrojovým kódom&lt;/strong&gt;, &lt;strong&gt;bez reklám&lt;/strong&gt;, &lt;strong&gt;nezávislý&lt;/strong&gt; a udržiavaný výlučne prostredníctvom &lt;strong&gt;dobrovoľného&lt;/strong&gt; vývoja.\nJe poskytovaný v súčasnom stave na základe licencie &lt;strong&gt;GPLv3&lt;/strong&gt;, bez akejkoľvek záruky.</string>
     <string name="select_database_file">Otvoriť existujúci trezor</string>
     <string name="entry_accessed">Pristupované</string>
     <string name="entry_cancel">Zrušiť</string>
@@ -772,4 +772,6 @@
     <string name="save_success">Uloženie prebehlo úspešne</string>
     <string name="words">Slová</string>
     <string name="invalid_db_hmac">Overenie podpisu databázy zlyhalo. Príčinou môže byť poškodenie súboru alebo úprava zo strany externej aplikácie.</string>
+    <string name="get_keepro">Získajte podporu pre KeePro</string>
+    <string name="html_about_get_keepro">Kúpou &lt;strong&gt;podpory KeePro&lt;/strong&gt; priamo prispievate na pokračovanie aktívneho vývoja, budúce funkcie a odomknete si voliteľné vizuálne štýly.</string>
 </resources>
