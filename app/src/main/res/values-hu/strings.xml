@@ -42,7 +42,7 @@
     <string name="decrypting_db">Adatbázis-tartalom titkosításának feloldása…</string>
     <string name="default_checkbox">Használat alapértelmezett adatbázisként</string>
     <string name="digits">Számok</string>
-    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft. A program &lt;strong&gt;nyílt forráskódú&lt;/strong&gt; és &lt;strong&gt;reklámmentes&lt;/strong&gt;. \nA program jelen állapotában kerül közreadásra, &lt;strong&gt;GPLv3&lt;/strong&gt; licenc alatt, bármilyen garancia nélkül.</string>
+    <string name="html_about_licence">A KeePassDX © %1$d Kunzisoft &lt;strong&gt;nyílt forráskódú&lt;/strong&gt;, &lt;strong&gt;reklámmentes&lt;/strong&gt;, &lt;strong&gt;független&lt;/strong&gt; szoftver, amelyet teljes egészében &lt;strong&gt;önkéntes&lt;/strong&gt; fejlesztők tartanak karban. \nA szoftvert „adott állapotban” biztosítjuk, a &lt;strong&gt;GPLv3&lt;/strong&gt; licenc alapján, mindenféle garancia nélkül.</string>
     <string name="select_database_file">Létező széf megnyitása</string>
     <string name="entry_accessed">Utolsó hozzáférés</string>
     <string name="entry_cancel">Mégse</string>
@@ -774,4 +774,6 @@
     <string name="save_success">A mentés sikeresen befejeződött</string>
     <string name="words">Szavak</string>
     <string name="invalid_db_hmac">Az adatbázis aláírásának ellenőrzése nem sikerült. Ezt fájlsérülés vagy egy külső alkalmazás általi módosítás okozhatja.</string>
+    <string name="get_keepro">KeePro Support beszerzése</string>
+    <string name="html_about_get_keepro">A &lt;strong&gt;KeePro Support&lt;/strong&gt; megvásárlásával közvetlenül támogatja a folyamatos fejlesztést, a jövőbeli funkciók megvalósítását, valamint hozzáférést biztosít az opcionális vizuális stílusokhoz.</string>
 </resources>
