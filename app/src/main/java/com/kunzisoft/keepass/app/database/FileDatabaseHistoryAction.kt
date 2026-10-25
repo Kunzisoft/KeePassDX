@@ -26,6 +26,7 @@ import com.kunzisoft.keepass.hardware.HardwareKey
 import com.kunzisoft.keepass.model.DatabaseFile
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.utils.SingletonHolderParameter
+import com.kunzisoft.keepass.utils.UriUtil.getTreeOfDocument
 import com.kunzisoft.keepass.utils.decodeUri
 import com.kunzisoft.keepass.utils.parseUri
 import com.kunzisoft.keepass.viewmodels.FileDatabaseInfo
@@ -126,6 +127,20 @@ class FileDatabaseHistoryAction(private val applicationContext: Context) {
                 databaseFileListLoaded
             }
             databaseFileListResult.invoke(result)
+        }
+    }
+
+    /**
+     * Whether a recent database, hidden or not, is accessed through this tree permission
+     */
+    fun isTreeUsed(treeUri: Uri, result: (Boolean) -> Unit) {
+        CoroutineScope(Dispatchers.Main).launch {
+            val used = withContext(Dispatchers.IO) {
+                databaseFileHistoryDao.getAll().any { entity ->
+                    entity.databaseUri.parseUri()?.getTreeOfDocument() == treeUri
+                }
+            }
+            result(used)
         }
     }
 
