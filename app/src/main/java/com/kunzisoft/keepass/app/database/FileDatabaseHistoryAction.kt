@@ -221,6 +221,44 @@ class FileDatabaseHistoryAction(private val applicationContext: Context) {
         }
     }
 
+    /**
+     * Replace the URI of a database in the history, for the same file accessed through another
+     * permission, by keeping its alias, key file, hardware key, modes and default state
+     */
+    fun replaceDatabaseUri(
+        oldDatabaseUri: Uri,
+        newDatabaseUri: Uri,
+        databaseUriReplacedResult: (() -> Unit)? = null
+    ) {
+        CoroutineScope(Dispatchers.Main).launch {
+            withContext(Dispatchers.IO) {
+                try {
+                    databaseFileHistoryDao.getByDatabaseUri(oldDatabaseUri.toString())
+                        ?.let { oldFileDatabaseHistory ->
+                            val newFileDatabaseHistory = oldFileDatabaseHistory.copy(
+                                databaseUri = newDatabaseUri.toString(),
+                                updated = System.currentTimeMillis(),
+                            )
+                            if (databaseFileHistoryDao.getByDatabaseUri(
+                                    newFileDatabaseHistory.databaseUri) == null) {
+                                databaseFileHistoryDao.add(newFileDatabaseHistory)
+                            } else {
+                                databaseFileHistoryDao.update(newFileDatabaseHistory)
+                            }
+                            databaseFileHistoryDao.delete(oldFileDatabaseHistory)
+                        }
+                } catch (e: Exception) {
+                    Log.e(TAG, "Unable to replace database uri in history", e)
+                }
+                if (PreferencesUtil.getDefaultDatabasePath(applicationContext)
+                        ?.parseUri() == oldDatabaseUri) {
+                    PreferencesUtil.saveDefaultDatabasePath(applicationContext, newDatabaseUri)
+                }
+            }
+            databaseUriReplacedResult?.invoke()
+        }
+    }
+
     fun deleteDatabaseFile(
         databaseFileToDelete: DatabaseFile,
         databaseFileDeletedResult: (DatabaseFile?) -> Unit
