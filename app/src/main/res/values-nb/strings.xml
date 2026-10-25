@@ -46,7 +46,7 @@
     <string name="decrypting_db">Dekrypterer databaseinnhold…</string>
     <string name="default_checkbox">Bruk dette som forvalgt database</string>
     <string name="digits">Siffer</string>
-    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft er &lt;strong&gt;fri programvare&lt;/strong&gt;, og &lt;strong&gt;reklamefritt&lt;/strong&gt;. \nDet tilbys som det er, i henhold til &lt;strong&gt;GPL versjon 3 eller senere&lt;/strong&gt;, uten noen garantier.</string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft er &lt;strong&gt;fri programvare&lt;/strong&gt;, og &lt;strong&gt;uten reklame&lt;/strong&gt;, &lt;strong&gt;uavhengig&lt;/strong&gt; og vedlikehold i sin helhet av &lt;strong&gt;frivillige&lt;/strong&gt;. \nDet tilbys som det er, i henhold til &lt;strong&gt;GPL versjon 3 eller senere&lt;/strong&gt;, uten noen garantier.</string>
     <string name="entry_accessed">Brukt</string>
     <string name="entry_cancel">Avbryt</string>
     <string name="entry_notes">Kommentarer</string>
@@ -770,4 +770,6 @@
     <string name="save_success">Lagring fullført</string>
     <string name="benchmarking">Tester ytelse…</string>
     <string name="words">Ord</string>
+    <string name="get_keepro">Få KeePro-støtte</string>
+    <string name="html_about_get_keepro">Ved å kjøpe &lt;strong&gt;KeePro-støtte&lt;/strong&gt;, bidrar du direkte til videreutvikling av KeePassDX, ny funksjonalitet, og får tilgang til flere visuelle drakter.</string>
 </resources>
