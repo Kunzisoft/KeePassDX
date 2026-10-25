@@ -378,6 +378,9 @@
     <string name="warning_password_encoding">Avoid password characters outside of text encoding format in database file (unrecognized chars are converted to the same letter).</string>
     <string name="warning_database_read_only">Grant file write access to save database changes</string>
     <string name="warning_database_link_revoked">Access to the file revoked by the file manager</string>
+    <string name="database_folder_access">Allow access to the folder</string>
+    <string name="error_folder_access_database_not_found">The selected folder does not contain this database, select its folder or a parent folder.</string>
+    <string name="error_folder_access">Unable to keep access to the folder</string>
     <string name="warning_database_already_opened">A database is already open, close it first to open the new one</string>
     <string name="warning_empty_password">Continue without password unlocking protection?</string>
     <string name="warning_no_encryption_key">Continue without encryption key?</string>
