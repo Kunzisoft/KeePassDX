@@ -756,4 +756,5 @@
     <string name="save_success">اكتمل الحفظ بنجاح</string>
     <string name="words">الكلمات</string>
     <string name="invalid_db_hmac">فشل التحقق من توقيع قاعدة البيانات. وقد يكون السبب في ذلك تلف الملف أو إجراء تعديلات عليه بواسطة تطبيق خارجي.</string>
+    <string name="get_keepro">احصل على دعم KeePro</string>
 </resources>
