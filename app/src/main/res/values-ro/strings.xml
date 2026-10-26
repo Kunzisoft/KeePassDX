@@ -177,7 +177,7 @@
     <string name="minus">Mai puțin</string>
     <string name="never">Niciodată</string>
     <string name="no_results">Nu există rezultate de căutare</string>
-    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft este &lt;strong&gt;open source&lt;/strong&gt; și &lt;strong&gt;fără reclame&lt;/strong&gt;. \nEste furnizat ca atare, sub licență &lt;strong&gt;GPLv3&lt;/strong&gt;, fără nicio garanție.</string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft este &lt;strong&gt;open source&lt;/strong&gt;, &lt;strong&gt;fără publicitate&lt;/strong&gt;, &lt;strong&gt;independent&lt;/strong&gt; și întreținut în întregime prin &lt;strong&gt;dezvoltare voluntară&lt;/strong&gt;.\nEste furnizat așa cum este, sub licența &lt;strong&gt;GPLv3&lt;/strong&gt;, fără nicio garanție.</string>
     <string name="html_about_contribution">Pentru a ne &lt;strong&gt;păstra libertatea&lt;/strong&gt;, &lt;strong&gt;pentru a remedia erori&lt;/strong&gt;, &lt;strong&gt;pentru a adăuga funcții&lt;/strong&gt; și &lt;strong&gt;pentru a fi mereu activi&lt;/strong&gt;, ne bazăm pe &lt;strong&gt;contribuția&lt;/strong&gt; ta.</string>
     <string name="about">Despre</string>
     <string name="no_url_handler">Instalează un browser web pentru a deschide această adresă URL.</string>
@@ -767,4 +767,6 @@
     <string name="save_success">Salvare finalizată cu succes</string>
     <string name="words">Cuvinte</string>
     <string name="invalid_db_hmac">Verificarea semnăturii bazei de date a eșuat. Aceasta poate fi cauzată de deteriorarea fișierului sau de modificarea acestuia de către o aplicație externă.</string>
+    <string name="get_keepro">Obține asistență KeePro</string>
+    <string name="html_about_get_keepro">Prin achiziționarea &lt;strong&gt;KeePro Support&lt;/strong&gt;, contribui direct la finanțarea dezvoltării active continue, a funcționalităților viitoare și deblochezi stiluri vizuale opționale.</string>
 </resources>
