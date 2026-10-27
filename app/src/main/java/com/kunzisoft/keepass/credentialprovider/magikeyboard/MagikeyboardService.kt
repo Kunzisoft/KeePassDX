@@ -770,7 +770,8 @@ class MagikeyboardService : InputMethodService(),
         }
 
         fun Context.isAutoSwitchMagikeyboardAllowed(): Boolean {
-            return this.isMagikeyboardActivated()
+            return this.getSwitchMagikeyboardIntent()
+                .resolveActivity(this.packageManager) != null
         }
 
         fun Context.isMagikeyboardActivated(): Boolean {
