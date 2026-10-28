@@ -23,7 +23,7 @@
     <string name="homepage">Pagina web</string>
     <string name="about_description">Implementazione Android del gestore password KeePass.</string>
     <string name="accept">Accetto</string>
-    <string name="add_entry">Aggiungi elemento</string>
+    <string name="add_entry">Aggiungi voce</string>
     <string name="add_group">Aggiungi gruppo</string>
     <string name="encryption_algorithm">Algoritmo di cifratura</string>
     <string name="app_timeout">Scadenza</string>
@@ -44,7 +44,7 @@
     <string name="decrypting_db">Decodifica contenuto database…</string>
     <string name="default_checkbox">Usa come database predefinito</string>
     <string name="digits">Numeri</string>
-    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft è un programma &lt;strong&gt;open-source&lt;/strong&gt; e &lt;strong&gt;senza pubblicità&lt;/strong&gt;. \nViene distribuito sotto le condizioni della licenza &lt;strong&gt;GPL versione 3&lt;/strong&gt; o successiva, senza alcuna garanzia.</string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft è un programma &lt;strong&gt;open source&lt;/strong&gt;, &lt;strong&gt;senza pubblicità&lt;/strong&gt;, &lt;strong&gt;indipendente&lt;/strong&gt; e mantenuto interamente da sviluppo &lt;strong&gt;volontario&lt;/strong&gt;. \nViene distribuito sotto le condizioni della licenza &lt;strong&gt;GPL versione 3&lt;/strong&gt; o successiva, senza alcuna garanzia.</string>
     <string name="entry_notes">Note</string>
     <string name="select_database_file">Apri una cassaforte esistente</string>
     <string name="entry_accessed">Ultimo accesso</string>
@@ -84,7 +84,7 @@
     <string name="hint_length">Lunghezza</string>
     <string name="password">Password</string>
     <string name="hint_pass">Password</string>
-    <string name="invalid_credentials">Non è possibile leggere le credenziali.</string>
+    <string name="invalid_credentials">Impossibile decifrare il file con le credenziali.</string>
     <string name="invalid_algorithm">Algoritmo errato.</string>
     <string name="invalid_db_sig">Formato del database non riconosciuto.</string>
     <string name="keyfile_is_empty">Il file chiave è vuoto.</string>
@@ -782,4 +782,7 @@
     <string name="error_load_database_KDF_iteration">Iterazione KDF troppo alta.</string>
     <string name="save_success">Salvataggio riuscito</string>
     <string name="words">Parole</string>
+    <string name="get_keepro">Ricevi supporto KeePro</string>
+    <string name="html_about_get_keepro">Acquistando il &lt;strong&gt;supporto KeePro&lt;/strong&gt;, finanzierai direttamente lo sviluppo attivo e continuo, le funzionalità future, e sbloccherai stili visivi opzionali.</string>
+    <string name="invalid_db_hmac">Verifica della firma del database fallita. Può essere causato da un file corrotto o una modifica esterna all\'app.</string>
 </resources>
