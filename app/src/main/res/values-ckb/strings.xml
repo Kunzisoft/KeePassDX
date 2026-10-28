@@ -20,12 +20,12 @@
     <string name="extended_ASCII">ASCIIی فراوانکراو</string>
     <string name="file_manager_install_description">پێویستت بە بەڕێوەبەرێکی پەڕگە هەیە کە پشتیوانی لە کرداری مەبەستی ACTION_CREATE_DOCUMENT و ACTION_OPEN_DOCUMENT بکات بۆ دروستکردن، کردنەوە و پاشەکەوتکردنی پەڕگەکانی بنکەدراوە.</string>
     <string name="allow">ڕێگەپێدان</string>
-    <string name="clipboard_cleared">تەختەی کۆپیکردن پاککرایەوە</string>
-    <string name="clipboard_error_title">هەڵە لە تەختەی کۆپیکردندا</string>
-    <string name="clipboard_error">هەندێک ئامێر ڕێگە بە بەرنامەکان نادەن تەختەی کۆپیکردن بەکاربهێنن.</string>
-    <string name="clipboard_error_clear">نەتوانرا تەختەی کۆپیکردن پاکبكرێتەوە</string>
-    <string name="clipboard_timeout">کاتی بەسەرچوونی تەختەی کۆپیکردن</string>
-    <string name="clipboard_timeout_summary">ماوەی هێشتنەوە لە تەختەی کۆپیکردندا (ئەگەر لەلایەن ئامێرەکەتەوە پشتیوانی بكرێت)</string>
+    <string name="clipboard_cleared">تەختەبیرگە پاککرایەوە</string>
+    <string name="clipboard_error_title">هەڵەی تەختەبیرگە</string>
+    <string name="clipboard_error">هەندێک ئامێر ڕێگە بە بەرنامەکان نادەن تەختەبیرگە بەکاربهێنن.</string>
+    <string name="clipboard_error_clear">نەتوانرا تەختەبیرگە پاکبکرێتەوە</string>
+    <string name="clipboard_timeout">کاتی بەسەرچوونی تەختەبیرگە</string>
+    <string name="clipboard_timeout_summary">ماوەی هێشتنەوە لە تەختەبیرگەدا (ئەگەر لەلایەن ئامێرەکەتەوە پشتیوانی بكرێت)</string>
     <string name="clipboard_otp_notifications_title">ئاگانامەی تێپەڕەوشەی یەکجارەکی</string>
     <string name="clipboard_otp_notifications_summary">ئاگانامەیەک بکەرەوە بۆ کۆپیکردنی تێپەڕەوشەی یەکجارەکی لەو تۆمارانەی کە بە پڕکردنەوەی خۆکار یان بە MagiKeyboard پڕکراونەتەوە</string>
     <string name="content_description_background">پاشبنەما</string>
@@ -41,7 +41,7 @@
     <string name="content_description_password_checkbox">خانەی تێپەڕەوشە</string>
     <string name="content_description_keyfile_checkbox">خانەی پەڕگەکلیل</string>
     <string name="content_description_hardware_key_checkbox">خانەی کلیلی ڕەقەکاڵا</string>
-    <string name="content_description_repeat_toggle_password_visibility">پیشاندان/شاردنەوەی دووبارەکردنەوەی تێپەڕەوشە</string>
+    <string name="content_description_repeat_toggle_password_visibility">دووبارەکردنەوەی پیشاندان/شاردنەوەی تێپەڕەوشە</string>
     <string name="content_description_entry_icon">وێنۆچکەی تۆمار</string>
     <string name="content_description_database_color">ڕەنگی بنکەدراوە</string>
     <string name="content_description_entry_foreground_color">ڕەنگی پێشبنەمای تۆمار</string>
