@@ -46,8 +46,8 @@
     <string name="content_description_database_color">ڕەنگی بنکەدراوە</string>
     <string name="content_description_entry_foreground_color">ڕەنگی پێشبنەمای تۆمار</string>
     <string name="content_description_entry_background_color">ڕەنگی پاشبنەمای تۆمار</string>
-    <string name="content_description_nav_header">سەری ڕێنیشاندەر</string>
-    <string name="navigation_drawer_open">کردنەوەی پێڕستی ڕێنیشاندەر</string>
+    <string name="content_description_nav_header">سەرپەڕەی ڕێنیشاندان</string>
+    <string name="navigation_drawer_open">کشۆی ڕێنیشاندان کراوەتەوە</string>
     <string name="navigation_drawer_close">داخستنی پێڕستی ڕێنیشاندەر</string>
     <string name="validate">پشتڕاستکردنەوە</string>
     <string name="discard_changes">پشتگوێخستنی گۆڕانکارییەکان؟</string>
