@@ -244,11 +244,19 @@ class MainCredentialActivity : DatabaseModeActivity() {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 launch {
                     mMainCredentialViewModel.databaseFileUIState.collect { state ->
+                        // Revoked file in a folder permission already persisted: use it, no message
+                        val databaseUri = mMainCredentialViewModel.databaseFileUri
+                        val documentInTree = if (state.showFileRevokedErrorMessage && databaseUri != null)
+                            contentResolver.getDocumentInPersistedTree(databaseUri)
+                        else null
+                        if (databaseUri != null && documentInTree != null) {
+                            replaceDatabaseUri(databaseUri, documentInTree)
+                        }
                         infoContainerView?.isVisible = state.showFileRevokedErrorMessage
+                                && documentInTree == null
                         folderAccessButton?.isVisible = state.showFileRevokedErrorMessage
                                 && openFolderResultLauncher != null
-                                && mMainCredentialViewModel.databaseFileUri
-                                    ?.canBeAccessedFromFolder() == true
+                                && databaseUri?.canBeAccessedFromFolder() == true
                         filenameView?.text = state.fileName
                         state.keyFileUri?.let {
                             mainCredentialView.populateKeyFileView(it)

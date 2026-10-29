@@ -70,7 +70,9 @@ import com.kunzisoft.keepass.utils.AppUtil.isContributingUser
 import com.kunzisoft.keepass.utils.DexUtil
 import com.kunzisoft.keepass.utils.MagikeyboardUtil
 import com.kunzisoft.keepass.utils.MenuUtil
+import com.kunzisoft.keepass.utils.UriUtil.getDocumentInPersistedTree
 import com.kunzisoft.keepass.utils.UriUtil.openUrl
+import com.kunzisoft.keepass.utils.UriUtil.releaseUriPermission
 import com.kunzisoft.keepass.utils.getParcelableCompat
 import com.kunzisoft.keepass.view.asError
 import com.kunzisoft.keepass.viewmodels.DatabaseFilesViewModel
@@ -99,7 +101,17 @@ class FileDatabaseSelectActivity : DatabaseModeActivity() {
 
     private var openDatabaseFileResultLauncher: ExternalFileHelper.OpenFileResultLauncher = registerOpenFile { uri ->
         uri?.let {
-            launchMainCredentialActivityWithPath(uri)
+            // Access the file through a folder permission already persisted, not revoked by a sync
+            val documentInTree = contentResolver.getDocumentInPersistedTree(uri)
+            if (documentInTree != null) {
+                contentResolver.releaseUriPermission(uri)
+                FileDatabaseHistoryAction.getInstance(applicationContext)
+                    .replaceDatabaseUri(uri, documentInTree) {
+                        launchMainCredentialActivityWithPath(documentInTree)
+                    }
+            } else {
+                launchMainCredentialActivityWithPath(uri)
+            }
         }
     }
     private var createDatabaseFileResultLauncher: ActivityResultLauncher<String> = registerCreateDatabaseFile { uri ->
