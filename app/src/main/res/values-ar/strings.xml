@@ -117,7 +117,7 @@
     <string name="select_to_copy">اختر لنسخ %1$s إلى الحافظة</string>
     <string name="retrieving_db_key">جارٍ استرجاع مفتاح قاعدة البيانات…</string>
     <string name="default_checkbox">استخدامها كقاعدة بيانات افتراضية</string>
-    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft هو برنامج &lt;strong&gt;مفتوح المصدر&lt;/strong&gt; و&lt;strong&gt;خالٍ من الإعلانات&lt;/strong&gt;.\nيُقدَّم كما هو بموجب ترخيص &lt;strong&gt;GPLv3&lt;/strong&gt;، دون أي ضمان.</string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft هو برنامج &lt;strong&gt;مفتوح المصدر&lt;/strong&gt;، &lt;strong&gt;خالٍ من الإعلانات&lt;/strong&gt;، &lt;strong&gt;مستقل&lt;/strong&gt;، ويتم صيانته بالكامل من خلال &lt;strong&gt;مطوِّرين متطوعين&lt;/strong&gt;. \nيتم توفيره «كما هو»، بموجب ترخيص &lt;strong&gt;GPLv3&lt;/strong&gt;، دون أي ضمان.</string>
     <string name="entry_accessed">تم الوصول إليه</string>
     <string name="entry_expires">تنتهي صلاحيته في</string>
     <string name="entry_keyfile">ملف المفتاح</string>
@@ -757,4 +757,5 @@
     <string name="words">الكلمات</string>
     <string name="invalid_db_hmac">فشل التحقق من توقيع قاعدة البيانات. وقد يكون السبب في ذلك تلف الملف أو إجراء تعديلات عليه بواسطة تطبيق خارجي.</string>
     <string name="get_keepro">احصل على دعم KeePro</string>
+    <string name="html_about_get_keepro">من خلال شراء &lt;strong&gt;KeePro Support&lt;/strong&gt;، فإنك تساهم مباشرةً في تمويل استمرار التطوير النشط والميزات المستقبلية، بالإضافة إلى فتح الأنماط المرئية الاختيارية.</string>
 </resources>
