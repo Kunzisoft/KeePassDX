@@ -39,7 +39,7 @@
     <string name="decrypting_db">正在解密数据库内容…</string>
     <string name="default_checkbox">设为默认数据库</string>
     <string name="digits">数字</string>
-    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft 是一个&lt;strong&gt;不含广告&lt;/strong&gt;的&lt;strong&gt;开源软件&lt;/strong&gt;。\n它是以 &lt;strong&gt;GPLv3&lt;/strong&gt; 许可证依原样提供，不含任何形式的担保。</string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft &lt;strong&gt;开源&lt;/strong&gt;、 &lt;strong&gt;无广告&lt;/strong&gt;、 &lt;strong&gt;独立&lt;/strong&gt; ，完全由 &lt;strong&gt;志愿&lt;/strong&gt; 开发维护。 \n它根据 &lt;strong&gt;GPLv3&lt;/strong&gt; 许可按原样提供，没有任何担保。</string>
     <string name="select_database_file">打开现有密码库</string>
     <string name="entry_accessed">访问时间</string>
     <string name="entry_cancel">取消</string>
@@ -75,7 +75,7 @@
     <string name="hint_length">长度</string>
     <string name="password">密码</string>
     <string name="hint_pass">密码</string>
-    <string name="invalid_credentials">无法读取您的密码或密钥文件。</string>
+    <string name="invalid_credentials">无法用凭据解密文件数据。</string>
     <string name="invalid_db_sig">无法识别数据库格式。</string>
     <string name="length">长度</string>
     <string name="list_size_title">列表项目大小</string>
@@ -779,4 +779,7 @@
     <string name="error_load_database_KDF_iteration">KDF 迭代过高。</string>
     <string name="save_success">保存成功了</string>
     <string name="words">单词</string>
+    <string name="invalid_db_hmac">数据库签名验证失败。这可能是文件损坏或外部应用修改造成。</string>
+    <string name="get_keepro">获取 KeePro 支持</string>
+    <string name="html_about_get_keepro">通过购买 &lt;strong&gt;KeePro 支持&lt;/strong&gt;，您直接资助持续的活跃开发、未来功能并解锁可选的视觉样式。</string>
 </resources>

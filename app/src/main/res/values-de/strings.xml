@@ -48,7 +48,7 @@
     <string name="decrypting_db">Datenbankinhalt wird entschlüsselt …</string>
     <string name="default_checkbox">Als Standarddatenbank verwenden</string>
     <string name="digits">Stellen</string>
-    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft ist &lt;strong&gt;quelloffen&lt;/strong&gt; und &lt;strong&gt;ohne Werbung&lt;/strong&gt;. \nDie Nutzung der Software erfolgt auf eigene Verantwortung und ohne jegliche Garantie. Die Applikation wird unter den Bedingungen der &lt;strong&gt;GPLv3&lt;/strong&gt; lizenziert.</string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft ist &lt;strong&gt;Open Source&lt;/strong&gt;, &lt;strong&gt;werbefrei&lt;/strong&gt;, &lt;strong&gt;unabhängig&lt;/strong&gt; und wird vollständig durch &lt;strong&gt;freiwillige Mitarbeit&lt;/strong&gt; weiterentwickelt.\nDie Software wird ohne jegliche Gewährleistung und in der vorliegenden Form unter der Lizenz &lt;strong&gt;GPLv3&lt;/strong&gt; bereitgestellt.</string>
     <string name="html_about_contribution">Damit wir &lt;strong&gt;unsere Unabhängigkeit erhalten&lt;/strong&gt;, &lt;strong&gt;Fehler beheben&lt;/strong&gt;, &lt;strong&gt;Funktionen hinzufügen&lt;/strong&gt; und &lt;strong&gt;weiterhin aktiv bleiben&lt;/strong&gt; können, zählen wir auf deinen &lt;strong&gt;Beitrag&lt;/strong&gt;.</string>
     <string name="select_database_file">Vorhandene Datenbank öffnen</string>
     <string name="entry_accessed">Letzter Zugriff</string>
@@ -90,7 +90,7 @@
     <string name="hint_length">Länge</string>
     <string name="hint_pass">Passwort</string>
     <string name="password">Passwort</string>
-    <string name="invalid_credentials">Anmeldedaten konnten nicht gelesen werden.</string>
+    <string name="invalid_credentials">Die Datei konnte mit den Anmeldedaten nicht entschlüsselt werden.</string>
     <string name="invalid_algorithm">Falscher Algorithmus.</string>
     <string name="invalid_db_sig">Datenbankformat nicht erkannt.</string>
     <string name="keyfile_is_empty">Die Schlüsseldatei ist leer.</string>
@@ -778,4 +778,7 @@
     <string name="error_load_database_KDF_iteration">KDF-Iteration zu hoch.</string>
     <string name="save_success">Speichern erfolgreich abgeschlossen</string>
     <string name="words">Wörter</string>
+    <string name="invalid_db_hmac">Das Überprüfen der Datenbanksignatur ist fehlgeschlagen. Dies kann durch eine beschädigte Datei oder aufgrund Änderungen durch eine externe App verursacht worden sein.</string>
+    <string name="get_keepro">KeePro-Support erhalten</string>
+    <string name="html_about_get_keepro">Mit dem Kauf von &lt;strong&gt;KeePro-Support&lt;/strong&gt; unterstützt du direkt die weitere aktive Entwicklung, zukünftige Funktionen und erhältst Zugriff auf optionale visuelle Stile.</string>
 </resources>

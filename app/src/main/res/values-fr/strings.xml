@@ -47,8 +47,7 @@
     <string name="decrypting_db">Déchiffrement du contenu de la base de données…</string>
     <string name="default_checkbox">Utiliser comme base de données par défaut</string>
     <string name="digits">Chiffres</string>
-    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft est &lt;strong&gt;open source&lt;/strong&gt; et &lt;strong&gt;sans publicité&lt;/strong&gt;.
-\nIl est fourni tel quel, sous licence &lt;strong&gt;GPLv3&lt;/strong&gt;, sans aucune garantie.</string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft est &lt;strong&gt;open source&lt;/strong&gt;, &lt;strong&gt;sans publicité&lt;/strong&gt;, &lt;strong&gt;indépendant&lt;/strong&gt; et entièrement maintenu par du développement &lt;strong&gt;volontaire&lt;/strong&gt;. \nIl est fourni tel quel, sous licence &lt;strong&gt;GPLv3&lt;/strong&gt;, sans aucune garantie.</string>
     <string name="entry_accessed">Dernier accès</string>
     <string name="entry_cancel">Annuler</string>
     <string name="entry_notes">Notes</string>
@@ -89,7 +88,7 @@
     <string name="hint_length">Longueur</string>
     <string name="hint_pass">Mot de passe</string>
     <string name="password">Mot de passe</string>
-    <string name="invalid_credentials">Impossible de lire les identifiants.</string>
+    <string name="invalid_credentials">Impossible de déchiffrer les données du fichier avec les identifiants.</string>
     <string name="invalid_algorithm">Algorithme invalide.</string>
     <string name="invalid_db_sig">Impossible de reconnaître le format de la base de données.</string>
     <string name="keyfile_is_empty">Le fichier clé est vide.</string>
@@ -778,4 +777,7 @@
     <string name="error_load_database_KDF_parallelism">Le parallélisme KDF est trop élevé.</string>
     <string name="error_load_database_KDF_iteration">Nombre d\'itérations KDF trop élevé.</string>
     <string name="words">Mots</string>
+    <string name="invalid_db_hmac">La vérification de la signature de la base de données a échoué. Cela peut être à cause d\'une corruption de fichier ou une modification par une appli externe.</string>
+    <string name="html_about_get_keepro">En achetant &lt;strong&gt;KeyPro Support&lt;/strong&gt; (Soutien KeyPro), vous financez directement la continuité du développement actif, les fonctionnalités futures, et vous débloquez des styles visuels facultatifs.</string>
+    <string name="get_keepro">Obtenir KeePro Support</string>
 </resources>

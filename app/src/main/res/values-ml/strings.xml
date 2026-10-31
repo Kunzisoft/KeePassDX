@@ -169,8 +169,7 @@
     <string name="content_description_file_information">ഫയലിനെക്കുറിച്ചുള്ള വിവരം</string>
     <string name="content_description_background">ബാക്ക്ഗ്രൗണ്ട്</string>
     <string name="brackets">ബ്രാക്കറ്റുകൾ</string>
-    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft is &lt;strong&gt;ഓപ്പൺ സോഴ്‌സും&lt;/strong&gt; and &lt;strong&gt;പരസ്യം ഇല്ലാത്ത&lt;/strong&gt;.
-\nIt is provided as is, under &lt;strong&gt;GPLv3&lt;/strong&gt; license, without any warranty.</string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft is &lt;strong&gt;ഓപ്പൺ സോഴ്‌സും&lt;/strong&gt; and &lt;strong&gt;പരസ്യം ഇല്ലാത്ത&lt;/strong&gt;. \nIt is provided as is, under &lt;strong&gt;GPLv3&lt;/strong&gt; license, without any warranty.</string>
     <string name="warning_empty_password">പാസ്‌വേഡ് അൺലോക്കുചെയ്യൽ പരിരക്ഷയില്ലാതെ തുടരുക\?</string>
     <string name="icon_pack_choose_title">ഐക്കൺ സമാഹാരം</string>
     <string name="magic_keyboard_title">Magikeyboard</string>

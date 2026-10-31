@@ -81,7 +81,7 @@
     <string name="hint_length">אורך</string>
     <string name="hint_pass">סיסמה</string>
     <string name="password">סיסמה</string>
-    <string name="invalid_credentials">לא ניתן לקרוא אישורים.</string>
+    <string name="invalid_credentials">לא ניתן לפענח את נתוני הקובץ עם פרטי האימות שסופקו.</string>
     <string name="invalid_algorithm">אלגוריתם שגוי.</string>
     <string name="invalid_db_sig">לא ניתן לזהות את פורמט מסד הנתונים.</string>
     <string name="keyfile_is_empty">קובץ המפתח ריק.</string>
@@ -182,7 +182,7 @@
     <string name="otp_counter">מונה</string>
     <string name="version">גרסה</string>
     <string name="entry_otp">סיסמה חד־פעמית (OTP)</string>
-    <string name="error_load_database_KDF_memory">לא ניתן לטעון את המפתח. נסה להוריד את ה\"שימוש בזיכרון\" של KDF.</string>
+    <string name="error_load_database_KDF_memory">השימוש בזיכרון KDF גבוה מדי.</string>
     <string name="error_autofill_enable_service">לא ניתן להפעיל את שירות המילוי האוטומטי.</string>
     <string name="error_copy_entry_here">אינך יכול להעתיק רשומה לכאן.</string>
     <string name="error_otp_counter">המונה חייב להיות בין %1$d ל־%2$d.</string>
@@ -229,8 +229,7 @@
     <string name="content_description_nav_header">כותרת ניווט</string>
     <string name="navigation_drawer_open">פתיחת מגירת ניווט</string>
     <string name="navigation_drawer_close">סגירת מגירת ניווט</string>
-    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft הוא יישום &lt;strong&gt;קוד פתוח&lt;/strong&gt; ו&lt;strong&gt;בלי פרסום&lt;/strong&gt;.
-\nהוא ניתן כפי שהוא, תחת רישיון &lt;strong&gt;GPLv3&lt;/strong&gt;, ללא כל אחריות.</string>
+    <string name="html_about_licence">"KeePassDX © %1$d Kunzisoft הוא יישומון &lt;strong&gt;קוד פתוח&lt;/strong&gt;&lt;strong&gt;בלי פרסום&lt;/strong&gt;, &lt;strong&gt;עצמאי &lt;/strong&gt; ומתוחזק לגמרי ע\"י פיתוח  &lt;strong&gt;בהתנדבות &lt;/strong&gt;. \nהוא ניתן כפי שהוא, תחת רישיון &lt;strong&gt;GPLv3&lt;/strong&gt;, ללא כל אחריות."</string>
     <string name="html_about_contribution">בכדי &lt;strong&gt;לשמור על החופש שלנו&lt;/strong&gt;, &lt;strong&gt;לתקן באגים&lt;/strong&gt;, &lt;strong&gt;להוסיף תכונות&lt;/strong&gt; &lt;strong&gt;ולהיות תמיד פעילים&lt;/strong&gt;, אנו סומכים על &lt;strong&gt;תרומתך&lt;/strong&gt;.</string>
     <string name="searchable">ניתן לחיפוש</string>
     <string name="inherited">ירושה</string>
@@ -279,7 +278,7 @@
     <string name="list_groups_show_number_entries_title">הצג את מספר הרשומות</string>
     <string name="menu_reload_database">טען מחדש נתונים</string>
     <string name="show_uuid_title">הצג UUID</string>
-    <string name="show_otp_token_summary">מציג אסימוני סיסמה חד-פעמית (OTP) ברשימת הרשומות</string>
+    <string name="show_otp_token_summary">מציג אסימוני סיסמה חד-פעמית (OTP) כברירת מחדל</string>
     <string name="list_groups_show_number_entries_summary">מציג את מספר הרשומות בקבוצה</string>
     <string name="menu_external_icon">סמל חיצוני</string>
     <string name="auto_focus_search_title">חיפוש מהיר</string>
@@ -487,7 +486,7 @@
     <string name="unit_gibibyte">GiB</string>
     <string name="warning_database_read_only">הענק גישת כתיבה לקובץ כדי לשמור שינויי מסד נתונים</string>
     <string name="warning_database_link_revoked">בוטלה הגישה לקובץ על ידי מנהל הקבצים</string>
-    <string name="warning_database_info_changed">המידע שבתוך קובץ מסד הנתונים שלך השתנה מחוץ ליישום זה.</string>
+    <string name="warning_database_info_changed">המידע שבתוך מסד הנתונים שלך השתנה מחוץ ליישום זה.</string>
     <string name="device_unlock_prompt_store_credential_message">אזהרה: אתה עדיין צריך לזכור את פרטי האימות מול הכספת הראשי שלך</string>
     <string name="keyboard_previous_lock_title">נעל מסד נתונים</string>
     <string name="keyboard_save_search_info_title">שמור מידע משותף</string>
@@ -583,7 +582,7 @@
     <string name="import_app_properties_summary">בחר קובץ כדי לייבא הגדרות יישום</string>
     <string name="warning_remove_unlinked_attachment">הסרת נתונים לא מקושרים עשויה להקטין את גודל מסד הנתונים שלך אבל היא עלולה גם למחוק נתונים המשמשים עבור תוספי KeePass.</string>
     <string name="unlock">בטל נעילה</string>
-    <string name="warning_database_info_changed_options_read_only">טען את מסד הנתונים עם השינויים האחרונים.</string>
+    <string name="warning_database_info_changed_options_read_only">אנא טען את מסד הנתונים עם השינויים האחרונים.</string>
     <string name="warning_database_info_reloaded">טעינה מחדש של מסד הנתונים ימחוק את הנתונים ששונו מקומית.</string>
     <string name="later">אח\"כ</string>
     <string name="ask">שאל</string>
@@ -667,7 +666,7 @@
     <string name="autofill_save_search_info_summary">נסה לשמור מידע חיפוש כשעושים בחירת ערך ידנית בשביל שימושים עתידיים קלים יותר</string>
     <string name="education_device_unlock_title">ביטול נעילת מסד נתונים בעזרת מכשיר</string>
     <string name="education_device_unlock_summary">קשר את הסיסמה שלך לאמצעי הביומטרי הסרוק שלך או לאישור מכשיר כדי לפתוח במהירות את מסד הנתונים שלך.</string>
-    <string name="education_generate_password_summary">צור סיסמה חזקה לשיוך עם הרשומה שלך, הגדר אותה בקלות בהתאם לקריטריונים של הטופס ואל תשכח לעשות את הסיסמה מאובטחת.</string>
+    <string name="education_generate_password_summary">צור סיסמה חזקה לשיוך עם הרשומה שלך, הגדר אותה בקלות בהתאם לקריטריונים של הטופס ואל תשכח אותה.</string>
     <string name="education_validate_entry_title">אמת את הרשומה</string>
     <string name="education_validate_entry_summary">זכור לאמת את הרשומה שלך ולשמור את מסד הנתונים שלך.\n\nאם נעילה אוטומטית מופעלת ואתה שוכח שעשית שינוי, אתה מסתכן באיבוד הנתונים שלך.</string>
     <string name="education_entry_new_field_summary">רשום שדה נוסף, הוסף ערך והגן עליו באופן אופציונלי.</string>
@@ -749,15 +748,20 @@
     <string name="benchmark_calculation">חשב עבור %1$s s</string>
     <string name="benchmarking">מבצע מדידת ביצועים…</string>
     <string name="keyboard_share_browser">שתף מ־ %1$s ל־KeePassDX</string>
-    <string name="error_load_database_KDF_iteration"></string>
-    <string name="error_load_database_KDF_parallelism"></string>
-    <string name="error_memory_too_large"></string>
-    <string name="error_parallelism_too_large"></string>
-    <string name="error_missing_parent"></string>
-    <string name="parallelism_set_safe"></string>
-    <string name="temporary_merge_success"></string>
-    <string name="reload_success"></string>
-    <string name="save_success"></string>
-    <string name="autofill_suggestions_title"></string>
-    <string name="autofill_suggestions_summary"></string>
+    <string name="error_load_database_KDF_iteration">מספר האיטרציות של פונקציית גזירת המפתח (KDF) גבוה מדי.</string>
+    <string name="error_load_database_KDF_parallelism">רמת המקביליות של פונקציית גזירת המפתח (KDF) גבוהה מדי.</string>
+    <string name="error_memory_too_large">\"זיכרון בשימוש\" גבוה מדי. ההגדרה תשתנה ל־ %1$s.</string>
+    <string name="error_parallelism_too_large">\"המקביליות\" גבוהה מדי. ההגדרה תשתנה ל־ %1$s.</string>
+    <string name="error_missing_parent">לא ניתן לבצע פעולה זו ללא הורה.</string>
+    <string name="parallelism_set_safe">הגדר את מספר המעבדים</string>
+    <string name="temporary_merge_success">מיזוג נתונים זמני הושלם בהצלחה</string>
+    <string name="reload_success">טעינה מחדש הושלמה בהצלחה</string>
+    <string name="save_success">שמירה הושלמה בהצלחה</string>
+    <string name="autofill_suggestions_title">הצעות מילוי אוטומטי</string>
+    <string name="autofill_suggestions_summary">השתמש באלגוריתם זיהוי הטופס כדי להציע ערכים</string>
+    <string name="get_keepro">קבל תמיכה ל־KeePro</string>
+    <string name="invalid_db_hmac">אימות חתימת מסד הנתונים נכשל. ייתכן שהדבר נגרם עקב פגיעה בקובץ או שינוי שבוצע על ידי יישומון חיצוני.</string>
+    <string name="words">מילים</string>
+    <string name="passkey_pseudo_random_function">פונקציה פסאודו־אקראית של מפתח גישה</string>
+    <string name="html_about_get_keepro">על ידי רכישת &lt;strong&gt;KeePro Support&lt;/strong&gt;, אתה מממן ישירות המשך פיתוח פעיל, תכונות עתידיות, ופותח סגנונות חזותיים אפשריים.</string>
 </resources>

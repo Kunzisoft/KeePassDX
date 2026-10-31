@@ -176,8 +176,7 @@
     <string name="entry_cancel">ਰੱਦ ਕਰੋ</string>
     <string name="entry_accessed">ਅਸੈਸ ਕੀਤਾ</string>
     <string name="html_about_contribution">&lt;strong&gt;ਸਾਡੀ ਆਜ਼ਾਦੀ ਬਣਾਈ ਰੱਖਣ&lt;/strong&gt;, &lt;strong&gt;ਬੱਗ ਠੀਕ ਕਰਨ&lt;/strong&gt;, &lt;strong&gt;ਹੋਰ ਫ਼ੀਚਰ ਜੋੜਨ&lt;/strong&gt; ਅਤੇ &lt;strong&gt;ਹਮੇਸ਼ਾਂ ਸਰਗਰਮ ਰਹਿਣ&lt;/strong&gt; ਵਾਸਤੇ ਅਸੀਂ ਤੁਹਾਡੇ &lt;strong&gt;ਯੋਗਦਾਨ&lt;/strong&gt; ਉੱਤੇ ਨਿਰਭਰ ਕਰਦੇ ਹਾਂ।</string>
-    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft &lt;strong&gt;ਆਜ਼ਾਦ ਸਰੋਤ&lt;/strong&gt; ਅਤੇ &lt;strong&gt;ਬਿਨਾਂ ਇਸ਼ਤਿਹਾਰਾਂ&lt;/strong&gt; ਤੋਂ ਹੈ।
-\nਇਸ ਨੂੰ &lt;strong&gt;GPLv3&lt;/strong&gt; ਲਸੰਸ ਦੇ ਅਧੀਨ ਬਿਨਾਂ ਕਿਸੇ ਵਾਰੰਟੀ ਦੇ ਦਿੱਤਾ ਜਾ ਰਿਹਾ ਹੈ।</string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft &lt;strong&gt;ਆਜ਼ਾਦ ਸਰੋਤ&lt;/strong&gt; ਅਤੇ &lt;strong&gt;ਬਿਨਾਂ ਇਸ਼ਤਿਹਾਰਾਂ&lt;/strong&gt; ਤੋਂ ਹੈ। \nਇਸ ਨੂੰ &lt;strong&gt;GPLv3&lt;/strong&gt; ਲਸੰਸ ਦੇ ਅਧੀਨ ਬਿਨਾਂ ਕਿਸੇ ਵਾਰੰਟੀ ਦੇ ਦਿੱਤਾ ਜਾ ਰਿਹਾ ਹੈ।</string>
     <string name="digits">ਅੰਕ</string>
     <string name="default_checkbox">ਮੂਲ ਡਾਟਾਬੇਸ ਵਜੋਂ ਵਰਤੋਂ</string>
     <string name="decrypting_db">…ਡਾਟਾਬੇਸ ਸਮੱਗਰੀ ਡਿਕ੍ਰਿਪਟ ਕੀਤੀ ਜਾ ਰਹੀ ਹੈ</string>

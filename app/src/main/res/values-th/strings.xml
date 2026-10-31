@@ -91,7 +91,7 @@
     <string name="loading_database">กำลังเปิดฐานข้อมูล…</string>
     <string name="device_unlock_prompt_extract_credential_title">เปิดฐานข้อมูลด้วยการปลดล็อกด้วยอุปกรณ์</string>
     <string name="waiting_challenge_response">กำลังรอการตอบกลับจากกุญแจฮาร์ดแวร์…</string>
-    <string name="html_about_licence">แอป คียพาสดีเอ็กซ์ © %1$d คุนซีซอฟต์ เป็นแอป &lt;strong&gt;โอเพนซอร์ซ&lt;/strong&gt; และ &lt;strong&gt;ไม่มีโฆษณา&lt;/strong&gt;.  \nจัดให้ตามสภาพที่เป็นอยู่ ภายใต้เงื่อนไข&lt;strong&gt;จีพีเอลรุ่น3&lt;/strong&gt; ลิขสิทธิ์, ปราศจากการรับประกันใดๆ.</string>
+    <string name="html_about_licence">แอป คียพาสดีเอ็กซ์ © %1$d คุนซีซอฟต์ เป็นแอป &lt;strong&gt;โอเพนซอร์ซ&lt;/strong&gt; และ &lt;strong&gt;ไม่มีโฆษณา&lt;/strong&gt;. \nจัดให้ตามสภาพที่เป็นอยู่ ภายใต้เงื่อนไข&lt;strong&gt;จีพีเอลรุ่น3&lt;/strong&gt; ลิขสิทธิ์, ปราศจากการรับประกันใดๆ.</string>
     <string name="ssid">SSID</string>
     <string name="account">บัญชี</string>
     <string name="bank">ธนาคาร</string>

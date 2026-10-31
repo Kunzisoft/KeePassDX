@@ -81,7 +81,7 @@
     <string name="hint_length">Délka</string>
     <string name="hint_pass">Heslo</string>
     <string name="password">Heslo</string>
-    <string name="invalid_credentials">Nebylo možno načíst autentizační údaje.</string>
+    <string name="invalid_credentials">Nepodařilo se dešifrovat soubor s údaji.</string>
     <string name="invalid_algorithm">Nesprávný algoritmus.</string>
     <string name="invalid_db_sig">Nepodařilo se rozpoznat formát databáze.</string>
     <string name="keyfile_is_empty">Soubor klíče je prázdný.</string>
@@ -406,8 +406,7 @@
     <string name="hide_broken_locations_title">Skrýt chybné odkazy na databáze</string>
     <string name="hide_broken_locations_summary">Skrýt chybné odkazy v seznamu nedávných databází</string>
     <string name="warning_database_read_only">Udělit právo zápisu pro uložení změn v databázi</string>
-    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft je &lt;strong&gt;open source&lt;/strong&gt; a &lt;strong&gt;bez reklam&lt;/strong&gt;.
-\nJe poskytován jak je, pod licencí &lt;strong&gt;GPLv3&lt;/strong&gt;, bez jakékoli záruky.</string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft je &lt;strong&gt;open source&lt;/strong&gt;, &lt;strong&gt;bez reklam&lt;/strong&gt;, &lt;strong&gt;nezávislý&lt;/strong&gt; a udržovaný kompletně &lt;strong&gt;dobrovolnými&lt;/strong&gt; vývojáři.\nJe poskytován jak je, pod licencí &lt;strong&gt;GPLv3&lt;/strong&gt;, bez jakékoli záruky.</string>
     <string name="html_about_contribution">Abychom si &lt;strong&gt;udrželi svoji svobodu&lt;/strong&gt;, &lt;strong&gt;mohli opravovat chyby&lt;/strong&gt;, &lt;strong&gt;přidávat nové funkce&lt;/strong&gt; a &lt;strong&gt;byli pořád aktivní&lt;/strong&gt;, počítáme s Vaším &lt;strong&gt;přispěním&lt;/strong&gt;.</string>
     <string name="error_create_database">Nepodařilo se vytvořit soubor databáze.</string>
     <string name="entry_add_attachment">Přidat přílohu</string>
@@ -781,4 +780,7 @@
     <string name="error_load_database_KDF_iteration">Iterace KDF je příliš vysoká.</string>
     <string name="save_success">Úspěšně uloženo</string>
     <string name="words">Slova</string>
+    <string name="invalid_db_hmac">Ověření podpisu databáze selhalo. To může být způsobeno poškozením souboru nebo modifikací externí aplikací.</string>
+    <string name="get_keepro">Získejte podporu KeePro</string>
+    <string name="html_about_get_keepro">Zakoupením &lt;strong&gt;podpory KeePro&lt;/strong&gt; přímo podpoříte další aktivní vývoj, budoucí funkce a odemknete si další vizuální styly.</string>
 </resources>
