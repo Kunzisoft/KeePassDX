@@ -1,3 +1,9 @@
+KeePassDX(4.5.8)
+ * Fix KeePro for Play Store #2769
+ * Revert Play Store obfuscation #2770 #2776
+ * Fix Autofill menu presentation #2772 #2767 (@SaeedDev94)
+ * Fix extension when saving new file #1889
+
 KeePassDX(4.5.7)
  * Fix KeePro for Play Store #2769
  * Fix Play Store obfuscation #2770
