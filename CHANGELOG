@@ -1,5 +1,8 @@
 KeePassDX(4.5.7)
- * Fix KeePro for Play Store
+ * Fix KeePro for Play Store #2769
+ * Fix Play Store obfuscation #2770
+ * Fix Autofill menu presentation #2772 #2767 (@SaeedDev94)
+ * Fix extension when saving new file #1889
 
 KeePassDX(4.5.6)
  * Web domains without TLD in Autofill #2744 (@LukaZ2)

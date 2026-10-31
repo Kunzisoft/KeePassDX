@@ -1,4 +1,4 @@
-O KeePassDX é um gerenciador de senhas e cofre de senhas de código aberto <b></b> que permite editar <b>dados criptografados em um único arquivo</b> no formato aberto do KeePass e <b>preencher formulários de forma segura</b>, não requer <b>conexão com a Internet</b> e integra os padrões de design do Android. O aplicativo é <b>de código aberto, sem publicidade</b>.
+O KeePassDX é um <b>gerenciador de senhas e cofre de senhas</b> de código aberto que permite editar <b>dados criptografados em um único arquivo</b> no formato aberto do KeePass e <b>preencher formulários de forma segura</b>, não requer <b>conexão com a Internet</b> e integra os padrões de design do Android. O aplicativo é <b>de código aberto, sem publicidade</b>.
 
 <b>Recursos</b>
 

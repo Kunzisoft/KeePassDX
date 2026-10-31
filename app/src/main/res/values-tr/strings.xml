@@ -62,8 +62,7 @@
     <string name="decrypting_db">Veri tabanı içeriğinin şifresi çözülüyor…</string>
     <string name="default_checkbox">Öntanımlı veri tabanı olarak kullan</string>
     <string name="digits">Rakamlar</string>
-    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft &lt;strong&gt;açık kaynaklıdır&lt;/strong&gt; ve &lt;strong&gt;reklam içermez&lt;/strong&gt;.
-\n&lt;strong&gt;GPLv3&lt;/strong&gt; lisansı altında sağlanmaktadır, herhangi bir garanti vermez.</string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft &lt;strong&gt;açık kaynaklıdır&lt;/strong&gt; ve &lt;strong&gt;reklam içermez&lt;/strong&gt;. \n&lt;strong&gt;GPLv3&lt;/strong&gt; lisansı altında sağlanmaktadır, herhangi bir garanti vermez.</string>
     <string name="entry_expires">Süre sonu</string>
     <string name="entry_keyfile">Anahtar dosya</string>
     <string name="error_arc4">Arcfour akış şifresi desteklenmiyor.</string>
@@ -90,7 +89,7 @@
     <string name="hint_length">Uzunluk</string>
     <string name="hint_pass">Parola</string>
     <string name="password">Parola</string>
-    <string name="invalid_credentials">Kimlik bilgileri okunamadı.</string>
+    <string name="invalid_credentials">Kimlik bilgileriyle dosya verilerinin şifresi çözülemedi.</string>
     <string name="invalid_algorithm">Yanlış algoritma.</string>
     <string name="invalid_db_sig">Veri tabanı biçimi tanınamadı.</string>
     <string name="keyfile_is_empty">Anahtar dosya boş.</string>
@@ -771,4 +770,5 @@
     <string name="error_load_database_KDF_iteration">KDF yinelemesi çok yüksek.</string>
     <string name="save_success">Kaydetme işlemi başarıyla tamamlandı</string>
     <string name="words">Sözcükler</string>
+    <string name="invalid_db_hmac">Veri tabanı imzası doğrulaması başarısız oldu. Bunun nedeni, dosyanın bozulmuş olması veya harici bir uygulama tarafından değiştirilmiş olması olabilir.</string>
 </resources>

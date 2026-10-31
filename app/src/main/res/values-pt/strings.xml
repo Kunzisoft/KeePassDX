@@ -203,8 +203,7 @@
     <string name="remember_database_locations_title">Lembrar locais das bases de dados</string>
     <string name="menu_device_unlock_settings">Desbloqueio de dispositivos</string>
     <string name="error_invalid_db">Não foi possível ler a base de dados.</string>
-    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft tem o &lt;strong&gt;código-fonte aberto&lt;/strong&gt; e &lt;strong&gt;sem publicidade&lt;/strong&gt;.
-\nÉ fornecido como está, sob a &lt;strong&gt;licença GPLv3&lt;/strong&gt;, sem qualquer garantia.</string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft tem o &lt;strong&gt;código-fonte aberto&lt;/strong&gt; e &lt;strong&gt;sem publicidade&lt;/strong&gt;. \nÉ fornecido como está, sob a &lt;strong&gt;licença GPLv3&lt;/strong&gt;, sem qualquer garantia.</string>
     <string name="content_description_file_information">Informações do ficheiro</string>
     <string name="content_description_credentials_information">Informações das credenciais</string>
     <string name="keyboard_previous_fill_in_summary">Mudar automaticamente para o teclado anterior depois de executar a \"tecla automática\"</string>

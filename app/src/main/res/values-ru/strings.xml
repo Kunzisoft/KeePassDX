@@ -42,8 +42,7 @@
     <string name="decrypting_db">Расшифровка базы…</string>
     <string name="default_checkbox">База по умолчанию</string>
     <string name="digits">Цифры</string>
-    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft — это программное обеспечение &lt;strong&gt;с открытым исходным кодом&lt;/strong&gt; и &lt;strong&gt;без рекламы&lt;/strong&gt;.
-\nРаспространяется под лицензией &lt;strong&gt;GPLv3&lt;/strong&gt; без каких-либо гарантий.</string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft — это программное обеспечение &lt;strong&gt;с открытым исходным кодом&lt;/strong&gt;, &lt;strong&gt;без рекламы&lt;/strong&gt;, &lt;strong&gt;независимое&lt;/strong&gt; и поддерживается исключительно &lt;strong&gt;добровольной&lt;/strong&gt; разработкой.\nРаспространяется под лицензией &lt;strong&gt;GPLv3&lt;/strong&gt; без каких-либо гарантий.</string>
     <string name="select_database_file">Открыть базу паролей</string>
     <string name="entry_accessed">Доступ</string>
     <string name="entry_cancel">Назад</string>
@@ -84,7 +83,7 @@
     <string name="hint_length">Длина</string>
     <string name="hint_pass">Пароль</string>
     <string name="password">Пароль</string>
-    <string name="invalid_credentials">Неправильный главный пароль или файл ключа.</string>
+    <string name="invalid_credentials">Невозможно расшифровать файл с помощью учётных данных.</string>
     <string name="invalid_algorithm">Неправильный алгоритм.</string>
     <string name="invalid_db_sig">Невозможно определить формат базы.</string>
     <string name="keyfile_is_empty">Файл ключа пуст.</string>
@@ -780,4 +779,7 @@
     <string name="error_load_database_KDF_iteration">Количество итераций функции формирования ключа (KDF) слишком велико.</string>
     <string name="save_success">Сохранение успешно завершено</string>
     <string name="words">Слова</string>
+    <string name="invalid_db_hmac">Невозможно проверить подпись базы. Это может быть вызвано повреждением файла или его изменением другим приложением.</string>
+    <string name="html_about_get_keepro">Покупкой &lt;strong&gt;KeePro Support&lt;/strong&gt; вы напрямую финансируете постоянную активную разработку, будущие функции и разблокируете дополнительные визуальные стили.</string>
+    <string name="get_keepro">Купить KeePro Support</string>
 </resources>

@@ -1,1 +1,1 @@
-KeePassDX Passkey Vault
+Cofre de Senhas KeePassDX
