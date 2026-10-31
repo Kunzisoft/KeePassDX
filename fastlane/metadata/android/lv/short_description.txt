@@ -1,1 +1,1 @@
-Pārvaldiet piekļuves atslēgas / paroles vietējā atvērtā pirmkoda seifglabātavā
+Piekļuves atslēgu / paroļu pārvaldīšana vietējā un atvērta pirmkoda glabātavā

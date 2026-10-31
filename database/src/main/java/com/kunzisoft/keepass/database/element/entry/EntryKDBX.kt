@@ -36,7 +36,6 @@ import com.kunzisoft.keepass.database.element.node.NodeIdUUID
 import com.kunzisoft.keepass.database.element.node.NodeKDBXInterface
 import com.kunzisoft.keepass.database.element.node.NodeType
 import com.kunzisoft.keepass.database.element.security.ProtectedString
-import com.kunzisoft.keepass.utils.UnsignedLong
 import com.kunzisoft.keepass.utils.readParcelableCompat
 import com.kunzisoft.keepass.utils.readStringIntMap
 import com.kunzisoft.keepass.utils.readStringParcelableMap
@@ -52,11 +51,11 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
     @Transient
     private var mDecodeRef = false
 
-    override var usageCount = UnsignedLong(0)
+    override var usageCount: ULong = 0u
     override var locationChanged = DateInstant()
     override var customData = CustomData()
     private var fields = LinkedHashMap<String, ProtectedString>()
-    var binaries = LinkedHashMap<String, Int>() // Map<Label, PoolId>
+    private var binaries = LinkedHashMap<String, Int>() // Map<Label, PoolId>
     var foregroundColor = ""
     var backgroundColor = ""
     var overrideURL = ""
@@ -65,7 +64,7 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
     var qualityCheck = true
     var autoType = AutoType()
     var historyMainEntryId: UUID? = null
-    var history = mutableListOf<EntryKDBX>()
+    private var history = mutableListOf<EntryKDBX>()
     var additional = ""
 
     override var expires: Boolean = false
@@ -73,7 +72,7 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
     constructor() : super()
 
     constructor(parcel: Parcel) : super(parcel) {
-        usageCount = UnsignedLong(parcel.readLong())
+        usageCount = parcel.readLong().toULong()
         locationChanged = parcel.readParcelableCompat() ?: locationChanged
         customData = parcel.readParcelableCompat() ?: CustomData()
         fields = parcel.readStringParcelableMap()
@@ -99,7 +98,7 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
 
     override fun writeToParcel(dest: Parcel, flags: Int) {
         super.writeToParcel(dest, flags)
-        dest.writeLong(usageCount.toKotlinLong())
+        dest.writeLong(usageCount.toLong())
         dest.writeParcelable(locationChanged, flags)
         dest.writeParcelable(customData, flags)
         dest.writeStringParcelableMap(fields, flags)
@@ -270,6 +269,11 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
         locationChanged = DateInstant()
     }
 
+    @Synchronized
+    fun getBinaries(): LinkedHashMap<String, Int> {
+        return binaries
+    }
+
     private fun isStandardField(key: String): Boolean {
         return (key == STR_TITLE
                 || key == STR_USERNAME
@@ -293,26 +297,35 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
         }
     }
 
+    @Synchronized
     fun getFieldValue(label: String): ProtectedString? {
         return fields[label]
     }
 
+    @Synchronized
     fun getFields(): List<Field> {
         return fields.map { Field(it.key, it.value) }
     }
 
+    @Synchronized
     fun putField(field: Field) {
         putField(field.name, field.protectedValue)
     }
 
-    fun putField(label: String, value: ProtectedString) {
+    @Synchronized
+    fun putField(
+        label: String,
+        value: ProtectedString
+    ) {
         fields[label] = value
     }
 
+    @Synchronized
     fun removeField(name: String) {
         fields.remove(name)
     }
 
+    @Synchronized
     fun removeAllFields() {
         fields.clear()
     }
@@ -320,7 +333,11 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
     /**
      * It's a list because history labels can be defined multiple times
      */
-    fun getAttachments(attachmentPool: AttachmentPool, inHistory: Boolean = false): List<Attachment> {
+    @Synchronized
+    fun getAttachments(
+        attachmentPool: AttachmentPool,
+        inHistory: Boolean = false
+    ): List<Attachment> {
         val entryAttachmentList = mutableListOf<Attachment>()
         for ((label, poolId) in binaries) {
             attachmentPool[poolId]?.let { binary ->
@@ -335,22 +352,30 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
         return entryAttachmentList
     }
 
+    @Synchronized
     fun containsAttachment(): Boolean {
         return binaries.isNotEmpty()
     }
 
-    fun putAttachment(attachment: Attachment, attachmentPool: AttachmentPool) {
+    @Synchronized
+    fun putAttachment(
+        attachment: Attachment,
+        attachmentPool: AttachmentPool
+    ) {
         binaries[attachment.name] = attachmentPool.put(attachment.binaryData)
     }
 
+    @Synchronized
     fun removeAttachment(attachment: Attachment) {
         binaries.remove(attachment.name)
     }
 
+    @Synchronized
     fun removeAttachments() {
         binaries.clear()
     }
 
+    @Synchronized
     private fun getAttachmentsSize(attachmentPool: AttachmentPool): Long {
         var size = 0L
         for ((label, poolId) in binaries) {
@@ -364,6 +389,16 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
         return historyMainEntryId != null
     }
 
+    @Synchronized
+    fun getHistory() = history.toList()
+
+    @Synchronized
+    fun setHistory(value: List<EntryKDBX>) {
+        history.clear()
+        history.addAll(value)
+    }
+
+    @Synchronized
     fun addEntryToHistory(entry: EntryKDBX) {
         // The current entry is no longer part of the history once we add a history entry to it
         // And the history entry we add must not contain any history in it
@@ -373,10 +408,12 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
         history.add(entry)
     }
 
+    @Synchronized
     fun removeEntryFromHistory(position: Int): EntryKDBX {
         return history.removeAt(position)
     }
 
+    @Synchronized
     fun removeOldestEntryFromHistory(): EntryKDBX? {
         var min: DateInstant? = null
         var index = -1
@@ -393,13 +430,14 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
         } else null
     }
 
+    @Synchronized
     fun clearHistory() {
         history.clear()
     }
 
     override fun touch(modified: Boolean, touchParents: Boolean) {
         super.touch(modified, touchParents)
-        usageCount.plusOne()
+        usageCount++
     }
 
     companion object {

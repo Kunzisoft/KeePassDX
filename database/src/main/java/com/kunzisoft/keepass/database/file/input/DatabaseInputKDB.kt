@@ -36,7 +36,6 @@ import com.kunzisoft.keepass.database.exception.SignatureDatabaseException
 import com.kunzisoft.keepass.database.exception.VersionDatabaseException
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDB
 import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
-import com.kunzisoft.keepass.utils.UnsignedInt
 import com.kunzisoft.keepass.utils.readBytes
 import com.kunzisoft.keepass.utils.readBytes16ToUuid
 import com.kunzisoft.keepass.utils.readBytes2ToUShort
@@ -63,9 +62,11 @@ class DatabaseInputKDB(database: DatabaseKDB)
     : DatabaseInput<DatabaseKDB>(database) {
 
     @Throws(DatabaseInputException::class)
-    override fun openDatabase(databaseInputStream: InputStream,
-                              progressTaskUpdater: ProgressTaskUpdater?,
-                              assignMasterKey: (() -> Unit)): DatabaseKDB {
+    override fun openDatabase(
+        databaseInputStream: InputStream,
+        progressTaskUpdater: ProgressTaskUpdater?,
+        assignMasterKey: (() -> Unit)
+    ): DatabaseKDB {
 
         try {
             startKeyTimer(progressTaskUpdater)
@@ -96,22 +97,22 @@ class DatabaseInputKDB(database: DatabaseKDB)
 
             // Select algorithm
             when {
-                header.flags.toKotlinInt() and DatabaseHeaderKDB.FLAG_RIJNDAEL.toKotlinInt() != 0 -> {
+                header.flags.toInt() and DatabaseHeaderKDB.FLAG_RIJNDAEL.toInt() != 0 -> {
                     mDatabase.encryptionAlgorithm = EncryptionAlgorithm.AESRijndael
                 }
-                header.flags.toKotlinInt() and DatabaseHeaderKDB.FLAG_TWOFISH.toKotlinInt() != 0 -> {
+                header.flags.toInt() and DatabaseHeaderKDB.FLAG_TWOFISH.toInt() != 0 -> {
                     mDatabase.encryptionAlgorithm = EncryptionAlgorithm.Twofish
                 }
                 else -> throw InvalidAlgorithmDatabaseException()
             }
 
-            mDatabase.numberKeyEncryptionRounds = header.numKeyEncRounds.toKotlinLong()
+            mDatabase.kdfEngine?.setKeyRounds(header.numKeyEncRounds.toULong())
 
             // Generate transformedMasterKey from masterKey
             mDatabase.makeFinalKey(
-                    header.masterSeed,
-                    header.transformSeed,
-                    mDatabase.numberKeyEncryptionRounds)
+                header.masterSeed,
+                header.transformSeed
+            )
 
             stopKeyTimer()
             startContentTimer(progressTaskUpdater)
@@ -126,7 +127,7 @@ class DatabaseInputKDB(database: DatabaseKDB)
             }
 
             // Decrypt content
-            val messageDigest: MessageDigest = HashManager.getHash256()
+            val messageDigest: MessageDigest = HashManager.getSha256()
             val cipherInputStream = BufferedInputStream(
                     DigestInputStream(
                             CipherInputStream(databaseInputStream, cipher),
@@ -140,11 +141,11 @@ class DatabaseInputKDB(database: DatabaseKDB)
             var newEntry: EntryKDB? = null
             var currentGroupNumber = 0
             var currentEntryNumber = 0
-            while (currentGroupNumber < header.numGroups.toKotlinLong()
-                    || currentEntryNumber < header.numEntries.toKotlinLong()) {
+            while (currentGroupNumber < header.numGroups.toLong()
+                    || currentEntryNumber < header.numEntries.toLong()) {
 
                 val fieldType = cipherInputStream.readBytes2ToUShort()
-                val fieldSize = cipherInputStream.readBytes4ToUInt().toKotlinInt()
+                val fieldSize = cipherInputStream.readBytes4ToUInt().toInt()
 
                 when (fieldType) {
                     0x0000 -> {
@@ -155,7 +156,7 @@ class DatabaseInputKDB(database: DatabaseKDB)
                         when (fieldSize) {
                             4 -> {
                                 newGroup = mDatabase.createGroup().apply {
-                                    setGroupId(cipherInputStream.readBytes4ToUInt().toKotlinInt())
+                                    setGroupId(cipherInputStream.readBytes4ToUInt().toInt())
                                 }
                             }
                             16 -> {
@@ -174,7 +175,7 @@ class DatabaseInputKDB(database: DatabaseKDB)
                         } ?:
                         newEntry?.let { entry ->
                             val groupKDB = mDatabase.createGroup()
-                            groupKDB.nodeId = NodeIdInt(cipherInputStream.readBytes4ToUInt().toKotlinInt())
+                            groupKDB.nodeId = NodeIdInt(cipherInputStream.readBytes4ToUInt().toInt())
                             entry.parent = groupKDB
                         }
                     }
@@ -183,7 +184,7 @@ class DatabaseInputKDB(database: DatabaseKDB)
                             group.creationTime = cipherInputStream.readBytes5ToDate()
                         } ?:
                         newEntry?.let { entry ->
-                            var iconId = cipherInputStream.readBytes4ToUInt().toKotlinInt()
+                            var iconId = cipherInputStream.readBytes4ToUInt().toInt()
                             // Clean up after bug that set icon ids to -1
                             if (iconId == -1) {
                                 iconId = 0
@@ -217,7 +218,7 @@ class DatabaseInputKDB(database: DatabaseKDB)
                     }
                     0x0007 -> {
                         newGroup?.let { group ->
-                            group.icon.standard = mDatabase.getStandardIcon(cipherInputStream.readBytes4ToUInt().toKotlinInt())
+                            group.icon.standard = mDatabase.getStandardIcon(cipherInputStream.readBytes4ToUInt().toInt())
                         } ?:
                         newEntry?.let { entry ->
                             entry.password = cipherInputStream.readBytesToCharArray(fieldSize, false)
@@ -233,7 +234,7 @@ class DatabaseInputKDB(database: DatabaseKDB)
                     }
                     0x0009 -> {
                         newGroup?.let { group ->
-                            group.groupFlags = cipherInputStream.readBytes4ToUInt().toKotlinInt()
+                            group.groupFlags = cipherInputStream.readBytes4ToUInt().toInt()
                         } ?:
                         newEntry?.let { entry ->
                             entry.creationTime = cipherInputStream.readBytes5ToDate()
@@ -294,7 +295,7 @@ class DatabaseInputKDB(database: DatabaseKDB)
                                     var color: Int? = null
                                     entry.getBinary(mDatabase.attachmentPool)
                                         ?.getInputDataStream(mDatabase.binaryCache)?.use {
-                                            val reverseColor = UnsignedInt(it.readBytes4ToUInt()).toKotlinInt()
+                                            val reverseColor = it.readBytes4ToUInt().toInt()
                                             color = Color.rgb(
                                                 Color.blue(reverseColor),
                                                 Color.green(reverseColor),

@@ -20,57 +20,92 @@
 package com.kunzisoft.keepass.settings.preferencedialogfragment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.ContextualDatabase
+import com.kunzisoft.keepass.database.crypto.kdf.KdfBenchmark
+import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_BENCHMARK_KDF
+import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.getParcelableElements
+import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.utils.DataByte
 
 class DatabaseMemoryUsagePreferenceDialogFragmentCompat : DatabaseSavePreferenceDialogFragmentCompat() {
 
-    private var dataByte = DataByte(MIN_MEMORY_USAGE, DataByte.ByteFormat.BYTE)
+    private var dataByte = DataByte(1L, DataByte.ByteFormat.BYTE)
 
     override fun onBindDialogView(view: View) {
         super.onBindDialogView(view)
         setExplanationText(R.string.memory_usage_explanation)
     }
 
-    override fun onDatabaseRetrieved(database: ContextualDatabase) {
-        val memoryBytes = database.memoryUsage
-        dataByte = DataByte(memoryBytes, DataByte.ByteFormat.BYTE)
-            .toBetterByteFormat()
+    private fun setMemoryBytes(bytes: Long) {
+        dataByte = DataByte(bytes, DataByte.ByteFormat.BYTE).toBetterByteFormat()
         inputText = dataByte.number.toString()
         setUnitText(dataByte.format.stringId)
     }
 
+    override fun onDatabaseRetrieved(database: ContextualDatabase) {
+        database.kdfEngine?.getMemoryUsage()?.toLong()?.let {
+            setMemoryBytes(it)
+        }
+    }
+
+    override fun onDatabaseActionFinished(
+        database: ContextualDatabase,
+        actionTask: String,
+        result: ActionRunnable.Result
+    ) {
+        super.onDatabaseActionFinished(database, actionTask, result)
+        if (actionTask == ACTION_DATABASE_BENCHMARK_KDF) {
+            result.data?.getParcelableElements<KdfBenchmark> { _, newBenchmark ->
+                newBenchmark?.memory?.let { memory ->
+                    setMemoryBytes(memory.toLong())
+                }
+            }
+        }
+    }
+
     override fun onDialogClosed(database: ContextualDatabase?, positiveResult: Boolean) {
         if (positiveResult) {
-            database?.let {
-                var newMemoryUsage: Long = try {
-                    inputText.toLong()
-                } catch (e: NumberFormatException) {
-                    MIN_MEMORY_USAGE
+            database?.kdfEngine?.let { kdfEngine ->
+                val minMemoryUsage = kdfEngine.minMemoryUsage
+                var newMemoryUsage: ULong = try {
+                    // To transform in bytes
+                    DataByte(inputText.toLong(), dataByte.format).toBytes().toULong()
+                } catch (_: NumberFormatException) {
+                    minMemoryUsage
                 }
-                if (newMemoryUsage < MIN_MEMORY_USAGE) {
-                    newMemoryUsage = MIN_MEMORY_USAGE
+                if (newMemoryUsage < minMemoryUsage) {
+                    newMemoryUsage = minMemoryUsage
                 }
-                // To transform in bytes
-                dataByte.number = newMemoryUsage
-                var numberOfBytes = dataByte.toBytes()
-                if (numberOfBytes > Long.MAX_VALUE) {
-                    numberOfBytes = Long.MAX_VALUE
+                val maxMemoryUsage = kdfEngine.maxMemoryUsage
+                dataByte = DataByte(
+                    newMemoryUsage.toLong(),
+                    DataByte.ByteFormat.BYTE
+                ).toBetterByteFormat()
+                if (newMemoryUsage > maxMemoryUsage) {
+                    newMemoryUsage = maxMemoryUsage
+                    Log.e(TAG,
+                        getString(
+                            R.string.error_memory_too_large,
+                            DataByte(
+                                maxMemoryUsage.toLong(),
+                                DataByte.ByteFormat.BYTE
+                            ).toBetterByteFormat().toString(requireContext())
+                        )
+                    )
                 }
+                val oldMemoryUsage = kdfEngine.getMemoryUsage()
+                kdfEngine.setMemoryUsage(newMemoryUsage)
 
-                val oldMemoryUsage = database.memoryUsage
-                database.memoryUsage = numberOfBytes
-
-                saveMemoryUsage(oldMemoryUsage, numberOfBytes)
+                saveMemoryUsage(oldMemoryUsage.toLong(), newMemoryUsage.toLong())
             }
         }
     }
 
     companion object {
-
-        const val MIN_MEMORY_USAGE = 1L
+        private val TAG = DatabaseMemoryUsagePreferenceDialogFragmentCompat::class.simpleName
 
         fun newInstance(key: String): DatabaseMemoryUsagePreferenceDialogFragmentCompat {
             val fragment = DatabaseMemoryUsagePreferenceDialogFragmentCompat()

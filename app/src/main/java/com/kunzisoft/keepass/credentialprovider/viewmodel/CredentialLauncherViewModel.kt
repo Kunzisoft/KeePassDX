@@ -23,7 +23,7 @@ abstract class CredentialLauncherViewModel(application: Application): AndroidVie
 
     protected var mDatabase: ContextualDatabase? = null
 
-    protected var isResultLauncherRegistered: Boolean = false
+    private var isResultLauncherRegistered: Boolean = false
     private var mSelectionResult: ActivityResult? = null
     protected val mCredentialUiState = MutableStateFlow<CredentialState>(CredentialState.Loading)
     val credentialUiState: StateFlow<CredentialState> = mCredentialUiState.asStateFlow()
@@ -34,7 +34,9 @@ abstract class CredentialLauncherViewModel(application: Application): AndroidVie
     }
 
     open fun onResult() {
-        isResultLauncherRegistered = false
+        // No need to allow new Activity operation if finished
+        // and prevent workflow bug if activity is relaunched
+        // isResultLauncherRegistered = false
         mSelectionResult = null
     }
 

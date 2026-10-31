@@ -46,17 +46,17 @@ abstract class ProtectedTextFieldView @JvmOverloads constructor(
     var onSaveInstanceState: (() -> Unit)? = null
 
     override fun isRevealed(): Boolean {
-        return mRevealed
+        return !isProtected || mRevealed
     }
 
     override fun mask() {
         mRevealed = false
-        changeProtectedValueParameters()
+        changeProtectedValueParameters(shouldRequestFocus = false)
     }
 
     override fun reveal() {
         mRevealed = true
-        changeProtectedValueParameters()
+        changeProtectedValueParameters(shouldRequestFocus = true)
     }
 
     override fun setProtection(
@@ -65,14 +65,12 @@ abstract class ProtectedTextFieldView @JvmOverloads constructor(
         needUserVerificationToReveal: Boolean
     ) {
         this.isProtected = isProtected
-        this.mRevealed = isRevealedByDefault
+        this.mRevealed = if (isProtected) isRevealedByDefault else true
         this.needUserVerificationToReveal = needUserVerificationToReveal
-        if (isProtected) {
-            changeProtectedValueParameters()
-        }
+        changeProtectedValueParameters()
     }
 
-    protected abstract fun changeProtectedValueParameters()
+    protected abstract fun changeProtectedValueParameters(shouldRequestFocus: Boolean = false)
 
     override fun onSaveInstanceState(): Parcelable? {
         onSaveInstanceState?.invoke()
@@ -86,6 +84,7 @@ abstract class ProtectedTextFieldView @JvmOverloads constructor(
             is ProtectionState -> {
                 super.onRestoreInstanceState(state.superState)
                 mRevealed = state.isRevealed
+                changeProtectedValueParameters()
             }
             else -> super.onRestoreInstanceState(state)
         }

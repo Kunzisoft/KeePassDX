@@ -49,6 +49,8 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.google.android.material.snackbar.Snackbar
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.helpers.ExternalFileHelper
+import com.kunzisoft.keepass.activities.helpers.ExternalFileHelper.registerOpenFile
+import com.kunzisoft.keepass.activities.helpers.ExternalFileHelper.setOpenFileClickListener
 import com.kunzisoft.keepass.activities.legacy.DatabaseModeActivity
 import com.kunzisoft.keepass.app.database.FileDatabaseHistoryAction
 import com.kunzisoft.keepass.biometric.DeviceUnlockFragment
@@ -87,7 +89,6 @@ import com.kunzisoft.keepass.utils.getParcelableCompat
 import com.kunzisoft.keepass.utils.getParcelableExtraCompat
 import com.kunzisoft.keepass.view.MainCredentialView
 import com.kunzisoft.keepass.view.asError
-import com.kunzisoft.keepass.view.showActionErrorIfNeeded
 import com.kunzisoft.keepass.viewmodels.DeviceUnlockViewModel
 import com.kunzisoft.keepass.viewmodels.MainCredentialViewModel
 import kotlinx.coroutines.launch
@@ -117,9 +118,17 @@ class MainCredentialActivity : DatabaseModeActivity() {
     }
 
     private val mPasswordActivityEducation = PasswordActivityEducation(this)
-    private var mExternalFileHelper: ExternalFileHelper? = null
+
+    // Manage keyfile selection
+    private var openFileResultLauncher: ExternalFileHelper.OpenFileResultLauncher = registerOpenFile { uri ->
+        uri?.let {
+            mainCredentialView.populateKeyFileView(uri)
+        }
+    }
 
     override fun manageDatabaseInfo(): Boolean  = false
+
+    override fun errorCoordinatorView(): View = coordinatorLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -140,14 +149,7 @@ class MainCredentialActivity : DatabaseModeActivity() {
         infoContainerView = findViewById(R.id.activity_password_info_container)
         coordinatorLayout = findViewById(R.id.activity_password_coordinator_layout)
 
-        // Build elements to manage keyfile selection
-        mExternalFileHelper = ExternalFileHelper(this)
-        mExternalFileHelper?.buildOpenDocument { uri ->
-            if (uri != null) {
-                mainCredentialView.populateKeyFileView(uri)
-            }
-        }
-        mainCredentialView.setOpenKeyfileClickListener(mExternalFileHelper)
+        mainCredentialView.keyFileSelectionView.setOpenFileClickListener(this, openFileResultLauncher)
 
         // If is a view intent
         getUriFromIntent(intent)
@@ -343,6 +345,7 @@ class MainCredentialActivity : DatabaseModeActivity() {
         }
 
         mMainCredentialViewModel.refreshPreferences()
+        mMainCredentialViewModel.onConditionChanged(mainCredentialView.isFill())
 
         // Back to previous keyboard is setting activated
         if (PreferencesUtil.isKeyboardPreviousDatabaseCredentialsEnable(this@MainCredentialActivity)) {
@@ -396,7 +399,6 @@ class MainCredentialActivity : DatabaseModeActivity() {
                 }
             }
         }
-        coordinatorLayout.showActionErrorIfNeeded(result)
         result.clear()
     }
 
@@ -531,7 +533,7 @@ class MainCredentialActivity : DatabaseModeActivity() {
         }
 
         if (mSpecialMode == SpecialMode.DEFAULT) {
-            MenuUtil.defaultMenuInflater(this, inflater, menu)
+            MenuUtil.defaultMenuInflater(inflater, menu)
         }
 
         super.onCreateOptionsMenu(menu)

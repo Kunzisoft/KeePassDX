@@ -19,8 +19,6 @@
  */
 package com.kunzisoft.keepass.database.element.binary
 
-import android.app.ActivityManager
-import android.content.Context
 import android.os.Parcel
 import android.os.Parcelable
 import android.util.Base64
@@ -185,18 +183,11 @@ abstract class BinaryData : Parcelable {
 
     companion object {
         private val TAG = BinaryData::class.java.name
-        private const val MAX_BINARY_BYTE = 10485760 // 10 MB
+        /**
+         * Maximum size of a binary data that can be stored in RAM (10 MB).
+         */
+        const val MAX_BINARY_BYTE: ULong = 10485760u // 10 MB
         const val BASE64_FLAG = Base64.NO_WRAP
-
-        fun canMemoryBeAllocatedInRAM(context: Context, memoryWanted: Long): Boolean {
-            if (memoryWanted > MAX_BINARY_BYTE)
-                return false
-            val memoryInfo = ActivityManager.MemoryInfo()
-            (context.getSystemService(Context.ACTIVITY_SERVICE)
-                    as? ActivityManager?)?.getMemoryInfo(memoryInfo)
-            val availableMemory = memoryInfo.availMem
-            return availableMemory > (memoryWanted * 5)
-        }
     }
 
 }

@@ -31,11 +31,22 @@ import javax.crypto.spec.SecretKeySpec
 
 object AESTransformer {
 
-    fun transformKey(seed: ByteArray?, key: ByteArray?, rounds: Long?): ByteArray? {
+    @Throws(IOException::class)
+    fun transformKey(
+        seed: ByteArray?,
+        key: ByteArray?,
+        rounds: ULong?
+    ): ByteArray? {
         // Prefer the native final key implementation
+        if (rounds == null) {
+            throw IOException("Invalid rounds")
+        }
+        if (seed == null || key == null) {
+            throw IOException("Invalid seed or key")
+        }
         return try {
             NativeLib.init()
-            NativeAESKeyTransformer.nTransformKey(seed, key, rounds!!)
+            NativeAESKeyTransformer.nTransformKey(seed, key, rounds.toLong())
         } catch (exception: Exception) {
             Log.e(AESTransformer::class.java.simpleName, "Unable to perform native AES key transformation", exception)
             // Fall back on the android crypto implementation
@@ -45,7 +56,11 @@ object AESTransformer {
 
     @SuppressLint("GetInstance")
     @Throws(IOException::class)
-    fun transformKeyInJVM(seed: ByteArray?, key: ByteArray?, rounds: Long?): ByteArray {
+    fun transformKeyInJVM(
+        seed: ByteArray?,
+        key: ByteArray?,
+        rounds: ULong?
+    ): ByteArray {
         val cipher: Cipher = try {
             Cipher.getInstance("AES/ECB/NoPadding")
         } catch (e: Exception) {
@@ -68,7 +83,7 @@ object AESTransformer {
         val newKey = ByteArray(keyLength)
         System.arraycopy(key, 0, newKey, 0, keyLength)
         val destKey = ByteArray(keyLength)
-        for (i in 0 until rounds) {
+        for (i in 0uL until rounds) {
             try {
                 cipher.update(newKey, 0, newKey.size, destKey, 0)
                 System.arraycopy(destKey, 0, newKey, 0, newKey.size)
@@ -78,6 +93,6 @@ object AESTransformer {
         }
 
         // Hash the key
-        return HashManager.hashSha256(newKey)
+        return HashManager.sha256(newKey)
     }
 }

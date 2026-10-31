@@ -91,7 +91,7 @@
     <string name="entry_password">Şifrə</string>
     <string name="error_disallow_no_credentials">Ən azından bir ədəd şəxsiyyəti təyin edən məlumat təyin edilməlidir.</string>
     <string name="error_pass_gen_type">Ən azından bir ədəd şifrə generatoru növü seçilməlidir.</string>
-    <string name="error_rounds_too_large">\"Transformasiya mərhələləri\" çox yüksəkdir. 2147483648-ə təyin edin.</string>
+    <string name="error_rounds_too_large">\"Transformasiya mərhələləri\" çox yüksəkdir. %1$s-ə təyin edin.</string>
     <string name="error_save_database">Malumat bazasını yadda saxlamaq mümkün olmadı.</string>
     <string name="error_otp_secret_key">Məxfi söz Base32 formatında olmalıdır.</string>
     <string name="error_challenge_already_requested">Doğrulama artıq istənilib.</string>

@@ -35,7 +35,15 @@ public class NativeArgon2KeyTransformer {
         }
     }
 
-    public static native byte[] nTransformKey(int type, byte[] password, byte[] salt, int parallelism,
-                                              int memory, int iterations, byte[] secretKey,
-                                              byte[] associatedData, int version) throws IOException;
+    public static native byte[] nTransformKey(
+            int type,
+            byte[] password,
+            byte[] salt,
+            int parallelism,
+            int memory,
+            int iterations,
+            byte[] secretKey,
+            byte[] associatedData,
+            int version
+    ) throws IOException;
 }

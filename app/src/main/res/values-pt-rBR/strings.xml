@@ -39,8 +39,7 @@
     <string name="decrypting_db">Descriptografando conteúdo do banco de dados…</string>
     <string name="default_checkbox">Usar como banco de dados padrão</string>
     <string name="digits">Dígitos</string>
-    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft é de &lt;strong&gt;código aberto&lt;/strong&gt; e &lt;strong&gt;sem propagandas&lt;/strong&gt;.
-\nÉ fornecido no estado em que se encontra, sob licença &lt;strong&gt;GPLv3&lt;/strong&gt;, sem qualquer garantia.</string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft é de &lt;strong&gt;código aberto&lt;/strong&gt; e &lt;strong&gt;sem propagandas&lt;/strong&gt;. \nÉ fornecido no estado em que se encontra, sob licença &lt;strong&gt;GPLv3&lt;/strong&gt;, sem qualquer garantia.</string>
     <string name="select_database_file">Abrir cofre existente</string>
     <string name="entry_accessed">Acessado</string>
     <string name="entry_cancel">Cancelar</string>
@@ -52,7 +51,7 @@
     <string name="entry_modified">Modificado</string>
     <string name="entry_password">Senha</string>
     <string name="save">Salvar</string>
-    <string name="entry_title">Titulo</string>
+    <string name="entry_title">Título</string>
     <string name="entry_url">URL</string>
     <string name="entry_user_name">Nome de usuário</string>
     <string name="error_arc4">A cifra de fluxo Arcfour não é suportada.</string>
@@ -65,7 +64,7 @@
     <string name="error_out_of_memory">Falta de memória para abrir todo o banco de dados.</string>
     <string name="error_pass_gen_type">Pelo menos um tipo de geração de senhas deve ser selecionado.</string>
     <string name="error_pass_match">As senhas não combinam.</string>
-    <string name="error_rounds_too_large">\"Rodadas de transformação\" é muito grande. Modificado para 2147483648.</string>
+    <string name="error_rounds_too_large">\"Rodadas de transformação\" é muito grande. Modificado para %1$s.</string>
     <string name="error_wrong_length">Digite um número inteiro positivo no campo \"Comprimento\".</string>
     <string name="file_browser">Explorador de arquivos</string>
     <string name="generate_password">Gerar senha</string>
@@ -76,7 +75,7 @@
     <string name="hint_length">Comprimento</string>
     <string name="password">Senha</string>
     <string name="hint_pass">Senha</string>
-    <string name="invalid_credentials">Não foi possível ler as credenciais.</string>
+    <string name="invalid_credentials">Não foi possível descriptografar o arquivo de dados com as credenciais.</string>
     <string name="invalid_db_sig">Não foi possível reconhecer o formato do banco de dados.</string>
     <string name="length">Comprimento</string>
     <string name="list_size_title">Tamanho da lista de grupos</string>
@@ -147,7 +146,7 @@
     <string name="menu_open_file_read_and_write">Modificável</string>
     <string name="protection">Proteção</string>
     <string name="read_only">Somente leitura</string>
-    <string name="read_only_warning">KeePassDX precisa de permissões de escrita para poder mudar qualquer coisa no seu banco.</string>
+    <string name="read_only_warning">Dependendo do seu gerenciador de arquivos, o KeePassDX pode não ter permissão para gravar no seu armazenamento.</string>
     <string name="show_recent_files_title">Exibir arquivos recentes</string>
     <string name="show_recent_files_summary">Exibir locais de bancos de dados recentes</string>
     <string name="encryption_explanation">Algoritmo de criptografia usado para todos os dados</string>
@@ -159,7 +158,7 @@
     <string name="sort_menu">Ordenar</string>
     <string name="sort_ascending">Menores primeiro ↓</string>
     <string name="sort_groups_before">Grupos antes</string>
-    <string name="sort_recycle_bin_bottom">Lixeira no fundo</string>
+    <string name="sort_recycle_bin_bottom">Lixeira por último</string>
     <string name="sort_title">Título</string>
     <string name="sort_username">Nome de usuário</string>
     <string name="sort_creation_time">Data de criação</string>
@@ -234,7 +233,7 @@
     <string name="education_entry_edit_title">Modifique a entrada</string>
     <string name="education_entry_edit_summary">Edite a sua entrada com campos personalizados. Os conjuntos de dados podem ser referenciados entre campos de entradas diferentes.</string>
     <string name="education_generate_password_title">Criar uma senha forte</string>
-    <string name="education_generate_password_summary">Gere uma senha forte para associar a sua entrada, defina-a facilmente de acordo com os critérios do formulário e lembre-se de torná-la segura.</string>
+    <string name="education_generate_password_summary">Gere uma senha forte para associar ao seu registro, defina-a facilmente de acordo com os critérios do formulário e não se esqueça dela.</string>
     <string name="education_entry_new_field_title">Adicione campos customizados</string>
     <string name="education_entry_new_field_summary">Registre um campo adicional, adicione um valor e, opcionalmente, proteja-o.</string>
     <string name="education_unlock_title">Desbloqueie seu banco de dados</string>
@@ -272,7 +271,7 @@
     <string name="icon_pack_choose_summary">Pacote de ícones usado no aplicativo</string>
     <string name="edit_entry">Editar entrada</string>
     <string name="error_load_database">Não foi possível carregar o banco de dados.</string>
-    <string name="error_load_database_KDF_memory">Não pôde carregar a chave. Tente diminuir o \"Uso de Memória\" do KDF.</string>
+    <string name="error_load_database_KDF_memory">Uso de memória do KDF muito alto.</string>
     <string name="list_entries_show_username_title">Mostrar nomes de usuário</string>
     <string name="list_entries_show_username_summary">Exibe nomes de usuário em listas de entrada</string>
     <string name="clipboard">Área de transferência</string>
@@ -339,7 +338,7 @@
     <string name="otp_period">Período (segundos)</string>
     <string name="otp_counter">Contador</string>
     <string name="otp_digits">Dígitos</string>
-    <string name="otp_algorithm">Algorítimo</string>
+    <string name="otp_algorithm">Algoritmo</string>
     <string name="entry_otp">OTP</string>
     <string name="error_invalid_OTP">Segredo OTP inválido.</string>
     <string name="error_disallow_no_credentials">Ao menos uma credencial deve ser definida.</string>
@@ -509,7 +508,7 @@
     <string name="configure_biometric">Nenhuma credencial biométrica ou de dispositivo está registrada.</string>
     <string name="warning_database_revoked">Acesso ao arquivo revogado pelo gerenciador de arquivos, feche o banco de dados e reabra-o de sua localização.</string>
     <string name="warning_database_info_changed_options">Mescle os dados, substitua as modificações externas salvando o banco de dados ou recarregue-o com as alterações mais recentes.</string>
-    <string name="warning_database_info_changed">As informações contidas em seu arquivo de banco de dados foram modificadas fora do aplicativo.</string>
+    <string name="warning_database_info_changed">As informações contidas no seu banco de dados foram modificadas fora do aplicativo.</string>
     <string name="warning_empty_recycle_bin">Deletar permanentemente todos os nós da lixeira\?</string>
     <string name="error_export_app_properties">Houve um erro durante a exportação das configurações do aplicativo.</string>
     <string name="success_export_app_properties">As configurações do aplicativo foram exportadas</string>
@@ -523,7 +522,7 @@
     <string name="save_mode">Modo salvar</string>
     <string name="search_mode">Modo busca</string>
     <string name="menu_external_icon">Ícone externo</string>
-    <string name="show_otp_token_summary">Exibe tokens OTP na lista de entradas</string>
+    <string name="show_otp_token_summary">Exibe tokens OTP por padrão</string>
     <string name="show_otp_token_title">Mostrar token OTP</string>
     <string name="show_uuid_summary">Exibe o UUID vinculado a uma entrada ou grupo</string>
     <string name="show_uuid_title">Mostrar UUID</string>
@@ -539,7 +538,7 @@
     <string name="education_device_unlock_summary">Vincule sua senha à credencial biométrica ou do dispositivo digitalizada para desbloquear rapidamente seu banco de dados.</string>
     <string name="education_device_unlock_title">Desbloqueio do banco de dados do dispositivo</string>
     <string name="autofill_inline_suggestions_keyboard">Sugestões de preenchimento automático adicionadas.</string>
-    <string name="error_save_read_only">A salvação de dados não é permitida para um banco de dados aberto apenas como leitura.</string>
+    <string name="error_save_read_only">Não é permitido salvar dados em um banco de dados aberto como somente leitura.</string>
     <string name="autofill_ask_to_save_data_summary">Pedir para salvar dados ao terminar de preencher um formulário</string>
     <string name="autofill_ask_to_save_data_title">Perguntar para salvar dados</string>
     <string name="autofill_save_search_info_summary">Tente salvar informações de pesquisa ao fazer uma seleção manual de entrada para facilitar usos posteriores</string>
@@ -605,7 +604,7 @@
     <string name="search_filters">Filtros de pesquisa</string>
     <string name="case_sensitive">Sensível a maiúsculas e minúsculas</string>
     <string name="current_group">Grupo atual</string>
-    <string name="content_description_passphrase_word_count">Número de palavras da senha</string>
+    <string name="content_description_passphrase_word_count">Número de palavras da frase secreta</string>
     <string name="warning_database_already_opened">Um banco de dados já está aberto, feche-o primeiro para abrir o novo</string>
     <string name="keyboard_previous_search_title">Tela de busca</string>
     <string name="entropy_calculate">Entropia: Calculando…</string>
@@ -685,7 +684,7 @@
     <string name="style_name_simple">Simples</string>
     <string name="style_name_divine">Divino</string>
     <string name="style_name_dark">Escuro</string>
-    <string name="warning_database_info_changed_options_read_only">Recarregar o banco de dados com as alterações mais recentes.</string>
+    <string name="warning_database_info_changed_options_read_only">Por favor, recarregue o banco de dados com as alterações mais recentes.</string>
     <string name="generate_keyfile">Gerar arquivo-chave</string>
     <string name="nodes">Nós</string>
     <string name="recursive_number_entries_title">Quantidade recursiva de entradas</string>
@@ -704,7 +703,7 @@
     <string name="passkeys_privileged_apps_ask_message">%1$s tenta fazer uma ação de Passkey.\n\nAdicionar à lista de aplicativos privilegiados?</string>
     <string name="passkeys_missing_signature_app_ask_title">Assinatura faltando</string>
     <string name="passkeys_missing_signature_app_ask_explanation">AVISO: A chave de acesso foi criada a partir de outro cliente ou a assinatura foi excluída. Certifique-se de que o aplicativo que você deseja autenticar faz parte do mesmo serviço e é legítimo para evitar problemas de segurança.\nSe o aplicativo for um navegador, não adicione sua assinatura à entrada, mas à lista de aplicativos privilegiados nas configurações.</string>
-    <string name="passkeys_missing_signature_app_ask_message">%1$s não é reconhecido e tenta autenticar com uma Passkey existente.</string>
+    <string name="passkeys_missing_signature_app_ask_message">%1$s não é reconhecido e tenta autenticar com uma passkey existente.</string>
     <string name="passkeys_missing_signature_app_ask_question">Adicionar a assinatura do aplicativo à entrada de chave de acesso?</string>
     <string name="passkeys_auto_select_title">Auto selecionar</string>
     <string name="passkeys_auto_select_summary">Selecionar automaticamente se houver apenas uma entrada e o banco de dados estiver aberto, apenas se o aplicativo solicitante for compatível</string>
@@ -714,7 +713,7 @@
     <string name="passkey">Chave de acesso</string>
     <string name="credential_provider_service_name">Provedor de Credenciais KeePassDX</string>
     <string name="passkeys">Chaves de acesso</string>
-    <string name="passkeys_explanation_summary">Configure Chaves de Acesso para um login rápido e seguro sem senha</string>
+    <string name="passkeys_explanation_summary">Configure Chaves de Acesso para um login sem senha rápido e seguro</string>
     <string name="passkeys_preference_title">Configurações de chaves de acesso</string>
     <string name="passkeys_close_database_title">Fechar banco de dados</string>
     <string name="passkeys_close_database_summary">Fechar o banco de dados após selecionar uma chave de acesso</string>
@@ -727,14 +726,14 @@
     <string name="passkey_selection_description">Selecione uma chave de acesso existente</string>
     <string name="credential_provider_database_username">Banco de dados KeePassDX</string>
     <string name="credential_provider_locked_database_description">Selecione para desbloquear</string>
-    <string name="passkey_username">Nome da chave de acesso</string>
-    <string name="passkey_private_key">Chavde de acesso privada</string>
+    <string name="passkey_username">Nome de usuário da chave de acesso</string>
+    <string name="passkey_private_key">Chave privada da chave de acesso</string>
     <string name="passkey_credential_id">Id de credencial Passkey</string>
-    <string name="passkey_user_handle">Nome de usuário da chave de acesso</string>
+    <string name="passkey_user_handle">ID do usuário da chave de acesso</string>
     <string name="passkey_backup_eligibility">Elegibilidade para Backup de chave de acesso</string>
     <string name="passkey_backup_state">Status de backup da chave de acesso</string>
     <string name="error_passkey_result">Incapaz de retornar a chave de acesso</string>
-    <string name="passkey_relying_party">Chave de acesso com autenticador externo</string>
+    <string name="passkey_relying_party">Parte confiável da chave de acesso</string>
     <string name="clipboard_otp_notifications_title">Notificação OTP</string>
     <string name="clipboard_otp_notifications_summary">Abra uma notificação para copiar o OTP de entradas preenchidas com o preenchimento automático ou magikeyboard</string>
     <string name="user_verification">Verificação do usuário</string>
@@ -749,7 +748,7 @@
     <string name="autofill_share_magikeyboard_title">Compartilhar com o Magikeyboard</string>
     <string name="autofill_share_magikeyboard_summary">Compartilhar entradas recuperadas do preenchimento automático com o Magikeyboard</string>
     <string name="education_user_verification_title">Verificação para ações sensíveis</string>
-    <string name="error_passkey_credential_id">Nenhuma chave de acesso encontrada para a parte confiável %1$s e os ids de credencial %2$s</string>
+    <string name="error_passkey_credential_id">Nenhuma passkey encontrada para a parte confiável %1$s e os ids de credencial %2$s</string>
     <string name="password_creation_description">Salvar senha em nova entrada</string>
     <string name="password_selection_description">Selecionar uma senha existente</string>
     <string name="error_password_result">Não foi possível retornar a senha</string>
@@ -761,4 +760,24 @@
     <string name="user_verification_database_credential">Digite os quatro primeiros caracteres da senha do seu banco de dados</string>
     <string name="first_chars">Primeiros caracteres</string>
     <string name="check">Verificar</string>
+    <string name="content_description_share_url">Compartilhar URL</string>
+    <string name="show_tags_title">Mostrar etiquetas</string>
+    <string name="show_tags_summary">Exibe etiquetas na lista de entradas</string>
+    <string name="benchmark_calculation">Calcular para %1$s s</string>
+    <string name="keyboard_share_browser">Compartilhar de %1$s para KeePassDX</string>
+    <string name="benchmarking">Avaliando performance…</string>
+    <string name="error_load_database_KDF_iteration">Iteração do KDF muito alta.</string>
+    <string name="error_load_database_KDF_parallelism">Paralelismo do KDF muito alto.</string>
+    <string name="error_memory_too_large">\"Uso de memória\" muito alto. Definindo para %1$s.</string>
+    <string name="error_parallelism_too_large">\"Paralelismo\" muito alto. Definindo para %1$s.</string>
+    <string name="error_missing_parent">Esta ação não pode ser realizada sem um elemento pai.</string>
+    <string name="parallelism_set_safe">Definir número de processadores</string>
+    <string name="temporary_merge_success">Mesclagem de dados temporários concluída com sucesso</string>
+    <string name="reload_success">Recarregamento concluído com sucesso</string>
+    <string name="autofill_suggestions_title">Sugestões de preenchimento automático</string>
+    <string name="autofill_suggestions_summary">Use o algoritmo de reconhecimento de formulários para sugerir entradas</string>
+    <string name="passkey_pseudo_random_function">Função Pseudoaleatória de Chave de Acesso</string>
+    <string name="save_success">Salvo com sucesso</string>
+    <string name="words">Palavras</string>
+    <string name="invalid_db_hmac">A verificação de assinatura do banco de dados falhou. Isso pode ser causado por corrupção de arquivo ou modificação de aplicativo externo.</string>
 </resources>

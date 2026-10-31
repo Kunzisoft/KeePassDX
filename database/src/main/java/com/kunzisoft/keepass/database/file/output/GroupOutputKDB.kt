@@ -39,7 +39,7 @@ class GroupOutputKDB(private val mGroup: GroupKDB,
             // Group ID
             mOutputStream.write(GROUPID_FIELD_TYPE)
             mOutputStream.write(GROUPID_FIELD_SIZE)
-            mOutputStream.write(uIntTo4Bytes(UnsignedInt(mGroup.id)))
+            mOutputStream.write(uIntTo4Bytes(mGroup.id.toUInt()))
 
             // Name
             mOutputStream.write(NAME_FIELD_TYPE)
@@ -68,7 +68,7 @@ class GroupOutputKDB(private val mGroup: GroupKDB,
             // Image ID
             mOutputStream.write(IMAGEID_FIELD_TYPE)
             mOutputStream.write(IMAGEID_FIELD_SIZE)
-            mOutputStream.write(uIntTo4Bytes(UnsignedInt(mGroup.icon.standard.id)))
+            mOutputStream.write(uIntTo4Bytes(mGroup.icon.standard.id.toUInt()))
 
             // Level
             mOutputStream.write(LEVEL_FIELD_TYPE)
@@ -78,7 +78,7 @@ class GroupOutputKDB(private val mGroup: GroupKDB,
             // Flags
             mOutputStream.write(FLAGS_FIELD_TYPE)
             mOutputStream.write(FLAGS_FIELD_SIZE)
-            mOutputStream.write(uIntTo4Bytes(UnsignedInt(mGroup.groupFlags)))
+            mOutputStream.write(uIntTo4Bytes(mGroup.groupFlags.toUInt()))
 
             // End
             mOutputStream.write(END_FIELD_TYPE)
@@ -101,11 +101,11 @@ class GroupOutputKDB(private val mGroup: GroupKDB,
         private val FLAGS_FIELD_TYPE:ByteArray = uShortTo2Bytes(9)
         private val END_FIELD_TYPE:ByteArray = uShortTo2Bytes(0xFFFF)
 
-        private val GROUPID_FIELD_SIZE:ByteArray = uIntTo4Bytes(UnsignedInt(4))
-        private val DATE_FIELD_SIZE:ByteArray = uIntTo4Bytes(UnsignedInt(5))
-        private val IMAGEID_FIELD_SIZE:ByteArray = uIntTo4Bytes(UnsignedInt(4))
-        private val LEVEL_FIELD_SIZE:ByteArray = uIntTo4Bytes(UnsignedInt(2))
-        private val FLAGS_FIELD_SIZE:ByteArray = uIntTo4Bytes(UnsignedInt(4))
-        private val ZERO_FIELD_SIZE:ByteArray = uIntTo4Bytes(UnsignedInt(0))
+        private val GROUPID_FIELD_SIZE:ByteArray = uIntTo4Bytes(4u)
+        private val DATE_FIELD_SIZE:ByteArray = uIntTo4Bytes(5u)
+        private val IMAGEID_FIELD_SIZE:ByteArray = uIntTo4Bytes(4u)
+        private val LEVEL_FIELD_SIZE:ByteArray = uIntTo4Bytes(2u)
+        private val FLAGS_FIELD_SIZE:ByteArray = uIntTo4Bytes(4u)
+        private val ZERO_FIELD_SIZE:ByteArray = uIntTo4Bytes(0u)
     }
 }

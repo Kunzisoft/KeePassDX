@@ -21,5 +21,9 @@ package com.kunzisoft.encrypt.aes;
 
 public class NativeAESKeyTransformer {
 
-    public static native byte[] nTransformKey(byte[] seed, byte[] key, long rounds);
+    public static native byte[] nTransformKey(
+            byte[] seed,
+            byte[] key,
+            long rounds
+    );
 }

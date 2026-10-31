@@ -26,6 +26,7 @@ import com.kunzisoft.keepass.database.element.Entry
 import com.kunzisoft.keepass.database.element.EntryId
 import com.kunzisoft.keepass.hardware.HardwareKey
 import com.kunzisoft.keepass.tasks.ActionRunnable
+import com.kunzisoft.keepass.utils.AppUtil.getLimits
 
 class RestoreEntryHistoryDatabaseRunnable (
     private val context: Context,
@@ -47,6 +48,7 @@ class RestoreEntryHistoryDatabaseRunnable (
 
     override fun onStartRun() {
         try {
+            database.kdfEngine?.checkLimits(context.getLimits())
             mMainEntry?.let { mainEntry ->
                 val historyToRestore = database.getEntryInfoFrom(
                     entry = mainEntry.getHistory()[entryHistoryPosition],

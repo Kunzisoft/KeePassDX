@@ -25,6 +25,7 @@ import com.kunzisoft.keepass.database.action.SaveDatabaseRunnable
 import com.kunzisoft.keepass.database.element.Entry
 import com.kunzisoft.keepass.database.element.EntryId
 import com.kunzisoft.keepass.hardware.HardwareKey
+import com.kunzisoft.keepass.utils.AppUtil.getLimits
 
 class DeleteEntryHistoryDatabaseRunnable (
     context: Context,
@@ -51,6 +52,7 @@ class DeleteEntryHistoryDatabaseRunnable (
 
     override fun onStartRun() {
         try {
+            database.kdfEngine?.checkLimits(context.getLimits())
             mMainEntry?.let {
                 database.removeEntryHistory(it, entryHistoryPosition)
             }

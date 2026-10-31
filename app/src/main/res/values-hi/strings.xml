@@ -19,7 +19,7 @@
 --><resources>
     <string name="feedback">प्रतिक्रिया</string>
     <string name="homepage">होमपेज</string>
-    <string name="about_description">एंड्रॉयड पर आधारित KeePass पासवर्ड मैनेजर</string>
+    <string name="about_description">कीपास पासवर्ड मैनेजर का एंड्रॉइड कार्यान्वयन।</string>
     <string name="accept">स्वीकार करें</string>
     <string name="add_entry">रिकॉर्ड जोड़ें</string>
     <string name="edit_entry">रिकॉर्ड संपादित करें</string>
@@ -40,19 +40,18 @@
     <string name="clipboard_timeout">क्लिपबोर्ड टाइमआउट</string>
     <string name="clipboard_timeout_summary">क्लिपबोर्ड में भंडारण की अवधि (यदि आपके डिवाइस द्वारा समर्थित है)</string>
     <string name="select_to_copy">क्लिपबोर्ड पर %1$s को कॉपी करने के लिए चयन करें</string>
-    <string name="retrieving_db_key">डेटाबेस कुंजी पुनर्प्राप्त की जा रही है…</string>
+    <string name="retrieving_db_key">डेटाबेस चाबी पुनर्प्राप्त की जा रही है…</string>
     <string name="database">डेटाबेस</string>
-    <string name="decrypting_db">डेटाबेस सामग्री डिक्रिप्ट कर रहे है…</string>
-    <string name="default_checkbox">डिफ़ॉल्ट डेटाबेस के रूप में उपयोग करें</string>
+    <string name="decrypting_db">डेटाबेस सामग्री डिक्रिप्ट किया जा रहा है…</string>
+    <string name="default_checkbox">स्वतः-चयनित डेटाबेस के रूप में उपयोग करें</string>
     <string name="digits">अंक</string>
-    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft &lt;strong&gt;ओपन सोर्स&lt;/strong&gt; है और &lt;strong&gt;बिना किसी विज्ञापन&lt;/strong&gt; के उपलब्ध है।
-\nइसे &lt;strong&gt;GPLv3&lt;/strong&gt; लाइसेंस के अन्तर्गत बिना किसी वारन्टि के प्रदान किया गया है।</string>
-    <string name="entry_accessed">एक्सेस किया गया</string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft &lt;strong&gt;ओपन सोर्स&lt;/strong&gt; और &lt;strong&gt;बिना किसी विज्ञापन&lt;/strong&gt; के है।\nइसे &lt;strong&gt;GPLv3&lt;/strong&gt; license के अन्तर्गत बिना किसी वारन्टि के दिया जाता है।</string>
+    <string name="entry_accessed">प्राप्त किया गया</string>
     <string name="entry_cancel">रद्द करें</string>
     <string name="entry_notes">टिप्पणियाँ</string>
-    <string name="entry_confpassword">पासवर्ड की पुष्टि करें</string>
+    <string name="entry_confpassword">पासवर्ड पुष्टि करें</string>
     <string name="entry_created">बनाया</string>
-    <string name="entry_expires">समयसीमा समाप्त</string>
+    <string name="entry_expires">समाप्त होना</string>
     <string name="entry_keyfile">कीफाइल</string>
     <string name="entry_modified">संशोधित</string>
     <string name="entry_not_found">प्रवेश का डाटा नहीं मिल सका।</string>
@@ -72,7 +71,7 @@
     <string name="error_load_database_KDF_memory">कुंजी लोड नहीं कर सके। KDF \"मेमोरी उपयोग\" को कम करने का प्रयास करें।</string>
     <string name="error_pass_gen_type">कम से कम एक पासवर्ड जनरेशन प्रकार का चयन करना होगा।</string>
     <string name="error_pass_match">पासवर्ड मेल नहीं खाते हैं।</string>
-    <string name="error_rounds_too_large">\"परिवर्तन राउंड\" बहुत अधिक है। 2147483648 पर सेट हो रहा है।</string>
+    <string name="error_rounds_too_large">\"परिवर्तन राउंड\" बहुत अधिक है। %1$s पर सेट हो रहा है।</string>
     <string name="error_string_key">प्रत्येक स्ट्रिंग में फ़ील्ड नाम होना चाहिए।</string>
     <string name="content_description_open_file">फ़ाइल खोलें</string>
     <string name="content_description_node_children">उप नोड</string>
@@ -124,7 +123,7 @@
     <string name="error_copy_group_here">आप यहाँ समूह की प्रतिलिपि नहीं कर सकते हैं।</string>
     <string name="error_create_database_file">इस पासवर्ड और कीफ़ाइल के साथ डेटाबेस बनाने में असमर्थ।</string>
     <string name="template_group_name">प्रारूप</string>
-    <string name="discard_changes">परिवर्तनों को निरस्त करें\?</string>
+    <string name="discard_changes">परिवर्तनों को छोड़ दें?</string>
     <string name="content_description_otp_information">वन-टाइम पासवर्ड की जानकारी</string>
     <string name="personal_identification_number">PIN</string>
     <string name="name">नाम</string>
@@ -146,7 +145,7 @@
     <string name="icon_pack_choose_summary">ऐप में इस्तेमाल किया गया आइकन पैक</string>
     <string name="content_description_credentials_information">क्रेडेंशियल्स कि जानकारी</string>
     <string name="contact">संपर्क करें</string>
-    <string name="validate">सत्यापित करें</string>
+    <string name="validate">मान्य करें</string>
     <string name="discard">निरस्त करें</string>
     <string name="entry_add_attachment">अटेचमेंट लगाये</string>
     <string name="debit_credit_card">डेबिट / क्रेडिट कार्ड</string>
@@ -167,4 +166,32 @@
     <string name="error_upload_file">फ़ाइल डेटा को अपलोड करते समय एक त्रुटि हुई।</string>
     <string name="error_duplicate_file">फ़ाइल डेटा पहले से उपलब्ध है।</string>
     <string name="info">जानकारी</string>
+    <string name="clipboard_otp_notifications_title">ओटीपी सूचना</string>
+    <string name="content_description_add_item">आइटम जोड़ें</string>
+    <string name="content_description_hardware_key_checkbox">हार्डवेयर कुंजी चेकबॉक्स</string>
+    <string name="clipboard_otp_notifications_summary">ऑटोफिल या मैजिकीबोर्ड के साथ आबादी वाली प्रविष्टियों से ओटीपी को काॅपी करने के लिए एक नोटीफिकेशन खोलें</string>
+    <string name="content_description_entry_foreground_color">अग्रभूमि रंग प्रवेश</string>
+    <string name="content_description_entry_background_color">प्रवेश पृष्ठभूमि रंग</string>
+    <string name="content_description_nav_header">नेविगेशन हेडर</string>
+    <string name="navigation_drawer_open">नेविगेशन दराज खुला</string>
+    <string name="navigation_drawer_close">नेविगेशन दराज बंद</string>
+    <string name="content_description_passphrase_word_count">पासफ़्रेज़ शब्द गणना</string>
+    <string name="content_description_share_url">URL साझा करें</string>
+    <string name="waiting_challenge_request">चुनौती अनुरोध की प्रतीक्षा…</string>
+    <string name="waiting_challenge_response">चुनौती प्रतिक्रिया की प्रतीक्षा…</string>
+    <string name="html_about_contribution">आदेश &lt;strong&gt;हमारी स्वतंत्रता&lt;/strong&gt;, &lt;strong&gt;बग फिक्स&lt;/strong&gt;, &lt;strong&gt;सुविधाएँ जोड़ें&lt;/strong&gt; और &lt;strong&gt;हमेशा सक्रिय होना&lt;/strong&gt;, हम आपकी गिनती करते हैं &lt;strong&gt;योगदान&lt;/strong&gt;।</string>
+    <string name="expired">समाप्त होगया</string>
+    <string name="hardware_key">हार्डवेयर की</string>
+    <string name="searchable">खोज योग्य</string>
+    <string name="auto_type">ऑटो-टाइप</string>
+    <string name="invalid_db_sig">डेटाबेस प्रारूप को पहचान नहीं सका।</string>
+    <string name="keyfile_is_empty">Keyfile खाली है।</string>
+    <string name="length">लंबाई</string>
+    <string name="nodes">नोड</string>
+    <string name="colorize_password_title">पासवर्ड को रंगे</string>
+    <string name="colorize_password_summary">प्रकार के अनुसार पासवर्ड वर्णों को रंगें</string>
+    <string name="list_groups_show_number_entries_title">प्रविष्टियों की संख्या दिखाएँ</string>
+    <string name="show_tags_title">टैग दिखाएँ</string>
+    <string name="menu_form_filling_settings">फॉर्म भरना</string>
+    <string name="menu_device_unlock_settings">डिवाइस को खोलना</string>
 </resources>

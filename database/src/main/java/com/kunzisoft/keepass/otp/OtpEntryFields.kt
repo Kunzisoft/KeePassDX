@@ -441,13 +441,14 @@ object OtpEntryFields {
         )
     }
 
-    fun EntryInfo.setOtp(otpString: String): Boolean {
+    fun EntryInfo.setOtp(otpString: String, addTag: Boolean = true): Boolean {
         // Replace the OTP field
         parseOTPUri(otpString)?.let { otpElement ->
-            tags.put(OTP_TAG)
-            if (title.isEmpty())
+            if (addTag)
+                tags.put(OTP_TAG)
+            if (title.isEmpty() && otpElement.isIssuerPopulated())
                 title = otpElement.issuer
-            if (username.isEmpty())
+            if (username.isEmpty() && otpElement.isNamePopulated())
                 username = otpElement.name
             // Add OTP field
             val mutableCustomFields = customFields

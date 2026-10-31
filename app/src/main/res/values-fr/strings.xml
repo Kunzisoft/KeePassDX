@@ -47,8 +47,7 @@
     <string name="decrypting_db">Déchiffrement du contenu de la base de données…</string>
     <string name="default_checkbox">Utiliser comme base de données par défaut</string>
     <string name="digits">Chiffres</string>
-    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft est &lt;strong&gt;open source&lt;/strong&gt; et &lt;strong&gt;sans publicité&lt;/strong&gt;.
-\nIl est fourni tel quel, sous licence &lt;strong&gt;GPLv3&lt;/strong&gt;, sans aucune garantie.</string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft est &lt;strong&gt;open source&lt;/strong&gt;, &lt;strong&gt;sans publicité&lt;/strong&gt;, &lt;strong&gt;indépendant&lt;/strong&gt; et entièrement maintenu par du développement &lt;strong&gt;volontaire&lt;/strong&gt;. \nIl est fourni tel quel, sous licence &lt;strong&gt;GPLv3&lt;/strong&gt;, sans aucune garantie.</string>
     <string name="entry_accessed">Dernier accès</string>
     <string name="entry_cancel">Annuler</string>
     <string name="entry_notes">Notes</string>
@@ -73,7 +72,7 @@
     <string name="error_out_of_memory">Mémoire insuffisante pour charger l’intégralité de votre base de données.</string>
     <string name="error_pass_gen_type">Au moins un type de génération de mots de passe doit être sélectionné.</string>
     <string name="error_pass_match">Les mots de passe ne correspondent pas.</string>
-    <string name="error_rounds_too_large">\"Tours de transformation\" trop grand. Définition à 2147483648.</string>
+    <string name="error_rounds_too_large">\"Tours de transformation\" trop grand. Définition à %1$s.</string>
     <string name="error_string_key">Chaque chaîne doit avoir un nom de champ.</string>
     <string name="error_wrong_length">Veuillez saisir un entier positif dans le champ \"Longueur\".</string>
     <string name="error_autofill_enable_service">Impossible d’activer le service de remplissage automatique.</string>
@@ -89,7 +88,7 @@
     <string name="hint_length">Longueur</string>
     <string name="hint_pass">Mot de passe</string>
     <string name="password">Mot de passe</string>
-    <string name="invalid_credentials">Impossible de lire les identifiants.</string>
+    <string name="invalid_credentials">Impossible de déchiffrer les données du fichier avec les identifiants.</string>
     <string name="invalid_algorithm">Algorithme invalide.</string>
     <string name="invalid_db_sig">Impossible de reconnaître le format de la base de données.</string>
     <string name="keyfile_is_empty">Le fichier clé est vide.</string>
@@ -131,6 +130,7 @@
     <string name="memory_usage_explanation">Quantité de mémoire à utiliser par la fonction de dérivation de clé.</string>
     <string name="parallelism">Parallélisme</string>
     <string name="parallelism_explanation">Degré de parallélisme (nombre de fils d’exécution) utilisé par la fonction de dérivation de clé.</string>
+    <string name="parallelism_set_safe">Définir le nombre de processeurs</string>
     <string name="saving_database">Enregistrement de la base de données…</string>
     <string name="space">Espace</string>
     <string name="sort_menu">Trier</string>
@@ -219,7 +219,7 @@
     <string name="education_entry_edit_title">Modifier l’entrée</string>
     <string name="education_entry_edit_summary">Modifie votre entrée avec des champs personnalisés. La collection des données peut être référencée entre différents champs de l’entrée.</string>
     <string name="education_generate_password_title">Créer un mot de passe fort</string>
-    <string name="education_generate_password_summary">Générez un mot de passe fort à associer avec votre entrée, définissez-le facilement en fonction des critères du formulaire et n’oubliez pas de sécuriser votre mot de passe.</string>
+    <string name="education_generate_password_summary">Générez un mot de passe fort à associer avec votre entrée, définissez-le facilement en fonction des critères du formulaire et ne l’oubliez pas.</string>
     <string name="education_entry_new_field_title">Ajoutez des champs personnalisés</string>
     <string name="education_entry_new_field_summary">Enregistrez un champ additionnel, ajoutez une valeur et facultativement le protéger.</string>
     <string name="education_unlock_title">Déverrouillez votre base de données</string>
@@ -284,7 +284,7 @@
 \n\"Modifiable\" vous permet d’ajouter, de supprimer ou de modifier tous les éléments comme vous le souhaitez.</string>
     <string name="edit_entry">Modifier l’entrée</string>
     <string name="error_load_database">Impossible de charger la base de données.</string>
-    <string name="error_load_database_KDF_memory">Impossible de charger la clé. Essayez de diminuer l’utilisation mémoire de la fonction de dérivation de clé.</string>
+    <string name="error_load_database_KDF_memory">La mémoire d\'utilisation KDF est trop élevée.</string>
     <string name="list_entries_show_username_title">Afficher les noms d’utilisateur</string>
     <string name="list_entries_show_username_summary">Affiche les noms d’utilisateur dans les listes d’entrées</string>
     <string name="build_label">Compilation %1$s</string>
@@ -523,7 +523,7 @@
     <string name="autofill_inline_suggestions_title">Suggestions en ligne</string>
     <string name="warning_database_info_changed_options">Fusionner les données, écraser les modifications externes en sauvegardant la base de données ou recharger-la avec les dernières modifications.</string>
     <string name="warning_database_revoked">Accès au dossier révoqué par le gestionnaire de fichiers, fermer la base de données et la rouvrir à partir de son emplacement.</string>
-    <string name="warning_database_info_changed">Les informations contenues dans votre fichier de base de données ont été modifiées en dehors de l\'application.</string>
+    <string name="warning_database_info_changed">Les informations contenues dans votre base de données ont été modifiées en dehors de l\'application.</string>
     <string name="menu_reload_database">Recharger les données</string>
     <string name="unit_gibibyte">Gibioctets</string>
     <string name="unit_mebibyte">Mébioctets</string>
@@ -582,7 +582,7 @@
     <string name="debit_credit_card">Carte de crédit</string>
     <string name="template_group_name">Gabarits</string>
     <string name="secure_note">Note sécurisée</string>
-    <string name="show_otp_token_summary">Affiche les jetons OTP dans la liste des entrées</string>
+    <string name="show_otp_token_summary">Affiche les jetons OTP par défaut</string>
     <string name="show_otp_token_title">Afficher le jeton OTP</string>
     <string name="menu_external_icon">Icône externe</string>
     <string name="autofill_manual_selection_summary">Afficher l\'option permettant à l\'utilisateur de sélectionner l\'entrée de la base de données</string>
@@ -683,7 +683,7 @@
     <string name="education_validate_entry_summary">N\'oubliez pas de valider votre saisie et de sauvegarder votre base de données
 \n
 \nSi un verrouillage automatique est activé et que vous oubliez que vous étiez en train d\'effectuer une modification, vous risquez de perdre vos données.</string>
-    <string name="warning_database_info_changed_options_read_only">Recharger la base de données avec les dernières modifications.</string>
+    <string name="warning_database_info_changed_options_read_only">Veuillez actualiser la base de données avec les dernières modifications.</string>
     <string name="generate_keyfile">Générer un fichier clé</string>
     <string name="nodes">Nœuds</string>
     <string name="recursive_number_entries_title">Nombre d\'entrées récursif</string>
@@ -691,7 +691,7 @@
     <string name="warning_large_keyfile">Il n\'est pas recommandé d\'ajouter un fichier clé volumineux, car cela pourrait empêcher l\'ouverture de la base de données.</string>
     <string name="hide_templates_title">Cacher les gabarits</string>
     <string name="hide_templates_summary">Les gabarits ne sont pas affichés</string>
-    <string name="error_otp_secret_length">La clé secrète doit avoir ai moins %1$d caractères.</string>
+    <string name="error_otp_secret_length">La clé secrète doit avoir au moins %1$d caractères.</string>
     <string name="entry_application_id">ID d\'Application</string>
     <string name="warning_overwrite_data_title">Écraser les données existantes ?</string>
     <string name="warning_overwrite_data_description">Cette action va remplacer la donnée existante de cette entrée, vous pourrez récupérer l\'ancienne donnée si l\'historique est activé.</string>
@@ -765,4 +765,19 @@
     <string name="benchmark_calculation">Calculer pour %1$s s</string>
     <string name="benchmarking">Analyse en cours…</string>
     <string name="keyboard_share_browser">Partager depuis %1$s vers KeePassDX</string>
+    <string name="error_memory_too_large">\"Utilisation de la mémoire\" trop élevé. Réglage sur %1$s.</string>
+    <string name="error_parallelism_too_large">\"Parallélisme\" trop élevé. Réglage sur %1$s.</string>
+    <string name="error_missing_parent">Cette action ne peut être effectuée sans parent.</string>
+    <string name="temporary_merge_success">La fusion des données temporaires s\'est déroulée avec succès</string>
+    <string name="reload_success">Le rechargement s\'est déroulé avec succès</string>
+    <string name="save_success">La sauvegarde s\'est déroulée avec succès</string>
+    <string name="autofill_suggestions_title">Suggestions de saisie automatique</string>
+    <string name="autofill_suggestions_summary">Utilise l\'algorithme de reconnaissance de formulaires pour proposer des entrées</string>
+    <string name="passkey_pseudo_random_function">Fonction pseudo-aléatoire de clé d\'accès</string>
+    <string name="error_load_database_KDF_parallelism">Le parallélisme KDF est trop élevé.</string>
+    <string name="error_load_database_KDF_iteration">Nombre d\'itérations KDF trop élevé.</string>
+    <string name="words">Mots</string>
+    <string name="invalid_db_hmac">La vérification de la signature de la base de données a échoué. Cela peut être à cause d\'une corruption de fichier ou une modification par une appli externe.</string>
+    <string name="html_about_get_keepro">En achetant &lt;strong&gt;KeyPro Support&lt;/strong&gt; (Soutien KeyPro), vous financez directement la continuité du développement actif, les fonctionnalités futures, et vous débloquez des styles visuels facultatifs.</string>
+    <string name="get_keepro">Obtenir KeePro Support</string>
 </resources>

@@ -48,7 +48,6 @@ import android.widget.Toast
 import androidx.appcompat.view.menu.ActionMenuItemView
 import androidx.appcompat.widget.ActionMenuView
 import androidx.appcompat.widget.Toolbar
-import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.core.view.ViewCompat
@@ -280,7 +279,7 @@ fun Context.showActionErrorIfNeeded(result: ActionRunnable.Result) {
     }
 }
 
-fun CoordinatorLayout.showError(error: Throwable?, anchorViewId: Int? = null) {
+fun View.showError(error: Throwable?, anchorViewId: Int? = null) {
     val message = if (error is LocalizedException) {
         error.getLocalizedMessage(resources) ?: error.message
     } else error?.message
@@ -292,13 +291,18 @@ fun CoordinatorLayout.showError(error: Throwable?, anchorViewId: Int? = null) {
     }
 }
 
-fun CoordinatorLayout.showActionErrorIfNeeded(result: ActionRunnable.Result) {
+fun View.showActionErrorIfNeeded(result: ActionRunnable.Result) {
     if (!result.isSuccess) {
-        result.exception?.getLocalizedMessage(resources)?.let { errorMessage ->
-            Snackbar.make(this, errorMessage, Snackbar.LENGTH_LONG).asError().show()
-        } ?: result.message?.let { message ->
-            Snackbar.make(this, message, Snackbar.LENGTH_LONG).asError().show()
+        val message = result.exception?.getLocalizedMessage(resources) ?: result.message
+        message?.let {
+            Snackbar.make(this, it, Snackbar.LENGTH_LONG).asError().show()
         }
+    }
+}
+
+fun Activity.showActionErrorIfNeeded(result: ActionRunnable.Result) {
+    if (!result.isSuccess) {
+        findViewById<View>(android.R.id.content)?.showActionErrorIfNeeded(result)
     }
 }
 

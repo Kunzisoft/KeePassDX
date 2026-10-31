@@ -28,7 +28,7 @@ import androidx.core.text.HtmlCompat.FROM_HTML_MODE_LEGACY
 import androidx.fragment.app.DialogFragment
 import com.kunzisoft.keepass.BuildConfig
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.utils.UriUtil.openUrl
+import com.kunzisoft.keepass.utils.AppUtil.openContributionLink
 
 /**
  * Custom Dialog that asks the user to download the pro version or make a donation.
@@ -44,18 +44,12 @@ class ProFeatureDialogFragment : DialogFragment() {
             if (BuildConfig.CLOSED_STORE) {
                 stringBuilder.append(HtmlCompat.fromHtml(getString(R.string.html_text_ad_free), FROM_HTML_MODE_LEGACY)).append("\n\n")
                 stringBuilder.append(HtmlCompat.fromHtml(getString(R.string.html_text_buy_pro), FROM_HTML_MODE_LEGACY))
-                builder.setPositiveButton(R.string.download) { _, _ ->
-                    activity.openUrl(
-                        activity.getString(R.string.play_store_url,
-                            activity.getString(R.string.keepro_app_id))
-                    )
-                }
             } else {
                 stringBuilder.append(HtmlCompat.fromHtml(getString(R.string.html_text_feature_generosity), FROM_HTML_MODE_LEGACY)).append("\n\n")
                 stringBuilder.append(HtmlCompat.fromHtml(getString(R.string.html_text_donation), FROM_HTML_MODE_LEGACY))
-                builder.setPositiveButton(R.string.contribute) { _, _ ->
-                    activity.openUrl(R.string.contribution_url)
-                }
+            }
+            builder.setPositiveButton(R.string.get_keepro) { _, _ ->
+                activity.openContributionLink()
             }
             builder.setMessage(stringBuilder)
             builder.setNegativeButton(android.R.string.cancel) { _, _ -> dismiss() }

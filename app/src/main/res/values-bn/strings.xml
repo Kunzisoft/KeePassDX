@@ -164,7 +164,7 @@
     <string name="error_disallow_no_credentials">অন্তত একটি শংসাপত্র সেট করা আবশ্যক.</string>
     <string name="error_string_key">প্রতিটি স্ট্রিং একটি ক্ষেত্রের নাম থাকতে হবে.</string>
     <string name="error_label_exists">এই লেবেলটি ইতিমধ্যেই বিদ্যমান।</string>
-    <string name="error_rounds_too_large">\"ট্রান্সফরমেশন রাউন্ড\" খুব বেশি। 2147483648 এ সেট করা হচ্ছে।</string>
+    <string name="error_rounds_too_large">\"ট্রান্সফরমেশন রাউন্ড\" খুব বেশি। %1$s এ সেট করা হচ্ছে।</string>
     <string name="error_move_entry_here">আপনি এখানে একটি এন্ট্রি সরাতে পারবেন না.</string>
     <string name="error_copy_entry_here">আপনি এখানে একটি এন্ট্রি কপি করতে পারবেন না.</string>
     <string name="error_copy_group_here">আপনি এখানে একটি গ্রুপ অনুলিপি করতে পারবেন না.</string>
@@ -298,8 +298,7 @@
     <string name="expired">মেয়াদোত্তীর্ণ</string>
     <string name="select_to_copy">ক্লিপবোর্ডে %1$s অনুলিপি করতে নির্বাচন করুন</string>
     <string name="entry_setup_otp">এককালীন পাসওয়ার্ড সেট আপ করুন</string>
-    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft হল &lt;strong&gt;ওপেন সোর্স&lt;/strong&gt; এবং &lt;strong&gt;বিজ্ঞাপন ছাড়াই&lt;/strong&gt;।
-\nএটি &lt;strong&gt;GPLv3&lt;/strong&gt; লাইসেন্সের অধীনে, কোনো ওয়ারেন্টি ছাড়াই প্রদান করা হয়।</string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft হল &lt;strong&gt;ওপেন সোর্স&lt;/strong&gt; এবং &lt;strong&gt;বিজ্ঞাপন ছাড়াই&lt;/strong&gt;। \nএটি &lt;strong&gt;GPLv3&lt;/strong&gt; লাইসেন্সের অধীনে, কোনো ওয়ারেন্টি ছাড়াই প্রদান করা হয়।</string>
     <string name="html_about_contribution">&lt;strong&gt;আমাদের স্বাধীনতা বজায় রাখতে&lt;/strong&gt;, &lt;strong&gt;বাগগুলি ঠিক করতে&lt;/strong&gt;, &lt;strong&gt;বৈশিষ্ট্য যোগ করুন&lt;/strong&gt; এবং &lt;strong&gt;সর্বদা সক্রিয় থাকার জন্য&lt;/strong&gt;, আমরা আপনার উপর নির্ভর করি &lt;strong&gt;অবদান&lt;/strong&gt;।</string>
     <string name="hardware_key">হার্ডওয়্যার কী</string>
     <string name="id_card">পরিচয় পত্র</string>

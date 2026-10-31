@@ -50,14 +50,13 @@ abstract class DatabaseVersioned<
 
     abstract var kdfEngine: KdfEngine?
     abstract val kdfAvailableList: List<KdfEngine>
-    abstract var numberKeyEncryptionRounds: Long
 
     abstract val passwordEncoding: Charset
 
     var masterKey = ByteArray(32)
     var finalKey: ByteArray? = null
         protected set
-    var transformSeed: ByteArray? = null
+    open var transformSeed: ByteArray? = null
 
     var checkKey = ByteArray(32)
 
@@ -125,7 +124,6 @@ abstract class DatabaseVersioned<
 
     fun copyMasterKeyFrom(databaseVersioned: DatabaseVersioned<GroupId, EntryId, Group, Entry>) {
         this.masterKey = databaseVersioned.masterKey.copyOf()
-        this.transformSeed = databaseVersioned.transformSeed?.copyOf()
         this.checkKey = databaseVersioned.checkKey.copyOf()
     }
 
@@ -156,18 +154,22 @@ abstract class DatabaseVersioned<
      * ID number to check for
      * @return True if the ID is used, false otherwise
      */
+    @Synchronized
     fun isGroupIdUsed(id: NodeId<GroupId>): Boolean {
         return groupIndexes.containsKey(id)
     }
 
+    @Synchronized
     fun getGroupIndexes(): Collection<Group> {
-        return groupIndexes.values
+        return groupIndexes.values.toList()
     }
 
+    @Synchronized
     open fun getGroupById(id: NodeId<GroupId>): Group? {
         return this.groupIndexes[id]
     }
 
+    @Synchronized
     fun addGroupIndex(group: Group) {
         val groupId = group.nodeId
         if (groupIndexes.containsKey(groupId)) {
@@ -184,26 +186,32 @@ abstract class DatabaseVersioned<
         }
     }
 
+    @Synchronized
     fun removeGroupIndex(group: Group) {
         this.groupIndexes.remove(group.nodeId)
     }
 
+    @Synchronized
     fun isEntryIdUsed(id: NodeId<EntryId>): Boolean {
         return entryIndexes.containsKey(id)
     }
 
+    @Synchronized
     fun getEntryIndexes(): Collection<Entry> {
-        return entryIndexes.values
+        return entryIndexes.values.toList()
     }
 
+    @Synchronized
     fun getEntryById(id: NodeId<EntryId>): Entry? {
         return this.entryIndexes[id]
     }
 
+    @Synchronized
     fun findEntry(predicate: (Entry) -> Boolean): Entry? {
         return this.entryIndexes.values.find(predicate)
     }
 
+    @Synchronized
     fun addEntryIndex(entry: Entry) {
         val entryId = entry.nodeId
         if (entryIndexes.containsKey(entryId)) {
@@ -220,10 +228,12 @@ abstract class DatabaseVersioned<
         }
     }
 
+    @Synchronized
     fun removeEntryIndex(entry: Entry) {
         this.entryIndexes.remove(entry.nodeId)
     }
 
+    @Synchronized
     open fun clearIndexes() {
         this.groupIndexes.clear()
         this.entryIndexes.clear()
@@ -239,13 +249,18 @@ abstract class DatabaseVersioned<
 
     abstract fun getStandardIcon(iconId: Int): IconImageStandard
 
-    open fun addGroupTo(newGroup: Group, parent: Group?) {
+    @Synchronized
+    open fun addGroupTo(
+        newGroup: Group,
+        parent: Group?
+    ) {
         // Add tree to parent tree
         parent?.addChildGroup(newGroup)
         newGroup.parent = parent
         addGroupIndex(newGroup)
     }
 
+    @Synchronized
     open fun updateGroup(group: Group) {
         group.parent?.updateChildGroup(group)
         val groupId = group.nodeId
@@ -254,19 +269,28 @@ abstract class DatabaseVersioned<
         }
     }
 
-    open fun removeGroupFrom(groupToRemove: Group, parent: Group?) {
+    @Synchronized
+    open fun removeGroupFrom(
+        groupToRemove: Group,
+        parent: Group?
+    ) {
         // Remove tree from parent tree
         parent?.removeChildGroup(groupToRemove)
         removeGroupIndex(groupToRemove)
     }
 
-    open fun addEntryTo(newEntry: Entry, parent: Group?) {
+    @Synchronized
+    open fun addEntryTo(
+        newEntry: Entry,
+        parent: Group?
+    ) {
         // Add entry to parent
         parent?.addChildEntry(newEntry)
         newEntry.parent = parent
         addEntryIndex(newEntry)
     }
 
+    @Synchronized
     open fun updateEntry(entry: Entry) {
         entry.parent?.updateChildEntry(entry)
         val entryId = entry.nodeId
@@ -275,7 +299,11 @@ abstract class DatabaseVersioned<
         }
     }
 
-    open fun removeEntryFrom(entryToRemove: Entry, parent: Group?) {
+    @Synchronized
+    open fun removeEntryFrom(
+        entryToRemove: Entry,
+        parent: Group?
+    ) {
         // Remove entry from parent
         parent?.removeChildEntry(entryToRemove)
         removeEntryIndex(entryToRemove)

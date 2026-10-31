@@ -90,13 +90,18 @@ class EmptyKeyDatabaseException : DatabaseException()
 
 class SignatureDatabaseException : DatabaseInputException()
 
+class HeaderHmacMismatchException : DatabaseInputException()
+
 class VersionDatabaseException : DatabaseInputException()
 
-class InvalidCredentialsDatabaseException : DatabaseInputException {
-    constructor() : super()
-}
+class InvalidCredentialsDatabaseException : DatabaseInputException()
 
-class KDFMemoryDatabaseException(exception: Throwable) : DatabaseInputException(exception)
+class KDFIterationDatabaseException : DatabaseInputException()
+class KDFParallelismDatabaseException : DatabaseInputException()
+class KDFMemoryDatabaseException : DatabaseInputException {
+    constructor() : super()
+    constructor(exception: Throwable) : super(exception)
+}
 
 class NoMemoryDatabaseException(exception: Throwable) : DatabaseInputException(exception)
 

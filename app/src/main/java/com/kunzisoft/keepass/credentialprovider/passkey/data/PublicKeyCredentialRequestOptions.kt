@@ -20,6 +20,7 @@
 package com.kunzisoft.keepass.credentialprovider.passkey.data
 
 import com.kunzisoft.encrypt.Base64Helper
+import com.kunzisoft.keepass.credentialprovider.passkey.data.AuthenticationExtensionsClientInputs.Companion.getAuthenticationExtensionsClientInputs
 import com.kunzisoft.keepass.credentialprovider.passkey.data.PublicKeyCredentialDescriptor.Companion.getPublicKeyCredentialDescriptorList
 import org.json.JSONObject
 
@@ -47,6 +48,6 @@ class PublicKeyCredentialRequestOptions(requestJson: String) {
     // TODO Hints
     val hints: List<String> = listOf()
 
-    // TODO Extensions
-    // val extensions: AuthenticationExtensionsClientInputs
+    val extensions: AuthenticationExtensionsClientInputs =
+        json.getAuthenticationExtensionsClientInputs("extensions")
 }

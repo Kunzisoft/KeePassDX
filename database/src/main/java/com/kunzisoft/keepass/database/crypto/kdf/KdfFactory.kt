@@ -20,7 +20,9 @@
 package com.kunzisoft.keepass.database.crypto.kdf
 
 object KdfFactory {
-    var aesKdf = AesKdf()
-    var argon2dKdf = Argon2Kdf(Argon2Kdf.Type.ARGON2_D)
-    var argon2idKdf = Argon2Kdf(Argon2Kdf.Type.ARGON2_ID)
+    val aesKdf = AesKdf()
+    val argon2dKdf = Argon2Kdf(Argon2Kdf.Type.ARGON2_D)
+    val argon2idKdf = Argon2Kdf(Argon2Kdf.Type.ARGON2_ID)
+
+    val defaultKdf = aesKdf
 }

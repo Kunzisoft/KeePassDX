@@ -37,11 +37,13 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.google.android.material.snackbar.Snackbar
+import com.kunzisoft.keepass.BuildConfig
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.IconEditDialogFragment
 import com.kunzisoft.keepass.activities.fragments.IconPickerFragment
 import com.kunzisoft.keepass.activities.helpers.ExternalFileHelper
-import com.kunzisoft.keepass.activities.helpers.setOpenDocumentClickListener
+import com.kunzisoft.keepass.activities.helpers.ExternalFileHelper.registerOpenFile
+import com.kunzisoft.keepass.activities.helpers.ExternalFileHelper.setOpenFileClickListener
 import com.kunzisoft.keepass.activities.legacy.DatabaseLockActivity
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.element.icon.IconImage
@@ -67,6 +69,7 @@ class IconPickerActivity : DatabaseLockActivity() {
 
     private lateinit var toolbar: Toolbar
     private lateinit var coordinatorLayout: CoordinatorLayout
+    private lateinit var container: ViewGroup
     private lateinit var uploadButton: View
     private var lockView: View? = null
 
@@ -78,7 +81,9 @@ class IconPickerActivity : DatabaseLockActivity() {
     private var mCustomIconsSelectionMode = false
     private var mIconsSelected: List<IconImageCustom> = emptyList()
 
-    private var mExternalFileHelper: ExternalFileHelper? = null
+    private var openIconFileResultLauncher: ExternalFileHelper.OpenFileResultLauncher = registerOpenFile { uri ->
+        addCustomIcon(uri)
+    }
 
     override fun manageDatabaseInfo(): Boolean = true
 
@@ -95,11 +100,7 @@ class IconPickerActivity : DatabaseLockActivity() {
         updateIconsSelectedViews()
 
         coordinatorLayout = findViewById(R.id.icon_picker_coordinator)
-
-        mExternalFileHelper = ExternalFileHelper(this)
-        mExternalFileHelper?.buildOpenDocument { uri ->
-            addCustomIcon(uri)
-        }
+        container = findViewById(R.id.icon_picker_container)
 
         uploadButton = findViewById(R.id.icon_picker_upload)
 
@@ -198,9 +199,7 @@ class IconPickerActivity : DatabaseLockActivity() {
         }
     }
 
-    override fun viewToInvalidateTimeout(): View? {
-        return findViewById<ViewGroup>(R.id.icon_picker_container)
-    }
+    override fun viewToInvalidateTimeout(): View = container
 
     override fun finishActivityIfReloadRequested(): Boolean = true
 
@@ -208,7 +207,7 @@ class IconPickerActivity : DatabaseLockActivity() {
         super.onDatabaseRetrieved(database)
 
         if (database.allowCustomIcons) {
-            uploadButton.setOpenDocumentClickListener(mExternalFileHelper)
+            uploadButton.setOpenFileClickListener(this, openIconFileResultLauncher)
         } else {
             uploadButton.visibility = View.GONE
         }
@@ -260,6 +259,9 @@ class IconPickerActivity : DatabaseLockActivity() {
             isEnabled = mCustomIconsSelectionMode
             isVisible = isEnabled
         }
+        menu?.findItem(R.id.menu_external_icon)?.apply {
+            isVisible = !BuildConfig.CLOSED_STORE
+        }
         return super.onPrepareOptionsMenu(menu)
     }
 
@@ -304,10 +306,11 @@ class IconPickerActivity : DatabaseLockActivity() {
                                     iconCustomState.iconCustom = customIcon
                                     mDatabase?.let { database ->
                                         BinaryDatabaseManager.resizeBitmapAndStoreDataInBinaryFile(
-                                                contentResolver,
-                                                database,
-                                                iconToUploadUri,
-                                                binary)
+                                            contentResolver,
+                                            database,
+                                            iconToUploadUri,
+                                            binary
+                                        )
                                         when {
                                             binary == null -> {
                                             }

@@ -29,6 +29,7 @@ import com.kunzisoft.keepass.model.AttachmentState
 import com.kunzisoft.keepass.model.EntryAttachmentState
 import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.model.StreamDirection
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -51,8 +52,11 @@ class AttachmentsViewModel : ViewModel() {
     )
     val attachmentsUIState = _attachmentsUIState.asStateFlow()
 
-    private val _attachmentEvents = MutableSharedFlow<AttachmentEvent>(replay = 0)
-    val attachmentEvents: SharedFlow<AttachmentEvent> = _attachmentEvents.asSharedFlow()
+    // To securely consume the attachment events
+    val attachmentStateEvents = Channel<AttachmentEvent>()
+
+    private val _highlightAttachment = MutableSharedFlow<EntryAttachmentState>()
+    val highlightAttachment: SharedFlow<EntryAttachmentState> = _highlightAttachment.asSharedFlow()
 
     private val tempAttachments: List<EntryAttachmentState>
         get() = attachmentsUIState.value.attachments
@@ -82,19 +86,19 @@ class AttachmentsViewModel : ViewModel() {
 
     fun buildNewAttachment(attachmentToUploadUri: Uri, fileName: String) {
         viewModelScope.launch {
-            _attachmentEvents.emit(AttachmentEvent.OnBuildNewAttachment(attachmentToUploadUri, fileName))
+            attachmentStateEvents.send(AttachmentEvent.OnBuildNewAttachment(attachmentToUploadUri, fileName))
         }
     }
 
     fun startUploadAttachment(attachmentToUploadUri: Uri, attachment: Attachment) {
         viewModelScope.launch {
-            _attachmentEvents.emit(AttachmentEvent.OnStartUploadAttachment(attachmentToUploadUri, attachment))
+            attachmentStateEvents.send(AttachmentEvent.OnStartUploadAttachment(attachmentToUploadUri, attachment))
         }
     }
 
     fun deleteAttachment(attachment: EntryAttachmentState) {
         viewModelScope.launch {
-            _attachmentEvents.emit(AttachmentEvent.DeleteAttachment(attachment.attachment))
+            attachmentStateEvents.send(AttachmentEvent.OnDeleteAttachment(attachment.attachment))
             _attachmentsUIState.update { state ->
                 state.copy(attachments = state.attachments.toMutableList().apply {
                     remove(attachment)
@@ -114,7 +118,7 @@ class AttachmentsViewModel : ViewModel() {
         if ((!allowMultipleAttachment && tempAttachments.isNotEmpty()) ||
             tempAttachments.any { it.attachment.name == attachment.name }) {
             viewModelScope.launch {
-                _attachmentEvents.emit(AttachmentEvent.ShowReplaceFile(
+                attachmentStateEvents.send(AttachmentEvent.ShowReplaceFile(
                     attachmentToUploadUri = attachmentToUploadUri,
                     attachment = attachment
                 ))
@@ -122,7 +126,6 @@ class AttachmentsViewModel : ViewModel() {
         } else {
             startUploadAttachment(attachmentToUploadUri, attachment)
         }
-
     }
 
     fun onAttachmentAction(entryAttachmentState: EntryAttachmentState?) {
@@ -144,18 +147,14 @@ class AttachmentsViewModel : ViewModel() {
                 AttachmentState.CANCELED -> {}
                 AttachmentState.ERROR -> {
                     viewModelScope.launch {
-                        _attachmentEvents.emit(AttachmentEvent.OnAttachmentError)
+                        attachmentStateEvents.send(AttachmentEvent.OnAttachmentError)
                     }
                 }
                 else -> {
                     viewModelScope.launch {
                         if (newState.downloadState == AttachmentState.COMPLETE
                             || newState.downloadState == AttachmentState.START) {
-                            _attachmentEvents.emit(
-                                AttachmentEvent.HighlightAttachment(
-                                    newState
-                                )
-                            )
+                            _highlightAttachment.emit(newState)
                         }
                     }
                 }
@@ -181,7 +180,7 @@ class AttachmentsViewModel : ViewModel() {
         }
 
         viewModelScope.launch {
-            _attachmentEvents.emit(AttachmentEvent.OnEntryReadyForSave(entryInfo))
+            attachmentStateEvents.send(AttachmentEvent.OnEntryReadyForSave(entryInfo))
         }
     }
 
@@ -201,11 +200,7 @@ class AttachmentsViewModel : ViewModel() {
             val attachment: Attachment
         ) : AttachmentEvent()
 
-        data class HighlightAttachment(
-            val attachment: EntryAttachmentState
-        ) : AttachmentEvent()
-
-        data class DeleteAttachment(
+        data class OnDeleteAttachment(
             val attachment: Attachment
         ) : AttachmentEvent()
 

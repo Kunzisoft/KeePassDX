@@ -27,6 +27,8 @@ import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.activityViewModels
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.helpers.ExternalFileHelper
+import com.kunzisoft.keepass.activities.helpers.ExternalFileHelper.registerOpenFile
+import com.kunzisoft.keepass.activities.helpers.ExternalFileHelper.setOpenFileClickListener
 import com.kunzisoft.keepass.database.MainCredential
 import com.kunzisoft.keepass.database.exception.FileNotFoundDatabaseException
 import com.kunzisoft.keepass.utils.UriUtil.getDocumentFile
@@ -38,7 +40,11 @@ class MainCredentialDialogFragment : DatabaseDialogFragment() {
 
     private var mainCredentialView: MainCredentialView? = null
 
-    private var mExternalFileHelper: ExternalFileHelper? = null
+    private var openKeyFileResultLauncher: ExternalFileHelper.OpenFileResultLauncher = registerOpenFile { uri ->
+        uri?.let {
+            mainCredentialView?.populateKeyFileView(uri)
+        }
+    }
 
     private val mMainCredentialDialogViewModel: MainCredentialDialogViewModel by activityViewModels()
 
@@ -73,13 +79,8 @@ class MainCredentialDialogFragment : DatabaseDialogFragment() {
                         )
                     }
 
-                mExternalFileHelper = ExternalFileHelper(this)
-                mExternalFileHelper?.buildOpenDocument { uri ->
-                    if (uri != null) {
-                        mainCredentialView?.populateKeyFileView(uri)
-                    }
-                }
-                mainCredentialView?.setOpenKeyfileClickListener(mExternalFileHelper)
+                mainCredentialView?.keyFileSelectionView
+                    ?.setOpenFileClickListener(this, openKeyFileResultLauncher)
             } ?: run {
                 mMainCredentialDialogViewModel.cancelMainCredential(
                     databaseUri = null,

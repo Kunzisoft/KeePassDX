@@ -1,0 +1,3 @@
+ * Fix deleting history #2718
+ * Fix validation button #2719
+ * New error message after external database file hash modification #2725

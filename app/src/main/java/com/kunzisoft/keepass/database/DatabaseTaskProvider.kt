@@ -81,6 +81,7 @@ import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_PARALLELISM_TASK
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_RECYCLE_BIN_TASK
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_TEMPLATES_GROUP_TASK
+import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.BENCHMARK_TIME_KEY
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ENTRIES_ID_KEY
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.GROUPS_ID_KEY
 import com.kunzisoft.keepass.utils.DATABASE_START_TASK_ACTION
@@ -612,30 +613,6 @@ class DatabaseTaskProvider(
         }, ACTION_DATABASE_UPDATE_ENCRYPTION_TASK)
     }
 
-    fun startDatabaseSaveKeyDerivation(
-        oldKeyDerivation: KdfEngine,
-        newKeyDerivation: KdfEngine,
-        save: Boolean
-    ) {
-        start(Bundle().apply {
-            putSerializable(DatabaseTaskNotificationService.OLD_ELEMENT_KEY, oldKeyDerivation)
-            putSerializable(DatabaseTaskNotificationService.NEW_ELEMENT_KEY, newKeyDerivation)
-            putBoolean(DatabaseTaskNotificationService.SAVE_DATABASE_KEY, save)
-        }, ACTION_DATABASE_UPDATE_KEY_DERIVATION_TASK)
-    }
-
-    fun startDatabaseSaveIterations(
-        oldIterations: Long,
-        newIterations: Long,
-        save: Boolean
-    ) {
-        start(Bundle().apply {
-            putLong(DatabaseTaskNotificationService.OLD_ELEMENT_KEY, oldIterations)
-            putLong(DatabaseTaskNotificationService.NEW_ELEMENT_KEY, newIterations)
-            putBoolean(DatabaseTaskNotificationService.SAVE_DATABASE_KEY, save)
-        }, ACTION_DATABASE_UPDATE_ITERATIONS_TASK)
-    }
-
     fun startDatabaseSaveMemoryUsage(
         oldMemoryUsage: Long,
         newMemoryUsage: Long,
@@ -660,9 +637,35 @@ class DatabaseTaskProvider(
         }, ACTION_DATABASE_UPDATE_PARALLELISM_TASK)
     }
 
-    fun startDatabaseBenchmarkKdf() {
+    fun startDatabaseSaveIterations(
+        oldIterations: Long,
+        newIterations: Long,
+        save: Boolean
+    ) {
         start(Bundle().apply {
-            // TODO Time for benchmark
+            putLong(DatabaseTaskNotificationService.OLD_ELEMENT_KEY, oldIterations)
+            putLong(DatabaseTaskNotificationService.NEW_ELEMENT_KEY, newIterations)
+            putBoolean(DatabaseTaskNotificationService.SAVE_DATABASE_KEY, save)
+        }, ACTION_DATABASE_UPDATE_ITERATIONS_TASK)
+    }
+
+    fun startDatabaseSaveKeyDerivation(
+        oldKeyDerivation: KdfEngine,
+        newKeyDerivation: KdfEngine,
+        save: Boolean
+    ) {
+        start(Bundle().apply {
+            putSerializable(DatabaseTaskNotificationService.OLD_ELEMENT_KEY, oldKeyDerivation)
+            putSerializable(DatabaseTaskNotificationService.NEW_ELEMENT_KEY, newKeyDerivation)
+            putBoolean(DatabaseTaskNotificationService.SAVE_DATABASE_KEY, save)
+        }, ACTION_DATABASE_UPDATE_KEY_DERIVATION_TASK)
+    }
+
+    fun startDatabaseBenchmarkKdf(
+        targetTime: Long
+    ) {
+        start(Bundle().apply {
+            putLong(BENCHMARK_TIME_KEY, targetTime)
         }, ACTION_DATABASE_BENCHMARK_KDF)
     }
 
@@ -678,7 +681,7 @@ class DatabaseTaskProvider(
 
     fun startChallengeResponded(response: ByteArray?) {
         start(Bundle().apply {
-            putByteArray(DatabaseTaskNotificationService.DATA_BYTES, response)
+            putByteArray(DatabaseTaskNotificationService.DATA_BYTES_KEY, response)
         }, ACTION_CHALLENGE_RESPONDED)
     }
 

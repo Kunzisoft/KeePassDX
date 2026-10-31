@@ -1,0 +1,3 @@
+ * Correction de la suppression de l'historique #2718
+ * Correction du bouton de validation #2719
+ * Nouveau message d'erreur après une modification externe du hash du fichier de base de données #2725

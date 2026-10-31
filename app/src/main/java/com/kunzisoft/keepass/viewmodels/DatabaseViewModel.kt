@@ -23,6 +23,7 @@ import android.app.Application
 import android.net.Uri
 import android.os.Bundle
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.viewModelScope
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.DatabaseTaskProvider
 import com.kunzisoft.keepass.database.MainCredential
@@ -36,6 +37,7 @@ import com.kunzisoft.keepass.database.element.binary.BinaryData
 import com.kunzisoft.keepass.database.element.database.CompressionAlgorithm
 import com.kunzisoft.keepass.database.element.node.Nodes
 import com.kunzisoft.keepass.model.CipherEncryptDatabase
+import com.kunzisoft.keepass.model.DatabaseMetadata
 import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.model.GroupInfo
 import com.kunzisoft.keepass.model.SnapFileDatabaseInfo
@@ -44,6 +46,8 @@ import com.kunzisoft.keepass.tasks.ActionRunnable
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 class DatabaseViewModel(application: Application): AndroidViewModel(application) {
 
@@ -55,6 +59,9 @@ class DatabaseViewModel(application: Application): AndroidViewModel(application)
 
     private val mActionState = MutableStateFlow<ActionState>(ActionState.Wait)
     val actionState: StateFlow<ActionState> = mActionState.asStateFlow()
+
+    private val mDatabaseMetadata = MutableStateFlow<DatabaseMetadata?>(null)
+    val databaseMetadata: StateFlow<DatabaseMetadata?> = mDatabaseMetadata.asStateFlow()
 
     private var mDatabaseTaskProvider: DatabaseTaskProvider = DatabaseTaskProvider(application)
 
@@ -83,6 +90,9 @@ class DatabaseViewModel(application: Application): AndroidViewModel(application)
                     newDatabaseInfo,
                     readOnlyDatabase
                 )
+                mDatabaseMetadata.value = mDatabaseMetadata.value?.copy(
+                    path = newDatabaseInfo.fileUri?.toString()
+                )
             }
         }
         mDatabaseTaskProvider.actionTaskListener = object : DatabaseTaskNotificationService.ActionTaskListener {
@@ -110,10 +120,35 @@ class DatabaseViewModel(application: Application): AndroidViewModel(application)
                 result: ActionRunnable.Result
             ) {
                 mActionState.value = ActionState.OnDatabaseActionFinished(database, actionTask, result)
+                when (actionTask) {
+                    DatabaseTaskNotificationService.ACTION_DATABASE_UPDATE_NAME_TASK -> {
+                        mDatabaseMetadata.value = mDatabaseMetadata.value?.copy(name = database.name)
+                    }
+                    DatabaseTaskNotificationService.ACTION_DATABASE_UPDATE_COLOR_TASK -> {
+                        mDatabaseMetadata.value = mDatabaseMetadata.value?.copy(color = database.customColor)
+                    }
+                }
             }
         }
 
         mDatabaseTaskProvider.registerProgressTask()
+
+        viewModelScope.launch {
+            databaseState.collectLatest { database ->
+                mDatabaseMetadata.value = database?.let {
+                    DatabaseMetadata(
+                        name = it.name,
+                        path = it.fileUri?.toString(),
+                        version = it.version,
+                        color = it.customColor,
+                        isModified = it.dataModifiedSinceLastLoading
+                    )
+                }
+                database?.dataModifiedSinceLastLoadingFlow?.collect { modified ->
+                    mDatabaseMetadata.value = mDatabaseMetadata.value?.copy(isModified = modified)
+                }
+            }
+        }
     }
 
     /*
@@ -506,8 +541,8 @@ class DatabaseViewModel(application: Application): AndroidViewModel(application)
         )
     }
 
-    fun benchmarkKdf() {
-        mDatabaseTaskProvider.startDatabaseBenchmarkKdf()
+    fun benchmarkKdf(targetTime: Long) {
+        mDatabaseTaskProvider.startDatabaseBenchmarkKdf(targetTime)
     }
 
     /*

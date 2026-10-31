@@ -31,87 +31,132 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
+import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.FileManagerDialogFragment
 import com.kunzisoft.keepass.utils.UriUtil.takeUriPermission
+import org.joda.time.LocalDateTime
 
-class ExternalFileHelper {
+object ExternalFileHelper {
 
-    private var activity: FragmentActivity? = null
-    private var fragment: Fragment? = null
+    private const val TAG = "OpenFileHelper"
+    private const val BROWSER_DIALOG_TAG = "com.kunzisoft.keepass.dialog.browser"
 
-    private var getContentResultLauncher: ActivityResultLauncher<String>? = null
-    private var openDocumentResultLauncher: ActivityResultLauncher<Array<String>>? = null
-    private var createDocumentResultLauncher: ActivityResultLauncher<String>? = null
+    private const val DEFAULT_FILE_TYPE = "application/octet-stream"
+    private const val KEEPASS_FILE_TYPE = "application/x-keepass"
 
-    constructor(context: FragmentActivity) {
-        this.activity = context
-        this.fragment = null
+    data class OpenFileResultLauncher(
+        val getContent: ActivityResultLauncher<String>,
+        val openDocument: ActivityResultLauncher<Array<String>>
+    )
+    // TODO Not yet available typealias CreateFileResultLauncher = ActivityResultLauncher<String>
+
+    fun FragmentActivity.registerOpenFile(
+        onFileSelected: ((uri: Uri?) -> Unit)?
+    ): OpenFileResultLauncher {
+        val resultCallback = ActivityResultCallback<Uri?> { result ->
+            this.contentResolver.takeUriPermission(result)
+            onFileSelected?.invoke(result)
+        }
+        return OpenFileResultLauncher(
+            getContent = this.registerForActivityResult(
+                GetContent(),
+                resultCallback
+            ),
+            openDocument = this.registerForActivityResult(
+                OpenDocument(),
+                resultCallback
+            )
+        )
     }
 
-    constructor(context: Fragment) {
-        this.activity = context.activity
-        this.fragment = context
-    }
-
-    fun buildOpenDocument(onFileSelected: ((uri: Uri?) -> Unit)?) {
-
+    fun Fragment.registerOpenFile(
+        onFileSelected: ((uri: Uri?) -> Unit)?
+    ): OpenFileResultLauncher {
         val resultCallback = ActivityResultCallback<Uri?> { result ->
             activity?.contentResolver?.takeUriPermission(result)
             onFileSelected?.invoke(result)
         }
-
-        getContentResultLauncher = if (fragment != null) {
-            fragment?.registerForActivityResult(
+        return OpenFileResultLauncher(
+            getContent = this.registerForActivityResult(
                 GetContent(),
                 resultCallback
-            )
-        } else {
-            activity?.registerForActivityResult(
-                GetContent(),
-                resultCallback
-            )
-        }
-
-        openDocumentResultLauncher = if (fragment != null) {
-            fragment?.registerForActivityResult(
+            ),
+            openDocument = this.registerForActivityResult(
                 OpenDocument(),
                 resultCallback
             )
-        } else {
-            activity?.registerForActivityResult(
-                OpenDocument(),
-                resultCallback
-            )
-        }
+        )
     }
 
-    fun buildCreateDocument(typeString: String = "application/octet-stream",
-                            onFileCreated: (fileCreated: Uri?)->Unit) {
-
-        val resultCallback = ActivityResultCallback<Uri?> { result ->
+    fun FragmentActivity.registerCreateFile(
+        typeString: String = DEFAULT_FILE_TYPE,
+        onFileCreated: (fileCreated: Uri?)->Unit
+    ): ActivityResultLauncher<String> {
+        return this.registerForActivityResult(
+            CreateDocument(typeString)
+        ) { result ->
             onFileCreated.invoke(result)
         }
+    }
 
-        createDocumentResultLauncher = if (fragment != null) {
-            fragment?.registerForActivityResult(
-                CreateDocument(typeString),
-                resultCallback
-            )
-        } else {
-            activity?.registerForActivityResult(
-                CreateDocument(typeString),
-                resultCallback
-            )
+    fun Fragment.registerCreateFile(
+        typeString: String = DEFAULT_FILE_TYPE,
+        onFileCreated: (fileCreated: Uri?)->Unit
+    ): ActivityResultLauncher<String> {
+        return this.registerForActivityResult(
+            CreateDocument(typeString)
+        ) { result ->
+            onFileCreated.invoke(result)
         }
     }
 
-    fun openDocument(getContent: Boolean = false,
-                     typeString: String = "*/*") {
+    fun FragmentActivity.registerCreateDatabaseFile(
+        onFileCreated: (fileCreated: Uri?)->Unit
+    ): ActivityResultLauncher<String> {
+        return registerCreateFile(KEEPASS_FILE_TYPE, onFileCreated)
+    }
+
+    fun Fragment.registerCreateDatabaseFile(
+        onFileCreated: (fileCreated: Uri?)->Unit
+    ): ActivityResultLauncher<String> {
+        return registerCreateFile(KEEPASS_FILE_TYPE, onFileCreated)
+    }
+
+    /**
+     * Show Browser dialog to select file picker app
+     */
+    private fun FragmentActivity.showFileManagerDialogFragment() {
+        try {
+            FileManagerDialogFragment().show(
+                this.supportFragmentManager,
+                BROWSER_DIALOG_TAG
+            )
+        } catch (e: Exception) {
+            Log.e(TAG, "Unable to open browser dialog from activity", e)
+        }
+    }
+
+    private fun Fragment.showFileManagerDialogFragment() {
+        try {
+            FileManagerDialogFragment().show(
+                this.parentFragmentManager,
+                BROWSER_DIALOG_TAG
+            )
+        } catch (e: Exception) {
+            Log.e(TAG, "Unable to open browser dialog from fragment", e)
+        }
+    }
+
+    fun FragmentActivity.openFile(
+        openFileResultLauncher: OpenFileResultLauncher,
+        getContent: Boolean = false,
+        typeString: String = "*/*"
+    ) {
         try {
             if (getContent) {
-                getContentResultLauncher?.launch(typeString)
+                openFileResultLauncher.getContent.launch(typeString)
             } else {
-                openDocumentResultLauncher?.launch(arrayOf(typeString))
+                openFileResultLauncher.openDocument.launch(arrayOf(typeString))
             }
         } catch (e: Exception) {
             Log.e(TAG, "Unable to open document", e)
@@ -119,30 +164,59 @@ class ExternalFileHelper {
         }
     }
 
-    fun createDocument(titleString: String) {
+    fun Fragment.openFile(
+        openFileResultLauncher: OpenFileResultLauncher,
+        getContent: Boolean = false,
+        typeString: String = "*/*"
+    ) {
         try {
-            createDocumentResultLauncher?.launch(titleString)
+            if (getContent) {
+                openFileResultLauncher.getContent.launch(typeString)
+            } else {
+                openFileResultLauncher.openDocument.launch(arrayOf(typeString))
+            }
         } catch (e: Exception) {
-            Log.e(TAG, "Unable to create document", e)
+            Log.e(TAG, "Unable to open document", e)
             showFileManagerDialogFragment()
         }
     }
 
-    /**
-     * Show Browser dialog to select file picker app
-     */
-    private fun showFileManagerDialogFragment() {
+    fun FragmentActivity.createFile(
+        createFileResultLauncher: ActivityResultLauncher<String>,
+        titleString: String
+    ) {
         try {
-            if (fragment != null) {
-                fragment?.parentFragmentManager
-            } else {
-                activity?.supportFragmentManager
-            }?.let { fragmentManager ->
-                FileManagerDialogFragment().show(fragmentManager, "browserDialog")
-            }
+            createFileResultLauncher.launch(titleString)
         } catch (e: Exception) {
-            Log.e(TAG, "Can't open BrowserDialog", e)
+            Log.e(TAG, "Unable to create document with activity", e)
+            showFileManagerDialogFragment()
         }
+    }
+
+    fun Fragment.createFile(
+        createFileResultLauncher: ActivityResultLauncher<String>,
+        titleString: String
+    ) {
+        try {
+            createFileResultLauncher.launch(titleString)
+        } catch (e: Exception) {
+            Log.e(TAG, "Unable to create document with fragment", e)
+            showFileManagerDialogFragment()
+        }
+    }
+
+    fun FragmentActivity.createDatabaseFile(
+        createFileResultLauncher: ActivityResultLauncher<String>,
+        fileName: String = getString(R.string.database_file_name_default),
+        addCurrentDateToName: Boolean = false,
+        extension: String? = null
+    ) {
+        createFile(
+            createFileResultLauncher,
+            titleString = fileName
+                    + (if (addCurrentDateToName) { "_" + LocalDateTime.now().toString() } else "")
+                    + (extension ?: getString(R.string.database_file_extension_default))
+        )
     }
 
     class OpenDocument : ActivityResultContracts.OpenDocument() {
@@ -183,23 +257,29 @@ class ExternalFileHelper {
         }
     }
 
-
-    companion object {
-        private const val TAG = "OpenFileHelper"
-    }
-}
-
-fun View.setOpenDocumentClickListener(externalFileHelper: ExternalFileHelper?) {
-    externalFileHelper?.let { fileHelper ->
-        setOnClickListener {
-            fileHelper.openDocument(false)
+    fun View.setOpenFileClickListener(
+        activity: FragmentActivity,
+        openFileResultLauncher: OpenFileResultLauncher
+    ) {
+        this.setOnClickListener {
+            activity.openFile(openFileResultLauncher, getContent = false)
         }
-        setOnLongClickListener {
-            fileHelper.openDocument(true)
+        this.setOnLongClickListener {
+            activity.openFile(openFileResultLauncher, getContent = true)
             true
         }
-    } ?: kotlin.run {
-        setOnClickListener(null)
-        setOnLongClickListener(null)
+    }
+
+    fun View.setOpenFileClickListener(
+        fragment: Fragment,
+        openFileResultLauncher: OpenFileResultLauncher
+    ) {
+        this.setOnClickListener {
+            fragment.openFile(openFileResultLauncher, getContent = false)
+        }
+        this.setOnLongClickListener {
+            fragment.openFile(openFileResultLauncher, getContent = true)
+            true
+        }
     }
 }

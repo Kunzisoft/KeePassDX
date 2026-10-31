@@ -28,6 +28,7 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.viewModels
 import androidx.appcompat.widget.Toolbar
 import androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -38,11 +39,12 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.helpers.ExternalFileHelper
+import com.kunzisoft.keepass.activities.helpers.ExternalFileHelper.createFile
+import com.kunzisoft.keepass.activities.helpers.ExternalFileHelper.openFile
+import com.kunzisoft.keepass.activities.helpers.ExternalFileHelper.registerCreateDatabaseFile
+import com.kunzisoft.keepass.activities.helpers.ExternalFileHelper.registerOpenFile
 import com.kunzisoft.keepass.activities.legacy.DatabaseLockActivity
-import com.kunzisoft.keepass.database.ContextualDatabase
-import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.timeout.TimeoutHelper
-import com.kunzisoft.keepass.view.showActionErrorIfNeeded
 import com.kunzisoft.keepass.view.showError
 import com.kunzisoft.keepass.viewmodels.SetMainCredentialViewModel
 import com.kunzisoft.keepass.viewmodels.SettingsViewModel
@@ -58,7 +60,42 @@ open class SettingsActivity
     private val mSetMainCredentialViewModel: SetMainCredentialViewModel by viewModels()
 
     private var backupManager: BackupManager? = null
-    private var mExternalFileHelper: ExternalFileHelper? = null
+
+    private var openPropertiesFileResultLauncher: ExternalFileHelper.OpenFileResultLauncher = registerOpenFile { uri ->
+        // Import app settings result
+        try {
+            uri?.let {
+                val appProperties = Properties()
+                contentResolver?.openInputStream(uri)?.use { inputStream ->
+                    appProperties.load(inputStream)
+                }
+                PreferencesUtil.setAppProperties(this, appProperties)
+
+                // Restart the current activity
+                reloadActivity()
+                Toast.makeText(this, R.string.success_import_app_properties, Toast.LENGTH_LONG).show()
+            }
+        } catch (e: Exception) {
+            Toast.makeText(this, R.string.error_import_app_properties, Toast.LENGTH_LONG).show()
+            Log.e(TAG, "Unable to import app settings", e)
+        }
+    }
+    private var createPropertiesFileResultLauncher: ActivityResultLauncher<String> = registerCreateDatabaseFile { uri ->
+        // Export app settings result
+        try {
+            uri?.let {
+                contentResolver?.openOutputStream(uri)?.use { outputStream ->
+                    PreferencesUtil
+                        .getAppProperties(this)
+                        .store(outputStream, getString(R.string.description_app_properties))
+                }
+                Toast.makeText(this, R.string.success_export_app_properties, Toast.LENGTH_LONG).show()
+            }
+        } catch (e: Exception) {
+            Toast.makeText(this, R.string.error_export_app_properties, Toast.LENGTH_LONG).show()
+            Log.e(DatabaseLockActivity.TAG, "Unable to export app settings", e)
+        }
+    }
 
     private var coordinatorLayout: CoordinatorLayout? = null
     private var toolbar: Toolbar? = null
@@ -85,43 +122,6 @@ open class SettingsActivity
                 WindowInsetPosition.END_MARGINS,
             ))
         }*/
-
-        mExternalFileHelper = ExternalFileHelper(this)
-        mExternalFileHelper?.buildOpenDocument { selectedFileUri ->
-            // Import app settings result
-            try {
-                selectedFileUri?.let { uri ->
-                    val appProperties = Properties()
-                    contentResolver?.openInputStream(uri)?.use { inputStream ->
-                        appProperties.load(inputStream)
-                    }
-                    PreferencesUtil.setAppProperties(this, appProperties)
-
-                    // Restart the current activity
-                    reloadActivity()
-                    Toast.makeText(this, R.string.success_import_app_properties, Toast.LENGTH_LONG).show()
-                }
-            } catch (e: Exception) {
-                Toast.makeText(this, R.string.error_import_app_properties, Toast.LENGTH_LONG).show()
-                Log.e(TAG, "Unable to import app settings", e)
-            }
-        }
-        mExternalFileHelper?.buildCreateDocument { createdFileUri ->
-            // Export app settings result
-            try {
-                createdFileUri?.let { uri ->
-                    contentResolver?.openOutputStream(uri)?.use { outputStream ->
-                        PreferencesUtil
-                            .getAppProperties(this)
-                            .store(outputStream, getString(R.string.description_app_properties))
-                    }
-                    Toast.makeText(this, R.string.success_export_app_properties, Toast.LENGTH_LONG).show()
-                }
-            } catch (e: Exception) {
-                Toast.makeText(this, R.string.error_export_app_properties, Toast.LENGTH_LONG).show()
-                Log.e(DatabaseLockActivity.TAG, "Unable to export app settings", e)
-            }
-        }
 
         if (savedInstanceState?.getString(TITLE_KEY).isNullOrEmpty())
             toolbar?.setTitle(R.string.settings)
@@ -180,23 +180,11 @@ open class SettingsActivity
      * Retrieve the main fragment to show in first
      * @return The main fragment
      */
-    protected open fun retrieveMainFragment(): Fragment {
-        return MainPreferenceFragment()
-    }
+    protected open fun retrieveMainFragment(): Fragment = MainPreferenceFragment()
 
-    override fun viewToInvalidateTimeout(): View? {
-        return coordinatorLayout
-    }
+    override fun viewToInvalidateTimeout(): View? = coordinatorLayout
 
-    override fun onDatabaseActionFinished(
-        database: ContextualDatabase,
-        actionTask: String,
-        result: ActionRunnable.Result
-    ) {
-        super.onDatabaseActionFinished(database, actionTask, result)
-
-        coordinatorLayout?.showActionErrorIfNeeded(result)
-    }
+    override fun errorCoordinatorView(): View? = coordinatorLayout
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
@@ -271,12 +259,15 @@ open class SettingsActivity
     }
 
     fun importAppProperties() {
-        mExternalFileHelper?.openDocument()
+        openFile(openPropertiesFileResultLauncher)
     }
 
     fun exportAppProperties() {
-        mExternalFileHelper?.createDocument(getString(R.string.app_properties_file_name,
-            DateTime.now().toLocalDateTime().toString("yyyy-MM-dd'_'HH-mm")))
+        createFile(
+            createFileResultLauncher = createPropertiesFileResultLauncher,
+            titleString = getString(R.string.app_properties_file_name,
+                DateTime.now().toLocalDateTime().toString("yyyy-MM-dd'_'HH-mm"))
+        )
     }
 
     override fun onSaveInstanceState(outState: Bundle) {

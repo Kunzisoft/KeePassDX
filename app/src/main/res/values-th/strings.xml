@@ -91,7 +91,7 @@
     <string name="loading_database">กำลังเปิดฐานข้อมูล…</string>
     <string name="device_unlock_prompt_extract_credential_title">เปิดฐานข้อมูลด้วยการปลดล็อกด้วยอุปกรณ์</string>
     <string name="waiting_challenge_response">กำลังรอการตอบกลับจากกุญแจฮาร์ดแวร์…</string>
-    <string name="html_about_licence">แอป คียพาสดีเอ็กซ์ © %1$d คุนซีซอฟต์ เป็นแอป &lt;strong&gt;โอเพนซอร์ซ&lt;/strong&gt; และ &lt;strong&gt;ไม่มีโฆษณา&lt;/strong&gt;.  \nจัดให้ตามสภาพที่เป็นอยู่ ภายใต้เงื่อนไข&lt;strong&gt;จีพีเอลรุ่น3&lt;/strong&gt; ลิขสิทธิ์, ปราศจากการรับประกันใดๆ.</string>
+    <string name="html_about_licence">แอป คียพาสดีเอ็กซ์ © %1$d คุนซีซอฟต์ เป็นแอป &lt;strong&gt;โอเพนซอร์ซ&lt;/strong&gt; และ &lt;strong&gt;ไม่มีโฆษณา&lt;/strong&gt;. \nจัดให้ตามสภาพที่เป็นอยู่ ภายใต้เงื่อนไข&lt;strong&gt;จีพีเอลรุ่น3&lt;/strong&gt; ลิขสิทธิ์, ปราศจากการรับประกันใดๆ.</string>
     <string name="ssid">SSID</string>
     <string name="account">บัญชี</string>
     <string name="bank">ธนาคาร</string>
@@ -103,7 +103,7 @@
     <string name="error_can_not_handle_uri">ไม่สามารถเปิด ยูอาร์ไอ นี้ใน คียพาสดีเอ็กซ์ ได้</string>
     <string name="error_file_not_create">ไม่สามารถสร้างไฟล์</string>
     <string name="error_label_exists">ป้ายกำกับนี้มีอยู่แล้ว</string>
-    <string name="error_rounds_too_large">\"รอบการเปลี่ยนรูปแบบ\" สูงเกินไป ตั้งค่าเป็น 2147483648</string>
+    <string name="error_rounds_too_large">\"รอบการเปลี่ยนรูปแบบ\" สูงเกินไป ตั้งค่าเป็น %1$s</string>
     <string name="error_wrong_length">ป้อนจำนวนเต็มบวกในช่อง \"ความยาว\"</string>
     <string name="error_autofill_enable_service">ไม่สามารถเปิดใช้งานบริการป้อนข้อมูลอัตโนมัติ</string>
     <string name="error_field_name_already_exists">ชื่อช่องนี้มีอยู่แล้ว</string>

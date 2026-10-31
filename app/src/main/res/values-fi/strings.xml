@@ -42,8 +42,7 @@
     <string name="decrypting_db">Puretaan tietokannan sisältöä…</string>
     <string name="default_checkbox">Käytä tätä oletustietokantana</string>
     <string name="digits">Numerot</string>
-    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft on &lt;strong&gt;avointa lähdekoodia&lt;/strong&gt; ja &lt;strong&gt;mainokseton&lt;/strong&gt;.
-\nSe tarjotaan sellaisenaan &lt;strong&gt;GPLv3&lt;/strong&gt; lisenssillä ja ilman takuuta.</string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft on &lt;strong&gt;avointa lähdekoodia&lt;/strong&gt; ja &lt;strong&gt;mainokseton&lt;/strong&gt;. \nSe tarjotaan sellaisenaan &lt;strong&gt;GPLv3&lt;/strong&gt; lisenssillä ja ilman takuuta.</string>
     <string name="select_database_file">Avaa olemassaoleva holvi</string>
     <string name="entry_accessed">Käytetty</string>
     <string name="entry_cancel">Peruuta</string>
@@ -69,7 +68,7 @@
     <string name="error_out_of_memory">Ei tarpeeksi muistia koko tietokantasi lataamiseen.</string>
     <string name="error_pass_gen_type">Vähintään yksi salasanagenerointitapa täytyy olla valittuna.</string>
     <string name="error_pass_match">Salasanat eivät täsmää.</string>
-    <string name="error_rounds_too_large">Kierroksia on liian paljon. Asetetaan se arvoon 2147483648.</string>
+    <string name="error_rounds_too_large">Kierroksia on liian paljon. Asetetaan se arvoon %1$s.</string>
     <string name="error_string_key">Jokaisella tekstillä tulee olla kentässä nimi.</string>
     <string name="error_wrong_length">Syötä positiivinen kokonaisluku pituus-kenttään.</string>
     <string name="field_name">Kentän nimi</string>

@@ -24,12 +24,11 @@ import android.net.Uri
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.MainCredential
 import com.kunzisoft.keepass.database.element.MasterCredential
-import com.kunzisoft.keepass.database.element.binary.BinaryData
-import com.kunzisoft.keepass.database.exception.DatabaseInputException
 import com.kunzisoft.keepass.database.exception.UnknownDatabaseLocationException
 import com.kunzisoft.keepass.hardware.HardwareKey
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
+import com.kunzisoft.keepass.utils.AppUtil.getLimits
 import com.kunzisoft.keepass.utils.getBinaryDir
 import com.kunzisoft.keepass.utils.getUriInputStream
 
@@ -45,40 +44,36 @@ class LoadDatabaseRunnable(
     private val progressTaskUpdater: ProgressTaskUpdater?
 ) : ActionRunnable() {
 
-    private var mMasterCredential: MasterCredential? = null
-    var afterLoadDatabase : ((Result) -> Unit)? = null
-
+    private var masterCredential: MasterCredential? = null
     private val binaryDir = context.getBinaryDir()
-
-    override fun onStartRun() {
-        // Clear before we load
-        mDatabase.clearAndClose(binaryDir)
-    }
+    var afterLoadDatabase : ((Result) -> Unit)? = null
 
     override fun onActionRun() {
         try {
             val contentResolver = context.contentResolver
-            // Save database URI
-            mDatabase.fileUri = mDatabaseUri
-            mMasterCredential = mMainCredential.toMasterCredential(contentResolver)
-            mDatabase.loadData(
-                databaseStream = contentResolver.getUriInputStream(mDatabaseUri)
-                    ?: throw UnknownDatabaseLocationException(),
-                masterCredential = mMasterCredential!!,
-                challengeResponseRetriever = mChallengeResponseRetriever,
-                readOnly = mReadonly,
-                allowUserVerification = mAllowUserVerification,
-                cacheDirectory = binaryDir,
-                isRAMSufficient = { memoryWanted ->
-                    BinaryData.canMemoryBeAllocatedInRAM(context, memoryWanted)
-                },
-                fixDuplicateUUID = mFixDuplicateUUID,
-                progressTaskUpdater = progressTaskUpdater
-            )
-        } catch (e: DatabaseInputException) {
+            val databaseStream = contentResolver.getUriInputStream(mDatabaseUri)
+                ?: throw UnknownDatabaseLocationException()
+            masterCredential = mMainCredential.toMasterCredential(contentResolver)
+            mDatabase.apply {
+                // Clear binaries before database loading
+                clearAndClose(binaryDir)
+                // Save database URI
+                fileUri = mDatabaseUri
+                loadData(
+                    databaseStream = databaseStream,
+                    masterCredential = masterCredential!!,
+                    challengeResponseRetriever = mChallengeResponseRetriever,
+                    readOnly = mReadonly,
+                    allowUserVerification = mAllowUserVerification,
+                    cacheDirectory = binaryDir,
+                    limits = context.getLimits(),
+                    fixDuplicateUUID = mFixDuplicateUUID,
+                    progressTaskUpdater = progressTaskUpdater
+                )
+                indicateUpToDateData()
+            }
+        } catch (e: Exception) {
             setError(e)
-        } finally {
-            mDatabase.indicateUpToDateData()
         }
 
         if (!result.isSuccess) {
@@ -87,7 +82,7 @@ class LoadDatabaseRunnable(
     }
 
     override fun onFinishRun() {
-        mMasterCredential?.clear()
+        masterCredential?.clear()
         afterLoadDatabase?.invoke(result)
     }
 }

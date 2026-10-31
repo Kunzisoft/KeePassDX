@@ -97,7 +97,7 @@ enum class SortNodeEnum {
         private fun specificOrderOrHashIfEquals(object1: T, object2: T): Int {
             val specificOrderComp = compareBySpecificOrder(object1, object2)
             return when {
-                specificOrderComp == 0 -> object1.hashCode() - object2.hashCode()
+                specificOrderComp == 0 -> object1.hashCode().compareTo(object2.hashCode())
                 sortNodeParameters.ascending -> specificOrderComp
                 else -> -specificOrderComp
             }
@@ -113,10 +113,11 @@ enum class SortNodeEnum {
                         is GroupInfo -> {
                             // RecycleBin at end of groups
                             if (sortDatabaseParameters.recycleBinEnabled && sortNodeParameters.recycleBinBottom) {
-                                if (sortDatabaseParameters.recycleBinId == object1.nodeId)
-                                    return 1
-                                if (sortDatabaseParameters.recycleBinId == object2.nodeId)
-                                    return -1
+                                val isRecycleBin1 = sortDatabaseParameters.recycleBinId == object1.nodeId
+                                val isRecycleBin2 = sortDatabaseParameters.recycleBinId == object2.nodeId
+                                if (isRecycleBin1 != isRecycleBin2) {
+                                    return if (isRecycleBin1) 1 else -1
+                                }
                             }
                             return specificOrderOrHashIfEquals(object1, object2)
                         }

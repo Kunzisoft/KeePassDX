@@ -392,15 +392,13 @@ class Entry : Node, EntryVersionedInterface<Group> {
         entryKDBX?.stopToManageFieldReferences()
     }
 
-    fun getAttachments(attachmentPool: AttachmentPool, inHistory: Boolean = false): List<Attachment> {
-        val attachments = mutableListOf<Attachment>()
-        entryKDB?.getAttachment(attachmentPool)?.let {
-            attachments.add(it)
-        }
-        entryKDBX?.getAttachments(attachmentPool, inHistory)?.let {
-            attachments.addAll(it)
-        }
-        return attachments
+    fun getAttachments(
+        attachmentPool: AttachmentPool,
+        inHistory: Boolean = false
+    ): List<Attachment> {
+        return entryKDB?.getAttachment(attachmentPool)?.let { listOf(it) }
+            ?: entryKDBX?.getAttachments(attachmentPool, inHistory)
+            ?: listOf()
     }
 
     fun containsAttachment(): Boolean {
@@ -418,7 +416,10 @@ class Entry : Node, EntryVersionedInterface<Group> {
         entryKDBX?.removeAttachments()
     }
 
-    fun putAttachment(attachment: Attachment, attachmentPool: AttachmentPool) {
+    fun putAttachment(
+        attachment: Attachment,
+        attachmentPool: AttachmentPool
+    ) {
         entryKDB?.putAttachment(attachment, attachmentPool)
         entryKDBX?.putAttachment(attachment, attachmentPool)
     }
@@ -426,12 +427,7 @@ class Entry : Node, EntryVersionedInterface<Group> {
     fun getHistory(): List<Entry> {
         if (isHistoric())
             throw IOException("Cannot get history from a historical entry")
-        val history = mutableListOf<Entry>()
-        val entryKDBXHistory = entryKDBX?.history ?: listOf()
-        for (entryHistory in entryKDBXHistory) {
-            history.add(Entry(entryHistory))
-        }
-        return history
+        return entryKDBX?.getHistory()?.map { Entry(it) } ?: listOf()
     }
 
     fun getMainEntryHistoryId(): EntryId {
@@ -456,7 +452,7 @@ class Entry : Node, EntryVersionedInterface<Group> {
     }
 
     fun removeOldestEntryFromHistory(): Entry? {
-         entryKDBX?.removeOldestEntryFromHistory()?.let {
+        entryKDBX?.removeOldestEntryFromHistory()?.let {
             return Entry(it)
         }
         return null

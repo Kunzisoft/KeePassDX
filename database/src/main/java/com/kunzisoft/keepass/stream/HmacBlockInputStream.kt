@@ -19,8 +19,7 @@
  */
 package com.kunzisoft.keepass.stream
 
-import com.kunzisoft.keepass.database.crypto.HmacBlock
-import com.kunzisoft.keepass.utils.UnsignedLong
+import com.kunzisoft.encrypt.HashManager
 import com.kunzisoft.keepass.utils.bytes4ToUInt
 import com.kunzisoft.keepass.utils.clear
 import com.kunzisoft.keepass.utils.readBytesLength
@@ -33,7 +32,7 @@ class HmacBlockInputStream(private val baseStream: InputStream, private val veri
 
     private var buffer: ByteArray = ByteArray(0)
     private var bufferPos = 0
-    private var blockIndex = UnsignedLong(0L)
+    private var blockIndex: ULong = 0u
     private var endOfStream = false
 
     @Throws(IOException::class)
@@ -98,13 +97,13 @@ class HmacBlockInputStream(private val baseStream: InputStream, private val veri
         val blockSize = bytes4ToUInt(pbBlockSize)
         bufferPos = 0
 
-        buffer = baseStream.readBytesLength(blockSize.toKotlinInt())
+        buffer = baseStream.readBytesLength(blockSize.toInt())
 
         if (verify) {
             val pbBlockIndex = uLongTo8Bytes(blockIndex)
 
-            val blockKey = HmacBlock.getHmacKey64(key, pbBlockIndex)
-            val hmac: Mac = HmacBlock.getHmacSha256(blockKey)
+            val blockKey = HashManager.sha512(pbBlockIndex, key)
+            val hmac: Mac = HashManager.getHmacSha256(blockKey)
             hmac.update(pbBlockIndex)
             hmac.update(pbBlockSize)
 
@@ -121,9 +120,9 @@ class HmacBlockInputStream(private val baseStream: InputStream, private val veri
 
         }
 
-        blockIndex.plusOne()
+        blockIndex++
 
-        if (blockSize.toKotlinLong() == 0L) {
+        if (blockSize == 0u) {
             endOfStream = true
             return false
         }

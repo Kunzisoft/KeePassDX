@@ -170,19 +170,13 @@
                         android:text="@string/issues_url"
                         android:autoLink="web"/>
 
-                    <TextView
-                        android:id="@+id/activity_about_contribution_subtitle"
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/activity_about_support_button"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:text="@string/contribution"
-                        style="@style/KeepassDXStyle.SubTitle"/>
-                    <TextView
-                        android:id="@+id/activity_about_contribution_link"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/contribution_url"
-                        android:autoLink="web"/>
+                        android:layout_marginTop="@dimen/default_margin"
+                        app:icon="@drawable/ic_heart_white_24dp"
+                        android:text="@string/contribute" />
 
                 </LinearLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>

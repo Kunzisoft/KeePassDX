@@ -31,7 +31,8 @@ data class Passkey(
     val userHandle: String,
     val relyingParty: String,
     val backupEligibility: Boolean?,
-    val backupState: Boolean?
+    val backupState: Boolean?,
+    val prfSecret: CharArray? = null
 ): Parcelable {
 
     constructor(passkey: Passkey) : this(
@@ -41,11 +42,13 @@ data class Passkey(
         passkey.userHandle,
         passkey.relyingParty,
         passkey.backupEligibility,
-        passkey.backupState
+        passkey.backupState,
+        passkey.prfSecret?.copyOf()
     )
 
     fun clear() {
         privateKeyPem.clear()
+        prfSecret?.clear()
     }
 
     // Do not compare BE and BS because are modifiable by the user
@@ -60,6 +63,10 @@ data class Passkey(
         if (credentialId != other.credentialId) return false
         if (userHandle != other.userHandle) return false
         if (relyingParty != other.relyingParty) return false
+        if (prfSecret != null) {
+            if (other.prfSecret == null) return false
+            if (!prfSecret.contentEquals(other.prfSecret)) return false
+        } else if (other.prfSecret != null) return false
 
         return true
     }
@@ -70,6 +77,7 @@ data class Passkey(
         result = 31 * result + credentialId.hashCode()
         result = 31 * result + userHandle.hashCode()
         result = 31 * result + relyingParty.hashCode()
+        result = 31 * result + (prfSecret?.contentHashCode() ?: 0)
         return result
     }
 }

@@ -49,9 +49,9 @@ class OtpDisplayView @JvmOverloads constructor(
     private val otpProgress: OtpProgressView
     private val otpTokenView: TextView
 
-    private var mPrefSizeMultiplier: Float = PreferencesUtil.getListTextSize(context)
-
-    private var mShowOTP: Boolean = PreferencesUtil.showOTPToken(context)
+    private var mDefaultTextSize: Float = 0f
+    private var mPrefSizeMultiplier: Float = 0f
+    private var mShowOTP: Boolean = false
 
     private var otpElement: OtpElement? = null
     private var mProtected = true
@@ -65,6 +65,13 @@ class OtpDisplayView @JvmOverloads constructor(
         otpIcon = findViewById(R.id.otp_icon)
         otpProgress = findViewById(R.id.otp_progress)
         otpTokenView = findViewById(R.id.otp_token)
+        mDefaultTextSize = otpTokenView.textSize
+        assignPreferences()
+    }
+
+    private fun assignPreferences() {
+        mPrefSizeMultiplier = PreferencesUtil.getListTextSize(context)
+        mShowOTP = PreferencesUtil.showOTPToken(context)
     }
 
     /**
@@ -127,6 +134,7 @@ class OtpDisplayView @JvmOverloads constructor(
      * @param otpModel The OTP model to display.
      */
     fun setOtpModel(otpModel: OtpModel?) {
+        assignPreferences()
         otpModel?.let { model ->
             val otpElement = OtpElement(model)
             if (this.otpElement?.otpModel != model) {
@@ -181,7 +189,7 @@ class OtpDisplayView @JvmOverloads constructor(
                 text = String(otpElement.tokenFormatted)
                 setTextSize(
                     unit = TypedValue.COMPLEX_UNIT_PX,
-                    defaultSize = otpTokenView.textSize,
+                    defaultSize = mDefaultTextSize,
                     mPrefSizeMultiplier
                 )
                 textDirection = TEXT_DIRECTION_LTR

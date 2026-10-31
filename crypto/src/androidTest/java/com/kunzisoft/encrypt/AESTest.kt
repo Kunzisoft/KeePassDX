@@ -102,7 +102,7 @@ class AESTest {
         mRand.nextBytes(seed)
         val key = ByteArray(32)
         mRand.nextBytes(key)
-        val rounds = 60000L
+        val rounds: ULong = 60000u
 
         val androidKey = AESTransformer.transformKeyInJVM(seed, key, rounds)
         val nativeKey = AESTransformer.transformKey(seed, key, rounds)

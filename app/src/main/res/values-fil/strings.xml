@@ -172,7 +172,7 @@
     <string name="error_pass_gen_type">Dapat pumili ng kahit isang uri ng pagbuo ng password.</string>
     <string name="error_disallow_no_credentials">Dapat may kahit isang kredensyal na nakatakda.</string>
     <string name="error_pass_match">Hindi tumutugma ang mga password.</string>
-    <string name="error_rounds_too_large">Masyadong mataas ang \"Transformation rounds\". Tinatakda sa 2147483648.</string>
+    <string name="error_rounds_too_large">Masyadong mataas ang \"Transformation rounds\". Tinatakda sa %1$s.</string>
     <string name="error_string_key">Ang bawat string ay dapat may pangalan ng field.</string>
     <string name="error_label_exists">Umiiral na ang label na ito.</string>
     <string name="error_wrong_length">Maglagay ng positibong integer na numero sa \"Haba\" na field.</string>

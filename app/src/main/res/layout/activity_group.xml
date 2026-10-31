@@ -160,12 +160,6 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <androidx.coordinatorlayout.widget.CoordinatorLayout
-            android:id="@+id/error_coordinator"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layout_constraintBottom_toTopOf="@+id/screenshot_mode_banner"/>
-
         <ProgressBar
             android:id="@+id/loading"
             android:layout_width="wrap_content"
@@ -178,6 +172,11 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <include layout="@layout/view_screenshot_mode_banner" />
+
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:id="@+id/error_coordinator"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.kunzisoft.keepass.view.NavigationDatabaseView

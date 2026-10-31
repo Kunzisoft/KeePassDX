@@ -19,5 +19,13 @@ class Base64Helper {
                 Base64.NO_PADDING or Base64.NO_WRAP or Base64.URL_SAFE
             )
         }
+
+        fun b64DecodeFromCharArray(encodedCharArray: CharArray): ByteArray {
+            return b64Decode(String(encodedCharArray))
+        }
+
+        fun b64EncodeToCharArray(data: ByteArray): CharArray {
+            return b64Encode(data).toCharArray()
+        }
     }
 }

@@ -430,7 +430,7 @@
     <string name="type">Lloj</string>
     <string name="seed"/>
     <string name="error_out_of_memory">S’ka kujtesë për të ngarkuar krejt bazën tuaj të të dhënave.</string>
-    <string name="error_rounds_too_large">“Raunde shndërrimi” shumë i lartë. Po vihet 2147483648.</string>
+    <string name="error_rounds_too_large">“Raunde shndërrimi” shumë i lartë. Po vihet %1$s.</string>
     <string name="error_string_key">Çdo varg duhet të ketë një emër fushe.</string>
     <string name="error_wrong_length">Te fusha “Gjatësi” jepni një numër të plotë pozitiv.</string>
     <string name="error_autofill_enable_service">S’u aktivizua dot shërbimi i vetëplotësimeve.</string>

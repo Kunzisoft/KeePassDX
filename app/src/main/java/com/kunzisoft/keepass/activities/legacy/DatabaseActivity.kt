@@ -31,6 +31,7 @@ import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.tasks.ProgressTaskDialogFragment
 import com.kunzisoft.keepass.tasks.ProgressTaskDialogFragment.Companion.PROGRESS_TASK_DIALOG_TAG
 import com.kunzisoft.keepass.tasks.ProgressTaskViewModel
+import com.kunzisoft.keepass.view.showActionErrorIfNeeded
 import com.kunzisoft.keepass.viewmodels.DatabaseViewModel
 import kotlinx.coroutines.launch
 
@@ -172,6 +173,8 @@ abstract class DatabaseActivity : StylishActivity(), DatabaseRetrieval {
                                 }
 
                                 is DatabaseViewModel.ActionState.OnDatabaseActionFinished -> {
+                                    errorCoordinatorView()?.showActionErrorIfNeeded(uiState.result)
+                                        ?: showActionErrorIfNeeded(uiState.result)
                                     onDatabaseActionFinished(
                                         uiState.database,
                                         uiState.actionTask,
@@ -225,6 +228,11 @@ abstract class DatabaseActivity : StylishActivity(), DatabaseRetrieval {
     }
 
     open fun manageDatabaseInfo(): Boolean  = true
+
+    /**
+     * Coordinator view for Snackbar error messages
+     */
+    open fun errorCoordinatorView(): android.view.View? = null
 
     override fun onDatabaseActionFinished(
         database: ContextualDatabase,

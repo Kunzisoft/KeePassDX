@@ -42,8 +42,7 @@
     <string name="decrypting_db">A desencriptar o conteúdo da base de dados…</string>
     <string name="default_checkbox">Utilizar como base de dados predefinida</string>
     <string name="digits">Dígitos</string>
-    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft tem o &lt;strong&gt;código-fonte aberto&lt;/strong&gt; e &lt;strong&gt;sem publicidade&lt;/strong&gt;.
-\nÉ fornecido como está, sob a &lt;strong&gt;licença GPLv3&lt;/strong&gt;, sem qualquer garantia.</string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft tem o &lt;strong&gt;código-fonte aberto&lt;/strong&gt; e &lt;strong&gt;sem publicidade&lt;/strong&gt;. \nÉ fornecido como está, sob a &lt;strong&gt;licença GPLv3&lt;/strong&gt;, sem qualquer garantia.</string>
     <string name="select_database_file">Abrir o cofre existente</string>
     <string name="entry_accessed">Acedido</string>
     <string name="entry_cancel">Cancelar</string>
@@ -69,7 +68,7 @@
     <string name="error_out_of_memory">Sem memória suficiente para carregar toda a base de dados.</string>
     <string name="error_pass_gen_type">Tem de ser selecionado pelo menos um tipo de geração de palavra-chave.</string>
     <string name="error_pass_match">As palavras-passe não coincidem.</string>
-    <string name="error_rounds_too_large">\"Rodadas de transformação\" é muito grande. Alterado para 2147483648.</string>
+    <string name="error_rounds_too_large">\"Rodadas de transformação\" é muito grande. Alterado para %1$s.</string>
     <string name="error_string_key">É necessário um nome de campo para cada cadeia.</string>
     <string name="error_wrong_length">Digite um número inteiro positivo no campo \"Comprimento\".</string>
     <string name="field_name">Nome do campo</string>
@@ -761,4 +760,10 @@
     <string name="user_verification_required_description_precise">%1$s requer verificação de que é realmente você.</string>
     <string name="user_verification_database_credential">Digite os quatro primeiros caracteres da palavra-passe da sua base de dados</string>
     <string name="first_chars">Primeiros caracteres</string>
+    <string name="content_description_share_url">Partilhar URL</string>
+    <string name="show_tags_title">Mostrar Etiquetas</string>
+    <string name="show_tags_summary">Exibir Etiquetas na lista de entradas</string>
+    <string name="benchmark_calculation">Calcular para %1$s s</string>
+    <string name="benchmarking">A executar análise comparativa…</string>
+    <string name="keyboard_share_browser">Partilhe de %1$s para KeePassDX</string>
 </resources>

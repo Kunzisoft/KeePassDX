@@ -207,7 +207,7 @@
     <string name="hardware_key">Aparatinės įrangos raktas</string>
     <string name="entry_UUID">UUID</string>
     <string name="error_disallow_no_credentials">Turi būti nustatytas bent vienas kredencialas.</string>
-    <string name="error_rounds_too_large">\"Transformacijos raundai\" per dideli. Nustatome į 2147483648.</string>
+    <string name="error_rounds_too_large">\"Transformacijos raundai\" per dideli. Nustatome į %1$s.</string>
     <string name="error_string_key">Kiekviena eilutė turi turėti laukelio pavadinimą.</string>
     <string name="auto_type">Auto-įvedimas</string>
     <string name="card_verification_value">CVV</string>
@@ -216,8 +216,7 @@
     <string name="error_field_name_already_exists">Įrašo pavadinimas jau egzistuoja.</string>
     <string name="error_database_uri_null">Duomenų bazės URI nepavyko gauti.</string>
     <string name="key_derivation_function">Rakto išvedimo funkcija</string>
-    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft yra &lt;strong&gt;atviro kodo&lt;/strong&gt; ir &lt;strong&gt;be reklamų&lt;/strong&gt;.
-\nJis teikiamas toks, koks yra, pagal &lt;strong&gt;GPLv3&lt;/strong&gt; licenciją, be jokių garantijų.</string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft yra &lt;strong&gt;atviro kodo&lt;/strong&gt; ir &lt;strong&gt;be reklamų&lt;/strong&gt;. \nJis teikiamas toks, koks yra, pagal &lt;strong&gt;GPLv3&lt;/strong&gt; licenciją, be jokių garantijų.</string>
     <string name="private_key">Privatus raktas</string>
     <string name="date_of_issue">Išdavimo data</string>
     <string name="email_address">El. pašto adresas</string>

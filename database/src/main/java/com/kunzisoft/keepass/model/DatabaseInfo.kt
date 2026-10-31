@@ -514,13 +514,22 @@ open class DatabaseInfo: Database() {
 
             // Ensure custom fields are populated from custom objects if they are missing
             newEntryInfo.passkey?.let {
-                newEntryInfo.setPasskey(it)
+                newEntryInfo.setPasskey(
+                    passkey = it,
+                    addTag = false
+                )
             }
             newEntryInfo.creditCard?.let {
                 newEntryInfo.setCreditCard(it)
             }
             newEntryInfo.otpModel?.let {
-                newEntryInfo.setOtp(OtpEntryFields.buildOtpField(OtpElement(it)).protectedValue.toString())
+                newEntryInfo.setOtp(
+                    otpString = OtpEntryFields
+                        .buildOtpField(OtpElement(it))
+                        .protectedValue
+                        .toString(),
+                    addTag = false
+                )
             }
             newEntryInfo.appOrigin?.let {
                 newEntryInfo.saveAppOrigin(it, database.allowEntryCustomFields())

@@ -29,7 +29,7 @@
     <string name="content_description_add_group">新增群組</string>
     <string name="content_description_add_item">新增項目</string>
     <string name="content_description_credentials_information">憑證資訊</string>
-    <string name="content_description_otp_information">一次性密碼(OTP)訊息</string>
+    <string name="content_description_otp_information">一次性密碼資訊</string>
     <string name="content_description_password_checkbox">密碼核取方塊</string>
     <string name="content_description_keyfile_checkbox">密鑰檔案核取方塊</string>
     <string name="content_description_hardware_key_checkbox">硬件密鑰方塊</string>
@@ -37,7 +37,7 @@
     <string name="content_description_entry_icon">項目圖示</string>
     <string name="content_description_entry_foreground_color">項目前景顏色</string>
     <string name="content_description_entry_background_color">項目背景顏色</string>
-    <string name="content_description_nav_header">導覽</string>
+    <string name="content_description_nav_header">導航標題</string>
     <string name="validate">驗證</string>
     <string name="discard_changes">放棄更改？</string>
     <string name="entry_password_generator">密碼產生器</string>
@@ -49,12 +49,12 @@
     <string name="content_description_update_from_list">更新</string>
     <string name="content_description_keyboard_close_fields">關閉欄位</string>
     <string name="discard">放棄</string>
-    <string name="select_to_copy">複製%1$s去剪貼簿</string>
+    <string name="select_to_copy">選擇以複製 %1$s 到剪貼簿</string>
     <string name="default_checkbox">用作預設資料庫</string>
     <string name="digits">數字</string>
-    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft；呢個係&lt;strong&gt;冇廣告&lt;/strong&gt;嘅&lt;strong&gt;開源&lt;/strong&gt;軟件。 \n你可以喺遵循&lt;strong&gt;GPL 3&lt;/strong&gt;或者更高版本嘅情況下重新發佈，而Kunzisoft對此不帶有任何擔保。</string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft 係 &lt;strong&gt;開源&lt;/strong&gt; 同 &lt;strong&gt;無廣告&lt;/strong&gt; 嘅。\n佢係按 &lt;strong&gt;GPLv3&lt;/strong&gt; 授權提供，並唔包含任何保證。</string>
     <string name="html_about_privacy">&lt;strong&gt;唔收集用戶資料。&lt;/strong&gt;，呢個應用程式唔會連接任何伺服器，只會喺裝置上運作，完全尊重用戶私穩。</string>
-    <string name="html_about_contribution">為程式能夠&lt;strong&gt;保持自主&lt;/strong&gt;、&lt;strong&gt;修復漏洞&lt;/strong&gt;、&lt;strong&gt;新增功能&lt;/strong&gt;同&lt;strong&gt;保持持續開發&lt;/strong&gt;，有賴你的&lt;strong&gt;貢獻&lt;/strong&gt;。</string>
+    <string name="html_about_contribution">為咗&lt;strong&gt;保持我哋嘅自由&lt;/strong&gt;、&lt;strong&gt;修復漏洞&lt;/strong&gt;、&lt;strong&gt;增加功能&lt;/strong&gt;同埋&lt;strong&gt;保持活躍&lt;/strong&gt;，我哋依賴你嘅&lt;strong&gt;貢獻&lt;/strong&gt;。</string>
     <string name="entry_confpassword">確認密碼</string>
     <string name="entry_expires">失效時間</string>
     <string name="expired">過期</string>
@@ -99,7 +99,7 @@
     <string name="contribution">貢獻</string>
     <string name="homepage">首頁</string>
     <string name="feedback">反映意見</string>
-    <string name="about_description">相容KeePass密碼管理軟件嘅Android App</string>
+    <string name="about_description">Android實現的KeePass密碼管理器。</string>
     <string name="file_manager_install_description">檔案總管要支援 ACTION_CREATE_DOCUMENT 和 ACTION_OPEN_DOCUMENT 的 intent，先可以建立、開啟同儲存資料庫檔案。</string>
     <string name="content_description_file_information">檔案資訊</string>
     <string name="content_description_database_color">資料庫顔色</string>
@@ -139,4 +139,15 @@
     <string name="bank_name">銀行名稱</string>
     <string name="entry_url">網址</string>
     <string name="entry_user_name">用戶名</string>
+    <string name="clipboard_otp_notifications_title">OTP通知</string>
+    <string name="clipboard_otp_notifications_summary">打開一個通知去複製OTP自自動填表或魔改鍵盤填好嘅</string>
+    <string name="navigation_drawer_open">導航抽屜已打開</string>
+    <string name="navigation_drawer_close">導航抽屜關閉</string>
+    <string name="content_description_share_url">分享網址</string>
+    <string name="entry_history">歷史</string>
+    <string name="searchable">可搜尋性</string>
+    <string name="auto_type_sequence">自動輸入序列</string>
+    <string name="entry_application_id">應用程式編號</string>
+    <string name="secure_note">保密筆記</string>
+    <string name="template">範本</string>
 </resources>

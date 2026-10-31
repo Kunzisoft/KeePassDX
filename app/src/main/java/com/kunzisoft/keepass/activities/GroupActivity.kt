@@ -52,6 +52,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.timepicker.MaterialTimePicker.Builder
+import com.kunzisoft.keepass.BuildConfig
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.GroupDialogFragment
 import com.kunzisoft.keepass.activities.dialogs.GroupEditDialogFragment
@@ -60,6 +61,10 @@ import com.kunzisoft.keepass.activities.dialogs.SortDialogFragment
 import com.kunzisoft.keepass.activities.fragments.GroupFragment
 import com.kunzisoft.keepass.activities.fragments.SearchFragment
 import com.kunzisoft.keepass.activities.helpers.ExternalFileHelper
+import com.kunzisoft.keepass.activities.helpers.ExternalFileHelper.createDatabaseFile
+import com.kunzisoft.keepass.activities.helpers.ExternalFileHelper.openFile
+import com.kunzisoft.keepass.activities.helpers.ExternalFileHelper.registerCreateDatabaseFile
+import com.kunzisoft.keepass.activities.helpers.ExternalFileHelper.registerOpenFile
 import com.kunzisoft.keepass.activities.legacy.DatabaseLockActivity
 import com.kunzisoft.keepass.adapters.BreadcrumbAdapter
 import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper
@@ -98,9 +103,10 @@ import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.settings.SettingsActivity
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.timeout.TimeoutHelper
+import com.kunzisoft.keepass.utils.AppUtil.isContributingUser
+import com.kunzisoft.keepass.utils.AppUtil.openContributionLink
 import com.kunzisoft.keepass.utils.KeyboardUtil.hideKeyboard
 import com.kunzisoft.keepass.utils.TimeUtil.datePickerToDataDate
-import com.kunzisoft.keepass.utils.UriUtil.openUrl
 import com.kunzisoft.keepass.view.AddNodeButtonView
 import com.kunzisoft.keepass.view.NavigationDatabaseView
 import com.kunzisoft.keepass.view.ToolbarAction
@@ -108,7 +114,6 @@ import com.kunzisoft.keepass.view.WindowInsetPosition
 import com.kunzisoft.keepass.view.applyWindowInsets
 import com.kunzisoft.keepass.view.hideByFading
 import com.kunzisoft.keepass.view.setTransparentNavigationBar
-import com.kunzisoft.keepass.view.showActionErrorIfNeeded
 import com.kunzisoft.keepass.view.showByFading
 import com.kunzisoft.keepass.view.showError
 import com.kunzisoft.keepass.view.toastError
@@ -123,7 +128,6 @@ import com.kunzisoft.keepass.viewmodels.UserVerificationViewModel
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.mapNotNull
 import kotlinx.coroutines.launch
-import org.joda.time.LocalDateTime
 import java.util.EnumSet
 
 
@@ -161,9 +165,15 @@ class GroupActivity : DatabaseLockActivity() {
 
     private var activeActionMode: ActionMode? = null
 
-    // Manage merge
-    private var mExternalFileHelper: ExternalFileHelper? = null
-
+    // Manage "merge from" and "save to"
+    private var openDatabaseToMergeFileResultLauncher: ExternalFileHelper.OpenFileResultLauncher = registerOpenFile { uri ->
+        launchDialogToAskMainCredential(uri)
+    }
+    private var createDatabaseBackupFileResultLauncher: ActivityResultLauncher<String> = registerCreateDatabaseFile { uri ->
+        uri?.let {
+            saveDatabaseTo(it)
+        }
+    }
 
     private val mEntryActivityResultLauncher = EntryEditActivity.registerForEntryResult(this) { entryId ->
         entryId?.let {
@@ -272,6 +282,8 @@ class GroupActivity : DatabaseLockActivity() {
 
     override fun manageDatabaseInfo(): Boolean = true
 
+    override fun errorCoordinatorView(): View? = coordinatorError
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -329,22 +341,12 @@ class GroupActivity : DatabaseLockActivity() {
         drawerLayout?.addDrawerListener(toggle)
         toggle.syncState()
 
-        // Manage "merge from" and "save to"
-        mExternalFileHelper = ExternalFileHelper(this)
-        mExternalFileHelper?.buildOpenDocument { uri ->
-            launchDialogToAskMainCredential(uri)
-        }
-        mExternalFileHelper?.buildCreateDocument("application/x-keepass") { uri ->
-            uri?.let {
-                saveDatabaseTo(it)
-            }
-        }
-
         // Menu in drawer
         databaseNavView?.apply {
             inflateMenu(R.menu.settings)
             inflateMenu(R.menu.database_extra)
             inflateMenu(R.menu.about)
+            inflateMenu(R.menu.contribute)
             setNavigationItemSelectedListener { menuItem ->
                 when (menuItem.itemId) {
                     R.id.menu_app_settings -> {
@@ -362,7 +364,7 @@ class GroupActivity : DatabaseLockActivity() {
                             )
                         } else {
                             // Open document picker directly without verification
-                            mExternalFileHelper?.openDocument()
+                            openFile(openDatabaseToMergeFileResultLauncher)
                         }
                     }
                     R.id.menu_save_copy_to -> {
@@ -376,19 +378,14 @@ class GroupActivity : DatabaseLockActivity() {
                             )
                         } else {
                             // Create document directly without verification
-                            mExternalFileHelper?.createDocument(
-                                getString(R.string.database_file_name_default) +
-                                        "_" +
-                                        LocalDateTime.now().toString() +
-                                        mDatabase?.defaultFileExtension
-                            )
+                            createDatabaseBackupFile()
                         }
                     }
                     R.id.menu_lock_all -> {
                         lockAndExit()
                     }
                     R.id.menu_contribute -> {
-                        this@GroupActivity.openUrl(R.string.contribution_url)
+                        this@GroupActivity.openContributionLink()
                     }
                     R.id.menu_about -> {
                         startActivity(Intent(this@GroupActivity, AboutActivity::class.java))
@@ -421,6 +418,37 @@ class GroupActivity : DatabaseLockActivity() {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 if (mSearchViewModel.isSearchActivated)
                     showSearch()
+                launch {
+                    mDatabaseViewModel.databaseMetadata.collect { metadata ->
+                        if (metadata != null) {
+                            val databaseName = metadata.name.let { name ->
+                                if (name.isNullOrEmpty())
+                                    getString(R.string.database) else name
+                            }
+                            databaseNavView?.setDatabaseName(databaseName)
+                            databaseNameView?.text = databaseName
+
+                            databaseNavView?.setDatabasePath(metadata.path)
+                            databaseNavView?.setDatabaseVersion(metadata.version ?: "-")
+
+                            val databaseIsModified = metadata.isModified
+                            databaseNavView?.setDatabaseModifiedSinceLastLoading(databaseIsModified)
+                            databaseModifiedView?.isVisible = databaseIsModified
+
+                            val databaseColor = metadata.color
+                            databaseNavView?.setDatabaseColor(databaseColor)
+                            if (databaseColor != null) {
+                                databaseColorView?.visibility = View.VISIBLE
+                                databaseColorView?.setColorFilter(
+                                    databaseColor,
+                                    PorterDuff.Mode.SRC_IN
+                                )
+                            } else {
+                                databaseColorView?.visibility = View.GONE
+                            }
+                        }
+                    }
+                }
                 launch {
                     mGroupViewModel.groupUIState.collect { state ->
                         // Load
@@ -455,7 +483,6 @@ class GroupActivity : DatabaseLockActivity() {
                         .distinctUntilChanged()
                         .collect { group ->
                             // Show current group
-                            refreshDatabaseViews()
                             touchGroup(group)
                             mSearchViewModel.onMainGroupLoaded(mGroupViewModel.mainGroup)
                         }
@@ -704,15 +731,10 @@ class GroupActivity : DatabaseLockActivity() {
                                 editEntry(data.database, data.entryId)
                             }
                             UserVerificationActionType.MERGE_FROM_DATABASE -> {
-                                mExternalFileHelper?.openDocument()
+                                openFile(openDatabaseToMergeFileResultLauncher)
                             }
                             UserVerificationActionType.SAVE_DATABASE_COPY_TO -> {
-                                mExternalFileHelper?.createDocument(
-                                    getString(R.string.database_file_name_default) +
-                                            "_" +
-                                            LocalDateTime.now().toString() +
-                                            data.database?.defaultFileExtension
-                                )
+                                createDatabaseBackupFile()
                             }
                             else -> {}
                         }
@@ -773,9 +795,15 @@ class GroupActivity : DatabaseLockActivity() {
         }
     }
 
-    override fun viewToInvalidateTimeout(): View? {
-        return drawerLayout
+    private fun createDatabaseBackupFile() {
+        createDatabaseFile(
+            createDatabaseBackupFileResultLauncher,
+            addCurrentDateToName = true,
+            extension = mDatabase?.defaultFileExtension
+        )
     }
+
+    override fun viewToInvalidateTimeout(): View? = drawerLayout
 
     private fun loadGroup(clearSearch: Boolean = false) {
         if (clearSearch)
@@ -807,32 +835,7 @@ class GroupActivity : DatabaseLockActivity() {
 
         // Update view
         mBreadcrumbAdapter?.iconDrawableFactory = database.iconDrawableFactory
-        refreshDatabaseViews()
         invalidateOptionsMenu()
-    }
-
-    private fun refreshDatabaseViews() {
-        mDatabase?.let {
-            val databaseName = it.name.ifEmpty { getString(R.string.database) }
-            databaseNavView?.setDatabaseName(databaseName)
-            databaseNameView?.text = databaseName
-            databaseNavView?.setDatabasePath(it.fileUri?.toString())
-            databaseNavView?.setDatabaseVersion(it.version)
-            val modified = it.dataModifiedSinceLastLoading
-            databaseNavView?.setDatabaseModifiedSinceLastLoading(modified)
-            databaseModifiedView?.isVisible = modified
-            val customColor = it.customColor
-            databaseNavView?.setDatabaseColor(customColor)
-            if (customColor != null) {
-                databaseColorView?.visibility = View.VISIBLE
-                databaseColorView?.setColorFilter(
-                    customColor,
-                    PorterDuff.Mode.SRC_IN
-                )
-            } else {
-                databaseColorView?.visibility = View.GONE
-            }
-        }
     }
 
     override fun onDatabaseActionFinished(
@@ -888,7 +891,6 @@ class GroupActivity : DatabaseLockActivity() {
             || actionTask == ACTION_DATABASE_UPDATE_ENTRY_TASK
             || actionTask == ACTION_DATABASE_MOVE_NODES_TASK
             || actionTask == ACTION_DATABASE_COPY_NODES_TASK) {
-            coordinatorError?.showActionErrorIfNeeded(result)
             finishNodeAction()
         }
     }
@@ -1056,7 +1058,10 @@ class GroupActivity : DatabaseLockActivity() {
             menu.findItem(R.id.menu_merge_from)?.isVisible = mGroupViewModel.mergeFromDatabaseActionAllowed() && modeCondition
             menu.findItem(R.id.menu_save_copy_to)?.isVisible = mGroupViewModel.copyToDatabaseActionAllowed() && modeCondition
             menu.findItem(R.id.menu_about)?.isVisible = modeCondition
-            menu.findItem(R.id.menu_contribute)?.isVisible = modeCondition
+            menu.findItem(R.id.menu_contribute)?.apply {
+                title = getString(if (BuildConfig.CLOSED_STORE) R.string.get_keepro else R.string.contribute)
+                isVisible = !context.isContributingUser() && modeCondition
+            }
         }
     }
 

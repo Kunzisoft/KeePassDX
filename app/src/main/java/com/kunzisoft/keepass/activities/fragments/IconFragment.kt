@@ -31,7 +31,7 @@ import com.kunzisoft.keepass.adapters.IconPickerAdapter
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.element.icon.IconImageDraw
 import com.kunzisoft.keepass.viewmodels.IconPickerViewModel
-import kotlinx.coroutines.CoroutineScope
+import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -47,7 +47,7 @@ abstract class IconFragment<T: IconImageDraw> : DatabaseFragment(),
 
     abstract fun retrieveMainLayoutId(): Int
 
-    abstract fun defineIconList(database: ContextualDatabase?)
+    abstract fun retrieveIconList(database: ContextualDatabase?): List<T>
 
     override fun onCreateView(inflater: LayoutInflater,
                               container: ViewGroup?,
@@ -74,15 +74,12 @@ abstract class IconFragment<T: IconImageDraw> : DatabaseFragment(),
     override fun onDatabaseRetrieved(database: ContextualDatabase) {
         iconPickerAdapter.iconDrawableFactory = database.iconDrawableFactory
 
-        CoroutineScope(Dispatchers.IO).launch {
-            val populateList = launch {
-                iconPickerAdapter.clear()
-                defineIconList(database)
+        viewLifecycleOwner.lifecycleScope.launch(Dispatchers.Main) {
+            val icons = withContext(Dispatchers.IO) {
+                retrieveIconList(database)
             }
-            withContext(Dispatchers.Main) {
-                populateList.join()
-                iconPickerAdapter.notifyDataSetChanged()
-            }
+            iconPickerAdapter.setList(icons)
+            iconPickerAdapter.notifyDataSetChanged()
         }
     }
 
