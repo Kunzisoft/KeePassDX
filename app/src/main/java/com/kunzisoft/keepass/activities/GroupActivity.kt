@@ -52,6 +52,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.timepicker.MaterialTimePicker.Builder
+import com.kunzisoft.keepass.BuildConfig
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.GroupDialogFragment
 import com.kunzisoft.keepass.activities.dialogs.GroupEditDialogFragment
@@ -102,9 +103,10 @@ import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.settings.SettingsActivity
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.timeout.TimeoutHelper
+import com.kunzisoft.keepass.utils.AppUtil.isContributingUser
+import com.kunzisoft.keepass.utils.AppUtil.openContributionLink
 import com.kunzisoft.keepass.utils.KeyboardUtil.hideKeyboard
 import com.kunzisoft.keepass.utils.TimeUtil.datePickerToDataDate
-import com.kunzisoft.keepass.utils.UriUtil.openUrl
 import com.kunzisoft.keepass.view.AddNodeButtonView
 import com.kunzisoft.keepass.view.NavigationDatabaseView
 import com.kunzisoft.keepass.view.ToolbarAction
@@ -344,6 +346,7 @@ class GroupActivity : DatabaseLockActivity() {
             inflateMenu(R.menu.settings)
             inflateMenu(R.menu.database_extra)
             inflateMenu(R.menu.about)
+            inflateMenu(R.menu.contribute)
             setNavigationItemSelectedListener { menuItem ->
                 when (menuItem.itemId) {
                     R.id.menu_app_settings -> {
@@ -382,7 +385,7 @@ class GroupActivity : DatabaseLockActivity() {
                         lockAndExit()
                     }
                     R.id.menu_contribute -> {
-                        this@GroupActivity.openUrl(R.string.contribution_url)
+                        this@GroupActivity.openContributionLink()
                     }
                     R.id.menu_about -> {
                         startActivity(Intent(this@GroupActivity, AboutActivity::class.java))
@@ -1055,7 +1058,10 @@ class GroupActivity : DatabaseLockActivity() {
             menu.findItem(R.id.menu_merge_from)?.isVisible = mGroupViewModel.mergeFromDatabaseActionAllowed() && modeCondition
             menu.findItem(R.id.menu_save_copy_to)?.isVisible = mGroupViewModel.copyToDatabaseActionAllowed() && modeCondition
             menu.findItem(R.id.menu_about)?.isVisible = modeCondition
-            menu.findItem(R.id.menu_contribute)?.isVisible = modeCondition
+            menu.findItem(R.id.menu_contribute)?.apply {
+                title = getString(if (BuildConfig.CLOSED_STORE) R.string.get_keepro else R.string.contribute)
+                isVisible = !context.isContributingUser() && modeCondition
+            }
         }
     }
 

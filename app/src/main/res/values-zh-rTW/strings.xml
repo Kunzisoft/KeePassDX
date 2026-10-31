@@ -300,8 +300,7 @@
     <string name="holder">持卡人</string>
     <string name="homepage">首頁</string>
     <string name="html_about_contribution">為程式能夠&lt;strong&gt;保持自主&lt;/strong&gt;、&lt;strong&gt;修復漏洞&lt;/strong&gt;、&lt;strong&gt;新增功能&lt;/strong&gt;和&lt;strong&gt;保持持續開發&lt;/strong&gt;，有賴你的&lt;strong&gt;貢獻&lt;/strong&gt;。</string>
-    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft；這是&lt;strong&gt;無推廣&lt;/strong&gt;的&lt;strong&gt;開源&lt;/strong&gt;軟體。
-\n你可在遵循&lt;strong&gt;GPL 3&lt;/strong&gt;或者更高版本的情況下重新發佈，而Kunzisoft對此不帶有任何擔保。</string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft；這是&lt;strong&gt;無推廣&lt;/strong&gt;&lt;strong&gt;且由志願者開發維護&lt;/strong&gt;的&lt;strong&gt;開源&lt;/strong&gt;軟體。 \n你可在遵循&lt;strong&gt;GPL 3&lt;/strong&gt;或者更高版本的情況下重新發佈，而Kunzisoft對此不帶有任何擔保。</string>
     <string name="html_text_ad_free">不同於大多數的密碼管理應用，無論你是使用免費版本還是付費版本的 KeePassDX，這都是一款&lt;strong&gt;沒有廣告&lt;/strong&gt;，&lt;strong&gt;基於 copylefted 版權協議的自由軟體&lt;/strong&gt;。同時，本軟體的任何版本都不會收集你的任何個人資訊。</string>
     <string name="html_text_buy_pro">通過購買高級版本，你將解鎖全部&lt;strong&gt;主題樣式&lt;/strong&gt;，重要的是，你會為&lt;strong&gt;社區項目的進行&lt;/strong&gt;提供幫助</string>
     <string name="html_text_dev_feature">此功能目前&lt;strong&gt;仍在開發中&lt;/strong&gt;，&lt;strong&gt;捐助&lt;/strong&gt;將使該功能很快變得可用。</string>
@@ -322,7 +321,7 @@
     <string name="import_app_properties_title">導入應用程式設定</string>
     <string name="international_bank_account_number">IBAN</string>
     <string name="invalid_algorithm">無效的演算法。</string>
-    <string name="invalid_credentials">無法獲取身份驗證信息。</string>
+    <string name="invalid_credentials">無法使用該憑證解密檔案資料。</string>
     <string name="invalid_db_same_uuid">與%1$s的 UUID 相同的%2$s已經存在。</string>
     <string name="invalid_db_sig">無法辨識資料庫格式。</string>
     <string name="kdf_explanation">為生成加密演算法的密鑰，主密鑰使用隨機跳轉密鑰推算函數進行轉換。</string>
@@ -761,4 +760,7 @@
     <string name="error_load_database_KDF_iteration">KDF 迭代過高。</string>
     <string name="save_success">成功保存</string>
     <string name="words">單字</string>
+    <string name="invalid_db_hmac">資料庫簽章驗證失敗。這可能是由於檔案損毀或外部應用程式進行修改所致。</string>
+    <string name="get_keepro">取得 KeePro 支持</string>
+    <string name="html_about_get_keepro">透過購買 &lt;strong&gt;KeePro 支援服務&lt;/strong&gt;，您將直接資助該軟體的持續積極開發、未來功能開發，並解鎖可選的視覺風格。</string>
 </resources>

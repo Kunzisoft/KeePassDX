@@ -20,6 +20,7 @@
     <string name="contact">Contact</string>
     <string name="info">Info</string>
     <string name="contribution">Contribution</string>
+    <string name="get_keepro">Get KeePro Support</string>
     <string name="feedback">Feedback</string>
     <string name="homepage">Homepage</string>
     <string name="about_description">Android implementation of the KeePass password manager.</string>
@@ -90,10 +91,11 @@
     <string name="decrypting_db">Decrypting database content…</string>
     <string name="default_checkbox">Use as default database</string>
     <string name="digits">Digits</string>
-    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft is &lt;strong&gt;open source&lt;/strong&gt; and &lt;strong&gt;without advertising&lt;/strong&gt;.
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft is &lt;strong&gt;open source&lt;/strong&gt;, &lt;strong&gt;without advertising&lt;/strong&gt;, &lt;strong&gt;independent&lt;/strong&gt; and maintained entirely by &lt;strong&gt;voluntary&lt;/strong&gt; development.
 \nIt is provided as is, under &lt;strong&gt;GPLv3&lt;/strong&gt; license, without any warranty.</string>
     <string name="html_about_privacy">&lt;strong&gt;No user data is retrieved&lt;/strong&gt;, this application does not connect to any server, works only locally and fully respects the privacy of users.</string>
     <string name="html_about_contribution">In order to &lt;strong&gt;keep our freedom&lt;/strong&gt;, &lt;strong&gt;fix bugs&lt;/strong&gt;, &lt;strong&gt;add features&lt;/strong&gt; and &lt;strong&gt;to be always active&lt;/strong&gt;, we count on your &lt;strong&gt;contribution&lt;/strong&gt;.</string>
+    <string name="html_about_get_keepro">By purchasing &lt;strong&gt;KeePro Support&lt;/strong&gt;, you directly fund continued active development, future features, and unlock optional visual styles.</string>
     <string name="entry_accessed">Accessed</string>
     <string name="entry_cancel">Cancel</string>
     <string name="entry_notes">Notes</string>
@@ -702,6 +704,7 @@
     <string name="at_least_one_char">At least one character from each</string>
     <string name="exclude_ambiguous_chars">Exclude ambiguous characters</string>
     <string name="consider_chars_filter">Consider characters</string>
+    <string name="words">Words</string>
     <string name="word_separator">Separator</string>
     <string name="ignore_chars_filter">Ignore characters</string>
     <string name="lower_case">lower case</string>

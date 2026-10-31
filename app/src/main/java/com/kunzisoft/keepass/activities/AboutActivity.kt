@@ -25,13 +25,17 @@ import android.text.method.LinkMovementMethod
 import android.util.Log
 import android.view.MenuItem
 import android.view.View
+import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
 import androidx.core.text.HtmlCompat
+import androidx.core.view.isVisible
 import com.kunzisoft.keepass.BuildConfig
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.stylish.StylishActivity
 import com.kunzisoft.keepass.utils.AppUtil.isContributingUser
+import com.kunzisoft.keepass.utils.AppUtil.isKeeProAppInstalled
+import com.kunzisoft.keepass.utils.AppUtil.openContributionLink
 import com.kunzisoft.keepass.utils.getPackageInfoCompat
 import org.joda.time.DateTime
 
@@ -87,10 +91,34 @@ class AboutActivity : StylishActivity() {
                 HtmlCompat.FROM_HTML_MODE_LEGACY)
         }
 
+        findViewById<TextView>(R.id.activity_about_homepage_subtitle).apply {
+            isVisible = !BuildConfig.CLOSED_STORE
+        }
+        findViewById<TextView>(R.id.activity_about_homepage_link).apply {
+            isVisible = !BuildConfig.CLOSED_STORE
+        }
+
         findViewById<TextView>(R.id.activity_about_contribution_text).apply {
             movementMethod = LinkMovementMethod.getInstance()
-            text = HtmlCompat.fromHtml(getString(R.string.html_about_contribution),
+            text = HtmlCompat.fromHtml(getString(
+                        if (BuildConfig.CLOSED_STORE) {
+                            R.string.html_about_get_keepro
+                        } else {
+                            R.string.html_about_contribution
+                        }),
                     HtmlCompat.FROM_HTML_MODE_LEGACY)
+        }
+
+        findViewById<Button>(R.id.activity_about_support_button).apply {
+            text = getString(if (BuildConfig.CLOSED_STORE) {
+                R.string.get_keepro
+            } else {
+                R.string.contribute
+            })
+            isVisible = !BuildConfig.CLOSED_STORE || !isKeeProAppInstalled()
+            setOnClickListener {
+                openContributionLink()
+            }
         }
     }
 

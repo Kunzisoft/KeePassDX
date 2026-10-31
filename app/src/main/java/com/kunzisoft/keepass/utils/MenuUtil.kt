@@ -20,7 +20,6 @@
 package com.kunzisoft.keepass.utils
 
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.view.Menu
 import android.view.MenuInflater
@@ -28,16 +27,13 @@ import android.view.MenuItem
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.AboutActivity
 import com.kunzisoft.keepass.settings.SettingsActivity
-import com.kunzisoft.keepass.utils.AppUtil.isContributingUser
-import com.kunzisoft.keepass.utils.UriUtil.openUrl
+import com.kunzisoft.keepass.utils.AppUtil.openContributionLink
 
 object MenuUtil {
 
-    fun defaultMenuInflater(context: Context, inflater: MenuInflater, menu: Menu) {
+    fun defaultMenuInflater(inflater: MenuInflater, menu: Menu) {
         inflater.inflate(R.menu.settings, menu)
         inflater.inflate(R.menu.about, menu)
-        if (!context.isContributingUser())
-            menu.findItem(R.id.menu_contribute)?.isVisible = false
     }
 
     fun onDefaultMenuOptionsItemSelected(activity: Activity,
@@ -45,7 +41,7 @@ object MenuUtil {
                                          timeoutEnable: Boolean = false) {
         when (item.itemId) {
             R.id.menu_contribute -> {
-                activity.openUrl(R.string.contribution_url)
+                activity.openContributionLink()
             }
             R.id.menu_app_settings -> {
                 // To avoid flickering when launch settings in a LockingActivity

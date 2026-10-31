@@ -19,6 +19,7 @@
  */
 package com.kunzisoft.keepass.utils
 
+import android.app.Activity
 import android.content.ContentResolver
 import android.content.Context
 import android.content.Intent
@@ -185,7 +186,11 @@ object UriUtil {
                 } else {
                     url
                 }
-                this.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(newUrl)))
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(newUrl))
+                if (this !is Activity) {
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                }
+                this.startActivity(intent)
             }
         } catch (_: Exception) {
             Toast.makeText(this, R.string.no_url_handler, Toast.LENGTH_LONG).show()

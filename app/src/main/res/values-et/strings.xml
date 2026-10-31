@@ -180,7 +180,7 @@
     <string name="file_manager_install_description">Andmebaasifailide loomiseks, avamiseks ja salvestamiseks on vajalik failihalduri olemasolu, mis oskaks kasutada ACTION_CREATE_DOCUMENT ja ACTION_OPEN_DOCUMENT päringuid.</string>
     <string name="navigation_drawer_open">Menüü on avatud</string>
     <string name="navigation_drawer_close">Menüü on suletud</string>
-    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft on &lt;strong&gt;avatud lähtekoodiga&lt;/strong&gt; ja &lt;strong&gt;reklaamivaba&lt;/strong&gt;. \nSeda programmi levitatakse ilma igasuguse garantiita ning ta on litsentseeritud &lt;strong&gt;GPLv3&lt;/strong&gt; alusel.</string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft on &lt;strong&gt;avatud lähtekoodiga&lt;/strong&gt;, &lt;strong&gt;reklaamivaba&lt;/strong&gt;, &lt;strong&gt;sõltumatu&lt;/strong&gt; ja selle arendusega tegeleb vaid &lt;strong&gt;vabatahtlike kogukond&lt;/strong&gt;.\nSeda programmi levitatakse ilma igasuguse garantiita ning ta on litsentseeritud &lt;strong&gt;GPLv3&lt;/strong&gt; alusel.</string>
     <string name="html_about_privacy">&lt;strong&gt;See rakendus ei laadi kasutajate andmeid&lt;/strong&gt;, ei loo ühendust ühegi serveriga, töötab nutiseadmes ainult kohalikus režiimis ja täies mahus austab kasutajate privaatsust.</string>
     <string name="html_about_contribution">&lt;strong&gt;Meie vabaduse säilitamiseks&lt;/strong&gt;, &lt;strong&gt;vigade parandamiseks&lt;/strong&gt;, &lt;strong&gt;uue funktsionaalsuse lisamiseks&lt;/strong&gt; ning &lt;strong&gt;et olla alati tänapäevane&lt;/strong&gt;, me tõsiselt arvestame sinu &lt;strong&gt;kaastöö ja osalemisega&lt;/strong&gt;.</string>
     <string name="inherited">Päri</string>
@@ -380,7 +380,7 @@
     <string name="search_mode">Otsinguviis</string>
     <string name="save_mode">Salvestusviis</string>
     <string name="selection_mode">Valikuviis</string>
-    <string name="invalid_credentials">Salasõna või võtmefaili ei õnnestunud lugeda.</string>
+    <string name="invalid_credentials">Faili andmete dekrüptimine antud tunnuste alusel ei õnnestunud.</string>
     <string name="protection">Kaitse</string>
     <string name="underline">Allajoonitud</string>
     <string name="search">Otsi</string>
@@ -738,4 +738,7 @@
     <string name="error_load_database_KDF_iteration">KDF-i korduste arv on liiga suur.</string>
     <string name="save_success">Salvestamine on kenasti tehtud</string>
     <string name="words">Sõnu</string>
+    <string name="invalid_db_hmac">Andmebaasi allkirja õigsuse kontrollimine ei õnnestunud. See võib olla põhjustatud asjaolust, et fail on katki või välise rakenduse poolt tehtud muudatustest.</string>
+    <string name="get_keepro">Osta KeePro pakett</string>
+    <string name="html_about_get_keepro">Kui ostad &lt;strong&gt;KeePro Supporti&lt;/strong&gt; tugipaketi, siis rahastad otseselt tulevast arendust, uute võimaluste lisandumist ja võid kasutada täiendavaid rakenduse kujundusi.</string>
 </resources>

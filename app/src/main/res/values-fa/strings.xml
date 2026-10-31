@@ -179,8 +179,7 @@
     <string name="entry_cancel">لغو</string>
     <string name="entry_accessed">دیده</string>
     <string name="html_about_contribution">به منظور &lt;strong&gt;نگاه آزادی ما&lt;/strong&gt; ، &lt;strong&gt;نقش های فیکسی&lt;/strong&gt; ، &lt;strong&gt;خدمات مضاعف&lt;/strong&gt; و &lt;strong&gt; همیشه فعال باشد&lt;/strong&gt; ، ما در &lt;strong&gt;مسابق&lt;/strong&gt; حساب می &lt;/strong&gt;.</string>
-    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft است &lt;strong&gt;منا منبع باز&lt;/strong&gt; و &lt;strong&gt;با تبلیغات&lt;/strong&gt;.
-\nاین است که ارائه شده است، تحت &lt;strong&gt;GPLv3&lt;/strong&gt;، بدون هیچ گونه گارانتی.</string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft است &lt;strong&gt;منا منبع باز&lt;/strong&gt; و &lt;strong&gt;با تبلیغات&lt;/strong&gt;. \nاین است که ارائه شده است، تحت &lt;strong&gt;GPLv3&lt;/strong&gt;، بدون هیچ گونه گارانتی.</string>
     <string name="digits">رقم</string>
     <string name="default_checkbox">استفاده به عنوان پایگاه داده پیش فرض</string>
     <string name="decrypting_db">رمزگشایی محتوای پایگاه داده…</string>

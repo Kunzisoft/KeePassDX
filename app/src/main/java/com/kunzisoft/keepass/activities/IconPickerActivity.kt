@@ -37,6 +37,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.google.android.material.snackbar.Snackbar
+import com.kunzisoft.keepass.BuildConfig
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.IconEditDialogFragment
 import com.kunzisoft.keepass.activities.fragments.IconPickerFragment
@@ -257,6 +258,9 @@ class IconPickerActivity : DatabaseLockActivity() {
         menu?.findItem(R.id.menu_delete)?.apply {
             isEnabled = mCustomIconsSelectionMode
             isVisible = isEnabled
+        }
+        menu?.findItem(R.id.menu_external_icon)?.apply {
+            isVisible = !BuildConfig.CLOSED_STORE
         }
         return super.onPrepareOptionsMenu(menu)
     }

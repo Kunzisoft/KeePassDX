@@ -732,7 +732,11 @@ class MagikeyboardService : InputMethodService(),
                             && context.isAutoSwitchMagikeyboardAllowed()
                             && context.currentDefaultKeyboard() != context.getMagikeyboardId()
                         ) {
-                            context.startActivity(context.getSwitchMagikeyboardIntent())
+                            try {
+                                context.startActivity(context.getSwitchMagikeyboardIntent())
+                            } catch (e: Exception) {
+                                Log.e(TAG, "Unable to switch to Magikeyboard", e)
+                            }
                         }
                     }
                     if (notify) {

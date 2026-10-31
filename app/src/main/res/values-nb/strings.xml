@@ -46,7 +46,7 @@
     <string name="decrypting_db">Dekrypterer databaseinnhold…</string>
     <string name="default_checkbox">Bruk dette som forvalgt database</string>
     <string name="digits">Siffer</string>
-    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft er &lt;strong&gt;fri programvare&lt;/strong&gt;, og &lt;strong&gt;reklamefritt&lt;/strong&gt;. \nDet tilbys som det er, i henhold til &lt;strong&gt;GPL versjon 3 eller senere&lt;/strong&gt;, uten noen garantier.</string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft er &lt;strong&gt;fri programvare&lt;/strong&gt;, og &lt;strong&gt;uten reklame&lt;/strong&gt;, &lt;strong&gt;uavhengig&lt;/strong&gt; og vedlikehold i sin helhet av &lt;strong&gt;frivillige&lt;/strong&gt;. \nDet tilbys som det er, i henhold til &lt;strong&gt;GPL versjon 3 eller senere&lt;/strong&gt;, uten noen garantier.</string>
     <string name="entry_accessed">Brukt</string>
     <string name="entry_cancel">Avbryt</string>
     <string name="entry_notes">Kommentarer</string>
@@ -70,7 +70,7 @@
     <string name="error_nokeyfile">En nøkkelfil er påkrevd.</string>
     <string name="error_out_of_memory">Enheten slapp opp for minne under fortolkning av databasen din.</string>
     <string name="error_load_database">Kunne ikke laste inn databasen.</string>
-    <string name="error_load_database_KDF_memory">KDF minnebruk for høyt. Kan ikke laste inn.</string>
+    <string name="error_load_database_KDF_memory">KDF-minnebruk for høyt. Prøv å senke minnebruk.</string>
     <string name="error_pass_gen_type">Minst én passordgenereringstype må velges.</string>
     <string name="error_pass_match">Passordene samsvarer ikke.</string>
     <string name="error_rounds_too_large">\"Omganger\" er for stort. Setter til %1$s.</string>
@@ -89,7 +89,7 @@
     <string name="hint_length">Lengde</string>
     <string name="hint_pass">Passord</string>
     <string name="password">Passord</string>
-    <string name="invalid_credentials">Kunne ikke lese påloggingsdata.</string>
+    <string name="invalid_credentials">Kunne ikke dekryptere fildataene med gitte påloggingsdata.</string>
     <string name="invalid_algorithm">Ugyldig algoritme.</string>
     <string name="invalid_db_sig">Fremmed databaseformat.</string>
     <string name="keyfile_is_empty">Nøkkelfilen er tom.</string>
@@ -760,6 +760,16 @@
     <string name="autofill_suggestions_title">Autofyll forslag</string>
     <string name="autofill_suggestions_summary">Bruk denne typen gjenkjennelses algoritme til å foreslå oppføringer</string>
     <string name="parallelism_set_safe">Sett antall prosessorer</string>
-    <string name="error_missing_parent">Denne handlingen kan ikke utføres uten et forelderobjekt</string>
+    <string name="error_missing_parent">Denne handlingen kan ikke utføres uten et forelderobjekt.</string>
     <string name="passkey_pseudo_random_function">Passnøkkel Pseudo-Tilfeldig-Funksjon</string>
+    <string name="error_load_database_KDF_parallelism">KDF parallelisme for høy. Kunne ikke laste inn.</string>
+    <string name="error_parallelism_too_large">«Parallelisme» er satt for høyt. Setter til %1$s.</string>
+    <string name="error_load_database_KDF_iteration">KDF-itereringstallet er for høyt.</string>
+    <string name="invalid_db_hmac">Databasesignaturen kunne ikke bekreftes. Denne kan være fordi filen er korrupt eller modifisert av et eksternt program.</string>
+    <string name="reload_success">Omlastning fullført</string>
+    <string name="save_success">Lagring fullført</string>
+    <string name="benchmarking">Tester ytelse…</string>
+    <string name="words">Ord</string>
+    <string name="get_keepro">Få KeePro-støtte</string>
+    <string name="html_about_get_keepro">Ved å kjøpe &lt;strong&gt;KeePro-støtte&lt;/strong&gt;, bidrar du direkte til videreutvikling av KeePassDX, ny funksjonalitet, og får tilgang til flere visuelle drakter.</string>
 </resources>

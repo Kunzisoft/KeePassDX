@@ -39,8 +39,7 @@
     <string name="decrypting_db">Descriptografando conteúdo do banco de dados…</string>
     <string name="default_checkbox">Usar como banco de dados padrão</string>
     <string name="digits">Dígitos</string>
-    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft é de &lt;strong&gt;código aberto&lt;/strong&gt; e &lt;strong&gt;sem propagandas&lt;/strong&gt;.
-\nÉ fornecido no estado em que se encontra, sob licença &lt;strong&gt;GPLv3&lt;/strong&gt;, sem qualquer garantia.</string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft é de &lt;strong&gt;código aberto&lt;/strong&gt; e &lt;strong&gt;sem propagandas&lt;/strong&gt;. \nÉ fornecido no estado em que se encontra, sob licença &lt;strong&gt;GPLv3&lt;/strong&gt;, sem qualquer garantia.</string>
     <string name="select_database_file">Abrir cofre existente</string>
     <string name="entry_accessed">Acessado</string>
     <string name="entry_cancel">Cancelar</string>
@@ -76,7 +75,7 @@
     <string name="hint_length">Comprimento</string>
     <string name="password">Senha</string>
     <string name="hint_pass">Senha</string>
-    <string name="invalid_credentials">Não foi possível ler as credenciais.</string>
+    <string name="invalid_credentials">Não foi possível descriptografar o arquivo de dados com as credenciais.</string>
     <string name="invalid_db_sig">Não foi possível reconhecer o formato do banco de dados.</string>
     <string name="length">Comprimento</string>
     <string name="list_size_title">Tamanho da lista de grupos</string>
@@ -780,4 +779,5 @@
     <string name="passkey_pseudo_random_function">Função Pseudoaleatória de Chave de Acesso</string>
     <string name="save_success">Salvo com sucesso</string>
     <string name="words">Palavras</string>
+    <string name="invalid_db_hmac">A verificação de assinatura do banco de dados falhou. Isso pode ser causado por corrupção de arquivo ou modificação de aplicativo externo.</string>
 </resources>
