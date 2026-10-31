@@ -30,9 +30,9 @@ import javax.crypto.spec.SecretKeySpec
 
 object ShareCrypto {
 
-    private const val ARGON2_MEMORY_KIB = 65536L
-    private const val ARGON2_ITERATIONS = 3L
-    private const val ARGON2_PARALLELISM = 1L
+    private val ARGON2_MEMORY_KIB = 65536L.toUInt()
+    private val ARGON2_ITERATIONS = 3L.toUInt()
+    private val ARGON2_PARALLELISM = 1L.toUInt()
     private const val ARGON2_VERSION = 0x13
     private const val SALT_SIZE = 16
     private const val IV_SIZE = 12
