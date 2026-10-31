@@ -214,7 +214,7 @@ object ExternalFileHelper {
         createFile(
             createFileResultLauncher,
             titleString = fileName
-                    + if (addCurrentDateToName) { "_" + LocalDateTime.now().toString() } else ""
+                    + (if (addCurrentDateToName) { "_" + LocalDateTime.now().toString() } else "")
                     + (extension ?: getString(R.string.database_file_extension_default))
         )
     }

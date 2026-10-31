@@ -1,3 +1,4 @@
  * Fix KeePro for Play Store #2769
  * Fix Play Store obfuscation #2770
  * Fix Autofill menu presentation #2772 #2767 (@SaeedDev94)
+ * Fix extension when saving new file #1889

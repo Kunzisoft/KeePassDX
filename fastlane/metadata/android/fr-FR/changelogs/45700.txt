@@ -1,3 +1,4 @@
  * Correction de KeePro pour le Play Store #2769
  * Correction de l'obfuscation pour le Play Store #2770
  * Correction du menu presentation du remplissage automatique #2772 #2767 (@SaeedDev94)
+ * Correction de l'extension lors de la sauvegarde d'un nouveau fichier #1889
