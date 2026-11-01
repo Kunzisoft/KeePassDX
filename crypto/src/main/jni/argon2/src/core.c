@@ -246,93 +246,141 @@ uint32_t index_alpha(const argon2_instance_t *instance,
     return absolute_position;
 }
 
+/* A worker lives for the whole derivation and synchronises with the others at
+   every slice, instead of being created and joined once per segment (which was
+   passes * ARGON2_SYNC_POINTS * lanes thread creations, all too short-lived for
+   the scheduler to base frequency and core placement on). */
+typedef struct argon2_worker_data_ {
+    argon2_instance_t *instance;
+    argon2_barrier_t *barrier;
+    uint32_t index;   /* 0 .. workers-1 */
+    uint32_t workers; /* == barrier threshold */
+} argon2_worker_data;
+
+static void fill_lanes(argon2_worker_data *data) {
+    argon2_instance_t *instance = data->instance;
+    uint32_t r, s, l;
+
+    for (r = 0; r < instance->passes; ++r) {
+        for (s = 0; s < ARGON2_SYNC_POINTS; ++s) {
+            /* Round-robin, so fewer workers than lanes still covers every
+               lane. */
+            for (l = data->index; l < instance->lanes; l += data->workers) {
+                argon2_position_t position;
+                position.pass = r;
+                position.lane = l;
+                position.slice = (uint8_t)s;
+                position.index = 0;
+                fill_segment(instance, position);
+            }
+
+            /* Every lane must finish slice s before any lane starts s + 1.
+               A lone worker already did, so it gets no barrier. */
+            if (data->barrier != NULL &&
+                argon2_barrier_wait(data->barrier) != 0) {
+                return; /* aborted */
+            }
+        }
+    }
+}
+
 #ifdef _WIN32
-static unsigned __stdcall fill_segment_thr(void *thread_data)
+static unsigned __stdcall fill_lanes_thr(void *worker_data)
 #else
-static void *fill_segment_thr(void *thread_data)
+static void *fill_lanes_thr(void *worker_data)
 #endif
 {
-    argon2_thread_data *my_data = thread_data;
-    fill_segment(my_data->instance_ptr, my_data->pos);
+    fill_lanes((argon2_worker_data *)worker_data);
     argon2_thread_exit();
     return 0;
 }
 
 int fill_memory_blocks(argon2_instance_t *instance) {
-    uint32_t r, s;
+    uint32_t workers, w, started;
     argon2_thread_handle_t *thread = NULL;
-    argon2_thread_data *thr_data = NULL;
+    argon2_worker_data *thr_data = NULL;
+    argon2_barrier_t barrier;
+    int barrier_ready = 0;
     int rc = ARGON2_OK;
 
     if (instance == NULL || instance->lanes == 0) {
-        rc = ARGON2_THREAD_FAIL;
-        goto fail;
+        return ARGON2_THREAD_FAIL;
     }
 
-    /* 1. Allocating space for threads */
-    thread = calloc(instance->lanes, sizeof(argon2_thread_handle_t));
+    /* More workers than lanes would only add idle barrier participants. */
+    workers = instance->threads;
+    if (workers > instance->lanes) {
+        workers = instance->lanes;
+    }
+    if (workers == 0) {
+        workers = 1;
+    }
+
+    /* 1. Single worker: no threads, no barrier. */
+    if (workers == 1) {
+        argon2_worker_data data;
+        data.instance = instance;
+        data.barrier = NULL;
+        data.index = 0;
+        data.workers = 1;
+        fill_lanes(&data);
+        return ARGON2_OK;
+    }
+
+    /* 2. Allocating space for the workers */
+    thread = calloc(workers, sizeof(argon2_thread_handle_t));
     if (thread == NULL) {
         rc = ARGON2_MEMORY_ALLOCATION_ERROR;
         goto fail;
     }
 
-    thr_data = calloc(instance->lanes, sizeof(argon2_thread_data));
+    thr_data = calloc(workers, sizeof(argon2_worker_data));
     if (thr_data == NULL) {
         rc = ARGON2_MEMORY_ALLOCATION_ERROR;
         goto fail;
     }
 
-    for (r = 0; r < instance->passes; ++r) {
-        for (s = 0; s < ARGON2_SYNC_POINTS; ++s) {
-            uint32_t l;
+    if (argon2_barrier_init(&barrier, workers) != 0) {
+        rc = ARGON2_THREAD_FAIL;
+        goto fail;
+    }
+    barrier_ready = 1;
 
-            /* 2. Calling threads */
-            for (l = 0; l < instance->lanes; ++l) {
-                argon2_position_t position;
+    for (w = 0; w < workers; ++w) {
+        thr_data[w].instance = instance;
+        thr_data[w].barrier = &barrier;
+        thr_data[w].index = w;
+        thr_data[w].workers = workers;
+    }
 
-                /* 2.1 Join a thread if limit is exceeded */
-                if (l >= instance->threads) {
-                    if (argon2_thread_join(thread[l - instance->threads])) {
-                        rc = ARGON2_THREAD_FAIL;
-                        goto fail;
-                    }
-                }
-
-                /* 2.2 Create thread */
-                position.pass = r;
-                position.lane = l;
-                position.slice = (uint8_t)s;
-                position.index = 0;
-                thr_data[l].instance_ptr =
-                    instance; /* preparing the thread input */
-                memcpy(&(thr_data[l].pos), &position,
-                       sizeof(argon2_position_t));
-                if (argon2_thread_create(&thread[l], &fill_segment_thr,
-                                         (void *)&thr_data[l])) {
-                    rc = ARGON2_THREAD_FAIL;
-                    goto fail;
-                }
-
-                /* fill_segment(instance, position); */
-                /*Non-thread equivalent of the lines above */
+    /* 3. Starting workers 1..workers-1; worker 0 runs on the calling thread. */
+    for (started = 1; started < workers; ++started) {
+        if (argon2_thread_create(&thread[started], &fill_lanes_thr,
+                                 (void *)&thr_data[started])) {
+            /* Release whoever already reached the barrier: it will never see
+               the participant count it is waiting for. */
+            argon2_barrier_abort(&barrier);
+            for (w = 1; w < started; ++w) {
+                argon2_thread_join(thread[w]);
             }
-
-            /* 3. Joining remaining threads */
-            for (l = instance->lanes - instance->threads; l < instance->lanes;
-                 ++l) {
-                if (argon2_thread_join(thread[l])) {
-                    rc = ARGON2_THREAD_FAIL;
-                    goto fail;
-                }
-            }
+            rc = ARGON2_THREAD_FAIL;
+            goto fail;
         }
+    }
 
-#ifdef GENKAT
-        internal_kat(instance, r); /* Print all memory blocks */
-#endif
+    /* 4. The calling thread takes worker 0, then joins the rest. */
+    fill_lanes(&thr_data[0]);
+
+    for (w = 1; w < workers; ++w) {
+        if (argon2_thread_join(thread[w])) {
+            rc = ARGON2_THREAD_FAIL;
+        }
     }
 
 fail:
+    if (barrier_ready) {
+        argon2_barrier_destroy(&barrier);
+    }
     if (thread != NULL) {
         free(thread);
     }
