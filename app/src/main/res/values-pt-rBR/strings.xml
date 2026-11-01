@@ -529,7 +529,7 @@
     <string name="icon_section_custom">Personalizado</string>
     <string name="icon_section_standard">Padrão</string>
     <string name="style_brightness_summary">Selecione temas claros ou escuros</string>
-    <string name="style_brightness_title">Brilho do tema</string>
+    <string name="style_brightness_title">Fundo do tema</string>
     <string name="unit_gibibyte">GiB</string>
     <string name="unit_mebibyte">MiB</string>
     <string name="unit_kibibyte">KiB</string>
