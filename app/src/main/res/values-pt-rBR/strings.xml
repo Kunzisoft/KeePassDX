@@ -137,7 +137,7 @@
     <string name="invalid_algorithm">Algoritmo errado.</string>
     <string name="keyfile_is_empty">O arquivo-chave está vazio.</string>
     <string name="copy_field">Cópia de %1$s</string>
-    <string name="menu_form_filling_settings">Preenchimento de formulário</string>
+    <string name="menu_form_filling_settings">Preenchimento automático</string>
     <string name="menu_copy">Copiar</string>
     <string name="menu_move">Mover</string>
     <string name="menu_paste">Colar</string>
