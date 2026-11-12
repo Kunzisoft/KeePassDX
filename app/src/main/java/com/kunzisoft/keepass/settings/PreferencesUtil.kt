@@ -516,6 +516,12 @@ object PreferencesUtil {
             context.resources.getBoolean(R.bool.enable_auto_save_database_default))
     }
 
+    fun showDatabaseActionMessages(context: Context): Boolean {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        return prefs.getBoolean(context.getString(R.string.show_database_action_messages_key),
+            context.resources.getBoolean(R.bool.show_database_action_messages_default))
+    }
+
     fun isKeepScreenOnEnabled(context: Context): Boolean {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
         return prefs.getBoolean(context.getString(R.string.enable_keep_screen_on_key),
@@ -925,6 +931,7 @@ object PreferencesUtil {
                 context.getString(R.string.user_verification_mode_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.user_verification_device_credential_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.enable_auto_save_database_key) -> editor.putBoolean(name, value.toBoolean())
+                context.getString(R.string.show_database_action_messages_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.enable_keep_screen_on_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.auto_focus_search_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.subdomain_search_key) -> editor.putBoolean(name, value.toBoolean())

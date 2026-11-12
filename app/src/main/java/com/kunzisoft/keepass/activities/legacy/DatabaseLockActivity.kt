@@ -161,6 +161,8 @@ abstract class DatabaseLockActivity : DatabaseModeActivity() {
     abstract fun viewToInvalidateTimeout(): View?
 
     private fun showDatabaseAction(@StringRes stringId: Int) {
+        if (PreferencesUtil.showDatabaseActionMessages(this).not())
+            return
         Toast.makeText(
             this,
             stringId,
