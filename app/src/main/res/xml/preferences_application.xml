@@ -38,6 +38,11 @@
             android:summary="@string/enable_auto_save_database_summary"
             android:defaultValue="@bool/enable_auto_save_database_default"/>
         <SwitchPreferenceCompat
+            android:key="@string/show_database_action_messages_key"
+            android:title="@string/show_database_action_messages_title"
+            android:summary="@string/show_database_action_messages_summary"
+            android:defaultValue="@bool/show_database_action_messages_default"/>
+        <SwitchPreferenceCompat
             android:key="@string/auto_focus_search_key"
             android:title="@string/auto_focus_search_title"
             android:summary="@string/auto_focus_search_summary"

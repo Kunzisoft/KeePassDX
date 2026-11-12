@@ -623,6 +623,8 @@
     <string name="delete_entered_password_summary">Deletes the password entered after a connection attempt to a database</string>
     <string name="enable_auto_save_database_title">Autosave database</string>
     <string name="enable_auto_save_database_summary">Save the database after every important action (in \"Modifiable\" mode)</string>
+    <string name="show_database_action_messages_title">Show load and save messages</string>
+    <string name="show_database_action_messages_summary">Display a toast when the database is loaded, saved, merged or reloaded</string>
     <string name="enable_keep_screen_on_title">Keep screen on</string>
     <string name="enable_keep_screen_on_summary">Keep the screen on when watching or editing an entry</string>
     <string name="enable_screenshot_mode_title">Screenshot mode</string>
