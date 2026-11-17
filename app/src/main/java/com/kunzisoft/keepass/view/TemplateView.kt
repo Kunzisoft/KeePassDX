@@ -178,10 +178,11 @@ class TemplateView @JvmOverloads constructor(
     }
 
     private fun assignOtp(otpModel: OtpModel?) {
-        otpModel?.let {
-            getOtpTokenView()?.apply {
-                setOtpModel(otpModel)
-            }
+        val otpView = getOtpTokenView()
+        if (otpModel != null && otpView != null) {
+            otpView.setOtpModel(otpModel)
+        } else {
+            onOtpUpdatedListener?.invoke(null)
         }
     }
 
