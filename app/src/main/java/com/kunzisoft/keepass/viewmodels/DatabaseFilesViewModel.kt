@@ -11,6 +11,7 @@ import com.kunzisoft.keepass.app.database.FileDatabaseHistoryAction
 import com.kunzisoft.keepass.hardware.HardwareKey
 import com.kunzisoft.keepass.model.DatabaseFile
 import com.kunzisoft.keepass.settings.PreferencesUtil
+import com.kunzisoft.keepass.utils.UriUtil.getTreeOfDocument
 import com.kunzisoft.keepass.utils.UriUtil.releaseUriPermission
 import com.kunzisoft.keepass.utils.parseUri
 import kotlinx.coroutines.Dispatchers
@@ -150,6 +151,12 @@ class DatabaseFilesViewModel(application: Application) : AndroidViewModel(applic
                 val contentResolver = context.contentResolver
                 contentResolver.releaseUriPermission(databaseFileDeleted.databaseUri)
                 contentResolver.releaseUriPermission(databaseFileDeleted.keyFileUri)
+                // Release the tree permission if no other recent database uses it
+                databaseFileDeleted.databaseUri?.getTreeOfDocument()?.let { treeUri ->
+                    mFileDatabaseHistoryAction?.isTreeUsed(treeUri) { used ->
+                        if (!used) contentResolver.releaseUriPermission(treeUri)
+                    }
+                }
                 // Delete device unlock for this database
                 databaseFileDeleted.databaseUri?.let {
                     CipherDatabaseAction.getInstance(context).deleteByDatabaseUri(it)
