@@ -391,7 +391,7 @@
     <string name="parallelism_explanation">Shkallë paralelizmi (d.m.th. numër rrjedhash) të përdorur nga funksioni i përftimit të kyçeve.</string>
     <string name="filter">Filtër</string>
     <string name="sort_db">Në rend natyror</string>
-    <string name="warning_database_info_changed_options_read_only">Ringarko bazën e të dhënave me ndryshimet më të reja.</string>
+    <string name="warning_database_info_changed_options_read_only">Ju lutemi, ringarkoni bazën e të dhënave me ndryshimet më të reja.</string>
     <string name="list_password_generator_options_title">Shenja fjalëkalimi</string>
     <string name="unavailable_feature_hardware">S’u gjet dot hardware-i përkatës.</string>
     <string name="templates_group_uuid_title">Grup gjedhesh</string>
@@ -409,7 +409,7 @@
     <string name="style_name_light">E çelët</string>
     <string name="hide_templates_title">Fshihi gjedhet</string>
     <string name="hide_templates_summary">Gjedhe s’shfaqen</string>
-    <string name="invalid_credentials">S’u lexuan dot kredencialet.</string>
+    <string name="invalid_credentials">S’u arrit të shfshehtëzohen të dhëna kartele me kredencialet.</string>
     <string name="nodes">Nyje</string>
     <string name="list_entries_show_username_summary">Shfaq emra përdoruesish te lista e zërave</string>
     <string name="menu_form_filling_settings_summary">Tastierë, vetëplotësim, e papastër</string>
@@ -425,7 +425,7 @@
     <string name="content_description_keyfile_checkbox">Kutizë për kartelë kyçi</string>
     <string name="content_description_nav_header">Krye lëvizjesh</string>
     <string name="navigation_drawer_close">Panel lëvizjesh i mbyllur</string>
-    <string name="searchable"/>
+    <string name="searchable">Që mund të kërkohet</string>
     <string name="search_filters">Filtra kërkimesh</string>
     <string name="type">Lloj</string>
     <string name="seed"/>
@@ -462,13 +462,13 @@
     <string name="waiting_challenge_request">Po pritet për kërkesë sfide…</string>
     <string name="waiting_challenge_response">Po pritet për përgjigje sfide…</string>
     <string name="html_about_privacy">&lt;strong&gt;S’merren hollësi përdoruesi&lt;/strong&gt;, ky aplikacion s’lidhet me ndonjë shërbyes, funksionon vetëm lokalisht dhe respekton plotësisht privatësinë e përdoruesve.</string>
-    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft është &lt;strong&gt;me burim të hapët&lt;/strong&gt; dhe &lt;strong&gt;pa reklama&lt;/strong&gt;. \nJepet siç është, nën licencën &lt;strong&gt;GPLv3&lt;/strong&gt;, pa ndonjë garanci.</string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft është &lt;strong&gt;me burim të hapët&lt;/strong&gt;, &lt;strong&gt;pa reklama&lt;/strong&gt;, &lt;strong&gt;i pavarur&lt;/strong&gt; dhe mirëmbajtur tërësisht nga zhvillim &lt;strong&gt;vullnetar&lt;/strong&gt;. \nJepet siç është, nën licencën &lt;strong&gt;GPLv3&lt;/strong&gt;, pa ndonjë garanci.</string>
     <string name="hardware_key">Kyç hardware</string>
     <string name="place_of_issue">Vend i problemit</string>
     <string name="error_can_not_handle_uri">S’u trajtua dot kjo URI në KeePassDX.</string>
     <string name="error_invalid_path">Sigurohuni se shtegu është i saktë.</string>
     <string name="error_word_reserved">Kjo fjalë është e rezervuar dhe s’mund të përdoret.</string>
-    <string name="error_load_database_KDF_memory">S’u ngarkua dot kyçi. Provoni të ulni “Përdorim Kujtese” KDF.</string>
+    <string name="error_load_database_KDF_memory">Përdorim shumë i lartë kujtese KDF.</string>
     <string name="error_pass_gen_type">Duhet përzgjedhur të paktën një lloj prodhimi fjalëkalimi.</string>
     <string name="error_create_database_file">S’arrihet të krijohet bazë të dhënash me këtë fjalëkalim dhe kartelë kyç.</string>
     <string name="error_registration_read_only">Në baza të dhënash që janë vetëm-për-lexim s’lejohet ruajtja e një objekti të ri.</string>
@@ -478,7 +478,7 @@
     <string name="error_no_response_from_challenge">S’arrihet të merret përgjigja nga sfida.</string>
     <string name="error_driver_required">Përudhësi për %1$s është i domosdoshëm.</string>
     <string name="file_not_found_content">S’u gjet kartelë</string>
-    <string name="show_otp_token_summary">Bën shfaqjen e token-ëve OTP te lista e zërave</string>
+    <string name="show_otp_token_summary">Bën shfaqjen e token-ëve OTP, si parazgjedhje</string>
     <string name="menu_database_settings_summary">Tejtëdhëna, kosh ricklimesh, gjedhe, historik</string>
     <string name="menu_security_settings_summary">Fshehtëzim, funksion përftimi kyçesh</string>
     <string name="master_key_settings_summary">Ndryshojeni, rinovim</string>
@@ -500,7 +500,7 @@
     <string name="warning_remove_unlinked_attachment">Heqja e të dhënave të palidhura mund të zvogëlojë madhësinë e bazës suaj të të dhënave, por mundet edhe të fshijë të dhëna të përdorura për shtojca KeePass.</string>
     <string name="warning_empty_keyfile">S’rekomandohet të shtoni një kartelë të zbrazët kyçesh.</string>
     <string name="warning_empty_keyfile_explanation">Lënda e kartelës kyç s’duhet ndryshuar kurrë dhe, në rastin më të mirë, duhet të përmbajnë të dhëna të prodhuara kuturu.</string>
-    <string name="warning_database_info_changed">Informacioni që përmban kartela juaj e bazës së të dhënave është ndryshuar jashtë aplikacionit.</string>
+    <string name="warning_database_info_changed">Informacioni që përmban baza juaj e të dhënave është ndryshuar jashtë aplikacionit.</string>
     <string name="warning_database_info_reloaded">Ringarkimi i bazës së të dhënave do të fshijë të dhëna të ndryshuara lokalisht.</string>
     <string name="warning_exact_alarm">S’keni lejuar aplikacioni të përdorë një alarm të saktë. Si rrjedhojë, veçoritë që duan një kohëmatës s’do të punojnë me kohë të saktë.</string>
     <string name="later">Më vonë</string>
@@ -607,12 +607,12 @@
     <string name="education_unlock_summary">Që të shkyçet baza juaj e të dhënave, jepni fjalëkalimin dhe/ose kartelë kyç.\n\nKopjeruajeni kartelën e bazës suaj të të dhënave në një vend të sigurt, pas çdo ndryshimi.</string>
     <string name="html_text_feature_generosity">Ky &lt;strong&gt;stil pamor&lt;/strong&gt; është i passhëm falë bujarisë tuaj.</string>
     <string name="html_text_dev_feature">Kjo veçori është &lt;strong&gt;duke u zhvilluar&lt;/strong&gt; dhe lyp &lt;strong&gt;kontributin&lt;/strong&gt; tuaj që të jetë gati së shpejti.</string>
-    <string name="education_generate_password_summary">Prodhoni një fjalëkalim të fuqishëm, për t’ia përshoqëruar zërit tuaj, përcaktojeni kollaj, sipas kritereve të formularit dhe mos harroni të siguroni fjalëkalimin.</string>
+    <string name="education_generate_password_summary">Prodhoni një fjalëkalim të fuqishëm, për t’ia përshoqëruar zërit tuaj, përcaktojeni kollaj, sipas kritereve të formularit dhe mos e harroni.</string>
     <string name="delete_entered_password_summary">Fshin fjalëkalimin e dhënë, pas një përpjekje për lidhje te një bazë të dhënash</string>
     <string name="education_lock_summary">Kyçeni shpejt e shpejt bazën tuaj të të dhënave, mund ta ujdisni aplikacionin ta mbyllë pas një farë kohe dhe kur fiket ekrani.</string>
     <string name="education_field_copy_summary">Ç’kopjohet te fusha, mund të ngjitet kudo.\n\nPërdorni metodën mbushje formularësh, nëse parapëlqeni.</string>
     <string name="education_donation_summary">Ndihmoni të shtohet qëndrueshmëria, siguria dhe në shtimin e më tepër veçorive.</string>
-    <string name="html_text_ad_free">Ndryshe nga shumë aplikacione administrimi fjalëkalimesh, ky është &lt;strong&gt;pa reklama&lt;/strong&gt;, &lt;strong&gt;<em>software</em> i lirë në <em>copylef</em>&lt;/strong&gt; dhe s’grumbullon të dhëna personale në shërbyesit e tij, pavarësisht versionit që përdorni.</string>
+    <string name="html_text_ad_free">Ndryshe nga shumë aplikacione administrimi fjalëkalimesh, ky është &amp;lt;strong&amp;gt;pa reklama&amp;lt;/strong&amp;gt;, &amp;lt;strong&amp;gt;software i lirë në copylef&amp;lt;/strong&amp;gt; dhe s’grumbullon të dhëna personale në shërbyesit e tij, pavarësisht versionit që përdorni.</string>
     <string name="html_text_buy_pro">Duke blerë versionin Pro, do të mund të përdorni këtë &lt;strong&gt;stil pamor&lt;/strong&gt; dhe do të ndihmoni veçanërisht në &lt;strong&gt;realizimin e projekteve të bashkësisë.&lt;/strong&gt;</string>
     <string name="error_arc4">S’mbulohet shifër “Arcfour stream”.</string>
     <string name="warning_file_too_big">Një bazë të dhënash KeePass supozohet se përmban vetëm kartela të vockla mjetesh (b.f., kartela kyçesh PGP).\n\nMe këtë ngarkim baza juaj e të dhënave mund të bëhet shumë e madhe dhe të ulet funksionimi i saj.</string>
@@ -706,4 +706,17 @@
     <string name="show_tags_title">Shfaq Etiketa</string>
     <string name="show_tags_summary">Bën shfaqjen e Etiketave te lista e zërave</string>
     <string name="benchmark_calculation">Njehsoje për %1$s s</string>
+    <string name="get_keepro">Merrni Asistencë KeePro</string>
+    <string name="html_about_get_keepro">Duke blerë &lt;strong&gt;Asistencë KeePro&lt;/strong&gt;, financoni drejtpërdrejt zhvillimin aktiv të vazhdueshëm, veçori të ardhshme dhe shkyçni stile pamorë opsionalë.</string>
+    <string name="error_memory_too_large">“Përdorim kujtese” shumë i lartë. Po vihet si %1$s.</string>
+    <string name="error_parallelism_too_large">\"Parallelism\" shumë i lartë. Po vihet si %1$s.</string>
+    <string name="error_missing_parent">Ky veprim s’mund të kryhet pa një prind.</string>
+    <string name="invalid_db_hmac">Verifikimi i nënshkrimit të bazës së të dhënave dështoi. Kjo mund të jetë shkaktuar nga dëmtim kartele, ose ndryshim nga aplikacion i jashtëm.</string>
+    <string name="parallelism_set_safe">Caktoni numër procesorësh</string>
+    <string name="temporary_merge_success">Përzierja e të dhënave të përkohshme u plotësua me sukses</string>
+    <string name="reload_success">Ringarkimi u plotësua me sukses</string>
+    <string name="save_success">Ruajtja u plotësua me sukses</string>
+    <string name="autofill_suggestions_title">Plotëso automatikisht sugjerimet</string>
+    <string name="autofill_suggestions_summary">Përdor algoritmin e njohjes së formularëve për të sugjeruar zëra</string>
+    <string name="words">Fjalë</string>
 </resources>
