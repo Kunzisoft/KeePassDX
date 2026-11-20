@@ -1,4 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="contact">رابطہ</string>
+    <string name="info">معلومات</string>
+    <string name="contribution">حصہ داری</string>
+    <string name="get_keepro">KeePro سپورٹ سے رابطہ کریں</string>
+    <string name="feedback">تاثرات</string>
+    <string name="homepage">ہوم پیج</string>
+    <string name="about_description">⁧KeePass پاس ورڈ مینیجر کا اینڈرائیڈ ورژن.</string>
+    <string name="accept">قبول کریں</string>
+    <string name="add_entry">اندراج شامل کریں</string>
+    <string name="edit_entry">اندراج میں ترمیم کریں</string>
+    <string name="add_group">گروپ شامل کریں</string>
+    <string name="master_key">ماسٹر چابی</string>
+    <string name="security">سیکیورٹی</string>
+    <string name="encryption">خفیہ کاری</string>
+    <string name="encryption_algorithm">خفیہ کاری کا الگورتھم</string>
+    <string name="key_derivation_function">کلیدی اخذ کرنے کا فنکشن</string>
+    <string name="app_timeout">⁧ٹائم آؤٹ</string>
+    <string name="app_timeout_summary">ڈیٹا بیس کو لاک کرنے سے پہلے کا غیر فعال وقت</string>
+    <string name="application">ایپ</string>
+    <string name="brackets">قوسین</string>
+    <string name="file_manager_install_description">ڈیٹا بیس فائلیں بنانے، کھولنے اور محفوظ کرنے کے لیے ایک ایسے فائل مینیجر کی ضرورت ہے جو ACTION_CREATE_DOCUMENT اور ACTION_OPEN_DOCUMENT انٹینٹ ایکشن کو قبول کرتا ہو.</string>
+    <string name="allow">اجازت دیں</string>
+    <string name="clipboard_cleared">کلپ بورڈ صاف کر دیا گیا</string>
+    <string name="clipboard_error_title">کلپ بورڈ کی خرابی</string>
+    <string name="clipboard_error">کچھ ڈیوائسز ایپس کو کلپ بورڈ استعمال کرنے کی اجازت نہیں دیتیں.</string>
+    <string name="clipboard_error_clear">کلپ بورڈ صاف نہیں کیا جا سکا</string>
+    <string name="clipboard_timeout">کلپ بورڈ کا وقت ختم ہو گیا</string>
+    <string name="clipboard_timeout_summary">کلپ بورڈ میں محفوظ رہنے کی مدت (اگر آپ کا آلہ اس سہولت کو سپورٹ کرتا ہے)</string>
+    <string name="clipboard_otp_notifications_title">آپ کا تصدیقی کوڈ</string>
+    <string name="clipboard_otp_notifications_summary">نوٹیفکیشن کھولیں تاکہ آٹو فل یا میجک کی بورڈ کے ذریعے درج کیے گئے خانے میں موجود آپ کا تصدیقی کوڈ کاپی کیا جا سکے</string>
+    <string name="content_description_background">پس منظر</string>
+    <string name="content_description_open_file">فائل کھولیں</string>
+    <string name="content_description_node_children">⁦نوڈ کے ذیلی عناصر</string>
+    <string name="content_description_add_node">نوڈ شامل کریں</string>
+    <string name="content_description_add_entry">اندراج شامل کریں</string>
 </resources>
