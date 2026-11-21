@@ -28,6 +28,8 @@ class TagsCompletionView @JvmOverloads constructor(
 
     init {
         allowCollapse(false)
+        performBestGuess(false)
+        isEmojiCompatEnabled = false
         setTokenizer(CharacterTokenizer(Tags.DELIMITERS, Tags.DELIMITER.toString()))
         setTokenClickStyle(TokenClickStyle.Delete)
 
