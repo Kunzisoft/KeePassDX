@@ -243,7 +243,7 @@
     <string name="list_entries_show_username_title">Show usernames</string>
     <string name="list_groups_show_number_entries_summary">Displays the number of entries in a group</string>
     <string name="show_tags_title">Show Tags</string>
-    <string name="show_tags_summary">Displays tags in the list od entries</string>
+    <string name="show_tags_summary">Displays tags in the list of entries</string>
     <string name="show_uuid_title">Show UUID</string>
     <string name="show_uuid_summary">Displays the UUID linked to an entry or a group</string>
     <string name="list_size_title">Size of list items</string>
