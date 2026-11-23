@@ -1,8 +1,14 @@
 package com.kunzisoft.keepass.credentialprovider.passkey
 
 import com.kunzisoft.encrypt.HashManager
+import com.kunzisoft.keepass.credentialprovider.passkey.data.AuthenticationExtensionsClientOutputs
+import com.kunzisoft.keepass.credentialprovider.passkey.data.AuthenticationExtensionsPRFOutputs
+import com.kunzisoft.keepass.credentialprovider.passkey.data.AuthenticationExtensionsPRFValues
 import com.kunzisoft.keepass.credentialprovider.passkey.util.PasskeyHelper
 import org.junit.Assert.assertArrayEquals
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNotNull
+import org.junit.Assert.assertNull
 import org.junit.Test
 import java.util.Base64
 
@@ -86,5 +92,23 @@ class PrfTestVectors {
         val actualResult = HashManager.sha256(ikm, byteArrayOf(0x01))
 
         assertArrayEquals("Registration PRF output should match SHA-256(IKM || 0x01)", expectedRegistrationResult, actualResult)
+    }
+
+    @Test
+    fun testCleartextPrf() {
+        val prfValues = AuthenticationExtensionsPRFValues(
+            first = hex("f54746b8cf04bf43e873c262d4bc213d53879a6db62f7eae8dd691a3f7ba3026")
+        )
+        val prfOutputs = AuthenticationExtensionsPRFOutputs(results = prfValues)
+        val clientOutputs = AuthenticationExtensionsClientOutputs(prf = prfOutputs)
+
+        // For assertion (isRegistration = false): authData CBOR MUST NOT contain PRF results
+        val authDataCborAssertion = clientOutputs.toAuthDataCbor(isRegistration = false)
+        assertNull("Authenticator extension outputs MUST NOT contain cleartext PRF outputs during assertion", authDataCborAssertion)
+
+        // For registration (isRegistration = true): authData CBOR contains enabled flag only
+        val authDataCborRegistration = clientOutputs.toAuthDataCbor(isRegistration = true)
+        assertNotNull("Registration authData CBOR should be present", authDataCborRegistration)
+        assertEquals(mapOf("prf" to mapOf(1 to true)), authDataCborRegistration)
     }
 }

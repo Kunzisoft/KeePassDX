@@ -254,13 +254,6 @@ data class AuthenticationExtensionsPRFValues(
         return json
     }
 
-    fun toAuthDataCbor(): Map<Int, Any> {
-        val map = mutableMapOf<Int, Any>()
-        map[1] = first
-        second?.let { map[2] = it }
-        return map
-    }
-
     companion object {
         private const val FIRST = "first"
         private const val SECOND = "second"
@@ -341,9 +334,6 @@ data class AuthenticationExtensionsPRFOutputs(
 
     fun toAuthDataCbor(isRegistration: Boolean): Map<Int, Any> {
         val map = mutableMapOf<Int, Any>()
-        results?.let {
-            map[2] = it.toAuthDataCbor() // results
-        }
         if (isRegistration) {
             map[1] = true // enabled
         } else if (results == null) {
@@ -369,6 +359,8 @@ data class AuthenticationExtensionsClientOutputs(
 
     fun toAuthDataCbor(isRegistration: Boolean): Map<String, Any>? {
         val prfAuthData = prf?.toAuthDataCbor(isRegistration) ?: return null
+        if (prfAuthData.isEmpty())
+            return null
         val map = mutableMapOf<String, Any>()
         map[PRF] = prfAuthData
         return map
