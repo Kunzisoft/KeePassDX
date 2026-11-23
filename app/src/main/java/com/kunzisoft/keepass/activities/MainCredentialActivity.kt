@@ -35,6 +35,7 @@ import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
@@ -84,7 +85,12 @@ import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.utils.BACK_PREVIOUS_KEYBOARD_ACTION
 import com.kunzisoft.keepass.utils.MenuUtil
+import com.kunzisoft.keepass.utils.UriUtil.canBeAccessedFromFolder
+import com.kunzisoft.keepass.utils.UriUtil.getDocumentInPersistedTree
+import com.kunzisoft.keepass.utils.UriUtil.getDocumentInTree
+import com.kunzisoft.keepass.utils.UriUtil.getParentFolder
 import com.kunzisoft.keepass.utils.UriUtil.getUri
+import com.kunzisoft.keepass.utils.UriUtil.takeTreePermission
 import com.kunzisoft.keepass.utils.getParcelableCompat
 import com.kunzisoft.keepass.utils.getParcelableExtraCompat
 import com.kunzisoft.keepass.view.MainCredentialView
@@ -107,6 +113,7 @@ class MainCredentialActivity : DatabaseModeActivity() {
     private lateinit var mainCredentialView: MainCredentialView
     private var confirmButtonView: Button? = null
     private var infoContainerView: ViewGroup? = null
+    private var folderAccessButton: Button? = null
     private lateinit var coordinatorLayout: CoordinatorLayout
     private var deviceUnlockFragment: DeviceUnlockFragment? = null
 
@@ -125,6 +132,32 @@ class MainCredentialActivity : DatabaseModeActivity() {
             mainCredentialView.populateKeyFileView(uri)
         }
     }
+
+    // Manage folder selection, to access the database with a permission not revoked by sync apps
+    private val openFolderResultLauncher = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        registerForActivityResult(ActivityResultContracts.OpenDocumentTree()) { treeUri ->
+            val databaseUri = mMainCredentialViewModel.databaseFileUri
+            if (treeUri == null || databaseUri == null)
+                return@registerForActivityResult
+            val documentInTree = databaseUri.getDocumentInTree(treeUri)
+            if (documentInTree == null) {
+                Snackbar.make(coordinatorLayout,
+                    R.string.error_folder_access_database_not_found,
+                    Snackbar.LENGTH_LONG).asError().show()
+                return@registerForActivityResult
+            }
+            try {
+                contentResolver.takeTreePermission(treeUri)
+            } catch (e: Exception) {
+                Log.e(TAG, "Unable to take the folder permission", e)
+                Snackbar.make(coordinatorLayout,
+                    R.string.error_folder_access,
+                    Snackbar.LENGTH_LONG).asError().show()
+                return@registerForActivityResult
+            }
+            replaceDatabaseUri(databaseUri, documentInTree)
+        }
+    } else null
 
     override fun manageDatabaseInfo(): Boolean  = false
 
@@ -147,6 +180,10 @@ class MainCredentialActivity : DatabaseModeActivity() {
         mainCredentialView = findViewById(R.id.activity_password_credentials)
         confirmButtonView = findViewById(R.id.activity_password_open_button)
         infoContainerView = findViewById(R.id.activity_password_info_container)
+        folderAccessButton = findViewById(R.id.activity_password_info_folder_access_button)
+        folderAccessButton?.setOnClickListener {
+            accessDatabaseFromFolder()
+        }
         coordinatorLayout = findViewById(R.id.activity_password_coordinator_layout)
 
         mainCredentialView.keyFileSelectionView.setOpenFileClickListener(this, openFileResultLauncher)
@@ -207,7 +244,19 @@ class MainCredentialActivity : DatabaseModeActivity() {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 launch {
                     mMainCredentialViewModel.databaseFileUIState.collect { state ->
+                        // Revoked file in a folder permission already persisted: use it, no message
+                        val databaseUri = mMainCredentialViewModel.databaseFileUri
+                        val documentInTree = if (state.showFileRevokedErrorMessage && databaseUri != null)
+                            contentResolver.getDocumentInPersistedTree(databaseUri)
+                        else null
+                        if (databaseUri != null && documentInTree != null) {
+                            replaceDatabaseUri(databaseUri, documentInTree)
+                        }
                         infoContainerView?.isVisible = state.showFileRevokedErrorMessage
+                                && documentInTree == null
+                        folderAccessButton?.isVisible = state.showFileRevokedErrorMessage
+                                && openFolderResultLauncher != null
+                                && databaseUri?.canBeAccessedFromFolder() == true
                         filenameView?.text = state.fileName
                         state.keyFileUri?.let {
                             mainCredentialView.populateKeyFileView(it)
@@ -432,6 +481,46 @@ class MainCredentialActivity : DatabaseModeActivity() {
         mMainCredentialViewModel.assignDatabaseUri(databaseUri)
         mainCredentialView.populateKeyFileView(keyFileUri)
         mainCredentialView.populateHardwareKeyView(hardwareKey)
+    }
+
+    /**
+     * Access the database through the permission of its folder,
+     * already persisted if the folder contains the file, or selected from its location
+     */
+    private fun accessDatabaseFromFolder() {
+        val databaseUri = mMainCredentialViewModel.databaseFileUri ?: return
+        contentResolver.getDocumentInPersistedTree(databaseUri)?.let { documentInTree ->
+            replaceDatabaseUri(databaseUri, documentInTree)
+            return
+        }
+        try {
+            openFolderResultLauncher?.launch(databaseUri.getParentFolder())
+        } catch (e: Exception) {
+            Log.e(TAG, "Unable to open the folder selection", e)
+            Snackbar.make(coordinatorLayout,
+                R.string.error_folder_access,
+                Snackbar.LENGTH_LONG).asError().show()
+        }
+    }
+
+    private fun replaceDatabaseUri(databaseUri: Uri, newDatabaseUri: Uri) {
+        FileDatabaseHistoryAction.getInstance(applicationContext)
+            .replaceDatabaseUri(databaseUri, newDatabaseUri) {
+                // Keep the new URI if the activity is recreated
+                if (intent?.action == VIEW_INTENT)
+                    intent.data = newDatabaseUri
+                else
+                    intent?.putExtra(KEY_FILENAME, newDatabaseUri)
+                mMainCredentialViewModel.assignDatabaseUri(newDatabaseUri)
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    mDeviceUnlockViewModel?.connect(newDatabaseUri)
+                }
+                mMainCredentialViewModel.loadDatabaseFile(
+                    mainCredential = mainCredentialView.getMainCredential(),
+                    specialMode = mSpecialMode,
+                    typeMode = mTypeMode
+                )
+            }
     }
 
     override fun onNewIntent(intent: Intent?) {

@@ -26,6 +26,7 @@ import com.kunzisoft.keepass.hardware.HardwareKey
 import com.kunzisoft.keepass.model.DatabaseFile
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.utils.SingletonHolderParameter
+import com.kunzisoft.keepass.utils.UriUtil.getTreeOfDocument
 import com.kunzisoft.keepass.utils.decodeUri
 import com.kunzisoft.keepass.utils.parseUri
 import com.kunzisoft.keepass.viewmodels.FileDatabaseInfo
@@ -129,6 +130,20 @@ class FileDatabaseHistoryAction(private val applicationContext: Context) {
         }
     }
 
+    /**
+     * Whether a recent database, hidden or not, is accessed through this tree permission
+     */
+    fun isTreeUsed(treeUri: Uri, result: (Boolean) -> Unit) {
+        CoroutineScope(Dispatchers.Main).launch {
+            val used = withContext(Dispatchers.IO) {
+                databaseFileHistoryDao.getAll().any { entity ->
+                    entity.databaseUri.parseUri()?.getTreeOfDocument() == treeUri
+                }
+            }
+            result(used)
+        }
+    }
+
     fun addOrUpdateDatabaseUri(
         databaseUri: Uri,
         keyFileUri: Uri? = null,
@@ -203,6 +218,44 @@ class FileDatabaseHistoryAction(private val applicationContext: Context) {
                 }
             }
             databaseFileAddedOrUpdatedResult?.invoke(result)
+        }
+    }
+
+    /**
+     * Replace the URI of a database in the history, for the same file accessed through another
+     * permission, by keeping its alias, key file, hardware key, modes and default state
+     */
+    fun replaceDatabaseUri(
+        oldDatabaseUri: Uri,
+        newDatabaseUri: Uri,
+        databaseUriReplacedResult: (() -> Unit)? = null
+    ) {
+        CoroutineScope(Dispatchers.Main).launch {
+            withContext(Dispatchers.IO) {
+                try {
+                    databaseFileHistoryDao.getByDatabaseUri(oldDatabaseUri.toString())
+                        ?.let { oldFileDatabaseHistory ->
+                            val newFileDatabaseHistory = oldFileDatabaseHistory.copy(
+                                databaseUri = newDatabaseUri.toString(),
+                                updated = System.currentTimeMillis(),
+                            )
+                            if (databaseFileHistoryDao.getByDatabaseUri(
+                                    newFileDatabaseHistory.databaseUri) == null) {
+                                databaseFileHistoryDao.add(newFileDatabaseHistory)
+                            } else {
+                                databaseFileHistoryDao.update(newFileDatabaseHistory)
+                            }
+                            databaseFileHistoryDao.delete(oldFileDatabaseHistory)
+                        }
+                } catch (e: Exception) {
+                    Log.e(TAG, "Unable to replace database uri in history", e)
+                }
+                if (PreferencesUtil.getDefaultDatabasePath(applicationContext)
+                        ?.parseUri() == oldDatabaseUri) {
+                    PreferencesUtil.saveDefaultDatabasePath(applicationContext, newDatabaseUri)
+                }
+            }
+            databaseUriReplacedResult?.invoke()
         }
     }
 
