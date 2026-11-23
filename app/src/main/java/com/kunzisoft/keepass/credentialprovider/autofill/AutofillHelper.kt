@@ -33,6 +33,7 @@ import android.service.autofill.Field
 import android.service.autofill.FillResponse
 import android.service.autofill.InlinePresentation
 import android.service.autofill.Presentations
+import android.service.autofill.SaveInfo
 import android.util.Log
 import android.view.autofill.AutofillId
 import android.view.autofill.AutofillManager
@@ -413,6 +414,56 @@ object AutofillHelper {
                 }.build().slice, inlinePresentationSpec, false)
     }
 
+    /**
+     * Build Autofill SaveInfo if saving data is enabled in preferences.
+     *
+     * @param context Context
+     * @param parseResult StructureParser Result
+     * @return SaveInfo or null
+     */
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun buildSaveInfo(
+        context: Context,
+        parseResult: StructureParser.Result
+    ): SaveInfo? {
+        if (PreferencesUtil.askToSaveAutofillData(context)) {
+            var types: Int = SaveInfo.SAVE_DATA_TYPE_GENERIC
+            val requiredIds = mutableListOf<AutofillId>()
+            val optionalIds = mutableListOf<AutofillId>()
+
+            // Only if at least a password
+            parseResult.passwordId?.let { passwordInfo ->
+                parseResult.usernameId?.let { usernameInfo ->
+                    types = types or SaveInfo.SAVE_DATA_TYPE_USERNAME
+                    requiredIds.add(usernameInfo)
+                }
+                types = types or SaveInfo.SAVE_DATA_TYPE_PASSWORD
+                requiredIds.add(passwordInfo)
+            }
+            // or a credit card form
+            if (requiredIds.isEmpty()) {
+                parseResult.creditCardNumberId?.let { numberId ->
+                    types = types or SaveInfo.SAVE_DATA_TYPE_CREDIT_CARD
+                    requiredIds.add(numberId)
+                    Log.d(TAG, "Asking to save credit card number")
+                }
+                parseResult.creditCardExpirationDateId?.let { id -> optionalIds.add(id) }
+                parseResult.creditCardExpirationYearId?.let { id -> optionalIds.add(id) }
+                parseResult.creditCardExpirationMonthId?.let { id -> optionalIds.add(id) }
+                parseResult.creditCardHolderId?.let { id -> optionalIds.add(id) }
+                parseResult.cardVerificationValueId?.let { id -> optionalIds.add(id) }
+            }
+            if (requiredIds.isNotEmpty()) {
+                val builder = SaveInfo.Builder(types, requiredIds.toTypedArray())
+                if (optionalIds.isNotEmpty()) {
+                    builder.setOptionalIds(optionalIds.toTypedArray())
+                }
+                return builder.build()
+            }
+        }
+        return null
+    }
+
     fun buildResponse(
         context: Context,
         database: ContextualDatabase,
@@ -436,6 +487,14 @@ object AutofillHelper {
                 }
             }
         }
+
+        // TODO 2784
+        /*
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            buildSaveInfo(context, parseResult)?.let { saveInfo ->
+                responseBuilder.setSaveInfo(saveInfo)
+            }
+        }*/
 
         // Add inline suggestion for new IME and dataset
         var numberInlineSuggestions = 0
