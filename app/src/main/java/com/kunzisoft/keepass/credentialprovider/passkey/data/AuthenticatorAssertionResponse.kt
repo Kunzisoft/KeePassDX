@@ -38,19 +38,20 @@ class AuthenticatorAssertionResponse(
 ) : AuthenticatorExtensionResponse {
 
     override var clientJson = JSONObject()
-    private var authenticatorData: ByteArray = AuthenticatorData.buildAuthenticatorData(
-        relyingPartyId = requestOptions.rpId.toByteArray(),
-        userPresent = userPresent,
-        userVerified = userVerified,
-        backupEligibility = backupEligibility,
-        backupState = backupState,
-        extensionsPresent = clientExtensionResults?.prf != null
-    ).let {
+    private var authenticatorData: ByteArray = run {
         val prfAuthData = clientExtensionResults?.toAuthDataCbor(isRegistration = false)
+        val authData = AuthenticatorData.buildAuthenticatorData(
+            relyingPartyId = requestOptions.rpId.toByteArray(),
+            userPresent = userPresent,
+            userVerified = userVerified,
+            backupEligibility = backupEligibility,
+            backupState = backupState,
+            extensionsPresent = prfAuthData != null
+        )
         if (prfAuthData != null) {
-            it + Cbor().encode(prfAuthData)
+            authData + Cbor().encode(prfAuthData)
         } else {
-            it
+            authData
         }
     }
     private var signature: ByteArray = byteArrayOf()

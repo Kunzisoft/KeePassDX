@@ -1,3 +1,12 @@
+KeePassDX(4.5.9)
+ * Fix PRF output #2708
+ * Fix adding new tag # #2811 (@abdul-karim-mia)
+ * New setting to hide action messages (@wangkangmao)
+ * Enforce biometric invalidation enrollment on certain devices #2805
+ * Fix OTP progress bar #2798 #2804 (@rack0911)
+ * Fix entry template UI #2782
+ * Fix small bugs #2800 #2809 (@abdul-karim-mia)
+
 KeePassDX(4.5.8)
  * Fix KeePro for Play Store #2769
  * Revert Play Store obfuscation #2770 #2776
