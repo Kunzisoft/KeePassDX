@@ -2,16 +2,24 @@ package com.kunzisoft.keepass.credentialprovider.passkey
 
 import com.kunzisoft.encrypt.HashManager
 import com.kunzisoft.keepass.credentialprovider.passkey.data.AuthenticationExtensionsClientOutputs
+import com.kunzisoft.keepass.credentialprovider.passkey.data.AuthenticationExtensionsPRFInputs.Companion.getAuthenticationExtensionsPRFInputs
 import com.kunzisoft.keepass.credentialprovider.passkey.data.AuthenticationExtensionsPRFOutputs
 import com.kunzisoft.keepass.credentialprovider.passkey.data.AuthenticationExtensionsPRFValues
+import com.kunzisoft.keepass.credentialprovider.passkey.data.AuthenticationExtensionsPRFValues.Companion.getAuthenticationExtensionsPRFValues
 import com.kunzisoft.keepass.credentialprovider.passkey.util.PasskeyHelper
+import org.json.JSONObject
 import org.junit.Assert.assertArrayEquals
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertNull
 import org.junit.Test
+import org.junit.runner.RunWith
+import org.robolectric.RobolectricTestRunner
+import org.robolectric.annotation.Config
 import java.util.Base64
 
+@RunWith(RobolectricTestRunner::class)
+@Config(sdk = [34])
 class PrfTestVectors {
 
     private fun hex(value: String) =
@@ -110,5 +118,23 @@ class PrfTestVectors {
         val authDataCborRegistration = clientOutputs.toAuthDataCbor(isRegistration = true)
         assertNotNull("Registration authData CBOR should be present", authDataCborRegistration)
         assertEquals(mapOf("prf" to mapOf(1 to true)), authDataCborRegistration)
+    }
+
+    @Test
+    fun testPrfNullEval() {
+        val jsonString = """{"eval": null}"""
+        val jsonObject = JSONObject(jsonString)
+        val prfInputs = jsonObject.getAuthenticationExtensionsPRFInputs()
+        assertNull(prfInputs.eval)
+    }
+
+    @Test
+    fun testPrfNullSecond() {
+        val firstB64Url = "V2ViQXV0aG4gUFJG"
+        val jsonString = """{"first": "$firstB64Url", "second": null}"""
+        val jsonObject = JSONObject(jsonString)
+        val prfValues = jsonObject.getAuthenticationExtensionsPRFValues()
+        assertNotNull(prfValues.first)
+        assertNull(prfValues.second)
     }
 }

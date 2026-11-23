@@ -261,7 +261,7 @@ data class AuthenticationExtensionsPRFValues(
         fun JSONObject.getAuthenticationExtensionsPRFValues(): AuthenticationExtensionsPRFValues {
             return AuthenticationExtensionsPRFValues(
                 Base64Helper.b64Decode(getString(FIRST)),
-                if (has(SECOND)) Base64Helper.b64Decode(getString(SECOND)) else null
+                if (has(SECOND) && !isNull(SECOND)) Base64Helper.b64Decode(getString(SECOND)) else null
             )
         }
     }
@@ -276,15 +276,19 @@ data class AuthenticationExtensionsPRFInputs(
         private const val EVAL_BY_CREDENTIAL = "evalByCredential"
 
         fun JSONObject.getAuthenticationExtensionsPRFInputs(): AuthenticationExtensionsPRFInputs {
-            val eval = if (has(EVAL)) getJSONObject(EVAL).let {
+            val eval = optJSONObject(EVAL)?.let {
                 AuthenticationExtensionsPRFValues.run { it.getAuthenticationExtensionsPRFValues() }
-            } else null
+            }
             val evalByCredentialJson = optJSONObject(EVAL_BY_CREDENTIAL)
             val evalByCredential = evalByCredentialJson?.let {
                 val map = mutableMapOf<String, AuthenticationExtensionsPRFValues>()
                 it.keys().forEach { key ->
-                    map[key] = AuthenticationExtensionsPRFValues.run {
-                        it.getJSONObject(key).getAuthenticationExtensionsPRFValues()
+                    if (!it.isNull(key)) {
+                        it.optJSONObject(key)?.let { evalJson ->
+                            map[key] = AuthenticationExtensionsPRFValues.run {
+                                evalJson.getAuthenticationExtensionsPRFValues()
+                            }
+                        }
                     }
                 }
                 map.toMap()
