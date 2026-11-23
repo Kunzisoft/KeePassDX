@@ -267,7 +267,10 @@ class EntryEditActivity : DatabaseLockActivity() {
                                         visibility = View.GONE
                                     }
                                 }
-                                setSelection(templates.indexOf(defaultTemplate))
+                                val targetPosition = templates.indexOf(defaultTemplate)
+                                if (targetPosition >= 0 && selectedItemPosition != targetPosition) {
+                                    setSelection(targetPosition)
+                                }
                             }
                         }
                         invalidateOptionsMenu()

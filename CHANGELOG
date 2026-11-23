@@ -4,6 +4,7 @@ KeePassDX(4.5.9)
  * New setting to hide action messages (@wangkangmao)
  * Enforce biometric invalidation enrollment on certain devices #2805
  * Fix OTP progress bar #2798 #2804 (@rack0911)
+ * Fix entry template UI #2782
  * Fix small bugs #2800 #2809 (@abdul-karim-mia)
 
 KeePassDX(4.5.8)

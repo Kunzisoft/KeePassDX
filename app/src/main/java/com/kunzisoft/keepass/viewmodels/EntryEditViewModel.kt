@@ -182,11 +182,32 @@ class EntryEditViewModel: NodeEditViewModel() {
         }
     }
 
+    /**
+     * Change the current template of the entry
+     * @param template Template to apply
+     */
     fun changeTemplate(template: Template) {
         viewModelScope.launch {
             val tagsToRemove = mPreviousTemplateTags.toStringList()
             val tagsToAdd = template.tags.toStringList()
             mPreviousTemplateTags = Tags(template.tags)
+            _entryEditUIState.update { entryEdit ->
+                val updatedEntryInfo = entryEdit.entryInfo?.let {
+                    EntryInfo(it).apply {
+                        this.template = template
+                    }
+                }
+                val updatedTemplates = entryEdit.templates?.let {
+                    Templates(
+                        templates = it.templates,
+                        defaultTemplate = template
+                    )
+                }
+                entryEdit.copy(
+                    entryInfo = updatedEntryInfo,
+                    templates = updatedTemplates
+                )
+            }
             _entryEditEvents.emit(EntryEditEvent.OnTemplateChanged(
                 template = template,
                 tagsToRemove = tagsToRemove,
