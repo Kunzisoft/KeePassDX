@@ -73,7 +73,8 @@
 			<com.kunzisoft.keepass.view.TagsCompletionView
 				android:id="@+id/entry_tags_completion_view"
 				android:layout_width="match_parent"
-				android:layout_height="wrap_content" />
+				android:layout_height="wrap_content"
+				app:emojiCompatEnabled="false" />
 		</com.google.android.material.textfield.TextInputLayout>
 	</androidx.cardview.widget.CardView>
 
