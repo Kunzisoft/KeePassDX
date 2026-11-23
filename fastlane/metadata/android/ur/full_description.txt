@@ -1,25 +1,25 @@
-KeePassDX is an open source <b>passkey, password safe and manager</b> allows editing <b>encrypted data in a single file</b> in the open KeePass format and <b>fill in the forms in a secure way</b>, requires <b>no Internet connection</b> and integrates Android design standards. The app is <b>open source, with no advertising</b>.
+KeePassDX ایک اوپن سورس <b>پاس کی، پاس ورڈ سیف اور مینیجر</b> ہے جو اوپن KeePass فارمیٹ میں <b>ایک ہی فائل کے اندر خفیہ کردہ ڈیٹا</b> میں ترمیم کرنے اور <b>محفوظ طریقے سے فارمز پُر کرنے</b> کی سہولت دیتا ہے، اس کے لیے <b>انٹرنیٹ کنکشن کی ضرورت نہیں ہوتی</b> اور یہ اینڈرائیڈ کے ڈیزائن معیارات سے ہم آہنگ ہے۔ یہ ایپ <b>اوپن سورس ہے، اور اس میں کوئی اشتہارات نہیں ہیں</b>۔
 
-<b>Features</b>
+<b>خصوصیات</b>
 
-- Passkeys for authentication and local storage of private keys.
-- Biometric recognition for fast unlocking (fingerprint / face unlock / …).
-- One-time password management (HOTP / TOTP) for two-factor authentication (2FA).
-- Autofill for easy form filling with passwords.
-- Magikeyboard to efficiently fill in any field.
-- Create encrypted database files.
-- Organisation of credentials by entry and in group trees.
-- Allows opening and copying URI / URL fields quickly.
-- Dynamic templates for each type of entry.
-- History of each entry.
-- Precise management of settings.
-- Material design with themes.
-- Support for .kdb and .kdbx files (version 1 to 4) with AES - Twofish - ChaCha20 - Argon2 algorithm.
-- Compatible with the majority of alternative programs (KeePass, KeePassXC, KeeWeb, …).
-- Code written in native languages (Kotlin / Java / JNI / C).
+- تصدیق اور پرائیویٹ کیز کو مقامی طور پر محفوظ کرنے کے لیے پاس کیز۔
+- تیزی سے ان لاک کرنے کے لیے بائیومیٹرک شناخت (فنگر پرنٹ / فیس ان لاک / …)۔
+- دو عنصری توثیق (2FA) کے لیے ون ٹائم پاس ورڈ مینجمنٹ (HOTP / TOTP)۔
+- پاس ورڈز کے ساتھ آسانی سے فارمز پُر کرنے کے لیے آٹو فل۔
+- کسی بھی فیلڈ کو مؤثر طریقے سے پُر کرنے کے لیے میجک کی بورڈ۔
+- خفیہ کردہ ڈیٹا بیس فائلیں بنائیں۔
+- اندراجات اور گروپ ٹریز کے ذریعے اسناد کی منظم ترتیب۔
+- URI / URL فیلڈز کو تیزی سے کھولنے اور کاپی کرنے کی سہولت۔
+- ہر قسم کے اندراج کے لیے متحرک ٹیمپلیٹس۔
+- ہر اندراج کا تاریخچہ۔
+- ترتیبات کا باریک بینی سے انتظام۔
+- تھیمز کے ساتھ میٹریل ڈیزائن۔
+- AES - Twofish - ChaCha20 - Argon2 الگورتھم کے ساتھ .kdb اور .kdbx فائلوں (ورژن 1 سے 4) کے لیے سپورٹ۔
+- زیادہ تر متبادل پروگراموں (KeePass, KeePassXC, KeeWeb, …) کے ساتھ مطابقت رکھتا ہے۔
+- مقامی پروگرامنگ زبانوں (Kotlin / Java / JNI / C) میں لکھا گیا کوڈ۔
 
-You can donate or buy the pro version for better service and a quick development of features you want: <a href="https://play.google.com/store/apps/details?id=com.kunzisoft.keepass.pro">https://play.google.com/store/apps/details?id=com.kunzisoft.keepass.pro</a>
+آپ بہتر سروس اور اپنے مطلوبہ فیچرز کی تیز رفتار تیاری کے لیے عطیہ دے سکتے ہیں یا پرو ورژن خرید سکتے ہیں: <a href="https://google.com">https://google.com</a>
 
-The project is constantly evolving. Do not hesitate to check the development status of the next updates: <a href="https://github.com/Kunzisoft/KeePassDX/projects">https://github.com/Kunzisoft/KeePassDX/projects</a>
+یہ پروجیکٹ مسلسل ترقی کر رہا ہے۔ اگلی اپ ڈیٹس کی تیاری کی صورتحال دیکھنے میں ہچکچاہٹ محسوس نہ کریں: <a href="https://github.com">https://github.com</a>
 
-Send issues to: <a href="https://github.com/Kunzisoft/KeePassDX/issues">https://github.com/Kunzisoft/KeePassDX/issues</a>
+مسائل یہاں بھیجیں: <a href="https://github.com">https://github.com</a>

@@ -109,6 +109,9 @@ class DeviceUnlockManager(private var appContext: Context) {
                                             // to authorize every use of the key
                                             setUserAuthenticationRequired(true)
                                         }
+                                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                                            setInvalidatedByBiometricEnrollment(true)
+                                        }
                                         if (isDeviceCredentialBiometricOperation(deviceCredentialUnlockEnable)) {
                                             // Authent with device credential on Android R+
                                             // define a validity duration to fix "At least one biometric must be enrolled"
@@ -187,7 +190,12 @@ class DeviceUnlockManager(private var appContext: Context) {
             }
         } catch (unrecoverableKeyException: UnrecoverableKeyException) {
             Log.e(TAG, "Unable to initialize encrypt data", unrecoverableKeyException)
-            throw unrecoverableKeyException
+            if (firstLaunch) {
+                deleteAllEntryKeysInKeystoreForBiometric(appContext)
+                initEncryptData(false, actionIfCypherInit)
+            } else {
+                throw unrecoverableKeyException
+            }
         } catch (invalidKeyException: KeyPermanentlyInvalidatedException) {
             Log.e(TAG, "Unable to initialize encrypt data", invalidKeyException)
             if (firstLaunch) {
@@ -269,7 +277,7 @@ class DeviceUnlockManager(private var appContext: Context) {
         } catch (unrecoverableKeyException: UnrecoverableKeyException) {
             Log.e(TAG, "Unable to initialize decrypt data", unrecoverableKeyException)
             if (firstLaunch) {
-                deleteKeystoreKey()
+                deleteAllEntryKeysInKeystoreForBiometric(appContext)
                 initDecryptData(ivSpecValue, false, actionIfCypherInit)
             } else {
                 throw unrecoverableKeyException

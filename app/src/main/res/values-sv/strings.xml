@@ -43,7 +43,7 @@
     <string name="decrypting_db">Dekrypterar databasinnehållet…</string>
     <string name="default_checkbox">Använd som standarddatabas</string>
     <string name="digits">Siffror</string>
-    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft är &lt;strong&gt;programvara med öppen källkod&lt;/strong&gt; och &lt;strong&gt;reklamfri&lt;/strong&gt;. \nDen tillhandahålls i befintligt skick enligt &lt;strong&gt;GPLv3-licensen&lt;/strong&gt; och utan garantier.</string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft är &lt;strong&gt;programvara med öppen källkod&lt;/strong&gt; och &lt;strong&gt;reklamfri&lt;/strong&gt;. , &lt;strong&gt;oberoende&lt;/strong&gt; och upprätthålls helt genom &lt;strong&gt;frivillig&lt;/strong&gt; utveckling\nDen tillhandahålls i befintligt skick enligt &lt;strong&gt;GPLv3-licensen&lt;/strong&gt; och utan garantier.</string>
     <string name="select_database_file">Öppna befintligt valv</string>
     <string name="entry_accessed">Senast åtkommen</string>
     <string name="entry_cancel">Avbryt</string>
@@ -82,7 +82,7 @@
     <string name="hint_length">Längd</string>
     <string name="hint_pass">Lösenord</string>
     <string name="password">Lösenord</string>
-    <string name="invalid_credentials">Det gick inte att läsa autentiseringsuppgifterna.</string>
+    <string name="invalid_credentials">Det gick inte att dekryptera fildata med inloggningsuppgifterna.</string>
     <string name="invalid_algorithm">Ogiltig algoritm.</string>
     <string name="invalid_db_sig">Det gick inte att känna igen databasformatet.</string>
     <string name="keyfile_is_empty">Nyckelfilen är tom.</string>
@@ -761,4 +761,7 @@
     <string name="error_load_database_KDF_iteration">KDF-iterationsantalet är för högt.</string>
     <string name="save_success">Spara har slutförts utan problem</string>
     <string name="words">Ord</string>
+    <string name="get_keepro">Få KeePro support</string>
+    <string name="html_about_get_keepro">Genom att köpa &lt;strong&gt;KeePro Support&lt;/strong&gt; finansierar du direkt fortsatt aktiv utveckling och framtida funktioner, samtidigt som du låser upp valfria visuella stilar.</string>
+    <string name="invalid_db_hmac">Verifiering av databassignatur misslyckades. Detta kan bero på filskada eller att en extern app har ändrat filen.</string>
 </resources>

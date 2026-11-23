@@ -1,1 +1,1 @@
-Manage Passkey / Password in a local and open-source vault
+مقامی اور اوپن سورس والٹ میں پاس کیز اور پاس ورڈز کا انتظام کریں
