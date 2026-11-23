@@ -1,3 +1,4 @@
  * Correction de PRF output #2708
  * Correction de l'ajout de nouveau tag #2808 (@abdul-karim-mia)
  * Nouveau paramètre pour cacher les messages d'action (@wangkangmao)
+ * Corrige l'invalidation d'inscription biometrique sur certains appareils #2805
