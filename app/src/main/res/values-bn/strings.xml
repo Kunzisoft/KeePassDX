@@ -4,7 +4,7 @@
     <string name="contribution">অবদান</string>
     <string name="feedback">প্রতিক্রিয়া</string>
     <string name="homepage">মূলপাতা</string>
-    <string name="about_description">কিপাস পাসওয়ার্ড ম্যানেজারের অ্যান্ড্রয়েড বাস্তবায়ন</string>
+    <string name="about_description">KeePass পাসওয়ার্ড ম্যানেজারের অ্যান্ড্রয়েড ইমপ্লিমেন্টেশন।</string>
     <string name="accept">গ্রহণ</string>
     <string name="add_entry">এন্টরি যোগ করুন</string>
     <string name="edit_entry">এন্টরি সম্পাদনা করুন</string>
@@ -298,7 +298,7 @@
     <string name="expired">মেয়াদোত্তীর্ণ</string>
     <string name="select_to_copy">ক্লিপবোর্ডে %1$s অনুলিপি করতে নির্বাচন করুন</string>
     <string name="entry_setup_otp">এককালীন পাসওয়ার্ড সেট আপ করুন</string>
-    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft হল &lt;strong&gt;ওপেন সোর্স&lt;/strong&gt; এবং &lt;strong&gt;বিজ্ঞাপন ছাড়াই&lt;/strong&gt;। \nএটি &lt;strong&gt;GPLv3&lt;/strong&gt; লাইসেন্সের অধীনে, কোনো ওয়ারেন্টি ছাড়াই প্রদান করা হয়।</string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft একটি &lt;strong&gt;ওপেন সোর্স&lt;/strong&gt;, &lt;strong&gt;বিজ্ঞাপনমুক্ত&lt;/strong&gt;, &lt;strong&gt;স্বাধীন&lt;/strong&gt; সফটওয়্যার এবং এটি সম্পূর্ণরূপে &lt;strong&gt;স্বেচ্ছাসেবী&lt;/strong&gt; ডেভেলপমেন্টের মাধ্যমে পরিচালিত হয়।\nএটি কোনো প্রকার ওয়ারেন্টি ছাড়াই &lt;strong&gt;GPLv3&lt;/strong&gt; লাইসেন্সের অধীনে \'যেমন আছে তেমন\' (as is) ভিত্তিতে প্রদান করা হয়েছে।</string>
     <string name="html_about_contribution">&lt;strong&gt;আমাদের স্বাধীনতা বজায় রাখতে&lt;/strong&gt;, &lt;strong&gt;বাগগুলি ঠিক করতে&lt;/strong&gt;, &lt;strong&gt;বৈশিষ্ট্য যোগ করুন&lt;/strong&gt; এবং &lt;strong&gt;সর্বদা সক্রিয় থাকার জন্য&lt;/strong&gt;, আমরা আপনার উপর নির্ভর করি &lt;strong&gt;অবদান&lt;/strong&gt;।</string>
     <string name="hardware_key">হার্ডওয়্যার কী</string>
     <string name="id_card">পরিচয় পত্র</string>
@@ -361,4 +361,9 @@
     <string name="parallelism_explanation">কী ডেরিভেশন ফাংশন দ্বারা ব্যবহৃত সমান্তরালতার ডিগ্রি (যেমন থ্রেডের সংখ্যা)।</string>
     <string name="saving_database">ডাটাবেস সংরক্ষণ করা হচ্ছে…</string>
     <string name="consider_chars_filter">Aintzat hartu karaktereak</string>
+    <string name="info">তথ্য</string>
+    <string name="get_keepro">KeePro সহায়তা পান</string>
+    <string name="clipboard_otp_notifications_title">ওটিপি বিজ্ঞপ্তি</string>
+    <string name="clipboard_otp_notifications_summary">অটোফিল বা ম্যাজিকি বোর্ড দিয়ে পপুলেট করা এন্ট্রি থেকে ওটিপি কপি করতে একটি বিজ্ঞপ্তি খুলুন</string>
+    <string name="content_description_share_url">URL সেয়ার করুন</string>
 </resources>
