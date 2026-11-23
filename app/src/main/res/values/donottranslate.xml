@@ -71,6 +71,8 @@
     <bool name="delete_entered_password_default" translatable="false">true</bool>
     <string name="enable_auto_save_database_key" translatable="false">enable_auto_save_database_key</string>
     <bool name="enable_auto_save_database_default" translatable="false">true</bool>
+    <string name="show_database_action_messages_key" translatable="false">show_database_action_messages_key</string>
+    <bool name="show_database_action_messages_default" translatable="false">true</bool>
     <string name="enable_keep_screen_on_key" translatable="false">enable_keep_screen_on_key</string>
     <bool name="enable_keep_screen_on_default" translatable="false">true</bool>
     <string name="enable_screenshot_mode_key" translatable="false">enable_screenshot_mode_key</string>
