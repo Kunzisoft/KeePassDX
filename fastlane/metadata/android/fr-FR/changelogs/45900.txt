@@ -2,4 +2,5 @@
  * Correction de l'ajout de nouveau tag #2808 #2811 (@abdul-karim-mia)
  * Nouveau paramètre pour cacher les messages d'action (@wangkangmao)
  * Corrige l'invalidation d'inscription biometrique sur certains appareils #2805
+ * Correction de la barre de progression OTP #2798 #2804 (@rack0911)
  * Correction de petis bugs #2800 #2809 (@abdul-karim-mia)

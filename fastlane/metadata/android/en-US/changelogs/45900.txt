@@ -2,4 +2,5 @@
  * Fix adding new tag #2808 #2811 (@abdul-karim-mia)
  * New setting to hide action messages (@wangkangmao)
  * Enforce biometric invalidation enrollment on certain devices #2805
+ * Fix OTP progress bar #2798 #2804 (@rack0911)
  * Fix small bugs #2800 #2809 (@abdul-karim-mia)
