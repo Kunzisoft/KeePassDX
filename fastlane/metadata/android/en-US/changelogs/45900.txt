@@ -1,2 +1,3 @@
  * Fix PRF output #2708
  * Fix adding new tag #2808 (@abdul-karim-mia)
+ * New setting to hide action messages (@wangkangmao)
