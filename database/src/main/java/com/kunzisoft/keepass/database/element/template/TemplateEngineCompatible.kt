@@ -208,8 +208,12 @@ class TemplateEngineCompatible(database: DatabaseKDBX): TemplateEngine(database)
             }
         }
 
-        val newFields = arrayOfNulls<Field>(attributes.size)
-        attributes.values.forEach {
+        // Sort attributes by position, keeping valid non-negative positions first in ascending order,
+        // and safely appending any unpositioned or negative position attributes to avoid index crashes
+        val sortedAttributes = attributes.values.sortedWith(
+            compareBy({ if (it.position >= 0) 0 else 1 }, { it.position })
+        )
+        sortedAttributes.forEach {
 
             val attribute = it.attribute
 
@@ -273,14 +277,8 @@ class TemplateEngineCompatible(database: DatabaseKDBX): TemplateEngine(database)
                 attribute.options.remove(TEMPLATE_ATTRIBUTE_OPTIONS_TEMP)
             }
 
-            // Add position for each attribute
-            newFields[it.position] = Field(buildTemplateEntryField(attribute))
-        }
-        // Add custom fields to entry
-        newFields.forEach { field ->
-            field?.let {
-                entryCopy.putField(field)
-            }
+            // Add custom field to entry
+            entryCopy.putField(Field(buildTemplateEntryField(attribute)))
         }
         // Add colors
         entryCopy.foregroundColor = templateEntry.foregroundColor
