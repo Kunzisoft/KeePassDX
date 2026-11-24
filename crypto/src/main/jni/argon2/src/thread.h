@@ -29,6 +29,7 @@
 */
 #if defined(_WIN32)
 #include <process.h>
+#include <windows.h>
 typedef unsigned(__stdcall *argon2_thread_func_t)(void *);
 typedef uintptr_t argon2_thread_handle_t;
 #else
@@ -36,6 +37,34 @@ typedef uintptr_t argon2_thread_handle_t;
 typedef void *(*argon2_thread_func_t)(void *);
 typedef pthread_t argon2_thread_handle_t;
 #endif
+
+/* Reusable barrier. pthread_barrier_t needs Android API 24, hence the
+   explicit mutex/condvar implementation. */
+typedef struct argon2_barrier_ {
+#if defined(_WIN32)
+    CRITICAL_SECTION mutex;
+    CONDITION_VARIABLE cond;
+#else
+    pthread_mutex_t mutex;
+    pthread_cond_t cond;
+#endif
+    unsigned int threshold;
+    unsigned int waiting;
+    unsigned int generation; /* bumped on each release, guards wakeups */
+    int aborted;
+} argon2_barrier_t;
+
+/* Returns 0 on success. */
+int argon2_barrier_init(argon2_barrier_t *barrier, unsigned int threshold);
+
+/* Returns 0 when released normally, -1 once aborted. */
+int argon2_barrier_wait(argon2_barrier_t *barrier);
+
+/* Releases every current and future waiter with -1, so that workers can be
+   joined instead of waiting for a count that will never be reached. */
+void argon2_barrier_abort(argon2_barrier_t *barrier);
+
+void argon2_barrier_destroy(argon2_barrier_t *barrier);
 
 /* Creates a thread
  * @param handle pointer to a thread handle, which is the output of this
