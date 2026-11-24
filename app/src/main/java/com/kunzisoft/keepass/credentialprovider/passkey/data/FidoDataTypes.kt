@@ -269,7 +269,8 @@ data class AuthenticationExtensionsPRFValues(
 
 data class AuthenticationExtensionsPRFInputs(
     val eval: AuthenticationExtensionsPRFValues? = null,
-    val evalByCredential: Map<String, AuthenticationExtensionsPRFValues>? = null
+    val evalByCredential: Map<String, AuthenticationExtensionsPRFValues>? = null,
+    val alreadyHashed: Boolean = false
 ) {
     companion object {
         private const val EVAL = "eval"
@@ -303,18 +304,21 @@ data class AuthenticationExtensionsClientInputs(
 ) {
     companion object {
         private const val PRF = "prf"
+        private const val PRF_ALREADY_HASHED = "prfAlreadyHashed"
 
         fun JSONObject.getAuthenticationExtensionsClientInputs(
             parameterName: String
         ): AuthenticationExtensionsClientInputs {
             val extensionsJson = optJSONObject(parameterName) ?: return AuthenticationExtensionsClientInputs()
-            val prfJson = extensionsJson.optJSONObject(PRF)
+            val alreadyHashed = !extensionsJson.has(PRF) && extensionsJson.has(PRF_ALREADY_HASHED)
+            val prfKey = if (alreadyHashed) PRF_ALREADY_HASHED else PRF
+            val prfJson = extensionsJson.optJSONObject(prfKey)
             val prf = if (prfJson != null) {
                 AuthenticationExtensionsPRFInputs.run { prfJson.getAuthenticationExtensionsPRFInputs() }
-            } else if (extensionsJson.has(PRF)) {
+            } else if (extensionsJson.has(prfKey)) {
                 AuthenticationExtensionsPRFInputs()
             } else null
-            return AuthenticationExtensionsClientInputs(prf)
+            return AuthenticationExtensionsClientInputs(prf?.copy(alreadyHashed = alreadyHashed))
         }
     }
 }
