@@ -47,25 +47,18 @@ class AuthenticatorAttestationResponse(
     }
 
     private fun buildAuthData(): ByteArray {
-        val prfAuthData = clientExtensionResults?.toAuthDataCbor(isRegistration = true)
-        val authData = AuthenticatorData.buildAuthenticatorData(
+        return AuthenticatorData.buildAuthenticatorData(
             relyingPartyId = requestOptions.relyingPartyEntity.id.toByteArray(),
             userPresent = userPresent,
             userVerified = userVerified,
             backupEligibility = backupEligibility,
             backupState = backupState,
-            attestedCredentialData = true,
-            extensionsPresent = prfAuthData != null
+            attestedCredentialData = true
         ) + AAGUID +
             //credIdLen
             byteArrayOf((credentialId.size shr 8).toByte(), credentialId.size.toByte()) +
             credentialId +
             credentialPublicKey
-        return if (prfAuthData != null) {
-            authData + Cbor().encode(prfAuthData)
-        } else {
-            authData
-        }
     }
 
     internal fun defaultAttestationObject(): ByteArray {

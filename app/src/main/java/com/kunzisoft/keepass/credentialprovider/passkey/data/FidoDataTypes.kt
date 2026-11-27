@@ -269,7 +269,8 @@ data class AuthenticationExtensionsPRFValues(
 
 data class AuthenticationExtensionsPRFInputs(
     val eval: AuthenticationExtensionsPRFValues? = null,
-    val evalByCredential: Map<String, AuthenticationExtensionsPRFValues>? = null
+    val evalByCredential: Map<String, AuthenticationExtensionsPRFValues>? = null,
+    val alreadyHashed: Boolean = false
 ) {
     companion object {
         private const val EVAL = "eval"
@@ -303,18 +304,21 @@ data class AuthenticationExtensionsClientInputs(
 ) {
     companion object {
         private const val PRF = "prf"
+        private const val PRF_ALREADY_HASHED = "prfAlreadyHashed"
 
         fun JSONObject.getAuthenticationExtensionsClientInputs(
             parameterName: String
         ): AuthenticationExtensionsClientInputs {
             val extensionsJson = optJSONObject(parameterName) ?: return AuthenticationExtensionsClientInputs()
-            val prfJson = extensionsJson.optJSONObject(PRF)
+            val alreadyHashed = !extensionsJson.has(PRF) && extensionsJson.has(PRF_ALREADY_HASHED)
+            val prfKey = if (alreadyHashed) PRF_ALREADY_HASHED else PRF
+            val prfJson = extensionsJson.optJSONObject(prfKey)
             val prf = if (prfJson != null) {
                 AuthenticationExtensionsPRFInputs.run { prfJson.getAuthenticationExtensionsPRFInputs() }
-            } else if (extensionsJson.has(PRF)) {
+            } else if (extensionsJson.has(prfKey)) {
                 AuthenticationExtensionsPRFInputs()
             } else null
-            return AuthenticationExtensionsClientInputs(prf)
+            return AuthenticationExtensionsClientInputs(prf?.copy(alreadyHashed = alreadyHashed))
         }
     }
 }
@@ -336,16 +340,6 @@ data class AuthenticationExtensionsPRFOutputs(
         return json
     }
 
-    fun toAuthDataCbor(isRegistration: Boolean): Map<Int, Any> {
-        val map = mutableMapOf<Int, Any>()
-        if (isRegistration) {
-            map[1] = true // enabled
-        } else if (results == null) {
-            enabled?.let { map[1] = it }
-        }
-        return map
-    }
-
     companion object {
         private const val ENABLED = "enabled"
         private const val RESULTS = "results"
@@ -359,15 +353,6 @@ data class AuthenticationExtensionsClientOutputs(
         val json = JSONObject()
         prf?.let { json.put(PRF, it.toJSON(isRegistration)) }
         return json
-    }
-
-    fun toAuthDataCbor(isRegistration: Boolean): Map<String, Any>? {
-        val prfAuthData = prf?.toAuthDataCbor(isRegistration) ?: return null
-        if (prfAuthData.isEmpty())
-            return null
-        val map = mutableMapOf<String, Any>()
-        map[PRF] = prfAuthData
-        return map
     }
 
     companion object {

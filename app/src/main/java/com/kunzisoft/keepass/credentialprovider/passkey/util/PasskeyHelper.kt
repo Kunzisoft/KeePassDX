@@ -291,9 +291,10 @@ object PasskeyHelper {
     // Authenticator processing (FIDO CTAP 2.1 hmac-secret)
     fun computePrfValue(
         secret: ByteArray,
-        salt: ByteArray
+        salt: ByteArray,
+        saltAlreadyHashed: Boolean = false
     ): ByteArray {
-        return HashManager.hmacSha256(secret, derivePrfSalt(salt))
+        return HashManager.hmacSha256(secret, if (saltAlreadyHashed) salt else derivePrfSalt(salt))
     }
 
     private fun buildPrfOutput(
@@ -310,8 +311,8 @@ object PasskeyHelper {
         return if (eval != null && secret != null) {
             val prfSecretBytes = Base64Helper.b64DecodeFromCharArray(secret)
             val results = AuthenticationExtensionsPRFValues(
-                first = computePrfValue(prfSecretBytes, eval.first),
-                second = eval.second?.let { computePrfValue(prfSecretBytes, it) }
+                first = computePrfValue(prfSecretBytes, eval.first, prfInputs.alreadyHashed),
+                second = eval.second?.let { computePrfValue(prfSecretBytes, it, prfInputs.alreadyHashed) }
             )
             prfSecretBytes.fill(0)
             AuthenticationExtensionsPRFOutputs(
